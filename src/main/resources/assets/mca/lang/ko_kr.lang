@@ -4,44 +4,44 @@ itemGroup.MCA=Minecraft Comes Alive
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
-achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
-achievement.engagement=Happily Taken\!
-achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
-achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
-achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
-achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
-achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
-achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+achievement.fullGoldHearts=어딘가로 도착
+achievement.fullGoldHearts.desc=마을 주민과 5개의 금 하트를 획득하세요.
+achievement.engagement=행복하게 가져가기!
+achievement.engagement.desc=마을 주민과 약혼하세요.
+achievement.marriage=우리 결혼 했어요!
+achievement.marriage.desc=마을 주민과 결혼하세요.
+achievement.babyBoy=아들이에요!
+achievement.babyBoy.desc=아들을 낳으세요.
+achievement.babyGirl=딸이에요!
+achievement.babyGirl.desc=딸을 낳으세요.
+achievement.twins=쌍둥이에요!
+achievement.twins.desc=쌍둥이를 낳으세요.
+achievement.babyToChild=애들이 정말 빨리 크죠
+achievement.babyToChild.desc=아기를 아이로 키우다
+achievement.hunting=명중!
+achievement.hunting.desc=아이를 사냥 보내다.
+achievement.mining=무한의 광질
+achievement.mining.desc=아이에게 광물을 캐러 보내다.
+achievement.woodcutting=벌목꾼
+achievement.woodcutting.desc=아이에게 나무를 하게 하세요.
+achievement.farming=무상노동
+achievement.farming.desc=아이에게 농사를 짓게 하다.
+achievement.childToAdult=다컷다!
+achievement.childToAdult.desc=아이를 어른으로 성장시켰다.
+achievement.childMarried=둥지를 떠나다.
+achievement.childMarried.desc=자녀를 결혼시키다.
+achievement.childHasChildren=조부모가 되다
+achievement.childHasChildren.desc=내 손주들을 만나다.
+achievement.craftDiamondDust=이걸 숨쉬면 안돼!
+achievement.craftDiamondDust.desc=다이아몬드를 가루로 만들다.
+achievement.craftColoredDiamondDust=색깔을 더하다.
+achievement.craftColoredDiamondDust.desc=다이아몬드 가루에 염료를 더하다.
+achievement.smeltColoredDiamond=스타일 있는 다이아몬드
+achievement.smeltColoredDiamond.desc=색이 있는 다이아를 녹였다.
+achievement.craftShapedDiamond=다이아몬드 커터
+achievement.craftShapedDiamond.desc=다이아몬드를 모양내다
+achievement.craftShapedRing=완성품
+achievement.craftShapedRing.desc=다이아 모양의 반지를 만들다.
 
 #######
 # Items & Blocks
@@ -69,15 +69,13 @@ item.villager_editor.name=Villager Editor
 item.needle_and_string.name=Needle and String
 item.cloth.name=Cloth
 item.egg_grim_reaper.name=Spawn Grim Reaper
-tile.mca:villager_spawner.name=Villager Spawner
-tile.mca:rose_gold_block.name=Rose Gold Block
-tile.mca:rose_gold_ore.name=Rose Gold Ore
+tile.mca=rose_gold_ore.name=Rose Gold Ore
 item.broken_ring.name=Broken Ring
 item.staff_of_life.name=Staff of Life
 item.childs_doll.name=Child's Doll
 item.toy_train.name=Toy Train
 item.book_death.name=Death, and How to Cure It!
-item.book_romance.name=Relationships and You
+item.book_romance.name=The Gentleman's Guide to Relationships
 item.book_family.name=Managing Your Family Vol. XI
 item.book_rose_gold.name=On Rose Gold
 item.book_infection.name=Beware the Infection!
@@ -86,239 +84,239 @@ item.book_infection.name=Beware the Infection!
 # Names
 ##############################
 name.male1=Aaron
-name.male2=Abdul
-name.male3=Abe
-name.male4=Abel
-name.male5=Abraham
-name.male6=Abram
-name.male7=Adalberto
-name.male8=Adam
-name.male9=Adan
-name.male10=Adolfo
-name.male11=Adolph
-name.male12=Adrian
-name.male13=Agustin
-name.male14=Ahmad
-name.male15=Ahmed
-name.male16=Alan
-name.male17=Alaric
-name.male18=Albert
-name.male19=Alberto
-name.male20=Alden
-name.male21=Aldo
-name.male22=Alec
-name.male23=Alejandro
-name.male24=Alex
-name.male25=Alexander
-name.male26=Alexis
-name.male27=Alfonso
-name.male28=Alfonzo
-name.male29=Alfred
-name.male30=Alfredo
-name.male31=Ali
-name.male32=Allan
-name.male33=Allen
-name.male34=Alonso
-name.male35=Alonzo
-name.male36=Alphonse
-name.male37=Alphonso
-name.male38=Alton
-name.male39=Alva
-name.male40=Alvaro
-name.male41=Alvin
-name.male42=Amado
-name.male43=Ambrose
-name.male44=Amos
-name.male45=Anderson
-name.male46=Andre
-name.male47=Andrea
-name.male48=Andreas
-name.male49=Andres
-name.male50=Andrew
-name.male51=Andy
-name.male52=Angel
-name.male53=Angelo
-name.male54=Anibal
-name.male55=Anthony
-name.male56=Antoine
-name.male57=Anton
-name.male58=Antone
-name.male59=Antonia
-name.male60=Antonio
-name.male61=Antony
-name.male62=Antwan
-name.male63=Archie
-name.male64=Arden
-name.male65=Ariel
-name.male66=Arlen
-name.male67=Arlie
-name.male68=Armand
-name.male69=Armando
-name.male70=Armon
-name.male71=Arnold
-name.male72=Arnoldo
-name.male73=Arnulfo
-name.male74=Aron
-name.male75=Arron
-name.male76=Art
-name.male77=Arthur
-name.male78=Arturo
-name.male79=Asa
-name.male80=Ashley
-name.male81=Aubrey
-name.male82=August
-name.male83=Augustine
-name.male84=Augustus
-name.male85=Aurelio
-name.male86=Austin
-name.male87=Avery
-name.male88=Ayden
-name.male89=Bailey
-name.male90=Barney
-name.male91=Barrett
-name.male92=Barry
-name.male93=Bart
-name.male94=Barton
-name.male95=Basil
-name.male96=Beau
-name.male97=Ben
-name.male98=Benedict
-name.male99=Benito
-name.male100=Benjamin
-name.male101=Bennett
-name.male102=Bennie
-name.male103=Benny
-name.male104=Benton
-name.male105=Bernard
-name.male106=Bernardo
-name.male107=Bernie
-name.male108=Berry
-name.male109=Bert
-name.male110=Bertram
-name.male111=Bill
-name.male112=Billie
-name.male113=Billy
-name.male114=Blaine
-name.male115=Blair
-name.male116=Blake
-name.male117=Bob
-name.male118=Bobbie
-name.male119=Bobby
-name.male120=Booker
-name.male121=Boris
-name.male122=Boyce
-name.male123=Boyd
-name.male124=Bracken
-name.male125=Brad
-name.male126=Bradford
-name.male127=Bradley
-name.male128=Bradly
-name.male129=Brady
-name.male130=Brain
-name.male131=Branden
-name.male132=Brandon
-name.male133=Brant
-name.male134=Brayden
-name.male135=Brendan
-name.male136=Brendon
-name.male137=Brent
-name.male138=Brenton
-name.male139=Bret
-name.male140=Brett
-name.male141=Brian
-name.male142=Brice
-name.male143=Britt
-name.male144=Brock
-name.male145=Broderick
-name.male146=Brooks
-name.male147=Bruce
-name.male148=Bruno
-name.male149=Bryan
-name.male150=Bryant
-name.male151=Bryce
-name.male152=Bryon
-name.male153=Bryson
-name.male154=Buck
-name.male155=Bud
-name.male156=Buddy
-name.male157=Buford
-name.male158=Burl
-name.male159=Burt
-name.male160=Burton
-name.male161=Buster
-name.male162=Byron
-name.male163=Caleb
-name.male164=Calvin
-name.male165=Cameron
-name.male166=Carey
-name.male167=Carl
-name.male168=Carlo
-name.male169=Carlos
-name.male170=Carlton
-name.male171=Carmelo
-name.male172=Carmen
-name.male173=Carmine
-name.male174=Carol
-name.male175=Carrol
-name.male176=Carroll
-name.male177=Carson
-name.male178=Carter
-name.male179=Cary
-name.male180=Casey
-name.male181=Cason
-name.male182=Cecil
-name.male183=Cedric
-name.male184=Cedrick
-name.male185=Cesar
-name.male186=Chad
-name.male187=Chadwick
-name.male188=Chance
-name.male189=Chancey
-name.male190=Chang
-name.male191=Charles
-name.male192=Charley
-name.male193=Charlie
-name.male194=Chas
+name.male2=압둘
+name.male3=에이브
+name.male4=아벨
+name.male5=아브라함
+name.male6=아브람
+name.male7=아달베르토
+name.male8=아담
+name.male9=아단
+name.male10=아돌포
+name.male11=아돌프
+name.male12=아드리안
+name.male13=아거스틴
+name.male14=아마드
+name.male15=아메드
+name.male16=앨런
+name.male17=앨라릭
+name.male18=알버트
+name.male19=알베르토
+name.male20=앨덴
+name.male21=앨도
+name.male22=알렉
+name.male23=알레잔드로
+name.male24=알렉스
+name.male25=알렉산더
+name.male26=알렉시스
+name.male27=알폰소
+name.male28=알폰조
+name.male29=알프레드
+name.male30=알프레도
+name.male31=알리
+name.male32=알런
+name.male33=앨런
+name.male34=알론소
+name.male35=알론조
+name.male36=알폰스
+name.male37=알폰소
+name.male38=알톤
+name.male39=알바
+name.male40=알바로
+name.male41=앨빈
+name.male42=애마도
+name.male43=앰브로스
+name.male44=아모스
+name.male45=앤더손
+name.male46=앤더
+name.male47=앤드리아
+name.male48=앤드리아스
+name.male49=앤드레스
+name.male50=앤드류
+name.male51=앤디
+name.male52=앤젤
+name.male53=안젤로
+name.male54=애니발
+name.male55=앤서니
+name.male56=앙투안느
+name.male57=안톤
+name.male58=앤톤
+name.male59=안토니아
+name.male60=안토니오
+name.male61=앤토니
+name.male62=앤트완
+name.male63=아치
+name.male64=아덴
+name.male65=아리엘
+name.male66=아렌
+name.male67=알리
+name.male68=아르만
+name.male69=아르만도
+name.male70=아몬
+name.male71=아놀드
+name.male72=아르노도
+name.male73=아르눌포
+name.male74=아론
+name.male75=아론
+name.male76=아트
+name.male77=아서
+name.male78=아르투로
+name.male79=애사
+name.male80=애슐리
+name.male81=오브리
+name.male82=8월
+name.male83=아우구스틴
+name.male84=아우구스터스
+name.male85=아우렐리우
+name.male86=어스틴
+name.male87=에브리
+name.male88=에이든
+name.male89=베일리
+name.male90=바니
+name.male91=배럿
+name.male92=배리
+name.male93=바트
+name.male94=바톤
+name.male95=바실
+name.male96=보우
+name.male97=벤
+name.male98=베네딕트
+name.male99=베니토
+name.male100=벤자민
+name.male101=베넷
+name.male102=베니
+name.male103=베니
+name.male104=벤톤
+name.male105=베르나드
+name.male106=베르나르도
+name.male107=베르니
+name.male108=베리
+name.male109=버트
+name.male110=버트람
+name.male111=빌
+name.male112=빌리
+name.male113=빌리
+name.male114=블레인
+name.male115=블레어
+name.male116=블레이크
+name.male117=밥
+name.male118=바비
+name.male119=바비
+name.male120=부커
+name.male121=보리스
+name.male122=보이스
+name.male123=보이드
+name.male124=브라켄
+name.male125=브래드
+name.male126=브래드포드
+name.male127=브래들리
+name.male128=브래들리
+name.male129=브래디
+name.male130=브래인
+name.male131=브랜던
+name.male132=브란돈
+name.male133=브랜트
+name.male134=브래이덴
+name.male135=브렌던
+name.male136=브렌돈
+name.male137=브렌트
+name.male138=브렌톤
+name.male139=브렛
+name.male140=브렛
+name.male141=브라이언
+name.male142=브라이스
+name.male143=브릿
+name.male144=브락
+name.male145=브라더릭
+name.male146=브룩스
+name.male147=브루스
+name.male148=브루노
+name.male149=브라이언
+name.male150=브라이언트
+name.male151=브라이스
+name.male152=브라이온
+name.male153=브라이손
+name.male154=달러
+name.male155=새싹
+name.male156=친구
+name.male157=뷰퍼드
+name.male158=벌
+name.male159=버트
+name.male160=고패 장치
+name.male161=버스터
+name.male162=바이론
+name.male163=갈렙
+name.male164=캘빈
+name.male165=카메론
+name.male166=캐리
+name.male167=칼
+name.male168=카를로
+name.male169=카를로스
+name.male170=칼턴
+name.male171=카르멜로
+name.male172=카르멘
+name.male173=카민
+name.male174=캐럴
+name.male175=캐럴
+name.male176=캐롤
+name.male177=칼슨
+name.male178=카르터
+name.male179=캐리
+name.male180=캐이시
+name.male181=캐이슨
+name.male182=세실
+name.male183=세드릭
+name.male184=세드릭
+name.male185=세자르
+name.male186=차드
+name.male187=채드윅
+name.male188=기회
+name.male189=챈시
+name.male190=창
+name.male191=찰스
+name.male192=찰리
+name.male193=찰리
+name.male194=차스
 name.male195=Chase
 name.male196=Chauncey
 name.male197=Chester
 name.male198=Chet
 name.male199=Chi
 name.male200=Chong
-name.male201=Chris
+name.male201=크리스
 name.male202=Christian
 name.male203=Christop
-name.male204=Christoper
-name.male205=Christopher
-name.male206=Chuck
-name.male207=Chung
-name.male208=Clair
-name.male209=Clarence
-name.male210=Clark
-name.male211=Claud
-name.male212=Claude
-name.male213=Claudio
-name.male214=Clay
-name.male215=Clayton
-name.male216=Clement
-name.male217=Clemente
-name.male218=Cleo
-name.male219=Cletus
-name.male220=Cleveland
-name.male221=Cliff
-name.male222=Clifford
-name.male223=Clifton
-name.male224=Clint
-name.male225=Clinton
+name.male204=크리스토퍼
+name.male205=크리스토퍼
+name.male206=청크
+name.male207=청
+name.male208=클레어
+name.male209=클래런스
+name.male210=클라크
+name.male211=클로드
+name.male212=클로드
+name.male213=클로디아
+name.male214=클레이
+name.male215=클레이톤
+name.male216=클레멘트
+name.male217=클레멘트
+name.male218=클레오
+name.male219=클레투스
+name.male220=클리브랜드
+name.male221=클리프
+name.male222=클리포드
+name.male223=클리프톤
+name.male224=클린트
+name.male225=클린톤
 name.male226=Clyde
-name.male227=Cody
-name.male228=Colby
-name.male229=Cole
-name.male230=Coleman
-name.male231=Colin
-name.male232=Collin
-name.male233=Colton
-name.male234=Columbus
+name.male227=코디
+name.male228=콜비
+name.male229=콜
+name.male230=콜맨
+name.male231=콜린
+name.male232=콜린
+name.male233=콜톤
+name.male234=콜럼버스
 name.male235=Connie
 name.male236=Connor
 name.male237=Conrad
@@ -480,7 +478,7 @@ name.male392=Emanuel
 name.male393=Emerson
 name.male394=Emery
 name.male395=Emil
-name.male396=Emile
+name.male396=에밀리
 name.male397=Emilio
 name.male398=Emit
 name.male399=Emmanuel
@@ -490,29 +488,29 @@ name.male402=Emory
 name.male403=Enoch
 name.male404=Enrique
 name.male405=Erasmo
-name.male406=Eric
+name.male406=에릭
 name.male407=Erich
 name.male408=Erick
 name.male409=Erik
-name.male410=Erin
+name.male410=에린
 name.male411=Ernest
 name.male412=Ernesto
 name.male413=Ernie
 name.male414=Errol
 name.male415=Ervin
 name.male416=Erwin
-name.male417=Esteban
+name.male417=에스테반
 name.male418=Ethan
-name.male419=Eugene
+name.male419=유진
 name.male420=Eugenio
 name.male421=Eusebio
-name.male422=Evan
+name.male422=에반
 name.male423=Everett
 name.male424=Everette
 name.male425=Ezekiel
 name.male426=Ezequiel
 name.male427=Ezra
-name.male428=Fabian
+name.male428=파비앙
 name.male429=Faustino
 name.male430=Fausto
 name.male431=Federico
@@ -5686,96 +5684,96 @@ name.female4294=Zulma
 ##############
 # Professions
 ##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
+profession.archer=궁수
+profession.armorer=갑옷 대장장이
+profession.butcher=도축업자
+profession.cleric=성직자
+profession.farmer=농부
+profession.fisherman=어부
+profession.fletcher=화살 제조인
+profession.guard=근위병
+profession.spouse=배우자
+profession.leatherworker=가죽 세공
+profession.librarian=사서
+profession.shepherd=양치기
+profession.toolsmith=도구 대장장이
+profession.weaponsmith=무기 대장장이
+profession.miner=광부
 profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
+profession.baker=제빵사
+profession.child=어린이
 profession.househusband=Househusband
-profession.housewife=Housewife
-profession.villager=Villager
-profession.warrior=Warrior
+profession.housewife=가정주부
+profession.villager=주민
+profession.warrior=기사
 
 ################
 # Personalities
 ################################
 personality.athletic=Athletic
 personality.confident=Confident
-personality.strong=Strong
-personality.friendly=Friendly
-personality.curious=Curious
-personality.peaceful=Peaceful
+personality.strong=힘
+personality.friendly=친근함
+personality.curious=호기심
+personality.peaceful=평화
 personality.flirty=Flirty
 personality.witty=Witty
-personality.sensitive=Sensitive
+personality.sensitive=민감함
 personality.greedy=Greedy
-personality.stubborn=Stubborn
-personality.odd=Odd
+personality.stubborn=완고함
+personality.odd=이상함
 
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
+mood.depressed=우울함
+mood.sad=슬픔
+mood.unhappy=불행함
 mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
-mood.overjoyed=Overjoyed
-mood.bored_to_tears=Bored to tears
-mood.bored=Bored
-mood.uninterested=Uninterested
-mood.silly=Silly
-mood.giggly=Giggly
-mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
-mood.interested=Interested
-mood.talkative=Talkative
+mood.fine=괜찮음
+mood.happy=행복함
+mood.overjoyed=기쁨
+mood.bored_to_tears=지루해죽겠음
+mood.bored=지루함
+mood.uninterested=관심없음
+mood.silly=바보가됨
+mood.giggly=약간 웃김
+mood.entertained=즐거움
+mood.infuriated=무척 화남
+mood.angry=화남
+mood.annoyed=짜증남
+mood.interested=관심있음
+mood.talkative=수다쟁이
 mood.pleased=Pleased
 
 ################
 # Gift Responses
 ################################
 gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
+gift.cake2=케이크네요! 고마워요! 저... 잠깐, 이 이상한 느낌은 뭐지?
 gift.cake3=Finally, something that will help my marriage...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
+gift.cake.refuse1=케익은 더 필요하지 않을것 같지만, 감사합니다.
+gift.cake.refuse2=괜찮아요, 전 이제 케이크를 더 먹고싶진 않네요
 gift.cake.refuse3=Oh, no. I couldn't.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
-gui.button.next=Next
-gui.button.call=Call
+gui.button.exit=끝내기
+gui.button.back=뒤로
+gui.button.adoptbaby=아이 입양
+gui.button.next=다음
+gui.button.call=전화하기
 gui.button.callall=Call All
 gui.button.checkhappiness=Check Happiness
 
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=남편
+relation.wife=아내
+relation.daughter=딸
+relation.son=아들
 
 ################
 # Dialogue
@@ -5786,32 +5784,32 @@ title.relative.male=%Name% (%RelationToPlayer%)
 title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Sleeping
-label.health=Health\: 
+label.health=Health: 
 
-behavior.retaliate.begin1=Ow\! That hurt\!
-behavior.retaliate.begin2=I'll get you for that\!
-behavior.retaliate.begin3=Ouch\! Why did you hit me?
-behavior.retaliate.begin4=That hurts, stop it\!
-behavior.retaliate.begin5=Agh\! That really hurt\!
-behavior.retaliate.begin6=Hey\! What do you think you're doing?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin1=아! 아프잖아!
+behavior.retaliate.begin2=I'll get you for that!
+behavior.retaliate.begin3=아야! 왜 때리는거야?
+behavior.retaliate.begin4=아프니까 그만해!
+behavior.retaliate.begin5=아! 엄청 아팠어!
+behavior.retaliate.begin6=어이! 지금 뭐하는짓이야?!
+behavior.retaliate.begin7=*Oof*! That better have been an accident!
 
-behavior.retaliate.distanced1=That's right, you'd better run\!
-behavior.retaliate.distanced2=If you come back, I'm calling the guards\!
-behavior.retaliate.distanced3=Come back and fight like a man\!
-behavior.retaliate.distanced4=If I see you again, I'm going to punch you\!
-behavior.retaliate.distanced5=I knew you were afraid of me\!
-behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you\!
-behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
-behavior.retaliate.distanced8=I'll get my friends and beat you up\!
+behavior.retaliate.distanced1=그래, 도망가는게좋을걸!
+behavior.retaliate.distanced2=한번만더오면 경비를 부를거야!
+behavior.retaliate.distanced3=남자라면 돌아와서 싸워!
+behavior.retaliate.distanced4=내눈에 또 띄면 진짜 맞는다!
+behavior.retaliate.distanced5=I knew you were afraid of me!
+behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you!
+behavior.retaliate.distanced7=I'm going to hit you if I see you again!
+behavior.retaliate.distanced8=I'll get my friends and beat you up!
 
-behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
-behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
-behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
-behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
-behavior.retaliate.weapondrawn7=Mother Notch, please help me\!
+behavior.retaliate.weapondrawn1=날 해치지 마!
+behavior.retaliate.weapondrawn2=멈춰! 싫어!
+behavior.retaliate.weapondrawn3=누가 나좀 도와줘요!
+behavior.retaliate.weapondrawn4=그들이 절 죽이려고해요! 도와주세요!
+behavior.retaliate.weapondrawn5=뭐든 가져가세요, 절 해치지만 말아요!
+behavior.retaliate.weapondrawn6=난 죽고 싶지 않아요!
+behavior.retaliate.weapondrawn7=노치 어머니, 날 도와주세요!
 
 behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
 
@@ -5833,7 +5831,7 @@ conversation1.progress12=Whatever.
 
 conversation2.progress1=What are you looking at?
 conversation2.progress2=I don't know, I haven't figured it out yet.
-conversation2.progress3=Well, that was rude\!
+conversation2.progress3=Well, that was rude!
 conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
 
 #################
@@ -5841,176 +5839,176 @@ conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
 ################################
 mining.search.none=There's no %a1% nearby.
 mining.search.nearby=There's some %a1% nearby...
-mining.search.value=There's some %a1% %a2% blocks away.
+mining.search.value=%a2% 블록 떨어진 곳에 %a1%가 있다
 
 farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
 farming.nohoe=I'll need to have a hoe in order to farm.
 
 hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
-sleep.invalid=My home point is invalid\!
+sleep.nohome=I don't have a home point!
+sleep.invalid=My home point is invalid!
 
-fishing.norod=I don't have a fishing rod!
-fishing.nowater=I don't see any water nearby...
+fishing.norod=낙싯대가 없어!
+fishing.nowater=주변에 물이 안 보이는데...
 fishing.finished=I've finished fishing.
 
 combat.button.method=Method: 
 combat.meleeandranged=Melee & Ranged
-combat.meleeonly=Melee Only
-combat.rangedonly=Ranged Only
-combat.donotfight=Do not fight
+combat.meleeonly=근접만
+combat.rangedonly=원거리만
+combat.donotfight=싸우지 않기
 
 combat.button.trigger=Trigger: 
-combat.trigger.always=Always Attack
-combat.trigger.playertakedamage=You take damage
-combat.trigger.playerattacks=You attack something
+combat.trigger.always=언제나 공격
+combat.trigger.playertakedamage=당신은 데미지를 입었다.
+combat.trigger.playerattacks=당신은 무언가를 공격한다.
 
-combat.button.target=Target: 
+combat.button.target=목표물: 
 combat.target.passive=Passive Mobs
 combat.target.hostile=Hostile Mobs
 combat.target.either=Passive and Hostile Mobs
 
 cooking.nofood=I don't have any food to cook.
 cooking.nofuel=I don't have any fuel.
-cooking.nofurnace=There's no furnace nearby.
+cooking.nofurnace=화로가 주변에 없다.
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=엄마
+parser.dad=아빠
 
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
+gui.button.yes=네
+gui.button.no=아니요
 gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
-gui.button.special=Special
-gui.button.procreate=Procreate
-gui.button.pickup=Pick Up
-gui.button.work=Work
-gui.button.inventory=Inventory
-gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
-gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
-gui.button.farming.radius=Radius\: %a1%
-gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
-gui.button.woodcutting.logtype=Log Type\: %a1%
-gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
-gui.button.cooking=Cooking
+gui.button.done=완료
+gui.button.random=무작위
+gui.button.interact=소통
+gui.button.follow=따라오기
+gui.button.stay=가만히
+gui.button.move=자유
+gui.button.trade=거래
+gui.button.sethome=집으로 설정
+gui.button.ridehorse=말 태우기
+gui.button.special=특별한
+gui.button.procreate=아이 낳기
+gui.button.pickup=줍기
+gui.button.work=일
+gui.button.inventory=보관함
+gui.button.chat=대화
+gui.button.joke=농담
+gui.button.gift=선물
+gui.button.shakehand=악수
+gui.button.tellstory=이야기 하기
+gui.button.flirt=연애
+gui.button.hug=포옹
+gui.button.kiss=키스
+gui.button.farming=농사
+gui.button.farming.radius=반경: %a1%
+gui.button.farming.plant=Plant: %a1%
+gui.button.woodcutting=벌목
+gui.button.woodcutting.logtype=Log Type: %a1%
+gui.button.woodcutting.replant=Replant: %a1%
+gui.button.mining=채굴
+gui.button.hunting=사냥
+gui.button.kill=살인
+gui.button.tame=사육
+gui.button.cooking=요리
 gui.button.fishing=Fishing
-gui.button.mode=Mode\: %a1%
-gui.button.start=Start
-gui.button.stop=Stop
-gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
-gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
-gui.button.hired=Hired
-gui.button.length=Length\: %a1% hour(s)
-gui.button.accept=Accept
+gui.button.mode=Mode: %a1%
+gui.button.start=시작
+gui.button.stop=멈추기
+gui.button.havebaby=아이 낳기
+gui.button.divorce=이혼
+gui.button.asktomarry=결혼 프러포즈
+gui.button.hire=고용
+gui.button.hired=고용됨
+gui.button.length=Length: %a1% hour(s)
+gui.button.accept=동의
 gui.button.combat=Combat
-gui.button.extend=Extend
+gui.button.extend=늘리다
 gui.button.dismiss=Dismiss
-gui.button.divorcespouse=Divorce Spouse
-gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
+gui.button.divorcespouse=이혼하기
+gui.button.resetbaby=아이를 유산시키다
+gui.button.setup.gender.false=성별: 여자
+gui.button.setup.gender.true=성별: 남자
 gui.button.baron=Baron
 gui.button.baroness=Baroness
 gui.button.taxes=Ask for Taxes
-gui.title.namebaby.male=It's a boy\!
-gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
-gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
+gui.title.namebaby.male=아들입니다.
+gui.title.namebaby.female=딸입니다.
+gui.title.namebaby=이름 정하기:
+gui.title.tombstone=묘비 내용
+gui.title.editor=주민 편집
 gui.title.whistle=Call Family Member
 
-gui.info.family.married=Married to %a1%.
+gui.info.family.married=%a1% 와 결혼함
 gui.info.family.engaged=Engaged to %a1%.
-gui.info.family.marriedtoplayer=Married to you.
-gui.info.family.engagedtoplayer=Engaged to you.
-gui.info.family.notmarried=Not married.
-gui.info.family.mother=Mother\: %a1%
-gui.info.family.father=Father\: %a1%
-gui.info.family.mother.you=Mother\: You
-gui.info.family.father.you=Father\: You
+gui.info.family.marriedtoplayer=당신과 결혼함.
+gui.info.family.engagedtoplayer=당신과 청혼함
+gui.info.family.notmarried=결혼하지 않음.
+gui.info.family.mother=어머니: %a1%
+gui.info.family.father=아버지: %a1%
+gui.info.family.mother.you=Mother: You
+gui.info.family.father.you=Father: You
 
-gui.info.gift.line1=Gift Available
-gui.info.gift.line2=(Click to take)
+gui.info.gift.line1=선물이 있음
+gui.info.gift.line2=(받으려면 클릭)
 
-gui.info.mood=Mood\: %a1%
-gui.info.personality=Personality\: %a1%
+gui.info.mood=Mood: %a1%
+gui.info.personality=Personality: %a1%
 
-interaction.give.invalid1=I can't use that.
-interaction.give.invalid2=What is this? I can't do anything with it.
-interaction.give.invalid3=I don't know what you want me to do with that.
-interaction.give.invalid4=Why are you giving me this?
-interaction.give.invalid5=Huh? What is this thing?
+interaction.give.invalid1=사용할 수 없어.
+interaction.give.invalid2=이게 뭐야? 이걸론 아무것도 할 수 없는데.
+interaction.give.invalid3=그걸로 대체 뭘 하려는건지 모르겠네.
+interaction.give.invalid4=이걸 왜 준거야?
+interaction.give.invalid5=허? 이게 뭐야?
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
+interaction.divorce.priest.success1=잘 됐네 잘 됐어. 이혼이라니.
 interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
 interaction.divorce.priest.fail.notmarried=You are not married to anyone.
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried1=난 누구와도 결혼하지 않았어,
+interaction.divorce.notmarried2=이혼 서류가 필요해? 난 아직 결혼하지 않았는걸.
+interaction.divorce.notmarried3=나는 결혼하지 않았어. 이걸 왜 준거야?
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=뭐? 내가 남편을 버리길 원하는거야? 최악이야!
+interaction.divorce.fail.notmarriedtoplayer2=아니! 나는 그러지 않을거야! 나는 행복하게 결혼했어!
+interaction.divorce.fail.notmarriedtoplayer3=뭘 하고 있는거야? 난 그걸 하지 않을거야!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
+interaction.divorce.success1=난 네가 날 사랑한다고 생각했어! 내 눈 앞에서 꺼져!
 interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success3=I can't believe you're doing this! Leave, now!
+interaction.divorce.success4=Why would you do this to me? I never want to see you again!
 
 interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
 interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=안돼.. 미안해, 난 이미 결혼했어.
+interaction.marry.fail.marriedtoother2=오, 너가 알아야 하는게... 난 이미 결혼했어.
+interaction.marry.fail.marriedtoother3=뭐라고?! 난 이미 결혼했어!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
+interaction.marry.fail.playermarried1=어.. 난 너의 손가락에 반지가 있는걸 봤어. 넌 이미 결혼 했잖아!
+interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married!
 interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried4=I'm appalled! You already have a spouse.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
+interaction.marry.fail.lowhearts1=What? No! I don't like you!
+interaction.marry.fail.lowhearts2=Oh, pretty ring! Oh wait...it's for me? Um...no.
 interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
 interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
+interaction.engage.success1=Yes! I will marry you! I love you!
+interaction.engage.success2=Of course I'll marry you!
+interaction.engage.success3=About time...just kidding! Love you!
 interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
+interaction.marry.success1=It's a dream come true! I'll love you forever!
+interaction.marry.success2=We're finally married! Now what?
 interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success4=I can't wait to start our life together!
 
 interaction.matchmaker.fail.married1=I am already married to someone.
 interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
@@ -6021,7 +6019,7 @@ interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
 interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
 
 interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
+interaction.matchmaker.fail.needtwo2=Oh, okay! But you need two rings first.
 interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
 
 interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
@@ -6032,29 +6030,29 @@ interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
 interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
 interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
 
-interaction.sethome.success1=Okay, this will be my new home point.
+interaction.sethome.success1=이곳이 나의 세로운 홈 포인트가 될거야.
 interaction.sethome.success2=I understand, I'll be sleeping here at night.
 interaction.sethome.success3=Sure thing, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
+interaction.sethome.fail1=여기는 안전한 홈 포인트가 안 될것 같아. %a1% 가(이) 가로막고 있어.
+interaction.sethome.fail2=이곳 주변에 다른 장소가 있나? 여기에 %a1% 가(이) 가로막고 있어.
 interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
 
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
+interaction.mining.fail.toolow1=우리는 광산을 만들기에 너무 낮은 곳에 있어.
+interaction.mining.fail.toolow2=우리는 더 높은 곳에 있어야 돼.
+interaction.mining.fail.toolow3=이곳에 광산을 만드는 것은 좋은 생각이 아닌것 같아. 조금 더 높이 있어야 해.
 interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
 interaction.mining.fail.broken=My pickaxe has broken and I don't have another one!
 
 interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
+interaction.hire.success1=Glad to be on board! What's my first job?
 interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.success3=Ready to start working at any time, boss!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notnearby=주변에 말이 없는 것 같아.
+interaction.ridehorse.fail.notrideable=나는 말을 탈 줄 몰라.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
+interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time!
 interaction.resetbaby.fail=You do not have a baby.
 
 interaction.tax.happylevel4=Oh, of course! The village is thriving, and everyone's so happy! Keep up the good work.
@@ -6063,9 +6061,9 @@ interaction.tax.happylevel2=Alright, business as usual. Here you go.
 interaction.tax.happylevel1=But...this was all I had saved up over the past few months. I thought you were better than that.
 interaction.tax.happylevel0=We have almost nothing, and still you tax us? Everyone is hating this.
 interaction.tax.notlargeenough1=I don't think our village is big enough to require taxes...
-interaction.tax.notlargeenough2=We're just a small village - we don't need taxes.
+interaction.tax.notlargeenough2=우리는 그냥 작은 마을일 분이야. 세금은 필요가 없어.
 interaction.tax.notlargeenough3=We'd need a higher population before we even think about taxes.
-interaction.tax.notlargeenough4=Tax? What? We're too small for that!
+interaction.tax.notlargeenough4=응? 세금? 우리 마을은 아직 너무 작아!
 
 interaction.checkhappiness.success=My records put the village's happiness at about %a1% percent.
 interaction.checkhappiness.fail=Our village isn't large enough for me to track our happiness yet. We need %a1% more villagers.
@@ -6083,7 +6081,7 @@ interactionp.havebaby.fail.alreadyexists=You should already have a baby.
 
 interactionp.divorce.notify=You are no longer married to %a1%.
 
-interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
+interaction.adoptbaby.success=Wonderful! I'd like you to meet %a1%, your new baby! Treat them well.
 
 ###################
 # Typed Dialogue
@@ -6098,153 +6096,153 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 
 adult.gift.bad1=This isn't a good gift...
 adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
+adult.gift.bad3=필요없어요.
 adult.gift.bad4=I don't want that, why would I?
 adult.gift.bad5=Why are you giving me that?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
-adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
-adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
-adult.gift.good5=A gift? For me? How nice\!
+adult.gift.good1=How considerate! Thank you.
+adult.gift.good2=고마워!
+adult.gift.good3=How thoughtful!
+adult.gift.good4=Oh, I love these!
+adult.gift.good5=A gift? For me? How nice!
 
-adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
-adult.gift.better4=Oh wow, I actually needed one of these\!
-adult.gift.better5=This is a pretty good gift\!
+adult.gift.better1=Hey, this is pretty cool!
+adult.gift.better2=Thanks, friend!
+adult.gift.better3=%PlayerName%, you're such a good friend!
+adult.gift.better4=Oh wow, I actually needed one of these!
+adult.gift.better5=This is a pretty good gift!
 
-adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
-adult.gift.best2=How did you...nevermind, this is amazing\!
-adult.gift.best3=Oh wow, I've always wanted one of these\!
-adult.gift.best4=This is fantastic\! I'll put it to good use.
+adult.gift.best1=l..l 뭐라고 말할지 모르겠어. 고마워, %PlayerName%!
+adult.gift.best2=How did you...nevermind, this is amazing!
+adult.gift.best3=Oh wow, I've always wanted one of these!
+adult.gift.best4=This is fantastic! I'll put it to good use.
 adult.gift.best5=Thank you so much. I will remember this forever.
 
 # 5 good chats when talking to an adult:
 adult.chat.good1=Man, cookies and milk does sound delicious right now.
 adult.chat.good2=Yes, I suppose the weather is nice today.
-adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
-adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+adult.chat.good3=I'm doing just fine! Hit my toe when I woke up, though.
+adult.chat.good4=An apple a day keeps the zombies away!
+adult.chat.good5=나의 꿈은 내 마을을 짓는건데. 난 너무 게을러 못하겠어.
 
 # 5 bad chats when talking to an adult:
 adult.chat.bad1=Did you seriously just say that?
-adult.chat.bad2=I don't believe it exploded on its own.
+adult.chat.bad2=나는 그것이 스스로 터졌다는 말을 못 밎겠어.
 adult.chat.bad3=You know, you're not that cool.
 adult.chat.bad4=Show off.
-adult.chat.bad5=You should be thrown in a dungeon\! 
+adult.chat.bad5=You should be thrown in a dungeon! 
 
 # 5 good jokes when talking to an adult:
-adult.joke.good1=Haha\! Serves that Skelly right\!
-adult.joke.good2=*Laughs* That's hilarious\!
-adult.joke.good3=That's funny\! Did you hear the one about the cows?
-adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
-adult.joke.good5=That's the best I have ever heard\!
+adult.joke.good1=Haha! Serves that Skelly right!
+adult.joke.good2=*Laughs* That's hilarious!
+adult.joke.good3=That's funny! Did you hear the one about the cows?
+adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny!
+adult.joke.good5=내가 들은것중 제일 재미있었어!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1=Don't speak about my pig like that\!
-adult.joke.bad2=Ha.
+adult.joke.bad1=내 돼지를 가지고 그렇게 말하지 마!
+adult.joke.bad2=하
 adult.joke.bad3=Ah, you're not the funniest in town.
 adult.joke.bad4=That's low.
 adult.joke.bad5=You shouldn't joke about that.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=You have a nice grip\!
-adult.handshake.good2=Your grip shows me you have great power\!
-adult.handshake.good3=Wow, you're so polite\!
-adult.handshake.good4=Good day\!
-adult.handshake.good5=Why, hello there\!
+adult.handshake.good1=You have a nice grip!
+adult.handshake.good2=Your grip shows me you have great power!
+adult.handshake.good3=Wow, you're so polite!
+adult.handshake.good4=좋은 하루!
+adult.handshake.good5=Why, hello there!
 
 # 5 bad handshakes when talking to an adult:
 adult.handshake.bad1=Seriously? After you slaughtered the cow?
 adult.handshake.bad2=Um, no that's okay.
 adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
 adult.handshake.bad4=Wow really? This isn't like you.
-adult.handshake.bad5=Go away.
+adult.handshake.bad5=저리가
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
+adult.tellstory.good1=정말? 난 모든 일들이 믿겨지지 않아!
 adult.tellstory.good2=I wish I was brave enough to take on a creeper.
-adult.tellstory.good3=That was a really good story\! Is it original?
-adult.tellstory.good4=All of that happened yesterday? No way\!
+adult.tellstory.good3=That was a really good story! Is it original?
+adult.tellstory.good4=그 모든 일들이 다 어제 일어났다고? 신기하다!
 adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
 
 # 5 bad stories when talking to an adult:
 adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
 adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
-adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
-adult.tellstory.bad5=How could you kill a poor sheep?\!
+adult.tellstory.bad3=이해 못했는걸...
+adult.tellstory.bad4=You're terrible! Creepers have feelings too!
+adult.tellstory.bad5=How could you kill a poor sheep?!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1=You're sooo brave\!
-adult.flirt.good2=Oh, you\! Stop being so cute\!
+adult.flirt.good1=You're sooo brave!
+adult.flirt.good2=Oh, you! Stop being so cute!
 adult.flirt.good3=*Blushes* Do you mean it?
-adult.flirt.good4=Oh, my...
-adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
+adult.flirt.good4=오, 이런...
+adult.flirt.good5=That was so adorable! You had me at "hello"! 
 
 # 5 bad flirts when talking to an adult:
 adult.flirt.bad1=If you mean that, then prove it.
-adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
+adult.flirt.bad2=Aw.... Wait, you told the baker the same thing!
 adult.flirt.bad3=Not in a million years.
 adult.flirt.bad4=Pathetic much?
 adult.flirt.bad5=A zombie has a better chance than you.
 
 # 5 good hugs when talking to an adult:
-adult.hug.good1=Long time no see\!
+adult.hug.good1=오랜만이야!
 adult.hug.good2=Thank you, I needed that.
 adult.hug.good3=At least one thing made my day today.
-adult.hug.good4=You're as snuggly as a sheep\!
+adult.hug.good4=You're as snuggly as a sheep!
 
 # 5 bad hugs when talking to an adult:
-adult.hug.bad1=You're covered in soot and mud\! 
+adult.hug.bad1=You're covered in soot and mud! 
 adult.hug.bad2=No thanks.
-adult.hug.bad3=Uh, why?
+adult.hug.bad3=왜요?
 adult.hug.bad4=After you called me a dinosaur last week? No.
 adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
 
 # 5 good kisses when talking to an adult:
 adult.kiss.good1=I wish this moment would last forever.
 adult.kiss.good2=I think I love you...
-adult.kiss.good3=Mmm, tastes like pumpkin pie\!
+adult.kiss.good3=Mmm, tastes like pumpkin pie!
 
 # 5 bad kisses when talking to an adult:
 adult.kiss.bad1=Not if someone can see.
 adult.kiss.bad2=You call that a kiss?
 adult.kiss.bad3=Ash kisses better than you.
-adult.kiss.bad4=Two words... breath mints\!
+adult.kiss.bad4=Two words... breath mints!
 adult.kiss.bad5=Thank you?
 
-adult.greeting1=Why, hello there\!
-adult.greeting2=Hey\! How are you today?
-adult.greeting3=Hey, good to see you\!
+adult.greeting1=Why, hello there!
+adult.greeting2=Hey! How are you today?
+adult.greeting3=Hey, good to see you!
 adult.greeting4=What's going on with you today?
-adult.greeting5=How are you today?
+adult.greeting5=오늘 기분은 어때?
 
 ##############################################################################################
 
 # 5 good chats when talking to a parent:
 parent.chat.good1=I'm fine, and how are you, dear?
 parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
-parent.chat.good3=You make me so proud\!
-parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
-parent.chat.good5=That reminds me of when you were a lil' tot\! 
+parent.chat.good3=You make me so proud!
+parent.chat.good4=How sweet! What happened to you, you're never kind! *Laughs*
+parent.chat.good5=That reminds me of when you were a lil' tot! 
 
 # 5 bad chats when talking to a parent:
 parent.chat.bad1=You're never too old for spankings, smarty pants.
 parent.chat.bad2=Watch your mouth. That's not the way I raised you.
 parent.chat.bad3=This is why your sister was my favorite.
 parent.chat.bad4=Why are you not a doctor, yet?
-parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
+parent.chat.bad5=I had a diamond sword for you but now you're not getting it!
 
 
 # 5 good jokes when talking to a parent:
-parent.joke.good1=You get your humor from me\!*Laughs*
-parent.joke.good2=You fill my day with laughter and joy\!
-parent.joke.good3=I needed that laugh\!
-parent.joke.good4=When did you become a comedian? That's hilarious\!
-parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
+parent.joke.good1=You get your humor from me!*Laughs*
+parent.joke.good2=You fill my day with laughter and joy!
+parent.joke.good3=I needed that laugh!
+parent.joke.good4=When did you become a comedian? That's hilarious!
+parent.joke.good5=Great Aunt Berry would had loved to hear that one!
 
 # 5 bad jokes when talking to a parent:
 parent.joke.bad1=Ha...
@@ -6254,9 +6252,9 @@ parent.joke.bad4=No offense, but that was bad.
 parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
 
 # 5 good handshakes when talking to a parent:
-parent.handshake.good1=It's good to see that we raised a polite child\!
-parent.handshake.good2=How civil\! We've tought you well.
-parent.handshake.good3=Good to see you again\!
+parent.handshake.good1=It's good to see that we raised a polite child!
+parent.handshake.good2=How civil! We've tought you well.
+parent.handshake.good3=Good to see you again!
 parent.handshake.good4=How have you been?
 parent.handshake.good5=That's a nice, firm handshake you've got there.
 
@@ -6265,66 +6263,66 @@ parent.handshake.bad1=If only you were this polite at family reunions.
 parent.handshake.bad2=What's with the formality? 
 parent.handshake.bad3=You'll shake my hand but not hug me?
 parent.handshake.bad4=Are you embarrassed to be seen with me, or something?
-parent.handshake.bad5=I never realized how weak you were.
+parent.handshake.bad5=네가 그렇게 약했는지 몰랐어.
 
 # 5 good stories when talking to a parent:
-parent.tellstory.good1=After that you took off your diaper and threw it on the priest\!
+parent.tellstory.good1=After that you took off your diaper and threw it on the priest!
 parent.tellstory.good2=Did you end up getting a date?
-parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
-parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
+parent.tellstory.good3=They sound lovely! So when are you going to make me a grandparent?
+parent.tellstory.good4=맞아, 기억난다! 네 사촌 버트가 엄청나게 쿠키를 먹어 치웠지.
 parent.tellstory.good5=Is the house done, yet?
 
 # 5 bad stories when talking to a parent:
 parent.tellstory.bad1=I wish you were little again, this story depresses me.
-parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
-parent.tellstory.bad3=You stole my earrings?\! 
+parent.tellstory.bad2=Don't you do that again! Wolves are nothing to play with!
+parent.tellstory.bad3=너 설마 내 귀걸이 훔쳐갔니?! 
 parent.tellstory.bad4=We all know you can't be a successful miner.
 parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 
 # 5 good hugs when talking to a parent:
-parent.hug.good1=You've grown so much\!
+parent.hug.good1=You've grown so much!
 parent.hug.good2=I remember hugging you each night before bed.
-parent.hug.good3=Sweet child of mine\! 
-parent.hug.good4=You never let me down\! 
-parent.hug.good5=You're the best child a parent could ask for\!
+parent.hug.good3=Sweet child of mine! 
+parent.hug.good4=You never let me down! 
+parent.hug.good5=You're the best child a parent could ask for!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1=I'm not mad, I'm disappointed. 
-parent.hug.bad2=Sucking up? Get your own cake mix\!
+parent.hug.bad1=나는 화나지는 않았지만, 실망했어. 
+parent.hug.bad2=Sucking up? Get your own cake mix!
 parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
-parent.hug.bad4=Not until you wash off.
+parent.hug.bad4=너가 씻고 올 때 까지는 안돼.
 parent.hug.bad5=After you told me that? No way.
 
 
 ##############################################################################################
 
 # 5 good chats when talking to a relative:
-relative.chat.good1=You act just like your momma did as a kid\!
-relative.chat.good2=I'm glad you came to see me\!
+relative.chat.good1=You act just like your momma did as a kid!
+relative.chat.good2=날 보러 와줘서 너무 기쁘다!
 relative.chat.good3=We should get a family reunion together.
-relative.chat.good4=You're the sweetest of the family\!
-relative.chat.good5=Don't tell anyone, but you're my favorite\!
+relative.chat.good4=You're the sweetest of the family!
+relative.chat.good5=Don't tell anyone, but you're my favorite!
 
 # 5 bad chats when talking to a relative:
 relative.chat.bad1=Excuse me? Do you know who you are talking to?
-relative.chat.bad2=That's no excuse to speak to me like that\!
+relative.chat.bad2=That's no excuse to speak to me like that!
 relative.chat.bad3=Go home. You're no longer welcome around me.
 relative.chat.bad4=If you don't leave I'll put a restraining order on you.
 relative.chat.bad5=You're so rude.
 
 # 5 good jokes when talking to a relative:
-relative.joke.good1=Grandpa told you that one, didn't he?\!
-relative.joke.good2=That joke goes way back in the family\!
-relative.joke.good3=Then the cow jumped over the ravine\! *Laughs*
+relative.joke.good1=Grandpa told you that one, didn't he?!
+relative.joke.good2=That joke goes way back in the family!
+relative.joke.good3=Then the cow jumped over the ravine! *Laughs*
 
 # 5 bad jokes when talking to a relative:
 relative.joke.bad1=You shouldn't speak about family that way.
 relative.joke.bad2=Leave the humor to uncle.
 
 # 5 good handshakes when talking to a relative:
-relative.handshake.good1=Put it there\!
-relative.handshake.good2=*Pulls hand away* Gotchya\!
-relative.handshake.good3=Next time I expect diamonds\! *Laughs*
+relative.handshake.good1=Put it there!
+relative.handshake.good2=*Pulls hand away* Gotchya!
+relative.handshake.good3=Next time I expect diamonds! *Laughs*
 
 # 5 bad handshakes when talking to a relative:
 relative.handshake.bad1=Come on, we're family. Informality is fine.
@@ -6332,25 +6330,25 @@ relative.handshake.bad2=Shawn warned me about this...
 relative.handshake.bad3=Is this some sort of joke?
 
 # 5 good stories when talking to a relative:
-relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
-relative.tellstory.good2=Sounds like Grandad Jay\! He used to throw people in the lake\!
+relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child!
+relative.tellstory.good2=Sounds like Grandad Jay! He used to throw people in the lake!
 relative.tellstory.good3=Grandma used to sew the chicken feathers, too.
 relative.tellstory.good4=Mmm... Your mom's cow stew was amazing back then.
-relative.tellstory.good5=We should get together like that more often\!
+relative.tellstory.good5=We should get together like that more often!
 
 # 5 bad stories when talking to a relative:
 relative.tellstory.bad1=That's when the family fell apart...
 relative.tellstory.bad2=Oh, that's right... you're the snobby one...
 relative.tellstory.bad3=Quit trying to show off.
-relative.tellstory.bad4=Your parents raised you better than that\!
+relative.tellstory.bad4=Your parents raised you better than that!
 relative.tellstory.bad5=You have officially been disowned.
 
 # 5 good hugs when talking to a relative:
-relative.hug.good1=It's good to see you\!
-relative.hug.good2=You should make time to see Uncle Jimmy, next\!
-relative.hug.good3=I wish I had more to give you other than this hug\!
-relative.hug.good4=Don't wait too long to see me again\!
-relative.hug.good5=I always look forward to your hugs\!
+relative.hug.good1=It's good to see you!
+relative.hug.good2=You should make time to see Uncle Jimmy, next!
+relative.hug.good3=I wish I had more to give you other than this hug!
+relative.hug.good4=Don't wait too long to see me again!
+relative.hug.good5=I always look forward to your hugs!
 
 
 # 5 bad hugs when talking to a relative:
@@ -6363,85 +6361,85 @@ relative.hug.bad5=Ew, that's okay. You sweat too much.
 ##############################################################################################
 
 # 5 good chats when talking to a child:
-child.chat.good1=I heard stories about you\! Are you a hero?
+child.chat.good1=I heard stories about you! Are you a hero?
 child.chat.good2=Hi. I was going to go try and climb to the roof.
 child.chat.good3=Do you wanna go burn stuff with me?
-child.chat.good4=I'm going to be a hunter like you and kill many things\!
-child.chat.good5=Hi\! What are you doing today? I'm going swimmin'\!
+child.chat.good4=I'm going to be a hunter like you and kill many things!
+child.chat.good5=Hi! What are you doing today? I'm going swimmin'!
 
 # 5 bad chats when talking to a child:
 child.chat.bad1=If you don't give me cookies I'll hold my breath.
 child.chat.bad2=My parents said not to talk to you, that you're bad.
-child.chat.bad3=*Laughs* You look smelly\!
-child.chat.bad4=Oh yeah? Well I'm gonna egg your house\!
-child.chat.bad5=Lalala, I'm not listening\! Lalala.
+child.chat.bad3=*Laughs* You look smelly!
+child.chat.bad4=Oh yeah? Well I'm gonna egg your house!
+child.chat.bad5=Lalala, I'm not listening! Lalala.
 
 # 5 good jokes when talking to a child:
-child.joke.good1=You're funnier than daddy\!
-child.joke.good2=Tell me another one\!
-child.joke.good3=You're the funniest person alive\!
-child.joke.good4=I'm tellin' my momma that one\! *Laughs*
-child.joke.good5=It should eat a leaf\!
+child.joke.good1=You're funnier than daddy!
+child.joke.good2=Tell me another one!
+child.joke.good3=You're the funniest person alive!
+child.joke.good4=I'm tellin' my momma that one! *Laughs*
+child.joke.good5=It should eat a leaf!
 
 # 5 bad jokes when talking to a child:
 child.joke.bad1=I don't get it.
 child.joke.bad2=You're not funny. Really.
 child.joke.bad3=You need to stop...
 child.joke.bad4=But, who's apple?
-child.joke.bad5=Don't be mean\!
+child.joke.bad5=Don't be mean!
 
 # 5 good handshakes when talking to a child:
-child.handshake.good1=Hiya\! Someone I know likes you...
+child.handshake.good1=Hiya! Someone I know likes you...
 child.handshake.good2=Dad said this is a very nice thing to do.
-child.handshake.good3=Now high five\! Down low... too slow\!
-child.handshake.good4=Hi stranger\!
+child.handshake.good3=Now high five! Down low... too slow!
+child.handshake.good4=Hi stranger!
 child.handshake.good5=*Giggles* I just cleaned a cow with this hand.
 
 # 5 bad handshakes when talking to a child:
 child.handshake.bad1=Stranger danger...
-child.handshake.bad2=Mom, dad\! This person is trying to kidnap me\!
-child.handshake.bad3=Don't touch me I'm famous\!
+child.handshake.bad2=Mom, dad! This person is trying to kidnap me!
+child.handshake.bad3=Don't touch me I'm famous!
 child.handshake.bad4=Ew, your hand has black stuff on it.
 child.handshake.bad5=I'll only shake your hand if you give me a diamond.
 
 # 5 good stories when talking to a child:
-child.tellstory.good1=Wow\! You're a beast\!
+child.tellstory.good1=Wow! You're a beast!
 child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
-child.tellstory.good3=Can you adopt me?\! You're awesome\!
+child.tellstory.good3=Can you adopt me?! You're awesome!
 child.tellstory.good4=I went fishing and almost drowned.
 child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
 
 # 5 bad stories when talking to a child:
-child.tellstory.bad1=You're a meanie\!
+child.tellstory.bad1=You're a meanie!
 child.tellstory.bad2=I'm telling my mom what you said about her...
 child.tellstory.bad3=I believe you're speaking about my grandpa...
-child.tellstory.bad4=You're nothing but a scaredycat like dad said\!
+child.tellstory.bad4=You're nothing but a scaredycat like dad said!
 child.tellstory.bad5=How could you kill a poor chicken?
 
 child.greeting1=Hi, who are you?
 child.greeting2=My name's %Name%. What's your name?
-child.greeting3=Eek\! You look scary\!
+child.greeting3=Eek! You look scary!
 
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
 childp.chat.good1=Oh, I was just going to go explorin' later.
-childp.chat.good2=Can we go camping? Please?\!
-childp.chat.good3=Hi, can you make me a cake?
-childp.chat.good4=Can I have my own room away from our house? That would be cool\!
-childp.chat.good5=Let's move into a cave\! That sounds so fun\!
+childp.chat.good2=제발 캠핑 가도 되나요?
+childp.chat.good3=나를 위해 케익 좀 만들어 줄 수 있니?
+childp.chat.good4=Can I have my own room away from our house? That would be cool!
+childp.chat.good5=우리 얼른 동굴로 가자! 정말 재미있겠다!
 
 # 5 bad chats when talking to an playerchild:
 childp.chat.bad1=%ParentOpposite% talks about them a lot...
 childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
 childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-childp.chat.bad4=I want a new daddy.
-childp.chat.bad5=I don't want a baby sister.
+childp.chat.bad4=난 새아빠가 필요해.
+childp.chat.bad5=난 가정부가 필요없어.
 
 # 5 good jokes when talking to an playerchild:
-childp.joke.good1=*Laughs* Tell that one again\!
-childp.joke.good2=I've got to tell my friend that one\!
-childp.joke.good3=How did the creeper explode?\!
+childp.joke.good1=*Laughs* Tell that one again!
+childp.joke.good2=I've got to tell my friend that one!
+childp.joke.good3=How did the creeper explode?!
 childp.joke.good4=*Laughs*Why is there no longer 3 of them?
 childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
 
@@ -6455,9 +6453,9 @@ childp.joke.bad5=I'd rather have cake.
 # 5 good handshakes when talking to an playerchild:
 childp.handshake.good1=Why do I need to learn this stuff? 
 childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-childp.handshake.good3=I'm gonna be just like you when I grow up\!
-childp.handshake.good4=Can I have cake now?
-childp.handshake.good5=I don't get it, but okay\! 
+childp.handshake.good3=난 크면 당신처럼 될거야!
+childp.handshake.good4=지금 케익 좀 먹어도 되나요?
+childp.handshake.good5=I don't get it, but okay! 
 
 # 5 bad handshakes when talking to an playerchild:
 childp.handshake.bad1=I spit on my hand.
@@ -6467,34 +6465,34 @@ childp.handshake.bad4=I'll shake your hand if you give me cake.
 childp.handshake.bad5=No, you'll slip and hit me.
 
 # 5 good stories when talking to an playerchild:
-childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
-childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
-childp.tellstory.good3=One day I'll kill more creepers than you\!
-childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
+childp.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
+childp.tellstory.good2=나도 동굴 탐험 하고 싶어! 가자!
+childp.tellstory.good3=언젠가 난 너보다 더 많은 크리퍼를 처치 할거야!
+childp.tellstory.good4=신난다! 우리도 나무를 타도 되나요?
 childp.tellstory.good5=Did the lava hurt? 
 
 # 5 bad stories when talking to an playerchild:
-childp.tellstory.bad1=I don't want to hear about grandma.
+childp.tellstory.bad1=할머니 얘기는 더이상 듣고 싶지 않아요.
 childp.tellstory.bad2=You always say that. I just want a pet.
 childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
-childp.tellstory.bad4=You said you didn't eat the cake and cookies...
-childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
+childp.tellstory.bad4=넌 분명히 케익과 쿠키를 먹지 안겠다고 말했어.
+childp.tellstory.bad5=난 누군가 널 나쁜 사람이라고 얘기하는걸 믿었어!
 
 # 5 good hugs when talking to an playerchild:
-childp.hug.good1=*Kisses* You're the best ever\!
-childp.hug.good2=I'm going to be as strong as you are one day\!
+childp.hug.good1=*Kisses* You're the best ever!
+childp.hug.good2=나도 언젠가 너처럼 근육질의 몸매를 가지고 말겠어!
 childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-childp.hug.good4=I love hugs\! You're soft and warm\!
-childp.hug.good5=You should hug %ParentOpposite% too\!
+childp.hug.good4=오! 당신의 품은 부드럽고 따뜻해요!
+childp.hug.good5=You should hug %ParentOpposite% too!
 
 # 5 bad hugs when talking to an playerchild:
-childp.hug.bad1=I'm too old for hugs\!
-childp.hug.bad2=Stop it\! I don't want people to see\!
-childp.hug.bad3=Go away, you're so annoying\!
-childp.hug.bad4=Just leave me alone or give me some cookies\!
+childp.hug.bad1=난 안아주기에는 너무 늙었어!
+childp.hug.bad2=멈춰! 사람들이 보는건 싫어!
+childp.hug.bad3=Go away, you're so annoying!
+childp.hug.bad4=날 혼자 두든가 쿠키 좀 줘봐요.
 childp.hug.bad5=I'd rather hug a skeleton. 
 
-childp.greeting1=Hey there\!
+childp.greeting1=Hey there!
 childp.greeting2=Hey, what's going on?
 childp.greeting3=What are you doing?
 childp.greeting4=Where are you going?
@@ -6505,8 +6503,8 @@ childp.greeting4=Where are you going?
 spouse.chat.good1=I cleaned the entire house. How was your day?
 spouse.chat.good2=Honey, let's go camping sometime. Doesn't that sound like fun?
 spouse.chat.good3=So today I saw a spider. It was huge so I ran away.
-spouse.chat.good4=We should build a new house together\!
-spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good\!
+spouse.chat.good4=We should build a new house together!
+spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good!
 
 # 5 bad chats when talking to an spouse:
 spouse.chat.bad1=I know we're not the poorest family, but...
@@ -6516,28 +6514,28 @@ spouse.chat.bad4=Go away, I'm not in the mood.
 spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
 
 # 5 good jokes when talking to an spouse:
-spouse.joke.good1=*Laughs* I married you for your humor\!
-spouse.joke.good2=You should throw an egg at him next time\!
+spouse.joke.good1=*Laughs* I married you for your humor!
+spouse.joke.good2=You should throw an egg at him next time!
 spouse.joke.good3=Then the wolf fell in love with the sheep.
-spouse.joke.good4=That never gets old\!
+spouse.joke.good4=That never gets old!
 spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up?
 
 # 5 bad jokes when talking to an spouse:
 spouse.joke.bad1=Lame...
 spouse.joke.bad2=Sweetheart, you're not funny.
-spouse.joke.bad3=Ha...Ha...Ha...Not funny.
-spouse.joke.bad4=You need to erase that from your mind.
-spouse.joke.bad5=Okay...
+spouse.joke.bad3=하..하하.. 재미 없다.
+spouse.joke.bad4=그걸 네 마음속에서 지우는게 나을 거야.
+spouse.joke.bad5=알았어..
 
 # 5 good handshakes when talking to an spouse:
-spouse.handshake.good1=Your hand is so soft\!
+spouse.handshake.good1=손이 왜 이렇게 부드럽니!
 spouse.handshake.good2=Our hands fit perfectly together.
 spouse.handshake.good3=One day people will forget to shake hands.
 spouse.handshake.good4=Our children will need to be this polite.
-spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
+spouse.handshake.good5=*Continues to shake hand* Tell me when to stop!
 
 # 5 bad handshakes when talking to an spouse:
-spouse.handshake.bad1=Handshake? How about a kiss, instead?
+spouse.handshake.bad1=악수? 키스 하는건 어때?
 spouse.handshake.bad2=*Squeezes hand hard*
 spouse.handshake.bad3=Your hand is nasty, no way.
 spouse.handshake.bad4=They have germs on them.
@@ -6545,177 +6543,178 @@ spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
 
 # 5 good stories when talking to an spouse:
 spouse.tellstory.good1=Let's not tell our children that one...
-spouse.tellstory.good2=You were so rebellious\! I love it\!
+spouse.tellstory.good2=You were so rebellious! I love it!
 spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
-spouse.tellstory.good4=It was that moment when I fell in love with you\!
-spouse.tellstory.good5=Wow, you're the best hunter ever\!
+spouse.tellstory.good4=It was that moment when I fell in love with you!
+spouse.tellstory.good5=와, 내가 지금까지 본 사냥꾼 중에 제일 멋져!
 
 # 5 bad stories when talking to an spouse:
 spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
-spouse.tellstory.bad2=Don't do something that reckless\!
-spouse.tellstory.bad3=You have a family to think about\!
+spouse.tellstory.bad2=Don't do something that reckless!
+spouse.tellstory.bad3=You have a family to think about!
 spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
 spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
 
 # 5 good flirts when talking to an spouse:
-spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
+spouse.flirt.good1=*Blushes* Well, how about we do something like that, then!
 spouse.flirt.good2=Aw, you said that when we first met.
-spouse.flirt.good3=Baby, you're so cute\!
-spouse.flirt.good4=You bet I am\!
-spouse.flirt.good5=*Winks* You still got it\!
+spouse.flirt.good3=자기야, 너무 귀엽다!
+spouse.flirt.good4=You bet I am!
+spouse.flirt.good5=*Winks* You still got it!
 
 # 5 bad flirts when talking to an spouse:
 spouse.flirt.bad1=*Sighs*
 spouse.flirt.bad2=This one is getting old... like you.
 spouse.flirt.bad3=We're married, we don't have to do this anymore.
 spouse.flirt.bad4=Talk to the tree, it cares more.
-spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
+spouse.flirt.bad5=알았어, 알았어.. 너가 말하던게 뭐였지?
 
 # 5 good hugs when talking to an spouse:
-spouse.hug.good1=I love being entangled in your arms\!
-spouse.hug.good2=Wait, don't leave... you're warm.
+spouse.hug.good1=I love being entangled in your arms!
+spouse.hug.good2=잠깐, 떠나지 말아줘. 너의 품은 너무 달콤해.
 spouse.hug.good3=Would you rather only being able to hug or kiss?
 spouse.hug.good4=*Kisses* 
-spouse.hug.good5=Let's stay like this forever\!
+spouse.hug.good5=우리 지금처럼 영원히 함께하자!
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
 spouse.hug.bad2=No thanks.
 spouse.hug.bad3=Man, you stink.
-spouse.hug.bad4=What do you want?
+spouse.hug.bad4=무엇을 원해?
 spouse.hug.bad5=Huge someone else.
 
 # 5 good kisses when talking to an spouse:
-spouse.kiss.good1=I fall in love all over again when our lips meet\!
+spouse.kiss.good1=I fall in love all over again when our lips meet!
 spouse.kiss.good2=Time stops ticking when I'm with you.
-spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
-spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
+spouse.kiss.good3=케익 처럼 달콤한걸!
+spouse.kiss.good4=자기야, 사랑해!
+spouse.kiss.good5=I wouldn't trade you for anyone in the world! 
 
 # 5 bad kisses when talking to an spouse:
 spouse.kiss.bad1=Not where someone can see us...
 spouse.kiss.bad2=We don't have to if you don't want to.
 spouse.kiss.bad3=Your breath smells like wolf kibble.
-spouse.kiss.bad4=Go take a drink from the lake.
+spouse.kiss.bad4=연못가서 마실 음료수 하나 챙겨와.
 spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
 
 spouse.greeting1=Hi honey, where have you been?
-spouse.greeting2=Hello dear, how is your day going?
-spouse.greeting3=Oh, %PlayerName%\! You look tired.
-spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
-spouse.greeting5=%PlayerName%, you're back\! I missed you.
+spouse.greeting2=자기, 잘 지냈어?
+spouse.greeting3=%PlayerName%! 너무 피곤해보여.
+spouse.greeting4=%PlayerName%! 너 너무 배고파 보인다. 내가 뭐 좀 요리해 줄까?
+spouse.greeting5=%PlayerName%, 드디어 돌아왔군요! 보고 싶었어요.
 
 spouse.lowhearts.greeting1=There you are. Where did you go? You never tell me anything anymore.
 spouse.lowhearts.greeting2=Are you going to say hi to me this time?
 spouse.lowhearts.greeting3=Um, hi! I still exist, you know!
 spouse.lowhearts.greeting4=%PlayerName%, are you ignoring me on purpose?
-spouse.lowhearts.greeting5=I'm starting to feel like you don't pay attention to me.
+spouse.lowhearts.greeting5=나한테 집중하지 않는다는 것을 이제야 알았네!
 
 spouse.endmarriage1=I've had it. You don't treat me well enough. I'm leaving you!
 spouse.endmarriage2=I'm leaving. Forever! Don't look for me.
 spouse.endmarriage3=I'm sorry - I thought we could work things out, but it's not working for me. Goodbye.
-spouse.endmarriage4=%PlayerName%, this is goodbye. Don't try to follow me.
+spouse.endmarriage4=%PlayerName%, 이건 이별이야, 더이상 연락하지 말아줘.
 notify.spouseendedmarriage=%Name% has ended their marriage with you.
 
 relative.gift.bad1=You shouldn't have... literally.
 relative.gift.bad2=Eh, you keep it.
 relative.gift.bad3=Ew, where did you find this? In a mine?
-relative.gift.bad4=I'm not touching that.
+relative.gift.bad4=그 정도에 감동 받지 않아.
 
-relative.gift.good1=Oh thank you.
+relative.gift.good1=정말 고마워!
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
 relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Youre too kind.
+relative.gift.good5=You're too kind.
 
 relative.gift.better1=I have the perfect spot for this.
-relative.gift.better2=Thank you very much, %PlayerName%.
-relative.gift.better3=This is lovely.
-relative.gift.better4=I appreciate you thinking about me.
-relative.gift.better5=Ill take good care of it.
+relative.gift.better2=정말 고마워, %PlayerName%
+relative.gift.better3=이건 너무 사랑스럽다.
+relative.gift.better4=저에 대해 생각해 주셔서 감사합니다.
+relative.gift.better5=I'll take good care of it.
 
-relative.gift.best1=Ive always wanted one of these\!
-relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
-relative.gift.best3=You give the best gifts, %PlayerName%\!
-relative.gift.best4=I can't believe this, you're too sweet, thank you\!
-relative.gift.best5=You know me like the back of your hand\!
+relative.gift.best1=I've always wanted one of these!
+relative.gift.best2=이건 내가 지금까지 받은 선물중에 최고야!
+relative.gift.best3=넌 최고의 선물을 줬어!
+relative.gift.best4=오 난 믿을 수 없어, 당신 너무 자상하잖아, 고마워!
+relative.gift.best5=당신은 나를 훤히 꿰뚫어 보는 군요!
 
-parent.gift.bad1=Oh, uh, thanks but no thanks.
+parent.gift.bad1=아, 고맙지만 사양할게요.
 parent.gift.bad2=I appreciate the thought, but you can keep it.
 parent.gift.bad3=Why can't you bring me something other than junk?
 parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
 
-parent.gift.good1=Oh, how thoughtful\!
-parent.gift.good2=Thank you very much\!
-parent.gift.good3=You always were my favorite.
+parent.gift.good1=정말 사려 깊으시군요!
+parent.gift.good2=정말 감사합니다!
+parent.gift.good3=당신은 항상 제가 제일 좋아하는 사람이었어요.
 
-parent.gift.better1=Hey, where did you get this? It's great\!
-parent.gift.better2=You didn't have to get this for me, thanks\!
-parent.gift.better3=You never have to give me anything, but thank you so much\!
+parent.gift.better1=저기요, 이거 어디서 얻으셨어요? 나도 하나 가지고 싶군요!
+parent.gift.better2=나를 위해 이럴 필요는 없어요, 고마워요!
+parent.gift.better3=당신은 나한테 아무것도 주지 않아도 돼요, 하지만 정말 감사합니다!
 
-parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
-parent.gift.best2=I lost this years ago, thanks\!
-parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
+parent.gift.best1=언젠가 이것을 다시 찾을 수 있을 거라는걸 난 항상 알고 있었어요, 정말 고마워요!
+parent.gift.best2=작년에 잃어버린 건데, 고마워요!
+parent.gift.best3=이건 너가 어렸을 때 가지고 놀던거야, 난 너가 이걸 찾을 거라고는 상상도 못했다!
 
-child.gift.bad1=Ew, I don't like this\!
-child.gift.bad2=Yuck\! I don't want this.
-child.gift.bad3=Why did you bring me this? It's dumb\!
-child.gift.bad4=I don't even know what this is\!
+child.gift.bad1=으, 끔찍해!
+child.gift.bad2=웩! 필요없어.
+child.gift.bad3=왜 이걸 나에게 가져다 줬어? 끔찍해!
+child.gift.bad4=이게 뭔지도 모르겠어요!
 
-child.gift.good1=Is it...is it all mine?
-child.gift.good2=Is this really for me?
-child.gift.good3=This is cool\!
+child.gift.good1=이..이것들 모두 제 것인거에요?
+child.gift.good2=이거 정말 나 주는거에요?
+child.gift.good3=정말 멋져요!
 
-child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
-child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
+child.gift.better1=멋져요! 친구들에게 선물들을 보여줘야 겠어요!
+child.gift.better2=이걸 찾았군요! 몇 분전에 잃어 버렸었는데.
+child.gift.better3=내 친구가 이것들 중 하나를 훔쳐 갔어요. 그를 혼내 줄 수 있나요?
 
-child.gift.best1=%PlayerName%, you give the best presents\!
-child.gift.best2=Finally\! My friend will stop bragging now.
-child.gift.best3=Wow\! Where did you get this thing?
-child.gift.best4=My Dad has one of these. Now I have one too\!
+child.gift.best1=당신은 최고의 선물을 줬어요!
+child.gift.best2=Finally! My friend will stop bragging now.
+child.gift.best3=어디서 이것들을 구했어요?
+child.gift.best4=우리 아빠는 이것들 중 하나를 가지구 있어! 이제 나도 하나 가졌다!
 
-spouse.gift.bad1=Oh honey...this is just terrible.
+spouse.gift.bad1=내 사랑.. 이건 정말 끔찍해요!
 spouse.gift.bad2=Um, is this supposed to be a gift for me?
-spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
+spouse.gift.bad3=Throw away your own junk! Oh, this was a gift?...sorry.
 spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
 spouse.gift.good1=%PlayerName%, you're so sweet.
-spouse.gift.good2=Ah\! You're too good to me.
-spouse.gift.good3=This is unexpected, thank you, dear\!
-spouse.gift.good4=Aw, how sweet of you.
-spouse.gift.good5=Thanks, hun\!
+spouse.gift.good2=Ah! You're too good to me.
+spouse.gift.good3=This is unexpected, thank you, dear!
+spouse.gift.good4=너무 친절하다!
+spouse.gift.good5=Thanks, hun!
 
-spouse.gift.better1=Oh wow, this is actually really nice\!
-spouse.gift.better2=I love it\! Thank you\!
-spouse.gift.better3=This is amazing, dear\!
-spouse.gift.better4=You got this for me? How sweet\!
-spouse.gift.better5=Oh, thank you %PlayerName%\!
+spouse.gift.better1=Oh wow, this is actually really nice!
+spouse.gift.better2=이거 너무 맘에 들어! 고마워!
+spouse.gift.better3=This is amazing, dear!
+spouse.gift.better4=날 위해 준비한거야? 너무 친절하다!
+spouse.gift.better5=고마워, %PlayerName%!
 
-spouse.gift.best1=Oh %PlayerName%, I love you\!
-spouse.gift.best2=You are *way* too good to me\!
-spouse.gift.best3=This must have been extremely expensive\! Thank you\!
-spouse.gift.best4=I...can't believe you'd get me something so thoughtful\!
+spouse.gift.best1=%PlayerName%, 널 사랑해!
+spouse.gift.best2=You are *way* too good to me!
+spouse.gift.best3=This must have been extremely expensive! Thank you!
+spouse.gift.best4=날 그렇게 생각해 준다니 믿을 수 없군!
 
-childp.gift.bad1=%ParentTitle%, this is a really bad gift.
-childp.gift.bad2=Ew, %ParentOpposite% gives better gifts\!
-childp.gift.bad3=Didn't you give me this like, last year?
-childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
+childp.gift.bad1=%ParentTitle%, 이건 별로 좋은 선물이 아닌데.
+childp.gift.bad2=Ew, %ParentOpposite% gives better gifts!
+childp.gift.bad3=너 지난 해에도 나한테 이런 거 주지 않았어?
+childp.gift.bad4=난 이걸 쉽게 얻을 수 있으니까 사양할게, %ParentTitle%.
 
-childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
-childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
-childp.gift.good3=This is much better than the last gift I got\!
-childp.gift.good4=Woo hoo\! It's mine, all mine\!
-childp.gift.good5=Can I...can I eat it?
+childp.gift.good1=오, 멋져! 고마워 %ParentTitle%.
+childp.gift.good2=%ParentOpposite%는(은) 이것들을 '섹시하다'라고 말했어. 이게 무슨 뜻이야?
+childp.gift.good3=내가 받은 마지막 선물보다 이게 더 나아!
+childp.gift.good4=야호! 내꺼다, 다 내꺼야!
+childp.gift.good5=어.. 내가.. 먹어도 될까?
 
-childp.gift.better1=For me? For free?\!
-childp.gift.better2=Ooh\! Shiny\!
-childp.gift.better3=I really like this, %ParentTitle%\!
-childp.gift.better4=All of my friends will be jealous now\!
-childp.gift.better5=This is great, %ParentTitle%\!
+childp.gift.better1=내꺼야? 그리고.. 공짜야?
+childp.gift.better2=오옷! 빛나!
+childp.gift.better3=진짜 좋아, %ParentTitle%!
+childp.gift.better4=내 모든 친구들이 질투할거야.
+childp.gift.better5=%ParentTitle%, 이건 정말 최고야!
 
-childp.gift.best1=This must have cost a fortune\!
-childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
-childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
-childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
-childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+childp.gift.best1=이건 최고의 선물이야!
+childp.gift.best2=%ParentTitle%, 네가 이걸 줄 걸 알았어. 알고 있었다고!
+childp.gift.best3=예이! 난 세상에서 가장 최고의 %ParentTitle%를(을) 뒀어!
+childp.gift.best4=진짜 놀라워! 이게 다 내거라는게 믿겨지지가 않아!
+childp.gift.best5=정말 고마워, %ParentTitle%! 넌 역시 최고야!
+

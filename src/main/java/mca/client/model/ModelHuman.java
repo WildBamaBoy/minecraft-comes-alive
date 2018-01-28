@@ -9,6 +9,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelHuman extends ModelBiped
@@ -64,7 +65,7 @@ public class ModelHuman extends ModelBiped
 		this.bipedRightArm.render(f6);
 		this.bipedLeftArm.render(f6);
 
-		if (!human.attributes.getIsMale() && !human.attributes.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == null)
+		if (!human.attributes.getIsMale() && !human.attributes.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY)
 		{
 			GL11.glPushMatrix();
 			{

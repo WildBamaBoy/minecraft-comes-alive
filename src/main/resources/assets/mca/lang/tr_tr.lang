@@ -4,44 +4,44 @@ itemGroup.MCA=Minecraft Comes Alive
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
-achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
-achievement.engagement=Happily Taken\!
-achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
-achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
-achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
-achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
-achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
-achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+achievement.fullGoldHearts=Bir Yere Varıyorsun
+achievement.fullGoldHearts.desc=Bir köylüden 5 altın kalp al.
+achievement.engagement=Mutlu bir şekilde alındı!
+achievement.engagement.desc=Bir köylü ile nişanlan.
+achievement.marriage=Evlendik!
+achievement.marriage.desc=Bir köylüyle evlen.
+achievement.babyBoy=Bir Erkek!
+achievement.babyBoy.desc=Bir erkek bebeğe sahip ol.
+achievement.babyGirl=Bir Kız!
+achievement.babyGirl.desc=Bir kız çocuk sahibi ol.
+achievement.twins=İkizler!
+achievement.twins.desc=İkizlere sahip ol.
+achievement.babyToChild=Çok hızlı büyüyorlar
+achievement.babyToChild.desc=Bebeğini çocuk olana kadar büyüt.
+achievement.hunting=Tam isabet!
+achievement.hunting.desc=Çocuğunun avlanmasını sağla.
+achievement.mining=Sonsuz madenci
+achievement.mining.desc=Çocuğuna madencilik yaptır.
+achievement.woodcutting=Oduncu
+achievement.woodcutting.desc=Çocuğuna ağaç kestir.
+achievement.farming=Ücretsiz İşçilik
+achievement.farming.desc=Çocuğuna çiftçilik yaptır.
+achievement.childToAdult=Tamamen yetişkin!
+achievement.childToAdult.desc=Çocuğunu yetişkin olana kadar büyüt.
+achievement.childMarried=Yuvayı terk ediyor
+achievement.childMarried.desc=Çocuğunu evlendir.
+achievement.childHasChildren=Büyükbaba/Büyükanne
+achievement.childHasChildren.desc=Torununla tanış.
+achievement.craftDiamondDust=Sakın Koklama!
+achievement.craftDiamondDust.desc=Bir elması toz haline getir.
+achievement.craftColoredDiamondDust=Biraz renklendir
+achievement.craftColoredDiamondDust.desc=Bir elmas toz yığını içine boya ekle.
+achievement.smeltColoredDiamond=Stilleri ile elmaslar
+achievement.smeltColoredDiamond.desc=Renkli bir elması erit.
+achievement.craftShapedDiamond=Elmas Kesici
+achievement.craftShapedDiamond.desc=Bir elmas şekillendir.
+achievement.craftShapedRing=Bitmiş ürün
+achievement.craftShapedRing.desc=Şekilli bir elmas yüzük yap.
 
 #######
 # Items & Blocks
@@ -69,15 +69,13 @@ item.villager_editor.name=Villager Editor
 item.needle_and_string.name=Needle and String
 item.cloth.name=Cloth
 item.egg_grim_reaper.name=Spawn Grim Reaper
-tile.mca:villager_spawner.name=Villager Spawner
-tile.mca:rose_gold_block.name=Rose Gold Block
-tile.mca:rose_gold_ore.name=Rose Gold Ore
+tile.mca=rose_gold_ore.name=Rose Gold Ore
 item.broken_ring.name=Broken Ring
 item.staff_of_life.name=Staff of Life
 item.childs_doll.name=Child's Doll
 item.toy_train.name=Toy Train
 item.book_death.name=Death, and How to Cure It!
-item.book_romance.name=Relationships and You
+item.book_romance.name=The Gentleman's Guide to Relationships
 item.book_family.name=Managing Your Family Vol. XI
 item.book_rose_gold.name=On Rose Gold
 item.book_infection.name=Beware the Infection!
@@ -160,13 +158,13 @@ name.male72=Arnoldo
 name.male73=Arnulfo
 name.male74=Aron
 name.male75=Arron
-name.male76=Art
+name.male76=Sanat
 name.male77=Arthur
 name.male78=Arturo
 name.male79=Asa
 name.male80=Ashley
 name.male81=Aubrey
-name.male82=August
+name.male82=Ağustos
 name.male83=Augustine
 name.male84=Augustus
 name.male85=Aurelio
@@ -324,7 +322,7 @@ name.male236=Connor
 name.male237=Conrad
 name.male238=Cordell
 name.male239=Corey
-name.male240=Coriander
+name.male240=Corlander
 name.male241=Cornelius
 name.male242=Cornell
 name.male243=Cortez
@@ -340,7 +338,7 @@ name.male252=Curtis
 name.male253=Cyril
 name.male254=Cyrus
 name.male255=Dale
-name.male256=Dallas
+name.male256=Dalias
 name.male257=Dallis
 name.male258=Dalton
 name.male259=Damian
@@ -465,7 +463,7 @@ name.male377=Elijah
 name.male378=Eliseo
 name.male379=Elisha
 name.male380=Elliot
-name.male381=Elliott
+name.male381=Ellliot
 name.male382=Ellis
 name.male383=Ellsworth
 name.male384=Elmer
@@ -490,7 +488,7 @@ name.male402=Emory
 name.male403=Enoch
 name.male404=Enrique
 name.male405=Erasmo
-name.male406=Eric
+name.male406=Erik
 name.male407=Erich
 name.male408=Erick
 name.male409=Erik
@@ -712,7 +710,7 @@ name.male624=Jeramy
 name.male625=Jere
 name.male626=Jeremiah
 name.male627=Jeremy
-name.male628=Jerimiah
+name.male628=Jeremiah
 name.male629=Jermaine
 name.male630=Jerold
 name.male631=Jerome
@@ -724,7 +722,7 @@ name.male636=Jerry
 name.male637=Jess
 name.male638=Jesse
 name.male639=Jessie
-name.male640=Jesus
+name.male640=İsa
 name.male641=Jewel
 name.male642=Jewell
 name.male643=Jim
@@ -990,7 +988,7 @@ name.male902=Nicky
 name.male903=Nicolas
 name.male904=Nigel
 name.male905=Noah
-name.male906=Noble
+name.male906=Soylu
 name.male907=Noe
 name.male908=Noel
 name.male909=Nolan
@@ -999,7 +997,7 @@ name.male911=Norberto
 name.male912=Norman
 name.male913=Normand
 name.male914=Norris
-name.male915=Numbers
+name.male915=Sayılar
 name.male916=Octavio
 name.male917=Odell
 name.male918=Odis
@@ -1190,7 +1188,7 @@ name.male1102=Sid
 name.male1103=Sidney
 name.male1104=Silas
 name.male1105=Simon
-name.male1106=Snake
+name.male1106=Yılan
 name.male1107=Sol
 name.male1108=Solomon
 name.male1109=Son
@@ -1700,7 +1698,7 @@ name.female309=Audrey
 name.female310=Audria
 name.female311=Audrie
 name.female312=Audry
-name.female313=August
+name.female313=Auğustos
 name.female314=Augusta
 name.female315=Augustina
 name.female316=Augustine
@@ -5686,179 +5684,179 @@ name.female4294=Zulma
 ##############
 # Professions
 ##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
-profession.househusband=Househusband
-profession.housewife=Housewife
-profession.villager=Villager
-profession.warrior=Warrior
+profession.archer=Okçu
+profession.armorer=Zırh Yapımcısı
+profession.butcher=Kasap
+profession.cleric=Rahip
+profession.farmer=Çiftçi
+profession.fisherman=Balıkçı
+profession.fletcher=Ok Satıcısı
+profession.guard=Muhafız
+profession.spouse=Eş
+profession.leatherworker=Deri İşçisi
+profession.librarian=Kütüphaneci
+profession.shepherd=Çoban
+profession.toolsmith=Hırdavatçı
+profession.weaponsmith=Silahçı
+profession.miner=Madenci
+profession.mason=Duvarcı
+profession.baker=Fırıncı
+profession.child=Çocuk
+profession.househusband=Ev beyi
+profession.housewife=Ev Hanımı
+profession.villager=Köylü
+profession.warrior=Savaşçı
 
 ################
 # Personalities
 ################################
-personality.athletic=Athletic
-personality.confident=Confident
-personality.strong=Strong
-personality.friendly=Friendly
-personality.curious=Curious
-personality.peaceful=Peaceful
-personality.flirty=Flirty
-personality.witty=Witty
-personality.sensitive=Sensitive
-personality.greedy=Greedy
-personality.stubborn=Stubborn
-personality.odd=Odd
+personality.athletic=Atletik
+personality.confident=Özgüvenli
+personality.strong=Güçlü
+personality.friendly=Arkadaş canlısı
+personality.curious=Meraklı
+personality.peaceful=Barışçıl
+personality.flirty=Çapkın
+personality.witty=Hazırcevap
+personality.sensitive=Hassas
+personality.greedy=Açgözlü
+personality.stubborn=Dik Başlı
+personality.odd=Tuhaf
 
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
-mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
-mood.overjoyed=Overjoyed
-mood.bored_to_tears=Bored to tears
-mood.bored=Bored
-mood.uninterested=Uninterested
-mood.silly=Silly
-mood.giggly=Giggly
-mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
-mood.interested=Interested
-mood.talkative=Talkative
-mood.pleased=Pleased
+mood.depressed=Depresyonda
+mood.sad=Üzgün
+mood.unhappy=Mutsuz
+mood.passive=Normal
+mood.fine=İyi
+mood.happy=Mutlu
+mood.overjoyed=Süper Neşeli
+mood.bored_to_tears=Ağlayacak kadar sıkılmış
+mood.bored=Sıkılmış
+mood.uninterested=İlgisiz
+mood.silly=Şapşal
+mood.giggly=Kikirik
+mood.entertained=Eğlenceli
+mood.infuriated=Çileden çıkmış
+mood.angry=Kızgın
+mood.annoyed=Sinir olmuş
+mood.interested=İlgili
+mood.talkative=Konuşkan
+mood.pleased=Keyifli
 
 ################
 # Gift Responses
 ################################
-gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
-gift.cake3=Finally, something that will help my marriage...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake1=Bu da ne? Bir kek? Aa.... aman. Benim...eşimi bulmam gerek.
+gift.cake2=Bir kek! Ne düşünceli! Ben... bekle, bu tuhaf his de nedir?
+gift.cake3=Sonunda, bir şeyler evliliğime yardım edecek...
+gift.cake.refuse1=Artık pasta istediğimi sanmıyorum, ama teşekkürler.
+gift.cake.refuse2=Hayır teşekkürler, artık pasta istemiyorum.
+gift.cake.refuse3=Ah, hayır. Olmaz.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
-gui.button.next=Next
-gui.button.call=Call
-gui.button.callall=Call All
-gui.button.checkhappiness=Check Happiness
+gui.button.exit=Çıkış
+gui.button.back=Geri
+gui.button.adoptbaby=Bebek Evlat Edin
+gui.button.next=İleri
+gui.button.call=Çağır
+gui.button.callall=Hepsini Çağır
+gui.button.checkhappiness=Mutluluğu Kontrol Et
 
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Koca
+relation.wife=Karı
+relation.daughter=Kız
+relation.son=Oğul
 
 ################
 # Dialogue
 ################################
-title.nonrelative.male=%Name% the %Profession%
-title.nonrelative.female=%Name% the %Profession%
+title.nonrelative.male=%Profession% %Name%
+title.nonrelative.female=%Profession% %Name%
 title.relative.male=%Name% (%RelationToPlayer%)
 title.relative.female=%Name% (%RelationToPlayer%)
 
-label.sleeping=Sleeping
-label.health=Health\: 
+label.sleeping=Uyuyor
+label.health=Can: 
 
-behavior.retaliate.begin1=Ow\! That hurt\!
-behavior.retaliate.begin2=I'll get you for that\!
-behavior.retaliate.begin3=Ouch\! Why did you hit me?
-behavior.retaliate.begin4=That hurts, stop it\!
-behavior.retaliate.begin5=Agh\! That really hurt\!
-behavior.retaliate.begin6=Hey\! What do you think you're doing?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin1=Ah! Acıttın!
+behavior.retaliate.begin2=Bunun için seni yakalayacağım!
+behavior.retaliate.begin3=Ah! Neden bana vurdun?
+behavior.retaliate.begin4=Acıyor, yapma!
+behavior.retaliate.begin5=Ahh! Bu cidden acıttı!
+behavior.retaliate.begin6=Hey! Ne yaptığını düşünüyorsun?!
+behavior.retaliate.begin7=*Oof*! İyiyki bu bir kazaydı!
 
-behavior.retaliate.distanced1=That's right, you'd better run\!
-behavior.retaliate.distanced2=If you come back, I'm calling the guards\!
-behavior.retaliate.distanced3=Come back and fight like a man\!
-behavior.retaliate.distanced4=If I see you again, I'm going to punch you\!
-behavior.retaliate.distanced5=I knew you were afraid of me\!
-behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you\!
-behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
-behavior.retaliate.distanced8=I'll get my friends and beat you up\!
+behavior.retaliate.distanced1=Bu doğru, kaçsanız iyi olur!
+behavior.retaliate.distanced2=Eğer geri gelirsen, korumaları çağıracağım!
+behavior.retaliate.distanced3=Geri gel ve erkek gibi dövüş!
+behavior.retaliate.distanced4=Eğer seni tekrar görürsem, sana sağlam bir tane patlatacağım!
+behavior.retaliate.distanced5=Benden korktuğunu biliyordum!
+behavior.retaliate.distanced6=Niye koşuyorsun? Buraya geri gel ki seni vurabileyim!
+behavior.retaliate.distanced7=Seni tekrar görürsem sana vuracağım!
+behavior.retaliate.distanced8=Arkadaşlarımı getireceğim ve seni bitireceğim!
 
-behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
-behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
-behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
-behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
-behavior.retaliate.weapondrawn7=Mother Notch, please help me\!
+behavior.retaliate.weapondrawn1=Hayır! Lütfen bana vurma!
+behavior.retaliate.weapondrawn2=Dur! Hayır!
+behavior.retaliate.weapondrawn3=Birisi bana yardım etsin!
+behavior.retaliate.weapondrawn4=Beni öldürecekler! Yardım edin!
+behavior.retaliate.weapondrawn5=Ne istersen al, sadece canımı yakma!
+behavior.retaliate.weapondrawn6=Ölmek istemiyorum! Git başımdan!
+behavior.retaliate.weapondrawn7=Notch Anne, yardım et!
 
-behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
+behavior.build.fail.tooclose=Diğer binalara çok yakın olduğumuzu düşünmüyor musun?
 
 ##################
 # Conversations between villagers
 #####################################
-conversation1.progress1=Hey, how are you today?
-conversation1.progress2=I'm okay, how are you?
-conversation1.progress3=I am fine. What are you planning to do today?
-conversation1.progress4=Nothing much, how about you?
-conversation1.progress5=I am thinking about going fishing.
-conversation1.progress6=Really? I don't like fishing.
-conversation1.progress7=Why? It's really fun.
-conversation1.progress8=It's boring to me.
-conversation1.progress9=Like mining is any better?
-conversation1.progress10=What?
-conversation1.progress11=You heard me.
-conversation1.progress12=Whatever.
+conversation1.progress1=Hey, bugün nasılsın?
+conversation1.progress2=İyiyim, sen?
+conversation1.progress3=Ben de. Ne yapacaksın?
+conversation1.progress4=Çok bir şey yapmayacağım, ya sen?
+conversation1.progress5=Balığa gitmeyi düşünüyorum.
+conversation1.progress6=Valla mı? Balıkçılığı sevmem.
+conversation1.progress7=Neden? Çok eğlenceli.
+conversation1.progress8=Bence sıkıcı.
+conversation1.progress9=Madencilik sanki daha iyi, hıh!
+conversation1.progress10=Ne?
+conversation1.progress11=Duydun.
+conversation1.progress12=Her neyse.
 
-conversation2.progress1=What are you looking at?
-conversation2.progress2=I don't know, I haven't figured it out yet.
-conversation2.progress3=Well, that was rude\!
-conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
+conversation2.progress1=Ne bahıyon?
+conversation2.progress2=Bilmiyorum, dalmışım.
+conversation2.progress3=Hey, bu kabaydı!
+conversation2.progress4=*Birisi* yatağın ters tarafından kalkmış.
 
 #################
 # AI Messages
 ################################
-mining.search.none=There's no %a1% nearby.
-mining.search.nearby=There's some %a1% nearby...
-mining.search.value=There's some %a1% %a2% blocks away.
+mining.search.none=Yakında %a1% yok.
+mining.search.nearby=Yakında biraz %a1% var...
+mining.search.value=%a2% blok uzaklıkta %a1% var.
 
-farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
-farming.nohoe=I'll need to have a hoe in order to farm.
+farming.noseeds=Bende yeteri kadar %a1% yok. Bir çiftlik için en az %a2% gerekli.
+farming.nohoe=Ekip biçmek için bir çapaya ihtiyacım olacak.
 
-hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
-sleep.invalid=My home point is invalid\!
+hunting.badspot=İyi bir avcılık noktası bulamadım.
+sleep.nohome=Evim yok!
+sleep.invalid=Ev noktam geçersiz!
 
-fishing.norod=I don't have a fishing rod!
-fishing.nowater=I don't see any water nearby...
-fishing.finished=I've finished fishing.
+fishing.norod=Bir oltam yok!
+fishing.nowater=Yakınlarda su göremiyorum...
+fishing.finished=Balık tutmayı bitirdim.
 
-combat.button.method=Method: 
-combat.meleeandranged=Melee & Ranged
-combat.meleeonly=Melee Only
-combat.rangedonly=Ranged Only
-combat.donotfight=Do not fight
+combat.button.method=Yöntem: 
+combat.meleeandranged=Yakın & Uzak Saldırı
+combat.meleeonly=Sadece yakın saldırı
+combat.rangedonly=Sadece uzak saldırı
+combat.donotfight=Kavga etmeyin
 
 combat.button.trigger=Trigger: 
 combat.trigger.always=Always Attack
@@ -5876,186 +5874,186 @@ cooking.nofurnace=There's no furnace nearby.
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=Anne
+parser.dad=Baba
 
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
-gui.button.special=Special
-gui.button.procreate=Procreate
-gui.button.pickup=Pick Up
-gui.button.work=Work
-gui.button.inventory=Inventory
-gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
-gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
-gui.button.farming.radius=Radius\: %a1%
-gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
-gui.button.woodcutting.logtype=Log Type\: %a1%
-gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
-gui.button.cooking=Cooking
+gui.button.yes=Evet
+gui.button.no=Hayır
+gui.button.ok=Tamam
+gui.button.done=Devam
+gui.button.random=Rastgele
+gui.button.interact=Etkileşim
+gui.button.follow=Takip et
+gui.button.stay=Burada Kal
+gui.button.move=Özgürce hareket et
+gui.button.trade=Ticaret
+gui.button.sethome=Ev Ayarla
+gui.button.ridehorse=At Sür
+gui.button.special=Özel
+gui.button.procreate=Oluştur
+gui.button.pickup=Taşı
+gui.button.work=Çalış
+gui.button.inventory=Envanter
+gui.button.chat=Sohbet
+gui.button.joke=Şaka
+gui.button.gift=Hediye
+gui.button.shakehand=Tokalaş
+gui.button.tellstory=Hikaye Anlat
+gui.button.flirt=Flört et
+gui.button.hug=Sarıl
+gui.button.kiss=Öp
+gui.button.farming=Çiftçilik
+gui.button.farming.radius=Yarıçap: %a1%
+gui.button.farming.plant=Ek: %a1%
+gui.button.woodcutting=Odun Kesme
+gui.button.woodcutting.logtype=Odun: %a1%
+gui.button.woodcutting.replant=Tekrar ek: %a1%
+gui.button.mining=Madencilik
+gui.button.hunting=Avlanma
+gui.button.kill=Öldür
+gui.button.tame=Evcilleştir
+gui.button.cooking=Pişirme
 gui.button.fishing=Fishing
-gui.button.mode=Mode\: %a1%
-gui.button.start=Start
-gui.button.stop=Stop
-gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
-gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
-gui.button.hired=Hired
-gui.button.length=Length\: %a1% hour(s)
-gui.button.accept=Accept
+gui.button.mode=Mod: %a1%
+gui.button.start=Başla
+gui.button.stop=Dur
+gui.button.havebaby=Bebek yap
+gui.button.divorce=Boşan
+gui.button.asktomarry=Evlenme Teklifi Et
+gui.button.hire=İşe Al
+gui.button.hired=Alındı
+gui.button.length=Süre: %a1% saat
+gui.button.accept=Kabul et
 gui.button.combat=Combat
 gui.button.extend=Extend
-gui.button.dismiss=Dismiss
-gui.button.divorcespouse=Divorce Spouse
-gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
+gui.button.dismiss=Yok Say
+gui.button.divorcespouse=Eşini Boşa
+gui.button.resetbaby=Bebeği Sıfırla
+gui.button.setup.gender.false=Cinsiyet: Kadın
+gui.button.setup.gender.true=Cinsiyet: Erkek
 gui.button.baron=Baron
 gui.button.baroness=Baroness
 gui.button.taxes=Ask for Taxes
-gui.title.namebaby.male=It's a boy\!
-gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
-gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
-gui.title.whistle=Call Family Member
+gui.title.namebaby.male=Bir erkek!
+gui.title.namebaby.female=Bir kız!
+gui.title.namebaby=Bebeğinizin adı:
+gui.title.tombstone=Mezar taşı yazısı girin:
+gui.title.editor=Köylü Editörü
+gui.title.whistle=Aile Üyesini Çağır
 
-gui.info.family.married=Married to %a1%.
-gui.info.family.engaged=Engaged to %a1%.
-gui.info.family.marriedtoplayer=Married to you.
-gui.info.family.engagedtoplayer=Engaged to you.
-gui.info.family.notmarried=Not married.
-gui.info.family.mother=Mother\: %a1%
-gui.info.family.father=Father\: %a1%
-gui.info.family.mother.you=Mother\: You
-gui.info.family.father.you=Father\: You
+gui.info.family.married=%a1% ile evli.
+gui.info.family.engaged=%a1% ile nişanlı.
+gui.info.family.marriedtoplayer=Seninle evli.
+gui.info.family.engagedtoplayer=Seninle nişanlı.
+gui.info.family.notmarried=Bekar.
+gui.info.family.mother=Anne: %a1%
+gui.info.family.father=Baba: %a1%
+gui.info.family.mother.you=Anne: Sen
+gui.info.family.father.you=Baba: Sen
 
-gui.info.gift.line1=Gift Available
-gui.info.gift.line2=(Click to take)
+gui.info.gift.line1=Hediye Mevcut
+gui.info.gift.line2=(Almak için tıkla)
 
-gui.info.mood=Mood\: %a1%
-gui.info.personality=Personality\: %a1%
+gui.info.mood=Ruh hali: %a1%
+gui.info.personality=Kişilik: %a1%
 
-interaction.give.invalid1=I can't use that.
-interaction.give.invalid2=What is this? I can't do anything with it.
-interaction.give.invalid3=I don't know what you want me to do with that.
-interaction.give.invalid4=Why are you giving me this?
-interaction.give.invalid5=Huh? What is this thing?
+interaction.give.invalid1=Bunu kullanmam.
+interaction.give.invalid2=Bu da ne? Bununla hiçbir şey yapamam.
+interaction.give.invalid3=Bununla ne yapmamı istediğini anlamıyorum.
+interaction.give.invalid4=Bunu bana neden verdin?
+interaction.give.invalid5=Ha? Bu da nesi?
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
-interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
-interaction.divorce.priest.fail.notmarried=You are not married to anyone.
+interaction.divorce.priest.success1=Çok güzel. Artık evli değilsiniz.
+interaction.divorce.priest.success2=Dilediğiniz gibi. Başka bir yerde aşk bulabilirsiniz.
+interaction.divorce.priest.fail.notmarried=Hiç kimseyle evli değilsin.
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried1=Kimseyle evli değilim.
+interaction.divorce.notmarried2=Boşanma kağıdına neden ihtiyacı olsun? Evli değilim.
+interaction.divorce.notmarried3=Evli değilim ki. Bunları bana neden verdin?
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=Ne?! Eşimden ayrılmamı mı istiyorsun? Berbat birisin!
+interaction.divorce.fail.notmarriedtoplayer2=Hayır! Bunu eşime yapmayacağım! Mutlu bir evliliğim var!
+interaction.divorce.fail.notmarriedtoplayer3=Ne yaptığın hakkında bir fikrin var mı? Bunu kullanmayacağım!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success1=Beni sevdiğini sanmıştım! Defol!
+interaction.divorce.success2=Sona erinceye kadar eğlenceliydi. Elveda ve iyi şanslar.
+interaction.divorce.success3=Bunu yaptığına inanamıyorum! Defol, hemen!
+interaction.divorce.success4=Neden bana bunu yaptın! Seni bir daha asla görmek istemiyorum!
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+interaction.marry.fail.marriedtogiver1=Bu çok hoş bir yüzük, fakat ben zaten seninle evliyim, salak.
+interaction.marry.fail.marriedtogiver2=Biz zaten evliyiz. Unuttun mu?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=Üzgünüm, hayır...Ben zaten evliyim.
+interaction.marry.fail.marriedtoother2=Aov, Biliyorsun sanıyordum...Ben zaten başkası ile evliyim.
+interaction.marry.fail.marriedtoother3=Ne?! Ben zaten evliyim!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried1=Aaah...Parmağında şu yüzüğü gördüm. Sen zaten evlisin!
+interaction.marry.fail.playermarried2=Şimdi ne yapmaya çalışıyorsun? Zaten evlisin ki!
+interaction.marry.fail.playermarried3=Ne? Harbi mi? Zaten sen evlisin, karına söyleyeceğim onu aldattığını.
+interaction.marry.fail.playermarried4=Hayretler içinde kaldım! Senin zaten bir eşin var.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+interaction.marry.fail.lowhearts1=Ne? Hayır! Seni sevmiyorum!
+interaction.marry.fail.lowhearts2=Oh, güzel yüzük! Benim için mi? Hımm, hayır.
+interaction.marry.fail.lowhearts3=Bu benim için mi? Üzgünüm seni yeterince tanımıyorum.
+interaction.marry.fail.lowhearts4=Gururlandım fakat seni gerçekten tanımıyorum.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+interaction.engage.success1=Evet! Seninle evlenirim! Seni seviyorum!
+interaction.engage.success2=Tabii ki seninle evleneceğim!
+interaction.engage.success3=Tam zamanında...sadece şakaydı! Seni seviyorum!
+interaction.engage.success4=Bu...bu gerçek mi? Yani şey, bu anı kastediyorum. Ama yüzük gerçek değil mi?
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success1=Aaah gerçekleşen bir rüya! Seni sonsuza dek seveceğim!
+interaction.marry.success2=Artık evliyiz! Şimdi ne var?
+interaction.marry.success3=İyi ki seninle evlenmişim, %PlayerName%.
+interaction.marry.success4=Birlikte olacağımız hayatımıza başlamak için sabırsızlanıyorum!
 
-interaction.matchmaker.fail.married1=I am already married to someone.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+interaction.matchmaker.fail.married1=Ben zaten başkası ile evlendim.
+interaction.matchmaker.fail.married2=Ben mutlu bir şekilde evlendim, başka bir eş istemiyorum.
+interaction.matchmaker.fail.married3=Bunu istemiyorum - Zaten evliyim.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
-interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+interaction.matchmaker.fail.engaged1=Başka birisi ile zaten nişanlandım ben, bu yüzüğü alamam.
+interaction.matchmaker.fail.engaged2=Başkası ile evleneceğime dair söz verdim.
+interaction.matchmaker.fail.engaged3=Oh, teşekkürler fakat ben böyle mutluyum. Başka birisi ile zaten nişanlandım.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+interaction.matchmaker.fail.needtwo1=Evlilik için iki yüzüğe ihtiyaç yok mu?
+interaction.matchmaker.fail.needtwo2=Ah, tamamdır! Fakat ilk olarak iki yüzük lazım.
+interaction.matchmaker.fail.needtwo3=Eşim ve bana yüzük lazım, fakat sende bir tane var.
 
-interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
-interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
-interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
+interaction.matchmaker.fail.novillagers1=Ben yakında başkasını görmüyorum. Evlenmek için beni kime istiyordun?
+interaction.matchmaker.fail.novillagers2=Bilmiyorum aslında... benim için doğru kişi olduğunu anlamam için daha da yakınlaş.
+interaction.matchmaker.fail.novillagers3=Oh, fakat yakınlarda başkasını göremiyorum. Kiminle evlenmeliyim?
 
-interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
-interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
-interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+interaction.matchmaker.fail.invalid1=Fakat ben %Name% ile evlenemem.
+interaction.matchmaker.fail.invalid2=Yakındaki tek köylü %Name% ve ben onunla evlenemem.
+interaction.matchmaker.fail.invalid3=%Name% ile evleneceğimi hiç sanmıyorum. Bu biraz garip olurdu.
 
-interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
-interaction.sethome.success3=Sure thing, %PlayerName%.
+interaction.sethome.success1=Tamam, burası benim yeni evim olacak.
+interaction.sethome.success2=Anladım, geceleri burada uyuyacağım.
+interaction.sethome.success3=Tabii ki, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Burası benim için güvenli bir ev noktası gibi görünmüyor. Yol üzerinde bazı %a1% var.
+interaction.sethome.fail2=Yakınlarda başka yer var mı? Yolda %a1% var.
+interaction.sethome.fail3=Ev noktamı buraya ayarlayamam. Yolumda birkaç %a1% var.
 
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.toolow1=Maden çıkarmak için çok aşağıdayız.
+interaction.mining.fail.toolow2=Daha yüksek bir yere geçmemiz gerekiyor.
+interaction.mining.fail.toolow3=Buradan maden çıkarmanın pek de iyi bir fikir olduğunu sanmıyorum. Daha yüksek bir yer lazım.
+interaction.mining.fail.nopickaxe=Kazmam yok. Kazmam olmadan nasıl madene girmemi bekliyorsun?
 interaction.mining.fail.broken=My pickaxe has broken and I don't have another one!
 
-interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
-interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.fail.notenoughgold=Bu köylüyü kiralayabilmen için sana %a1% adet altın külçe altın lazım.
+interaction.hire.success1=Burada olduğuma sevindim. İlk işim nedir?
+interaction.hire.success2=Her şey görevin içinde. Ne yapmamı isterdin?
+interaction.hire.success3=İstediğin zamanda çalışmaya hazırım patron!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notnearby=Etrafta herhangi bir at göremiyorum.
+interaction.ridehorse.fail.notrideable=Bu ata binemem.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
-interaction.resetbaby.fail=You do not have a baby.
+interaction.resetbaby.success=Çok güzel, artık başka bir çocuğun daha var. Sonraki sefere daha dikkatli ol!
+interaction.resetbaby.fail=Hiç bebeğin yok.
 
 interaction.tax.happylevel4=Oh, of course! The village is thriving, and everyone's so happy! Keep up the good work.
 interaction.tax.happylevel3=Everyone has been working harder lately. They seem happier! Here's our tax.
@@ -6070,20 +6068,20 @@ interaction.tax.notlargeenough4=Tax? What? We're too small for that!
 interaction.checkhappiness.success=My records put the village's happiness at about %a1% percent.
 interaction.checkhappiness.fail=Our village isn't large enough for me to track our happiness yet. We need %a1% more villagers.
 
-interactionp.marry.sent=You have asked %a1% to marry you.
-interactionp.marry.success=You are now married to %a1%.
-interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%a1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
-interactionp.marry.prompt=%a1% would like to marry you.
+interactionp.marry.sent=%a1% ile evlenmek için sordun.
+interactionp.marry.success=%a1% ile artık evlisin.
+interactionp.marry.fail.alreadymarried=Zaten evlisin veya nişanlısın.
+interactionp.marry.fail.targetalreadymarried=%a1% zaten evli.
+interactionp.marry.fail.noweddingring=Hiç nikah yüzüğün yok.
+interactionp.marry.prompt=%a1% seninle evlenmek istiyor.
 
-interactionp.havebaby.sent=You have asked %a1% to have a baby.
-interactionp.havebaby.prompt=%a1% would like to have a baby.
-interactionp.havebaby.fail.alreadyexists=You should already have a baby.
+interactionp.havebaby.sent=Bebek için %a1%'e/a soru sordun.
+interactionp.havebaby.prompt=%a1% bebeği olsun istiyor.
+interactionp.havebaby.fail.alreadyexists=Zaten bir bebeğin var.
 
-interactionp.divorce.notify=You are no longer married to %a1%.
+interactionp.divorce.notify=%a1% ile artık evli değilsin.
 
-interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
+interaction.adoptbaby.success=Harika! %a1% ile tanışmanı istiyorum, yeni bebeğin! Onlara iyi davran.
 
 ###################
 # Typed Dialogue
@@ -6096,514 +6094,514 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 #   Spouse      (married to the player recieving the message   
 #####################################
 
-adult.gift.bad1=This isn't a good gift...
-adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
-adult.gift.bad4=I don't want that, why would I?
-adult.gift.bad5=Why are you giving me that?
-adult.gift.bad6=Is this supposed to be a gift? No thanks.
+adult.gift.bad1=Bu iyi bir hediye değil...
+adult.gift.bad2=Sana bunu beğeneceğimi düşündüren şey nedir?
+adult.gift.bad3=Hayır teşekkürler.
+adult.gift.bad4=Bunu istemiyorum, neden yapayım?
+adult.gift.bad5=Bunu bana neden verdin?
+adult.gift.bad6=Bunun bir hediye olması gerekmiyor muydu? Hayır teşekkürler.
 
-adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
-adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
-adult.gift.good5=A gift? For me? How nice\!
+adult.gift.good1=Ne kadar düşünceli! Teşekkürler.
+adult.gift.good2=Teşekkürler!
+adult.gift.good3=Ne düşünceli!
+adult.gift.good4=Ooh, bunları seviyorum!
+adult.gift.good5=Hediye? Bana? Ne güzel!
 
-adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
-adult.gift.better4=Oh wow, I actually needed one of these\!
-adult.gift.better5=This is a pretty good gift\!
+adult.gift.better1=Vaov, bu oldukça havalı!
+adult.gift.better2=Teşekkürler dostum!
+adult.gift.better3=%PlayerName%, sen çok iyi bir arkadaşsın!
+adult.gift.better4=Oh vaov, bunlardan birisine cidden ihtiyacım vardı!
+adult.gift.better5=Bu oldukça güzel bir hediye!
 
-adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
-adult.gift.best2=How did you...nevermind, this is amazing\!
-adult.gift.best3=Oh wow, I've always wanted one of these\!
-adult.gift.best4=This is fantastic\! I'll put it to good use.
-adult.gift.best5=Thank you so much. I will remember this forever.
+adult.gift.best1=Be... Ben ne diyeceğimi bilmiyorum. Teşekkürler %PlayerName%!
+adult.gift.best2=Nası... boş versene, bu inanılmaz!
+adult.gift.best3=Vay be, hep bunlardan bir tane istemiştim!
+adult.gift.best4=Bu muhteşem bir şey! Bunu en iyi şekilde kullanacağım.
+adult.gift.best5=Çok teşekkürler. Bunu sonsuza dek hatırlayacağım.
 
 # 5 good chats when talking to an adult:
-adult.chat.good1=Man, cookies and milk does sound delicious right now.
-adult.chat.good2=Yes, I suppose the weather is nice today.
-adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
-adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+adult.chat.good1=Adamım, kurabiye ve süt şimdi kulağa enfes geliyor.
+adult.chat.good2=Evet, bence de bugün hava güzel.
+adult.chat.good3=Gayet iyi yapıyorum! Yine de uyandığım zaman parmağıma vur.
+adult.chat.good4=Her gün bir elma zombileri uzak tutar!
+adult.chat.good5=Hayalim kendi kasabamı yapmak fakat çook tembelim.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Did you seriously just say that?
-adult.chat.bad2=I don't believe it exploded on its own.
-adult.chat.bad3=You know, you're not that cool.
-adult.chat.bad4=Show off.
-adult.chat.bad5=You should be thrown in a dungeon\! 
+adult.chat.bad1=Bunu cidden söyledin mi?
+adult.chat.bad2=Kendi kendine patladığına inanmıyorum.
+adult.chat.bad3=Biliyorsun, havalı değilsin.
+adult.chat.bad4=Hava atıyorsun.
+adult.chat.bad5=Zindana atılmış olmalısın! 
 
 # 5 good jokes when talking to an adult:
-adult.joke.good1=Haha\! Serves that Skelly right\!
-adult.joke.good2=*Laughs* That's hilarious\!
-adult.joke.good3=That's funny\! Did you hear the one about the cows?
-adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
-adult.joke.good5=That's the best I have ever heard\!
+adult.joke.good1=Hahaha! Seklly için hak verdim!
+adult.joke.good2=*Güler* Bu gülünç!
+adult.joke.good3=Bu eğlenceli! Bunun ineklerle ilgili olanını duydun mu?
+adult.joke.good4=Koyunun yününü kaybetmesi biraz şanssızlık fakat komik!
+adult.joke.good5=Duyduklarım arasında en iyisiydi!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1=Don't speak about my pig like that\!
-adult.joke.bad2=Ha.
-adult.joke.bad3=Ah, you're not the funniest in town.
-adult.joke.bad4=That's low.
-adult.joke.bad5=You shouldn't joke about that.
+adult.joke.bad1=Domuzum hakkında böyle konuşma!
+adult.joke.bad2=Ho.
+adult.joke.bad3=Aaah, bu şehirdeki en komik kişi değilsin.
+adult.joke.bad4=Bu basitti.
+adult.joke.bad5=Bunun hakkında şaka yapmamalısın.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=You have a nice grip\!
-adult.handshake.good2=Your grip shows me you have great power\!
-adult.handshake.good3=Wow, you're so polite\!
-adult.handshake.good4=Good day\!
-adult.handshake.good5=Why, hello there\!
+adult.handshake.good1=Güzel yakaladın!
+adult.handshake.good2=Tutuşun gösteriyor ki çok güçlüsün!
+adult.handshake.good3=Vay be, çok kibarsın!
+adult.handshake.good4=İyi günler!
+adult.handshake.good5=neden...    Merhaba!
 
 # 5 bad handshakes when talking to an adult:
-adult.handshake.bad1=Seriously? After you slaughtered the cow?
-adult.handshake.bad2=Um, no that's okay.
-adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
-adult.handshake.bad4=Wow really? This isn't like you.
-adult.handshake.bad5=Go away.
+adult.handshake.bad1=Cidden mi? İneği kestikten sonra mı?
+adult.handshake.bad2=Aaam, hayır böyle iyi.
+adult.handshake.bad3=Yabancı birisi değilim, bu kadar kibar olmak zorunda değilsin.
+adult.handshake.bad4=Yok artık gerçekten mi? Bu senin gibi değil.
+adult.handshake.bad5=Def ol.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
-adult.tellstory.good2=I wish I was brave enough to take on a creeper.
-adult.tellstory.good3=That was a really good story\! Is it original?
-adult.tellstory.good4=All of that happened yesterday? No way\!
-adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
+adult.tellstory.good1=Gerçekten mi? Bütün bunların olduğuna inanamıyorum!
+adult.tellstory.good2=Keşke dört ayaklının üzerine atlayacak kadar cesur olsaydım.
+adult.tellstory.good3=Gerçekten güzel bir hikayeydi! Bu orijinal mi?
+adult.tellstory.good4=Bunların hepsi dün mü oldu? İmkanı yok!
+adult.tellstory.good5=Daha dün buralardaydım, bunu önceden duyduğuma inanamıyorum.
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
-adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
-adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
-adult.tellstory.bad5=How could you kill a poor sheep?\!
+adult.tellstory.bad1=*Öhöm* Hakkında konuştuğun kişi annem.
+adult.tellstory.bad2=Bu, köyün neden senin hakkında konuştuğunu kanıtlıyor.
+adult.tellstory.bad3=İnanmam...
+adult.tellstory.bad4=Korkunçsun! Creeperların da hisleri vardır!
+adult.tellstory.bad5=Zavallı bir koyunu nasıl öldürebilirsin?!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1=You're sooo brave\!
-adult.flirt.good2=Oh, you\! Stop being so cute\!
-adult.flirt.good3=*Blushes* Do you mean it?
-adult.flirt.good4=Oh, my...
-adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
+adult.flirt.good1=Çoook cesursun!
+adult.flirt.good2=Ooh seen! Bu kadar tatlı olmayı bırakmalısın!
+adult.flirt.good3=*Yüzü kızarır* Bunu mu kast ettin?
+adult.flirt.good4=Oh amanın...
+adult.flirt.good5=Bu çok mükemmel! "Selamın" bana ulaştı! 
 
 # 5 bad flirts when talking to an adult:
-adult.flirt.bad1=If you mean that, then prove it.
-adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
-adult.flirt.bad3=Not in a million years.
-adult.flirt.bad4=Pathetic much?
-adult.flirt.bad5=A zombie has a better chance than you.
+adult.flirt.bad1=Bunu anlatmak istediysen, kanıtla o zaman.
+adult.flirt.bad2=Aov... Bekle, Aynı şeyi fırıncıya anlattın!
+adult.flirt.bad3=Milyon yıla kadar olmaz.
+adult.flirt.bad4=Çok mu acıklı?
+adult.flirt.bad5=Bir zombinin senden çok şansı var.
 
 # 5 good hugs when talking to an adult:
-adult.hug.good1=Long time no see\!
-adult.hug.good2=Thank you, I needed that.
-adult.hug.good3=At least one thing made my day today.
-adult.hug.good4=You're as snuggly as a sheep\!
+adult.hug.good1=Görüşmeyeli uzun zaman oldu!
+adult.hug.good2=Teşekkürler, buna ihtiyacım vardı.
+adult.hug.good3=En azından bir şey bugünü benim günümü yaptı.
+adult.hug.good4=Bir koyun kadar sıcacıksın!
 
 # 5 bad hugs when talking to an adult:
-adult.hug.bad1=You're covered in soot and mud\! 
-adult.hug.bad2=No thanks.
-adult.hug.bad3=Uh, why?
-adult.hug.bad4=After you called me a dinosaur last week? No.
-adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
+adult.hug.bad1=İs ve çamura bulanmışın! 
+adult.hug.bad2=Hayır teşekkürler.
+adult.hug.bad3=Uf, neden?
+adult.hug.bad4=Bana geçen hafta dinozor diye seslendikten sonra mı? Hayır.
+adult.hug.bad5=Doğrusu, sen bunu yaptıktan sonra sarılmayı hak etmiyorsun.
 
 # 5 good kisses when talking to an adult:
-adult.kiss.good1=I wish this moment would last forever.
-adult.kiss.good2=I think I love you...
-adult.kiss.good3=Mmm, tastes like pumpkin pie\!
+adult.kiss.good1=Umarım bu an sonsuza kadar sürer.
+adult.kiss.good2=Sanırım seni seviyorum...
+adult.kiss.good3=Mmm, bal kabağı turtası gibi tadı var!
 
 # 5 bad kisses when talking to an adult:
-adult.kiss.bad1=Not if someone can see.
-adult.kiss.bad2=You call that a kiss?
-adult.kiss.bad3=Ash kisses better than you.
-adult.kiss.bad4=Two words... breath mints\!
-adult.kiss.bad5=Thank you?
+adult.kiss.bad1=Birisi görürse olmaz.
+adult.kiss.bad2=Sen buna öpüşmek mi diyorsun?
+adult.kiss.bad3=Kül öpmek seninkinden daha iyi.
+adult.kiss.bad4=İki kelime... taze nefes!
+adult.kiss.bad5=Teşekkürler?
 
-adult.greeting1=Why, hello there\!
-adult.greeting2=Hey\! How are you today?
-adult.greeting3=Hey, good to see you\!
-adult.greeting4=What's going on with you today?
-adult.greeting5=How are you today?
+adult.greeting1=neden... Merhaba!
+adult.greeting2=Hey, bugün nasılsın?
+adult.greeting3=Heey, seni görmek güzel!
+adult.greeting4=Bugün neler yapıyorsun?
+adult.greeting5=Bugün nasılsın?
 
 ##############################################################################################
 
 # 5 good chats when talking to a parent:
-parent.chat.good1=I'm fine, and how are you, dear?
-parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
-parent.chat.good3=You make me so proud\!
-parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
-parent.chat.good5=That reminds me of when you were a lil' tot\! 
+parent.chat.good1=İyiyim peki sen nasılsın tatlım?
+parent.chat.good2=Kaybettiğin büyük amcana çok benziyorsun dedim mi hiç?
+parent.chat.good3=Beni çok gururlandırdın!
+parent.chat.good4=Nasıl da tatlı! Neler oldu sana, sen bu kadar kibar olamazdın! *Güler*
+parent.chat.good5=Bu bana küçüklüğünü hatırlatıyor! 
 
 # 5 bad chats when talking to a parent:
-parent.chat.bad1=You're never too old for spankings, smarty pants.
-parent.chat.bad2=Watch your mouth. That's not the way I raised you.
-parent.chat.bad3=This is why your sister was my favorite.
-parent.chat.bad4=Why are you not a doctor, yet?
-parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
+parent.chat.bad1=Şaplak için pek de olgun değilsin, çok bilmiş.
+parent.chat.bad2=Laflarına dikkat et. Ben seni böyle büyütmedim.
+parent.chat.bad3=İşte bu yüzden kız kardeşin favorim.
+parent.chat.bad4=Neden henüz doktor olmadın?
+parent.chat.bad5=Senin için elmas bir kılıcım vardı ama artık onu hak etmiyorsun!
 
 
 # 5 good jokes when talking to a parent:
-parent.joke.good1=You get your humor from me\!*Laughs*
-parent.joke.good2=You fill my day with laughter and joy\!
-parent.joke.good3=I needed that laugh\!
-parent.joke.good4=When did you become a comedian? That's hilarious\!
-parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
+parent.joke.good1=Mizahını benden almışsın! *Güler*
+parent.joke.good2=Günümü kahkaha ve şaka ile mi bitireceksin!
+parent.joke.good3=Bu kahkahaya ihtiyacım vardı!
+parent.joke.good4=Ne zaman komedyen olacaksın? Bu güldürdü!
+parent.joke.good5=Büyük teyzem Berry böyle bir şey duymaya bayılırdı!
 
 # 5 bad jokes when talking to a parent:
 parent.joke.bad1=Ha...
-parent.joke.bad2=You're my kid so I have to laugh... but it isn't funny.
-parent.joke.bad3=You're as dull as my first date.
-parent.joke.bad4=No offense, but that was bad.
-parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
+parent.joke.bad2=Sen benim çocuğumsun ve bundan dolayı gülmeliyim... fakat hiç komik değildi.
+parent.joke.bad3=İlk buluşmam kadar sıkıcısın.
+parent.joke.bad4=Dövmeyeceğim ama bu cidden berbattı.
+parent.joke.bad5=Komik olduğunu hiç kimse söylememişti, haklılar.
 
 # 5 good handshakes when talking to a parent:
-parent.handshake.good1=It's good to see that we raised a polite child\!
-parent.handshake.good2=How civil\! We've tought you well.
-parent.handshake.good3=Good to see you again\!
-parent.handshake.good4=How have you been?
-parent.handshake.good5=That's a nice, firm handshake you've got there.
+parent.handshake.good1=Kibar bir çocuk yetiştirdiğimizi görmek güzel!
+parent.handshake.good2=Nasıl da medeni! İyi birisi olduğunu düşünüyoruz.
+parent.handshake.good3=Seni tekrar görmek güzel!
+parent.handshake.good4=Görüşmeyeli nasılsın?
+parent.handshake.good5=Bu güzel, bu sağlam bir el sıkışmaydı.
 
 # 5 bad handshakes when talking to a parent:
-parent.handshake.bad1=If only you were this polite at family reunions.
-parent.handshake.bad2=What's with the formality? 
-parent.handshake.bad3=You'll shake my hand but not hug me?
-parent.handshake.bad4=Are you embarrassed to be seen with me, or something?
-parent.handshake.bad5=I never realized how weak you were.
+parent.handshake.bad1=Sadece aile toplantılarında bu kadar kibarsın.
+parent.handshake.bad2=Resmiyetle başka ne var? 
+parent.handshake.bad3=Sarılmadan sadece elimi mi sıkacaksın?
+parent.handshake.bad4=Benimle görünmekten utanıyor musun yok başka bir şey mi var?
+parent.handshake.bad5=Bu kadar zayıf olduğuna hiç inanmamıştım.
 
 # 5 good stories when talking to a parent:
-parent.tellstory.good1=After that you took off your diaper and threw it on the priest\!
-parent.tellstory.good2=Did you end up getting a date?
-parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
-parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
-parent.tellstory.good5=Is the house done, yet?
+parent.tellstory.good1=Ardından bebek bezini çıkardın ve rahibin suratına fırlattın!
+parent.tellstory.good2=Çıkma teklifi alarak mı bitirdin?
+parent.tellstory.good3=Sesleri çok güzel! Ee, beni ne zaman torun sahibi yapacaksın?
+parent.tellstory.good4=Evet hatırlardım onu. Kuzenin Bert bayağı fazla kurabiye yemişti.
+parent.tellstory.good5=Ev henüz bitmedi mi?
 
 # 5 bad stories when talking to a parent:
-parent.tellstory.bad1=I wish you were little again, this story depresses me.
-parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
-parent.tellstory.bad3=You stole my earrings?\! 
-parent.tellstory.bad4=We all know you can't be a successful miner.
-parent.tellstory.bad5=You're not the brightest lightbulb in the room...
+parent.tellstory.bad1=Keşke yine küçük olsaydın, bu hikaye moralimi bozdu.
+parent.tellstory.bad2=Bunu bir daha asla yapma! Kurtlar oyun oynanacak şeyler değiller!
+parent.tellstory.bad3=Küpelerimi sen mi çaldın?! 
+parent.tellstory.bad4=Başarılı bir madenci olamayacağını hepimiz biliyoruz.
+parent.tellstory.bad5=Odadaki en parlak ampul sen değilsin...
 
 # 5 good hugs when talking to a parent:
-parent.hug.good1=You've grown so much\!
-parent.hug.good2=I remember hugging you each night before bed.
-parent.hug.good3=Sweet child of mine\! 
-parent.hug.good4=You never let me down\! 
-parent.hug.good5=You're the best child a parent could ask for\!
+parent.hug.good1=Bayağı büyümüşsün!
+parent.hug.good2=Her uyuma öncesinde sana sarılacağımı unutmayacağım.
+parent.hug.good3=Benim tatlı kuzum! 
+parent.hug.good4=Beni asla yüzüstü bırakma! 
+parent.hug.good5=Bir ebeveynin sahip olabileceği en iyi çocuksun!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1=I'm not mad, I'm disappointed. 
-parent.hug.bad2=Sucking up? Get your own cake mix\!
-parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
-parent.hug.bad4=Not until you wash off.
-parent.hug.bad5=After you told me that? No way.
+parent.hug.bad1=Kızmadım, hayal kırıklığına uğradım. 
+parent.hug.bad2=Başarısız mısın? Kendi kek karışımını yap!
+parent.hug.bad3=Neden bunu sık sık yapmıyoruz? Mahçup musun? 
+parent.hug.bad4=Sen yıkanana kadar olmaz.
+parent.hug.bad5=Bana onu söyledikten sonra mı? Yolu yok.
 
 
 ##############################################################################################
 
 # 5 good chats when talking to a relative:
-relative.chat.good1=You act just like your momma did as a kid\!
-relative.chat.good2=I'm glad you came to see me\!
-relative.chat.good3=We should get a family reunion together.
-relative.chat.good4=You're the sweetest of the family\!
-relative.chat.good5=Don't tell anyone, but you're my favorite\!
+relative.chat.good1=Annenin genç hali gibi davranıyorsun!
+relative.chat.good2=Beni görmeye geldiğin için mutluyum!
+relative.chat.good3=Aileyi tekrar bir araya getirmeliyiz.
+relative.chat.good4=Ailenin en tatlısısın!
+relative.chat.good5=Başkasına söyleme, favorim sensin!
 
 # 5 bad chats when talking to a relative:
-relative.chat.bad1=Excuse me? Do you know who you are talking to?
-relative.chat.bad2=That's no excuse to speak to me like that\!
-relative.chat.bad3=Go home. You're no longer welcome around me.
-relative.chat.bad4=If you don't leave I'll put a restraining order on you.
-relative.chat.bad5=You're so rude.
+relative.chat.bad1=Affedersiniz? Kimle konuştuğunuzu biliyor musunuz?
+relative.chat.bad2=Benimle böyle konuşmanın özrü olamaz!
+relative.chat.bad3=Eve git. Etrafımda daha fazla dolanma.
+relative.chat.bad4=Sen ayrılmıyorsan senin için yasaklama emri çıkarttırırım.
+relative.chat.bad5=Çok kabasın.
 
 # 5 good jokes when talking to a relative:
-relative.joke.good1=Grandpa told you that one, didn't he?\!
-relative.joke.good2=That joke goes way back in the family\!
-relative.joke.good3=Then the cow jumped over the ravine\! *Laughs*
+relative.joke.good1=Büyük baban bunlardan birisini anlattı değil mi?!
+relative.joke.good2=Bu şaka aileye geri dönüyor!
+relative.joke.good3=Sonra inek geçidin üstünden atladı! *Kahkaha*
 
 # 5 bad jokes when talking to a relative:
-relative.joke.bad1=You shouldn't speak about family that way.
-relative.joke.bad2=Leave the humor to uncle.
+relative.joke.bad1=Ailen hakkında bu şekilde konuşmamalısın.
+relative.joke.bad2=Espriyi amcana bırak.
 
 # 5 good handshakes when talking to a relative:
-relative.handshake.good1=Put it there\!
-relative.handshake.good2=*Pulls hand away* Gotchya\!
-relative.handshake.good3=Next time I expect diamonds\! *Laughs*
+relative.handshake.good1=Buraya koy!
+relative.handshake.good2=*Elleri birlikte çeker* Hoppa!
+relative.handshake.good3=Sonraki sefere elmasları umacağım! *Kahkaha*
 
 # 5 bad handshakes when talking to a relative:
-relative.handshake.bad1=Come on, we're family. Informality is fine.
-relative.handshake.bad2=Shawn warned me about this...
-relative.handshake.bad3=Is this some sort of joke?
+relative.handshake.bad1=Hadi ama biz bir aileyiz. Geçersizlik normaldir.
+relative.handshake.bad2=Shawn beni bu konuda uyarmıştı...
+relative.handshake.bad3=Bu bir şaka mıydı?
 
 # 5 good stories when talking to a relative:
-relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
-relative.tellstory.good2=Sounds like Grandad Jay\! He used to throw people in the lake\!
-relative.tellstory.good3=Grandma used to sew the chicken feathers, too.
-relative.tellstory.good4=Mmm... Your mom's cow stew was amazing back then.
-relative.tellstory.good5=We should get together like that more often\!
+relative.tellstory.good1=Anlatmama izin ver, annen çocukken hırsızdı!
+relative.tellstory.good2=Sesler Büyük baba Jay gibi geliyor. O insanları göle fırlatırdı!
+relative.tellstory.good3=Babaanne de kaz tüylerini dikerdi.
+relative.tellstory.good4=Mmm... Annenin inek güveci gerçekten harikaydı.
+relative.tellstory.good5=Bundan daha sık bir araya gelmeliyiz!
 
 # 5 bad stories when talking to a relative:
-relative.tellstory.bad1=That's when the family fell apart...
-relative.tellstory.bad2=Oh, that's right... you're the snobby one...
-relative.tellstory.bad3=Quit trying to show off.
-relative.tellstory.bad4=Your parents raised you better than that\!
-relative.tellstory.bad5=You have officially been disowned.
+relative.tellstory.bad1=Aile ne zaman parçalanacak olsa bu olur...
+relative.tellstory.bad2=Oh, bu doğru... Züppenin tekisin...
+relative.tellstory.bad3=Gösteri yapmayı kes artık.
+relative.tellstory.bad4=Ailen seni bundan daha iyi büyüttü!
+relative.tellstory.bad5=Resmi olarak evlatlıktan reddedildin.
 
 # 5 good hugs when talking to a relative:
-relative.hug.good1=It's good to see you\!
-relative.hug.good2=You should make time to see Uncle Jimmy, next\!
-relative.hug.good3=I wish I had more to give you other than this hug\!
-relative.hug.good4=Don't wait too long to see me again\!
-relative.hug.good5=I always look forward to your hugs\!
+relative.hug.good1=Seni görmek güzel!
+relative.hug.good2=Jimmy amcayı görmek için zaman ayırmalısın, sonraki!
+relative.hug.good3=Sana bundan daha fazla sarılmak için keşke daha çok zamanım olsa!
+relative.hug.good4=Beni tekrar görmek için çok bekleme!
+relative.hug.good5=Sarılman için hep geleceğe bakacağım!
 
 
 # 5 bad hugs when talking to a relative:
-relative.hug.bad1=Let me guess, this will be the last time I see you for a year?
-relative.hug.bad2=I guess you're leaving me again.
-relative.hug.bad3=*Sighs* Does this mean goodbye?
-relative.hug.bad4=Please stay a little longer...
-relative.hug.bad5=Ew, that's okay. You sweat too much.
+relative.hug.bad1=Tahmin etmeme izin ver, bir yıldır seni son kez mi göreceğim?
+relative.hug.bad2=Sanırım beni terk ediyorsun.
+relative.hug.bad3=*İç çekme* Bu elveda demek mi oluyor?
+relative.hug.bad4=Lütfen biraz daha kal...
+relative.hug.bad5=Şeey, sorun yok. Çok terlemişsin.
 
 ##############################################################################################
 
 # 5 good chats when talking to a child:
-child.chat.good1=I heard stories about you\! Are you a hero?
-child.chat.good2=Hi. I was going to go try and climb to the roof.
-child.chat.good3=Do you wanna go burn stuff with me?
-child.chat.good4=I'm going to be a hunter like you and kill many things\!
-child.chat.good5=Hi\! What are you doing today? I'm going swimmin'\!
+child.chat.good1=Senin hakkında bazı hikayeler duydum! Kahraman mısın?
+child.chat.good2=Selam. Çatıya tırmanmaya çalışıyordum.
+child.chat.good3=Benimle birlikte bir şeyler yakar mısın?
+child.chat.good4=Senin gibi avcı olacağım ve bir sürü şey öldüreceğim!
+child.chat.good5=Selam! Bugün napıyorsun? Ben yüzeceğim de!
 
 # 5 bad chats when talking to a child:
-child.chat.bad1=If you don't give me cookies I'll hold my breath.
-child.chat.bad2=My parents said not to talk to you, that you're bad.
-child.chat.bad3=*Laughs* You look smelly\!
-child.chat.bad4=Oh yeah? Well I'm gonna egg your house\!
-child.chat.bad5=Lalala, I'm not listening\! Lalala.
+child.chat.bad1=Bana kurabiyelerimi vermezsen nefesimi tutarım.
+child.chat.bad2=Ailem seninle konuşmamı istemiyor, sen kötü birisin.
+child.chat.bad3=*Kahkaha* Berbat kokuyorsun!
+child.chat.bad4=Ah doğru? Sana bunun hesabını sorarım!
+child.chat.bad5=Lala lala laalaa, dinlemiyorum kiii! Laalaa.
 
 # 5 good jokes when talking to a child:
-child.joke.good1=You're funnier than daddy\!
-child.joke.good2=Tell me another one\!
-child.joke.good3=You're the funniest person alive\!
-child.joke.good4=I'm tellin' my momma that one\! *Laughs*
-child.joke.good5=It should eat a leaf\!
+child.joke.good1=Babamdan daha komiksin!
+child.joke.good2=Başka bir şey daha anlat!
+child.joke.good3=Yaşayan en komik kişisin!
+child.joke.good4=Bunu anneme anlatacağım! *Kahkaha*
+child.joke.good5=O yaprak yemeli!
 
 # 5 bad jokes when talking to a child:
-child.joke.bad1=I don't get it.
-child.joke.bad2=You're not funny. Really.
-child.joke.bad3=You need to stop...
-child.joke.bad4=But, who's apple?
-child.joke.bad5=Don't be mean\!
+child.joke.bad1=İnanmam.
+child.joke.bad2=Hiç komik değilsin. Cidden.
+child.joke.bad3=Artık durmalısın...
+child.joke.bad4=Ama, elma kim?
+child.joke.bad5=Kaba olma!
 
 # 5 good handshakes when talking to a child:
-child.handshake.good1=Hiya\! Someone I know likes you...
-child.handshake.good2=Dad said this is a very nice thing to do.
-child.handshake.good3=Now high five\! Down low... too slow\!
-child.handshake.good4=Hi stranger\!
-child.handshake.good5=*Giggles* I just cleaned a cow with this hand.
+child.handshake.good1=Heheey! Biliyorum birisi seni seviyor...
+child.handshake.good2=Babam bunun yapılan güzel bir şey olduğunu söyledi.
+child.handshake.good3=Şimdi çak beşlik!  Az aşağı... çok yavaş!
+child.handshake.good4=Merhaba yabancı!
+child.handshake.good5=*Kıkırdama* Bu elle ineği temizlemiştim.
 
 # 5 bad handshakes when talking to a child:
-child.handshake.bad1=Stranger danger...
-child.handshake.bad2=Mom, dad\! This person is trying to kidnap me\!
-child.handshake.bad3=Don't touch me I'm famous\!
-child.handshake.bad4=Ew, your hand has black stuff on it.
-child.handshake.bad5=I'll only shake your hand if you give me a diamond.
+child.handshake.bad1=Tehlikeli yabancı...
+child.handshake.bad2=Annee, babaa! Bu kişi beni kaçırmaya çalışıyor!
+child.handshake.bad3=Bana dokunma ben ünlü birisiyim!
+child.handshake.bad4=Aaah, elinde siyah bir şey var.
+child.handshake.bad5=Ancak bana elmas verirsen seninle el sıkışırım.
 
 # 5 good stories when talking to a child:
-child.tellstory.good1=Wow\! You're a beast\!
-child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
-child.tellstory.good3=Can you adopt me?\! You're awesome\!
-child.tellstory.good4=I went fishing and almost drowned.
-child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
+child.tellstory.good1=Vay be! Sen bir canavarsın!
+child.tellstory.good2=Büyüdüğümde senin gibi olmak istiyorum. Şişşt, babama söyleme.
+child.tellstory.good3=Beni evlat edinir misin?! İnanılmaz birisisin!
+child.tellstory.good4=Balık avlamaya gittim ve az kalsın boğuluyordum.
+child.tellstory.good5=Bu istediğim her şeyi almak anlamına mı geliyor? Yani "ödünç almak?"
 
 # 5 bad stories when talking to a child:
-child.tellstory.bad1=You're a meanie\!
-child.tellstory.bad2=I'm telling my mom what you said about her...
-child.tellstory.bad3=I believe you're speaking about my grandpa...
-child.tellstory.bad4=You're nothing but a scaredycat like dad said\!
-child.tellstory.bad5=How could you kill a poor chicken?
+child.tellstory.bad1=Çok aşağılık birisisin!
+child.tellstory.bad2=Anneme ne dediğini söyleyeceğim...
+child.tellstory.bad3=Büyük baban hakkında konuştuğuna inanıyorum...
+child.tellstory.bad4=Sen hiçbir şeysin ama babamın dediğine göre tam bir ödleksin!
+child.tellstory.bad5=Nasıl zavallı bir tavuğu öldürürsün?
 
-child.greeting1=Hi, who are you?
-child.greeting2=My name's %Name%. What's your name?
-child.greeting3=Eek\! You look scary\!
+child.greeting1=Hey, kimsin?
+child.greeting2=Benim adım %Name%. Seninki ne?
+child.greeting3=Öğk! Korkunç görünüyorsun!
 
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
-childp.chat.good1=Oh, I was just going to go explorin' later.
-childp.chat.good2=Can we go camping? Please?\!
-childp.chat.good3=Hi, can you make me a cake?
-childp.chat.good4=Can I have my own room away from our house? That would be cool\!
-childp.chat.good5=Let's move into a cave\! That sounds so fun\!
+childp.chat.good1=Oh, daha sonra keşfetmeye gidecektim.
+childp.chat.good2=Kampa gidebilir miyiz? Lüütfeen?!
+childp.chat.good3=Selam, bana kek yapabilir misin?
+childp.chat.good4=Evimizden uzakta kendimin bir tane olabilir mi? Bu çok havalı olurdu!
+childp.chat.good5=Hadi mağaraya gidelim! Kulağa eğlenceli geliyor!
 
 # 5 bad chats when talking to an playerchild:
-childp.chat.bad1=%ParentOpposite% talks about them a lot...
-childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
-childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-childp.chat.bad4=I want a new daddy.
-childp.chat.bad5=I don't want a baby sister.
+childp.chat.bad1=%ParentOpposite% bunlar hakkında bolca konuştu...
+childp.chat.bad2=%ParentOpposite% bundan pek hoşlanacağını sanmıyorum.
+childp.chat.bad3=Bu şey %ParentOpposite%'nın "boşanma" diye kastettiği şey mi?
+childp.chat.bad4=Yeni bir baba istiyorum.
+childp.chat.bad5=Kız kardeş filan istemiyorum.
 
 # 5 good jokes when talking to an playerchild:
-childp.joke.good1=*Laughs* Tell that one again\!
-childp.joke.good2=I've got to tell my friend that one\!
-childp.joke.good3=How did the creeper explode?\!
-childp.joke.good4=*Laughs*Why is there no longer 3 of them?
-childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
+childp.joke.good1=*Kahkaha* Bunu tekrar anlat!
+childp.joke.good2=Bunu arkadaşlarıma anlatacağım!
+childp.joke.good3=Dört ayaklı nasıl patladı?!
+childp.joke.good4=*Kahkaha* Neden artık üç tanesi var?
+childp.joke.good5=*Kahkaha* ... *Kahkaha*... *Kahkaha*
 
 # 5 bad jokes when talking to an playerchild:
-childp.joke.bad1=%ParentOpposite% said you were funny, though...
-childp.joke.bad2=I like knock knock jokes better.
-childp.joke.bad3=I don't get it, that was dumb.
-childp.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
-childp.joke.bad5=I'd rather have cake.
+childp.joke.bad1=%ParentOpposite% senin çok komik olduğunu söyledi, gerçi...
+childp.joke.bad2=Tak tak şakasını daha çok seviyorum.
+childp.joke.bad3=Bunu sevmedim, aptalcaydı.
+childp.joke.bad4=*Esneme* Arkadaşımın babası senden daha havalı ve eğlenceli.
+childp.joke.bad5=Kek yemeyi tercih ederim.
 
 # 5 good handshakes when talking to an playerchild:
-childp.handshake.good1=Why do I need to learn this stuff? 
-childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-childp.handshake.good3=I'm gonna be just like you when I grow up\!
-childp.handshake.good4=Can I have cake now?
-childp.handshake.good5=I don't get it, but okay\! 
+childp.handshake.good1=Bunu neden öğrenmeliyim? 
+childp.handshake.good2=%ParentOpposite% bunun kibar bir şey olduğunu söyledi.
+childp.handshake.good3=Büyüdüğümde ben de senin gibi olacağım!
+childp.handshake.good4=Şimdi kek alabilir miyim?
+childp.handshake.good5=Anlamıyorum, fakat sorun yok! 
 
 # 5 bad handshakes when talking to an playerchild:
-childp.handshake.bad1=I spit on my hand.
-childp.handshake.bad2=You're such an old person.
-childp.handshake.bad3=Only losers shake hands.
-childp.handshake.bad4=I'll shake your hand if you give me cake.
-childp.handshake.bad5=No, you'll slip and hit me.
+childp.handshake.bad1=Elime tükürdüm.
+childp.handshake.bad2=Çok yaşlı birisisin.
+childp.handshake.bad3=Sadece kaybedenler el sıkışır.
+childp.handshake.bad4=Bana kek verirsen elini sıkarım.
+childp.handshake.bad5=Hayır, sen kayacaksın ve bana vuracaksın.
 
 # 5 good stories when talking to an playerchild:
-childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
-childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
-childp.tellstory.good3=One day I'll kill more creepers than you\!
-childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
-childp.tellstory.good5=Did the lava hurt? 
+childp.tellstory.good1=%ParentOpposite% gerçekten bunu yaptı mı?! Elbiselerine ne oldu?
+childp.tellstory.good2=Ben de bir mağarayı keşfetmek istiyorum! Hadi gidelim!
+childp.tellstory.good3=Bir gün senden daha çok dört ayaklı öldüreceğim!
+childp.tellstory.good4=Ov, ov, ov! Biz de bir ağaca tırmanabilir miyiz?!
+childp.tellstory.good5=Lav canını yakar mı? 
 
 # 5 bad stories when talking to an playerchild:
-childp.tellstory.bad1=I don't want to hear about grandma.
-childp.tellstory.bad2=You always say that. I just want a pet.
-childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
-childp.tellstory.bad4=You said you didn't eat the cake and cookies...
-childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
+childp.tellstory.bad1=Babaannem hakkında bir şey duymak istemiyorum.
+childp.tellstory.bad2=Bunu her zaman söylüyorsun. Artık bir evcil hayvan istiyorum.
+childp.tellstory.bad3=%ParentOpposite% de sana yalan söylemiş.
+childp.tellstory.bad4=Kek ve kurabiyeleri yemediğini söylemiştin...
+childp.tellstory.bad5=Bazıları senin kötü birisi olduğunu söylüyor ve ben onlara inanıyorum!
 
 # 5 good hugs when talking to an playerchild:
-childp.hug.good1=*Kisses* You're the best ever\!
-childp.hug.good2=I'm going to be as strong as you are one day\!
-childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-childp.hug.good4=I love hugs\! You're soft and warm\!
-childp.hug.good5=You should hug %ParentOpposite% too\!
+childp.hug.good1=*Öpme* Sen en iyisisin!
+childp.hug.good2=Ben de bir gün senin gibi güçlü olacağım!
+childp.hug.good3=Neden %ParentOpposite% daha çok sarılmıyor?
+childp.hug.good4=Sarılmayı seviyorum! Yumuşak ve sıcacıksın!
+childp.hug.good5=%ParentOpposite% ile de sarılmalısın!
 
 # 5 bad hugs when talking to an playerchild:
-childp.hug.bad1=I'm too old for hugs\!
-childp.hug.bad2=Stop it\! I don't want people to see\!
-childp.hug.bad3=Go away, you're so annoying\!
-childp.hug.bad4=Just leave me alone or give me some cookies\!
-childp.hug.bad5=I'd rather hug a skeleton. 
+childp.hug.bad1=Sarılmak için çok büyüğüm!
+childp.hug.bad2=Yapma şunu! Başkalarının bunu görmesini istemiyorum!
+childp.hug.bad3=Git burdan, sinirlerimi bozuyorsun!
+childp.hug.bad4=Beni yalnız bırak veya biraz kurabiye ver!
+childp.hug.bad5=İskelete sarılmayı terci ederim. 
 
-childp.greeting1=Hey there\!
-childp.greeting2=Hey, what's going on?
-childp.greeting3=What are you doing?
-childp.greeting4=Where are you going?
+childp.greeting1=Merhaba!
+childp.greeting2=Hey, nasıl gidiyor?
+childp.greeting3=Ne yapıyorsun?
+childp.greeting4=Nereye gidiyorsun?
 
 ##############################################################################################
 
 # 5 good chats when talking to an spouse:
-spouse.chat.good1=I cleaned the entire house. How was your day?
-spouse.chat.good2=Honey, let's go camping sometime. Doesn't that sound like fun?
-spouse.chat.good3=So today I saw a spider. It was huge so I ran away.
-spouse.chat.good4=We should build a new house together\!
-spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good\!
+spouse.chat.good1=Tüm evi temizledim. Senin günün nasıldı?
+spouse.chat.good2=Balım, hadi bir yerlere kamp yapmaya gidelim. Yoksa eğlenceli görünmüyor mu?
+spouse.chat.good3=Bugün bir örümcek gördüm. Çok büyük olunca kaçtım.
+spouse.chat.good4=Birlikte yeni bir ev yapmalıyız!
+spouse.chat.good5=Öbür gün neredeyse lav çukuruna gidiyordum. Bu iyi olmazdı!
 
 # 5 bad chats when talking to an spouse:
-spouse.chat.bad1=I know we're not the poorest family, but...
-spouse.chat.bad2=I love being around you but I need some space.
-spouse.chat.bad3=Sometimes I wish I had my own "cave" to escape from you and everyone.
-spouse.chat.bad4=Go away, I'm not in the mood.
-spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
+spouse.chat.bad1=Biz en fakir aile değiliz, fakat...
+spouse.chat.bad2=Etrafında olmayı seviyorum ama biraz yere ihtiyacım var.
+spouse.chat.bad3=Bazen senden ve herkesten kaçmak için keşke mağaram olsa diyorum.
+spouse.chat.bad4=Git burdan, iyi değilim.
+spouse.chat.bad5=Nerelerdeydin? Arkamda birilerini görüyor musun?
 
 # 5 good jokes when talking to an spouse:
-spouse.joke.good1=*Laughs* I married you for your humor\!
-spouse.joke.good2=You should throw an egg at him next time\!
-spouse.joke.good3=Then the wolf fell in love with the sheep.
-spouse.joke.good4=That never gets old\!
-spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up?
+spouse.joke.good1=*Kahkaha* Esprin için seninle evlendim!
+spouse.joke.good2=Sonraki sefer ona yumurta fırlatmayı denemelisin!
+spouse.joke.good3=Sonra kurt kuzuya aşık olmuş.
+spouse.joke.good4=Bu asla eskimez!
+spouse.joke.good5=İşte senin için bir tane daha... Kaç tane tavuk dört ayaklıyı patlatır?
 
 # 5 bad jokes when talking to an spouse:
-spouse.joke.bad1=Lame...
-spouse.joke.bad2=Sweetheart, you're not funny.
-spouse.joke.bad3=Ha...Ha...Ha...Not funny.
-spouse.joke.bad4=You need to erase that from your mind.
-spouse.joke.bad5=Okay...
+spouse.joke.bad1=Sakat...
+spouse.joke.bad2=Tatlım, komik değilsin.
+spouse.joke.bad3=Ha...Ha...Ha...Hiç komik değil.
+spouse.joke.bad4=Bunu aklından silmelisin.
+spouse.joke.bad5=Peki...
 
 # 5 good handshakes when talking to an spouse:
-spouse.handshake.good1=Your hand is so soft\!
-spouse.handshake.good2=Our hands fit perfectly together.
-spouse.handshake.good3=One day people will forget to shake hands.
-spouse.handshake.good4=Our children will need to be this polite.
-spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
+spouse.handshake.good1=Elin çok yumuşak!
+spouse.handshake.good2=Elimiz birlikteyken harika görünüyor.
+spouse.handshake.good3=Bir gün gelecek insanlar el sıkışmayı unutacaklar.
+spouse.handshake.good4=Evlatlarımız kibar olmak zorunda.
+spouse.handshake.good5=*El sıkışmaya devam* Durulacağı zaman bana söyle!
 
 # 5 bad handshakes when talking to an spouse:
-spouse.handshake.bad1=Handshake? How about a kiss, instead?
-spouse.handshake.bad2=*Squeezes hand hard*
-spouse.handshake.bad3=Your hand is nasty, no way.
-spouse.handshake.bad4=They have germs on them.
-spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
+spouse.handshake.bad1=El sıkışma? Onun yerine öpüşmeye ne dersin?
+spouse.handshake.bad2=*Eli fazla sıkmak*
+spouse.handshake.bad3=Elin çok iğrenç, asla olmaz.
+spouse.handshake.bad4=Ellerin mikroplu.
+spouse.handshake.bad5=Elimi sıkmak yerine neden bir işte çalışmayı düşünmüyorsun?
 
 # 5 good stories when talking to an spouse:
-spouse.tellstory.good1=Let's not tell our children that one...
-spouse.tellstory.good2=You were so rebellious\! I love it\!
-spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
-spouse.tellstory.good4=It was that moment when I fell in love with you\!
-spouse.tellstory.good5=Wow, you're the best hunter ever\!
+spouse.tellstory.good1=Bunu çocuklarımıza anlatmayalım...
+spouse.tellstory.good2=Çok asisin! Bunu sevdim!
+spouse.tellstory.good3=Onların yüzüklerini kaybettiğini ailene anlattın mı?
+spouse.tellstory.good4=O an sana aşık olduğum andı!
+spouse.tellstory.good5=Vay, sen gelmiş geçmiş en iyi avcısın!
 
 # 5 bad stories when talking to an spouse:
-spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
-spouse.tellstory.bad2=Don't do something that reckless\!
-spouse.tellstory.bad3=You have a family to think about\!
-spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
-spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
+spouse.tellstory.bad1=Zararsız bir inekten başka bir şey öldürdüğün zaman benimle konuş.
+spouse.tellstory.bad2=Düşüncesizce bir şey yapma!
+spouse.tellstory.bad3=Düşünmen gereken bir ailen var!
+spouse.tellstory.bad4=...Onları sevdiysen neden benim yerime onlarla evlenmiyorsun?
+spouse.tellstory.bad5=Neden kabarık pembe bir iç çamaşırı giydin? Onlar da kimin?
 
 # 5 good flirts when talking to an spouse:
-spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
-spouse.flirt.good2=Aw, you said that when we first met.
-spouse.flirt.good3=Baby, you're so cute\!
-spouse.flirt.good4=You bet I am\!
-spouse.flirt.good5=*Winks* You still got it\!
+spouse.flirt.good1=*Yüz Kızarır* Tamaam, bunun gibi bir şey yapmaya ne dersin!
+spouse.flirt.good2=Ah, bunu ilk buluştuğumuzda söylemiştin.
+spouse.flirt.good3=Bebeğim, çok tatlısın!
+spouse.flirt.good4=Tabii ki benim!
+spouse.flirt.good5=*Göz kırpma* Hala iyisin!
 
 # 5 bad flirts when talking to an spouse:
-spouse.flirt.bad1=*Sighs*
-spouse.flirt.bad2=This one is getting old... like you.
-spouse.flirt.bad3=We're married, we don't have to do this anymore.
-spouse.flirt.bad4=Talk to the tree, it cares more.
-spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
+spouse.flirt.bad1=*İç çekme*
+spouse.flirt.bad2=Bu eskidi... senin gibi.
+spouse.flirt.bad3=Biz evlendik, bunu daha fazla yapmamalıyız.
+spouse.flirt.bad4=Ağaca konuş, o daha çok umursar.
+spouse.flirt.bad5=Hıı tabii tabii... Ne demiştin?
 
 # 5 good hugs when talking to an spouse:
-spouse.hug.good1=I love being entangled in your arms\!
-spouse.hug.good2=Wait, don't leave... you're warm.
-spouse.hug.good3=Would you rather only being able to hug or kiss?
-spouse.hug.good4=*Kisses* 
-spouse.hug.good5=Let's stay like this forever\!
+spouse.hug.good1=Kollarınla dolanmayı seviyorum!
+spouse.hug.good2=Bekle gitme lütfen... Sıcacıksın.
+spouse.hug.good3=Bunun yerine öpüşmek istemez misin?
+spouse.hug.good4=*Öpüşme* 
+spouse.hug.good5=Böyle sonsuza dek kalalım!
 
 # 5 bad hugs when talking to an spouse:
-spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
-spouse.hug.bad3=Man, you stink.
-spouse.hug.bad4=What do you want?
-spouse.hug.bad5=Huge someone else.
+spouse.hug.bad1=Eski eşinle neden sarılmıyorsun?
+spouse.hug.bad2=Hayır teşekkürler.
+spouse.hug.bad3=Ah be adam, kokuyorsun.
+spouse.hug.bad4=Ne istiyorsun?
+spouse.hug.bad5=Başkasına sarıl.
 
 # 5 good kisses when talking to an spouse:
-spouse.kiss.good1=I fall in love all over again when our lips meet\!
-spouse.kiss.good2=Time stops ticking when I'm with you.
-spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
-spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
+spouse.kiss.good1=Dudaklarımız buluştuğunda tekrar tekrar aşık oluyorum!
+spouse.kiss.good2=Seninleyken zaman akmayı kesse.
+spouse.kiss.good3=Kek kadar lezzetli!
+spouse.kiss.good4=Seni seviyorum bebeğim!
+spouse.kiss.good5=Seni bu dünyada hiçbir şeye değişmem! 
 
 # 5 bad kisses when talking to an spouse:
-spouse.kiss.bad1=Not where someone can see us...
-spouse.kiss.bad2=We don't have to if you don't want to.
-spouse.kiss.bad3=Your breath smells like wolf kibble.
-spouse.kiss.bad4=Go take a drink from the lake.
-spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
+spouse.kiss.bad1=Burada olmaz birileri görebilir...
+spouse.kiss.bad2=İstemiyorsan yapmak zorunda değiliz.
+spouse.kiss.bad3=Nefesin kurt eti gibi kokuyor.
+spouse.kiss.bad4=Git de gölden iç.
+spouse.kiss.bad5=Şimdi evliyiz ve sana söyleyebilirim ki öpüşürken çok gürültülü oluyorsun.
 
-spouse.greeting1=Hi honey, where have you been?
-spouse.greeting2=Hello dear, how is your day going?
-spouse.greeting3=Oh, %PlayerName%\! You look tired.
-spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
-spouse.greeting5=%PlayerName%, you're back\! I missed you.
+spouse.greeting1=Merhaba tatlım, nerelerdeydin?
+spouse.greeting2=Selam hayatım, günün nasıldı?
+spouse.greeting3=Oh, %PlayerName%! Yorgun görünüyorsun.
+spouse.greeting4=Hey %PlayerName%! Aç görünüyorsun. Bir şeyler pişirmemi ister misin?
+spouse.greeting5=%PlayerName%, geri döndün! Seni özledim.
 
 spouse.lowhearts.greeting1=There you are. Where did you go? You never tell me anything anymore.
 spouse.lowhearts.greeting2=Are you going to say hi to me this time?
@@ -6617,105 +6615,106 @@ spouse.endmarriage3=I'm sorry - I thought we could work things out, but it's not
 spouse.endmarriage4=%PlayerName%, this is goodbye. Don't try to follow me.
 notify.spouseendedmarriage=%Name% has ended their marriage with you.
 
-relative.gift.bad1=You shouldn't have... literally.
-relative.gift.bad2=Eh, you keep it.
-relative.gift.bad3=Ew, where did you find this? In a mine?
-relative.gift.bad4=I'm not touching that.
+relative.gift.bad1=Tam olmamalısın.
+relative.gift.bad2=Eh, sende kalsın.
+relative.gift.bad3=Nerden buldun bunu? Madende mi?
+relative.gift.bad4=Buna dokunmayacağım.
 
-relative.gift.good1=Oh thank you.
-relative.gift.good2=Thank you for thinking of me, %PlayerName%.
-relative.gift.good3=How thoughtful of you.
-relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Youre too kind.
+relative.gift.good1=Oh teşekkürler.
+relative.gift.good2=Beni düşündüğün için teşekkürler, %PlayerName%.
+relative.gift.good3=Ne kadar düşüncelisin.
+relative.gift.good4=Bunları sevdiğimi nasıl bildin?
+relative.gift.good5=You're too kind.
 
-relative.gift.better1=I have the perfect spot for this.
-relative.gift.better2=Thank you very much, %PlayerName%.
-relative.gift.better3=This is lovely.
-relative.gift.better4=I appreciate you thinking about me.
-relative.gift.better5=Ill take good care of it.
+relative.gift.better1=Bunun için harika bir yerim var.
+relative.gift.better2=Çok teşekkür ederim, %PlayerName%.
+relative.gift.better3=Bu çok hoş.
+relative.gift.better4=Beni düşündüğün için minnettarım.
+relative.gift.better5=I'll take good care of it.
 
-relative.gift.best1=Ive always wanted one of these\!
-relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
-relative.gift.best3=You give the best gifts, %PlayerName%\!
-relative.gift.best4=I can't believe this, you're too sweet, thank you\!
-relative.gift.best5=You know me like the back of your hand\!
+relative.gift.best1=I've always wanted one of these!
+relative.gift.best2=Bu aldığım en güzel hediye %PlayerName%!
+relative.gift.best3=Bana en güzel hediyeyi verdin %PlayerName%!
+relative.gift.best4=Buna inanamıyorum, çok tatlısın, teşekkürler!
+relative.gift.best5=Beni avucunun içi gibi biliyorsun!
 
-parent.gift.bad1=Oh, uh, thanks but no thanks.
-parent.gift.bad2=I appreciate the thought, but you can keep it.
-parent.gift.bad3=Why can't you bring me something other than junk?
-parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
+parent.gift.bad1=Oh, avvh, teşekkürler fakat olmaz.
+parent.gift.bad2=Düşünceni takdir ediyorum ama sende kalsın.
+parent.gift.bad3=Neden bana çöpten farklı bir şey getirmiyorsun?
+parent.gift.bad4=Seni kırmak istemem ama bunu istemiyorum.
 
-parent.gift.good1=Oh, how thoughtful\!
-parent.gift.good2=Thank you very much\!
-parent.gift.good3=You always were my favorite.
+parent.gift.good1=Ohoo, ne kadar düşünceli!
+parent.gift.good2=Çok teşekkür ederiim!
+parent.gift.good3=Her zaman benim favorim oldun.
 
-parent.gift.better1=Hey, where did you get this? It's great\!
-parent.gift.better2=You didn't have to get this for me, thanks\!
-parent.gift.better3=You never have to give me anything, but thank you so much\!
+parent.gift.better1=Hadi ya, bunu nereden buldun? Bu çok güzel!
+parent.gift.better2=Bunu almana gerek yoktu, teşekkürler!
+parent.gift.better3=Bunu vermek zorunda değildin ama çok teşekkürler!
 
-parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
-parent.gift.best2=I lost this years ago, thanks\!
-parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
+parent.gift.best1=Bunu tekrar bulacağımı her zaman biliyordum. Çok teşekkürler!
+parent.gift.best2=Bunu yıllar önce kaybetmiştim, teşekkürler!
+parent.gift.best3=Sen çocukken bu senindi, bunu bulduğuna inanamıyorum!
 
-child.gift.bad1=Ew, I don't like this\!
-child.gift.bad2=Yuck\! I don't want this.
-child.gift.bad3=Why did you bring me this? It's dumb\!
-child.gift.bad4=I don't even know what this is\!
+child.gift.bad1=Şeey, bundan hoşlanmadım!
+child.gift.bad2=Iyy! Bunu istemiyorum.
+child.gift.bad3=Bunu neden bana getirdin? Bu çok aptalca!
+child.gift.bad4=Bunun ne olduğu hakkında hiçbir fikrim yok!
 
-child.gift.good1=Is it...is it all mine?
-child.gift.good2=Is this really for me?
-child.gift.good3=This is cool\!
+child.gift.good1=Bunlar... Bunların hepsi benim mi?
+child.gift.good2=Bu cidden benim için mi?
+child.gift.good3=Bu çok havalı!
 
-child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
-child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
+child.gift.better1=Harika! Bunu tüm arkadaşlarıma göstereceğim.
+child.gift.better2=Aa buldun! Bunu bir kaç önce kaybetmiştin.
+child.gift.better3=Bunlardan birisini arkadaşım çalmıştı. Benim için dövdün mü onu?
 
-child.gift.best1=%PlayerName%, you give the best presents\!
-child.gift.best2=Finally\! My friend will stop bragging now.
-child.gift.best3=Wow\! Where did you get this thing?
-child.gift.best4=My Dad has one of these. Now I have one too\!
+child.gift.best1=%PlayerName%, bana en güzel hediyeyi verdin!
+child.gift.best2=Sonunda! Artık arkadaşlarım övünmeyi kesecekler.
+child.gift.best3=Vaay! Bunu nereden buldun?
+child.gift.best4=Babamda bunlardan bir tane var. Ve artık benim de var!
 
-spouse.gift.bad1=Oh honey...this is just terrible.
-spouse.gift.bad2=Um, is this supposed to be a gift for me?
-spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
-spouse.gift.bad4=I thought you knew me better than that. I hate these.
+spouse.gift.bad1=Oh tatlıım... bu çok korkunç.
+spouse.gift.bad2=Aaam, bu sözde benim için bir hediye mi?
+spouse.gift.bad3=Kendi çöpünü kendin at! Ah, o bir hediye miydi?...özür dilerim.
+spouse.gift.bad4=Beni daha iyi tanıyorsun sanmıştım. Bunlardan nefret ederim.
 
-spouse.gift.good1=%PlayerName%, you're so sweet.
-spouse.gift.good2=Ah\! You're too good to me.
-spouse.gift.good3=This is unexpected, thank you, dear\!
-spouse.gift.good4=Aw, how sweet of you.
-spouse.gift.good5=Thanks, hun\!
+spouse.gift.good1=%PlayerName%, çok tatlısın.
+spouse.gift.good2=Aah! Benim için çok iyisin.
+spouse.gift.good3=Bu tarif edilemez bir şey, teşekkürler hayatım!
+spouse.gift.good4=Aaaw, ne kadar da tatlı.
+spouse.gift.good5=Teşekkürler, kaymağım!
 
-spouse.gift.better1=Oh wow, this is actually really nice\!
-spouse.gift.better2=I love it\! Thank you\!
-spouse.gift.better3=This is amazing, dear\!
-spouse.gift.better4=You got this for me? How sweet\!
-spouse.gift.better5=Oh, thank you %PlayerName%\!
+spouse.gift.better1=Aov vaay, bu gerçekten çok güzel!
+spouse.gift.better2=Buna bayıldım! Teşekkür ederim!
+spouse.gift.better3=Bu inanılmaz sevgilim!
+spouse.gift.better4=Bunu benim için mi aldın? Ne şeker ama!
+spouse.gift.better5=Oooh, teşekkürler %PlayerName%!
 
-spouse.gift.best1=Oh %PlayerName%, I love you\!
-spouse.gift.best2=You are *way* too good to me\!
-spouse.gift.best3=This must have been extremely expensive\! Thank you\!
-spouse.gift.best4=I...can't believe you'd get me something so thoughtful\!
+spouse.gift.best1=Oh %PlayerName%, seni seviyorum!
+spouse.gift.best2=Sen *gelir* benim için çok iyisin!
+spouse.gift.best3=Bu aşırı pahalı olmalı! Teşekkürler!
+spouse.gift.best4=Buna... Buna inanmıyorum, bana bir şey aldın ne kadar düşüncelisin!
 
-childp.gift.bad1=%ParentTitle%, this is a really bad gift.
-childp.gift.bad2=Ew, %ParentOpposite% gives better gifts\!
-childp.gift.bad3=Didn't you give me this like, last year?
-childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
+childp.gift.bad1=%ParentTitle%, gerçekten rezil bir hediye.
+childp.gift.bad2=Of, %ParentOpposite% daha iyi hediye verir!
+childp.gift.bad3=Bunun gibi bir hediyeyi zaten geçen sene vermemiş miydin?
+childp.gift.bad4=Bunu kolayca alabilirim, teşekkürler, %ParentTitle%.
 
-childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
-childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
-childp.gift.good3=This is much better than the last gift I got\!
-childp.gift.good4=Woo hoo\! It's mine, all mine\!
-childp.gift.good5=Can I...can I eat it?
+childp.gift.good1=Vay be çok havalı! Teşekkürler %ParentTitle%.
+childp.gift.good2=%ParentOpposite% bunlara 'seksi' dedi. Ne demek istedi?
+childp.gift.good3=Son hediyemden kat be kat daha iyi!
+childp.gift.good4=Vuuu huuu! Bu benim, hepsi benim!
+childp.gift.good5=Be...Ben bunu yiyebilir miyim?
 
-childp.gift.better1=For me? For free?\!
-childp.gift.better2=Ooh\! Shiny\!
-childp.gift.better3=I really like this, %ParentTitle%\!
-childp.gift.better4=All of my friends will be jealous now\!
-childp.gift.better5=This is great, %ParentTitle%\!
+childp.gift.better1=Benim için mi? Bedava mı?!
+childp.gift.better2=Ohoo! Parlaak!
+childp.gift.better3=Bunu gerçekten çok sevdim, %ParentTitle%!
+childp.gift.better4=Arkadaşlarımın hepsi kıskanacaklar!
+childp.gift.better5=Bu harika, %ParentTitle%!
 
-childp.gift.best1=This must have cost a fortune\!
-childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
-childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
-childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
-childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+childp.gift.best1=Bu servet değerinde olmalı!
+childp.gift.best2=%ParentTitle%, bunlardan birisini alacağını biliyordum. Biliyordum!
+childp.gift.best3=Heheey! Dünyanın en iyi %ParentTitle% benimle!
+childp.gift.best4=Bu çok harika! Hepsinin benim olduğuna inanmıyorum!
+childp.gift.best5=Teşekkürler, %ParentTitle%! En iyisi sensin!
+

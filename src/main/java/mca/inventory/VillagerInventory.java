@@ -11,7 +11,7 @@ public class VillagerInventory extends InventoryBasic
 {
 	public VillagerInventory() 
 	{
-		super(new TextComponentString("Villager Inventory"), 41);
+		super("Villager Inventory", true, 41);
 	}
 
 	public int getFirstSlotContainingItem(Item item) 

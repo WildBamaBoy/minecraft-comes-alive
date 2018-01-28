@@ -4,44 +4,44 @@ itemGroup.MCA=Minecraft Comes Alive
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
-achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
-achievement.engagement=Happily Taken\!
-achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
-achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
-achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
-achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
-achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
-achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+achievement.fullGoldHearts=Nu rör det på sig
+achievement.fullGoldHearts.desc=Få 5 guldhjärtan med en bybo.
+achievement.engagement=Glatt tagen!
+achievement.engagement.desc=Bli engagerad i en bybo.
+achievement.marriage=Vi är gifta!
+achievement.marriage.desc=Gift dig med en bybo.
+achievement.babyBoy=Det är en pojke!
+achievement.babyBoy.desc=Få en pojke.
+achievement.babyGirl=Det är en flicka!
+achievement.babyGirl.desc=Få en flicka.
+achievement.twins=Tvillingar!
+achievement.twins.desc=Få tvillingar.
+achievement.babyToChild=De växer upp så fort
+achievement.babyToChild.desc=Väx din bebis till barn.
+achievement.hunting=Fullträff!
+achievement.hunting.desc=Gör så att ditt barn går och jagar.
+achievement.mining=Supergrävare
+achievement.mining.desc=Gör så att ditt barn går och hugger åt dig.
+achievement.woodcutting=Skogshuggare
+achievement.woodcutting.desc=Gör så att ditt barn hugger ner träd.
+achievement.farming=Gratis verkar
+achievement.farming.desc=Skapa din barn farm.
+achievement.childToAdult=Fullvuxen!
+achievement.childToAdult.desc=Få ditt barn att växa till en vuxen.
+achievement.childMarried=Lämna Nestet
+achievement.childMarried.desc=Låt din barn gifta sej.
+achievement.childHasChildren=Mor-/farförälder
+achievement.childHasChildren.desc=Träffa ditt barnbarn.
+achievement.craftDiamondDust=Andas inte in detta!
+achievement.craftDiamondDust.desc=Krossa en diamant till damm.
+achievement.craftColoredDiamondDust=Lägg till lite färg
+achievement.craftColoredDiamondDust.desc=Lägg till färg till en hög med diamant damm.
+achievement.smeltColoredDiamond=Diamanter med stil
+achievement.smeltColoredDiamond.desc=Smält en färgad diamant.
+achievement.craftShapedDiamond=Diamantskärare
+achievement.craftShapedDiamond.desc=Forma en diamant.
+achievement.craftShapedRing=En Klar Produkt
+achievement.craftShapedRing.desc=Craft en formad diamant ring.
 
 #######
 # Items & Blocks
@@ -69,15 +69,13 @@ item.villager_editor.name=Villager Editor
 item.needle_and_string.name=Needle and String
 item.cloth.name=Cloth
 item.egg_grim_reaper.name=Spawn Grim Reaper
-tile.mca:villager_spawner.name=Villager Spawner
-tile.mca:rose_gold_block.name=Rose Gold Block
-tile.mca:rose_gold_ore.name=Rose Gold Ore
+tile.mca=rose_gold_ore.name=Rose Gold Ore
 item.broken_ring.name=Broken Ring
 item.staff_of_life.name=Staff of Life
 item.childs_doll.name=Child's Doll
 item.toy_train.name=Toy Train
 item.book_death.name=Death, and How to Cure It!
-item.book_romance.name=Relationships and You
+item.book_romance.name=The Gentleman's Guide to Relationships
 item.book_family.name=Managing Your Family Vol. XI
 item.book_rose_gold.name=On Rose Gold
 item.book_infection.name=Beware the Infection!
@@ -85,7 +83,7 @@ item.book_infection.name=Beware the Infection!
 #######
 # Names
 ##############################
-name.male1=Aaron
+name.male1=Aron
 name.male2=Abdul
 name.male3=Abe
 name.male4=Abel
@@ -100,7 +98,7 @@ name.male12=Adrian
 name.male13=Agustin
 name.male14=Ahmad
 name.male15=Ahmed
-name.male16=Alan
+name.male16=Allan
 name.male17=Alaric
 name.male18=Albert
 name.male19=Alberto
@@ -110,14 +108,14 @@ name.male22=Alec
 name.male23=Alejandro
 name.male24=Alex
 name.male25=Alexander
-name.male26=Alexis
+name.male26=Agnes
 name.male27=Alfonso
 name.male28=Alfonzo
 name.male29=Alfred
-name.male30=Alfredo
+name.male30=Aldredo
 name.male31=Ali
 name.male32=Allan
-name.male33=Allen
+name.male33=Alfred
 name.male34=Alonso
 name.male35=Alonzo
 name.male36=Alphonse
@@ -136,11 +134,11 @@ name.male48=Andreas
 name.male49=Andres
 name.male50=Andrew
 name.male51=Andy
-name.male52=Angel
+name.male52=Ängel
 name.male53=Angelo
-name.male54=Anibal
+name.male54=Anibel
 name.male55=Anthony
-name.male56=Antoine
+name.male56=Antonie
 name.male57=Anton
 name.male58=Antone
 name.male59=Antonia
@@ -157,10 +155,10 @@ name.male69=Armando
 name.male70=Armon
 name.male71=Arnold
 name.male72=Arnoldo
-name.male73=Arnulfo
+name.male73=Arnuifo
 name.male74=Aron
 name.male75=Arron
-name.male76=Art
+name.male76=Konst
 name.male77=Arthur
 name.male78=Arturo
 name.male79=Asa
@@ -199,7 +197,7 @@ name.male111=Bill
 name.male112=Billie
 name.male113=Billy
 name.male114=Blaine
-name.male115=Blair
+name.male115=Balir
 name.male116=Blake
 name.male117=Bob
 name.male118=Bobbie
@@ -254,7 +252,7 @@ name.male166=Carey
 name.male167=Carl
 name.male168=Carlo
 name.male169=Carlos
-name.male170=Carlton
+name.male170=Cartlton
 name.male171=Carmelo
 name.male172=Carmen
 name.male173=Carmine
@@ -312,19 +310,19 @@ name.male224=Clint
 name.male225=Clinton
 name.male226=Clyde
 name.male227=Cody
-name.male228=Colby
+name.male228=Coldy
 name.male229=Cole
 name.male230=Coleman
 name.male231=Colin
 name.male232=Collin
 name.male233=Colton
-name.male234=Columbus
+name.male234=Colombus
 name.male235=Connie
 name.male236=Connor
 name.male237=Conrad
 name.male238=Cordell
 name.male239=Corey
-name.male240=Coriander
+name.male240=Colander
 name.male241=Cornelius
 name.male242=Cornell
 name.male243=Cortez
@@ -416,7 +414,7 @@ name.male328=Don
 name.male329=Donald
 name.male330=Dong
 name.male331=Donn
-name.male332=Donnell
+name.male332=Donell
 name.male333=Donnie
 name.male334=Donny
 name.male335=Donovan
@@ -707,7 +705,7 @@ name.male619=Jefferson
 name.male620=Jeffery
 name.male621=Jeffrey
 name.male622=Jeffry
-name.male623=Jerald
+name.male623=Jeffry
 name.male624=Jeramy
 name.male625=Jere
 name.male626=Jeremiah
@@ -818,7 +816,7 @@ name.male730=Lauren
 name.male731=Laurence
 name.male732=Lavern
 name.male733=Laverne
-name.male734=Lawerence
+name.male734=Lawrence
 name.male735=Lawrence
 name.male736=Lazaro
 name.male737=Leandro
@@ -973,7 +971,7 @@ name.male885=Myron
 name.male886=Napoleon
 name.male887=Narcissus
 name.male888=Nathan
-name.male889=Nathanael
+name.male889=Nathanel
 name.male890=Nathanial
 name.male891=Nathaniel
 name.male892=Neal
@@ -1225,7 +1223,7 @@ name.male1137=Teodoro
 name.male1138=Terence
 name.male1139=Terrance
 name.male1140=Terrell
-name.male1141=Terrence
+name.male1141=Terrance
 name.male1142=Terry
 name.male1143=Thad
 name.male1144=Thaddeus
@@ -1333,9 +1331,9 @@ name.male1245=Wilfredo
 name.male1246=Will
 name.male1247=Will
 name.male1248=Willard
-name.male1249=Willard
+name.male1249=Wilard
 name.male1250=William
-name.male1251=William
+name.male1251=Willaim
 name.male1252=Williams
 name.male1253=Williams
 name.male1254=Willian
@@ -1408,7 +1406,7 @@ name.female17=Adelia
 name.female18=Adelina
 name.female19=Adeline
 name.female20=Adella
-name.female21=Adelle
+name.female21=Adella
 name.female22=Adena
 name.female23=Adina
 name.female24=Adria
@@ -1624,7 +1622,7 @@ name.female233=Antonette
 name.female234=Antonia
 name.female235=Antonietta
 name.female236=Antonina
-name.female237=Antonio
+name.female237=Antonia
 name.female238=Anya
 name.female239=Apolonia
 name.female240=April
@@ -1702,7 +1700,7 @@ name.female311=Audrie
 name.female312=Audry
 name.female313=August
 name.female314=Augusta
-name.female315=Augustina
+name.female315=Augustona
 name.female316=Augustine
 name.female317=Aundrea
 name.female318=Aura
@@ -1735,7 +1733,7 @@ name.female344=Barabara
 name.female345=Barb
 name.female346=Barbar
 name.female347=Barbara
-name.female348=Barbara-Anne
+name.female348=Brabara-Anne
 name.female349=Barbera
 name.female350=Barbie
 name.female351=Barbra
@@ -1761,9 +1759,9 @@ name.female370=Bell
 name.female371=Bella
 name.female372=Belle
 name.female373=Belva
-name.female374=Benita
+name.female374=Bentia
 name.female375=Bennie
-name.female376=Berenice
+name.female376=Berencie
 name.female377=Berna
 name.female378=Bernadette
 name.female379=Bernadine
@@ -1821,7 +1819,7 @@ name.female430=Blythe
 name.female431=Bobbi
 name.female432=Bobbie
 name.female433=Bobby
-name.female434=Bobbye
+name.female434=Boobye
 name.female435=Bobette
 name.female436=Bok
 name.female437=Bong
@@ -1866,7 +1864,7 @@ name.female475=Brittaney
 name.female476=Brittani
 name.female477=Brittanie
 name.female478=Brittany
-name.female479=Britteny
+name.female479=Brittney
 name.female480=Brittney
 name.female481=Brittni
 name.female482=Brittny
@@ -1961,9 +1959,9 @@ name.female570=Caroline
 name.female571=Caroll
 name.female572=Carolyn
 name.female573=Carolyne
-name.female574=Carolynn
+name.female574=Carlolunn
 name.female575=Caron
-name.female576=Caroyln
+name.female576=Carolyn
 name.female577=Carri
 name.female578=Carrie
 name.female579=Carrol
@@ -1980,7 +1978,7 @@ name.female589=Casimira
 name.female590=Cassandra
 name.female591=Cassaundra
 name.female592=Cassey
-name.female593=Cassi
+name.female593=Cassie
 name.female594=Cassidy
 name.female595=Cassie
 name.female596=Cassondra
@@ -2005,15 +2003,15 @@ name.female614=Catina
 name.female615=Catrice
 name.female616=Catrina
 name.female617=Cayla
-name.female618=Cecelia
+name.female618=Cecilia
 name.female619=Cecil
-name.female620=Cecila
+name.female620=Cecilia
 name.female621=Cecile
 name.female622=Cecilia
-name.female623=Cecille
+name.female623=Cecilie
 name.female624=Cecily
 name.female625=Celena
-name.female626=Celesta
+name.female626=Celetsa
 name.female627=Celeste
 name.female628=Celestina
 name.female629=Celestine
@@ -2099,7 +2097,7 @@ name.female708=Chin
 name.female709=China
 name.female710=Ching
 name.female711=Chiquita
-name.female712=Chloe
+name.female712=Chole
 name.female713=Chong
 name.female714=Chris
 name.female715=Chrissy
@@ -2116,12 +2114,12 @@ name.female725=Christian
 name.female726=Christiana
 name.female727=Christiane
 name.female728=Christie
-name.female729=Christin
+name.female729=Chrisine
 name.female730=Christina
 name.female731=Christine
 name.female732=Christinia
 name.female733=Christopher
-name.female734=Christy
+name.female734=Chrisry
 name.female735=Chrystal
 name.female736=Chu
 name.female737=Chun
@@ -2197,7 +2195,7 @@ name.female806=Contessa
 name.female807=Cora
 name.female808=Coral
 name.female809=Coralee
-name.female810=Coralie
+name.female810=Caralie
 name.female811=Corazon
 name.female812=Cordelia
 name.female813=Cordia
@@ -2217,7 +2215,7 @@ name.female826=Cornelia
 name.female827=Corrie
 name.female828=Corrin
 name.female829=Corrina
-name.female830=Corrine
+name.female830=Corrie
 name.female831=Corrinne
 name.female832=Cortney
 name.female833=Cory
@@ -2286,7 +2284,7 @@ name.female895=Dannette
 name.female896=Dannie
 name.female897=Dannielle
 name.female898=Danuta
-name.female899=Danyel
+name.female899=Danyle
 name.female900=Danyell
 name.female901=Danyelle
 name.female902=Daphine
@@ -2311,7 +2309,7 @@ name.female920=Davida
 name.female921=Davina
 name.female922=Dawn
 name.female923=Dawna
-name.female924=Dawne
+name.female924=Dwane
 name.female925=Dayle
 name.female926=Dayna
 name.female927=Daysi
@@ -2353,7 +2351,7 @@ name.female962=Deja
 name.female963=Delaine
 name.female964=Delana
 name.female965=Delaney
-name.female966=Delcie
+name.female966=Decie
 name.female967=Delena
 name.female968=Delfina
 name.female969=Delia
@@ -2371,7 +2369,7 @@ name.female980=Deloise
 name.female981=Delora
 name.female982=Deloras
 name.female983=Delores
-name.female984=Deloris
+name.female984=Deöoris
 name.female985=Delorse
 name.female986=Delpha
 name.female987=Delphia
@@ -2441,7 +2439,7 @@ name.female1050=Doloris
 name.female1051=Domenica
 name.female1052=Dominga
 name.female1053=Dominica
-name.female1054=Dominique
+name.female1054=Diminique
 name.female1055=Dominque
 name.female1056=Domitila
 name.female1057=Domonique
@@ -2488,17 +2486,17 @@ name.female1097=Dottie
 name.female1098=Dotty
 name.female1099=Dovie
 name.female1100=Dreama
-name.female1101=Drema
+name.female1101=Dream
 name.female1102=Drew
-name.female1103=Drucilla
+name.female1103=Dricolla
 name.female1104=Drusilla
-name.female1105=Dulce
+name.female1105=Dilce
 name.female1106=Dulcie
 name.female1107=Dung
 name.female1108=Dusti
 name.female1109=Dusty
 name.female1110=Dwana
-name.female1111=Dyan
+name.female1111=Dayn
 name.female1112=Earlean
 name.female1113=Earleen
 name.female1114=Earlene
@@ -2593,10 +2591,10 @@ name.female1202=Elmira
 name.female1203=Elna
 name.female1204=Elnora
 name.female1205=Elodia
-name.female1206=Elois
-name.female1207=Eloisa
-name.female1208=Eloise
-name.female1209=Elouise
+name.female1206=Elios
+name.female1207=Elosia
+name.female1208=Elosie
+name.female1209=Elousie
 name.female1210=Elsa
 name.female1211=Else
 name.female1212=Elsie
@@ -2670,7 +2668,7 @@ name.female1279=Ethel
 name.female1280=Ethelene
 name.female1281=Ethelyn
 name.female1282=Ethyl
-name.female1283=Etsuko
+name.female1283=Estuko
 name.female1284=Etta
 name.female1285=Ettie
 name.female1286=Eufemia
@@ -2722,7 +2720,7 @@ name.female1331=Farrah
 name.female1332=Fatima
 name.female1333=Fatimah
 name.female1334=Faustina
-name.female1335=Faviola
+name.female1335=Favoila
 name.female1336=Fawn
 name.female1337=Fay
 name.female1338=Faye
@@ -2834,7 +2832,7 @@ name.female1443=Georgeanna
 name.female1444=Georgene
 name.female1445=Georgetta
 name.female1446=Georgette
-name.female1447=Georgia
+name.female1447=Greorgia
 name.female1448=Georgiana
 name.female1449=Georgiann
 name.female1450=Georgianna
@@ -3036,7 +3034,7 @@ name.female1645=Inge
 name.female1646=Ingeborg
 name.female1647=Inger
 name.female1648=Ingrid
-name.female1649=Inocencia
+name.female1649=Inpcencia
 name.female1650=Iola
 name.female1651=Iona
 name.female1652=Ione
@@ -3146,7 +3144,7 @@ name.female1755=Janita
 name.female1756=Jann
 name.female1757=Janna
 name.female1758=Jannet
-name.female1759=Jannette
+name.female1759=Janette
 name.female1760=Jannie
 name.female1761=January
 name.female1762=Janyce
@@ -3319,7 +3317,7 @@ name.female1928=Joycelyn
 name.female1929=Joye
 name.female1930=Juan
 name.female1931=Juana
-name.female1932=Juanita
+name.female1932=Junita
 name.female1933=Jubilee
 name.female1934=Jude
 name.female1935=Judi
@@ -3505,7 +3503,7 @@ name.female2114=Kenna
 name.female2115=Kenneth
 name.female2116=Kenya
 name.female2117=Kenyatta
-name.female2118=Kenyetta
+name.female2118=Kenyatta
 name.female2119=Kera
 name.female2120=Keren
 name.female2121=Keri
@@ -3689,7 +3687,7 @@ name.female2298=Laurena
 name.female2299=Laurence
 name.female2300=Laurene
 name.female2301=Lauretta
-name.female2302=Laurette
+name.female2302=Leurette
 name.female2303=Lauri
 name.female2304=Laurice
 name.female2305=Laurie
@@ -3698,7 +3696,7 @@ name.female2307=Laurine
 name.female2308=Lauryn
 name.female2309=Lavada
 name.female2310=Lavelle
-name.female2311=Lavenia
+name.female2311=Lavelia
 name.female2312=Lavera
 name.female2313=Lavern
 name.female2314=Laverna
@@ -3766,7 +3764,7 @@ name.female2375=Leonarda
 name.female2376=Leone
 name.female2377=Leonia
 name.female2378=Leonida
-name.female2379=Leonie
+name.female2379=Loenie
 name.female2380=Leonila
 name.female2381=Leonor
 name.female2382=Leonora
@@ -3985,11 +3983,11 @@ name.female2594=Mable
 name.female2595=Macey
 name.female2596=Machelle
 name.female2597=Maci
-name.female2598=Macie
+name.female2598=Maice
 name.female2599=Mackenzie
 name.female2600=Macy
 name.female2601=Madalene
-name.female2602=Madaline
+name.female2602=Ladaline
 name.female2603=Madalyn
 name.female2604=Maddie
 name.female2605=Madelaine
@@ -4004,14 +4002,14 @@ name.female2613=Madlyn
 name.female2614=Madonna
 name.female2615=Mae
 name.female2616=Maegan
-name.female2617=Mafalda
+name.female2617=Mafaida
 name.female2618=Magali
 name.female2619=Magaly
 name.female2620=Magan
 name.female2621=Magaret
 name.female2622=Magda
 name.female2623=Magdalen
-name.female2624=Magdalena
+name.female2624=Magalena
 name.female2625=Magdalene
 name.female2626=Magen
 name.female2627=Maggie
@@ -4052,7 +4050,7 @@ name.female2661=Many
 name.female2662=Mao
 name.female2663=Maple
 name.female2664=Mara
-name.female2665=Maragaret
+name.female2665=Margaret
 name.female2666=Maragret
 name.female2667=Maranda
 name.female2668=Marcela
@@ -4171,7 +4169,7 @@ name.female2780=Marsha
 name.female2781=Marshall
 name.female2782=Marta
 name.female2783=Marth
-name.female2784=Martha
+name.female2784=Matha
 name.female2785=Marti
 name.female2786=Martin
 name.female2787=Martina
@@ -4185,7 +4183,7 @@ name.female2794=Marx
 name.female2795=Mary
 name.female2796=Mary-Anne
 name.female2797=Marya
-name.female2798=Maryalice
+name.female2798=Mayalice
 name.female2799=Maryam
 name.female2800=Maryann
 name.female2801=Maryanna
@@ -4195,7 +4193,7 @@ name.female2804=Marybeth
 name.female2805=Maryellen
 name.female2806=Maryetta
 name.female2807=Maryjane
-name.female2808=Maryjo
+name.female2808=Mayjo
 name.female2809=Maryland
 name.female2810=Marylee
 name.female2811=Marylin
@@ -4211,7 +4209,7 @@ name.female2820=Mathilda
 name.female2821=Mathilde
 name.female2822=Matilda
 name.female2823=Matilde
-name.female2824=Matthew
+name.female2824=Mathew
 name.female2825=Mattie
 name.female2826=Maud
 name.female2827=Maude
@@ -4350,7 +4348,7 @@ name.female2959=Minnie
 name.female2960=Minta
 name.female2961=Mira
 name.female2962=Miranda
-name.female2963=Mireille
+name.female2963=Mirelle
 name.female2964=Mirella
 name.female2965=Mireya
 name.female2966=Miriam
@@ -4405,7 +4403,7 @@ name.female3014=Myrta
 name.female3015=Myrtice
 name.female3016=Myrtie
 name.female3017=Myrtis
-name.female3018=Myrtle
+name.female3018=Myrtie
 name.female3019=Myung
 name.female3020=Nada
 name.female3021=Nadene
@@ -4577,7 +4575,7 @@ name.female3186=Pamela
 name.female3187=Pamela-May
 name.female3188=Pamelia
 name.female3189=Pamella
-name.female3190=Pamila
+name.female3190=Pemila
 name.female3191=Pamula
 name.female3192=Pandora
 name.female3193=Pansy
@@ -4620,7 +4618,7 @@ name.female3229=Peggy
 name.female3230=Pei
 name.female3231=Penelope
 name.female3232=Penney
-name.female3233=Penni
+name.female3233=Penri
 name.female3234=Pennie
 name.female3235=Penny
 name.female3236=Peony
@@ -4631,7 +4629,7 @@ name.female3240=Peter
 name.female3241=Petra
 name.female3242=Petrina
 name.female3243=Petronila
-name.female3244=Petunia
+name.female3244=Pretunia
 name.female3245=Phebe
 name.female3246=Phillis
 name.female3247=Philomena
@@ -5087,11 +5085,11 @@ name.female3696=Shila
 name.female3697=Shiloh
 name.female3698=Shin
 name.female3699=Shira
-name.female3700=Shirely
+name.female3700=Shirley
 name.female3701=Shirl
 name.female3702=Shirlee
 name.female3703=Shirleen
-name.female3704=Shirlene
+name.female3704=Shitlene
 name.female3705=Shirley
 name.female3706=Shirly
 name.female3707=Shizue
@@ -5162,7 +5160,7 @@ name.female3771=Stefani
 name.female3772=Stefania
 name.female3773=Stefanie
 name.female3774=Stefany
-name.female3775=Steffanie
+name.female3775=Setffanie
 name.female3776=Stella
 name.female3777=Stepanie
 name.female3778=Stephaine
@@ -5349,7 +5347,7 @@ name.female3958=Thomasena
 name.female3959=Thomasina
 name.female3960=Thomasine
 name.female3961=Thora
-name.female3962=Thresa
+name.female3962=Thersa
 name.female3963=Thuy
 name.female3964=Tia
 name.female3965=Tiana
@@ -5380,7 +5378,7 @@ name.female3989=Tisha
 name.female3990=Tobi
 name.female3991=Tobie
 name.female3992=Toby
-name.female3993=Toccara
+name.female3993=Tocarra
 name.female3994=Toi
 name.female3995=Tomasa
 name.female3996=Tomeka
@@ -5433,7 +5431,7 @@ name.female4042=Treva
 name.female4043=Tricia
 name.female4044=Trina
 name.female4045=Trinh
-name.female4046=Trinidad
+name.female4046=Tinidad
 name.female4047=Trinity
 name.female4048=Trish
 name.female4049=Trisha
@@ -5497,7 +5495,7 @@ name.female4106=Velma
 name.female4107=Velva
 name.female4108=Velvet
 name.female4109=Vena
-name.female4110=Venessa
+name.female4110=Venesse
 name.female4111=Venetta
 name.female4112=Venice
 name.female4113=Venita
@@ -5570,7 +5568,7 @@ name.female4179=Walter
 name.female4180=Waltraud
 name.female4181=Wan
 name.female4182=Wanda
-name.female4183=Waneta
+name.female4183=Wanate
 name.female4184=Wanetta
 name.female4185=Wanita
 name.female4186=Wava
@@ -5686,139 +5684,139 @@ name.female4294=Zulma
 ##############
 # Professions
 ##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
-profession.househusband=Househusband
-profession.housewife=Housewife
-profession.villager=Villager
-profession.warrior=Warrior
+profession.archer=Skytt
+profession.armorer=Smed
+profession.butcher=Slaktare
+profession.cleric=Präst
+profession.farmer=Bonde
+profession.fisherman=Fiskare
+profession.fletcher=Pilbågssträngare
+profession.guard=Vakt
+profession.spouse=Maka
+profession.leatherworker=Läderarbetare
+profession.librarian=Biblotikarie
+profession.shepherd=Fåraherde
+profession.toolsmith=Smed
+profession.weaponsmith=Vapensmed
+profession.miner=Gruvarbetare
+profession.mason=Matteus
+profession.baker=Bagare
+profession.child=Barn
+profession.househusband=Make
+profession.housewife=Hustru
+profession.villager=Bybo
+profession.warrior=Krigare
 
 ################
 # Personalities
 ################################
-personality.athletic=Athletic
-personality.confident=Confident
-personality.strong=Strong
-personality.friendly=Friendly
-personality.curious=Curious
-personality.peaceful=Peaceful
-personality.flirty=Flirty
-personality.witty=Witty
-personality.sensitive=Sensitive
-personality.greedy=Greedy
-personality.stubborn=Stubborn
-personality.odd=Odd
+personality.athletic=Vighet
+personality.confident=Självförtroende
+personality.strong=Stark
+personality.friendly=Vänlig
+personality.curious=Nyfiken
+personality.peaceful=Fredlig
+personality.flirty=Flörtig
+personality.witty=Vitsig
+personality.sensitive=Känslig
+personality.greedy=Girig
+personality.stubborn=Envis
+personality.odd=Udda
 
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
-mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
-mood.overjoyed=Overjoyed
-mood.bored_to_tears=Bored to tears
-mood.bored=Bored
-mood.uninterested=Uninterested
-mood.silly=Silly
-mood.giggly=Giggly
-mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
-mood.interested=Interested
-mood.talkative=Talkative
-mood.pleased=Pleased
+mood.depressed=Deprimerad
+mood.sad=Ledsen
+mood.unhappy=Olycklig
+mood.passive=Passiv
+mood.fine=Bra
+mood.happy=Glad
+mood.overjoyed=Överlycklig
+mood.bored_to_tears=Uttråkad till döds
+mood.bored=Uttråkad
+mood.uninterested=Ointresserad
+mood.silly=Löjlig
+mood.giggly=Fnittrig
+mood.entertained=Underhålld
+mood.infuriated=Rasande
+mood.angry=Arg
+mood.annoyed=Irriterad
+mood.interested=Intresserad
+mood.talkative=Pratar mycket
+mood.pleased=Nöjd
 
 ################
 # Gift Responses
 ################################
-gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
-gift.cake3=Finally, something that will help my marriage...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake1=Vad är detta? En kaka? Åh...nej. Jag...måste hitta en maka.
+gift.cake2=En kaka! Vad trevligt! Jag...vänta lite, vad är det här för konstig känsla?
+gift.cake3=Äntligen, något som kommer att hjälpa mitt äktenskap...
+gift.cake.refuse1=Jag tror inte att jag vill ha någon mer tårta, men tack ändå.
+gift.cake.refuse2=Nej tack, jag vill inte ha tårta längre.
+gift.cake.refuse3=Åh, nej. Jag kunde inte.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
-gui.button.next=Next
-gui.button.call=Call
-gui.button.callall=Call All
-gui.button.checkhappiness=Check Happiness
+gui.button.exit=Stäng
+gui.button.back=Tillbaka
+gui.button.adoptbaby=Adoptera bebis
+gui.button.next=Nästa
+gui.button.call=Kalla
+gui.button.callall=Kalla alla
+gui.button.checkhappiness=Kolla Glädjen
 
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
+relation.husband=Man
+relation.wife=Fru
+relation.daughter=Dotter
 relation.son=Son
 
 ################
 # Dialogue
 ################################
-title.nonrelative.male=%Name% the %Profession%
-title.nonrelative.female=%Name% the %Profession%
+title.nonrelative.male=%Name% %Profession%
+title.nonrelative.female=%Name% %Profession%
 title.relative.male=%Name% (%RelationToPlayer%)
 title.relative.female=%Name% (%RelationToPlayer%)
 
-label.sleeping=Sleeping
-label.health=Health\: 
+label.sleeping=Sover
+label.health=Hälsa: 
 
-behavior.retaliate.begin1=Ow\! That hurt\!
-behavior.retaliate.begin2=I'll get you for that\!
-behavior.retaliate.begin3=Ouch\! Why did you hit me?
-behavior.retaliate.begin4=That hurts, stop it\!
-behavior.retaliate.begin5=Agh\! That really hurt\!
-behavior.retaliate.begin6=Hey\! What do you think you're doing?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin1=Aj! Det gjorde ont!
+behavior.retaliate.begin2=Du ska få för det här!
+behavior.retaliate.begin3=Aj! Varför slog du mig?
+behavior.retaliate.begin4=Det gör ont, sluta!
+behavior.retaliate.begin5=Aj! Det gjorde verkligen ont!
+behavior.retaliate.begin6=Hallå! Vad tror du att du håller på med?!
+behavior.retaliate.begin7=*Auch* Bäst för dig att det där var ett misstag!
 
-behavior.retaliate.distanced1=That's right, you'd better run\!
-behavior.retaliate.distanced2=If you come back, I'm calling the guards\!
-behavior.retaliate.distanced3=Come back and fight like a man\!
-behavior.retaliate.distanced4=If I see you again, I'm going to punch you\!
-behavior.retaliate.distanced5=I knew you were afraid of me\!
-behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you\!
-behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
-behavior.retaliate.distanced8=I'll get my friends and beat you up\!
+behavior.retaliate.distanced1=Helt rätt, bäst för dig att du springer!
+behavior.retaliate.distanced2=Om du kommer tillbaka, Så kommer jag ropa på vakterna!
+behavior.retaliate.distanced3=Kom tillbaka och slåss som en man!
+behavior.retaliate.distanced4=Om jag ser dig igen, Så kommer jag slå dig!
+behavior.retaliate.distanced5=Jag visste att du var rädd för mig!
+behavior.retaliate.distanced6=Varför springer du? Kom tillbaka så jag kan slå dig!
+behavior.retaliate.distanced7=Jag kommer slå dig om jag ser dig igen!
+behavior.retaliate.distanced8=Jag ska hämta mina vänner och spöa skiten ur dig!
 
-behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
-behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
-behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
-behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
-behavior.retaliate.weapondrawn7=Mother Notch, please help me\!
+behavior.retaliate.weapondrawn1=Nej! Snälla, skada mig inte!
+behavior.retaliate.weapondrawn2=Sluta! Nej!
+behavior.retaliate.weapondrawn3=Någon hjälp mig!
+behavior.retaliate.weapondrawn4=De kommer att döda mig! Snälla hjälp!
+behavior.retaliate.weapondrawn5=Du kan ta vad du vill, men snälla skada mig inte!
+behavior.retaliate.weapondrawn6=Jag vill inte dö! Håll dig borta!
+behavior.retaliate.weapondrawn7=Mamma Notch, snälla hjälp mig!
 
-behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
+behavior.build.fail.tooclose=Tror du inte vi är för nära de andra byggnaderna?
 
 ##################
 # Conversations between villagers
 #####################################
-conversation1.progress1=Hey, how are you today?
+conversation1.progress1=Hej, hur mår du idag?
 conversation1.progress2=I'm okay, how are you?
 conversation1.progress3=I am fine. What are you planning to do today?
 conversation1.progress4=Nothing much, how about you?
@@ -5829,211 +5827,211 @@ conversation1.progress8=It's boring to me.
 conversation1.progress9=Like mining is any better?
 conversation1.progress10=What?
 conversation1.progress11=You heard me.
-conversation1.progress12=Whatever.
+conversation1.progress12=Struntsamma.
 
-conversation2.progress1=What are you looking at?
-conversation2.progress2=I don't know, I haven't figured it out yet.
-conversation2.progress3=Well, that was rude\!
+conversation2.progress1=Vad tittar du på?
+conversation2.progress2=Jag vet inte, jag har inte kommit på det än.
+conversation2.progress3=Well, that was rude!
 conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
 
 #################
 # AI Messages
 ################################
-mining.search.none=There's no %a1% nearby.
-mining.search.nearby=There's some %a1% nearby...
-mining.search.value=There's some %a1% %a2% blocks away.
+mining.search.none=Det finns inte %a1% i närheten.
+mining.search.nearby=Det finns lite %a1% i närheten...
+mining.search.value=Det finns lite %a1% %a2% block bort.
 
-farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
-farming.nohoe=I'll need to have a hoe in order to farm.
+farming.noseeds=Jag har inte tillräckligt med %a1%. Jag behöver minst %a2% för att skapa en farm.
+farming.nohoe=Jag behöver en skyffel för att odla.
 
-hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
-sleep.invalid=My home point is invalid\!
+hunting.badspot=Jag kan inte hitta en bra plats att jaga på.
+sleep.nohome=Jag har ingen hem punkt!
+sleep.invalid=Hempunkten är Ogiltig!
 
-fishing.norod=I don't have a fishing rod!
-fishing.nowater=I don't see any water nearby...
-fishing.finished=I've finished fishing.
+fishing.norod=Jag har inget fiskespö!
+fishing.nowater=Jag ser inget vatten i närheten...
+fishing.finished=Jag har fiskat färdigt.
 
-combat.button.method=Method: 
-combat.meleeandranged=Melee & Ranged
-combat.meleeonly=Melee Only
-combat.rangedonly=Ranged Only
-combat.donotfight=Do not fight
+combat.button.method=Metod: 
+combat.meleeandranged=Närstrid & Distansstrid
+combat.meleeonly=Endast närstrid
+combat.rangedonly=Endast Distansstrid
+combat.donotfight=Slåss inte
 
-combat.button.trigger=Trigger: 
-combat.trigger.always=Always Attack
-combat.trigger.playertakedamage=You take damage
-combat.trigger.playerattacks=You attack something
+combat.button.trigger=Triggas av: 
+combat.trigger.always=Attackera Alltid
+combat.trigger.playertakedamage=Du tar skada
+combat.trigger.playerattacks=Du attackerar någonting
 
-combat.button.target=Target: 
-combat.target.passive=Passive Mobs
-combat.target.hostile=Hostile Mobs
-combat.target.either=Passive and Hostile Mobs
+combat.button.target=Sikte: 
+combat.target.passive=Passiva Monster
+combat.target.hostile=Fientliga Monster
+combat.target.either=Passiva och Fientliga Monster
 
-cooking.nofood=I don't have any food to cook.
-cooking.nofuel=I don't have any fuel.
-cooking.nofurnace=There's no furnace nearby.
+cooking.nofood=Jag har ingen mat att laga.
+cooking.nofuel=Jag har inget bränsle.
+cooking.nofurnace=Det finns ingen ugn i närheten.
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=Mamma
+parser.dad=Pappa
 
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
+gui.button.yes=Ja
+gui.button.no=Nej
 gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
+gui.button.done=Klar
+gui.button.random=Slumpmässig
+gui.button.interact=Interagera
+gui.button.follow=Följ mig
+gui.button.stay=Stanna här
+gui.button.move=Rör på dig fritt
+gui.button.trade=Byt
+gui.button.sethome=Välj hem
+gui.button.ridehorse=Rid på häst
 gui.button.special=Special
-gui.button.procreate=Procreate
-gui.button.pickup=Pick Up
-gui.button.work=Work
-gui.button.inventory=Inventory
-gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
-gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
-gui.button.farming.radius=Radius\: %a1%
-gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
-gui.button.woodcutting.logtype=Log Type\: %a1%
-gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
-gui.button.cooking=Cooking
-gui.button.fishing=Fishing
-gui.button.mode=Mode\: %a1%
-gui.button.start=Start
-gui.button.stop=Stop
-gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
-gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
-gui.button.hired=Hired
-gui.button.length=Length\: %a1% hour(s)
-gui.button.accept=Accept
-gui.button.combat=Combat
-gui.button.extend=Extend
-gui.button.dismiss=Dismiss
-gui.button.divorcespouse=Divorce Spouse
-gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
+gui.button.procreate=Föröka
+gui.button.pickup=Ta upp
+gui.button.work=Jobb
+gui.button.inventory=Mina saker
+gui.button.chat=Chatt
+gui.button.joke=Skämt
+gui.button.gift=Present
+gui.button.shakehand=Skaka hand
+gui.button.tellstory=Berätta historia
+gui.button.flirt=Flirta
+gui.button.hug=Krama
+gui.button.kiss=Kyss
+gui.button.farming=Jordbruk
+gui.button.farming.radius=Radie: %a1%
+gui.button.farming.plant=Växt: %a1%
+gui.button.woodcutting=Skogshuggare
+gui.button.woodcutting.logtype=Stocktyp: %a1%
+gui.button.woodcutting.replant=Växt: %a1%
+gui.button.mining=Gruvarbete
+gui.button.hunting=Jakt
+gui.button.kill=Döda
+gui.button.tame=Tämj
+gui.button.cooking=Matlagning
+gui.button.fishing=Fiske
+gui.button.mode=Läge: %a1%
+gui.button.start=Börja
+gui.button.stop=Sluta
+gui.button.havebaby=Skaffa barn
+gui.button.divorce=Skiljsmässa
+gui.button.asktomarry=Föreslå giftemål
+gui.button.hire=Anställ
+gui.button.hired=Anställd
+gui.button.length=Längd: %a1% timme/timmar
+gui.button.accept=Acceptera
+gui.button.combat=Strid
+gui.button.extend=Förläng
+gui.button.dismiss=Avfärda
+gui.button.divorcespouse=Skilj dig från din partner
+gui.button.resetbaby=Återställ bebis
+gui.button.setup.gender.false=Kön: Hona
+gui.button.setup.gender.true=Kön: Hane
 gui.button.baron=Baron
-gui.button.baroness=Baroness
-gui.button.taxes=Ask for Taxes
-gui.title.namebaby.male=It's a boy\!
-gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
-gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
-gui.title.whistle=Call Family Member
+gui.button.baroness=Baronessa
+gui.button.taxes=Fråga efter skatt
+gui.title.namebaby.male=Det är en pojke!
+gui.title.namebaby.female=Det är en flicka!
+gui.title.namebaby=Namnge din bebis:
+gui.title.tombstone=Ooi tudo certo com vc
+gui.title.editor=Byboredigerare
+gui.title.whistle=Kalla på familjemedlem
 
-gui.info.family.married=Married to %a1%.
-gui.info.family.engaged=Engaged to %a1%.
-gui.info.family.marriedtoplayer=Married to you.
-gui.info.family.engagedtoplayer=Engaged to you.
-gui.info.family.notmarried=Not married.
-gui.info.family.mother=Mother\: %a1%
-gui.info.family.father=Father\: %a1%
-gui.info.family.mother.you=Mother\: You
-gui.info.family.father.you=Father\: You
+gui.info.family.married=Gift med %a1%.
+gui.info.family.engaged=Förlovad med %a1%.
+gui.info.family.marriedtoplayer=Gift med dig.
+gui.info.family.engagedtoplayer=Förlovad med dig.
+gui.info.family.notmarried=Inte gift.
+gui.info.family.mother=Mamma: %a1%
+gui.info.family.father=Pappa: %a1%
+gui.info.family.mother.you=Mamma: Du
+gui.info.family.father.you=Pappa: Du
 
-gui.info.gift.line1=Gift Available
-gui.info.gift.line2=(Click to take)
+gui.info.gift.line1=gåva tillgängliga
+gui.info.gift.line2=(Klicka för att ta)
 
-gui.info.mood=Mood\: %a1%
-gui.info.personality=Personality\: %a1%
+gui.info.mood=Humör: %a1%
+gui.info.personality=Personlighet: %a1%
 
-interaction.give.invalid1=I can't use that.
-interaction.give.invalid2=What is this? I can't do anything with it.
-interaction.give.invalid3=I don't know what you want me to do with that.
-interaction.give.invalid4=Why are you giving me this?
-interaction.give.invalid5=Huh? What is this thing?
+interaction.give.invalid1=Jag kan inte använda det.
+interaction.give.invalid2=Vad är det här? Jag kan inte göra någonting med den.
+interaction.give.invalid3=Jag vet inte vad du vill att jag ska göra med den.
+interaction.give.invalid4=Varför ger du mig det här?
+interaction.give.invalid5=Huh? Vad är dettta?
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
-interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
-interaction.divorce.priest.fail.notmarried=You are not married to anyone.
+interaction.divorce.priest.success1=Vafangulo.
+interaction.divorce.priest.success2=\n\n\n\ninteraction.divorce.priest.success2po
+interaction.divorce.priest.fail.notmarried=Du är inte gift med någon.
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried1=Jag är inte gift med någon.
+interaction.divorce.notmarried2=Varför behöver jag skiljepapper? Jag är inte gift.
+interaction.divorce.notmarried3=Jag är inte gift. Varför ger du dessa till mig?
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=Va? Vill du att jag ska lämna min make? Du är hemsk!
+interaction.divorce.fail.notmarriedtoplayer2=Nej! Jag tänker inte göra så mot min make! Jag är lyckligt gift!
+interaction.divorce.fail.notmarriedtoplayer3=Vad tror du att du gör? Jag tänker inte använda den där!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success1=Jag trodde du älskade mig! Ge dig iväg!
+interaction.divorce.success2=Det var kul så länge det varade. Hej då, och lyckat till.
+interaction.divorce.success3=Jag kan inte tro på att du gör såhär! Lämna, nu!
+interaction.divorce.success4=Varför gör du så mot mig? Jag vill aldrig se dig igen!
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+interaction.marry.fail.marriedtogiver1=Det är en vacker ring, men jag är redan gift med dig, dumbom.
+interaction.marry.fail.marriedtogiver2=Vi är redan gifta. Har du glömt?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=Förlåt mig, nej...Jag är redan gift.
+interaction.marry.fail.marriedtoother2=Åh, jag trodde du visste... Jag är redan gift med någon annan.
+interaction.marry.fail.marriedtoother3=Va?! Jag är redan gift!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried1=Öh...Jag ser den där ringen på ditt finger. Du är redan gift!
+interaction.marry.fail.playermarried2=Vad är det du försöker göra? Du är redan gift!
+interaction.marry.fail.playermarried3=Va? Verkligen? Jag tror att du är gift med någon annan, är inte du?
+interaction.marry.fail.playermarried4=Jag är bestört! Jag har redan en make.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+interaction.marry.fail.lowhearts1=Va? Nej! Jag gillar inte dig!
+interaction.marry.fail.lowhearts2=Oj vilken fin ring! Oj vänta... är den till mig? Ehm... nej.
+interaction.marry.fail.lowhearts3=Är den där till mig? Ursäkta, jag känner bara inte dig väl nog.
+interaction.marry.fail.lowhearts4=Jag är smickrad men jag känner inte riktigt dig.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+interaction.engage.success1=Ja! Jag vill gifta mig med dig! Jag älskar dig!
+interaction.engage.success2=Såklart jag gifter mig med dig!
+interaction.engage.success3=Det var på tiden...skojar bara! Älskar dig!
+interaction.engage.success4=Är...är det här på riktigt? Jag menar, det här ögonblicket, inte ringen. Men ringen är äkta, eller hur?
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success1=En dröm som blivit verklighet! Jag kommer älska dig för alltid!
+interaction.marry.success2=Vi är äntligen gifta! Vad nu?
+interaction.marry.success3=Jag är glad att jag är gift med dig, %PlayerName%.
+interaction.marry.success4=Jag kan inte vänta på att starta vårt liv tillsammans!
 
-interaction.matchmaker.fail.married1=I am already married to someone.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+interaction.matchmaker.fail.married1=Jag är redan gift med någon.
+interaction.matchmaker.fail.married2=Jag lyckligt gift, jag vill inte ha en annan maka.
+interaction.matchmaker.fail.married3=Jag vill inte ha det där - jag är redan gift.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
+interaction.matchmaker.fail.engaged1=Jag är redan förlovad med någon, jag kan inte ta den där ringen.
+interaction.matchmaker.fail.engaged2=Jag har lovat att gifta mig med någon annan.
 interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+interaction.matchmaker.fail.needtwo1=Behöver ni inte två ringar för att arrangera ett giftermål?
+interaction.matchmaker.fail.needtwo2=Oh, okej! Men du behöver två ringar först.
+interaction.matchmaker.fail.needtwo3=Min make och jag kommer båda att behöva en ring, men du har bara en.
 
 interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
 interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
 interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
 
-interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
+interaction.matchmaker.fail.invalid1=Men jag kan inte gifta mig med %Name%.
 interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
 interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
 
 interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
+interaction.sethome.success2=Jag förstår, jag kommer sova här på natten.
 interaction.sethome.success3=Sure thing, %PlayerName%.
 
 interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
@@ -6041,20 +6039,20 @@ interaction.sethome.fail2=Is there another place nearby? There's some %a1% in th
 interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
 
 interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.toolow2=Vi behöver vara på högre mark.
+interaction.mining.fail.toolow3=Jag tror inte att det är en bra idé att skapa en gruva här. Vi behöver vara högre upp.
+interaction.mining.fail.nopickaxe=Jag har inte en hacka. Hur ska jag kunna gräva utan en?
 interaction.mining.fail.broken=My pickaxe has broken and I don't have another one!
 
-interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
+interaction.hire.fail.notenoughgold=Du behöver en stack av %a1% guldtackor för att anställa denna bybo.
+interaction.hire.success1=Glad att vara ombord! Vad blir mitt första jobb?
 interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.success3=Ready to start working at any time, boss!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notnearby=Jag ser inga hästar i närheten.
+interaction.ridehorse.fail.notrideable=Jag kan inte rida på den hästen.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
+interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time!
 interaction.resetbaby.fail=You do not have a baby.
 
 interaction.tax.happylevel4=Oh, of course! The village is thriving, and everyone's so happy! Keep up the good work.
@@ -6063,7 +6061,7 @@ interaction.tax.happylevel2=Alright, business as usual. Here you go.
 interaction.tax.happylevel1=But...this was all I had saved up over the past few months. I thought you were better than that.
 interaction.tax.happylevel0=We have almost nothing, and still you tax us? Everyone is hating this.
 interaction.tax.notlargeenough1=I don't think our village is big enough to require taxes...
-interaction.tax.notlargeenough2=We're just a small village - we don't need taxes.
+interaction.tax.notlargeenough2=Vi är bara en liten by, vi behöver inte skatter.
 interaction.tax.notlargeenough3=We'd need a higher population before we even think about taxes.
 interaction.tax.notlargeenough4=Tax? What? We're too small for that!
 
@@ -6071,11 +6069,11 @@ interaction.checkhappiness.success=My records put the village's happiness at abo
 interaction.checkhappiness.fail=Our village isn't large enough for me to track our happiness yet. We need %a1% more villagers.
 
 interactionp.marry.sent=You have asked %a1% to marry you.
-interactionp.marry.success=You are now married to %a1%.
-interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%a1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
-interactionp.marry.prompt=%a1% would like to marry you.
+interactionp.marry.success=Du är nu gift med %a1%.
+interactionp.marry.fail.alreadymarried=Du är redan gift eller förlovad.
+interactionp.marry.fail.targetalreadymarried=%a1% är redan gift.
+interactionp.marry.fail.noweddingring=Du har ingen bröllops ring.
+interactionp.marry.prompt=%a1% vill gifta sig med dig.
 
 interactionp.havebaby.sent=You have asked %a1% to have a baby.
 interactionp.havebaby.prompt=%a1% would like to have a baby.
@@ -6083,7 +6081,7 @@ interactionp.havebaby.fail.alreadyexists=You should already have a baby.
 
 interactionp.divorce.notify=You are no longer married to %a1%.
 
-interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
+interaction.adoptbaby.success=Wonderful! I'd like you to meet %a1%, your new baby! Treat them well.
 
 ###################
 # Typed Dialogue
@@ -6098,165 +6096,165 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 
 adult.gift.bad1=This isn't a good gift...
 adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
+adult.gift.bad3=Nej tack.
 adult.gift.bad4=I don't want that, why would I?
 adult.gift.bad5=Why are you giving me that?
-adult.gift.bad6=Is this supposed to be a gift? No thanks.
+adult.gift.bad6=Ska detta vara en present? Nej tack.
 
-adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
-adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
-adult.gift.good5=A gift? For me? How nice\!
+adult.gift.good1=How considerate! Thank you.
+adult.gift.good2=Tack!
+adult.gift.good3=Så omtänksamt!
+adult.gift.good4=Oh, I love these!
+adult.gift.good5=En present? Till mig? Vad snällt!
 
-adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
-adult.gift.better4=Oh wow, I actually needed one of these\!
-adult.gift.better5=This is a pretty good gift\!
+adult.gift.better1=Hey, this is pretty cool!
+adult.gift.better2=Tack, kompis!
+adult.gift.better3=%PlayerName%, du är en så bra vän!
+adult.gift.better4=Oh wow, I actually needed one of these!
+adult.gift.better5=This is a pretty good gift!
 
-adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
-adult.gift.best2=How did you...nevermind, this is amazing\!
-adult.gift.best3=Oh wow, I've always wanted one of these\!
-adult.gift.best4=This is fantastic\! I'll put it to good use.
-adult.gift.best5=Thank you so much. I will remember this forever.
+adult.gift.best1=Jag... Jag vet inte vad jag ska säga. Tack så mycket, %PlayerName%!
+adult.gift.best2=Hur fick du.. struntsamma, det här är fantastiskt!
+adult.gift.best3=Åh wow, jag har alltid velat ha en sådan här!
+adult.gift.best4=Det här är fantastiskt! Jag ska använda den väl.
+adult.gift.best5=Tack så mycket! Jag kommer komma ihåg detta för alltid.
 
 # 5 good chats when talking to an adult:
 adult.chat.good1=Man, cookies and milk does sound delicious right now.
-adult.chat.good2=Yes, I suppose the weather is nice today.
-adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
-adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+adult.chat.good2=Ja, jag antar att det är fint väder idag.
+adult.chat.good3=Jag mår bra! Dock så slog jag i min tå när jag vaknade.
+adult.chat.good4=Ett äpple om dagen håller zombier borta!
+adult.chat.good5=Min dröm är att bygga min egen by, men jag är för lat.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Did you seriously just say that?
-adult.chat.bad2=I don't believe it exploded on its own.
-adult.chat.bad3=You know, you're not that cool.
-adult.chat.bad4=Show off.
-adult.chat.bad5=You should be thrown in a dungeon\! 
+adult.chat.bad1=Sa du seriöst det?
+adult.chat.bad2=Jag kan inte tro att den exploderade alldeles själv.
+adult.chat.bad3=Du vet, så cool är du inte.
+adult.chat.bad4=Skryt.
+adult.chat.bad5=Du borde kastas i en fängelsehåla! 
 
 # 5 good jokes when talking to an adult:
-adult.joke.good1=Haha\! Serves that Skelly right\!
-adult.joke.good2=*Laughs* That's hilarious\!
-adult.joke.good3=That's funny\! Did you hear the one about the cows?
-adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
-adult.joke.good5=That's the best I have ever heard\!
+adult.joke.good1=Haha! Rätt åt det där skelettet!
+adult.joke.good2=*Skrattar* Det där är superkul!
+adult.joke.good3=Den var bra, har du hört den med kossorna?
+adult.joke.good4=Otur för fåret som tappade sin ull, men roligt!
+adult.joke.good5=Den var den bästa jag någonsin hört!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1=Don't speak about my pig like that\!
+adult.joke.bad1=Säg inte så om min gris!
 adult.joke.bad2=Ha.
-adult.joke.bad3=Ah, you're not the funniest in town.
-adult.joke.bad4=That's low.
-adult.joke.bad5=You shouldn't joke about that.
+adult.joke.bad3=Ah, du är defenetivt inte roligast i stan.
+adult.joke.bad4=Det var lågt.
+adult.joke.bad5=Man skämtar inte om sådant.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=You have a nice grip\!
-adult.handshake.good2=Your grip shows me you have great power\!
-adult.handshake.good3=Wow, you're so polite\!
-adult.handshake.good4=Good day\!
-adult.handshake.good5=Why, hello there\!
+adult.handshake.good1=Du har ett bra grepp!
+adult.handshake.good2=Ditt grepp tyder på att du är mycket stark!
+adult.handshake.good3=Wow, du är så trevlig!
+adult.handshake.good4=Goddag!
+adult.handshake.good5=Hej, hur är läget?
 
 # 5 bad handshakes when talking to an adult:
-adult.handshake.bad1=Seriously? After you slaughtered the cow?
-adult.handshake.bad2=Um, no that's okay.
-adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
-adult.handshake.bad4=Wow really? This isn't like you.
-adult.handshake.bad5=Go away.
+adult.handshake.bad1=Seriöst? Efter att du slaktade kon?
+adult.handshake.bad2=Um, det är inte okej.
+adult.handshake.bad3=Jag är ingen främling, så du måste inte vara trevligare än vanligt.
+adult.handshake.bad4=Seriöst? Det är är inte likt dig.
+adult.handshake.bad5=Gå iväg.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
-adult.tellstory.good2=I wish I was brave enough to take on a creeper.
-adult.tellstory.good3=That was a really good story\! Is it original?
-adult.tellstory.good4=All of that happened yesterday? No way\!
+adult.tellstory.good1=Seriöst? Jag kan inte greppa att allt det hände!
+adult.tellstory.good2=Jag önskar att jag var modig nog att ge mig på en creeper.
+adult.tellstory.good3=Det var en riktig bra historia! Kom du på den själv?
+adult.tellstory.good4=Hände allt det igår? Skulle inte tro det!
 adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
+adult.tellstory.bad1=*Harkel* Det är min mamma du pratar om.
 adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
-adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
-adult.tellstory.bad5=How could you kill a poor sheep?\!
+adult.tellstory.bad3=Jag förstår inte...
+adult.tellstory.bad4=Du är hemsk! Krypare har också känslor!
+adult.tellstory.bad5=Hur kunde du döda ett stackars får?!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1=You're sooo brave\!
-adult.flirt.good2=Oh, you\! Stop being so cute\!
-adult.flirt.good3=*Blushes* Do you mean it?
+adult.flirt.good1=Du är så modig!
+adult.flirt.good2=Oh, you! Stop being so cute!
+adult.flirt.good3=*Rodnar* Menar du det?
 adult.flirt.good4=Oh, my...
-adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
+adult.flirt.good5=That was so adorable! You had me at "hello"! 
 
 # 5 bad flirts when talking to an adult:
 adult.flirt.bad1=If you mean that, then prove it.
-adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
+adult.flirt.bad2=Aw.... Wait, you told the baker the same thing!
 adult.flirt.bad3=Not in a million years.
 adult.flirt.bad4=Pathetic much?
 adult.flirt.bad5=A zombie has a better chance than you.
 
 # 5 good hugs when talking to an adult:
-adult.hug.good1=Long time no see\!
-adult.hug.good2=Thank you, I needed that.
+adult.hug.good1=Jag har inte sett dig på länge!
+adult.hug.good2=Tack, jag behövde det.
 adult.hug.good3=At least one thing made my day today.
-adult.hug.good4=You're as snuggly as a sheep\!
+adult.hug.good4=Du är lika gosig som ett får!
 
 # 5 bad hugs when talking to an adult:
-adult.hug.bad1=You're covered in soot and mud\! 
-adult.hug.bad2=No thanks.
-adult.hug.bad3=Uh, why?
+adult.hug.bad1=You're covered in soot and mud! 
+adult.hug.bad2=Nej tack.
+adult.hug.bad3=Öh, varför?
 adult.hug.bad4=After you called me a dinosaur last week? No.
 adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
 
 # 5 good kisses when talking to an adult:
 adult.kiss.good1=I wish this moment would last forever.
-adult.kiss.good2=I think I love you...
-adult.kiss.good3=Mmm, tastes like pumpkin pie\!
+adult.kiss.good2=Jag tror att jag är kär i dig...
+adult.kiss.good3=Mmm, smakar som pumpapaj!
 
 # 5 bad kisses when talking to an adult:
-adult.kiss.bad1=Not if someone can see.
-adult.kiss.bad2=You call that a kiss?
-adult.kiss.bad3=Ash kisses better than you.
-adult.kiss.bad4=Two words... breath mints\!
-adult.kiss.bad5=Thank you?
+adult.kiss.bad1=Inte om någon skulle se.
+adult.kiss.bad2=Kallar du det e kyss?
+adult.kiss.bad3=Aska kysser bättre än dig.
+adult.kiss.bad4=Ett ord... mintpastiller!
+adult.kiss.bad5=Tack?
 
-adult.greeting1=Why, hello there\!
-adult.greeting2=Hey\! How are you today?
-adult.greeting3=Hey, good to see you\!
+adult.greeting1=Hej, hur är läget?
+adult.greeting2=Hej! Hur mår du idag?
+adult.greeting3=Hey, good to see you!
 adult.greeting4=What's going on with you today?
-adult.greeting5=How are you today?
+adult.greeting5=Hur mår du idag?
 
 ##############################################################################################
 
 # 5 good chats when talking to a parent:
-parent.chat.good1=I'm fine, and how are you, dear?
+parent.chat.good1=Jag mår bra, hur mår du, älskling?
 parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
-parent.chat.good3=You make me so proud\!
-parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
-parent.chat.good5=That reminds me of when you were a lil' tot\! 
+parent.chat.good3=Du gör mig så stolt!
+parent.chat.good4=How sweet! What happened to you, you're never kind! *Laughs*
+parent.chat.good5=That reminds me of when you were a lil' tot! 
 
 # 5 bad chats when talking to a parent:
 parent.chat.bad1=You're never too old for spankings, smarty pants.
 parent.chat.bad2=Watch your mouth. That's not the way I raised you.
 parent.chat.bad3=This is why your sister was my favorite.
 parent.chat.bad4=Why are you not a doctor, yet?
-parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
+parent.chat.bad5=I had a diamond sword for you but now you're not getting it!
 
 
 # 5 good jokes when talking to a parent:
-parent.joke.good1=You get your humor from me\!*Laughs*
-parent.joke.good2=You fill my day with laughter and joy\!
-parent.joke.good3=I needed that laugh\!
-parent.joke.good4=When did you become a comedian? That's hilarious\!
-parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
+parent.joke.good1=Du får din humor från mig! *Skrattar*
+parent.joke.good2=You fill my day with laughter and joy!
+parent.joke.good3=Jag behövde det där skrattet!
+parent.joke.good4=When did you become a comedian? That's hilarious!
+parent.joke.good5=Great Aunt Berry would had loved to hear that one!
 
 # 5 bad jokes when talking to a parent:
-parent.joke.bad1=Ha...
+parent.joke.bad1=Hah...
 parent.joke.bad2=You're my kid so I have to laugh... but it isn't funny.
 parent.joke.bad3=You're as dull as my first date.
 parent.joke.bad4=No offense, but that was bad.
 parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
 
 # 5 good handshakes when talking to a parent:
-parent.handshake.good1=It's good to see that we raised a polite child\!
-parent.handshake.good2=How civil\! We've tought you well.
-parent.handshake.good3=Good to see you again\!
+parent.handshake.good1=It's good to see that we raised a polite child!
+parent.handshake.good2=How civil! We've tought you well.
+parent.handshake.good3=Good to see you again!
 parent.handshake.good4=How have you been?
 parent.handshake.good5=That's a nice, firm handshake you've got there.
 
@@ -6265,32 +6263,32 @@ parent.handshake.bad1=If only you were this polite at family reunions.
 parent.handshake.bad2=What's with the formality? 
 parent.handshake.bad3=You'll shake my hand but not hug me?
 parent.handshake.bad4=Are you embarrassed to be seen with me, or something?
-parent.handshake.bad5=I never realized how weak you were.
+parent.handshake.bad5=Jag insåg aldrig hur svag du var.
 
 # 5 good stories when talking to a parent:
-parent.tellstory.good1=After that you took off your diaper and threw it on the priest\!
-parent.tellstory.good2=Did you end up getting a date?
-parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
-parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
-parent.tellstory.good5=Is the house done, yet?
+parent.tellstory.good1=Efter att du tog av din blöja och kastade den på prästen!
+parent.tellstory.good2=Och, har du en dejt?
+parent.tellstory.good3=They sound lovely! So when are you going to make me a grandparent?
+parent.tellstory.good4=Yes, I remember that! Your cousin Bert ate way too many cookies.
+parent.tellstory.good5=Är huset klart ännu?
 
 # 5 bad stories when talking to a parent:
 parent.tellstory.bad1=I wish you were little again, this story depresses me.
-parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
-parent.tellstory.bad3=You stole my earrings?\! 
-parent.tellstory.bad4=We all know you can't be a successful miner.
+parent.tellstory.bad2=Don't you do that again! Wolves are nothing to play with!
+parent.tellstory.bad3=Stal du mina örhängen?! 
+parent.tellstory.bad4=Vi alla vet att du är en framgångsrik gruvarbetare.
 parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 
 # 5 good hugs when talking to a parent:
-parent.hug.good1=You've grown so much\!
+parent.hug.good1=You've grown so much!
 parent.hug.good2=I remember hugging you each night before bed.
-parent.hug.good3=Sweet child of mine\! 
-parent.hug.good4=You never let me down\! 
-parent.hug.good5=You're the best child a parent could ask for\!
+parent.hug.good3=Sweet child of mine! 
+parent.hug.good4=You never let me down! 
+parent.hug.good5=You're the best child a parent could ask for!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1=I'm not mad, I'm disappointed. 
-parent.hug.bad2=Sucking up? Get your own cake mix\!
+parent.hug.bad1=Jag är inte arg, jag är besviken. 
+parent.hug.bad2=Sucking up? Get your own cake mix!
 parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
 parent.hug.bad4=Not until you wash off.
 parent.hug.bad5=After you told me that? No way.
@@ -6299,32 +6297,32 @@ parent.hug.bad5=After you told me that? No way.
 ##############################################################################################
 
 # 5 good chats when talking to a relative:
-relative.chat.good1=You act just like your momma did as a kid\!
-relative.chat.good2=I'm glad you came to see me\!
+relative.chat.good1=You act just like your momma did as a kid!
+relative.chat.good2=I'm glad you came to see me!
 relative.chat.good3=We should get a family reunion together.
-relative.chat.good4=You're the sweetest of the family\!
-relative.chat.good5=Don't tell anyone, but you're my favorite\!
+relative.chat.good4=You're the sweetest of the family!
+relative.chat.good5=Don't tell anyone, but you're my favorite!
 
 # 5 bad chats when talking to a relative:
 relative.chat.bad1=Excuse me? Do you know who you are talking to?
-relative.chat.bad2=That's no excuse to speak to me like that\!
+relative.chat.bad2=That's no excuse to speak to me like that!
 relative.chat.bad3=Go home. You're no longer welcome around me.
 relative.chat.bad4=If you don't leave I'll put a restraining order on you.
 relative.chat.bad5=You're so rude.
 
 # 5 good jokes when talking to a relative:
-relative.joke.good1=Grandpa told you that one, didn't he?\!
-relative.joke.good2=That joke goes way back in the family\!
-relative.joke.good3=Then the cow jumped over the ravine\! *Laughs*
+relative.joke.good1=Grandpa told you that one, didn't he?!
+relative.joke.good2=That joke goes way back in the family!
+relative.joke.good3=Then the cow jumped over the ravine! *Laughs*
 
 # 5 bad jokes when talking to a relative:
 relative.joke.bad1=You shouldn't speak about family that way.
 relative.joke.bad2=Leave the humor to uncle.
 
 # 5 good handshakes when talking to a relative:
-relative.handshake.good1=Put it there\!
-relative.handshake.good2=*Pulls hand away* Gotchya\!
-relative.handshake.good3=Next time I expect diamonds\! *Laughs*
+relative.handshake.good1=Put it there!
+relative.handshake.good2=*Pulls hand away* Gotchya!
+relative.handshake.good3=Next time I expect diamonds! *Laughs*
 
 # 5 bad handshakes when talking to a relative:
 relative.handshake.bad1=Come on, we're family. Informality is fine.
@@ -6332,25 +6330,25 @@ relative.handshake.bad2=Shawn warned me about this...
 relative.handshake.bad3=Is this some sort of joke?
 
 # 5 good stories when talking to a relative:
-relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
-relative.tellstory.good2=Sounds like Grandad Jay\! He used to throw people in the lake\!
+relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child!
+relative.tellstory.good2=Sounds like Grandad Jay! He used to throw people in the lake!
 relative.tellstory.good3=Grandma used to sew the chicken feathers, too.
 relative.tellstory.good4=Mmm... Your mom's cow stew was amazing back then.
-relative.tellstory.good5=We should get together like that more often\!
+relative.tellstory.good5=We should get together like that more often!
 
 # 5 bad stories when talking to a relative:
 relative.tellstory.bad1=That's when the family fell apart...
 relative.tellstory.bad2=Oh, that's right... you're the snobby one...
 relative.tellstory.bad3=Quit trying to show off.
-relative.tellstory.bad4=Your parents raised you better than that\!
+relative.tellstory.bad4=Your parents raised you better than that!
 relative.tellstory.bad5=You have officially been disowned.
 
 # 5 good hugs when talking to a relative:
-relative.hug.good1=It's good to see you\!
-relative.hug.good2=You should make time to see Uncle Jimmy, next\!
-relative.hug.good3=I wish I had more to give you other than this hug\!
-relative.hug.good4=Don't wait too long to see me again\!
-relative.hug.good5=I always look forward to your hugs\!
+relative.hug.good1=It's good to see you!
+relative.hug.good2=You should make time to see Uncle Jimmy, next!
+relative.hug.good3=I wish I had more to give you other than this hug!
+relative.hug.good4=Don't wait too long to see me again!
+relative.hug.good5=I always look forward to your hugs!
 
 
 # 5 bad hugs when talking to a relative:
@@ -6363,85 +6361,85 @@ relative.hug.bad5=Ew, that's okay. You sweat too much.
 ##############################################################################################
 
 # 5 good chats when talking to a child:
-child.chat.good1=I heard stories about you\! Are you a hero?
+child.chat.good1=I heard stories about you! Are you a hero?
 child.chat.good2=Hi. I was going to go try and climb to the roof.
 child.chat.good3=Do you wanna go burn stuff with me?
-child.chat.good4=I'm going to be a hunter like you and kill many things\!
-child.chat.good5=Hi\! What are you doing today? I'm going swimmin'\!
+child.chat.good4=I'm going to be a hunter like you and kill many things!
+child.chat.good5=Hi! What are you doing today? I'm going swimmin'!
 
 # 5 bad chats when talking to a child:
 child.chat.bad1=If you don't give me cookies I'll hold my breath.
 child.chat.bad2=My parents said not to talk to you, that you're bad.
-child.chat.bad3=*Laughs* You look smelly\!
-child.chat.bad4=Oh yeah? Well I'm gonna egg your house\!
-child.chat.bad5=Lalala, I'm not listening\! Lalala.
+child.chat.bad3=*Laughs* You look smelly!
+child.chat.bad4=Oh yeah? Well I'm gonna egg your house!
+child.chat.bad5=Lalala, I'm not listening! Lalala.
 
 # 5 good jokes when talking to a child:
-child.joke.good1=You're funnier than daddy\!
-child.joke.good2=Tell me another one\!
-child.joke.good3=You're the funniest person alive\!
-child.joke.good4=I'm tellin' my momma that one\! *Laughs*
-child.joke.good5=It should eat a leaf\!
+child.joke.good1=You're funnier than daddy!
+child.joke.good2=Tell me another one!
+child.joke.good3=You're the funniest person alive!
+child.joke.good4=I'm tellin' my momma that one! *Laughs*
+child.joke.good5=It should eat a leaf!
 
 # 5 bad jokes when talking to a child:
-child.joke.bad1=I don't get it.
+child.joke.bad1=Jag fattar inte.
 child.joke.bad2=You're not funny. Really.
 child.joke.bad3=You need to stop...
 child.joke.bad4=But, who's apple?
-child.joke.bad5=Don't be mean\!
+child.joke.bad5=Don't be mean!
 
 # 5 good handshakes when talking to a child:
-child.handshake.good1=Hiya\! Someone I know likes you...
+child.handshake.good1=Hiya! Someone I know likes you...
 child.handshake.good2=Dad said this is a very nice thing to do.
-child.handshake.good3=Now high five\! Down low... too slow\!
-child.handshake.good4=Hi stranger\!
+child.handshake.good3=Now high five! Down low... too slow!
+child.handshake.good4=Hej främling!
 child.handshake.good5=*Giggles* I just cleaned a cow with this hand.
 
 # 5 bad handshakes when talking to a child:
-child.handshake.bad1=Stranger danger...
-child.handshake.bad2=Mom, dad\! This person is trying to kidnap me\!
-child.handshake.bad3=Don't touch me I'm famous\!
+child.handshake.bad1=Främlingar är farliga...
+child.handshake.bad2=Mamma, pappa! Den här personen försöker kidnappa mig!
+child.handshake.bad3=Rör mig inte, jag är berömd!
 child.handshake.bad4=Ew, your hand has black stuff on it.
 child.handshake.bad5=I'll only shake your hand if you give me a diamond.
 
 # 5 good stories when talking to a child:
-child.tellstory.good1=Wow\! You're a beast\!
+child.tellstory.good1=Wow! You're a beast!
 child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
-child.tellstory.good3=Can you adopt me?\! You're awesome\!
+child.tellstory.good3=Can you adopt me?! You're awesome!
 child.tellstory.good4=I went fishing and almost drowned.
 child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
 
 # 5 bad stories when talking to a child:
-child.tellstory.bad1=You're a meanie\!
+child.tellstory.bad1=You're a meanie!
 child.tellstory.bad2=I'm telling my mom what you said about her...
 child.tellstory.bad3=I believe you're speaking about my grandpa...
-child.tellstory.bad4=You're nothing but a scaredycat like dad said\!
+child.tellstory.bad4=You're nothing but a scaredycat like dad said!
 child.tellstory.bad5=How could you kill a poor chicken?
 
-child.greeting1=Hi, who are you?
-child.greeting2=My name's %Name%. What's your name?
-child.greeting3=Eek\! You look scary\!
+child.greeting1=Hej, vem är du?
+child.greeting2=Jag heter %Name%. Vad heter du?
+child.greeting3=Eek! You look scary!
 
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
 childp.chat.good1=Oh, I was just going to go explorin' later.
-childp.chat.good2=Can we go camping? Please?\!
-childp.chat.good3=Hi, can you make me a cake?
-childp.chat.good4=Can I have my own room away from our house? That would be cool\!
-childp.chat.good5=Let's move into a cave\! That sounds so fun\!
+childp.chat.good2=Can we go camping? Please?!
+childp.chat.good3=Hej, kan du baka en tårta?
+childp.chat.good4=Can I have my own room away from our house? That would be cool!
+childp.chat.good5=Let's move into a cave! That sounds so fun!
 
 # 5 bad chats when talking to an playerchild:
 childp.chat.bad1=%ParentOpposite% talks about them a lot...
 childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
 childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-childp.chat.bad4=I want a new daddy.
-childp.chat.bad5=I don't want a baby sister.
+childp.chat.bad4=Jag vill ha en ny pappa.
+childp.chat.bad5=Jag vill inte ha en lillasyster.
 
 # 5 good jokes when talking to an playerchild:
-childp.joke.good1=*Laughs* Tell that one again\!
-childp.joke.good2=I've got to tell my friend that one\!
-childp.joke.good3=How did the creeper explode?\!
+childp.joke.good1=*Laughs* Tell that one again!
+childp.joke.good2=I've got to tell my friend that one!
+childp.joke.good3=How did the creeper explode?!
 childp.joke.good4=*Laughs*Why is there no longer 3 of them?
 childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
 
@@ -6455,22 +6453,22 @@ childp.joke.bad5=I'd rather have cake.
 # 5 good handshakes when talking to an playerchild:
 childp.handshake.good1=Why do I need to learn this stuff? 
 childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-childp.handshake.good3=I'm gonna be just like you when I grow up\!
-childp.handshake.good4=Can I have cake now?
-childp.handshake.good5=I don't get it, but okay\! 
+childp.handshake.good3=I'm gonna be just like you when I grow up!
+childp.handshake.good4=Kan jag få tårta nu?
+childp.handshake.good5=I don't get it, but okay! 
 
 # 5 bad handshakes when talking to an playerchild:
-childp.handshake.bad1=I spit on my hand.
-childp.handshake.bad2=You're such an old person.
-childp.handshake.bad3=Only losers shake hands.
-childp.handshake.bad4=I'll shake your hand if you give me cake.
-childp.handshake.bad5=No, you'll slip and hit me.
+childp.handshake.bad1=Jag spottar på min hand.
+childp.handshake.bad2=Du är så gammal.
+childp.handshake.bad3=Bara förlorare skakar hand.
+childp.handshake.bad4=Jag skakar din hand om du ger mig en tårta.
+childp.handshake.bad5=Nej, du kommer halka och slå mig.
 
 # 5 good stories when talking to an playerchild:
-childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
-childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
-childp.tellstory.good3=One day I'll kill more creepers than you\!
-childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
+childp.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
+childp.tellstory.good2=Jag vill också utforska en grotta, kom igen!
+childp.tellstory.good3=One day I'll kill more creepers than you!
+childp.tellstory.good4=Oh, oh, oh! Can we climb a tree, too?!
 childp.tellstory.good5=Did the lava hurt? 
 
 # 5 bad stories when talking to an playerchild:
@@ -6478,35 +6476,35 @@ childp.tellstory.bad1=I don't want to hear about grandma.
 childp.tellstory.bad2=You always say that. I just want a pet.
 childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
 childp.tellstory.bad4=You said you didn't eat the cake and cookies...
-childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
+childp.tellstory.bad5=Someone said you were a bad person, and I believe them!
 
 # 5 good hugs when talking to an playerchild:
-childp.hug.good1=*Kisses* You're the best ever\!
-childp.hug.good2=I'm going to be as strong as you are one day\!
+childp.hug.good1=*Kisses* You're the best ever!
+childp.hug.good2=I'm going to be as strong as you are one day!
 childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-childp.hug.good4=I love hugs\! You're soft and warm\!
-childp.hug.good5=You should hug %ParentOpposite% too\!
+childp.hug.good4=I love hugs! You're soft and warm!
+childp.hug.good5=You should hug %ParentOpposite% too!
 
 # 5 bad hugs when talking to an playerchild:
-childp.hug.bad1=I'm too old for hugs\!
-childp.hug.bad2=Stop it\! I don't want people to see\!
-childp.hug.bad3=Go away, you're so annoying\!
-childp.hug.bad4=Just leave me alone or give me some cookies\!
-childp.hug.bad5=I'd rather hug a skeleton. 
+childp.hug.bad1=Jag är för gammal för kramar!
+childp.hug.bad2=Sluta! Jag vill inte att folk ska se!
+childp.hug.bad3=Stick, du är så jobbig!
+childp.hug.bad4=Lämna mig ifred eller ge mig kakor!
+childp.hug.bad5=Jag kramar hellre ett skelett. 
 
-childp.greeting1=Hey there\!
-childp.greeting2=Hey, what's going on?
-childp.greeting3=What are you doing?
-childp.greeting4=Where are you going?
+childp.greeting1=Hallå där!
+childp.greeting2=Hej, vad händer?
+childp.greeting3=Vad gör du?
+childp.greeting4=Vart ska du?
 
 ##############################################################################################
 
 # 5 good chats when talking to an spouse:
-spouse.chat.good1=I cleaned the entire house. How was your day?
+spouse.chat.good1=Jag städade hela huset. Hur var din dag?
 spouse.chat.good2=Honey, let's go camping sometime. Doesn't that sound like fun?
 spouse.chat.good3=So today I saw a spider. It was huge so I ran away.
-spouse.chat.good4=We should build a new house together\!
-spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good\!
+spouse.chat.good4=Vi borde bygga ett nytt hus tillsammans!
+spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good!
 
 # 5 bad chats when talking to an spouse:
 spouse.chat.bad1=I know we're not the poorest family, but...
@@ -6516,10 +6514,10 @@ spouse.chat.bad4=Go away, I'm not in the mood.
 spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
 
 # 5 good jokes when talking to an spouse:
-spouse.joke.good1=*Laughs* I married you for your humor\!
-spouse.joke.good2=You should throw an egg at him next time\!
+spouse.joke.good1=*Laughs* I married you for your humor!
+spouse.joke.good2=You should throw an egg at him next time!
 spouse.joke.good3=Then the wolf fell in love with the sheep.
-spouse.joke.good4=That never gets old\!
+spouse.joke.good4=That never gets old!
 spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up?
 
 # 5 bad jokes when talking to an spouse:
@@ -6527,70 +6525,70 @@ spouse.joke.bad1=Lame...
 spouse.joke.bad2=Sweetheart, you're not funny.
 spouse.joke.bad3=Ha...Ha...Ha...Not funny.
 spouse.joke.bad4=You need to erase that from your mind.
-spouse.joke.bad5=Okay...
+spouse.joke.bad5=Okej...
 
 # 5 good handshakes when talking to an spouse:
-spouse.handshake.good1=Your hand is so soft\!
+spouse.handshake.good1=Your hand is so soft!
 spouse.handshake.good2=Our hands fit perfectly together.
 spouse.handshake.good3=One day people will forget to shake hands.
 spouse.handshake.good4=Our children will need to be this polite.
-spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
+spouse.handshake.good5=*Fortsätter att skaka hand* Säg till när jag ska sluta!
 
 # 5 bad handshakes when talking to an spouse:
-spouse.handshake.bad1=Handshake? How about a kiss, instead?
-spouse.handshake.bad2=*Squeezes hand hard*
+spouse.handshake.bad1=Skaka hand? Vad sägs om en puss istället?
+spouse.handshake.bad2=*Kramar handen hårt*
 spouse.handshake.bad3=Your hand is nasty, no way.
 spouse.handshake.bad4=They have germs on them.
 spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
 
 # 5 good stories when talking to an spouse:
 spouse.tellstory.good1=Let's not tell our children that one...
-spouse.tellstory.good2=You were so rebellious\! I love it\!
+spouse.tellstory.good2=You were so rebellious! I love it!
 spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
-spouse.tellstory.good4=It was that moment when I fell in love with you\!
-spouse.tellstory.good5=Wow, you're the best hunter ever\!
+spouse.tellstory.good4=It was that moment when I fell in love with you!
+spouse.tellstory.good5=Wow, you're the best hunter ever!
 
 # 5 bad stories when talking to an spouse:
 spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
-spouse.tellstory.bad2=Don't do something that reckless\!
-spouse.tellstory.bad3=You have a family to think about\!
+spouse.tellstory.bad2=Don't do something that reckless!
+spouse.tellstory.bad3=You have a family to think about!
 spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
 spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
 
 # 5 good flirts when talking to an spouse:
-spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
+spouse.flirt.good1=*Blushes* Well, how about we do something like that, then!
 spouse.flirt.good2=Aw, you said that when we first met.
-spouse.flirt.good3=Baby, you're so cute\!
-spouse.flirt.good4=You bet I am\!
-spouse.flirt.good5=*Winks* You still got it\!
+spouse.flirt.good3=Baby, you're so cute!
+spouse.flirt.good4=You bet I am!
+spouse.flirt.good5=*Blink* Du vet vad jag menar!
 
 # 5 bad flirts when talking to an spouse:
-spouse.flirt.bad1=*Sighs*
+spouse.flirt.bad1=*Suckar*
 spouse.flirt.bad2=This one is getting old... like you.
 spouse.flirt.bad3=We're married, we don't have to do this anymore.
 spouse.flirt.bad4=Talk to the tree, it cares more.
 spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
 
 # 5 good hugs when talking to an spouse:
-spouse.hug.good1=I love being entangled in your arms\!
+spouse.hug.good1=I love being entangled in your arms!
 spouse.hug.good2=Wait, don't leave... you're warm.
 spouse.hug.good3=Would you rather only being able to hug or kiss?
-spouse.hug.good4=*Kisses* 
-spouse.hug.good5=Let's stay like this forever\!
+spouse.hug.good4=*Pussar* 
+spouse.hug.good5=Let's stay like this forever!
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
-spouse.hug.bad3=Man, you stink.
-spouse.hug.bad4=What do you want?
+spouse.hug.bad2=Nej tack.
+spouse.hug.bad3=Mannen, du stinker.
+spouse.hug.bad4=Vad vill du?
 spouse.hug.bad5=Huge someone else.
 
 # 5 good kisses when talking to an spouse:
-spouse.kiss.good1=I fall in love all over again when our lips meet\!
+spouse.kiss.good1=I fall in love all over again when our lips meet!
 spouse.kiss.good2=Time stops ticking when I'm with you.
-spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
-spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
+spouse.kiss.good3=Sweet as cake!
+spouse.kiss.good4=I love you, baby!
+spouse.kiss.good5=I wouldn't trade you for anyone in the world! 
 
 # 5 bad kisses when talking to an spouse:
 spouse.kiss.bad1=Not where someone can see us...
@@ -6601,9 +6599,9 @@ spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kiss
 
 spouse.greeting1=Hi honey, where have you been?
 spouse.greeting2=Hello dear, how is your day going?
-spouse.greeting3=Oh, %PlayerName%\! You look tired.
-spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
-spouse.greeting5=%PlayerName%, you're back\! I missed you.
+spouse.greeting3=Oh, %PlayerName%! You look tired.
+spouse.greeting4=Hey %PlayerName%! You look hungry. Would you like me to cook something?
+spouse.greeting5=%PlayerName%, you're back! I missed you.
 
 spouse.lowhearts.greeting1=There you are. Where did you go? You never tell me anything anymore.
 spouse.lowhearts.greeting2=Are you going to say hi to me this time?
@@ -6626,96 +6624,97 @@ relative.gift.good1=Oh thank you.
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
 relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Youre too kind.
+relative.gift.good5=You're too kind.
 
 relative.gift.better1=I have the perfect spot for this.
 relative.gift.better2=Thank you very much, %PlayerName%.
 relative.gift.better3=This is lovely.
 relative.gift.better4=I appreciate you thinking about me.
-relative.gift.better5=Ill take good care of it.
+relative.gift.better5=I'll take good care of it.
 
-relative.gift.best1=Ive always wanted one of these\!
-relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
-relative.gift.best3=You give the best gifts, %PlayerName%\!
-relative.gift.best4=I can't believe this, you're too sweet, thank you\!
-relative.gift.best5=You know me like the back of your hand\!
+relative.gift.best1=I've always wanted one of these!
+relative.gift.best2=This is the best gift I've ever received, %PlayerName%!
+relative.gift.best3=You give the best gifts, %PlayerName%!
+relative.gift.best4=I can't believe this, you're too sweet, thank you!
+relative.gift.best5=You know me like the back of your hand!
 
 parent.gift.bad1=Oh, uh, thanks but no thanks.
 parent.gift.bad2=I appreciate the thought, but you can keep it.
 parent.gift.bad3=Why can't you bring me something other than junk?
 parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
 
-parent.gift.good1=Oh, how thoughtful\!
-parent.gift.good2=Thank you very much\!
+parent.gift.good1=Oh, how thoughtful!
+parent.gift.good2=Tack så mycket!
 parent.gift.good3=You always were my favorite.
 
-parent.gift.better1=Hey, where did you get this? It's great\!
-parent.gift.better2=You didn't have to get this for me, thanks\!
-parent.gift.better3=You never have to give me anything, but thank you so much\!
+parent.gift.better1=Hey, where did you get this? It's great!
+parent.gift.better2=You didn't have to get this for me, thanks!
+parent.gift.better3=You never have to give me anything, but thank you so much!
 
-parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
-parent.gift.best2=I lost this years ago, thanks\!
-parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
+parent.gift.best1=I always knew that one day I'd find this again. Thank you so much!
+parent.gift.best2=I lost this years ago, thanks!
+parent.gift.best3=This was yours when you were a child, I can't believe you found it!
 
-child.gift.bad1=Ew, I don't like this\!
-child.gift.bad2=Yuck\! I don't want this.
-child.gift.bad3=Why did you bring me this? It's dumb\!
-child.gift.bad4=I don't even know what this is\!
+child.gift.bad1=Ew, I don't like this!
+child.gift.bad2=Yuck! I don't want this.
+child.gift.bad3=Why did you bring me this? It's dumb!
+child.gift.bad4=I don't even know what this is!
 
 child.gift.good1=Is it...is it all mine?
 child.gift.good2=Is this really for me?
-child.gift.good3=This is cool\!
+child.gift.good3=This is cool!
 
-child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
+child.gift.better1=Awesome! I'm going to show this to all my friends.
+child.gift.better2=You found it! I lost this a few minutes ago.
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
-child.gift.best1=%PlayerName%, you give the best presents\!
-child.gift.best2=Finally\! My friend will stop bragging now.
-child.gift.best3=Wow\! Where did you get this thing?
-child.gift.best4=My Dad has one of these. Now I have one too\!
+child.gift.best1=%PlayerName%, you give the best presents!
+child.gift.best2=Finally! My friend will stop bragging now.
+child.gift.best3=Wow! Where did you get this thing?
+child.gift.best4=My Dad has one of these. Now I have one too!
 
 spouse.gift.bad1=Oh honey...this is just terrible.
 spouse.gift.bad2=Um, is this supposed to be a gift for me?
-spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
+spouse.gift.bad3=Throw away your own junk! Oh, this was a gift?...sorry.
 spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
 spouse.gift.good1=%PlayerName%, you're so sweet.
-spouse.gift.good2=Ah\! You're too good to me.
-spouse.gift.good3=This is unexpected, thank you, dear\!
+spouse.gift.good2=Ah! You're too good to me.
+spouse.gift.good3=This is unexpected, thank you, dear!
 spouse.gift.good4=Aw, how sweet of you.
-spouse.gift.good5=Thanks, hun\!
+spouse.gift.good5=Tack, älskling!
 
-spouse.gift.better1=Oh wow, this is actually really nice\!
-spouse.gift.better2=I love it\! Thank you\!
-spouse.gift.better3=This is amazing, dear\!
-spouse.gift.better4=You got this for me? How sweet\!
-spouse.gift.better5=Oh, thank you %PlayerName%\!
+spouse.gift.better1=Oh wow, this is actually really nice!
+spouse.gift.better2=Jag älskar det! Tack!
+spouse.gift.better3=This is amazing, dear!
+spouse.gift.better4=You got this for me? How sweet!
+spouse.gift.better5=Oh, thank you %PlayerName%!
 
-spouse.gift.best1=Oh %PlayerName%, I love you\!
-spouse.gift.best2=You are *way* too good to me\!
-spouse.gift.best3=This must have been extremely expensive\! Thank you\!
-spouse.gift.best4=I...can't believe you'd get me something so thoughtful\!
+spouse.gift.best1=Åh %PlayerName%, Jag älskar dig!
+spouse.gift.best2=Du är *för* snäll mot mig!
+spouse.gift.best3=Det här måste ha varit extremt dyrt! Tack!
+spouse.gift.best4=I...can't believe you'd get me something so thoughtful!
 
 childp.gift.bad1=%ParentTitle%, this is a really bad gift.
-childp.gift.bad2=Ew, %ParentOpposite% gives better gifts\!
-childp.gift.bad3=Didn't you give me this like, last year?
+childp.gift.bad2=Ew, %ParentOpposite% gives better gifts!
+childp.gift.bad3=Gav du inte mig det här typ, förra året?
 childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
 
-childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
+childp.gift.good1=Oh, cool! Thank you %ParentTitle%.
 childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
-childp.gift.good3=This is much better than the last gift I got\!
-childp.gift.good4=Woo hoo\! It's mine, all mine\!
-childp.gift.good5=Can I...can I eat it?
+childp.gift.good3=Det här är mycket bättre än förra presenten jag fick!
+childp.gift.good4=Woo hoo! Den är min, bara min!
+childp.gift.good5=Kan jag.. kan jag äta den?
 
-childp.gift.better1=For me? For free?\!
-childp.gift.better2=Ooh\! Shiny\!
-childp.gift.better3=I really like this, %ParentTitle%\!
-childp.gift.better4=All of my friends will be jealous now\!
-childp.gift.better5=This is great, %ParentTitle%\!
+childp.gift.better1=Till mig? Gratis?!
+childp.gift.better2=Ooh! Shiny!
+childp.gift.better3=I really like this, %ParentTitle%!
+childp.gift.better4=Alla mina vänner kommer bli avundsjuka nu!
+childp.gift.better5=This is great, %ParentTitle%!
 
-childp.gift.best1=This must have cost a fortune\!
-childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
-childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
-childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
-childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+childp.gift.best1=This must have cost a fortune!
+childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it!
+childp.gift.best3=Yay! Jag har den bästa %ParentTitle% i världen!
+childp.gift.best4=This is so amazing! I can't believe this is all mine!
+childp.gift.best5=Tack så hemskt mycket, %ParentTitle%! Du är den bästa någonsin!
+

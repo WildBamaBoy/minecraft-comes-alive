@@ -12,6 +12,7 @@ import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.inventory.ContainerInventory;
 import mca.tile.TileTombstone;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -63,6 +64,8 @@ public class GuiHandler implements IGuiHandler
 		case Constants.GUI_ID_INVENTORY: 
 			entity = (EntityVillagerMCA) RadixLogic.getEntityOfTypeAtXYZ(EntityVillagerMCA.class, world, posX, posY, posZ);
 			return new GuiInventory(entity, player.inventory, entity.attributes.getInventory(), false);
+		case Constants.GUI_ID_GUIDEBOOK:
+			return new GuiScreenBook(player, player.inventory.getCurrentItem(), false);
 		default: 
 			MCA.getLog().fatal("Failed to handle provided GUI ID: " + guiId +". This is a programming error, please report!");
 			return null;

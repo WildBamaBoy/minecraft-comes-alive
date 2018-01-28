@@ -1,47 +1,47 @@
 #X-Generator: crowdin.com
-itemGroup.MCA=Minecraft Comes Alive
+itemGroup.MCA=Minecraft Tulee Eloon
 
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
-achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
-achievement.engagement=Happily Taken\!
-achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
-achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
-achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
-achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
-achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
-achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+achievement.fullGoldHearts=Pääsemässä Jonnekin
+achievement.fullGoldHearts.desc=Saa 5 kultasydäntä kyläläisen kanssa.
+achievement.engagement=Tahdon!
+achievement.engagement.desc=Mene kihloihin kyläläisen kanssa.
+achievement.marriage=Naimisissa!
+achievement.marriage.desc=Mene naimisiin kyläläisen kanssa.
+achievement.babyBoy=Se on poika!
+achievement.babyBoy.desc=Saa poikavauva.
+achievement.babyGirl=Se on tyttö!
+achievement.babyGirl.desc=Saa tyttövauva.
+achievement.twins=Kaksoset!
+achievement.twins.desc=Saa kaksoset.
+achievement.babyToChild=He kasvavat niin nopeasti
+achievement.babyToChild.desc=Kasvata vauvasi lapseksi.
+achievement.hunting=Napakymppi!
+achievement.hunting.desc=Käske lapsesi metsästämään.
+achievement.mining=Ikimainari
+achievement.mining.desc=Käske lapsesi kaivamaan.
+achievement.woodcutting=Metsuri
+achievement.woodcutting.desc=Käske lapsesi hakkaamaan puita.
+achievement.farming=Ilmainen Työvoima
+achievement.farming.desc=Käske lapsesi viljelemään.
+achievement.childToAdult=Täysi-ikäinen!
+achievement.childToAdult.desc=Kasvata lapsesi aikuseksi.
+achievement.childMarried=Ulos pesästä
+achievement.childMarried.desc=Saa lapsesi naimaan joku.
+achievement.childHasChildren=Isovanhempi
+achievement.childHasChildren.desc=Tapaa lapsenlapsesi.
+achievement.craftDiamondDust=Älä hengitä tätä!
+achievement.craftDiamondDust.desc=Murskaa timantti tuhaksi.
+achievement.craftColoredDiamondDust=Lisätään Väriä
+achievement.craftColoredDiamondDust.desc=Värjää kasa timanttipölyä.
+achievement.smeltColoredDiamond=Tyylikkäitä timantteja
+achievement.smeltColoredDiamond.desc=Sulata väritetty timantti.
+achievement.craftShapedDiamond=Timantinleikkaaja
+achievement.craftShapedDiamond.desc=Muotoile timantti.
+achievement.craftShapedRing=Valmis tuote.
+achievement.craftShapedRing.desc=Valmista muotoiltu timanttisormus.
 
 #######
 # Items & Blocks
@@ -69,15 +69,13 @@ item.villager_editor.name=Villager Editor
 item.needle_and_string.name=Needle and String
 item.cloth.name=Cloth
 item.egg_grim_reaper.name=Spawn Grim Reaper
-tile.mca:villager_spawner.name=Villager Spawner
-tile.mca:rose_gold_block.name=Rose Gold Block
-tile.mca:rose_gold_ore.name=Rose Gold Ore
+tile.mca=rose_gold_ore.name=Rose Gold Ore
 item.broken_ring.name=Broken Ring
 item.staff_of_life.name=Staff of Life
 item.childs_doll.name=Child's Doll
 item.toy_train.name=Toy Train
 item.book_death.name=Death, and How to Cure It!
-item.book_romance.name=Relationships and You
+item.book_romance.name=The Gentleman's Guide to Relationships
 item.book_family.name=Managing Your Family Vol. XI
 item.book_rose_gold.name=On Rose Gold
 item.book_infection.name=Beware the Infection!
@@ -85,19 +83,19 @@ item.book_infection.name=Beware the Infection!
 #######
 # Names
 ##############################
-name.male1=Aaron
+name.male1=Aaro
 name.male2=Abdul
 name.male3=Abe
 name.male4=Abel
 name.male5=Abraham
 name.male6=Abram
 name.male7=Adalberto
-name.male8=Adam
+name.male8=Aatami
 name.male9=Adan
 name.male10=Adolfo
-name.male11=Adolph
+name.male11=Adolf
 name.male12=Adrian
-name.male13=Agustin
+name.male13=Aukusti
 name.male14=Ahmad
 name.male15=Ahmed
 name.male16=Alan
@@ -160,7 +158,7 @@ name.male72=Arnoldo
 name.male73=Arnulfo
 name.male74=Aron
 name.male75=Arron
-name.male76=Art
+name.male76=Taide
 name.male77=Arthur
 name.male78=Arturo
 name.male79=Asa
@@ -3965,7 +3963,7 @@ name.female2574=Lyda
 name.female2575=Lydia
 name.female2576=Lyla
 name.female2577=Lyn
-name.female2578=Lynda
+name.female2578=Linda
 name.female2579=Lyndia
 name.female2580=Lyndsay
 name.female2581=Lyndsey
@@ -5547,7 +5545,7 @@ name.female4156=Vincenza
 name.female4157=Vinita
 name.female4158=Vinnie
 name.female4159=Viola
-name.female4160=Violet
+name.female4160=Orvokki
 name.female4161=Violeta
 name.female4162=Violette
 name.female4163=Virgen
@@ -5594,7 +5592,7 @@ name.female4203=Willetta
 name.female4204=Willette
 name.female4205=Willia
 name.female4206=William
-name.female4207=Willie
+name.female4207=Ville
 name.female4208=Williemae
 name.female4209=Willodean
 name.female4210=Willow
@@ -5686,173 +5684,173 @@ name.female4294=Zulma
 ##############
 # Professions
 ##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
-profession.househusband=Househusband
-profession.housewife=Housewife
+profession.archer=Jousimies
+profession.armorer=Haarniskaseppä
+profession.butcher=Lihakauppias
+profession.cleric=Pappi
+profession.farmer=Maanviljelijä
+profession.fisherman=Kalastaja
+profession.fletcher=Nuolien valmistaja
+profession.guard=Vartija
+profession.spouse=Puoliso
+profession.leatherworker=Nahkaseppä
+profession.librarian=Kirjastonhoitaja
+profession.shepherd=Lammaspaimen
+profession.toolsmith=Työkaluseppä
+profession.weaponsmith=Aseseppä
+profession.miner=Kaivostyöläinen
+profession.mason=Muurari
+profession.baker=Leipuri
+profession.child=Lapsi
+profession.househusband=Koti-isä
+profession.housewife=Kotiäiti
 profession.villager=Villager
 profession.warrior=Warrior
 
 ################
 # Personalities
 ################################
-personality.athletic=Athletic
-personality.confident=Confident
-personality.strong=Strong
-personality.friendly=Friendly
-personality.curious=Curious
-personality.peaceful=Peaceful
-personality.flirty=Flirty
-personality.witty=Witty
-personality.sensitive=Sensitive
-personality.greedy=Greedy
-personality.stubborn=Stubborn
-personality.odd=Odd
+personality.athletic=Atleettinen
+personality.confident=Itsevarma
+personality.strong=Vahva
+personality.friendly=Ystävällinen
+personality.curious=Utelias
+personality.peaceful=Rauhallinen
+personality.flirty=Flirttaileva
+personality.witty=Nokkela
+personality.sensitive=Herkkä
+personality.greedy=Ahne
+personality.stubborn=Itsepäinen
+personality.odd=Outo
 
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
-mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
-mood.overjoyed=Overjoyed
-mood.bored_to_tears=Bored to tears
-mood.bored=Bored
-mood.uninterested=Uninterested
-mood.silly=Silly
-mood.giggly=Giggly
-mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
-mood.interested=Interested
-mood.talkative=Talkative
-mood.pleased=Pleased
+mood.depressed=Masentunut
+mood.sad=Surullinen
+mood.unhappy=Onneton
+mood.passive=Passiivinen
+mood.fine=Hyvä
+mood.happy=Iloinen
+mood.overjoyed=Yli-innokas
+mood.bored_to_tears=Tylsistynyt kyyneleisiin asti
+mood.bored=Tylsistynyt
+mood.uninterested=Ei kiinnostunut
+mood.silly=Hassu
+mood.giggly=Kikatteleva
+mood.entertained=Huvittunut
+mood.infuriated=Raivostunut
+mood.angry=Vihainen
+mood.annoyed=Ärtynyt
+mood.interested=Kiinnostunut
+mood.talkative=Puhelias
+mood.pleased=Tyytyväinen
 
 ################
 # Gift Responses
 ################################
-gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
-gift.cake3=Finally, something that will help my marriage...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake1=Mikäs tämä on? Kakku? Voi...voi ei. Minun... pitää löytää puolisoni.
+gift.cake2=Kakku! Kuinka ajattelevaista! Minä... hetkinen, mikä on tämä kummallinen tunne?
+gift.cake3=Viimeinkin jotain joka auttaa avioliitossani...
+gift.cake.refuse1=En usko että haluan enempää kakkua, mutta kiitos kuitenkin.
+gift.cake.refuse2=Ei kiitos, en halua enempää kakkua.
+gift.cake.refuse3=Voi ei. En voinut.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
-gui.button.next=Next
-gui.button.call=Call
-gui.button.callall=Call All
-gui.button.checkhappiness=Check Happiness
+gui.button.exit=Poistu
+gui.button.back=Takaisin
+gui.button.adoptbaby=Adoptoi vauva
+gui.button.next=Seuraava
+gui.button.call=Kutsu
+gui.button.callall=Kutsu Kaikki
+gui.button.checkhappiness=Tarkista iloisuus
 
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Mies
+relation.wife=Vaimo
+relation.daughter=Tytär
+relation.son=Poika
 
 ################
 # Dialogue
 ################################
-title.nonrelative.male=%Name% the %Profession%
-title.nonrelative.female=%Name% the %Profession%
+title.nonrelative.male=%Name% %Profession%
+title.nonrelative.female=%Name% %Profession%
 title.relative.male=%Name% (%RelationToPlayer%)
 title.relative.female=%Name% (%RelationToPlayer%)
 
-label.sleeping=Sleeping
-label.health=Health\: 
+label.sleeping=Nukkuu
+label.health=Terveys: 
 
-behavior.retaliate.begin1=Ow\! That hurt\!
-behavior.retaliate.begin2=I'll get you for that\!
-behavior.retaliate.begin3=Ouch\! Why did you hit me?
-behavior.retaliate.begin4=That hurts, stop it\!
-behavior.retaliate.begin5=Agh\! That really hurt\!
-behavior.retaliate.begin6=Hey\! What do you think you're doing?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin1=Au! Tuo sattui!
+behavior.retaliate.begin2=Kostan sinulle tuosta hyvästä!
+behavior.retaliate.begin3=Auts! Miksi sinä löit minua?
+behavior.retaliate.begin4=Tuo sattuu, lopeta se!
+behavior.retaliate.begin5=Au! Tuo todella sattui!
+behavior.retaliate.begin6=Hei! Mitä oikein luulet tekeväsi?!
+behavior.retaliate.begin7=*Auh*! Tuon oli parempi olla vahinko!
 
-behavior.retaliate.distanced1=That's right, you'd better run\!
-behavior.retaliate.distanced2=If you come back, I'm calling the guards\!
-behavior.retaliate.distanced3=Come back and fight like a man\!
-behavior.retaliate.distanced4=If I see you again, I'm going to punch you\!
-behavior.retaliate.distanced5=I knew you were afraid of me\!
-behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you\!
-behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
-behavior.retaliate.distanced8=I'll get my friends and beat you up\!
+behavior.retaliate.distanced1=Aivan oikein, sinun on parasta juosta!
+behavior.retaliate.distanced2=Minä hälytän vartijat, jos tulet takaisin!
+behavior.retaliate.distanced3=Tule takaisin ja taistele kuin mies!
+behavior.retaliate.distanced4=Lyön sinua, jos näen sinut uudelleen!
+behavior.retaliate.distanced5=Tiesin, että pelkäsit minua!
+behavior.retaliate.distanced6=Miksi sinä juokset? Tule takaisin tänne niin voin lyödä sinua!
+behavior.retaliate.distanced7=Lyön sinua, jos näen sinut uudelleen!
+behavior.retaliate.distanced8=Haen ystäväni ja pieksen sinut!
 
-behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
-behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
-behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
-behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
-behavior.retaliate.weapondrawn7=Mother Notch, please help me\!
+behavior.retaliate.weapondrawn1=Ei! Älä satuta minua!
+behavior.retaliate.weapondrawn2=Lopeta! Ei!
+behavior.retaliate.weapondrawn3=Auttakaa minua!
+behavior.retaliate.weapondrawn4=Ne aikovat tappaa minut! Auttakaa!
+behavior.retaliate.weapondrawn5=Ota mitä haluat, älä vain satuta minua!
+behavior.retaliate.weapondrawn6=En halua kuolla! Pysy kaukana!
+behavior.retaliate.weapondrawn7=Äiti Notch, auta minua!
 
-behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
+behavior.build.fail.tooclose=Emmekö ole sinun mielestäsi liian lähellä muita rakennuksia?
 
 ##################
 # Conversations between villagers
 #####################################
-conversation1.progress1=Hey, how are you today?
-conversation1.progress2=I'm okay, how are you?
-conversation1.progress3=I am fine. What are you planning to do today?
-conversation1.progress4=Nothing much, how about you?
-conversation1.progress5=I am thinking about going fishing.
-conversation1.progress6=Really? I don't like fishing.
-conversation1.progress7=Why? It's really fun.
-conversation1.progress8=It's boring to me.
-conversation1.progress9=Like mining is any better?
-conversation1.progress10=What?
-conversation1.progress11=You heard me.
-conversation1.progress12=Whatever.
+conversation1.progress1=Hei, mitä kuuluu?
+conversation1.progress2=Hyvää, kiitos. Entäs sinulle?
+conversation1.progress3=Hyvää myös. Mitä aiot tehdä tänään?
+conversation1.progress4=Enpä paljoa mitään, entäs itse?
+conversation1.progress5=Ajattelen meneväni kalastamaan.
+conversation1.progress6=Oikeasti? En itse pidä kalastamisesta.
+conversation1.progress7=Miksi et? Sehän on todella hauskaa.
+conversation1.progress8=Minun mielestä se on tylsää.
+conversation1.progress9=Onko sitten kaivaminen yhtään hauskempaa?
+conversation1.progress10=Mitä?
+conversation1.progress11=Kuulit kyllä.
+conversation1.progress12=Ihan sama.
 
-conversation2.progress1=What are you looking at?
-conversation2.progress2=I don't know, I haven't figured it out yet.
-conversation2.progress3=Well, that was rude\!
-conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
+conversation2.progress1=Mitä sinä oikein tuijotat?
+conversation2.progress2=En tiedä, en ole vielä ajatellut kaikkea aivan loppuun saakka.
+conversation2.progress3=No, olipas tuo törkeää!
+conversation2.progress4=*Joku* heräsi tänään väärällä jalalla.
 
 #################
 # AI Messages
 ################################
-mining.search.none=There's no %a1% nearby.
-mining.search.nearby=There's some %a1% nearby...
-mining.search.value=There's some %a1% %a2% blocks away.
+mining.search.none=Täällä ei ole %a1% lähettyvillä.
+mining.search.nearby=Täällä on muutama %a1% lähettyvillä...
+mining.search.value=Täällä on %a1% %a2% palikkaa kaukana.
 
-farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
-farming.nohoe=I'll need to have a hoe in order to farm.
+farming.noseeds=Minulla ei ole tarpeeksi %a1%. Tarvitsen vähintään %a2% maatilan luomiseksi.
+farming.nohoe=Tarvitsen kuokan jotta voin viljellä.
 
-hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
-sleep.invalid=My home point is invalid\!
+hunting.badspot=En löydä hyvää metsästyspaikkaa.
+sleep.nohome=Minulla ei ole kotipaikkaa!
+sleep.invalid=Kotipaikkani on epäkelpo!
 
-fishing.norod=I don't have a fishing rod!
-fishing.nowater=I don't see any water nearby...
-fishing.finished=I've finished fishing.
+fishing.norod=Minulla ei ole onkea!
+fishing.nowater=En näe yhtään vetta lähettyvillä...
+fishing.finished=Olen suorittanut kalastuksen.
 
 combat.button.method=Method: 
 combat.meleeandranged=Melee & Ranged
@@ -5861,229 +5859,229 @@ combat.rangedonly=Ranged Only
 combat.donotfight=Do not fight
 
 combat.button.trigger=Trigger: 
-combat.trigger.always=Always Attack
+combat.trigger.always=Hyökkää Aina
 combat.trigger.playertakedamage=You take damage
 combat.trigger.playerattacks=You attack something
 
-combat.button.target=Target: 
+combat.button.target=Kohde: 
 combat.target.passive=Passive Mobs
 combat.target.hostile=Hostile Mobs
 combat.target.either=Passive and Hostile Mobs
 
-cooking.nofood=I don't have any food to cook.
-cooking.nofuel=I don't have any fuel.
-cooking.nofurnace=There's no furnace nearby.
+cooking.nofood=Minulla ei ole mitään, mitä kokata.
+cooking.nofuel=Ei polttoainetta.
+cooking.nofurnace=Lähellä ei ole uunia.
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=Äiti
+parser.dad=Isä
 
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
+gui.button.yes=Kyllä
+gui.button.no=Ei
 gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
-gui.button.special=Special
-gui.button.procreate=Procreate
-gui.button.pickup=Pick Up
-gui.button.work=Work
-gui.button.inventory=Inventory
+gui.button.done=Tehty
+gui.button.random=Satunnainen
+gui.button.interact=Käytä
+gui.button.follow=Seuraa minua
+gui.button.stay=Pysy täällä
+gui.button.move=Liiku vapaasti
+gui.button.trade=Vaihda
+gui.button.sethome=Aseta Koti
+gui.button.ridehorse=Ratsasta Hevosella
+gui.button.special=Erityinen
+gui.button.procreate=Tee Lapsi
+gui.button.pickup=Poimi
+gui.button.work=Työ
+gui.button.inventory=Tavaraluettelo
 gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
-gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
-gui.button.farming.radius=Radius\: %a1%
-gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
-gui.button.woodcutting.logtype=Log Type\: %a1%
-gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
-gui.button.cooking=Cooking
-gui.button.fishing=Fishing
-gui.button.mode=Mode\: %a1%
-gui.button.start=Start
-gui.button.stop=Stop
-gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
-gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
-gui.button.hired=Hired
-gui.button.length=Length\: %a1% hour(s)
-gui.button.accept=Accept
-gui.button.combat=Combat
-gui.button.extend=Extend
-gui.button.dismiss=Dismiss
-gui.button.divorcespouse=Divorce Spouse
-gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
-gui.button.baron=Baron
-gui.button.baroness=Baroness
-gui.button.taxes=Ask for Taxes
-gui.title.namebaby.male=It's a boy\!
-gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
-gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
-gui.title.whistle=Call Family Member
+gui.button.joke=Vitsaile
+gui.button.gift=Lahjo
+gui.button.shakehand=Kättele
+gui.button.tellstory=Kerro Tarina
+gui.button.flirt=Flirttaile
+gui.button.hug=Halaa
+gui.button.kiss=Suutele
+gui.button.farming=Maanviljely
+gui.button.farming.radius=Laajuus: %a1%
+gui.button.farming.plant=Kasvi: %a1%
+gui.button.woodcutting=Puunhakkuu
+gui.button.woodcutting.logtype=Puun tyyppi: %a1%
+gui.button.woodcutting.replant=Uudelleenistuta: %a1%
+gui.button.mining=Kaivaminen
+gui.button.hunting=Metsästys
+gui.button.kill=Tapa
+gui.button.tame=Kesytä
+gui.button.cooking=Kokkaaminen
+gui.button.fishing=Kalastaminen
+gui.button.mode=Tila: %a1%
+gui.button.start=Aloita
+gui.button.stop=Lopeta
+gui.button.havebaby=Hanki vauva
+gui.button.divorce=Eroa
+gui.button.asktomarry=Kosi
+gui.button.hire=Palkkaa
+gui.button.hired=Palkattu
+gui.button.length=Pituus: %a1% tunti(a)
+gui.button.accept=Hyväksy
+gui.button.combat=Taistelu
+gui.button.extend=Pidennä
+gui.button.dismiss=Hylkää
+gui.button.divorcespouse=Eroa puolisosta
+gui.button.resetbaby=Nollaa vauva
+gui.button.setup.gender.false=Sukupuoli: Nainen
+gui.button.setup.gender.true=Sukupuoli: Mies
+gui.button.baron=Paroni
+gui.button.baroness=Paronitar
+gui.button.taxes=Pyydä veroja
+gui.title.namebaby.male=Se on poika!
+gui.title.namebaby.female=Se on tyttö!
+gui.title.namebaby=Nimeä vauvasi:
+gui.title.tombstone=Lisää hautakiven teksti:
+gui.title.editor=Kyläläismuokkaaja
+gui.title.whistle=Kutsu perheenjäsentä
 
-gui.info.family.married=Married to %a1%.
-gui.info.family.engaged=Engaged to %a1%.
-gui.info.family.marriedtoplayer=Married to you.
-gui.info.family.engagedtoplayer=Engaged to you.
-gui.info.family.notmarried=Not married.
-gui.info.family.mother=Mother\: %a1%
-gui.info.family.father=Father\: %a1%
-gui.info.family.mother.you=Mother\: You
-gui.info.family.father.you=Father\: You
+gui.info.family.married=Naimisissa %a1% kanssa.
+gui.info.family.engaged=Kihloissa %a1% kanssa.
+gui.info.family.marriedtoplayer=Kanssasi naimisissa.
+gui.info.family.engagedtoplayer=Kanssasi kihloissa.
+gui.info.family.notmarried=Ei naimisissa.
+gui.info.family.mother=Äiti: %a1%
+gui.info.family.father=Isä: %a1%
+gui.info.family.mother.you=Äiti: Sinä
+gui.info.family.father.you=Isä: Sinä
 
-gui.info.gift.line1=Gift Available
-gui.info.gift.line2=(Click to take)
+gui.info.gift.line1=Lahja saatavana
+gui.info.gift.line2=(Klikkaa ottaaksesi)
 
-gui.info.mood=Mood\: %a1%
-gui.info.personality=Personality\: %a1%
+gui.info.mood=Mieliala: %a1%
+gui.info.personality=Persoona: %a1%
 
-interaction.give.invalid1=I can't use that.
-interaction.give.invalid2=What is this? I can't do anything with it.
-interaction.give.invalid3=I don't know what you want me to do with that.
-interaction.give.invalid4=Why are you giving me this?
-interaction.give.invalid5=Huh? What is this thing?
+interaction.give.invalid1=En voi käyttää tuota.
+interaction.give.invalid2=Mikä tämä on? En voi tehdä sen kanssa mitään.
+interaction.give.invalid3=En tiedä mitä sinä haluat minun tekevän tuon kanssa.
+interaction.give.invalid4=Miksi annat tämän minulle?
+interaction.give.invalid5=Häh? Mikä tämä juttu on?
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
-interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
-interaction.divorce.priest.fail.notmarried=You are not married to anyone.
+interaction.divorce.priest.success1=Hyvä on. Täten et ole enää naimisissa.
+interaction.divorce.priest.success2=Kuten haluat. Löydä uusi rakkaus jostain muualta.
+interaction.divorce.priest.fail.notmarried=Et ole naimisissa kenenkään kanssa.
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried1=En ole naimisissa kenenkään kanssa.
+interaction.divorce.notmarried2=Mihin minä eropapereita tarvitsen? En ole naimisissa.
+interaction.divorce.notmarried3=En ole naimisissa. Miksi sinä annat nämä minulle?
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=Mitä?! Sinä haluat jättää puolisoni? Olet kamala!
+interaction.divorce.fail.notmarriedtoplayer2=Ei! En aio tehdä tuota puolisolleni! Olen onnellisesti naimisissa!
+interaction.divorce.fail.notmarriedtoplayer3=Mitä oikein luulet tekeväsi? En aio käyttää tuota!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success1=Luulin että sinä rakastit minua! Häivy!
+interaction.divorce.success2=Se oli hauskaa kunnes se loppui. Hyvästi, ja onnea.
+interaction.divorce.success3=En voi uskoa että teet tämän! Poistu, nyt!
+interaction.divorce.success4=Miksi sinä teet tämän minulle? En halua enää koskaan nähdä sinua!
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+interaction.marry.fail.marriedtogiver1=Se on kaunis sormus, mutta olen jo naimisissa sinun kanssasi, senkin pöhkö.
+interaction.marry.fail.marriedtogiver2=Olemme jo naimisissa. Satuitko unohtamaan?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=Olen pahoillani, ei... Olen jo naimisissa.
+interaction.marry.fail.marriedtoother2=Ai, luulin että tiesit... Olen jo naimisissa.
+interaction.marry.fail.marriedtoother3=Mitä?! Olen jo naimisissa!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried1=Öh... Näen tuon sormuksen sormessasi. Olet jo naimisissa!
+interaction.marry.fail.playermarried2=Mitä oikein luulet tekeväsi? Olet jo naimisissa!
+interaction.marry.fail.playermarried3=Mitä? Oikeasti? Luulen, että olet naimisissa jonkun muun kanssa, etkös olekin?
+interaction.marry.fail.playermarried4=Pöyristyttävää! Sinulla on jo puoliso.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+interaction.marry.fail.lowhearts1=Mitä? Ei! En pidä sinusta!
+interaction.marry.fail.lowhearts2=Oi, kaunis sormus! Hei odotas... onko se minulle? öö...ei.
+interaction.marry.fail.lowhearts3=Onko tuo minulle? Anteeksi, mutta en tunne sinua tarpeeksi.
+interaction.marry.fail.lowhearts4=Olen imarreltu, mutta en oikein tunne sinua.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+interaction.engage.success1=Kyllä! Menen naimisiin kanssasi! Rakastan sinua!
+interaction.engage.success2=Tottakai menen naimisiin kanssasi!
+interaction.engage.success3=Oli jo aikakin...kunhan vitsailin! Rakastan sinua!
+interaction.engage.success4=Onko... Onko tämä todellista? Tarkoitan, tämä hetki, ei sormus. Mutta onhan tuo sormus on aito?
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success1=Tämä on unelmieni täyttymys! Rakastan sinua ikuisesti!
+interaction.marry.success2=Me olemme vihdoin naimisissa! Mitäs nyt?
+interaction.marry.success3=Olen iloinen että menin naimisiin sinun kanssasi, %PlayerName%.
+interaction.marry.success4=En malta odottaa meidän yhteisen elämän aloittamista!
 
-interaction.matchmaker.fail.married1=I am already married to someone.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+interaction.matchmaker.fail.married1=Olen jo naimisissa toisen kanssa.
+interaction.matchmaker.fail.married2=Olen onnellisesti naimisissa, en halua toista puolisoa.
+interaction.matchmaker.fail.married3=En halua sitä - Olen jo naimisissa.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
-interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+interaction.matchmaker.fail.engaged1=Olen kihloissa jo toisen kanssa, en voi ottaa tuota sormusta.
+interaction.matchmaker.fail.engaged2=Olen luvannut mennä naimisiin toisen kanssa.
+interaction.matchmaker.fail.engaged3=Ai, kiitos mutta olen okei. Olen jo kihloissa toisen kanssa.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+interaction.matchmaker.fail.needtwo1=Sinähän tarvitset kaksi sormusta jotta voit järjestää häät?
+interaction.matchmaker.fail.needtwo2=Ai, okei! Mutta ensiksi tarvitset kaksi sormusta.
+interaction.matchmaker.fail.needtwo3=Puolisoni ja minä tarvitsemme molemmat sormuksen, mutta sinulla on vain yksi.
 
-interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
-interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
-interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
+interaction.matchmaker.fail.novillagers1=En näe ketään lähettyvillä. Kenet sinä halusit minun kanssa menevän naimisiin?
+interaction.matchmaker.fail.novillagers2=En oikein tiedä... siirrä minut lähemmäs sille jonka uskot olevan se oikea minulle.
+interaction.matchmaker.fail.novillagers3=Mutta täällä ei vaikuta olevan ketään lähettyvillä. Kenen kanssa minun pitäisi mennä naimisiin?
 
-interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
-interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
-interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+interaction.matchmaker.fail.invalid1=Mutta en voi mennä naimisiin %Name% kanssa.
+interaction.matchmaker.fail.invalid2=Ainoa lähettyvillä oleva kyläläinen on %Name%, ja en voi mennä naimisiin hänen kanssaan.
+interaction.matchmaker.fail.invalid3=En usko, että voin mennä naimisiin %Name% kanssa. Se saattaisi olla hiukan outoa.
 
-interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
-interaction.sethome.success3=Sure thing, %PlayerName%.
+interaction.sethome.success1=Ok, tästä tulee minun uusi kotipiste.
+interaction.sethome.success2=Ymmärrän, Nukun täällä öisin.
+interaction.sethome.success3=Selvä juttu, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Tämä ei näytä turvalliselta kotipaikalta minulle. Lähistöllä on muutama %a1%.
+interaction.sethome.fail2=Onko lähistöllä toista paikkaa? Tässä on muutama %a1% tiellä.
+interaction.sethome.fail3=En voi tehdä tästä kotipaikkaani. Lähistöllä on muutama %a1%.
 
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.toolow1=Olemme liian alhaalla että voisin luoda kaivoksen.
+interaction.mining.fail.toolow2=Meidän täytyy olla korkeammalla tasolla.
+interaction.mining.fail.toolow3=En usko, että kaivoksen luominen tänne on hyvä idea. Meidän täytyy olla korkeammalla.
+interaction.mining.fail.nopickaxe=Minulla ei ole hakkua. Miten minun kuuluisi louhia ilman sitä?
 interaction.mining.fail.broken=My pickaxe has broken and I don't have another one!
 
-interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
-interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.fail.notenoughgold=Sinä tarvitsen kasan %a1% kultaharkkoja palkataksesi tämän kyläläisen.
+interaction.hire.success1=Hienoa olla töissä! Mikä on ensimmäinen tehtäväni?
+interaction.hire.success2=Kaikki on kunnossa. Mitä haluaisit minun tekevän?
+interaction.hire.success3=Olen valmis työskentelemään välittömästi, pomo!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notnearby=En näe yhtään hevosta lähettyvillä.
+interaction.ridehorse.fail.notrideable=En voi ratsastaa tuolla hevosella.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
-interaction.resetbaby.fail=You do not have a baby.
+interaction.resetbaby.success=Selvä, voit saada nyt toisen lapsen. Ole varovaisempi seuraavalla kerralla!
+interaction.resetbaby.fail=Sinulla ei ole vauvaa.
 
-interaction.tax.happylevel4=Oh, of course! The village is thriving, and everyone's so happy! Keep up the good work.
-interaction.tax.happylevel3=Everyone has been working harder lately. They seem happier! Here's our tax.
+interaction.tax.happylevel4=Ah, totta kai! Kylä kukoistaa ja kaikki ovat niin iloisia! Jatka samaan malliin.
+interaction.tax.happylevel3=Kaikki ovat työskennelleet kovemmin viime aikoina. He vaikuttavat iloisemmilta! Tässä ovat veromme.
 interaction.tax.happylevel2=Alright, business as usual. Here you go.
 interaction.tax.happylevel1=But...this was all I had saved up over the past few months. I thought you were better than that.
-interaction.tax.happylevel0=We have almost nothing, and still you tax us? Everyone is hating this.
-interaction.tax.notlargeenough1=I don't think our village is big enough to require taxes...
-interaction.tax.notlargeenough2=We're just a small village - we don't need taxes.
-interaction.tax.notlargeenough3=We'd need a higher population before we even think about taxes.
-interaction.tax.notlargeenough4=Tax? What? We're too small for that!
+interaction.tax.happylevel0=Meillä ei ole melkein mitään ja sinä silti verotat meitä? Kaikki vihaavat tätä.
+interaction.tax.notlargeenough1=En usko, että kylämme on niin suuri, että se vaatisi veroja...
+interaction.tax.notlargeenough2=Olemme vain pieni kylä - emme tarvitse veroja.
+interaction.tax.notlargeenough3=Tarvitsemme korkeamman asukasmäärän ennen kuin voimme edes ajatella veroja.
+interaction.tax.notlargeenough4=Veroja? Mitä? Kylämme on liian pieni sitä varten!
 
-interaction.checkhappiness.success=My records put the village's happiness at about %a1% percent.
+interaction.checkhappiness.success=Tilastoideni mukaan kylän onnellisuus on noin %a1% prosenttia.
 interaction.checkhappiness.fail=Our village isn't large enough for me to track our happiness yet. We need %a1% more villagers.
 
-interactionp.marry.sent=You have asked %a1% to marry you.
-interactionp.marry.success=You are now married to %a1%.
-interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%a1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
-interactionp.marry.prompt=%a1% would like to marry you.
+interactionp.marry.sent=Olet pyytänyt %a1% naimaan sinut.
+interactionp.marry.success=Olet nyt naimisissa %a1% kanssa.
+interactionp.marry.fail.alreadymarried=Olet jo naimisissa tai kihloissa.
+interactionp.marry.fail.targetalreadymarried=%a1% on jo naimisissa.
+interactionp.marry.fail.noweddingring=Sinulla ei ole vihkisormusta.
+interactionp.marry.prompt=%a1% haluaisi mennä naimisiin kanssasi.
 
-interactionp.havebaby.sent=You have asked %a1% to have a baby.
-interactionp.havebaby.prompt=%a1% would like to have a baby.
-interactionp.havebaby.fail.alreadyexists=You should already have a baby.
+interactionp.havebaby.sent=Kysyit %a1% vauvan hankkimisesta.
+interactionp.havebaby.prompt=%a1% haluaisi saada vauvan.
+interactionp.havebaby.fail.alreadyexists=Sinulla pitäisi jo olla vauva.
 
-interactionp.divorce.notify=You are no longer married to %a1%.
+interactionp.divorce.notify=Et ole enään naimisissa %a1% kanssa.
 
-interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
+interaction.adoptbaby.success=Upeata! Haluaisin sinun tavata %a1%, uuden vauvasi! Kohtele häntä hyvin.
 
 ###################
 # Typed Dialogue
@@ -6096,626 +6094,627 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 #   Spouse      (married to the player recieving the message   
 #####################################
 
-adult.gift.bad1=This isn't a good gift...
-adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
-adult.gift.bad4=I don't want that, why would I?
-adult.gift.bad5=Why are you giving me that?
-adult.gift.bad6=Is this supposed to be a gift? No thanks.
+adult.gift.bad1=Tämä ei ole hyvä lahja...
+adult.gift.bad2=Mikä sai sinut ajattelemaan että tykkäisin tästä?
+adult.gift.bad3=Ei kiitos.
+adult.gift.bad4=En halua tuota, miksi haluaisin?
+adult.gift.bad5=Miksi annat tuon minulle?
+adult.gift.bad6=Onko tämän tarkoitus olla lahja? Ei kiitos.
 
-adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
-adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
-adult.gift.good5=A gift? For me? How nice\!
+adult.gift.good1=Kuinka kohteliasta! Kiitos.
+adult.gift.good2=Kiitos!
+adult.gift.good3=Kuinka huomaavaista!
+adult.gift.good4=Oi, minä rakastan näitä!
+adult.gift.good5=Lahja? Minulle? Kuinka hienoa!
 
-adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
-adult.gift.better4=Oh wow, I actually needed one of these\!
-adult.gift.better5=This is a pretty good gift\!
+adult.gift.better1=Hei, tämä on aika hieno!
+adult.gift.better2=Kiitos, ystäväiseni!
+adult.gift.better3=Olet todella hyvä kaveri %PlayerName%!
+adult.gift.better4=Vau, tarvitsinkin juuri tälläistä!
+adult.gift.better5=Tämä on aika hieno lahja!
 
-adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
-adult.gift.best2=How did you...nevermind, this is amazing\!
-adult.gift.best3=Oh wow, I've always wanted one of these\!
-adult.gift.best4=This is fantastic\! I'll put it to good use.
-adult.gift.best5=Thank you so much. I will remember this forever.
+adult.gift.best1=Minä....Minä en tiedä mitä minun pitäisi sanoa. Kiitos todella paljon, %PlayerName%!
+adult.gift.best2=Kuinka....no ihan sama, tämä on mahtava!
+adult.gift.best3=Vau, olen aina halunnut tälläiset!
+adult.gift.best4=Tämä on mahtava! Laitan sen hyvään käyttöön.
+adult.gift.best5=Kiitos erittäin paljon. En ikinä unohda tätä.
 
 # 5 good chats when talking to an adult:
-adult.chat.good1=Man, cookies and milk does sound delicious right now.
-adult.chat.good2=Yes, I suppose the weather is nice today.
-adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
-adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+adult.chat.good1=Hitsi, keksit ja maito kuulostaa nyt erittäin herkulliselta.
+adult.chat.good2=Kyllä, tänään on mukava sää.
+adult.chat.good3=Minulla menee hyvin! Löin tosin varpaani kun heräsin.
+adult.chat.good4=Omena päivässä pitää zombiet poissa!
+adult.chat.good5=Minun unelmani on rakentaa oma kylä, mutta olen niin laiska.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Did you seriously just say that?
-adult.chat.bad2=I don't believe it exploded on its own.
-adult.chat.bad3=You know, you're not that cool.
-adult.chat.bad4=Show off.
-adult.chat.bad5=You should be thrown in a dungeon\! 
+adult.chat.bad1=Sanoitko oikeasti juuri noin?
+adult.chat.bad2=En usko että se räjähti itsekseen.
+adult.chat.bad3=Tiedäthän, että et ole noin siisti.
+adult.chat.bad4=Leveilijä.
+adult.chat.bad5=Sinut pitäisi heittää tyrmään! 
 
 # 5 good jokes when talking to an adult:
-adult.joke.good1=Haha\! Serves that Skelly right\!
-adult.joke.good2=*Laughs* That's hilarious\!
-adult.joke.good3=That's funny\! Did you hear the one about the cows?
-adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
-adult.joke.good5=That's the best I have ever heard\!
+adult.joke.good1=Hehe! Oikein sille luurangolle!
+adult.joke.good2=*Nauraa* Tuo on huvittavaa!
+adult.joke.good3=Tuo oli hauska! Kuulitko sen yhden lehmistä?
+adult.joke.good4=Harmillista lampaalle menettää villansa, mutta hauska!
+adult.joke.good5=Tuo on paras minkä olen ikinä kuullut!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1=Don't speak about my pig like that\!
-adult.joke.bad2=Ha.
-adult.joke.bad3=Ah, you're not the funniest in town.
-adult.joke.bad4=That's low.
-adult.joke.bad5=You shouldn't joke about that.
+adult.joke.bad1=Älä puhu minun siastani tuolla tavalla!
+adult.joke.bad2=Heh.
+adult.joke.bad3=Heh, et ole kyllä kylän hauskin.
+adult.joke.bad4=Tuo oli alhaista.
+adult.joke.bad5=Sinun ei pitäisi vitsailla tuosta.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=You have a nice grip\!
-adult.handshake.good2=Your grip shows me you have great power\!
-adult.handshake.good3=Wow, you're so polite\!
-adult.handshake.good4=Good day\!
-adult.handshake.good5=Why, hello there\!
+adult.handshake.good1=Sinulla on hyvä ote!
+adult.handshake.good2=Otteesi näyttää minulle hyvin voimasi!
+adult.handshake.good3=Vau, olet niin kohtelias!
+adult.handshake.good4=Hyvää päivää!
+adult.handshake.good5=Hei, miten menee!
 
 # 5 bad handshakes when talking to an adult:
-adult.handshake.bad1=Seriously? After you slaughtered the cow?
-adult.handshake.bad2=Um, no that's okay.
-adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
-adult.handshake.bad4=Wow really? This isn't like you.
-adult.handshake.bad5=Go away.
+adult.handshake.bad1=Oletko tosissasi? Sen jälkeen kun teurastit lehmän?
+adult.handshake.bad2=Öö, ei se mitään.
+adult.handshake.bad3=En ole muukalainen, sinun ei tarvitse olla niin kohtelias.
+adult.handshake.bad4=Vau oikeasti? Tämä ei kuulosta sinulta.
+adult.handshake.bad5=Mene pois.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
-adult.tellstory.good2=I wish I was brave enough to take on a creeper.
-adult.tellstory.good3=That was a really good story\! Is it original?
-adult.tellstory.good4=All of that happened yesterday? No way\!
-adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
+adult.tellstory.good1=Oikeasti? En voi uskoa että tuo kaikki tapahtui!
+adult.tellstory.good2=Olisinpa minä tarpeeksi rohkea, että voisin taistella creeperiä vastaan.
+adult.tellstory.good3=Se oli erittäin hyvä tarina! Oliko se alkuperäinen?
+adult.tellstory.good4=Kaikki tuo tapahtui eilen? Uskomatonta!
+adult.tellstory.good5=Olin eilen siellä lähettyvillä, En voi uskoa että en kuullut tästä aikaisemmin.
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
-adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
-adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
-adult.tellstory.bad5=How could you kill a poor sheep?\!
+adult.tellstory.bad1=*Krhm* Puhut juuri äidistäni.
+adult.tellstory.bad2=Tämän takia kylä puhuu sinusta.
+adult.tellstory.bad3=En ymmärrä...
+adult.tellstory.bad4=Olet kamala! Creepereillä on myös tunteita!
+adult.tellstory.bad5=Kuinka pystyit tappamaan viattoman lampaan?!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1=You're sooo brave\!
-adult.flirt.good2=Oh, you\! Stop being so cute\!
-adult.flirt.good3=*Blushes* Do you mean it?
-adult.flirt.good4=Oh, my...
-adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
+adult.flirt.good1=Olet niiiin rohkea!
+adult.flirt.good2=Voi sinua! Lakkaa olemasta niin söpö!
+adult.flirt.good3=*Punastuu* Tarkoitatko sitä?
+adult.flirt.good4=No mutta...
+adult.flirt.good5=Tuo oli niin ihana! Olin aivan lumoutunut kun sanoit minulle "Hei"! 
 
 # 5 bad flirts when talking to an adult:
-adult.flirt.bad1=If you mean that, then prove it.
-adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
-adult.flirt.bad3=Not in a million years.
-adult.flirt.bad4=Pathetic much?
-adult.flirt.bad5=A zombie has a better chance than you.
+adult.flirt.bad1=Jos tarkoitat tuota, niin todista se.
+adult.flirt.bad2=Voi... Hetkinen, sinä kerroit leipurille saman jutun!
+adult.flirt.bad3=Ei edes miljoonassa vuodessa.
+adult.flirt.bad4=Aika säälittävä?
+adult.flirt.bad5=Zombiella on parempi mahdollisuus kuin sinulla.
 
 # 5 good hugs when talking to an adult:
-adult.hug.good1=Long time no see\!
-adult.hug.good2=Thank you, I needed that.
-adult.hug.good3=At least one thing made my day today.
-adult.hug.good4=You're as snuggly as a sheep\!
+adult.hug.good1=Pitkästä aikaa!
+adult.hug.good2=Kiitos, tarvitsin tuota.
+adult.hug.good3=Sentään jokin asia teki päivästäni paremman.
+adult.hug.good4=Olet yhtä pehmoinen kuin lammas!
 
 # 5 bad hugs when talking to an adult:
-adult.hug.bad1=You're covered in soot and mud\! 
-adult.hug.bad2=No thanks.
-adult.hug.bad3=Uh, why?
-adult.hug.bad4=After you called me a dinosaur last week? No.
-adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
+adult.hug.bad1=Olet noen ja mudan peitossa! 
+adult.hug.bad2=Ei kiitos.
+adult.hug.bad3=Öh, miksi?
+adult.hug.bad4=Sen jälkeen kun nimitit minua viime viikolla dinosaurukseksi? Ei.
+adult.hug.bad5=Suoraan sanottuna, et ansaitse halausta tekosi jälkeen.
 
 # 5 good kisses when talking to an adult:
-adult.kiss.good1=I wish this moment would last forever.
-adult.kiss.good2=I think I love you...
-adult.kiss.good3=Mmm, tastes like pumpkin pie\!
+adult.kiss.good1=Toivoisin että tämä hetki kestäisi ikuisuuden.
+adult.kiss.good2=Luulen että rakastan sinua...
+adult.kiss.good3=Mmm, maistuu aivan kuin kurpitsapiiraalta!
 
 # 5 bad kisses when talking to an adult:
-adult.kiss.bad1=Not if someone can see.
-adult.kiss.bad2=You call that a kiss?
-adult.kiss.bad3=Ash kisses better than you.
-adult.kiss.bad4=Two words... breath mints\!
-adult.kiss.bad5=Thank you?
+adult.kiss.bad1=Ei jos joku saattaa nähdä.
+adult.kiss.bad2=Kutsutko sinä tuota suudelmaksi?
+adult.kiss.bad3=Ash suutelee sinua paremmin.
+adult.kiss.bad4=Yksi sana... minttupastilleja!
+adult.kiss.bad5=Kiitos?
 
-adult.greeting1=Why, hello there\!
-adult.greeting2=Hey\! How are you today?
-adult.greeting3=Hey, good to see you\!
-adult.greeting4=What's going on with you today?
-adult.greeting5=How are you today?
+adult.greeting1=Hei, miten menee!
+adult.greeting2=Hei, mitä kuuluu?
+adult.greeting3=Moi, kiva nähdä sinua!
+adult.greeting4=Mitä sinulla on suunnitelmissa tälle päivälle?
+adult.greeting5=Kuinka voit tänään?
 
 ##############################################################################################
 
 # 5 good chats when talking to a parent:
-parent.chat.good1=I'm fine, and how are you, dear?
-parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
-parent.chat.good3=You make me so proud\!
-parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
-parent.chat.good5=That reminds me of when you were a lil' tot\! 
+parent.chat.good1=Voin hyvin, ja kuinka sinä voit, rakas?
+parent.chat.good2=Olenko koskaan kertonut kuinka sinä näytät sinun kadonneelta isosedältä?
+parent.chat.good3=Sinä teet minut niin ylpeäksi!
+parent.chat.good4=Kuinka ihanaa! Mitä tapahtui sinulle, et ole ikinä kiltti! *Nauraa*
+parent.chat.good5=Tuo muistuttaa minua kun olit vain pieni pallero! 
 
 # 5 bad chats when talking to a parent:
-parent.chat.bad1=You're never too old for spankings, smarty pants.
-parent.chat.bad2=Watch your mouth. That's not the way I raised you.
-parent.chat.bad3=This is why your sister was my favorite.
-parent.chat.bad4=Why are you not a doctor, yet?
-parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
+parent.chat.bad1=Et ole ikinä liian vanha saadaksesi selkäsaunan, viisastelija.
+parent.chat.bad2=Varo puheitasi. En kasvattanut sinua moiseksi.
+parent.chat.bad3=Tämän takia sinun siskosi oli suosikkini.
+parent.chat.bad4=Miksi et ole vielä lääkäri?
+parent.chat.bad5=Minulla oli timanttimiekka sinulle, mutta nyt et saa sitä!
 
 
 # 5 good jokes when talking to a parent:
-parent.joke.good1=You get your humor from me\!*Laughs*
-parent.joke.good2=You fill my day with laughter and joy\!
-parent.joke.good3=I needed that laugh\!
-parent.joke.good4=When did you become a comedian? That's hilarious\!
-parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
+parent.joke.good1=Saat huumorisi minulta! *Nauraa*
+parent.joke.good2=Täytät päiväni naurulla ja ilolla!
+parent.joke.good3=Tarvitsin tuota naurua!
+parent.joke.good4=Milloin ryhdyit koomikoksi? Tuo on hulvaton!
+parent.joke.good5=Isotäti Berry olisi rakastanut kuulla tuon!
 
 # 5 bad jokes when talking to a parent:
-parent.joke.bad1=Ha...
-parent.joke.bad2=You're my kid so I have to laugh... but it isn't funny.
-parent.joke.bad3=You're as dull as my first date.
-parent.joke.bad4=No offense, but that was bad.
-parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
+parent.joke.bad1=Heh...
+parent.joke.bad2=Olet minun lapseni, joten minun täytyy nauraa... mutta se ei ole hauskaa.
+parent.joke.bad3=Olet yhtä tylsä kuin ensimmäiset treffini.
+parent.joke.bad4=Älä loukkaanu, mutta tuo oli huono.
+parent.joke.bad5=Kukaan ei ikinä kertonut meille, että olit se hauska tyyppi, aivan varmasti.
 
 # 5 good handshakes when talking to a parent:
-parent.handshake.good1=It's good to see that we raised a polite child\!
-parent.handshake.good2=How civil\! We've tought you well.
-parent.handshake.good3=Good to see you again\!
-parent.handshake.good4=How have you been?
-parent.handshake.good5=That's a nice, firm handshake you've got there.
+parent.handshake.good1=On hieno nähdä, että kasvatimme kohteliaan lapsen!
+parent.handshake.good2=Kuinka kohteliasta! Me olemme opettaneet sinua hyvin.
+parent.handshake.good3=Hienoa nähdä sinua jälleen!
+parent.handshake.good4=Kuinka olet voinut?
+parent.handshake.good5=Sinulla on mukavan vahva kättelyote.
 
 # 5 bad handshakes when talking to a parent:
-parent.handshake.bad1=If only you were this polite at family reunions.
-parent.handshake.bad2=What's with the formality? 
-parent.handshake.bad3=You'll shake my hand but not hug me?
-parent.handshake.bad4=Are you embarrassed to be seen with me, or something?
-parent.handshake.bad5=I never realized how weak you were.
+parent.handshake.bad1=Jos vain olisitkin yhtä kohtelias sukukouksissa.
+parent.handshake.bad2=Miksi moiset muodollisuudet? 
+parent.handshake.bad3=Kättelet minua, mutta et halaa?
+parent.handshake.bad4=Oletko nolostunut, että sinut nähdään minun kanssani vai mikä on ongelmana?
+parent.handshake.bad5=En ikinä tajunnut kuinka heikko sinä olit.
 
 # 5 good stories when talking to a parent:
-parent.tellstory.good1=After that you took off your diaper and threw it on the priest\!
-parent.tellstory.good2=Did you end up getting a date?
-parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
-parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
-parent.tellstory.good5=Is the house done, yet?
+parent.tellstory.good1=Sen jälkeen sinä otit sinun vaippasi ja heitit sen pappia päin!
+parent.tellstory.good2=Päädyitkö sitten treffeille?
+parent.tellstory.good3=Ne kuulostavat ihanilta! No, milloin aiot tehdä minut isovanhemmaksi?
+parent.tellstory.good4=Kyllä, muistan tuon! Sinun serkkusi Bert söi aivan liian paljon keksejä.
+parent.tellstory.good5=Onko talo valmis vielä?
 
 # 5 bad stories when talking to a parent:
-parent.tellstory.bad1=I wish you were little again, this story depresses me.
-parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
-parent.tellstory.bad3=You stole my earrings?\! 
-parent.tellstory.bad4=We all know you can't be a successful miner.
-parent.tellstory.bad5=You're not the brightest lightbulb in the room...
+parent.tellstory.bad1=Toivoisin, että olisit pieni jälleen. Tämä tarina masentaa minua.
+parent.tellstory.bad2=Älä uskallakkaan tehdä tuota uudestaan! Susia ei saa aliarvioida!
+parent.tellstory.bad3=Ryöstitkö sinä minun korvakorut?! 
+parent.tellstory.bad4=Me kaikki tiedämme, että et voi olla menestynyt mainari.
+parent.tellstory.bad5=Sinä et ole kirkkain hehkulamppu tässä huoneessa...
 
 # 5 good hugs when talking to a parent:
-parent.hug.good1=You've grown so much\!
-parent.hug.good2=I remember hugging you each night before bed.
-parent.hug.good3=Sweet child of mine\! 
-parent.hug.good4=You never let me down\! 
-parent.hug.good5=You're the best child a parent could ask for\!
+parent.hug.good1=Olet kasvanut niin paljon!
+parent.hug.good2=Muistan kuinka halasin sinua joka ilta ennen nukkamaanmenoa.
+parent.hug.good3=Rakas lapseni! 
+parent.hug.good4=Et ole koskaan pettänyt minua! 
+parent.hug.good5=Olet paras lapsi mitä vanhempi voisi ikinä pyytää!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1=I'm not mad, I'm disappointed. 
-parent.hug.bad2=Sucking up? Get your own cake mix\!
-parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
-parent.hug.bad4=Not until you wash off.
-parent.hug.bad5=After you told me that? No way.
+parent.hug.bad1=En ole vihainen, olen pettynyt. 
+parent.hug.bad2=Meneekö huonosti? Hanki oma kakkuresepti!
+parent.hug.bad3=Miksi emme halaile näin useammin? Oletko sinä nolostunut? 
+parent.hug.bad4=Ei, kunnes peseydet.
+parent.hug.bad5=Sen jälkeen kun kerroit minulle tuon? Älä luulekaan.
 
 
 ##############################################################################################
 
 # 5 good chats when talking to a relative:
-relative.chat.good1=You act just like your momma did as a kid\!
-relative.chat.good2=I'm glad you came to see me\!
-relative.chat.good3=We should get a family reunion together.
-relative.chat.good4=You're the sweetest of the family\!
-relative.chat.good5=Don't tell anyone, but you're my favorite\!
+relative.chat.good1=Käyttäydyt aivan kuin äitisi lapsena!
+relative.chat.good2=Olen iloinen, että tulit tapaamaan minua!
+relative.chat.good3=Meidän pitäisi järjestää yhteinen sukukokous.
+relative.chat.good4=Olet perheen ihanin!
+relative.chat.good5=Älä kerro kenellekään, mutta olet minun suosikkini!
 
 # 5 bad chats when talking to a relative:
-relative.chat.bad1=Excuse me? Do you know who you are talking to?
-relative.chat.bad2=That's no excuse to speak to me like that\!
-relative.chat.bad3=Go home. You're no longer welcome around me.
-relative.chat.bad4=If you don't leave I'll put a restraining order on you.
-relative.chat.bad5=You're so rude.
+relative.chat.bad1=Anteeksi? Tiedätkö kenelle sinä olet puhumassa?
+relative.chat.bad2=Se ei ole mikään tekosyy puhua minulle tuolla tavalla!
+relative.chat.bad3=Mene kotiisi. Et ole enää tervetullut lähettyvilleni.
+relative.chat.bad4=Jos et lähde niin laitan lähestymiskiellon sinulle.
+relative.chat.bad5=Olet niin törkeä.
 
 # 5 good jokes when talking to a relative:
-relative.joke.good1=Grandpa told you that one, didn't he?\!
-relative.joke.good2=That joke goes way back in the family\!
-relative.joke.good3=Then the cow jumped over the ravine\! *Laughs*
+relative.joke.good1=Pappa kertoi sinulle tuon, eikös vain?!
+relative.joke.good2=Tuo vitsi on menee pitkällä perinteenä perheessämme!
+relative.joke.good3=Sitten lehmä hyppäsi rotkon yli *Nauraa*
 
 # 5 bad jokes when talking to a relative:
-relative.joke.bad1=You shouldn't speak about family that way.
-relative.joke.bad2=Leave the humor to uncle.
+relative.joke.bad1=Sinun ei pitäisi puhua perheestä tuolla tavalla.
+relative.joke.bad2=Jätä huumori sedälle.
 
 # 5 good handshakes when talking to a relative:
-relative.handshake.good1=Put it there\!
-relative.handshake.good2=*Pulls hand away* Gotchya\!
-relative.handshake.good3=Next time I expect diamonds\! *Laughs*
+relative.handshake.good1=Laita se tuonne!
+relative.handshake.good2=*Vetää käden pois* Sainpas!
+relative.handshake.good3=Seuraavalla kerralla odotan timantteja! *Nauraa*
 
 # 5 bad handshakes when talking to a relative:
-relative.handshake.bad1=Come on, we're family. Informality is fine.
-relative.handshake.bad2=Shawn warned me about this...
-relative.handshake.bad3=Is this some sort of joke?
+relative.handshake.bad1=Älä viitsi, olemme yhtä perhettä. Epämuodollisuus on hyvästä.
+relative.handshake.bad2=Shawn varoitti minua tästä...
+relative.handshake.bad3=Onko tämä jonkin sortin vitsi?
 
 # 5 good stories when talking to a relative:
-relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
-relative.tellstory.good2=Sounds like Grandad Jay\! He used to throw people in the lake\!
-relative.tellstory.good3=Grandma used to sew the chicken feathers, too.
-relative.tellstory.good4=Mmm... Your mom's cow stew was amazing back then.
-relative.tellstory.good5=We should get together like that more often\!
+relative.tellstory.good1=Annas kun kerron sinulle, sinun äitisi oli aina varkaissa lapsena!
+relative.tellstory.good2=Kuulostaa aivan kuin pappa Jaylta! Hänellä oli tapana heittää ihmisiä järveen!
+relative.tellstory.good3=Mummolla oli myös tapana ommella kanan sulkia.
+relative.tellstory.good4=Mmmm... Sinun äitisi lehmä muhennos oli mahtavaa aikoinaan.
+relative.tellstory.good5=Meidän pitäisi tehdä samanlaisia tapaamisia enemmin!
 
 # 5 bad stories when talking to a relative:
-relative.tellstory.bad1=That's when the family fell apart...
-relative.tellstory.bad2=Oh, that's right... you're the snobby one...
-relative.tellstory.bad3=Quit trying to show off.
-relative.tellstory.bad4=Your parents raised you better than that\!
-relative.tellstory.bad5=You have officially been disowned.
+relative.tellstory.bad1=Silloin perhe hajosi...
+relative.tellstory.bad2=Ah, Aivan... Sinä olet se hienosteleva tyyppi...
+relative.tellstory.bad3=Lopeta tuo kerskarointi.
+relative.tellstory.bad4=Sinun vanhempasi kasvattivat sinut paremmaksi ihmiseksi!
+relative.tellstory.bad5=Sinut on virallisesti hylätty.
 
 # 5 good hugs when talking to a relative:
-relative.hug.good1=It's good to see you\!
-relative.hug.good2=You should make time to see Uncle Jimmy, next\!
-relative.hug.good3=I wish I had more to give you other than this hug\!
-relative.hug.good4=Don't wait too long to see me again\!
-relative.hug.good5=I always look forward to your hugs\!
+relative.hug.good1=On mukava nähdä sinua!
+relative.hug.good2=Sinun pitäisi varata aikaa tavataksesi Setä Jimmyn seuraavalla kerralla!
+relative.hug.good3=Kunpa minulla olisi enemmin annettavaa kuin tämä halaus!
+relative.hug.good4=Älä odota liian kauan seuraavaa vierailua!
+relative.hug.good5=Odotan aina innolla sinun halauksia!
 
 
 # 5 bad hugs when talking to a relative:
-relative.hug.bad1=Let me guess, this will be the last time I see you for a year?
-relative.hug.bad2=I guess you're leaving me again.
-relative.hug.bad3=*Sighs* Does this mean goodbye?
-relative.hug.bad4=Please stay a little longer...
-relative.hug.bad5=Ew, that's okay. You sweat too much.
+relative.hug.bad1=Annas kun arvaan, tämä tulee olemaan viimeinen kerta kun näen sinut tänä vuonna?
+relative.hug.bad2=Taidat lähteä taas jonnekin.
+relative.hug.bad3=*Huokaisu* Tarkoittaako tämä hyvästejä?
+relative.hug.bad4=Pysy täällä vähän kauemmin...
+relative.hug.bad5=Yäk, ei se mitään. Sinä hikoilet liian paljon.
 
 ##############################################################################################
 
 # 5 good chats when talking to a child:
-child.chat.good1=I heard stories about you\! Are you a hero?
-child.chat.good2=Hi. I was going to go try and climb to the roof.
-child.chat.good3=Do you wanna go burn stuff with me?
-child.chat.good4=I'm going to be a hunter like you and kill many things\!
-child.chat.good5=Hi\! What are you doing today? I'm going swimmin'\!
+child.chat.good1=Kuulin tarinoita sinusta! Oletko sankari?
+child.chat.good2=Moi. Yritin kiivetä katolle.
+child.chat.good3=Haluatko mennä polttamaan tavaroita kanssani?
+child.chat.good4=Aion ryhtyä metsästäjäksi kuten sinä ja tappaa monia asioita!
+child.chat.good5=Hei! Mitä ajattelit tekeväsi tänään? Aion mennä uimaan!
 
 # 5 bad chats when talking to a child:
-child.chat.bad1=If you don't give me cookies I'll hold my breath.
-child.chat.bad2=My parents said not to talk to you, that you're bad.
-child.chat.bad3=*Laughs* You look smelly\!
-child.chat.bad4=Oh yeah? Well I'm gonna egg your house\!
-child.chat.bad5=Lalala, I'm not listening\! Lalala.
+child.chat.bad1=Jos et anna minulle keksejä niin pidättelen hengitystäni.
+child.chat.bad2=Minun vanhempani kielsivät minua puhumasti sinulle, olet kuulemma paha.
+child.chat.bad3=*Nauraa* Näytät haisevalta!
+child.chat.bad4=Ihanko? No, minä aion tulittaa munia taloosi!
+child.chat.bad5=Lalala, En kuule mitään! Lalala.
 
 # 5 good jokes when talking to a child:
-child.joke.good1=You're funnier than daddy\!
-child.joke.good2=Tell me another one\!
-child.joke.good3=You're the funniest person alive\!
-child.joke.good4=I'm tellin' my momma that one\! *Laughs*
-child.joke.good5=It should eat a leaf\!
+child.joke.good1=Olet hauskempi kuin isi!
+child.joke.good2=Kerro minulle joku toinen!
+child.joke.good3=Sinä olet hauskin tyyppi elossa!
+child.joke.good4=Tuon kyllä kerron äidilleni! *Nauraa*
+child.joke.good5=Sen pitäisi syödä lehtiä!
 
 # 5 bad jokes when talking to a child:
-child.joke.bad1=I don't get it.
-child.joke.bad2=You're not funny. Really.
-child.joke.bad3=You need to stop...
-child.joke.bad4=But, who's apple?
-child.joke.bad5=Don't be mean\!
+child.joke.bad1=En ymmärrä.
+child.joke.bad2=Et ole hauska. Oikeasti.
+child.joke.bad3=Sinun pitää lopettaa...
+child.joke.bad4=Mutta, kuka on omena?
+child.joke.bad5=Älä ole ilkeä!
 
 # 5 good handshakes when talking to a child:
-child.handshake.good1=Hiya\! Someone I know likes you...
-child.handshake.good2=Dad said this is a very nice thing to do.
-child.handshake.good3=Now high five\! Down low... too slow\!
-child.handshake.good4=Hi stranger\!
-child.handshake.good5=*Giggles* I just cleaned a cow with this hand.
+child.handshake.good1=Heips! Tiedän erään, joka tykkää sinusta...
+child.handshake.good2=Isä sanoi, että tämä on erittäin ystävällinen juttu tehdä.
+child.handshake.good3=Nyt ylävitonen! Ala vi... liian hidas!
+child.handshake.good4=Hei muukalainen!
+child.handshake.good5=*Kikattaa* Puhdistin juuri lehmän tällä kädellä.
 
 # 5 bad handshakes when talking to a child:
-child.handshake.bad1=Stranger danger...
-child.handshake.bad2=Mom, dad\! This person is trying to kidnap me\!
-child.handshake.bad3=Don't touch me I'm famous\!
-child.handshake.bad4=Ew, your hand has black stuff on it.
-child.handshake.bad5=I'll only shake your hand if you give me a diamond.
+child.handshake.bad1=Lähestymisvaara...
+child.handshake.bad2=Äiti, isä! Tuo tyyppi aikoo kidnapata minut!
+child.handshake.bad3=Älä kosketa minua. Olen kuuluisa!
+child.handshake.bad4=Hyi, sinun kädessäsi on mustaa tököttiä.
+child.handshake.bad5=Kättelen sinua vain jos annat minulle timantin.
 
 # 5 good stories when talking to a child:
-child.tellstory.good1=Wow\! You're a beast\!
-child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
-child.tellstory.good3=Can you adopt me?\! You're awesome\!
-child.tellstory.good4=I went fishing and almost drowned.
-child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
+child.tellstory.good1=Vau! Olet peto!
+child.tellstory.good2=Haluan olla isona aivan kuin sinä. Hyshh, älä kerro isälle.
+child.tellstory.good3=Voitko adoptoida minut?! Olet mahtava!
+child.tellstory.good4=Menin kalastamaan ja melkein hukuin.
+child.tellstory.good5=Tarkoittaako tämä, että voin ottaa ihan mitä haluan? Siis "Lainata?"
 
 # 5 bad stories when talking to a child:
-child.tellstory.bad1=You're a meanie\!
-child.tellstory.bad2=I'm telling my mom what you said about her...
-child.tellstory.bad3=I believe you're speaking about my grandpa...
-child.tellstory.bad4=You're nothing but a scaredycat like dad said\!
-child.tellstory.bad5=How could you kill a poor chicken?
+child.tellstory.bad1=Olet ilkimys!
+child.tellstory.bad2=Kerron äidilleni mitä sanoit hänestä...
+child.tellstory.bad3=Tietääkseni sinä puhut papastani...
+child.tellstory.bad4=Et ole muuta kuin totaalinen pelkuri, aivan kuten isä sanoi!
+child.tellstory.bad5=Kuinka pystyit tappamaan viattoman kanan?
 
-child.greeting1=Hi, who are you?
-child.greeting2=My name's %Name%. What's your name?
-child.greeting3=Eek\! You look scary\!
+child.greeting1=Hei, kuka sinä olet?
+child.greeting2=Minun nimeni on %Name%. Mikä sinun nimesi on?
+child.greeting3=Ääk! Sinä näytät pelottavalta!
 
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
-childp.chat.good1=Oh, I was just going to go explorin' later.
-childp.chat.good2=Can we go camping? Please?\!
-childp.chat.good3=Hi, can you make me a cake?
-childp.chat.good4=Can I have my own room away from our house? That would be cool\!
-childp.chat.good5=Let's move into a cave\! That sounds so fun\!
+childp.chat.good1=Ai, Olinkin menossa seikkailemaan myöhemmin.
+childp.chat.good2=Voimmeko mennä retkelle? Kiltti?!
+childp.chat.good3=Hei, voitko tehdä minulle kakun?
+childp.chat.good4=Voinko saada oman huoneeni pois sinun talostasi? Se olisi siistiä!
+childp.chat.good5=Muutetaan luolaan! Se olisi niin kivaa!
 
 # 5 bad chats when talking to an playerchild:
-childp.chat.bad1=%ParentOpposite% talks about them a lot...
-childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
-childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-childp.chat.bad4=I want a new daddy.
-childp.chat.bad5=I don't want a baby sister.
+childp.chat.bad1=%ParentOpposite% puhuu hänestä paljon...
+childp.chat.bad2=En usko, että %ParentOpposite% tykkäisi tuosta kauheasti.
+childp.chat.bad3=Onko se miksi %ParentOpposite% puhui tästä ihme "avioero" jutusta
+childp.chat.bad4=Haluan uuden isin.
+childp.chat.bad5=En halua vauvasiskoa.
 
 # 5 good jokes when talking to an playerchild:
-childp.joke.good1=*Laughs* Tell that one again\!
-childp.joke.good2=I've got to tell my friend that one\!
-childp.joke.good3=How did the creeper explode?\!
-childp.joke.good4=*Laughs*Why is there no longer 3 of them?
-childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
+childp.joke.good1=*Nauraa* Kerro tuo uudelleen!
+childp.joke.good2=Minun täytyy kertoa tuo ystävälleni!
+childp.joke.good3=Kuinka se creeper räjähti?!
+childp.joke.good4=*Nauraa* Miksei heitä ole enää 3?
+childp.joke.good5=*Nauraa* ... *Nauraa* ... *Nauraa*
 
 # 5 bad jokes when talking to an playerchild:
-childp.joke.bad1=%ParentOpposite% said you were funny, though...
-childp.joke.bad2=I like knock knock jokes better.
-childp.joke.bad3=I don't get it, that was dumb.
-childp.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
-childp.joke.bad5=I'd rather have cake.
+childp.joke.bad1=%ParentOpposite% sanoi, että sinä olisit hauska...
+childp.joke.bad2=Tykkään kop kop vitseistä enemmin.
+childp.joke.bad3=En ymmärrä tuota, se oli tyhmä.
+childp.joke.bad4=*Haukotus* Minun ystäväni isä on paljon siistimpi ja hauskempi kuin sinä.
+childp.joke.bad5=Haluaisin mieluummin kakkua.
 
 # 5 good handshakes when talking to an playerchild:
-childp.handshake.good1=Why do I need to learn this stuff? 
-childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-childp.handshake.good3=I'm gonna be just like you when I grow up\!
-childp.handshake.good4=Can I have cake now?
-childp.handshake.good5=I don't get it, but okay\! 
+childp.handshake.good1=Miksi minun tarvitsee opetella näitä? ? 
+childp.handshake.good2=%ParentOpposite% sanoi, että tämä on kohteliasta.
+childp.handshake.good3=Aion olla isona aivan kuin sinä!
+childp.handshake.good4=Voinko saada nyt kakkua?
+childp.handshake.good5=En ymmärrä, mutta okei! 
 
 # 5 bad handshakes when talking to an playerchild:
-childp.handshake.bad1=I spit on my hand.
-childp.handshake.bad2=You're such an old person.
-childp.handshake.bad3=Only losers shake hands.
-childp.handshake.bad4=I'll shake your hand if you give me cake.
-childp.handshake.bad5=No, you'll slip and hit me.
+childp.handshake.bad1=Syljin käteeni.
+childp.handshake.bad2=Sinä olet kamalan vanha tyyppi.
+childp.handshake.bad3=Vain luuserit kättelevät.
+childp.handshake.bad4=Kättelen sinua jos annat minulle kakkua.
+childp.handshake.bad5=Ei, sinä lipsahdat, ja osut minuun.
 
 # 5 good stories when talking to an playerchild:
-childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
-childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
-childp.tellstory.good3=One day I'll kill more creepers than you\!
-childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
-childp.tellstory.good5=Did the lava hurt? 
+childp.tellstory.good1=%ParentOpposite% teki todella tuon?! Mitä tapahtui heidän vaatteille?
+childp.tellstory.good2=Minäkin haluan tutkia luolaa! Mennään!
+childp.tellstory.good3=Tulen jonain päivänä tappamaan enemmän creeppereitä kuin sinä!
+childp.tellstory.good4=Oi, kyllä, kyllä! Voimmeko mekin kiivetä myös puuhun?!
+childp.tellstory.good5=Satuttiko laava sinua? 
 
 # 5 bad stories when talking to an playerchild:
-childp.tellstory.bad1=I don't want to hear about grandma.
-childp.tellstory.bad2=You always say that. I just want a pet.
-childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
-childp.tellstory.bad4=You said you didn't eat the cake and cookies...
-childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
+childp.tellstory.bad1=En halua kuulla mitään tarinoita mummosta.
+childp.tellstory.bad2=Sinä aina sanot noin. Haluan vain lemmikin.
+childp.tellstory.bad3=%ParentOpposite% on myöskin valehdellut sinulle.
+childp.tellstory.bad4=Sinä sanoit, että et halunnut syödä kakkua ja keksejä...
+childp.tellstory.bad5=Joku sanoi, että olet paha ihminen ja minä uskon häntä!
 
 # 5 good hugs when talking to an playerchild:
-childp.hug.good1=*Kisses* You're the best ever\!
-childp.hug.good2=I'm going to be as strong as you are one day\!
-childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-childp.hug.good4=I love hugs\! You're soft and warm\!
-childp.hug.good5=You should hug %ParentOpposite% too\!
+childp.hug.good1=*Pusuja* Sinä olet ihan paras!
+childp.hug.good2=Aion olla jonain päivänä yhtä vahva kuin sinä!
+childp.hug.good3=Miksei %ParentOpposite% halaa minua enää?
+childp.hug.good4=Rakastan haleja! Olet pehmeä ja lämmin!
+childp.hug.good5=Sinun pitäisi halata %ParentOpposite% ia myöskin!
 
 # 5 bad hugs when talking to an playerchild:
-childp.hug.bad1=I'm too old for hugs\!
-childp.hug.bad2=Stop it\! I don't want people to see\!
-childp.hug.bad3=Go away, you're so annoying\!
-childp.hug.bad4=Just leave me alone or give me some cookies\!
-childp.hug.bad5=I'd rather hug a skeleton. 
+childp.hug.bad1=Olen liian vanha haleille!
+childp.hug.bad2=Lopeta tuo! En halua ihmisten näkevän!
+childp.hug.bad3=Mene pois, sinä olet niin ärsyttävä!
+childp.hug.bad4=Jätä minut vaan rauhaan tai anna minulle keksejä!
+childp.hug.bad5=Halaisin mieluummin luurankoa. 
 
-childp.greeting1=Hey there\!
-childp.greeting2=Hey, what's going on?
-childp.greeting3=What are you doing?
-childp.greeting4=Where are you going?
+childp.greeting1=Hei siellä!
+childp.greeting2=Hei, mitä täällä tapahtuu?
+childp.greeting3=Mitä sinä olet tekemässä?
+childp.greeting4=Minne sinä olet menossa?
 
 ##############################################################################################
 
 # 5 good chats when talking to an spouse:
-spouse.chat.good1=I cleaned the entire house. How was your day?
-spouse.chat.good2=Honey, let's go camping sometime. Doesn't that sound like fun?
-spouse.chat.good3=So today I saw a spider. It was huge so I ran away.
-spouse.chat.good4=We should build a new house together\!
-spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good\!
+spouse.chat.good1=Minä siivosin koko talon. Miten päiväsi sujui?
+spouse.chat.good2=Kulta, lähdetään retkelle joskus. Eikö se kuulostakin hauskalta?
+spouse.chat.good3=Näin tänään hämähäkin. Se oli suuri joten juoksin karkuun.
+spouse.chat.good4=Meidän pitäisi rakentaa yhdessä uusi talo!
+spouse.chat.good5=Melkein kävelin laavakuoppaan jokin aika sitten. Se ei olisi ollut hyvä juttu!
 
 # 5 bad chats when talking to an spouse:
-spouse.chat.bad1=I know we're not the poorest family, but...
-spouse.chat.bad2=I love being around you but I need some space.
-spouse.chat.bad3=Sometimes I wish I had my own "cave" to escape from you and everyone.
-spouse.chat.bad4=Go away, I'm not in the mood.
-spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
+spouse.chat.bad1=Tiedän että emme ole köyhin perhe, mutta...
+spouse.chat.bad2=Rakastan olla sinun lähettyvillä, mutta tarvitsen hieman omaa tilaa.
+spouse.chat.bad3=Joskus toivoisin, että minulla olisi oma "luola" jonne voisin karata sinulta ja kaikilta.
+spouse.chat.bad4=Mene pois, en ole hyvällä tuulella.
+spouse.chat.bad5=Missä sinä olet ollut? Näetkö sinä jonkun minun selkäni takana?
 
 # 5 good jokes when talking to an spouse:
-spouse.joke.good1=*Laughs* I married you for your humor\!
-spouse.joke.good2=You should throw an egg at him next time\!
-spouse.joke.good3=Then the wolf fell in love with the sheep.
-spouse.joke.good4=That never gets old\!
-spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up?
+spouse.joke.good1=*Nauraa* Huumorisi takia meninkin kanssasi naimisiin!
+spouse.joke.good2=Seuraavalla kerralla sinun pitäisi heittää häntä munalla!
+spouse.joke.good3=Sitten susi rakastui lampaan kanssa.
+spouse.joke.good4=Tuo ei ikinä vanhene!
+spouse.joke.good5=Tässä yksi sinulle... Kuinka monta kanaa creeper räjäyttää?
 
 # 5 bad jokes when talking to an spouse:
-spouse.joke.bad1=Lame...
-spouse.joke.bad2=Sweetheart, you're not funny.
-spouse.joke.bad3=Ha...Ha...Ha...Not funny.
-spouse.joke.bad4=You need to erase that from your mind.
-spouse.joke.bad5=Okay...
+spouse.joke.bad1=Laimea...
+spouse.joke.bad2=Kultaseni, sinä et ole hauska.
+spouse.joke.bad3=He...He...He...Ei ole hauskaa.
+spouse.joke.bad4=Sinun täytyy pyyhkiä tuo pois mielestäsi.
+spouse.joke.bad5=Okei...
 
 # 5 good handshakes when talking to an spouse:
-spouse.handshake.good1=Your hand is so soft\!
-spouse.handshake.good2=Our hands fit perfectly together.
-spouse.handshake.good3=One day people will forget to shake hands.
-spouse.handshake.good4=Our children will need to be this polite.
-spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
+spouse.handshake.good1=Sinun kätesi on niin pehmeä!
+spouse.handshake.good2=Meidän kätemme sopivat niin täydellisesti yhteen.
+spouse.handshake.good3=Joku päivä ihmiset tulevat unohtamaan kättelyn jalon taidon.
+spouse.handshake.good4=Meidän lapsemme täytyy olla näin kohteliaita.
+spouse.handshake.good5=*Jatkaa kättelyä* Kerro minulle milloin voimme lopettaa!
 
 # 5 bad handshakes when talking to an spouse:
-spouse.handshake.bad1=Handshake? How about a kiss, instead?
-spouse.handshake.bad2=*Squeezes hand hard*
-spouse.handshake.bad3=Your hand is nasty, no way.
-spouse.handshake.bad4=They have germs on them.
-spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
+spouse.handshake.bad1=Kättely? Kuinka olisi pusu sen sijaan?
+spouse.handshake.bad2=*Puristaa kättä kovaa*
+spouse.handshake.bad3=Sinun kätesi on ällö, en varmana.
+spouse.handshake.bad4=Noissa on bakteereja.
+spouse.handshake.bad5=Voisit vaikka hankkia kunnon työn kättelemisen sijaan?
 
 # 5 good stories when talking to an spouse:
-spouse.tellstory.good1=Let's not tell our children that one...
-spouse.tellstory.good2=You were so rebellious\! I love it\!
-spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
-spouse.tellstory.good4=It was that moment when I fell in love with you\!
-spouse.tellstory.good5=Wow, you're the best hunter ever\!
+spouse.tellstory.good1=Ei kerrota lapsille tuota...
+spouse.tellstory.good2=Olit niin kapinoiva! Rakastan sitä!
+spouse.tellstory.good3=Kerroitko ikinä sinun vanhemmillesi heidän sormuksien kadottamisesta?
+spouse.tellstory.good4=Tuo oli se hetki kun rakastuin sinuun!
+spouse.tellstory.good5=Vau, olet paras metsästäjä ikinä!
 
 # 5 bad stories when talking to an spouse:
-spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
-spouse.tellstory.bad2=Don't do something that reckless\!
-spouse.tellstory.bad3=You have a family to think about\!
-spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
-spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
+spouse.tellstory.bad1=Puhu minulle kun olet tappanut jotain muuta kuin harmittoman lehmän.
+spouse.tellstory.bad2=Älä tee jotain noin holtitonta!
+spouse.tellstory.bad3=Sinulla on perhe huolehdittavana!
+spouse.tellstory.bad4=...Jos pidit hänestä, niin miksi et sitten menny hänen kanssa naimisiin?
+spouse.tellstory.bad5=Miksi sinä pidit pörröisen pinkkia alusvaatetta? Kenelle ne kuuluivat?
 
 # 5 good flirts when talking to an spouse:
-spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
-spouse.flirt.good2=Aw, you said that when we first met.
-spouse.flirt.good3=Baby, you're so cute\!
-spouse.flirt.good4=You bet I am\!
-spouse.flirt.good5=*Winks* You still got it\!
+spouse.flirt.good1=*Punastuu* No, meidänkin pitäisi tehdä myös jotain semmoista!
+spouse.flirt.good2=Voi, sinä sanoit tuon kun me tapasimme ensimmäisen kerran.
+spouse.flirt.good3=Kulta, olet niin söpö!
+spouse.flirt.good4=Jo vain!
+spouse.flirt.good5=*Silmänisku* Sinulla on vieläkin hommat hallussa!
 
 # 5 bad flirts when talking to an spouse:
-spouse.flirt.bad1=*Sighs*
-spouse.flirt.bad2=This one is getting old... like you.
-spouse.flirt.bad3=We're married, we don't have to do this anymore.
-spouse.flirt.bad4=Talk to the tree, it cares more.
-spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
+spouse.flirt.bad1=*Huokaisee*
+spouse.flirt.bad2=Tämä alkaa käydä vanhaksi... kuten sinä.
+spouse.flirt.bad3=Me olemme naimisissa, meidän ei tarvitse tehdä tätä enää.
+spouse.flirt.bad4=Puhu puulle, se välittää enemmän.
+spouse.flirt.bad5=Joo, joo.... Mitä olitkaan sanomassa?
 
 # 5 good hugs when talking to an spouse:
-spouse.hug.good1=I love being entangled in your arms\!
-spouse.hug.good2=Wait, don't leave... you're warm.
-spouse.hug.good3=Would you rather only being able to hug or kiss?
-spouse.hug.good4=*Kisses* 
-spouse.hug.good5=Let's stay like this forever\!
+spouse.hug.good1=Rakastan kietoutua syliisi!
+spouse.hug.good2=Odota, älä lähde... Olet lämmin.
+spouse.hug.good3=Haluaisitko mieluummin pystyä vain halaamaan tai suutelemaan?
+spouse.hug.good4=*Suutelee*  
+spouse.hug.good5=Pysytään tämmöisinä loppuun saakka!
 
 # 5 bad hugs when talking to an spouse:
-spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
-spouse.hug.bad3=Man, you stink.
-spouse.hug.bad4=What do you want?
-spouse.hug.bad5=Huge someone else.
+spouse.hug.bad1=Miksi et menisi halaamaan vaikka eksääsi?
+spouse.hug.bad2=Ei kiitos.
+spouse.hug.bad3=Huhhuh, sinä haiset.
+spouse.hug.bad4=Mitä sinä haluat?
+spouse.hug.bad5=Halaa jotain muuta.
 
 # 5 good kisses when talking to an spouse:
-spouse.kiss.good1=I fall in love all over again when our lips meet\!
-spouse.kiss.good2=Time stops ticking when I'm with you.
-spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
-spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
+spouse.kiss.good1=Rakastun aina uudelleen kun huulemme koskettavat!
+spouse.kiss.good2=Aika pysähtyy kun olen kanssasi.
+spouse.kiss.good3=Makea kuin kakku!
+spouse.kiss.good4=Rakastan sinua, kulta!
+spouse.kiss.good5=En vaihtaisi sinua kehenkään muuhun koko maailmassa! 
 
 # 5 bad kisses when talking to an spouse:
-spouse.kiss.bad1=Not where someone can see us...
-spouse.kiss.bad2=We don't have to if you don't want to.
-spouse.kiss.bad3=Your breath smells like wolf kibble.
-spouse.kiss.bad4=Go take a drink from the lake.
-spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
+spouse.kiss.bad1=Ei täällä, joku voi nähdä meidät...
+spouse.kiss.bad2=Meidän ei tarvitse, jos et tahdo.
+spouse.kiss.bad3=Sinun hengityksesi haisee kuin suden kuivaruoka.
+spouse.kiss.bad4=Mene juomaan lasillinen järvestä.
+spouse.kiss.bad5=Nyt kun olemme naimisissa voin kertoa kuinka surkea sinä olet suutelemisessa.
 
-spouse.greeting1=Hi honey, where have you been?
-spouse.greeting2=Hello dear, how is your day going?
-spouse.greeting3=Oh, %PlayerName%\! You look tired.
-spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
-spouse.greeting5=%PlayerName%, you're back\! I missed you.
+spouse.greeting1=Hei kulta, missä sinä olet ollut?
+spouse.greeting2=Hei rakas, kuinka päiväsi on mennyt?
+spouse.greeting3=Voi, %PlayerName%! Sinä näytät väsyneeltä.
+spouse.greeting4=Hei %PlayerName%! Näytät nälkäiseltä. Haluaisitko että tekisin sinulle jotain ruokaa?
+spouse.greeting5=%PlayerName%, olet palannut! Minulla oli ikävä sinua.
 
-spouse.lowhearts.greeting1=There you are. Where did you go? You never tell me anything anymore.
-spouse.lowhearts.greeting2=Are you going to say hi to me this time?
-spouse.lowhearts.greeting3=Um, hi! I still exist, you know!
-spouse.lowhearts.greeting4=%PlayerName%, are you ignoring me on purpose?
-spouse.lowhearts.greeting5=I'm starting to feel like you don't pay attention to me.
+spouse.lowhearts.greeting1=Siinähän sinä olet. Minne sinä menit? Et kerro minulle nykyään enää mitään.
+spouse.lowhearts.greeting2=Aiotko sanoa minulle hei tällä kertaa?
+spouse.lowhearts.greeting3=Öm, hei! Olen vieläkin olemassa, kai tiesit!
+spouse.lowhearts.greeting4=%PlayerName%, vältteletko minua tahallasi?
+spouse.lowhearts.greeting5=Minusta tuntuu että et huomioi minua.
 
-spouse.endmarriage1=I've had it. You don't treat me well enough. I'm leaving you!
-spouse.endmarriage2=I'm leaving. Forever! Don't look for me.
-spouse.endmarriage3=I'm sorry - I thought we could work things out, but it's not working for me. Goodbye.
-spouse.endmarriage4=%PlayerName%, this is goodbye. Don't try to follow me.
-notify.spouseendedmarriage=%Name% has ended their marriage with you.
+spouse.endmarriage1=Minulle riitti. Et kohtele minua tarpeeksi hyvin. Jätän sinut!
+spouse.endmarriage2=Minä lähden. Ikiajoiksi! Älä yritä löytää minua.
+spouse.endmarriage3=Olen pahoillani - luulin että voisimme saada tämän vielä toimimaan, mutta tämä ei toimi minulle. Hyvästi.
+spouse.endmarriage4=%PlayerName%, nämä ovat jäähyväiset. Älä yritä seurata minua.
+notify.spouseendedmarriage=%Name% on lopettanut avioliittonsa kanssasi.
 
-relative.gift.bad1=You shouldn't have... literally.
-relative.gift.bad2=Eh, you keep it.
-relative.gift.bad3=Ew, where did you find this? In a mine?
-relative.gift.bad4=I'm not touching that.
+relative.gift.bad1=Sinun ei olisi pitänyt... kirjaimellisesti.
+relative.gift.bad2=Äh, pidä sinä se.
+relative.gift.bad3=Yäk, mistä sinä tämän löysit? Kaivoksesta?
+relative.gift.bad4=Minä en aio koskettaa tuota.
 
-relative.gift.good1=Oh thank you.
-relative.gift.good2=Thank you for thinking of me, %PlayerName%.
-relative.gift.good3=How thoughtful of you.
-relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Youre too kind.
+relative.gift.good1=Ai, kiitos.
+relative.gift.good2=Kiitos että ajattelit minua, %PlayerName%.
+relative.gift.good3=Miten huomaavaista.
+relative.gift.good4=Miten sinä tiesit, että tykkäisin näistä?
+relative.gift.good5=You're too kind.
 
-relative.gift.better1=I have the perfect spot for this.
-relative.gift.better2=Thank you very much, %PlayerName%.
-relative.gift.better3=This is lovely.
-relative.gift.better4=I appreciate you thinking about me.
-relative.gift.better5=Ill take good care of it.
+relative.gift.better1=Minulla on täydellinen paikka tälle.
+relative.gift.better2=Kiitos erittäin paljon, %PlayerName%.
+relative.gift.better3=Tämä on ihana.
+relative.gift.better4=Arvostan että ajattelet minua.
+relative.gift.better5=I'll take good care of it.
 
-relative.gift.best1=Ive always wanted one of these\!
-relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
-relative.gift.best3=You give the best gifts, %PlayerName%\!
-relative.gift.best4=I can't believe this, you're too sweet, thank you\!
-relative.gift.best5=You know me like the back of your hand\!
+relative.gift.best1=I've always wanted one of these!
+relative.gift.best2=Tämä on yksi parhaista lahjoista, mitä olen ikinä saanut, %PlayerName%!
+relative.gift.best3=Sinä annat parhaat lahjat, %PlayerName%!
+relative.gift.best4=En voi uskoa tätä, olet ihana, kiitos!
+relative.gift.best5=Tiedät minut kuin omat taskusi!
 
-parent.gift.bad1=Oh, uh, thanks but no thanks.
-parent.gift.bad2=I appreciate the thought, but you can keep it.
-parent.gift.bad3=Why can't you bring me something other than junk?
-parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
+parent.gift.bad1=Ai, eh, kiitos mutta ei kiitos.
+parent.gift.bad2=Arvostan ajatustasi, mutta voit pitää sen.
+parent.gift.bad3=Miksi et voi tuoda minulle jotain muuta kuin krääsää?
+parent.gift.bad4=En halua loukata sinua, mutta en halua tuota.
 
-parent.gift.good1=Oh, how thoughtful\!
-parent.gift.good2=Thank you very much\!
-parent.gift.good3=You always were my favorite.
+parent.gift.good1=Kuinka ajattelevaista!
+parent.gift.good2=Kiitos erittäin paljon!
+parent.gift.good3=Olet aina ollut minun suosikkini.
 
-parent.gift.better1=Hey, where did you get this? It's great\!
-parent.gift.better2=You didn't have to get this for me, thanks\!
-parent.gift.better3=You never have to give me anything, but thank you so much\!
+parent.gift.better1=Hei, mistä sinä tämän sait? Se on mahtava!
+parent.gift.better2=Sinun ei olisi tarvinnut hankkia minulle tätä, kiitos!
+parent.gift.better3=Et ole ikinä antanut minulle mitään, mutta kiitos erittäin paljon!
 
-parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
-parent.gift.best2=I lost this years ago, thanks\!
-parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
+parent.gift.best1=Tiesin aina, että jonain päivänä löytäisin tämän uudelleen. Kiitos erittäin paljon!
+parent.gift.best2=Kadotin tämän vuosia sitten, kiitos!
+parent.gift.best3=Tämä oli sinun kun olit lapsi. En voi uskoa että löysit sen!
 
-child.gift.bad1=Ew, I don't like this\!
-child.gift.bad2=Yuck\! I don't want this.
-child.gift.bad3=Why did you bring me this? It's dumb\!
-child.gift.bad4=I don't even know what this is\!
+child.gift.bad1=Hyi, en pidä tästä!
+child.gift.bad2=Yäk! En halua tätä.
+child.gift.bad3=Miksi sinä toit minulle tämän? Se on tyhmä!
+child.gift.bad4=En edes tiedä mikä tämä on!
 
-child.gift.good1=Is it...is it all mine?
-child.gift.good2=Is this really for me?
-child.gift.good3=This is cool\!
+child.gift.good1=Onko tuo... Onko tuo kaikki minulle?
+child.gift.good2=Onko tuo todella minulle?
+child.gift.good3=Tämä on siisti!
 
-child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
-child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
+child.gift.better1=Mahtavaa! Aion näyttää tämän kaikille ystävilleni.
+child.gift.better2=Sinä löysit sen! Kadotin sen muutama minuutti sitten.
+child.gift.better3=Minun ystäväni varasti yhden tämmöisen minulta. Annoitko hänelle selkää minun puolestani?
 
-child.gift.best1=%PlayerName%, you give the best presents\!
-child.gift.best2=Finally\! My friend will stop bragging now.
-child.gift.best3=Wow\! Where did you get this thing?
-child.gift.best4=My Dad has one of these. Now I have one too\!
+child.gift.best1=%PlayerName%, sinä annat parhaita lahjoja!
+child.gift.best2=Vihdoin! Minun ystäväni tulee lopettamaan rehentelyn.
+child.gift.best3=Vai! Mistä sinä sait tämän jutun?
+child.gift.best4=Minun isälläni on yksi tämmöinen. Nyt on myös minullakin!
 
-spouse.gift.bad1=Oh honey...this is just terrible.
-spouse.gift.bad2=Um, is this supposed to be a gift for me?
-spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
-spouse.gift.bad4=I thought you knew me better than that. I hate these.
+spouse.gift.bad1=Voi kulta... Tämä on aivan karsea.
+spouse.gift.bad2=Öö, onko tämän tarkoitus olla lahja minulle?
+spouse.gift.bad3=Heitä krääsäsi menemään! Ai, oliko tämä lahja?... Anteeksi.
+spouse.gift.bad4=Luulin, että olisit tuntenut minut paremmin. Vihaan näitä.
 
-spouse.gift.good1=%PlayerName%, you're so sweet.
-spouse.gift.good2=Ah\! You're too good to me.
-spouse.gift.good3=This is unexpected, thank you, dear\!
-spouse.gift.good4=Aw, how sweet of you.
-spouse.gift.good5=Thanks, hun\!
+spouse.gift.good1=%PlayerName%, olet niin ihana.
+spouse.gift.good2=Voi! Olet liian kiltti minulle.
+spouse.gift.good3=Tämä on odottamatonta, kiitos kulta!
+spouse.gift.good4=Oi, kuinka kilttiä sinulta.
+spouse.gift.good5=Kiitos, kulta!
 
-spouse.gift.better1=Oh wow, this is actually really nice\!
-spouse.gift.better2=I love it\! Thank you\!
-spouse.gift.better3=This is amazing, dear\!
-spouse.gift.better4=You got this for me? How sweet\!
-spouse.gift.better5=Oh, thank you %PlayerName%\!
+spouse.gift.better1=Vau, tämä on itseasiassa todella kiva!
+spouse.gift.better2=Rakastan sitä! Kiitos!
+spouse.gift.better3=Kulta, tämä on ihmeelllinen!
+spouse.gift.better4=Sinä hankit tämän minulle? Kuinka kilttiä!
+spouse.gift.better5=Voi, kiitos %PlayerName%!
 
-spouse.gift.best1=Oh %PlayerName%, I love you\!
-spouse.gift.best2=You are *way* too good to me\!
-spouse.gift.best3=This must have been extremely expensive\! Thank you\!
-spouse.gift.best4=I...can't believe you'd get me something so thoughtful\!
+spouse.gift.best1=Oi %PlayerName%, Minä rakastan sinua!
+spouse.gift.best2=Sinä olet *liian* kiltti minulle!
+spouse.gift.best3=Tämän on täytynyt olla erittäin kallis! Kiitos!
+spouse.gift.best4=En... voi uskoa, että hankkisit minulle jotain näin huomaavaista!
 
-childp.gift.bad1=%ParentTitle%, this is a really bad gift.
-childp.gift.bad2=Ew, %ParentOpposite% gives better gifts\!
-childp.gift.bad3=Didn't you give me this like, last year?
-childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
+childp.gift.bad1=%ParentTitle%, tämä on erittäin huono lahja.
+childp.gift.bad2=Hyi, %ParentOpposite% antaa parempia lahjoja!
+childp.gift.bad3=Etkös sinä antanut minulle tämän joskus.. viime vuonna?
+childp.gift.bad4=Voisin hankkia tämän helposti, ei kiitos, %ParentTitle%.
 
-childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
-childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
-childp.gift.good3=This is much better than the last gift I got\!
-childp.gift.good4=Woo hoo\! It's mine, all mine\!
-childp.gift.good5=Can I...can I eat it?
+childp.gift.good1=Hei, siistiä! Kiitos %ParentTitle%.
+childp.gift.good2=%ParentOpposite% sanoo, että nämä ovat 'seksikkäät'. Mitä se tarkoittaa?
+childp.gift.good3=Tämä on paljon parempi kuin se viime lahja jonka sain!
+childp.gift.good4=Jihaa! Se on minun, minun!
+childp.gift.good5=Voinko... Voinko syödä sen?
 
-childp.gift.better1=For me? For free?\!
-childp.gift.better2=Ooh\! Shiny\!
-childp.gift.better3=I really like this, %ParentTitle%\!
-childp.gift.better4=All of my friends will be jealous now\!
-childp.gift.better5=This is great, %ParentTitle%\!
+childp.gift.better1=Minulleko? Ilmaiseksi?!
+childp.gift.better2=Ooh! Kiiltävä!
+childp.gift.better3=Pidän todella tästä, %ParentTitle%!
+childp.gift.better4=Kaikki minun ystäväni tulevat olemaan kateellisia!
+childp.gift.better5=Tämä on mahtavaa, %ParentTitle%!
 
-childp.gift.best1=This must have cost a fortune\!
-childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
-childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
-childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
-childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+childp.gift.best1=Tämän on täytynyt maksaa omaisuuden!
+childp.gift.best2=%ParentTitle%, Tiesin, että hankkisit minulle yhden tämmöisen. Minä vain tiesin!
+childp.gift.best3=Jee! Minulla on paras %ParentTitle% maailmassa!
+childp.gift.best4=Tämä on hurjaa! En voi uskoa, että tämä kaikki on minun!
+childp.gift.best5=Kiitos todella paljon, %ParentTitle%! Olet ihan paras!
+

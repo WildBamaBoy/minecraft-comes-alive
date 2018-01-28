@@ -24,6 +24,7 @@ public final class Constants
 	public static final int GUI_ID_EDITOR = 6;
 	public static final int GUI_ID_INTERACT = 7;
 	public static final int GUI_ID_WHISTLE = 8;
+	public static final int GUI_ID_GUIDEBOOK = 9;
 	
 	public static final float SPEED_SNEAK = 0.4F;
 	public static final float SPEED_WALK = 0.6F;

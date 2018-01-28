@@ -216,17 +216,29 @@ public class EntityGrimReaper extends EntityMob
 		EntityLivingBase entityToAttack = this.getAttackTarget();
 		
 		//Within 1.2 blocks of the target, damage it. Set attack state to post attack.
-		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.2D)
+		//If we're blocking, we will teleport away instead of attacking to prevent an unfair attack.
+		//Attacking us WHILE we're blocking will cause us to attack, however.
+		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.2D && getAttackState() == EnumReaperAttackState.PRE)
 		{
-			entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.world.getDifficulty().getDifficultyId() * 5.75F);
-			
-			if (entity instanceof EntityLivingBase)
+			if (getAttackState() == EnumReaperAttackState.BLOCK) 
 			{
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getDifficultyId() * 20, 1));
-			}
+				int rX = this.getRNG().nextInt(10);
+				int rZ = this.getRNG().nextInt(10);
+				teleportTo(this.posX + 5 + rX, this.posY, this.posZ + rZ);
+			} 
 			
-			setAttackState(EnumReaperAttackState.POST);
-			setStateTransitionCooldown(10); //For preventing immediate return to the PRE or IDLE stage. Ticked down in onUpdate()
+			else 
+			{
+				entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.world.getDifficulty().getDifficultyId() * 5.75F);
+				
+				if (entity instanceof EntityLivingBase)
+				{
+					((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getDifficultyId() * 20, 1));
+				}
+				
+				setAttackState(EnumReaperAttackState.POST);
+				setStateTransitionCooldown(10); //For preventing immediate return to the PRE or IDLE stage. Ticked down in onUpdate()
+			}
 		}
 
 		//Check if we're waiting for cooldown from the last attack.
@@ -274,6 +286,7 @@ public class EntityGrimReaper extends EntityMob
 						else
 						{
 							setAttackState(EnumReaperAttackState.PRE);
+							setStateTransitionCooldown(Time.SECOND * 1);
 						}
 					}
 				}
