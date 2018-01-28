@@ -21,14 +21,12 @@ public enum EnumProfessionSkinGroup
 	Smith(3),
 	Warrior(3);
 
-	private List<String> completeSkinList;
 	private List<String> maleSkinList;
 	private List<String> femaleSkinList;
 	private int vanillaId;
 
 	private EnumProfessionSkinGroup(int vanillaId)
 	{
-		this.completeSkinList = new ArrayList<String>();
 		this.maleSkinList = new ArrayList<String>();
 		this.femaleSkinList = new ArrayList<String>();
 		this.vanillaId = vanillaId;
@@ -37,19 +35,20 @@ public enum EnumProfessionSkinGroup
 	public void addSkin(String locationInJAR)
 	{
 		String resourceLocation = locationInJAR.replace("/assets/mca/", "mca:");
-		completeSkinList.add(resourceLocation);
-
 		String genderChar = resourceLocation.replace("mca:textures/skins/" + this.toString().toLowerCase(), "").substring(0, 1);
 
-		if (genderChar.equals("m"))
-		{
+		if (genderChar.equals("m")) {
 			maleSkinList.add(resourceLocation);
 		}
 
-		else if (genderChar.equals("f"))
-		{
+		else if (genderChar.equals("f")) {
 			femaleSkinList.add(resourceLocation);
 		}
+
+		else {
+		    MCA.getLog().warn("Unable to determine gender of skin: " + resourceLocation);
+            MCA.getLog().warn("Expected m or f, instead got: " + genderChar);
+        }
 	}
 
 	private String getSkin(boolean isMale)
