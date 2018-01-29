@@ -15,6 +15,7 @@ import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumGender;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProgressionStep;
@@ -87,22 +88,22 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 			memory.setIsHiredBy(false, 0);
-			
+
 			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
-			
+
 			List<EntityVillagerMCA> nearbyVillagers = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, player, 30);
-			
+
 			for (EntityVillagerMCA villager : nearbyVillagers)
 			{
 				PlayerMemory otherVillagerMemory = villager.attributes.getPlayerMemory(player);
 				otherVillagerMemory.setHasGift(true);
 			}
-			
+
 			return true;
 		}
-		
+
 		else if (data.getSpouseUUID() == human.getPersistentID())
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
@@ -136,7 +137,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 			memory.setIsHiredBy(false, 0);
-			
+
 			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
@@ -257,9 +258,9 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			//player.addStat(AchievementsMCA.engagement);
 			human.say("interaction.engage.success", player); 
 			human.attributes.setFiancee(player);
-			
+
 			memory.setIsHiredBy(false, 0);
-			
+
 			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
@@ -415,15 +416,15 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				removeItem = true;
 				human.sayRaw("Oh, thank you for returning this to me! My company secrets could have been lost forever!", player);
 			}
-			
+
 			else if (human.attributes.getIsInfected() && human.getActivePotionEffect(MobEffects.WEAKNESS) != null && stack.getItem() == Items.GOLDEN_APPLE)
 			{
 				removeItem = true;
 				removeCount = 1;
-				
+
 				human.cureInfection();
 			}
-			
+
 			else if (item == Items.GOLDEN_APPLE && human.attributes.getIsChild() && human.attributes.isPlayerAParent(player))
 			{
 				removeItem = true;
@@ -487,7 +488,10 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			else if (item == ItemsMCA.NEW_OUTFIT && human.attributes.allowsControllingInteractions(player))
 			{
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
-				human.attributes.setClothesTexture(human.attributes.getProfessionSkinGroup().getRandomMaleSkin());
+				if (human.attributes.getGender() == EnumGender.MALE)
+					human.attributes.setClothesTexture(human.attributes.getProfessionSkinGroup().getRandomMaleSkin());
+				else if (human.attributes.getGender() == EnumGender.FEMALE)
+					human.attributes.setClothesTexture(human.attributes.getProfessionSkinGroup().getRandomFemaleSkin());
 				removeItem = true;
 				removeCount = 1;
 			}
