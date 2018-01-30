@@ -290,11 +290,11 @@ public final class ItemsMCA
 			NBTTagList pages = new NBTTagList();
 			pages.appendTag(new NBTTagString(""
 					+ "Children are our future! Make sure to have as many as you possibly can.\n\nNot only do you get to experience the joy of"
-					+ "raising a child, but once they are past the baby stage, put them to work!"));
+					+ " raising a child, but once they are past the baby stage, put them to work!"));
 
 			pages.appendTag(new NBTTagString(Format.BOLD + "Babies\n\n" + Format.RESET
-					+ "When you are married, simply approach your spouse and offer to 'Procreate'\n\n"
-					+ "After a short dance, you'll be the proud owner of a new baby boy or girl!"));
+					+ "When you are married, simply approach your spouse and offer to 'Procreate'.\n\n"
+					+ "After a short dance, you'll be the proud owner of a new baby boy or girl (or maybe even both)!"));
 			
 			pages.appendTag(new NBTTagString(Format.BOLD + "Growth\n\n" + Format.RESET
 					+ "Babies take time to grow, make sure to hold them until they are ready, or give them to your spouse to take care of.\n\n"
