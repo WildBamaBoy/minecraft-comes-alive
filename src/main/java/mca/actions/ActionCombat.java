@@ -6,7 +6,7 @@ import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
@@ -203,7 +203,7 @@ public class ActionCombat extends AbstractAction
 
 	public boolean isEntityValidToAttack(EntityLivingBase entity)
 	{
-		if (entity instanceof EntityMob &&
+		if (entity instanceof IMob &&
 				(getTargetBehavior() == EnumCombatBehaviors.TARGET_HOSTILE_MOBS || 
 				getTargetBehavior() == EnumCombatBehaviors.TARGET_PASSIVE_OR_HOSTILE_MOBS))
 		{
