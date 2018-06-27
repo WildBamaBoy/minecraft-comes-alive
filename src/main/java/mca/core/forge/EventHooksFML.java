@@ -179,7 +179,7 @@ public class EventHooksFML
 
 		// This block prevents the long-standing issue of crashing while using a world that previously contained villagers.
 		// It will check every second for a villager that has not been converted, and see if it should be. These villagers
-		// are identified by having the value of 3577 for watched object number 28.
+		// are identified by being instances of EntityVillager but not EntityVillagerMCA.
 		if (serverTickCounter % 40 == 0)
 		{
 			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
@@ -188,16 +188,13 @@ public class EventHooksFML
 				{
 					Object obj = world.loadedEntityList.get(i);
 
-					if (obj instanceof EntityVillager)
+					if (obj instanceof EntityVillager && !(obj instanceof EntityVillagerMCA))
 					{
 						EntityVillager villager = (EntityVillager)obj;
 
 						try
 						{
-							if (villager.getDataManager().get(Constants.OVERWRITE_KEY) == 3577)
-							{
-								doOverwriteVillager(villager);
-							}
+							doOverwriteVillager(villager);
 						}
 
 						catch (Exception e)

@@ -89,14 +89,6 @@ public class EventHooksForge
 						return;
 					}
 				}
-
-				//Otherwise, no zombie was found so continue overwriting normally.
-				if (villager.getProfession() >= 0 && villager.getProfession() <= 4)
-				{
-					// The server will later check for object 28, and then overwrite the villager.
-					// This will prevent ConcurrentModification exceptions when overwriting villagers.
-					villager.getDataManager().register(Constants.OVERWRITE_KEY, 3577);
-				}
 			}
 		}
 	}
