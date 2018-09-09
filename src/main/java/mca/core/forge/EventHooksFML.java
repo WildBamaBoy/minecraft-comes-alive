@@ -283,8 +283,8 @@ public class EventHooksFML
 					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
 						final EntityVillagerMCA guard = new EntityVillagerMCA(human.world);
-						guard.attributes.assignRandomName();
 						guard.attributes.assignRandomGender();
+						guard.attributes.assignRandomName();
 						guard.attributes.assignRandomPersonality();
 						guard.attributes.setProfession(EnumProfession.Guard);
 						guard.attributes.assignRandomSkin();
