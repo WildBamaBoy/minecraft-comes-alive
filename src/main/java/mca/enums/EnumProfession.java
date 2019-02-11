@@ -23,11 +23,12 @@ public enum EnumProfession
 	Baker        (10, EnumProfessionSkinGroup.Baker,    1),
 	Leatherworker(11, EnumProfessionSkinGroup.Butcher,  2),
 	Guard        (12, EnumProfessionSkinGroup.Guard,    1),
-	Archer       (13, EnumProfessionSkinGroup.Guard,    1),
-	Miner        (14, EnumProfessionSkinGroup.Miner,    1),
+	Archer       (13, EnumProfessionSkinGroup.Guard,    4),
+	Miner        (14, EnumProfessionSkinGroup.Miner,    3),
 	Mason        (15, EnumProfessionSkinGroup.Miner,    1),
 	Child        (16, EnumProfessionSkinGroup.Child,    1),
-	Warrior      (17, EnumProfessionSkinGroup.Warrior,  3);
+	Warrior      (17, EnumProfessionSkinGroup.Warrior,  3),
+	Cartographer (18, EnumProfessionSkinGroup.Librarian,2);
 
 	private int id;
 	private int vanillaCareerId;
@@ -169,6 +170,8 @@ public enum EnumProfession
 			return "profession.leatherworker";
 		case Librarian:
 			return "profession.librarian";
+		case Cartographer:
+			return "profession.cartographer";
 		case Shepherd:
 			return "profession.shepherd";
 		case ToolSmith:

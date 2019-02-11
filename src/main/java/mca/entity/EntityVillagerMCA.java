@@ -67,11 +67,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.village.MerchantRecipe;
+import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.common.registry.VillagerRegistry;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
@@ -98,14 +97,15 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 	private final VillagerBehaviors behaviors;
 	private final Profiler profiler;
 
-	// Used for hooking into vanilla trades
-	private int vanillaProfessionId;
 	private static final int FIELD_INDEX_BUYING_PLAYER = 6;
+	private static final int FIELD_INDEX_BUYING_LIST = 7;
 	private static final int FIELD_INDEX_TIME_UNTIL_RESET = 8;
 	private static final int FIELD_INDEX_NEEDS_INITIALIZATION = 9;
 	private static final int FIELD_INDEX_IS_WILLING_TO_MATE = 10;
 	private static final int FIELD_INDEX_WEALTH = 11;
 	private static final int FIELD_INDEX_LAST_BUYING_PLAYER = 12;
+	private static final int FIELD_INDEX_CAREER_ID = 13;
+	private static final int FIELD_INDEX_CAREER_LEVEL = 14;
 	
 	public EntityVillagerMCA(World world) 
 	{
@@ -879,41 +879,40 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 	{
 		return this.attributes.getName();
 	}
-	
-	//
-	// Overrides from EntityVillager that allow trades to work.
-	// Issues arose from the profession not being set properly.
-	//
-	@Override
-	public void setProfession(int professionId) 
-	{
-		this.vanillaProfessionId = professionId;
-	}
-	
-    @Deprecated
-    @Override
-    public int getProfession()
-    {
-    	return this.vanillaProfessionId;
-    }
-
-    @Override
-    public void setProfession(net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession prof)
-    {
-    	this.vanillaProfessionId = VillagerRegistry.getId(prof);
-    }
-
-    @Override
-    public VillagerRegistry.VillagerProfession getProfessionForge()
-    {
-    	VillagerRegistry.VillagerProfession profession = VillagerRegistry.getById(this.vanillaProfessionId); 
+    
+    public void setCareer(int career)
+    {    	   	
+    	setEntityVillagerField(FIELD_INDEX_CAREER_ID, Integer.valueOf(career));
     	
-    	if (profession == null) {
-    		return VillagerRegistry.getById(0);
+    	if ((Integer)getEntityVillagerField(FIELD_INDEX_CAREER_LEVEL) == 0)
+    	{
+    		setEntityVillagerField(FIELD_INDEX_CAREER_LEVEL, 1);
     	}
     	
-    	return profession;
+    	repopulateBuyingList();
     }
+    
+	public void repopulateBuyingList()
+	{
+		MerchantRecipeList buyingList = new MerchantRecipeList();
+		
+		setEntityVillagerField(FIELD_INDEX_BUYING_LIST, buyingList);
+		
+		for (int i = 1; i <= (Integer)getEntityVillagerField(FIELD_INDEX_CAREER_LEVEL); i++)
+		{
+			java.util.List<EntityVillager.ITradeList> trades = this.getProfessionForge().getCareer((Integer)getEntityVillagerField(FIELD_INDEX_CAREER_ID)-1).getTrades(i-1);
+			
+	        if (trades != null)
+	        {
+	            for (EntityVillager.ITradeList entityvillager$itradelist : trades)
+	            {
+	                entityvillager$itradelist.addMerchantRecipe(this, buyingList, this.getRNG());
+	            }
+	        }
+	        else
+	        	MCA.getLog().warn("Failed to retrieve default trade list for villager " + this.getName());
+		}
+	}
 
     @Override
 	public void useRecipe(MerchantRecipe recipe)

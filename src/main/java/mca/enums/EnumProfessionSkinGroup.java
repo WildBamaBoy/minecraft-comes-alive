@@ -13,7 +13,7 @@ public enum EnumProfessionSkinGroup
 	Farmer(0),
 	Baker(0),
 	Butcher(4),
-	Guard(3),
+	Guard(0),
 	Child(0),
 	Librarian(1),
 	Miner(3),
