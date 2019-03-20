@@ -14,7 +14,7 @@ MCA depends on [RadixCore](https://github.com/WildBamaBoy/radix-core) in order t
 All discussion should remain on the mod's official forum page located on the Minecraft forums.
 
 ## Contributing
-Any contributions are welcome. Simply clone the projet into your workspace, set it up, make your changes, and submit a pull request for review.
+Any contributions are welcome. Simply clone the project into your workspace, set it up, make your changes, and submit a pull request for review.
 
 # License
 MCA utilizes a custom license, summarized below. The license is also available in-full within the repository.
