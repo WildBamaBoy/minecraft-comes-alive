@@ -14,7 +14,7 @@ MCA depends on [RadixCore](https://github.com/WildBamaBoy/radix-core) in order t
 All discussion should remain on the mod's official forum page located on the Minecraft forums.
 
 ## Contributing
-Any contributions to are welcome. Simply clone into your workspace, set it up, make your changes, and submit a pull request for review.
+Any contributions are welcome. Simply clone the projet into your workspace, set it up, make your changes, and submit a pull request for review.
 
 # License
 MCA utilizes a custom license, summarized below. The license is also available in-full within the repository.
@@ -30,7 +30,7 @@ MCA may be placed within a modpack without our consent, provided that the modpac
 Absolutely no modifications can be made to MCA when it is placed in a modpack. Examples include adding/removing textures from the mod's archive or modifying dialogue files.
 
 ##### Source Code
-The source code of MCA is made available for educational purposes only. Neither it, its source code, nor its byte code may be modified and recompiled for public use by anyone except us.
+The source code of MCA is made available for educational purposes only. MCA, its source code, and its byte code may not be modified and recompiled for public use by anyone except us.
 
 We do accept and encourage private modifications with the intent for said modifications to be added to the official public version.
 
