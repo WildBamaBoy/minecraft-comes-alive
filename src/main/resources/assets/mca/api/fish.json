@@ -1,0 +1,22 @@
+[
+  {
+    "name":"fish",
+    "fishItemName":"minecraft:fish",
+    "meta":0
+  },
+  {
+    "name":"salmon",
+    "fishItemName":"minecraft:fish",
+    "meta":1
+  },
+  {
+    "name":"clownfish",
+    "fishItemName":"minecraft:fish",
+    "meta":2
+  },
+  {
+    "name":"pufferfish",
+    "fishItemName":"minecraft:fish",
+    "meta":3
+  }
+]

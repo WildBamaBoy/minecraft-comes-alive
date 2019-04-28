@@ -1,441 +1,186 @@
 package mca.command;
 
-import java.util.Arrays;
-
-import mca.actions.ActionStoryProgression;
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.data.NBTPlayerData;
-import mca.data.PlayerMemory;
-import mca.entity.EntityGrimReaper;
+import mca.core.forge.SimpleImpl;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.data.PlayerSaveData;
+import mca.entity.data.VillagerSaveData;
 import mca.items.ItemBaby;
-import mca.util.IngameTester;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.WorldServer;
-import radixcore.constant.Font.Color;
-import radixcore.constant.Font.Format;
-import radixcore.constant.Time;
 
-public class CommandMCA extends CommandBase
-{
-	@Override
-	public String getName() 
-	{
-		return "mca";
-	}
+import java.util.Arrays;
 
-	@Override
-	public String getUsage(ICommandSender commandSender) 
-	{
-		return "/mca <subcommand> <arguments>";
-	}
+public class CommandMCA extends CommandBase {
+    @Override
+    public String getName() {
+        return "mca";
+    }
 
-	@Override
-	public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException 
-	{
-		try
-		{
-			final EntityPlayer player = (EntityPlayer)commandSender;
-			String subcommand = input[0];
-			String[] arguments = (String[]) Arrays.copyOfRange(input, 1, input.length);
+    @Override
+    public String getUsage(ICommandSender commandSender) {
+        return "/mca <subcommand> <arguments>";
+    }
 
-			if (subcommand.equalsIgnoreCase("help"))
-			{
-				displayHelp(commandSender);
-			}
+    @Override
+    public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException {
+        try {
+            final EntityPlayer player = (EntityPlayer) commandSender;
+            String subcommand = input[0].toLowerCase();
+            String[] arguments = Arrays.copyOfRange(input, 1, input.length);
+            MCA.getLog().info(player.getName() + " entered command " + Arrays.toString(input));
 
-			else if (subcommand.equalsIgnoreCase("sudo"))
-			{
-				String playerName = "";
-				boolean doGet = false;
+            switch (subcommand) {
+                case "help":
+                    displayHelp(commandSender);
+                    break;
+                case "ffh":
+                    forceFullHearts(player);
+                    break;
+                case "fbg":
+                    forceBabyGrow(player);
+                    break;
+                case "fcg":
+                    forceChildGrow(player);
+                    break;
+                case "clv":
+                    clearLoadedVillagers(player);
+                    break;
+                case "inh":
+                    incrementHearts(player);
+                    break;
+                case "deh":
+                    decrementHearts(player);
+                    break;
+                case "kgr":
+                    killGrimReaper(player);
+                    break;
+                case "lvd":
+                    VillagerSaveData data = VillagerSaveData.get(player.world);
+                    data.getVillagerData().forEach(n -> System.out.println(n.getString("name")));
+                    break;
+                case "dpd":
+                    dumpPlayerData(player);
+                    break;
+                case "spd":
+                    setPlayerData(player, arguments);
+                    break;
+                default:
+                    throw new WrongUsageException("");
+            }
+        } catch (ClassCastException e) {
+            throw new CommandException("MCA commands cannot be used through rcon.");
+        } catch (Exception e) {
+            throw new CommandException("An invalid argument was provided. Usage: " + getUsage(commandSender));
+        }
+    }
 
-				if (arguments[0].equals("?"))
-				{
-					playerName = arguments[1];
-					doGet = true;
-				}
+    private void forceFullHearts(EntityPlayer player) {
+        for (Entity entity : player.world.loadedEntityList) {
+            if (entity instanceof EntityVillagerMCA) {
+                EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+                villager.getPlayerHistoryFor(player.getUniqueID()).setHearts(100);
+            }
+        }
+        sendMessage(player, Constants.Color.GREEN + "Forced full hearts on all villagers.");
+    }
 
-				else
-				{
-					playerName = arguments[0];
-				}
+    private void forceBabyGrow(EntityPlayer player) {
+        for (ItemStack stack : player.inventory.mainInventory) {
+            if (stack.getItem() instanceof ItemBaby) {
+                stack.getTagCompound().setInteger("age", MCA.getConfig().babyGrowUpTime);
+            }
+        }
+        sendMessage(player, Constants.Color.GREEN + "Forced any held babies to grow up age.");
+    }
 
-				final EntityPlayer targetPlayer = player.world.getPlayerEntityByName(playerName);
+    private void forceChildGrow(EntityPlayer player) {
+    }
 
-				if (targetPlayer != null)
-				{
-					final NBTPlayerData data = MCA.getPlayerData(targetPlayer);
+    private void clearLoadedVillagers(EntityPlayer player) {
+        int n = 0;
+        for (Entity entity : player.world.loadedEntityList) {
+            if (entity instanceof EntityVillagerMCA) {
+                entity.setDead();
+                ++n;
+            }
+        }
+        sendMessage(player, Constants.Color.GREEN + "Cleared " + n + " villagers from the world.");
+    }
 
-					if (data.getIsSuperUser())
-					{
-						if (doGet)
-						{
-							sendMessage(commandSender, Color.GREEN + playerName + " is a superuser.");		
-						}
+    private void incrementHearts(EntityPlayer player) {
+        for (Entity entity : player.world.loadedEntityList) {
+            if (entity instanceof EntityVillagerMCA) {
+                EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+                villager.getPlayerHistoryFor(player.getUniqueID()).changeHearts(10);
+            }
+        }
+        sendMessage(player, Constants.Color.GREEN + "Increased hearts for all villagers by 10.");
+    }
 
-						else
-						{
-							sendMessage(commandSender, Color.GREEN + playerName + " is no longer a superuser.");						
-							data.setIsSuperUser(false);
-						}
-					}
+    private void decrementHearts(EntityPlayer player) {
+        for (Entity entity : player.world.loadedEntityList) {
+            if (entity instanceof EntityVillagerMCA) {
+                EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+                villager.getPlayerHistoryFor(player.getUniqueID()).changeHearts(-10);
+            }
+        }
+        sendMessage(player, Constants.Color.GREEN + "Decreased hearts for all villagers by 10.");
+    }
 
-					else
-					{
-						if (doGet)
-						{
-							sendMessage(commandSender, Color.GREEN + playerName + " is not a superuser.");	
-						}
+    private void killGrimReaper(EntityPlayer player) {
 
-						else
-						{
-							sendMessage(commandSender, Color.GREEN + playerName + " is now a superuser.");
-							data.setIsSuperUser(true);
-						}
-					}
-				}
+    }
 
-				else
-				{
-					sendMessage(commandSender, Color.RED + playerName + " was not found on the server.");
-				}
-			}
-			
-			else if (subcommand.equalsIgnoreCase("ffh"))
-			{
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.attributes.getPlayerMemory(player);
-						memory.setHearts(100);
-					}
-				}
+    private void dumpPlayerData(EntityPlayer player) {
+        PlayerSaveData.get(player).dump(player);
+    }
 
-				sendMessage(commandSender, Color.GOLD + "Forced full hearts on all loaded villagers.");
-			}
+    private void setPlayerData(EntityPlayer player, String[] arguments) {
+        String field = arguments[0];
+        String value = arguments[1];
+        PlayerSaveData.get(player).setFromCommand(field, value);
+        dumpPlayerData(player);
+    }
 
-			else if (subcommand.equalsIgnoreCase("fbg"))
-			{
-				for (Object obj : player.world.playerEntities)
-				{
-					EntityPlayer playerOnServer = (EntityPlayer)obj;
+    @Override
+    public int getRequiredPermissionLevel() {
+        return 0;
+    }
 
-					for (ItemStack stack : playerOnServer.inventory.mainInventory)
-					{
-						if (stack != null && stack.getItem() instanceof ItemBaby)
-						{
-							stack.getTagCompound().setFloat("age", MCA.getConfig().babyGrowUpTime * Time.MINUTE);
-						}
-					}
-				}
+    private void sendMessage(ICommandSender commandSender, String message) {
+        commandSender.sendMessage(new TextComponentString(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message));
+    }
 
-				sendMessage(commandSender, Color.GOLD + "Forced all players' babies to be ready to grow.");
-			}
+    private void sendMessage(ICommandSender commandSender, String message, boolean noPrefix) {
+        if (noPrefix) {
+            commandSender.sendMessage(new TextComponentString(message));
+        } else {
+            sendMessage(commandSender, message);
+        }
+    }
 
-			else if (subcommand.equalsIgnoreCase("fcg"))
-			{
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
+    private void displayHelp(ICommandSender commandSender) {
+        sendMessage(commandSender, Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "DEBUG COMMANDS" + Constants.Color.DARKRED + " ---", true);
 
-						if (human.attributes.getIsChild())
-						{
-							human.attributes.setAge(0);
-							human.attributes.setIsChild(false);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca debug " + Constants.Color.GOLD + " - Opens the debug menu.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca ffh " + Constants.Color.GOLD + " - Force all hearts on all villagers.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca fbg " + Constants.Color.GOLD + " - Force your baby to grow up.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca fcg " + Constants.Color.GOLD + " - Force nearby children to grow.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca clv " + Constants.Color.GOLD + " - Clear all loaded villagers. " + Constants.Color.RED + "(IRREVERSABLE)", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca inh " + Constants.Color.GOLD + " - Increase hearts by 10.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca deh " + Constants.Color.GOLD + " - Decrease hearts by 10.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca kgr " + Constants.Color.GOLD + " - Kill all Grim Reapers in the world.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca dpd " + Constants.Color.GOLD + " - Dumps your player data to chat.", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca spd <field> <value> " + Constants.Color.GOLD + " - Sets provided player data field to value.", true);
 
-							float newHeight = 0.69F + (human.attributes.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
-							human.attributes.setSize(human.width, newHeight);
-						}
-					}
-				}
-
-				sendMessage(commandSender, Color.GOLD + "Forced all children to grow.");
-			}
-
-			else if (subcommand.equalsIgnoreCase("fsp"))
-			{
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						human.attributes.setTicksAlive(MCA.getConfig().storyProgressionThreshold * Time.MINUTE);
-
-						ActionStoryProgression storyAI = human.getBehavior(ActionStoryProgression.class);
-						storyAI.setTicksUntilNextProgress(0);
-					}
-				}
-
-				sendMessage(commandSender, Color.GOLD + "Forced story progression on all loaded villagers.");
-			}
-
-			else if (subcommand.equalsIgnoreCase("clv"))
-			{
-				int num = 0;
-
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						human.setDead();
-						num++;
-					}
-				}
-
-				sendMessage(commandSender, Color.GOLD + "Removed " + num + " loaded villagers from the world.");				
-			}
-
-			else if (subcommand.equalsIgnoreCase("mh+"))
-			{
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.attributes.getPlayerMemory(player);
-						memory.setHearts(memory.getHearts() + 10);
-					}
-				}
-
-				sendMessage(commandSender, Color.GOLD + "Increased hearts of all villagers by 10.");
-			}
-
-			else if (subcommand.equalsIgnoreCase("mh-"))
-			{
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.attributes.getPlayerMemory(player);
-						memory.setHearts(memory.getHearts() - 10);
-					}
-				}
-
-				sendMessage(commandSender, Color.GOLD + "Decreased hearts of all villagers by 10.");
-			}
-
-			else if (subcommand.equalsIgnoreCase("rm"))
-			{
-				String playerName = arguments[0];
-				EntityPlayer targetPlayer = player.world.getPlayerEntityByName(playerName);
-				NBTPlayerData targetPlayerData = MCA.getPlayerData(targetPlayer);
-				
-				if (targetPlayer != null)
-				{
-					EntityVillagerMCA spouse = (EntityVillagerMCA) MCA.getEntityByUUID(targetPlayer.world, targetPlayerData.getSpouseUUID());
-					
-					if (spouse != null)
-					{
-						spouse.endMarriage();
-					}
-					
-					targetPlayerData.setSpouse(null);
-					sendMessage(commandSender, Color.GOLD + playerName + "'s marriage has been reset.");	
-				}
-
-				else
-				{
-					sendMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
-				}
-			}
-
-			else if (subcommand.equalsIgnoreCase("rgt"))
-			{
-				for (Object obj : player.world.loadedEntityList)
-				{
-					if (obj instanceof EntityVillagerMCA)
-					{
-						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.attributes.getPlayerMemory(player);
-						memory.setTimeUntilGreeting(0);
-					}
-				}
-
-				sendMessage(commandSender, Color.GOLD + "Reset greeting timers.");
-			}
-			
-			else if (subcommand.equalsIgnoreCase("rb"))
-			{
-				String playerName = arguments[0];
-				EntityPlayer targetPlayer = player.world.getPlayerEntityByName(playerName);
-
-				if (targetPlayer != null)
-				{
-					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
-					data.setOwnsBaby(false);
-
-					sendMessage(commandSender, Color.GOLD + playerName + "'s baby status has been reset.");	
-				}
-
-				else
-				{
-					sendMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
-				}
-			}
-
-			else if (subcommand.equalsIgnoreCase("rh"))
-			{
-				String playerName = arguments[0];
-				EntityPlayer targetPlayer = player.world.getPlayerEntityByName(playerName);
-
-				if (targetPlayer != null)
-				{
-					for (Object obj : player.world.loadedEntityList)
-					{
-						if (obj instanceof EntityVillagerMCA)
-						{
-							EntityVillagerMCA human = (EntityVillagerMCA) obj;
-							PlayerMemory memory = human.attributes.getPlayerMemory(targetPlayer);
-							memory.setHearts(0);
-						}
-					}
-
-					sendMessage(commandSender, Color.GOLD + playerName + "'s hearts for all loaded villagers were reset.");
-
-					if (targetPlayer != commandSender)
-					{
-						sendMessage(targetPlayer, Color.RED + "Your hearts were reset by an administrator.");
-					}
-				}
-
-				else
-				{
-					sendMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
-				}
-			}
-			
-			else if (subcommand.equalsIgnoreCase("kgr"))
-			{
-				for (WorldServer world : server.worlds)
-				{
-					for (Object obj : world.loadedEntityList)
-					{
-						if (obj instanceof EntityGrimReaper)
-						{
-							EntityGrimReaper reaper = (EntityGrimReaper)obj;
-							reaper.attackEntityFrom(DamageSource.OUT_OF_WORLD, 10000F);
-						}
-					}
-				}
-				
-				sendMessage(commandSender, Color.GREEN + "Killed all Grim Reaper entities.");
-			}
-			
-			else if (subcommand.equalsIgnoreCase("tpn")) //Toggle player nobility
-			{
-				String playerName = arguments[0];
-				EntityPlayer targetPlayer = player.world.getPlayerEntityByName(playerName);
-
-				if (targetPlayer != null)
-				{
-					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
-					
-					if (data.getIsNobility())
-					{
-						data.setIsNobility(false);
-						sendMessage(commandSender, Color.GOLD + playerName + " is now set as non-nobility.");
-					}
-					
-					else
-					{
-						data.setIsNobility(true);
-						sendMessage(commandSender, Color.GOLD + playerName + " is now set as nobility.");
-					}
-				}
-
-				else
-				{
-					sendMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
-				}
-			}
-			
-			else if (subcommand.equalsIgnoreCase("test"))
-			{
-				IngameTester.run(player);
-			}
-			
-			else
-			{
-				throw new WrongUsageException("");
-			}
-		}
-
-		catch (ClassCastException e)
-		{
-			throw new CommandException("MCA commands cannot be used through rcon.");
-		}
-
-		catch (Exception e)
-		{
-			throw new CommandException("An invalid argument was provided. Usage: " + getUsage(commandSender));
-		}
-	}
-
-	@Override
-	public int getRequiredPermissionLevel() 
-	{
-		return 0;
-	}
-
-	private void sendMessage(ICommandSender commandSender, String message)
-	{
-		commandSender.sendMessage(new TextComponentString(Color.GOLD + "[MCA] " + Format.RESET + message));
-	}
-
-	private void sendMessage(ICommandSender commandSender, String message, boolean noPrefix)
-	{
-		if (noPrefix)
-		{
-			commandSender.sendMessage(new TextComponentString(message));			
-		}
-
-		else
-		{
-			sendMessage(commandSender, message);
-		}
-	}
-
-	private void displayHelp(ICommandSender commandSender)
-	{
-		sendMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "DEBUG COMMANDS" + Color.DARKRED + " ---", true);
-
-		sendMessage(commandSender, Color.WHITE + " /mca ffh " + Color.GOLD + " - Force all hearts on all villagers.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca fbg " + Color.GOLD + " - Force your baby to grow up.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca fcg " + Color.GOLD + " - Force nearby children to grow.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca fsp " + Color.GOLD + " - Force story progression to continue.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca cli " + Color.GOLD + " - Clear interaction flag on all villagers.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca clv " + Color.GOLD + " - Clear all loaded villagers. " + Color.RED + "(IRREVERSABLE)", true);
-		sendMessage(commandSender, Color.WHITE + " /mca mh+ " + Color.GOLD + " - Increase hearts by 1.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 1.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca rgt " + Color.GOLD + " - Reset your greeting timers.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca kgr " + Color.GOLD + " - Kill all Grim Reapers in the world.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca dpd " + Color.GOLD + " - Dump player data for <username>.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca cpd " + Color.GOLD + " - Convert old player data to the new format.", true);
-		
-		sendMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---", true);
-		sendMessage(commandSender, Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca rb <username> " + Color.GOLD + " - Reset <username>'s baby.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca rh <username> " + Color.GOLD + " - Reset <username>'s hearts.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca rr <username> " + Color.GOLD + " - Completely reset <username>.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca revive <uuid> " + Color.GOLD + " - Revive a dead villager.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca sudo <username> " + Color.GOLD + " - Toggle <username> as a superuser.", true);
-		sendMessage(commandSender, Color.WHITE + " /mca sudo ? <username> " + Color.GOLD + " - Get if <username> is a superuser.", true);
-
-		sendMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "GLOBAL COMMANDS" + Color.DARKRED + " ---", true);
-		sendMessage(commandSender, Color.WHITE + " /mca help " + Color.GOLD + " - Shows this list of commands.", true);
-	}
+        sendMessage(commandSender, Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---", true);
+        sendMessage(commandSender, Constants.Color.WHITE + " /mca help " + Constants.Color.GOLD + " - Shows this list of commands.", true);
+    }
 }

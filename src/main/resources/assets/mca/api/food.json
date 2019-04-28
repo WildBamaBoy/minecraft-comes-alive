@@ -1,0 +1,37 @@
+[
+  {
+    "name":"porkchop",
+    "rawItemName":"minecraft:porkchop",
+    "cookedItemName":"minecraft:cooked_porkchop"
+  },
+  {
+    "name":"beef",
+    "rawItemName": "minecraft:beef",
+    "cookedItemName": "minecraft:cooked_beef"
+  },
+  {
+    "name":"chicken",
+    "rawItemName": "minecraft:chicken",
+    "cookedItemName": "minecraft:cooked_chicken"
+  },
+  {
+    "name":"fish",
+    "rawItemName": "minecraft:fish",
+    "cookedItemName": "minecraft:cooked_fish"
+  },
+  {
+    "name": "potato",
+    "rawItemName": "minecraft:potato",
+    "cookedItemName": "minecraft:baked_potato"
+  },
+  {
+    "name": "rabbit",
+    "rawItemName": "minecraft:rabbit",
+    "cookedItemName": "minecraft:cooked_rabbit"
+  },
+  {
+    "name": "mutton",
+    "rawItemName": "mutton",
+    "cookedItemName": "cooked_mutton"
+  }
+]

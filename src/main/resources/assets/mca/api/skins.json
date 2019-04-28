@@ -1,0 +1,345 @@
+[
+  {
+    "gender": "male",
+    "profession": "minecraft:farmer",
+    "paths": [
+        "mca:skins/male/farmer/farmerm1_converted.png",
+        "mca:skins/male/farmer/farmerm2_converted.png",
+        "mca:skins/male/farmer/farmerm3_converted.png",
+        "mca:skins/male/farmer/farmerm4_converted.png",
+        "mca:skins/male/farmer/farmerm5_converted.png",
+        "mca:skins/male/farmer/farmerm6_converted.png",
+        "mca:skins/male/farmer/farmerm7_converted.png",
+        "mca:skins/male/farmer/farmerm8_converted.png",
+        "mca:skins/male/farmer/farmerm9_converted.png",
+        "mca:skins/male/farmer/farmerm10_converted.png",
+        "mca:skins/male/farmer/farmerm11_converted.png",
+        "mca:skins/male/farmer/farmerm12_converted.png",
+        "mca:skins/male/farmer/farmerm13_converted.png",
+        "mca:skins/male/farmer/farmerm14_converted.png",
+        "mca:skins/male/farmer/farmerm15_converted.png",
+        "mca:skins/male/farmer/farmerm16_converted.png",
+        "mca:skins/male/farmer/farmerm17_converted.png",
+        "mca:skins/male/farmer/farmerm18_converted.png",
+        "mca:skins/male/farmer/farmerm19_converted.png",
+        "mca:skins/male/farmer/farmerm20_converted.png",
+        "mca:skins/male/farmer/farmerm21_converted.png",
+        "mca:skins/male/farmer/farmerm23_converted.png",
+        "mca:skins/male/farmer/farmerm25_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:farmer",
+    "paths": [
+        "mca:skins/female/farmer/farmerf1_converted.png",
+        "mca:skins/female/farmer/farmerf2_converted.png",
+        "mca:skins/female/farmer/farmerf3_converted.png",
+        "mca:skins/female/farmer/farmerf4_converted.png",
+        "mca:skins/female/farmer/farmerf5_converted.png",
+        "mca:skins/female/farmer/farmerf6_converted.png",
+        "mca:skins/female/farmer/farmerf7_converted.png",
+        "mca:skins/female/farmer/farmerf8_converted.png",
+        "mca:skins/female/farmer/farmerf9_converted.png",
+        "mca:skins/female/farmer/farmerf10_converted.png",
+        "mca:skins/female/farmer/farmerf11_converted.png",
+        "mca:skins/female/farmer/farmerf12_converted.png",
+        "mca:skins/female/farmer/farmerf13_converted.png",
+        "mca:skins/female/farmer/farmerf14_converted.png",
+        "mca:skins/female/farmer/farmerf15_converted.png",
+        "mca:skins/female/farmer/farmerf16_converted.png",
+        "mca:skins/female/farmer/farmerf17_converted.png",
+        "mca:skins/female/farmer/farmerf18_converted.png",
+        "mca:skins/female/farmer/farmerf19_converted.png",
+        "mca:skins/female/farmer/farmerf20_converted.png",
+        "mca:skins/female/farmer/farmerf21_converted.png",
+        "mca:skins/female/farmer/farmerf22_converted.png",
+        "mca:skins/female/farmer/farmerf23_converted.png",
+        "mca:skins/female/farmer/farmerf24_converted.png",
+        "mca:skins/female/farmer/farmerf25_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:librarian",
+    "paths": [
+      "mca:skins/male/librarian/librarianm1_converted.png",
+      "mca:skins/male/librarian/librarianm2_converted.png",
+      "mca:skins/male/librarian/librarianm3_converted.png",
+      "mca:skins/male/librarian/librarianm4_converted.png",
+      "mca:skins/male/librarian/librarianm5_converted.png",
+      "mca:skins/male/librarian/librarianm6_converted.png",
+      "mca:skins/male/librarian/librarianm7_converted.png",
+      "mca:skins/male/librarian/librarianm8_converted.png",
+      "mca:skins/male/librarian/librarianm9_converted.png",
+      "mca:skins/male/librarian/librarianm10_converted.png",
+      "mca:skins/male/librarian/librarianm11_converted.png",
+      "mca:skins/male/librarian/librarianm12_converted.png",
+      "mca:skins/male/librarian/librarianm13_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:librarian",
+    "paths": [
+      "mca:skins/female/librarian/librarianf1_converted.png",
+      "mca:skins/female/librarian/librarianf2_converted.png",
+      "mca:skins/female/librarian/librarianf3_converted.png",
+      "mca:skins/female/librarian/librarianf4_converted.png",
+      "mca:skins/female/librarian/librarianf5_converted.png",
+      "mca:skins/female/librarian/librarianf6_converted.png",
+      "mca:skins/female/librarian/librarianf7_converted.png",
+      "mca:skins/female/librarian/librarianf8_converted.png",
+      "mca:skins/female/librarian/librarianf9_converted.png",
+      "mca:skins/female/librarian/librarianf10_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:priest",
+    "paths": [
+      "mca:skins/male/priest/priestm1_converted.png",
+      "mca:skins/male/priest/priestm2_converted.png",
+      "mca:skins/male/priest/priestm3_converted.png",
+      "mca:skins/male/priest/priestm4_converted.png",
+      "mca:skins/male/priest/priestm5_converted.png",
+      "mca:skins/male/priest/priestm6_converted.png",
+      "mca:skins/male/priest/priestm7_converted.png",
+      "mca:skins/male/priest/priestm8_converted.png",
+      "mca:skins/male/priest/priestm9_converted.png",
+      "mca:skins/male/priest/priestm10_converted.png",
+      "mca:skins/male/priest/priestm11_converted.png",
+      "mca:skins/male/priest/priestm12_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:priest",
+    "paths": [
+      "mca:skins/female/priest/priestf1_converted.png",
+      "mca:skins/female/priest/priestf2_converted.png",
+      "mca:skins/female/priest/priestf3_converted.png",
+      "mca:skins/female/priest/priestf4_converted.png",
+      "mca:skins/female/priest/priestf5_converted.png",
+      "mca:skins/female/priest/priestf6_converted.png",
+      "mca:skins/female/priest/priestf7_converted.png",
+      "mca:skins/female/priest/priestf8_converted.png",
+      "mca:skins/female/priest/priestf9_converted.png",
+      "mca:skins/female/priest/priestf10_converted.png",
+      "mca:skins/female/priest/priestf11_converted.png",
+      "mca:skins/female/priest/priestf12_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:smith",
+    "paths": [
+      "mca:skins/male/smith/smithm1_converted.png",
+      "mca:skins/male/smith/smithm2_converted.png",
+      "mca:skins/male/smith/smithm3_converted.png",
+      "mca:skins/male/smith/smithm4_converted.png",
+      "mca:skins/male/smith/smithm5_converted.png",
+      "mca:skins/male/smith/smithm6_converted.png",
+      "mca:skins/male/smith/smithm7_converted.png",
+      "mca:skins/male/smith/smithm8_converted.png",
+      "mca:skins/male/smith/smithm9_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:smith",
+    "paths": [
+      "mca:skins/female/smith/smithf1_converted.png",
+      "mca:skins/female/smith/smithf2_converted.png",
+      "mca:skins/female/smith/smithf3_converted.png",
+      "mca:skins/female/smith/smithf4_converted.png",
+      "mca:skins/female/smith/smithf5_converted.png",
+      "mca:skins/female/smith/smithf6_converted.png",
+      "mca:skins/female/smith/smithf7_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:butcher",
+    "paths": [
+      "mca:skins/male/butcher/butcherm1_converted.png",
+      "mca:skins/male/butcher/butcherm2_converted.png",
+      "mca:skins/male/butcher/butcherm3_converted.png",
+      "mca:skins/male/butcher/butcherm4_converted.png",
+      "mca:skins/male/butcher/butcherm5_converted.png",
+      "mca:skins/male/butcher/butcherm6_converted.png",
+      "mca:skins/male/butcher/butcherm7_converted.png",
+      "mca:skins/male/butcher/butcherm8_converted.png",
+      "mca:skins/male/butcher/butcherm9_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:butcher",
+    "paths": [
+      "mca:skins/female/butcher/butcherf1_converted.png",
+      "mca:skins/female/butcher/butcherf2_converted.png",
+      "mca:skins/female/butcher/butcherf3_converted.png",
+      "mca:skins/female/butcher/butcherf4_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "mca:baker",
+    "paths": [
+      "mca:skins/male/baker/bakerm1_converted.png",
+      "mca:skins/male/baker/bakerm2_converted.png",
+      "mca:skins/male/baker/bakerm3_converted.png",
+      "mca:skins/male/baker/bakerm4_converted.png",
+      "mca:skins/male/baker/bakerm5_converted.png",
+      "mca:skins/male/baker/bakerm6_converted.png",
+      "mca:skins/male/baker/bakerm7_converted.png",
+      "mca:skins/male/baker/bakerm8_converted.png",
+      "mca:skins/male/baker/bakerm9_converted.png",
+      "mca:skins/male/baker/bakerm10_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "mca:baker",
+    "paths": [
+      "mca:skins/female/baker/bakerf1_converted.png",
+      "mca:skins/female/baker/bakerf2_converted.png",
+      "mca:skins/female/baker/bakerf3_converted.png",
+      "mca:skins/female/baker/bakerf4_converted.png",
+      "mca:skins/female/baker/bakerf5_converted.png",
+      "mca:skins/female/baker/bakerf6_converted.png",
+      "mca:skins/female/baker/bakerf7_converted.png",
+      "mca:skins/female/baker/bakerf8_converted.png",
+      "mca:skins/female/baker/bakerf9_converted.png",
+      "mca:skins/female/baker/bakerf10_converted.png",
+      "mca:skins/female/baker/bakerf11_converted.png",
+      "mca:skins/female/baker/bakerf12_converted.png",
+      "mca:skins/female/baker/bakerf13_converted.png"
+    ]
+  },
+  {
+  "gender": "male",
+  "profession": "mca:miner",
+  "paths": [
+    "mca:skins/male/miner/minerm1_converted.png",
+    "mca:skins/male/miner/minerm2_converted.png",
+    "mca:skins/male/miner/minerm3_converted.png",
+    "mca:skins/male/miner/minerm4_converted.png",
+    "mca:skins/male/miner/minerm5_converted.png",
+    "mca:skins/male/miner/minerm6_converted.png",
+    "mca:skins/male/miner/minerm7_converted.png",
+    "mca:skins/male/miner/minerm8_converted.png",
+    "mca:skins/male/miner/minerm9_converted.png",
+    "mca:skins/male/miner/minerm10_converted.png",
+    "mca:skins/male/miner/minerm11_converted.png",
+    "mca:skins/male/miner/minerm12_converted.png",
+    "mca:skins/male/miner/minerm13_converted.png",
+    "mca:skins/male/miner/minerm14_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "mca:miner",
+    "paths": [
+      "mca:skins/female/miner/minerf1_converted.png",
+      "mca:skins/female/miner/minerf2_converted.png",
+      "mca:skins/female/miner/minerf3_converted.png",
+      "mca:skins/female/miner/minerf4_converted.png",
+      "mca:skins/female/miner/minerf5_converted.png",
+      "mca:skins/female/miner/minerf6_converted.png",
+      "mca:skins/female/miner/minerf7_converted.png",
+      "mca:skins/female/miner/minerf8_converted.png",
+      "mca:skins/female/miner/minerf9_converted.png",
+      "mca:skins/female/miner/minerf10_converted.png",
+      "mca:skins/female/miner/minerf11_converted.png",
+      "mca:skins/female/miner/minerf12_converted.png",
+      "mca:skins/female/miner/minerf13_converted.png",
+      "mca:skins/female/miner/minerf14_converted.png",
+      "mca:skins/female/miner/minerf15_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "mca:guard",
+    "paths": [
+      "mca:skins/male/warrior/warriorm1_converted.png",
+      "mca:skins/male/warrior/warriorm2_converted.png",
+      "mca:skins/male/warrior/warriorm3_converted.png",
+      "mca:skins/male/warrior/warriorm4_converted.png",
+      "mca:skins/male/warrior/warriorm5_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "mca:guard",
+    "paths": [
+      "mca:skins/female/warrior/warriorf1_converted.png",
+      "mca:skins/female/warrior/warriorf2_converted.png",
+      "mca:skins/female/warrior/warriorf3_converted.png",
+      "mca:skins/female/warrior/warriorf4_converted.png",
+      "mca:skins/female/warrior/warriorf5_converted.png",
+      "mca:skins/female/warrior/warriorf6_converted.png"
+    ]
+  },
+  {
+    "gender": "male",
+    "profession": "mca:child",
+    "paths": [
+      "mca:skins/male/child/childm1_converted.png",
+      "mca:skins/male/child/childm2_converted.png",
+      "mca:skins/male/child/childm3_converted.png",
+      "mca:skins/male/child/childm4_converted.png",
+      "mca:skins/male/child/childm5_converted.png",
+      "mca:skins/male/child/childm6_converted.png",
+      "mca:skins/male/child/childm7_converted.png",
+      "mca:skins/male/child/childm8_converted.png",
+      "mca:skins/male/child/childm9_converted.png",
+      "mca:skins/male/child/childm10_converted.png",
+      "mca:skins/male/child/childm11_converted.png",
+      "mca:skins/male/child/childm12_converted.png",
+      "mca:skins/male/child/childm13_converted.png",
+      "mca:skins/male/child/childm14_converted.png",
+      "mca:skins/male/child/childm15_converted.png",
+      "mca:skins/male/child/childm16_converted.png",
+      "mca:skins/male/child/childm17_converted.png",
+      "mca:skins/male/child/childm18_converted.png",
+      "mca:skins/male/child/childm19_converted.png",
+      "mca:skins/male/child/childm20_converted.png",
+      "mca:skins/male/child/childm21_converted.png",
+      "mca:skins/male/child/childm22_converted.png",
+      "mca:skins/male/child/childm23_converted.png",
+      "mca:skins/male/child/childm24_converted.png",
+      "mca:skins/male/child/childm25_converted.png",
+      "mca:skins/male/child/childm26_converted.png",
+      "mca:skins/male/child/childm27_converted.png"
+    ]
+  },
+  {
+    "gender": "female",
+    "profession": "mca:child",
+    "paths": [
+      "mca:skins/female/child/childf1_converted.png",
+      "mca:skins/female/child/childf2_converted.png",
+      "mca:skins/female/child/childf3_converted.png",
+      "mca:skins/female/child/childf4_converted.png",
+      "mca:skins/female/child/childf5_converted.png",
+      "mca:skins/female/child/childf6_converted.png",
+      "mca:skins/female/child/childf7_converted.png",
+      "mca:skins/female/child/childf8_converted.png",
+      "mca:skins/female/child/childf9_converted.png",
+      "mca:skins/female/child/childf10_converted.png",
+      "mca:skins/female/child/childf11_converted.png",
+      "mca:skins/female/child/childf12_converted.png",
+      "mca:skins/female/child/childf13_converted.png",
+      "mca:skins/female/child/childf14_converted.png",
+      "mca:skins/female/child/childf15_converted.png",
+      "mca:skins/female/child/childf16_converted.png",
+      "mca:skins/female/child/childf17_converted.png",
+      "mca:skins/female/child/childf18_converted.png",
+      "mca:skins/female/child/childf19_converted.png",
+      "mca:skins/female/child/childf20_converted.png",
+      "mca:skins/female/child/childf21_converted.png"
+    ]
+  }
+]

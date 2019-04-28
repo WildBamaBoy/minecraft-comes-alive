@@ -1,974 +1,577 @@
 package mca.entity;
 
-import static mca.core.Constants.EMPTY_UUID;
-import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPrivateValue;
-import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.setPrivateValue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.netty.buffer.ByteBuf;
-import mca.actions.AbstractAction;
-import mca.actions.ActionAttackResponse;
-import mca.actions.ActionCombat;
-import mca.actions.ActionSleep;
-import mca.actions.ActionUpdateMood;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import mca.api.API;
+import mca.api.types.APIButton;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ItemsMCA;
-import mca.data.NBTPlayerData;
-import mca.data.PlayerMemory;
-import mca.data.TransitiveVillagerData;
-import mca.enums.EnumBabyState;
-import mca.enums.EnumDialogueType;
-import mca.enums.EnumGender;
-import mca.enums.EnumMarriageState;
-import mca.enums.EnumMovementState;
-import mca.enums.EnumProfession;
-import mca.enums.EnumProfessionSkinGroup;
-import mca.enums.EnumRelation;
-import mca.items.ItemBaby;
-import mca.items.ItemMemorial;
-import mca.items.ItemVillagerEditor;
-import mca.packets.PacketOpenGUIOnEntity;
-import mca.util.Either;
-import mca.util.Utilities;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.Block;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIMoveIndoors;
-import net.minecraft.entity.ai.EntityAIOpenDoor;
-import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.item.EntityXPOrb;
+import mca.core.minecraft.ProfessionsMCA;
+import mca.entity.ai.*;
+import mca.entity.data.ParentData;
+import mca.entity.data.PlayerHistory;
+import mca.entity.data.PlayerSaveData;
+import mca.entity.data.VillagerSaveData;
+import mca.entity.inventory.InventoryMCA;
+import mca.enums.*;
+import mca.items.ItemSpecialCaseGift;
+import mca.items.ItemsMCA;
+import mca.util.ItemStackCache;
+import mca.util.ResourceLocationCache;
+import mca.util.Util;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.profiler.Profiler;
-import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.constant.Font.Color;
-import radixcore.math.Point3D;
-import radixcore.modules.RadixLogic;
 
-/**
- * The main class of MCA's villager. The class itself handles events, getters, setters, etc.
- * overridden from Minecraft. Also any events/actions that can be performed on a villager.
- * 
- * To avoid an absurdly large class, the rest of the villager is split into 2 components:
- * 
- * The VillagerBehaviors object handles custom villager behaviors that run each tick.
- * 
- * The VillagerAttributes object holds all villager data and their getters/setters.
- */
-public class EntityVillagerMCA extends EntityVillager implements IEntityAdditionalSpawnData
-{
-	@SideOnly(Side.CLIENT)
-	public boolean isInteractionGuiOpen;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
-	private int swingProgressTicks;
-	public final VillagerAttributes attributes;
-	private final VillagerBehaviors behaviors;
-	private final Profiler profiler;
+public class EntityVillagerMCA extends EntityVillager {
+    public static final DataParameter<String> VILLAGER_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
+    public static final DataParameter<String> TEXTURE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
+    public static final DataParameter<Integer> GENDER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<Float> GIRTH = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> TALLNESS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<NBTTagCompound> PLAYER_HISTORY_MAP = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.COMPOUND_TAG);
+    public static final DataParameter<Integer> MOVE_STATE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<String> SPOUSE_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
+    public static final DataParameter<Optional<UUID>> SPOUSE_UUID = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+    public static final DataParameter<Integer> MARRIAGE_STATE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<Boolean> IS_PROCREATING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<NBTTagCompound> PARENTS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.COMPOUND_TAG);
+    public static final DataParameter<Boolean> IS_INFECTED = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Integer> AGE_STATE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<Integer> ACTIVE_CHORE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<Boolean> IS_SWINGING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> HAS_BABY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> BABY_IS_MALE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 
-	// Used for hooking into vanilla trades
-	private int vanillaProfessionId;
-	private static final int FIELD_INDEX_BUYING_PLAYER = 6;
-	private static final int FIELD_INDEX_TIME_UNTIL_RESET = 8;
-	private static final int FIELD_INDEX_NEEDS_INITIALIZATION = 9;
-	private static final int FIELD_INDEX_IS_WILLING_TO_MATE = 10;
-	private static final int FIELD_INDEX_WEALTH = 11;
-	private static final int FIELD_INDEX_LAST_BUYING_PLAYER = 12;
-	
-	public EntityVillagerMCA(World world) 
-	{
-		super(world);
-		
-		profiler = world.profiler;
-		attributes = new VillagerAttributes(this);
-		attributes.initialize();
-		behaviors = new VillagerBehaviors(this);
-		
-		addAI();
-	}
+    private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
+    private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
 
-	public void addAI()
-	{
-		this.tasks.taskEntries.clear();
+    public final InventoryMCA inventory;
+    public int babyAge = 0;
+    public UUID playerToFollowUUID = Constants.ZERO_UUID;
 
-        ((PathNavigateGround)this.getNavigator()).setCanSwim(true);
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+    private Vec3d home = Vec3d.ZERO;
+    private int startingAge = 0;
 
-		int maxHealth = attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(maxHealth);
+    public EntityVillagerMCA() {
+        super(null);
+        inventory = null;
+    }
 
-		if (this.getHealth() > maxHealth || attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard)
-		{
-			this.setHealth(maxHealth);
-		}
+    public EntityVillagerMCA(World worldIn) {
+        super(worldIn);
+        inventory = new InventoryMCA(this);
+    }
 
-		if (attributes.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
-		{
-			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-		}
-	}
+    public EntityVillagerMCA(World worldIn, @Nullable VillagerRegistry.VillagerProfession profession, @Nullable EnumGender gender) {
+        this(worldIn);
 
-	private void updateSwinging()
-	{
-		if (attributes.getIsSwinging())
-		{
-			swingProgressTicks++;
+        if (!worldIn.isRemote) {
+            RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
+            VillagerRegistry.VillagerProfession randomProfession = registry.getRandomObject(worldIn.rand);
+            while (randomProfession == ProfessionsMCA.bandit || randomProfession == ProfessionsMCA.child) {
+                randomProfession = registry.getRandomObject(worldIn.rand);
+            }
 
-			if (swingProgressTicks >= 8)
-			{
-				swingProgressTicks = 0;
-				attributes.setIsSwinging(false);
-			}
-		}
+            gender = gender == null ? EnumGender.getRandom() : gender;
+            set(GENDER, gender.getId());
+            set(VILLAGER_NAME, API.getRandomName(gender));
+            setProfession(profession != null ? profession : randomProfession);
+            setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
+            set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), gender));
 
-		else
-		{
-			swingProgressTicks = 0;
-		}
+            applySpecialAI();
+        }
+    }
 
-		swingProgress = (float) swingProgressTicks / (float) 8;
-	}
-
-	@Override
-    protected void entityInit()
-    {
+    @Override
+    protected void entityInit() {
         super.entityInit();
-    }
-    
-	@Override
-	public void onUpdate()
-	{
-		super.onUpdate();
-
-		profiler.startSection("MCA Villager Update");
-		behaviors.onUpdate();
-		updateSwinging();
-		
-		if (!world.isRemote)
-		{
-			attributes.incrementTicksAlive();
-
-			//Tick player memories
-			for (PlayerMemory memory : attributes.getPlayerMemories().values())
-			{
-				memory.doTick();
-			}
-
-			//Tick babies in attributes.getInventory().
-			for (int i = 0; i < attributes.getInventory().getSizeInventory(); i++)
-			{
-				ItemStack stack = attributes.getInventory().getStackInSlot(i);
-
-				if (stack.getItem() instanceof ItemBaby)
-				{
-					ItemBaby item = (ItemBaby)stack.getItem();
-					item.onUpdate(stack, world, this, 1, false);
-				}
-			}
-
-			//Check if inventory should be opened for player.
-			if (attributes.getDoOpenInventory())
-			{
-				final EntityPlayer player = world.getClosestPlayerToEntity(this, 10.0D);
-
-				if (player != null)
-				{
-					player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, world, (int)posX, (int)posY, (int)posZ);
-				}
-
-				attributes.setDoOpenInventory(false);
-			}
-		}
-		
-		profiler.endSection();
-	}
-	
-	@Override
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
-		if (getRidingEntity() == player) //Dismounts from a player on right-click
-		{
-			dismountRidingEntity();
-			dismountEntity(player);
-			return true;
-		}
-
-		if (!world.isRemote)
-		{
-			ItemStack heldItem = player.getHeldItem(hand);
-			Item item = heldItem.getItem();
-			
-			if (player.capabilities.isCreativeMode && item instanceof ItemMemorial && !heldItem.hasTagCompound())
-			{
-				TransitiveVillagerData transitiveData = new TransitiveVillagerData(attributes);
-				NBTTagCompound stackNBT = new NBTTagCompound();
-				stackNBT.setUniqueId("ownerUUID", player.getUniqueID());
-				stackNBT.setString("ownerName", player.getName());
-				stackNBT.setInteger("relation", attributes.getPlayerMemory(player).getRelation().getId());
-				transitiveData.writeToNBT(stackNBT);
-				
-				heldItem.setTagCompound(stackNBT);
-				
-				this.setDead();
-			}
-			
-			else
-			{
-				int guiId = item instanceof ItemVillagerEditor ? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
-			}
-		}
-
-		return true;
-	}
-
-	@Override
-	public void onDeath(DamageSource damageSource) 
-	{
-		super.onDeath(damageSource);
-
-		if (!world.isRemote)
-		{
-			//Switch to the sleeping skin and disable all chores/toggle AIs so they won't move
-			behaviors.disableAllToggleActions();
-			getBehavior(ActionSleep.class).transitionSkinState(true);
-			
-			//The death of a villager negatively modifies the mood of nearby villagers
-			for (EntityVillagerMCA human : RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, this, 20))
-			{
-				human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(-2.0F);
-			}
-
-			//Drop all items in the inventory
-			for (int i = 0; i < attributes.getInventory().getSizeInventory(); i++)
-			{
-				ItemStack stack = attributes.getInventory().getStackInSlot(i);
-
-				if (stack != null)
-				{
-					entityDropItem(stack, 1.0F);
-				}
-			}
-			
-			//Reset the marriage stats of the player/villager this one was married to
-			//If married to a player, this player takes priority in receiving the memorial item for revival.
-			boolean memorialDropped = false;
-			
-			if (attributes.isMarriedToAPlayer()) 	
-			{
-				NBTPlayerData playerData = MCA.getPlayerData(world, attributes.getSpouseUUID());
-				
-				playerData.setMarriageState(EnumMarriageState.NOT_MARRIED);
-				playerData.setSpouseName("");
-				playerData.setSpouseUUID(EMPTY_UUID);
-				
-				//Just in case something is added here later, be sure we're not false
-				if (!memorialDropped)
-				{
-					createMemorialChest(attributes.getPlayerMemoryWithoutCreating(attributes.getSpouseUUID()), ItemsMCA.BROKEN_RING);
-					memorialDropped = true;
-				}
-			}
-
-			else if (attributes.isMarriedToAVillager())
-			{
-				EntityVillagerMCA partner = attributes.getVillagerSpouseInstance();
-
-				if (partner != null)
-				{
-					partner.endMarriage();
-				}
-			}
-
-			//Alert parents/spouse of the death if they are online and handle dropping memorials
-			//Test against new iteration of player memory list each time to ensure the proper order
-			//of handling notifications and memorial spawning
-			
-			for (PlayerMemory memory : attributes.getPlayerMemories().values())
-			{
-				//Alert parents and spouse of the death.
-				if (memory.getUUID().equals(attributes.getSpouseUUID()) || attributes.isPlayerAParent(memory.getUUID()))
-				{
-					EntityPlayer player = world.getPlayerEntityByUUID(memory.getUUID());
-					
-					//If we hit a parent
-					if (attributes.isPlayerAParent(memory.getUUID()) && !memorialDropped)
-					{
-						createMemorialChest(memory, attributes.getGender() == EnumGender.MALE ? ItemsMCA.TOY_TRAIN : ItemsMCA.CHILDS_DOLL);
-						memorialDropped = true;
-					}
-					
-					if (player != null) //The player may not be online
-					{
-						player.sendMessage(new TextComponentString(Color.RED + attributes.getTitle(player) + " has died."));
-					}
-				}
-			}
-		}
-	}
-
-	private void createMemorialChest(PlayerMemory memory, ItemMemorial memorialItem)
-	{
-		Point3D nearestAir = RadixLogic.getNearestBlock(this, 3, Blocks.AIR);
-    	
-    	if (nearestAir == null)
-    	{
-    		MCA.getLog().warn("No available location to spawn villager death chest for " + this.getName());
-    	}
-    	
-    	else
-    	{
-    		int y = nearestAir.iY();
-    		Block block = Blocks.AIR;
-    		
-    		while (block == Blocks.AIR)
-    		{
-    			y--;
-    			block = world.getBlockState(new BlockPos(nearestAir.iX(), y, nearestAir.iZ())).getBlock();
-    		}
-    		
-    		y += 1;
-    		world.setBlockState(new BlockPos(nearestAir.iX(), y, nearestAir.iZ()), Blocks.CHEST.getDefaultState());
-    		
-    		try
-    		{
-    			TileEntityChest chest = (TileEntityChest) world.getTileEntity(nearestAir.toBlockPos());
-    			TransitiveVillagerData data = new TransitiveVillagerData(attributes);
-    			ItemStack memorialStack = new ItemStack(memorialItem);
-    			NBTTagCompound stackNBT = new NBTTagCompound();
-    			
-    			stackNBT.setString("ownerName", memory.getPlayerName());
-    			stackNBT.setUniqueId("ownerUUID", memory.getUUID());
-    			stackNBT.setInteger("ownerRelation", memory.getRelation().getId());
-    			data.writeToNBT(stackNBT);
-    			memorialStack.setTagCompound(stackNBT);
-    			
-    			chest.setInventorySlotContents(0, memorialStack);
-    			MCA.getLog().info("Spawned villager death chest at: " + nearestAir.iX() + ", " + y + ", " + nearestAir.iZ());
-    		}
-    		
-    		catch (Exception e)
-    		{
-    			MCA.getLog().error("Error spawning villager death chest: " + e.getMessage());
-    			return;
-    		}
-    	}
-	}
-    
-	@Override
-	protected void updateAITasks()
-	{
-		ActionSleep sleepAI = getBehavior(ActionSleep.class);
-		EnumMovementState moveState = attributes.getMovementState();
-		boolean isSleeping = sleepAI.getIsSleeping();
-
-		if (isSleeping)
-		{
-			// Minecraft 1.8 moved the execution of tasks out of updateAITasks and into EntityAITasks.updateTasks().
-			// Get the 'tickCount' value per tick and set it to 1 when we don't want tasks to execute. This prevents
-			// The AI tasks from ever triggering an update.
-			ObfuscationReflectionHelper.setPrivateValue(EntityAITasks.class, tasks, 1, 4);
-		}
-
-		if (!isSleeping && (moveState == EnumMovementState.MOVE || moveState == EnumMovementState.FOLLOW))
-		{
-			super.updateAITasks();
-		}
-
-		if (moveState == EnumMovementState.STAY && !isSleeping)
-		{
-			tasks.onUpdateTasks();
-			getLookHelper().onUpdateLook();
-		}
-
-		if (moveState == EnumMovementState.STAY || isSleeping)
-		{
-			getNavigator().clearPathEntity();
-		}
-	}
-	
-	@Override
-	protected void damageEntity(DamageSource damageSource, float damageAmount)
-	{
-		super.damageEntity(damageSource, damageAmount);
-		
-		behaviors.getAction(ActionAttackResponse.class).startResponse(damageSource.getImmediateSource());
-		behaviors.getAction(ActionSleep.class).onDamage();
-	}
-
-	@Override
-	public void writeEntityToNBT(NBTTagCompound nbt) 
-	{
-		super.writeEntityToNBT(nbt);
-		behaviors.writeToNBT(nbt);
-		attributes.writeToNBT(nbt);
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt)
-	{
-		super.readEntityFromNBT(nbt);
-		behaviors.readFromNBT(nbt);
-		attributes.readFromNBT(nbt);
-		addAI();
-	}
-
-	@Override
-	public void writeSpawnData(ByteBuf buffer) 
-	{
-		attributes.writeSpawnData(buffer);
-	}
-
-	@Override
-	public void readSpawnData(ByteBuf buffer) 
-	{
-		attributes.readSpawnData(buffer);
-	}
-
-	@Override
-	public ITextComponent getDisplayName()
-	{
-		return new TextComponentString(getName());
-	}
-
-	@Override
-	protected SoundEvent getAmbientSound()
-	{
-		return null;
-	}
-
-	@Override
-	protected SoundEvent getHurtSound(DamageSource source) 
-	{
-		return attributes.getIsInfected() ? SoundEvents.ENTITY_ZOMBIE_HURT : null;
-	}
-
-	@Override
-	protected SoundEvent getDeathSound() 
-	{
-		return attributes.getIsInfected() ? SoundEvents.ENTITY_ZOMBIE_DEATH : null;
-	}
-
-	@Override
-	public boolean canBePushed()
-	{
-		final ActionSleep sleepAI = behaviors.getAction(ActionSleep.class);		
-		return !sleepAI.getIsSleeping();
-	}
-
-	@Override
-	protected boolean canDespawn() 
-	{
-		return false;
-	}
-
-	public void sayRaw(String text, EntityPlayer target)
-	{
-		final StringBuilder sb = new StringBuilder();
-
-		if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
-		{
-			sb.append(MCA.getConfig().villagerChatPrefix);
-		}
-
-		sb.append(attributes.getTitle(target));
-		sb.append(": ");
-		sb.append(text);
-
-		if (target != null)
-		{
-			target.sendMessage(new TextComponentString(sb.toString()));
-		}
-
-		behaviors.onSay();
-	}
-
-	public void say(String phraseId, EntityPlayer target, Object... arguments)
-	{
-		if (target == null)
-		{
-			return;
-		}
-
-		if (attributes.getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
-		{
-			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
-			target.sendMessage(new TextComponentString(attributes.getTitle(target) + ": " + zombieMoan));
-			this.playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, 0.5F, rand.nextFloat() + 0.5F);
-		}
-
-		else
-		{
-			final StringBuilder sb = new StringBuilder();
-
-			//Handle chat prefix.
-			if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
-			{
-				sb.append(MCA.getConfig().villagerChatPrefix);
-			}
-
-			//Add title and text.
-			sb.append(attributes.getTitle(target));
-			sb.append(": ");
-			sb.append(MCA.getLocalizer().getString(phraseId, arguments));
-
-			target.sendMessage(new TextComponentString(sb.toString()));
-
-			behaviors.onSay();
-		}
-	}
-
-	public void say(String phraseId, EntityPlayer target)
-	{
-		say(phraseId, target, this, target);
-	}
-
-	/**
-	 * Sets the given entity to be the spouse of the current villager. This is symmetric against the provided entity.
-	 * If null is provided, this villager's spouse information will be reset. This is **NOT** symmetric.
-	 * 
-	 * @param 	either	Either object containing an MCA villager or a player.
-	 */
-	public void startMarriage(Either<EntityVillagerMCA, EntityPlayer> either)
-	{
-		if (either.getLeft() != null)
-		{
-			EntityVillagerMCA spouse = either.getLeft();
-
-			attributes.setSpouseName(spouse.attributes.getName());
-			attributes.setSpouseUUID(spouse.getUniqueID());
-			attributes.setSpouseGender(spouse.attributes.getGender());
-			attributes.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
-
-			spouse.attributes.setSpouseName(this.attributes.getName());
-			spouse.attributes.setSpouseUUID(this.getUniqueID());
-			spouse.attributes.setSpouseGender(this.attributes.getGender());
-			spouse.attributes.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
-			
-			getBehaviors().onMarriageToVillager();
-		}
-
-		else if (either.getRight() != null)
-		{
-			EntityPlayer player = either.getRight();
-			NBTPlayerData playerData = MCA.getPlayerData(player);
-			PlayerMemory memory = attributes.getPlayerMemory(player);
-			
-			attributes.setSpouseName(player.getName());
-			attributes.setSpouseUUID(player.getUniqueID());
-			attributes.setSpouseGender(playerData.getGender());
-			attributes.setMarriageState(EnumMarriageState.MARRIED_TO_PLAYER);
-			memory.setDialogueType(EnumDialogueType.SPOUSE);
-			memory.setRelation(attributes.getGender() == EnumGender.MALE ? EnumRelation.HUSBAND : EnumRelation.WIFE);
-			
-			playerData.setSpouseName(this.getName());
-			playerData.setSpouseGender(attributes.getGender());
-			playerData.setSpouseUUID(this.getUniqueID());
-			playerData.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
-
-			getBehaviors().onMarriageToPlayer();
-		}
-		
-		else
-		{
-			throw new IllegalArgumentException("Marriage target cannot be null");
-		}
-	}
-
-	public void endMarriage()
-	{
-		//Reset spouse information back to default
-		attributes.setSpouseName("");
-		attributes.setSpouseUUID(EMPTY_UUID);
-		attributes.setSpouseGender(EnumGender.UNASSIGNED);
-		attributes.setMarriageState(EnumMarriageState.NOT_MARRIED);
-
-		getBehaviors().onMarriageEnded();
-	}
-	
-	public void halt()
-	{
-		getNavigator().clearPathEntity();
-	
-		moveForward = 0.0F;
-		moveStrafing = 0.0F;
-		motionX = 0.0D;
-		motionY = 0.0D;
-		motionZ = 0.0D;
-	}
-
-	public void facePosition(Point3D position)
-	{
-		double midX = position.dX() - this.posX;
-	    double midZ = position.dZ() - this.posZ;
-	    double d1 = 0;
-	
-	    double d3 = (double)MathHelper.sqrt(midX * midX + midZ * midZ);
-	    float f2 = (float)(Math.atan2(midZ, midX) * 180.0D / Math.PI) - 90.0F;
-	    float f3 = (float)(-(Math.atan2(d1, d3) * 180.0D / Math.PI));
-	    this.rotationPitch = this.updateRotation(this.rotationPitch, f3, 16.0F);
-	    this.rotationYaw = this.updateRotation(this.rotationYaw, f2, 16.0F);
-	}
-
-	private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_)
-	{
-	    float f3 = MathHelper.wrapDegrees(p_70663_2_ - p_70663_1_);
-	
-	    if (f3 > p_70663_3_)
-	    {
-	        f3 = p_70663_3_;
-	    }
-	
-	    if (f3 < -p_70663_3_)
-	    {
-	        f3 = -p_70663_3_;
-	    }
-	
-	    return p_70663_1_ + f3;
-	}
-
-	public VillagerBehaviors getBehaviors() 
-	{
-		return behaviors;
-	}
-
-	public <T extends AbstractAction> T getBehavior(Class<T> clazz)
-	{
-		return this.behaviors.getAction(clazz);
-	}
-	
-	@Override
-	public ItemStack getHeldItem(EnumHand hand)
-	{
-		EnumBabyState babyState = attributes.getBabyState();
-		EnumProfession profession = attributes.getProfessionEnum();
-		
-		if (attributes.getIsInfected())
-		{
-			return ItemStack.EMPTY;
-		}
-
-		else if (babyState != EnumBabyState.NONE)
-		{
-			return new ItemStack(babyState == EnumBabyState.MALE ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
-		}
-
-		else if (profession == EnumProfession.Guard)
-		{
-			return new ItemStack(Items.IRON_SWORD);
-		}
-
-		else if (profession == EnumProfession.Archer)
-		{
-			return new ItemStack(Items.BOW);
-		}
-
-		else if (attributes.getHeldItemSlot() != -1 && behaviors.isToggleActionActive())
-		{
-			return attributes.getInventory().getStackInSlot(attributes.getHeldItemSlot());
-		}
-
-		else if (attributes.getInventory().contains(ItemsMCA.BABY_BOY) || attributes.getInventory().contains(ItemsMCA.BABY_GIRL))
-		{
-			int slot = attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.BABY_BOY);
-			slot = slot == -1 ? attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.BABY_GIRL) : slot;
-
-			if (slot != -1)
-			{
-				return attributes.getInventory().getStackInSlot(slot);
-			}
-		}
-
-		//Warriors, spouses, and player children all use weapons from the combat AI.
-		else if (profession == EnumProfession.Warrior || attributes.isMarriedToAPlayer() || profession == EnumProfession.Child)
-		{
-			return getBehavior(ActionCombat.class).getHeldItem();
-		}
-		
-		return ItemStack.EMPTY;
-	}
-	
-	public void setHeldItem(Item item)
-	{
-		setHeldItem(EnumHand.MAIN_HAND, new ItemStack(item));
-	}
-	
-	public boolean damageHeldItem(int amount)
-	{
-		try
-		{
-			ItemStack heldItem = getHeldItem(EnumHand.MAIN_HAND);
-
-			if (heldItem != null)
-			{
-				Item item = heldItem.getItem();
-				int slot = attributes.getInventory().getFirstSlotContainingItem(item);
-
-				ItemStack itemInSlot = attributes.getInventory().getStackInSlot(slot);
-
-				if (itemInSlot != null)
-				{
-					itemInSlot.damageItem(amount, this);
-
-					if (itemInSlot.getCount() == 0)
-					{
-						behaviors.disableAllToggleActions();
-						attributes.getInventory().setInventorySlotContents(slot, ItemStack.EMPTY);
-						return true;
-					}
-
-					else
-					{
-						attributes.getInventory().setInventorySlotContents(slot, itemInSlot);
-						return false;
-					}
-				}
-			}
-		}
-
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-	
-	@Override
-	public Iterable<ItemStack> getHeldEquipment()
-	{
-		List<ItemStack> heldEquipment = new ArrayList<ItemStack>();
-		heldEquipment.add(getHeldItem(EnumHand.MAIN_HAND));
-		return heldEquipment;
-	}
-
-	@Override
-	public Iterable<ItemStack> getArmorInventoryList()
-	{
-		List<ItemStack> armorInventory = new ArrayList<ItemStack>();
-		armorInventory.add(attributes.getInventory().getStackInSlot(39));
-		armorInventory.add(attributes.getInventory().getStackInSlot(38));
-		armorInventory.add(attributes.getInventory().getStackInSlot(37));
-		armorInventory.add(attributes.getInventory().getStackInSlot(36));
-
-		return armorInventory;
-	}
-
-	@Override
-	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn)
-	{
-		switch (slotIn)
-		{
-		case HEAD: return attributes.getInventory().getStackInSlot(36);
-		case CHEST: return attributes.getInventory().getStackInSlot(37);
-		case LEGS: return attributes.getInventory().getStackInSlot(38);
-		case FEET: return attributes.getInventory().getStackInSlot(39);
-		case MAINHAND: return getHeldItem(EnumHand.MAIN_HAND);
-		case OFFHAND: return ItemStack.EMPTY;
-		}
-
-		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public int getTotalArmorValue()
-	{
-		int value = 0;
-
-		for (int i = 36; i < 40; i++)
-		{
-			final ItemStack stack = attributes.getInventory().getStackInSlot(i);
-
-			if (stack != null && stack.getItem() instanceof ItemArmor)
-			{
-				value += ((ItemArmor)stack.getItem()).damageReduceAmount;
-			}
-		}
-
-		return value;
-	}
-
-	@Override
-	public void damageArmor(float amount)
-	{
-		for (int i = 36; i < 40; i++)
-		{
-			final ItemStack stack = attributes.getInventory().getStackInSlot(i);
-
-			if (stack != null && stack.getItem() instanceof ItemArmor)
-			{
-				stack.damageItem((int) amount, this);
-			}
-		}	
-	}
-	
-	public void swingItem() 
-	{
-		this.swingArm(EnumHand.MAIN_HAND);
-	}
-	
-	@Override
-	public void swingArm(EnumHand hand)
-	{
-		if (!attributes.getIsSwinging() || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0)
-		{
-			swingProgressTicks = -1;
-			attributes.setIsSwinging(true);
-		}
-	}
-	
-	public void cureInfection()
-	{
-		attributes.setIsInfected(false);
-		addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
-        world.playEvent((EntityPlayer)null, 1027, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
-		Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, this, 16);
-	}
-
-	public boolean isInOverworld()
-	{
-		return world.provider.getDimension() == 0;
-	}
-
-	public Profiler getProfiler()
-	{
-		return profiler;
-	}
-
-	public void setHitboxSize(float width, float height)
-	{
-		this.setSize(width, height);
-	}
-	
-	@Override
-	public String getName()
-	{
-		return this.attributes.getName();
-	}
-	
-	//
-	// Overrides from EntityVillager that allow trades to work.
-	// Issues arose from the profession not being set properly.
-	//
-	@Override
-	public void setProfession(int professionId) 
-	{
-		this.vanillaProfessionId = professionId;
-	}
-	
-    @Deprecated
-    @Override
-    public int getProfession()
-    {
-    	return this.vanillaProfessionId;
+        this.dataManager.register(VILLAGER_NAME, "");
+        this.dataManager.register(TEXTURE, "");
+        this.dataManager.register(GENDER, EnumGender.MALE.getId());
+        this.dataManager.register(GIRTH, 0.0F);
+        this.dataManager.register(TALLNESS, 0.0F);
+        this.dataManager.register(PLAYER_HISTORY_MAP, new NBTTagCompound());
+        this.dataManager.register(MOVE_STATE, EnumMoveState.MOVE.getId());
+        this.dataManager.register(SPOUSE_NAME, "");
+        this.dataManager.register(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
+        this.dataManager.register(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
+        this.dataManager.register(IS_PROCREATING, false);
+        this.dataManager.register(PARENTS, new NBTTagCompound());
+        this.dataManager.register(IS_INFECTED, false);
+        this.dataManager.register(AGE_STATE, EnumAgeState.ADULT.getId());
+        this.dataManager.register(ACTIVE_CHORE, EnumChore.NONE.getId());
+        this.dataManager.register(IS_SWINGING, false);
+        this.dataManager.register(HAS_BABY, false);
+        this.dataManager.register(BABY_IS_MALE, false);
+        this.setSilent(false);
     }
 
     @Override
-    public void setProfession(net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession prof)
-    {
-    	this.vanillaProfessionId = VillagerRegistry.getId(prof);
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(0, new EntityAIProspecting(this));
+        this.tasks.addTask(0, new EntityAIHunting(this));
+        this.tasks.addTask(0, new EntityAIChopping(this));
+        this.tasks.addTask(0, new EntityAIHarvesting(this));
+        this.tasks.addTask(0, new EntityAIFishing(this));
+        this.tasks.addTask(0, new EntityAIMoveState(this));
+        this.tasks.addTask(0, new EntityAIAgeBaby(this));
+        this.tasks.addTask(0, new EntityAISwing(this));
+        this.tasks.addTask(0, new EntityAIProcreate(this));
+    }
+
+    public <T> T get(DataParameter<T> key) {
+        return this.dataManager.get(key);
+    }
+
+    public <T> void set(DataParameter<T> key, T value) {
+        this.dataManager.set(key, value);
     }
 
     @Override
-    public VillagerRegistry.VillagerProfession getProfessionForge()
-    {
-    	VillagerRegistry.VillagerProfession profession = VillagerRegistry.getById(this.vanillaProfessionId); 
-    	
-    	if (profession == null) {
-    		return VillagerRegistry.getById(0);
-    	}
-    	
-    	return profession;
+    public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
+        super.attackEntityAsMob(entityIn);
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F); //TODO guard damage
     }
 
     @Override
-	public void useRecipe(MerchantRecipe recipe)
-	{
-        recipe.incrementToolUses();
-        int i = 3 + this.rand.nextInt(4);
+    public void readEntityFromNBT(NBTTagCompound nbt) {
+        super.readEntityFromNBT(nbt);
+        set(VILLAGER_NAME, nbt.getString("name"));
+        set(GENDER, nbt.getInteger("gender"));
+        set(TEXTURE, nbt.getString("texture"));
+        set(GIRTH, nbt.getFloat("girth"));
+        set(TALLNESS, nbt.getFloat("tallness"));
+        set(PLAYER_HISTORY_MAP, nbt.getCompoundTag("playerHistoryMap"));
+        set(MOVE_STATE, nbt.getInteger("moveState"));
+        set(MARRIAGE_STATE, nbt.getInteger("marriageState"));
+        set(SPOUSE_UUID, Optional.of(nbt.getUniqueId("spouseUUID")));
+        set(SPOUSE_NAME, nbt.getString("spouseName"));
+        set(IS_PROCREATING, nbt.getBoolean("isProcreating"));
+        set(IS_INFECTED, nbt.getBoolean("infected"));
+        set(AGE_STATE, nbt.getInteger("ageState"));
+        set(ACTIVE_CHORE, nbt.getInteger("activeChore"));
+        set(HAS_BABY, nbt.getBoolean("hasBaby"));
+        set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
+        inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
-        EntityPlayer buyingPlayer = getPrivateValue(EntityVillager.class, this, FIELD_INDEX_BUYING_PLAYER);
-        
-        if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
-        {
-        	//timeUntilReset = 40;
-        	setEntityVillagerField(FIELD_INDEX_TIME_UNTIL_RESET, Integer.valueOf(40));
-        	//needsInitialization = true;
-        	setEntityVillagerField(FIELD_INDEX_NEEDS_INITIALIZATION, true);
-        	//isWillingToMate = true; (replaced with false to prevent any possible vanilla villager mating)
-        	setEntityVillagerField(FIELD_INDEX_IS_WILLING_TO_MATE, false);
+        //Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
+        this.startingAge = nbt.getInteger("startingAge");
+        setGrowingAge(nbt.getInteger("Age"));
 
-            if (buyingPlayer != null) //this.buyingPlayer != null
-            {
-                //this.lastBuyingPlayer = this.buyingPlayer.getUniqueID();
-            	setEntityVillagerField(FIELD_INDEX_LAST_BUYING_PLAYER, buyingPlayer.getUniqueID());
-            }
-            else
-            {
-            	//this.lastBuyingPlayer = null;
-            	setEntityVillagerField(FIELD_INDEX_LAST_BUYING_PLAYER, null);
+        this.home = new Vec3d(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
+        this.playerToFollowUUID = nbt.getUniqueId("playerToFollowUUID");
+        this.babyAge = nbt.getInteger("babyAge");
+        applySpecialAI();
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound nbt) {
+        super.writeEntityToNBT(nbt);
+        nbt.setUniqueId("uuid", this.getUniqueID()); // for VillagerSaveData
+        nbt.setString("name", get(VILLAGER_NAME));
+        nbt.setString("texture", get(TEXTURE));
+        nbt.setInteger("gender", get(GENDER));
+        nbt.setFloat("girth", get(GIRTH));
+        nbt.setFloat("tallness", get(TALLNESS));
+        nbt.setTag("playerHistoryMap", get(PLAYER_HISTORY_MAP));
+        nbt.setInteger("moveState", get(MOVE_STATE));
+        nbt.setInteger("marriageState", get(MARRIAGE_STATE));
+        nbt.setDouble("homePositionX", home.x);
+        nbt.setDouble("homePositionY", home.y);
+        nbt.setDouble("homePositionZ", home.z);
+        nbt.setUniqueId("playerToFollowUUID", playerToFollowUUID);
+        nbt.setUniqueId("spouseUUID", get(SPOUSE_UUID).or(Constants.ZERO_UUID));
+        nbt.setString("spouseName", get(SPOUSE_NAME));
+        nbt.setBoolean("isProcreating", get(IS_PROCREATING));
+        nbt.setBoolean("infected", get(IS_INFECTED));
+        nbt.setInteger("ageState", get(AGE_STATE));
+        nbt.setInteger("startingAge", startingAge);
+        nbt.setInteger("activeChore", get(ACTIVE_CHORE));
+        nbt.setTag("inventory", inventory.writeInventoryToNBT());
+        nbt.setInteger("babyAge", babyAge);
+    }
+
+    @Override
+    protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
+        super.damageEntity(damageSource, damageAmount);
+        if (MCA.getConfig().enableInfection && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance) {
+            set(IS_INFECTED, true);
+        }
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+
+        if (this.isServerWorld()) {
+            onEachServerUpdate();
+        } else {
+            onEachClientUpdate();
+        }
+    }
+
+    @Override
+    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+        if (getProfessionForge() == ProfessionsMCA.bandit) {
+            return false;
+        }
+
+        player.addStat(StatList.TALKED_TO_VILLAGER);
+        player.openGui(MCA.getInstance(), Constants.GUI_ID_INTERACT, player.world, this.getEntityId(), 0, 0);
+        return true;
+    }
+
+    @Override
+    public void onDeath(@Nonnull DamageSource cause) {
+        if (!world.isRemote) {
+            if (MCA.getConfig().logVillagerDeaths) {
+                MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + " caused by " + cause.getDamageType() + ". UUID: " + this.getUniqueID().toString());
             }
 
-            i += 5;
+            inventory.dropAllItems();
+
+            if (isMarried()) {
+                UUID spouseUUID = get(SPOUSE_UUID).or(Constants.ZERO_UUID);
+                Optional<EntityVillagerMCA> spouse = Util.getEntityByUUID(world, spouseUUID, EntityVillagerMCA.class);
+                PlayerSaveData playerSaveData = PlayerSaveData.getExisting(world, spouseUUID);
+
+                if (spouse.isPresent()) {
+                    spouse.get().endMarriage();
+                } else if (playerSaveData != null) {
+                    playerSaveData.endMarriage();
+                }
+            }
+
+            VillagerSaveData.get(world).addVillager(this);
+        }
+    }
+
+    @Override
+    protected void onGrowingAdult() {
+        Entity[] parents = ParentData.fromNBT(get(PARENTS)).getParentEntities(world);
+        set(AGE_STATE, EnumAgeState.ADULT.getId());
+        Arrays.stream(parents).filter((e) -> e instanceof EntityPlayer).forEach((e) -> say((EntityPlayer) e, "notify.child.grownup"));
+    }
+
+    @Override
+    @Nonnull
+    public ITextComponent getDisplayName() {
+        EnumAgeState age = EnumAgeState.byId(get(AGE_STATE));
+        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : super.getDisplayName().getUnformattedText();
+        String color = this.getProfessionForge() == ProfessionsMCA.bandit ? Constants.Color.RED : this.getProfessionForge() == ProfessionsMCA.guard ? Constants.Color.GREEN : "";
+
+        return new TextComponentString(String.format("%1$s%2$s%3$s (%4$s)", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME), professionName));
+    }
+
+    @Override
+    public void swingArm(@Nonnull EnumHand hand) {
+        super.swingArm(hand);
+        if (!get(IS_SWINGING)) {
+            set(IS_SWINGING, true);
+        }
+    }
+
+    @Override @Nonnull
+    public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
+        if (slotIn == EntityEquipmentSlot.MAINHAND) {
+            VillagerRegistry.VillagerProfession profession = getProfessionForge();
+            EnumChore chore = EnumChore.byId(get(ACTIVE_CHORE));
+            if (get(HAS_BABY)) {
+                return ItemStackCache.get(get(BABY_IS_MALE) ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
+            } else if (chore != EnumChore.NONE) {
+                return inventory.getBestItemOfType(chore.getToolType());
+            } else {
+                return ProfessionsMCA.getDefaultHeldItem(profession, getVanillaCareer());
+            }
+        } else {
+            return inventory.getBestArmorOfType(slotIn);
+        }
+    }
+
+    public void setStartingAge(int value) {
+        this.startingAge = value;
+        setGrowingAge(value);
+    }
+
+    public PlayerHistory getPlayerHistoryFor(UUID uuid) {
+        if (!get(PLAYER_HISTORY_MAP).hasKey(uuid.toString())) {
+            updatePlayerHistoryMap(PlayerHistory.getNew(this, uuid));
+        }
+        return PlayerHistory.fromNBT(this, uuid, get(PLAYER_HISTORY_MAP).getCompoundTag(uuid.toString()));
+    }
+
+    public void updatePlayerHistoryMap(PlayerHistory history) {
+        NBTTagCompound nbt = get(PLAYER_HISTORY_MAP);
+        nbt.setTag(history.getPlayerUUID().toString(), history.toNBT());
+        set(PLAYER_HISTORY_MAP, nbt);
+        this.dataManager.setDirty(PLAYER_HISTORY_MAP);
+    }
+
+    private VillagerRegistry.VillagerCareer getVanillaCareer() {
+        return this.getProfessionForge().getCareer(ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, "careerId"));
+    }
+
+    private void setVanillaCareer(int careerId) {
+        ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, careerId, "careerId");
+    }
+
+    private void setSizeForAge() {
+        EnumAgeState age = EnumAgeState.byId(get(AGE_STATE));
+        this.setSize(age.getWidth(), age.getHeight());
+        this.setScale(1.0F); // trigger rebuild of the bounding box
+    }
+
+    private void toggleMount(EntityPlayerMP player) {
+        if (getRidingEntity() != null) {
+            dismountRidingEntity();
+        } else {
+            try {
+                List<EntityHorse> horses = world.getEntities(EntityHorse.class, h -> (h.isHorseSaddled() && !h.isBeingRidden() && h.getDistance(this) < 3.0D));
+                startRiding(horses.stream().min(Comparator.comparingDouble(this::getDistance)).get(), true);
+                getNavigator().clearPath();
+            } catch (NoSuchElementException e) {
+                say(player, "interaction.ridehorse.fail.notnearby");
+            }
+        }
+    }
+
+    private void goHome(EntityPlayerMP player) {
+        if (home.equals(Vec3d.ZERO)) {
+            say(player, "interaction.gohome.fail");
+        } else {
+            say(player, "interaction.gohome.success");
+            if (!getNavigator().setPath(getNavigator().getPathToXYZ(home.x, home.y, home.z), 1.0D)) {
+                attemptTeleport(home.x, home.y, home.z);
+            }
+        }
+    }
+
+    private void setHome(EntityPlayerMP player) {
+        if (attemptTeleport(posX, posY, posZ)) {
+            say(player, "interaction.sethome.success");
+            this.home = this.getPositionVector();
+        } else {
+            say(player, "interaction.sethome.fail");
+        }
+    }
+
+    public void say(@Nonnull EntityPlayer player, String phraseId, @Nullable Object... params) {
+        player.sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + String.format(MCA.getLocalizer().localize(phraseId), params)));
+    }
+
+    public boolean isMarried() {
+        return !get(SPOUSE_UUID).or(Constants.ZERO_UUID).equals(Constants.ZERO_UUID);
+    }
+
+    public boolean isMarriedTo(UUID uuid) {
+        return get(SPOUSE_UUID).or(Constants.ZERO_UUID).equals(uuid);
+    }
+
+    public void marry(EntityPlayer player) {
+        set(SPOUSE_UUID, Optional.of(player.getUniqueID()));
+        set(SPOUSE_NAME, player.getName());
+        set(MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
+    }
+
+    private void endMarriage() {
+        set(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
+        set(SPOUSE_NAME, "");
+        set(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
+    }
+
+
+    private void handleInteraction(EntityPlayerMP player, PlayerHistory history, APIButton button) {
+        float successChance = 0.85F;
+        int heartsBoost = button.getConstraints().contains(EnumConstraint.ROMANTIC) ? 15 : 5;
+
+        String interactionName = button.getLangId().replace("gui.button.", "");
+
+        successChance -= button.getConstraints().contains(EnumConstraint.ROMANTIC) ? 0.25F : 0.0F;
+        successChance -= history.getInteractionFatigue() * 0.05F;
+        successChance += (history.getHearts() / 10.0D) * 0.025F;
+        boolean succeeded = rand.nextFloat() < successChance;
+
+        history.changeInteractionFatigue(1);
+        history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
+
+        String responseId = String.format("%s.%s.%s", history.getDialogueType(), interactionName, succeeded ? "success" : "fail");
+        say(player, responseId);
+    }
+
+    public void handleButtonClick(EntityPlayerMP player, String buttonId) {
+        PlayerHistory history = getPlayerHistoryFor(player.getUniqueID());
+        APIButton button = API.getButtonById(buttonId);
+        if (button != null && button.getIsInteraction()) {
+            handleInteraction(player, history, button);
         }
 
-        if (recipe.getItemToBuy().getItem() == Items.EMERALD)
-        {
-        	//wealth += recipe.getItemToBuy().getCount();
-        	int wealth = getEntityVillagerField(FIELD_INDEX_WEALTH);
-        	setEntityVillagerField(FIELD_INDEX_WEALTH, wealth + recipe.getItemToBuy().getCount());
+        switch (buttonId) {
+            case "gui.button.move":
+                set(MOVE_STATE, EnumMoveState.MOVE.getId());
+                break;
+            case "gui.button.stay":
+                set(MOVE_STATE, EnumMoveState.STAY.getId());
+                break;
+            case "gui.button.follow":
+                set(MOVE_STATE, EnumMoveState.FOLLOW.getId());
+                this.playerToFollowUUID = player.getUniqueID();
+                break;
+            case "gui.button.ridehorse":
+                toggleMount(player);
+                break;
+            case "gui.button.sethome":
+                setHome(player);
+                break;
+            case "gui.button.gohome":
+                goHome(player);
+                break;
+            case "gui.button.trade":
+                if (MCA.getConfig().allowTrading) {
+                    setCustomer(player);
+                    player.displayVillagerTradeGui(this);
+                } else {
+                    player.sendMessage(new TextComponentString(MCA.getLocalizer().localize("info.trading.disabled")));
+                }
+                break;
+            case "gui.button.gift":
+                ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
+                if (!handleSpecialCaseGift(player, stack)) {
+                    history.changeHearts(API.getGiftValueFromStack(stack));
+                    player.inventory.decrStackSize(player.inventory.currentItem, -1);
+                    say(player, API.getResponseForGift(stack));
+                }
+                break;
+            case "gui.button.procreate":
+                if (PlayerSaveData.get(player).getHasBaby()) {
+                    say(player, "interaction.procreate.fail.hasbaby");
+                } else if (history.getHearts() < 100) {
+                    say(player, "interaction.procreate.fail.lowhearts");
+                } else {
+                    set(IS_PROCREATING, true);
+                }
+                break;
+            case "gui.button.debug.openinventory":
+                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, world, this.getEntityId(), 0, 0);
+                break;
+            case "gui.button.debug.zombify":
+                set(IS_INFECTED, true);
+                break;
+            case "gui.button.debug.unzombify":
+                set(IS_INFECTED, false);
+                break;
+        }
+    }
+
+    private boolean handleSpecialCaseGift(EntityPlayer player, ItemStack stack) {
+        Item item = stack.getItem();
+
+        if (item instanceof ItemSpecialCaseGift) {
+            boolean decStackSize = ((ItemSpecialCaseGift) item).handle(player, this);
+            if (decStackSize) player.inventory.decrStackSize(player.inventory.currentItem, -1);
+            return true;
+        } else if (item == Items.CAKE) {
+            Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
+            if (spouse.isPresent()) {
+                //TODO
+            } else {
+                say(player, "spouse not nearby"); //TODO
+            }
+        } else if (item == Items.GOLDEN_APPLE && this.isChild()) {
+            this.addGrowth(((startingAge / 4) / 20 * -1));
+            return true;
         }
 
-        if (recipe.getRewardsExp())
-        {
-            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
+        return false;
+    }
+
+    private void onEachClientUpdate() {
+        if (this.ticksExisted % 20 == 0) {
+            onEachClientSecond();
         }
 
-        if (buyingPlayer instanceof EntityPlayerMP)
-        {
-            CriteriaTriggers.VILLAGER_TRADE.trigger((EntityPlayerMP)buyingPlayer, this, recipe.getItemToSell());
+        if (get(IS_PROCREATING)) {
+            this.world.spawnParticle(EnumParticleTypes.HEART, posX + rand.nextDouble() * width * 2.0D - width, posY + rand.nextDouble() * height, posZ + rand.nextDouble() * width * 2.0D - width, 0.0D, 0.0D, 0.0D);
         }
-	}
-	
-	private <T, E> void setEntityVillagerField(int fieldIndex, Object value) {
-		setPrivateValue(EntityVillager.class, this, value, fieldIndex);
-	}
-	
-	private <T, E> T getEntityVillagerField(int fieldIndex) {
-		return getPrivateValue(EntityVillager.class, this, fieldIndex);
-	}
+    }
+
+    private void onEachClientSecond() {
+        this.setSizeForAge();
+    }
+
+    private void onEachServerUpdate() {
+        if (this.ticksExisted % 20 == 0) { //Every second
+            onEachServerSecond();
+        }
+
+        if (isChild()) {
+            set(AGE_STATE, EnumAgeState.byCurrentAge(startingAge, getGrowingAge()).getId());
+        }
+    }
+
+    private void onEachServerSecond() {
+        NBTTagCompound memories = get(PLAYER_HISTORY_MAP);
+        memories.getKeySet().forEach((key) -> PlayerHistory.fromNBT(this, UUID.fromString(key), memories.getCompoundTag(key)).update());
+    }
+
+    public ResourceLocation getTextureResourceLocation() {
+        if (get(IS_INFECTED)) {
+            return ResourceLocationCache.getResourceLocationFor(String.format("mca:skins/%s/zombievillager.png", get(GENDER) == EnumGender.MALE.getId() ? "male" : "female"));
+        } else {
+            return ResourceLocationCache.getResourceLocationFor(get(TEXTURE));
+        }
+    }
+
+    private void applySpecialAI() {
+        if (getProfessionForge() == ProfessionsMCA.bandit) {
+            this.targetTasks.taskEntries.clear();
+            this.tasks.taskEntries.clear();
+            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
+            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.8D, false));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
+            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        } else if (getProfessionForge() == ProfessionsMCA.guard) {
+            this.targetTasks.taskEntries.clear();
+            this.tasks.taskEntries.clear();
+            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
+            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.8D, false));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
+        }
+    }
+
+    public void stopChore() {
+        set(ACTIVE_CHORE, EnumChore.NONE.getId());
+    }
 }

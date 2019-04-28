@@ -1,35 +1,26 @@
 package mca.enums;
 
-public enum EnumMarriageState 
-{
-	UNASSIGNED(-1),
-	NOT_MARRIED(0),
-	ENGAGED(1),
-	MARRIED_TO_PLAYER(2),
-	MARRIED_TO_VILLAGER(3);
-	
-	int id = 0;
-	
-	EnumMarriageState(int id)
-	{
-		this.id = id;
-	}
-	
-	public static EnumMarriageState byId(int id)
-	{
-		for (EnumMarriageState state : values())
-		{
-			if (state.id == id)
-			{
-				return state;
-			}
-		}
-		
-		return UNASSIGNED;
-	}
-	
-	public int getId()
-	{
-		return id;
-	}
+import java.util.Arrays;
+import java.util.Optional;
+
+public enum EnumMarriageState {
+    NOT_MARRIED(0),
+    ENGAGED(1),
+    MARRIED(2);
+
+    int id;
+
+    EnumMarriageState(int id) {
+        this.id = id;
+    }
+
+    public static EnumMarriageState byId(int id) {
+        Optional<EnumMarriageState> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
+        return state.isPresent() ? state.get() : NOT_MARRIED;
+    }
+
+    public int getId() {
+        return id;
+    }
 }
+

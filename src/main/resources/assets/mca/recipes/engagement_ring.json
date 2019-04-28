@@ -1,3 +1,4 @@
+
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
@@ -13,7 +14,7 @@
     ],
     "D": [
       {
-      	"item": "minecraft:diamond"
+        "item": "minecraft:diamond"
       }
     ]
   },

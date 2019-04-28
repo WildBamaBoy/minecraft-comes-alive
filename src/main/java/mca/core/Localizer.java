@@ -1,214 +1,73 @@
 package mca.core;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.Charsets;
+import com.google.common.base.Charsets;
+import net.minecraft.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 
-import mca.core.radix.LanguageParser;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.StringUtils;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.modules.RadixMath;
-import radixcore.modules.lang.AbstractLanguageParser;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
-public class Localizer 
-{
-	private AbstractLanguageParser parser;
-	private Map<String, String> translationsMap;
+public class Localizer {
+    private Map<String, String> localizerMap = new HashMap<String, String>();
 
-	public Localizer(FMLPreInitializationEvent event)
-	{
-		this.parser = new LanguageParser();
-		this.translationsMap = new HashMap<String, String>();
+    public Localizer() {
+        InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/en_us.lang");
 
-		boolean loadedLanguage = false;
+        try {
+            List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
 
-		for (StackTraceElement element : new Throwable().getStackTrace())
-		{
-			if (element.getClassName().equals("net.minecraft.server.dedicated.DedicatedServer"))
-			{
-				MCA.getLog().warn("MCA is running on a dedicated server and will default to using English as its language.");
-				MCA.getLog().warn("This may cause issues with some phrases being translated while others are not.");
-				MCA.getLog().warn("**** To change your server's language in MCA, change the `serverLanguageId` option in MCA's configuration. ****");
-				loadLanguage(MCA.getConfig().serverLanguageId);
-				loadedLanguage = true;
-			}
-		}
+            for (String line : lines) {
+                if (line.startsWith("#") || line.isEmpty()) {
+                    continue;
+                }
 
-		if (!loadedLanguage)
-		{
-			loadLanguage(getGameLanguageID());
-		}
-	}
+                String[] split = line.split("\\=");
+                String key = split[0];
+                String value = split[1];
 
-	@SideOnly(Side.CLIENT)
-	public String getGameLanguageID()
-	{
-		String languageID = "en_us";
+                localizerMap.put(key, value);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		try
-		{
-			languageID = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
-		}
+    public String localize(String key, String... vars) {
+        String result = localizerMap.getOrDefault(key, key);
 
-		catch (final Exception e)
-		{
-			MCA.getLog().error("Unable to get current language code. Defaulting to English.");
-		}
+        if (result.equals(key)) {
+            List<String> responses = new ArrayList<>();
+            for (String value : localizerMap.keySet()) {
+                if (value.contains(key)) {
+                    responses.add(localizerMap.get(value).replace("\\", ""));
+                }
+            }
 
-		return languageID;
-	}
+            if (responses.size() > 0) {
+                result = responses.get(new Random().nextInt(responses.size()));
+            }
+        }
 
-	public String getString(String id)
-	{
-		return getString(id, (Object) null);
-	}
+        return result;
+    }
 
-	public String getString(String id, Object... arguments)
-	{
-		//Check if the exact provided key exists in the translations map.
-		if (translationsMap.containsKey(id))
-		{
-			//Parse it if a parser was provided.
-			if (parser != null)
-			{
-				return parser.parsePhrase(translationsMap.get(id), arguments);
-			}
+    private String parseVars(String str, String... vars) {
+        int index = 1;
+        String varString = "%v" + index + "%";
 
-			else
-			{
-				return translationsMap.get(id);
-			}
-		}
+        while (str.contains(varString)) {
+            try {
+                str = str.replaceAll(varString, vars[index]);
+            } catch (IndexOutOfBoundsException e) {
+                str = str.replaceAll(varString, "");
+                MCA.getLog().warn("Failed to replace variable in localized string: " + str);
+            } finally {
+                index++;
+                varString = "%v" + index + "%";
+            }
+        }
 
-		else
-		{
-			//Build a list of keys that at least contain part of the provided key name.
-			List<String> containingKeys = new ArrayList<String>();
-
-			for (String key : translationsMap.keySet())
-			{
-				if (key.contains(id))
-				{
-					containingKeys.add(key);
-				}
-			}
-
-			//Return a random potentially valid key if some were found.
-			if (containingKeys.size() > 0)
-			{
-				String key = containingKeys.get(RadixMath.getNumberInRange(0, containingKeys.size() - 1));
-
-				if (parser != null)
-				{
-					return parser.parsePhrase(translationsMap.get(key), arguments);
-				}
-
-				else
-				{
-					return translationsMap.get(key);
-				}
-			}
-
-			else
-			{
-				MCA.getLog().error("No translation mapping found for requested phrase ID: " + id);
-				return id;
-			}
-		}
-	}
-
-	public void onLanguageChange()
-	{
-		loadLanguage(getGameLanguageID());
-	}
-	
-	private void loadLanguage(String languageId)
-	{
-		//Make sure our language ID is lower case
-		languageId = languageId.toLowerCase();
-		
-		//Remove old translations.
-		translationsMap.clear();
-
-		//Handle all English locales.
-		if (languageId.startsWith("en_") && !languageId.equals("en_us"))
-		{
-			loadLanguage("en_us");
-			return;
-		}
-
-		//And Spanish locales.
-		else if (languageId.startsWith("es_") && !languageId.equals("es_es"))
-		{
-			loadLanguage("es_es");
-			return;
-		}
-
-		//All checks for locales have passed. Load the desired language.
-		InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/" + languageId + ".lang");
-
-		if (inStream == null) //When language is not found, default to English.
-		{
-			//Make sure we're not already English. Null stream on English is a problem.
-			if (languageId.equals("en_us"))
-			{
-				throw new RuntimeException("Unable to load English language files. Loading cannot continue.");
-			}
-
-			else
-			{
-				MCA.getLog().error("Cannot load language " + languageId + ". Defaulting to English.");
-				loadLanguage("en_us");
-			}
-		}
-
-		else
-		{
-			try
-			{
-				List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
-				int lineNumber = 0;
-
-				for (String line : lines)
-				{
-					lineNumber++;
-
-					if (!line.startsWith("#") && !line.isEmpty())
-					{
-						String[] split = line.split("\\=");
-						String key = split[0];
-						String value = split.length == 2 ? split[1].replace("\\", "") : "";
-
-						if (key.isEmpty())
-						{
-							throw new IOException("Empty phrase key on line " + lineNumber);
-						}
-
-						if (value.isEmpty())
-						{
-							MCA.getLog().warn("Empty phrase value on line " + lineNumber + ". Key value: " + key);
-						}
-
-						translationsMap.put(key, value);
-					}
-				}
-
-				MCA.getLog().info("Loaded language " + languageId);
-			}
-
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
+        return str;
+    }
 }

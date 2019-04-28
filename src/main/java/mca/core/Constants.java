@@ -2,42 +2,47 @@ package mca.core;
 
 import java.util.UUID;
 
-import com.google.common.base.Optional;
+public class Constants {
+    public static final int GUI_ID_INTERACT = 1;
+    public static final int GUI_ID_NAMEBABY = 2;
+    public static final int GUI_ID_INVENTORY = 3;
+    public static final UUID ZERO_UUID = new UUID(0, 0);
+    private static final String SECTION_SIGN = "\u00a7";
 
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+    private Constants() {
+    }
 
-public final class Constants 
-{
-	public static final DataParameter<Integer> OVERWRITE_KEY = EntityDataManager.<Integer>createKey(EntityVillager.class, DataSerializers.VARINT);
-	
-	public static final UUID EMPTY_UUID = new UUID(0, 0);
-	public static final Optional<UUID> EMPTY_UUID_OPT = Optional.of(EMPTY_UUID);
-	
-	public static final int GUI_ID_NAMEBABY = 1;
-	public static final int GUI_ID_SETUP = 2;
-	public static final int GUI_ID_TOMBSTONE = 3;
-	public static final int GUI_ID_PLAYERMENU = 4;
-	public static final int GUI_ID_INVENTORY = 5;
-	public static final int GUI_ID_EDITOR = 6;
-	public static final int GUI_ID_INTERACT = 7;
-	public static final int GUI_ID_WHISTLE = 8;
-	public static final int GUI_ID_GUIDEBOOK = 9;
-	
-	public static final float SPEED_SNEAK = 0.4F;
-	public static final float SPEED_WALK = 0.6F;
-	public static final float SPEED_RUN = 0.7F;
-	public static final float SPEED_SPRINT = 0.8F;
-	public static final float SPEED_HORSE_RUN = 1.4F;
+    /**
+     * All possible font colors
+     */
+    public final class Color {
+        public static final String BLACK = SECTION_SIGN + "0";
+        public static final String DARKBLUE = SECTION_SIGN + "1";
+        public static final String DARKGREEN = SECTION_SIGN + "2";
+        public static final String DARKAQUA = SECTION_SIGN + "3";
+        public static final String DARKRED = SECTION_SIGN + "4";
+        public static final String PURPLE = SECTION_SIGN + "5";
+        public static final String GOLD = SECTION_SIGN + "6";
+        public static final String GRAY = SECTION_SIGN + "7";
+        public static final String DARKGRAY = SECTION_SIGN + "8";
+        public static final String BLUE = SECTION_SIGN + "9";
+        public static final String GREEN = SECTION_SIGN + "A";
+        public static final String AQUA = SECTION_SIGN + "B";
+        public static final String RED = SECTION_SIGN + "C";
+        public static final String LIGHTPURPLE = SECTION_SIGN + "D";
+        public static final String YELLOW = SECTION_SIGN + "E";
+        public static final String WHITE = SECTION_SIGN + "F";
+    }
 
-	public static final float SCALE_M_ADULT = 0.9375F;
-	public static final float SCALE_F_ADULT = 0.915F;
-	public static final float SCALE_MAX = 1.1F;
-	public static final float SCALE_MIN = 0.85F;
-
-	private Constants()
-	{
-	}
+    /**
+     * All possible font formats.
+     */
+    public final class Format {
+        public static final String OBFUSCATED = SECTION_SIGN + "k";
+        public static final String BOLD = SECTION_SIGN + "l";
+        public static final String STRIKE = SECTION_SIGN + "m";
+        public static final String UNDERLINE = SECTION_SIGN + "n";
+        public static final String ITALIC = SECTION_SIGN + "o";
+        public static final String RESET = SECTION_SIGN + "r";
+    }
 }

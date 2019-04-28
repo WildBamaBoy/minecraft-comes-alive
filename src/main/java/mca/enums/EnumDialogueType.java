@@ -1,43 +1,27 @@
 package mca.enums;
 
-public enum EnumDialogueType 
-{
-	NONE (-1),
-	PARENT (0),
-	RELATIVE (1),
-	ADULT (2),
-	CHILD (3),
-	SPOUSE (4),
-	CHILDP (5);
-	
-	private int id;
-	
-	EnumDialogueType(int id)
-	{
-		this.id = id;
-	}
-	
-	public int getId()
-	{
-		return id;
-	}
-	
-	public static EnumDialogueType getById(int id)
-	{
-		for (EnumDialogueType personality : EnumDialogueType.values())
-		{
-			if (personality.id == id)
-			{
-				return personality;
-			}
-		}
-		
-		return NONE; 
-	}
+public enum EnumDialogueType {
+    CHILDP("childp"),
+    CHILD("child"),
+    ADULT("adult");
 
-	@Override
-	public String toString() 
-	{
-		return this.name().toLowerCase();
-	}
+    String id;
+
+    EnumDialogueType(String id) {
+        this.id = id;
+    }
+
+    public static EnumDialogueType byValue(String value) {
+        for (EnumDialogueType constraint : values()) {
+            if (constraint.getId().equals(value)) {
+                return constraint;
+            }
+        }
+        return null;
+    }
+
+    public String getId() {
+        return id;
+    }
 }
+
