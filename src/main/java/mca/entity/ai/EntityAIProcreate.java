@@ -2,9 +2,9 @@ package mca.entity.ai;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
-import mca.core.minecraft.ItemsMCA;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
