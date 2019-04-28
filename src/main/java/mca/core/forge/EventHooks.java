@@ -1,12 +1,12 @@
 package mca.core.forge;
 
-import mca.blocks.BlocksMCA;
+import mca.core.minecraft.BlocksMCA;
 import mca.client.network.ClientMessageQueue;
 import mca.core.MCA;
 import mca.core.minecraft.VillageHelper;
 import mca.core.minecraft.WorldEventListenerMCA;
 import mca.entity.EntityVillagerMCA;
-import mca.items.ItemsMCA;
+import mca.core.minecraft.ItemsMCA;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;

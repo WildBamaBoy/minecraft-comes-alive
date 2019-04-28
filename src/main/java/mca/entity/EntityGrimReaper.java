@@ -3,7 +3,7 @@ package mca.entity;
 
 import mca.core.minecraft.SoundsMCA;
 import mca.enums.EnumReaperAttackState;
-import mca.items.ItemsMCA;
+import mca.core.minecraft.ItemsMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;

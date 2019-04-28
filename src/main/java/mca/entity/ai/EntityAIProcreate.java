@@ -4,7 +4,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
-import mca.items.ItemsMCA;
+import mca.core.minecraft.ItemsMCA;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;

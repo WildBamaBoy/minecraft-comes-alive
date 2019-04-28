@@ -9,7 +9,8 @@ import mca.core.forge.SimpleImpl;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
-import mca.items.ItemsMCA;
+import mca.core.minecraft.ItemsMCA;
+import mca.tile.TileTombstone;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = MCA.MODID, name = MCA.NAME, version = MCA.VERSION)
@@ -79,6 +81,7 @@ public class MCA {
     public void init(FMLInitializationEvent event) {
         EntityRegistry.registerModEntity(new ResourceLocation(MODID, "EntityVillagerMCA"), EntityVillagerMCA.class, EntityVillagerMCA.class.getSimpleName(), 1120, this, 50, 2, true);
         EntityRegistry.registerModEntity(new ResourceLocation(MODID, "GrimReaperMCA"), EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), 1121, this, 50, 2, true);
+        GameRegistry.registerTileEntity(TileTombstone.class, new ResourceLocation(TileTombstone.class.getSimpleName()));
         ProfessionsMCA.registerCareers();
 
         proxy.registerModelMeshers();

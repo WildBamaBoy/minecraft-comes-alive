@@ -1,5 +1,6 @@
-package mca.blocks;
+package mca.core.minecraft;
 
+import mca.blocks.BlockVillagerSpawner;
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;

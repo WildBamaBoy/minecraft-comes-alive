@@ -15,7 +15,7 @@ import mca.entity.data.VillagerSaveData;
 import mca.entity.inventory.InventoryMCA;
 import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
-import mca.items.ItemsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.util.ItemStackCache;
 import mca.util.ResourceLocationCache;
 import mca.util.Util;

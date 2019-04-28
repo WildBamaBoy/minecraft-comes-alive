@@ -1,6 +1,7 @@
-package mca.items;
+package mca.core.minecraft;
 
 import mca.core.MCA;
+import mca.items.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
