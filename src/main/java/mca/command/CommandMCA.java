@@ -2,15 +2,17 @@ package mca.command;
 
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.forge.SimpleImpl;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
 import mca.entity.data.VillagerSaveData;
 import mca.items.ItemBaby;
-import net.minecraft.command.*;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
@@ -58,12 +60,11 @@ public class CommandMCA extends CommandBase {
                 case "deh":
                     decrementHearts(player);
                     break;
+                case "sgr":
+                    spawnGrimReaper(player);
+                    break;
                 case "kgr":
                     killGrimReaper(player);
-                    break;
-                case "lvd":
-                    VillagerSaveData data = VillagerSaveData.get(player.world);
-                    data.getVillagerData().forEach(n -> System.out.println(n.getString("name")));
                     break;
                 case "dpd":
                     dumpPlayerData(player);
@@ -134,8 +135,14 @@ public class CommandMCA extends CommandBase {
         sendMessage(player, Constants.Color.GREEN + "Decreased hearts for all villagers by 10.");
     }
 
-    private void killGrimReaper(EntityPlayer player) {
+    private void spawnGrimReaper(EntityPlayer player) {
+        EntityGrimReaper reaper = new EntityGrimReaper(player.world);
+        reaper.setPosition(player.posX, player.posY, player.posZ);
+        player.world.spawnEntity(reaper);
+    }
 
+    private void killGrimReaper(EntityPlayer player) {
+        player.world.loadedEntityList.stream().filter((e) -> e instanceof EntityGrimReaper).forEach((e) -> e.setDead());
     }
 
     private void dumpPlayerData(EntityPlayer player) {

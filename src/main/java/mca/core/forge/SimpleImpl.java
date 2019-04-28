@@ -48,6 +48,7 @@ public class SimpleImpl {
     public static class ButtonClickNotifyMessage implements IMessage {
         private String buttonId;
         private UUID targetUUID;
+
         public ButtonClickNotifyMessage() {
         }
 
@@ -112,6 +113,7 @@ public class SimpleImpl {
     public static class SayMessage implements IMessage {
         private String phraseId;
         private int speakingEntityId;
+
         public SayMessage() {
         }
 
@@ -185,6 +187,7 @@ public class SimpleImpl {
     public static class CareerIdMessage implements IMessage {
         private int careerId;
         private UUID entityUUID;
+
         public CareerIdMessage() {
         }
 
@@ -337,6 +340,7 @@ public class SimpleImpl {
     public static class InventoryMessage implements IMessage {
         private UUID entityUUID;
         private NBTTagCompound inventoryNBT;
+
         public InventoryMessage() {
         }
 

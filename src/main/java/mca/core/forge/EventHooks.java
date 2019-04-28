@@ -25,6 +25,7 @@ public class EventHooks {
     @SubscribeEvent
     public void onRegisterItems(RegistryEvent.Register<Item> event) {
         ItemsMCA.register(event);
+        BlocksMCA.registerItemBlocks(event);
     }
 
     @SubscribeEvent

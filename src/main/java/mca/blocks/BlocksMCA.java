@@ -20,18 +20,18 @@ public final class BlocksMCA {
     public static final Block ROSE_GOLD_BLOCK = new BlockOre();
     public static final Block ROSE_GOLD_ORE = new BlockOre();
     public static final BlockVillagerSpawner VILLAGER_SPAWNER = new BlockVillagerSpawner();
+
     private static final ArrayList<Block> BLOCKS = new ArrayList<Block>();
 
     private BlocksMCA() {
     }
 
     public static void register(RegistryEvent.Register<Block> event) {
-        ROSE_GOLD_BLOCK.setHardness(3.0F);
-        ROSE_GOLD_BLOCK.setResistance(5.0F);
+        ROSE_GOLD_BLOCK.setHardness(3.0F).setResistance(5.0F).setCreativeTab(MCA.creativeTab);
         ROSE_GOLD_BLOCK.setHarvestLevel("pickaxe", 2);
-        ROSE_GOLD_ORE.setHardness(3.0F);
-        ROSE_GOLD_ORE.setResistance(5.0F);
+        ROSE_GOLD_ORE.setHardness(3.0F).setResistance(5.0F).setCreativeTab(MCA.creativeTab);
         ROSE_GOLD_ORE.setHarvestLevel("pickaxe", 2);
+        VILLAGER_SPAWNER.setCreativeTab(MCA.creativeTab);
 
         Block[] blocks = {
                 ROSE_GOLD_BLOCK,
@@ -44,7 +44,6 @@ public final class BlocksMCA {
         setBlockName(VILLAGER_SPAWNER, "villager_spawner");
 
         for (Block block : blocks) {
-            block.setCreativeTab(MCA.creativeTab);
             event.getRegistry().register(block);
             BLOCKS.add(block);
         }
@@ -65,6 +64,11 @@ public final class BlocksMCA {
         }
     }
 
+    private static void setBlockName(Block block, String blockName) {
+        block.setRegistryName(MCA.MODID, blockName);
+        block.setUnlocalizedName(block.getRegistryName().toString());
+    }
+
     @SideOnly(Side.CLIENT)
     public static void registerModelMeshers() {
         ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
@@ -72,10 +76,5 @@ public final class BlocksMCA {
         for (Block block : BLOCKS) {
             mesher.register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
         }
-    }
-
-    private static void setBlockName(Block block, String blockName) {
-        block.setRegistryName(MCA.MODID, blockName);
-        block.setUnlocalizedName(block.getRegistryName().toString());
     }
 }

@@ -304,7 +304,8 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    @Override @Nonnull
+    @Override
+    @Nonnull
     public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
         if (slotIn == EntityEquipmentSlot.MAINHAND) {
             VillagerRegistry.VillagerProfession profession = getProfessionForge();

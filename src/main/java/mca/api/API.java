@@ -1,7 +1,6 @@
 package mca.api;
 
 import com.google.common.base.Charsets;
-import com.sun.istack.internal.NotNull;
 import mca.api.types.APIButton;
 import mca.api.types.Gift;
 import mca.api.types.SkinsGroup;
@@ -20,6 +19,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import org.apache.commons.io.IOUtils;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.util.*;
@@ -149,7 +149,7 @@ public class API {
      * @param gender The gender the name should be appropriate for.
      * @return A gender appropriate name based on the provided gender.
      */
-    public static String getRandomName(@NotNull EnumGender gender) {
+    public static String getRandomName(@Nonnull EnumGender gender) {
         if (gender == EnumGender.MALE) {
             return maleNames.get(rng.nextInt(maleNames.size()));
         } else if (gender == EnumGender.FEMALE) {

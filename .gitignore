@@ -1,19 +1,22 @@
-/*
-/src/main/java/radixcore/*
-/lib/*
-!/.gitignore
-!/gradle/
-!/gradle/*
-!/gradle*
-!/src/
-!/src/*
-!/lib
-!/gfx
-!/*.gradle
-!/*.md
-!setupws.bat
-!version.properties
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
 .gradle
-gitlog-to-changelog
-CHANGELOG
-*.jar
+
+# other
+eclipse
+run

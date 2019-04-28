@@ -20,7 +20,7 @@ public class VillagerSaveData extends WorldSavedData {
     }
 
     public static VillagerSaveData get(World world) {
-        VillagerSaveData data = (VillagerSaveData)world.loadData(VillagerSaveData.class, DATA_ID);
+        VillagerSaveData data = (VillagerSaveData) world.loadData(VillagerSaveData.class, DATA_ID);
         if (data == null) {
             data = new VillagerSaveData(DATA_ID);
             world.setData(DATA_ID, data);
@@ -39,7 +39,7 @@ public class VillagerSaveData extends WorldSavedData {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        villagerData.forEach((n)-> nbt.setTag(n.getUniqueId("uuid").toString(), n));
+        villagerData.forEach((n) -> nbt.setTag(n.getUniqueId("uuid").toString(), n));
         return nbt;
     }
 

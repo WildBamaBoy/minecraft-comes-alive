@@ -1,5 +1,10 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model": "mca:villager_spawner"
+	},
 	"variants": {
-		"normal": { "model": "mca:villager_spawner" }
+		"normal": [{}],
+		"inventory": [{}]
 	}
 }

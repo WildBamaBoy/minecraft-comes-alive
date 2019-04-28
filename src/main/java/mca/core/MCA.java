@@ -63,6 +63,13 @@ public class MCA {
         localizer = new Localizer();
         config = new Config(event);
 
+        creativeTab = new CreativeTabs("MCA") {
+            @Override
+            public ItemStack getTabIconItem() {
+                return new ItemStack(ItemsMCA.ENGAGEMENT_RING);
+            }
+        };
+
         MinecraftForge.EVENT_BUS.register(new EventHooks());
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         SimpleImpl.registerMessages();
@@ -73,13 +80,6 @@ public class MCA {
         EntityRegistry.registerModEntity(new ResourceLocation(MODID, "EntityVillagerMCA"), EntityVillagerMCA.class, EntityVillagerMCA.class.getSimpleName(), 1120, this, 50, 2, true);
         EntityRegistry.registerModEntity(new ResourceLocation(MODID, "GrimReaperMCA"), EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), 1121, this, 50, 2, true);
         ProfessionsMCA.registerCareers();
-
-        creativeTab = new CreativeTabs("MCA") {
-            @Override
-            public ItemStack getTabIconItem() {
-                return new ItemStack(ItemsMCA.ENGAGEMENT_RING);
-            }
-        };
 
         proxy.registerModelMeshers();
         ItemsMCA.assignCreativeTabs();

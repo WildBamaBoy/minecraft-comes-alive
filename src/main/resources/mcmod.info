@@ -2,14 +2,14 @@
 {
   "modid": "mca",
   "name": "Minecraft Comes Alive",
-  "description": "Example placeholder mod.",
+  "description": "Replaces villagers with humans, adds marriage, children, and more!",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://www.radix-shock.com/mca--download.html",
   "updateUrl": "",
-  "authorList": ["WildBamaBoy","TheSheWolfDeadly"],
-  "credits": "mezzodrinker, The_Nanobots",
-  "logoFile": "",
+  "authorList": ["WildBamaBoy", "SheWolfDeadly"],
+  "credits": "Mezzodrinker, The_Nanobots, numerous others.",
+  "logoFile": "mca.png",
   "screenshots": [],
   "dependencies": []
 }
