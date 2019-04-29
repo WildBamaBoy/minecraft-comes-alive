@@ -264,7 +264,6 @@ public class GuiInteract extends GuiScreen {
     private void drawInteractButtonMenu() {
         buttonList.clear();
         API.addButtons("interact", villager, player, this);
-
     }
 
     private void disableButton(String id) {

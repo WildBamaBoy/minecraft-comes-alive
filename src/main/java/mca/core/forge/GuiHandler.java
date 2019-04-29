@@ -3,6 +3,7 @@ package mca.core.forge;
 import mca.client.gui.GuiInteract;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiStaffOfLife;
+import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
@@ -35,6 +36,8 @@ public class GuiHandler implements IGuiHandler {
                 return new GuiNameBaby(player, player.inventory.getStackInSlot(player.inventory.currentItem));
             case Constants.GUI_ID_STAFFOFLIFE:
                 return new GuiStaffOfLife(player);
+            case Constants.GUI_ID_VILLAGEREDITOR:
+                return new GuiVillagerEditor((EntityVillagerMCA) world.getEntityByID(entityId), player);
             default:
                 MCA.getLog().fatal("Failed to handle provided GUI ID on client: " + guiId);
                 return null;

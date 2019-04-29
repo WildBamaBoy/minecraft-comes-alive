@@ -6,6 +6,7 @@ import mca.api.API;
 import mca.api.types.APIButton;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.NetMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.ai.*;
@@ -247,11 +248,14 @@ public class EntityVillagerMCA extends EntityVillager {
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         if (getProfessionForge() == ProfessionsMCA.bandit) {
             return false;
+        } else if (player.getHeldItemMainhand().getItem() == ItemsMCA.VILLAGER_EDITOR) {
+            player.openGui(MCA.getInstance(), Constants.GUI_ID_VILLAGEREDITOR, player.world, this.getEntityId(), 0, 0);
+            return true;
+        } else {
+            player.addStat(StatList.TALKED_TO_VILLAGER);
+            player.openGui(MCA.getInstance(), Constants.GUI_ID_INTERACT, player.world, this.getEntityId(), 0, 0);
+            return true;
         }
-
-        player.addStat(StatList.TALKED_TO_VILLAGER);
-        player.openGui(MCA.getInstance(), Constants.GUI_ID_INTERACT, player.world, this.getEntityId(), 0, 0);
-        return true;
     }
 
     @Override
@@ -440,7 +444,7 @@ public class EntityVillagerMCA extends EntityVillager {
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
 
-        String responseId = String.format("%s.%s.%s", history.getDialogueType(), interactionName, succeeded ? "success" : "fail");
+        String responseId = String.format("%s.%s.%s", history.getDialogueType().getId(), interactionName, succeeded ? "success" : "fail");
         say(player, responseId);
     }
 
@@ -496,14 +500,27 @@ public class EntityVillagerMCA extends EntityVillager {
                     set(IS_PROCREATING, true);
                 }
                 break;
-            case "gui.button.debug.openinventory":
-                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, world, this.getEntityId(), 0, 0);
+            case "gui.button.infected":
+                set(IS_INFECTED, !get(IS_INFECTED));
                 break;
-            case "gui.button.debug.zombify":
-                set(IS_INFECTED, true);
+            case "gui.button.gender":
+                EnumGender gender = EnumGender.byId(get(GENDER));
+                if (gender == EnumGender.MALE) {
+                    set(GENDER, EnumGender.FEMALE.getId());
+                } else {
+                    set(GENDER, EnumGender.MALE.getId());
+                }
+                // intentional fall-through here
+            case "gui.button.texture":
+                set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), EnumGender.byId(get(GENDER))));
                 break;
-            case "gui.button.debug.unzombify":
-                set(IS_INFECTED, false);
+            case "gui.button.random":
+                set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
+                break;
+            case "gui.button.profession":
+                RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
+                setProfession(registry.getRandomObject(world.rand));
+                setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
                 break;
         }
     }

@@ -13,11 +13,14 @@ import mca.items.ItemBaby;
 import mca.server.ServerMessageHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -33,6 +36,7 @@ import sun.plugin2.message.Message;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class NetMCA {
@@ -49,6 +53,7 @@ public class NetMCA {
         INSTANCE.registerMessage(SavedVillagersRequestHandler.class, SavedVillagersRequest.class, 7, Side.SERVER);
         INSTANCE.registerMessage(SavedVillagersResponseHandler.class, SavedVillagersResponse.class, 8, Side.CLIENT);
         INSTANCE.registerMessage(ReviveVillagerHandler.class, ReviveVillager.class, 9, Side.SERVER);
+        INSTANCE.registerMessage(SetNameHandler.class, SetName.class, 10, Side.SERVER);
     }
 
     @SideOnly(Side.CLIENT)
@@ -457,6 +462,43 @@ public class NetMCA {
                 player.inventory.mainInventory.get(player.inventory.currentItem).damageItem(1, player);
             }
 
+            return null;
+        }
+    }
+
+    public static class SetName implements IMessage {
+        private String name;
+        private UUID entityUUID;
+
+        public SetName() { }
+
+        public SetName(UUID entityUUID, String name) {
+            this.entityUUID = entityUUID;
+            this.name = name;
+        }
+
+        @Override
+        public void toBytes(ByteBuf buf) {
+            ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
+            ByteBufUtils.writeUTF8String(buf, name);
+        }
+
+        @Override
+        public void fromBytes(ByteBuf buf) {
+            entityUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
+            name = ByteBufUtils.readUTF8String(buf);
+        }
+    }
+
+    public static class SetNameHandler implements IMessageHandler<SetName, IMessage> {
+        @Override
+        public IMessage onMessage(SetName message, MessageContext ctx) {
+            World world = ctx.getServerHandler().player.world;
+            Optional<Entity> entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst();
+            if (entity.isPresent() && entity.get() instanceof EntityVillagerMCA) {
+                EntityVillagerMCA villager = (EntityVillagerMCA) entity.get();
+                villager.set(EntityVillagerMCA.VILLAGER_NAME, message.name);
+            }
             return null;
         }
     }

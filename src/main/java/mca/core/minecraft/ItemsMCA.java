@@ -35,7 +35,7 @@ public final class ItemsMCA {
     public static final Item ROSE_GOLD_INGOT = new Item().setUnlocalizedName("rose_gold_ingot");
     public static final Item ROSE_GOLD_DUST = new Item().setUnlocalizedName("rose_gold_dust");
     public static final Item GOLD_DUST = new Item().setUnlocalizedName("gold_dust");
-    public static final Item VILLAGER_EDITOR = new Item().setUnlocalizedName("villager_editor");
+    public static final Item VILLAGER_EDITOR = new ItemVillagerEditor();
     public static final Item STAFF_OF_LIFE = new ItemStaffOfLife();
 
     private static final ArrayList<Item> ITEMS = new ArrayList<Item>();

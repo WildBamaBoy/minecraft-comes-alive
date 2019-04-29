@@ -1,0 +1,55 @@
+[
+    {
+      "id": 1,
+      "identifier": "gui.button.random",
+      "x": -50,
+      "y": -95,
+      "width": 60,
+      "height": 20,
+      "notifyServer": true
+    },
+    {
+      "id": 2,
+      "identifier": "gui.button.gender",
+      "x": -190,
+      "y": -40,
+      "width": 175,
+      "height": 20,
+      "notifyServer": true
+    },
+    {
+      "id": 3,
+      "identifier": "gui.button.texture",
+      "x": -190,
+      "y": -20,
+      "width": 175,
+      "height": 20,
+      "notifyServer": true
+    },
+    {
+      "id": 4,
+      "identifier": "gui.button.profession",
+      "x": -190,
+      "y": 0,
+      "width": 175,
+      "height": 20,
+      "notifyServer": true
+    },
+    {
+      "id": 5,
+      "identifier": "gui.button.infected",
+      "x": -190,
+      "y": 20,
+      "width": 175,
+      "height": 20,
+      "notifyServer": true
+    },
+    {
+      "id": 6,
+      "identifier": "gui.button.done",
+      "x": -50,
+      "y": 85,
+      "width": 75,
+      "height": 20
+    }
+]

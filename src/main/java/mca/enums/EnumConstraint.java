@@ -18,7 +18,7 @@ public enum EnumConstraint {
     public static List<EnumConstraint> fromStringList(String constraints) {
         List<EnumConstraint> list = new ArrayList<>();
 
-        if (!constraints.isEmpty()) {
+        if (constraints != null && !constraints.isEmpty()) {
             String[] splitConstraints = constraints.split("\\|");
 
             for (String s : splitConstraints) {

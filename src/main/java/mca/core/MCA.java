@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
 public class MCA {
     public static final String MODID = "mca";
     public static final String NAME = "Minecraft Comes Alive";
-    public static final String VERSION = "6.0.0a";
+    public static final String VERSION = "6.0.0";
     @SidedProxy(clientSide = "mca.core.forge.ClientProxy", serverSide = "mca.core.forge.ServerProxy")
     public static ServerProxy proxy;
     public static CreativeTabs creativeTab;

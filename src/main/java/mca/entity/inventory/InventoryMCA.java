@@ -18,7 +18,7 @@ public class InventoryMCA extends InventoryBasic {
     private EntityVillagerMCA villager;
 
     public InventoryMCA(EntityVillagerMCA villager) {
-        super(new TextComponentString("Villager Inventory"), 27);
+        super("Villager Inventory", true, 27);
         this.villager = villager;
     }
 
