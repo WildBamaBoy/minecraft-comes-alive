@@ -2,7 +2,7 @@ package mca.client.gui;
 
 import mca.api.API;
 import mca.core.MCA;
-import mca.core.forge.SimpleImpl;
+import mca.core.forge.NetMCA;
 import mca.items.ItemBaby;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -73,7 +73,7 @@ public class GuiNameBaby extends GuiScreen {
         if (!guibutton.enabled) {
             return;
         } else if (guibutton == doneButton) {
-            SimpleImpl.INSTANCE.sendToServer(new SimpleImpl.BabyNameMessage(babyNameTextField.getText().trim()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.BabyName(babyNameTextField.getText().trim()));
             mc.displayGuiScreen(null);
         } else if (guibutton == randomButton) {
             babyNameTextField.setText(API.getRandomName(baby.getGender()));

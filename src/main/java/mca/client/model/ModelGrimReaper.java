@@ -1,16 +1,14 @@
 package mca.client.model;
 
-import org.lwjgl.opengl.GL11;
-
 import mca.entity.EntityGrimReaper;
 import mca.enums.EnumReaperAttackState;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.opengl.GL11;
 
-public class ModelGrimReaper extends ModelBiped
-{
+public class ModelGrimReaper extends ModelBiped {
     public ModelRenderer head;
     public ModelRenderer rightArm;
     public ModelRenderer leftLeg;
@@ -59,8 +57,7 @@ public class ModelGrimReaper extends ModelBiped
     public ModelRenderer scytheHeadRest;
     public ModelRenderer headRest;
 
-    public ModelGrimReaper()
-    {
+    public ModelGrimReaper() {
         this.textureWidth = 64;
         this.textureHeight = 64;
 
@@ -246,12 +243,10 @@ public class ModelGrimReaper extends ModelBiped
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-        EntityGrimReaper reaper = (EntityGrimReaper)entity;
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        EntityGrimReaper reaper = (EntityGrimReaper) entity;
 
-        if (reaper.getAttackState() == EnumReaperAttackState.PRE)
-        {
+        if (reaper.getAttackState() == EnumReaperAttackState.PRE) {
             this.leftLegPreAttack.render(f5);
             this.leftArmPreAttack.render(f5);
             this.rightLegPreAttack.render(f5);
@@ -261,10 +256,7 @@ public class ModelGrimReaper extends ModelBiped
             this.rightArmPreAttack.render(f5);
             this.scytheHandlePreAttack.render(f5);
             this.scytheHeadPreAttack.render(f5);
-        }
-
-        else if (reaper.getAttackState() == EnumReaperAttackState.POST)
-        {
+        } else if (reaper.getAttackState() == EnumReaperAttackState.POST) {
             this.leftLegPostAttack.render(f5);
             this.leftArmPostAttack.render(f5);
             this.rightLegPostAttack.render(f5);
@@ -274,10 +266,7 @@ public class ModelGrimReaper extends ModelBiped
             this.rightArmPostAttack.render(f5);
             this.scytheHandlePostAttack.render(f5);
             this.scytheHeadPostAttack.render(f5);
-        }
-
-        else if (reaper.getAttackState() == EnumReaperAttackState.BLOCK)
-        {
+        } else if (reaper.getAttackState() == EnumReaperAttackState.BLOCK) {
             this.cowlBlock.render(f5);
             this.leftLegBlock.render(f5);
             this.headBlock.render(f5);
@@ -287,10 +276,7 @@ public class ModelGrimReaper extends ModelBiped
             this.chestBlock.render(f5);
             this.leftArmBlock.render(f5);
             this.scytheHeadBlock.render(f5);
-        }
-
-        else if (reaper.getAttackState() == EnumReaperAttackState.REST)
-        {
+        } else if (reaper.getAttackState() == EnumReaperAttackState.REST) {
 
             GL11.glPushMatrix();
             {
@@ -315,10 +301,7 @@ public class ModelGrimReaper extends ModelBiped
                 GL11.glPopMatrix();
             }
             GL11.glPopMatrix();
-        }
-
-        else
-        {
+        } else {
             rightLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
             leftLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
             rightLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
@@ -337,8 +320,7 @@ public class ModelGrimReaper extends ModelBiped
         }
     }
 
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
-    {
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

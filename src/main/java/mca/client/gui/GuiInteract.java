@@ -4,7 +4,7 @@ import mca.api.API;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.forge.SimpleImpl;
+import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerHistory;
@@ -105,7 +105,7 @@ public class GuiInteract extends GuiScreen {
 
         //Right mouse button
         if (inGiftMode && button == 1) {
-            SimpleImpl.INSTANCE.sendToServer(new SimpleImpl.ButtonClickNotifyMessage("gui.button.gift", villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction("gui.button.gift", villager.getUniqueID()));
         }
     }
 
@@ -242,7 +242,7 @@ public class GuiInteract extends GuiScreen {
 
         /* Anything that should notify the server is handled here */
         else if (btn.getApiButton().getNotifyServer()) {
-            SimpleImpl.INSTANCE.sendToServer(new SimpleImpl.ButtonClickNotifyMessage(id, villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(id, villager.getUniqueID()));
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
             disableAllButtons();

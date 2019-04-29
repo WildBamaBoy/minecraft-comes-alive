@@ -1,7 +1,7 @@
 package mca.client.network;
 
 import mca.core.MCA;
-import mca.core.forge.SimpleImpl;
+import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -30,16 +30,16 @@ public class ClientMessageQueue {
     }
 
     private static void handle(IMessage msg) {
-        if (msg instanceof SimpleImpl.CareerIdMessage) {
-            handleCareerId((SimpleImpl.CareerIdMessage) msg);
-        } else if (msg instanceof SimpleImpl.InventoryMessage) {
-            handleInventory((SimpleImpl.InventoryMessage) msg);
+        if (msg instanceof NetMCA.CareerResponse) {
+            handleCareerId((NetMCA.CareerResponse) msg);
+        } else if (msg instanceof NetMCA.InventoryResponse) {
+            handleInventory((NetMCA.InventoryResponse) msg);
         } else {
             MCA.getLog().error("Unexpected message in queue:" + msg.getClass().getName());
         }
     }
 
-    private static void handleCareerId(SimpleImpl.CareerIdMessage msg) {
+    private static void handleCareerId(NetMCA.CareerResponse msg) {
         EntityPlayer player = Minecraft.getMinecraft().player;
 
         try {
@@ -61,7 +61,7 @@ public class ClientMessageQueue {
         }
     }
 
-    private static void handleInventory(SimpleImpl.InventoryMessage msg) {
+    private static void handleInventory(NetMCA.InventoryResponse msg) {
         EntityPlayer player = Minecraft.getMinecraft().player;
         EntityVillagerMCA villager = getVillagerByUUID(player.world, msg.getEntityUUID());
 

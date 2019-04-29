@@ -163,6 +163,7 @@ gui.button.exit=Exit
 gui.button.back=Back
 gui.button.backarrow=<<
 gui.button.adoptbaby=Adopt Baby
+gui.button.revive=Revive
 
 gui.title.namebaby.male=It's a boy\!
 gui.title.namebaby.female=It's a girl\!
@@ -170,6 +171,7 @@ gui.title.namebaby=Name your baby\:
 gui.title.tombstone=Enter tombstone text\:
 gui.title.editor=Villager Editor
 gui.title.whistle=Call Family Member
+gui.title.staffoflife=Select a Villager to Revive
 
 gui.label.you=You
 gui.label.readytogrow=Ready to grow!

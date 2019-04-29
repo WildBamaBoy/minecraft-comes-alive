@@ -1,9 +1,9 @@
 package mca.entity;
 
 
+import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;
 import mca.enums.EnumReaperAttackState;
-import mca.core.minecraft.ItemsMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -179,10 +179,10 @@ public class EntityGrimReaper extends EntityMob {
     protected void attackEntity(Entity entity, float damage) {
         EntityLivingBase entityToAttack = this.getAttackTarget();
 
-        // Within 1.2 blocks of the target, damage it. Set attack state to post attack.
+        // Set attack state to post attack.
         // If we're blocking, we will teleport away instead of attacking to prevent an unfair attack.
         // Attacking us WHILE we're blocking will cause us to attack, however.
-        if (this.getDistance(entityToAttack) <= 1.2D && getAttackState() == EnumReaperAttackState.PRE) {
+        if (this.getDistance(entityToAttack) <= 0.8D && getAttackState() == EnumReaperAttackState.PRE) {
             if (getAttackState() == EnumReaperAttackState.BLOCK) {
                 int rX = this.getRNG().nextInt(10);
                 int rZ = this.getRNG().nextInt(10);
@@ -374,17 +374,6 @@ public class EntityGrimReaper extends EntityMob {
             if (entityToAttack.posY - 0.5F > posY) {
                 motionY = motionY + 0.01F * moveAmount;
             }
-
-            //Speed up in order to lunge at the player.
-            if (getAttackState() == EnumReaperAttackState.PRE) {
-                motionX = motionX * 1.1F;
-                motionZ = motionZ * 1.1F;
-            }
-        }
-
-        //Kill plants close to us.
-        if (!world.isRemote) {
-            //TODO
         }
     }
 

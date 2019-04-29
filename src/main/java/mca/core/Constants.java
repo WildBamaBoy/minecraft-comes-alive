@@ -6,6 +6,7 @@ public class Constants {
     public static final int GUI_ID_INTERACT = 1;
     public static final int GUI_ID_NAMEBABY = 2;
     public static final int GUI_ID_INVENTORY = 3;
+    public static final int GUI_ID_STAFFOFLIFE = 4;
     public static final UUID ZERO_UUID = new UUID(0, 0);
     private static final String SECTION_SIGN = "\u00a7";
 

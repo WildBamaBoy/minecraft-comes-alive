@@ -1,6 +1,6 @@
 package mca.core.minecraft;
 
-import mca.core.forge.SimpleImpl;
+import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -45,11 +45,11 @@ public class WorldEventListenerMCA implements IWorldEventListener {
             //To stop this, we default the career ID and level client-side to 1. This prevents populateBuyingList() from running and allows our career ID sent from the server to apply.
             ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, (EntityVillagerMCA) entityIn, 1, "careerId");
             ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, (EntityVillagerMCA) entityIn, 1, "careerLevel");
-            SimpleImpl.INSTANCE.sendToServer(new SimpleImpl.CareerIdRequestMessage(entityIn.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.CareerRequest(entityIn.getUniqueID()));
 
             //The villager's inventory is also not synced to the client until it is opened in a Container.
             //When the entity joins the client world, ask the server to send over the inventory data.
-            SimpleImpl.INSTANCE.sendToServer(new SimpleImpl.InventoryRequestMessage(entityIn.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.InventoryRequest(entityIn.getUniqueID()));
         }
     }
 

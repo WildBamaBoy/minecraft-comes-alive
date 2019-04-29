@@ -2,24 +2,22 @@ package mca.core.forge;
 
 import mca.client.gui.GuiInteract;
 import mca.client.gui.GuiNameBaby;
+import mca.client.gui.GuiStaffOfLife;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.tile.TileTombstone;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int entityId, int posY, int posZ) {
-        EntityVillagerMCA villager = (EntityVillagerMCA) world.getEntityByID(entityId);
-
         switch (guiId) {
             case Constants.GUI_ID_INVENTORY:
+                EntityVillagerMCA villager = (EntityVillagerMCA) world.getEntityByID(entityId);
                 return new ContainerChest(player.inventory, villager.inventory, player);
             default:
                 return null;
@@ -35,6 +33,8 @@ public class GuiHandler implements IGuiHandler {
                 return new GuiInteract((EntityVillagerMCA) world.getEntityByID(entityId), player);
             case Constants.GUI_ID_NAMEBABY:
                 return new GuiNameBaby(player, player.inventory.getStackInSlot(player.inventory.currentItem));
+            case Constants.GUI_ID_STAFFOFLIFE:
+                return new GuiStaffOfLife(player);
             default:
                 MCA.getLog().fatal("Failed to handle provided GUI ID on client: " + guiId);
                 return null;

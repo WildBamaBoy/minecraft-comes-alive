@@ -6,16 +6,16 @@ import mca.api.API;
 import mca.api.types.APIButton;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.ai.*;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerHistory;
 import mca.entity.data.PlayerSaveData;
-import mca.entity.data.VillagerSaveData;
+import mca.entity.data.SavedVillagers;
 import mca.entity.inventory.InventoryMCA;
 import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
-import mca.core.minecraft.ItemsMCA;
 import mca.util.ItemStackCache;
 import mca.util.ResourceLocationCache;
 import mca.util.Util;
@@ -200,7 +200,7 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     public void writeEntityToNBT(NBTTagCompound nbt) {
         super.writeEntityToNBT(nbt);
-        nbt.setUniqueId("uuid", this.getUniqueID()); // for VillagerSaveData
+        nbt.setUniqueId("uuid", this.getUniqueID()); // for SavedVillagers
         nbt.setString("name", get(VILLAGER_NAME));
         nbt.setString("texture", get(TEXTURE));
         nbt.setInteger("gender", get(GENDER));
@@ -275,7 +275,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 }
             }
 
-            VillagerSaveData.get(world).addVillager(this);
+            SavedVillagers.get(world).save(this);
         }
     }
 
@@ -339,6 +339,18 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setTag(history.getPlayerUUID().toString(), history.toNBT());
         set(PLAYER_HISTORY_MAP, nbt);
         this.dataManager.setDirty(PLAYER_HISTORY_MAP);
+    }
+
+    public void reset() {
+        set(PLAYER_HISTORY_MAP, new NBTTagCompound());
+        dataManager.setDirty(PLAYER_HISTORY_MAP);
+
+        setHealth(20.0F);
+
+        set(SPOUSE_NAME, "");
+        set(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
+        set(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
+        set(HAS_BABY, false);
     }
 
     private VillagerRegistry.VillagerCareer getVanillaCareer() {

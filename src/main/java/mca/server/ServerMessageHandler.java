@@ -1,6 +1,6 @@
 package mca.server;
 
-import mca.core.forge.SimpleImpl;
+import mca.core.forge.NetMCA;
 import mca.core.minecraft.VillageHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
@@ -9,7 +9,7 @@ public class ServerMessageHandler {
     private ServerMessageHandler() {
     }
 
-    public static void handleMessage(EntityPlayerMP player, SimpleImpl.ButtonClickNotifyMessage message) {
+    public static void handleMessage(EntityPlayerMP player, NetMCA.ButtonAction message) {
         switch (message.getButtonId()) {
             case "gui.button.debug.startraid":
                 startRaid(player);
