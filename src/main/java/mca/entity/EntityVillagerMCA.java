@@ -536,7 +536,6 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.stay":
                 set(MOVE_STATE, EnumMoveState.STAY.getId());
-                this.playerToFollowUUID = Constants.ZERO_UUID;
                 break;
             case "gui.button.follow":
                 set(MOVE_STATE, EnumMoveState.FOLLOW.getId());

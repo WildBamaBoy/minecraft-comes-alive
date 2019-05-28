@@ -16,7 +16,7 @@ public class EntityAIMoveState extends EntityAIBase {
     }
 
     public boolean shouldExecute() {
-        return !villager.playerToFollowUUID.equals(Constants.ZERO_UUID);
+        return !villager.playerToFollowUUID.equals(Constants.ZERO_UUID) || EnumMoveState.byId(villager.get(EntityVillagerMCA.MOVE_STATE)) == EnumMoveState.STAY;
     }
 
     public void updateTask() {
