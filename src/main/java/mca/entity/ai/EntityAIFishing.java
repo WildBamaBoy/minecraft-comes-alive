@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class EntityAIFishing extends AbstractEntityAIChore {
     private BlockPos targetWater;
@@ -31,18 +30,19 @@ public class EntityAIFishing extends AbstractEntityAIChore {
     }
 
     public void updateTask() {
+        super.updateTask();
+
         if (!villager.inventory.contains(ItemFishingRod.class)) {
+            villager.say(getAssigningPlayer(), "chore.fishing.norod");
             villager.stopChore();
-            //TODO tell no fishing rod
+            return;
         }
 
         if (targetWater == null) {
             List<BlockPos> nearbyStaticLiquid = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockStaticLiquid.class, 12, 3);
-            Stream<BlockPos> nearbyWater = nearbyStaticLiquid.stream().filter((p) -> villager.world.getBlockState(p).getBlock() == Blocks.WATER);
-
-            if (nearbyWater.count() > 6) {
-                targetWater = nearbyWater.min(Comparator.comparingDouble(villager::getDistanceSq)).get();
-            }
+            targetWater = nearbyStaticLiquid.stream()
+                    .filter((p) -> villager.world.getBlockState(p).getBlock() == Blocks.WATER)
+                    .min(Comparator.comparingDouble(villager::getDistanceSq)).orElse(null);
         } else if (villager.getDistanceSq(targetWater) > 5.0D) {
             villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetWater), 0.8D);
         } else if (villager.getDistanceSq(targetWater) < 5.0D) {
@@ -63,6 +63,7 @@ public class EntityAIFishing extends AbstractEntityAIChore {
 
                     villager.swingArm(EnumHand.MAIN_HAND);
                     villager.inventory.addItem(stack);
+                    villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
                 }
                 ticks = 0;
             }

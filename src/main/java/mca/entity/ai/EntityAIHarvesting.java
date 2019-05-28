@@ -7,6 +7,7 @@ import mca.util.Util;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -28,6 +29,13 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
     }
 
     public void updateTask() {
+        super.updateTask();
+
+        if (!villager.inventory.contains(ItemHoe.class)) {
+            villager.say(getAssigningPlayer(), "chore.harvesting.nohoe");
+            villager.stopChore();
+        }
+
         if (target == null) {
             List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockCrops.class, 8, 3);
             List<BlockPos> harvestable = new ArrayList<>();
@@ -57,6 +65,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                     }
 
                     villager.swingArm(EnumHand.MAIN_HAND);
+                    villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
 
                     try {
                         IProperty<Integer> property = (IProperty<Integer>) crop.getBlockState().getProperty("age");

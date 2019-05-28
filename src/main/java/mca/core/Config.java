@@ -12,30 +12,25 @@ import java.util.List;
 public final class Config implements Serializable {
     private transient final Configuration config;
 
-    public boolean disableWeddingRingRecipe;
     public boolean overwriteOriginalVillagers;
-    public boolean allowMobAttacks;
-    public boolean shiftClickForPlayerMarriage;
     public boolean enableDiminishingReturns;
     public boolean enableInfection;
-    public double infectionChance;
-    public int villageTickRate;
-    public boolean allowVillagerRevival;
+    public int infectionChance;
+    public boolean allowGrimReaper;
     public int guardSpawnRate;
-    public double chanceToHaveTwins;
+    public int chanceToHaveTwins;
     public int marriageHeartsRequirement;
     public int roseGoldSpawnWeight;
     public int babyGrowUpTime;
     public int childGrowUpTime;
-    public int childLimit;
     public int villagerSpawnerCap;
     public int villagerSpawnerRateMinutes;
-    public int goldenAppleGrowthAcceleration;
     public boolean allowTrading;
     public boolean logVillagerDeaths;
+    public boolean enableRevivals;
     public String villagerChatPrefix;
-    public boolean showNameTagOnHover;
-    public boolean showModifiedFemaleBody;
+    public boolean allowPlayerMarriage;
+    public boolean enableAdminCommands;
     public boolean allowCrashReporting;
     public boolean allowUpdateChecking;
 
@@ -45,49 +40,27 @@ public final class Config implements Serializable {
     }
 
     private void addConfigValues() {
-        config.setCategoryComment("Init", "Settings that affect how MCA starts up.");
-        disableWeddingRingRecipe = config.get("Init", "Disable wedding ring recipe", false, "True if you want to disable the recipe for the wedding ring. It can confict with a few mods. Rose gold can be used as an alternative. Requires a restart.").getBoolean();
-
-        config.setCategoryComment("Privacy", "Setting pertaining to your privacy while using MCA.");
-        allowCrashReporting = config.get("Privacy", "Allow crash reporting", true, "True if MCA can send crash reports to the mod authors. Crash reports may include your Minecraft username, OS version, Java version, and PC username.").getBoolean();
-        allowUpdateChecking = config.get("Privacy", "Allow update checking", true, "True if MCA can check for updates. This setting requires a restart in order to take effect.").getBoolean();
-
-        config.setCategoryComment("General", "General mod settings.");
-
-        overwriteOriginalVillagers = config.get("General", "Overwrite original villagers", true).getBoolean();
-        villageTickRate = config.get("General", "Village tick rate", 1200, "How often MCA runs village updates, events, etc. in ticks. (spawning guards, raids, and more)").getInt();
-
-        shiftClickForPlayerMarriage = config.get("General", "Shift-click for player marriage menu", false, "True if you must hold shift then right click a player to open the marriage menu. Useful on PvP servers.").getBoolean();
-        chanceToHaveTwins = config.get("General", "Chance to have twins", 0.02, "Your percent chance of having twins. 1 = 100%, 0.1 = 10%").getDouble();
-        guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
-        enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
-        enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
-        infectionChance = config.get("General", "Infection Chance", 0.1F, "Chance of villageres being infected from zombie attacks. Percentage (1 = 100%, 0.1 = 10%").getDouble();
-
-        allowMobAttacks = config.get("General", "Allow mob attacks", true, "True if regular Minecraft mobs can attack villagers. False to prevent mobs from attacking any villager.").getBoolean();
-        marriageHeartsRequirement = config.get("General", "Marriage hearts requirement", 100, "Heart points (1 heart = 10, 1 gold heart = 20) required to marry a villager. -1 if no requirement").getInt();
-
-        config.setCategoryComment("World Generation", "All settings related to MCA's world generation.");
-        roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common. Set to zero to disable.").getInt();
-
-        config.setCategoryComment("Aging", "All aging-related settings of villagers and children in-game.");
-        babyGrowUpTime = config.get("Aging", "Time until babies grow up (in minutes)", 10).getInt();
-        childGrowUpTime = config.get("Aging", "Time until children grow up (in minutes)", 180).getInt();
-        goldenAppleGrowthAcceleration = config.get("Aging", "Gifting a golden apple to a child decreases their growth time by this many minutes", 30).getInt();
-
-        config.setCategoryComment("Graphics", "All graphics-related settings are located here.");
-        showNameTagOnHover = config.get("Graphics", "Show name tag on hover", true, "True if you want a villager's name to appear above their head when you hover over them.").getBoolean();
-        showModifiedFemaleBody = config.get("Graphics", "Show modified female body", true, "True if you want a female villager to render with breasts, curves, etc.").getBoolean();
-
-        config.setCategoryComment("Server", "All settings that server administrators may want to configure.");
-        childLimit = config.get("Server", "Child limit", -1).getInt();
-        villagerSpawnerCap = config.get("Server", "Villager spawner cap", 16, "How many villagers maximum that can be within a 32 block radius of any villager spawner block.").getInt();
-        villagerSpawnerCap = config.get("Server", "Villager spawner rate minutes", 5, "How often the villager spawner attempts to spawn new villagers, in minutes.").getInt();
-        allowTrading = config.get("Server", "Allow trading", true).getBoolean();
-        logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
-        villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
-        allowVillagerRevival = config.get("Server", "Allow dead villagers to be revived?", true, "True if players can have the ability to revive villagers they are related to. Creates a file in [world name]/data/ that could become very large on big servers.").getBoolean();
-
+        overwriteOriginalVillagers = config.get("General", "Overwrite Original Villagers?", true, "Should original villagers be overwritten by MCA villagers?").getBoolean();
+        enableDiminishingReturns = config.get("General", "Enable Interaction Fatigue?", true, "Should interactions yield diminishing returns over time?").getBoolean();
+        enableInfection = config.get("General", "Enable Zombie Infection?", true, "Should zombies be able to infect villagers?").getBoolean();
+        infectionChance = config.get("General", "Chance of Infection", 5, "Chance that a villager will be infected on hit from a zombie. Default is 5 for 5%.").getInt();
+        allowGrimReaper = config.get("General", "Allow Grim Reaper?", true, "Should the Grim Reaper boss be enabled?").getBoolean();
+        guardSpawnRate = config.get("General", "Guard Spawn Rate", 6, "How many villagers that should be in a village before a guard spawns.").getInt();
+        chanceToHaveTwins = config.get("General", "Chance to Have Twins", 2, "Chance that you will have twins. Default is 2 for 2%.").getInt();
+        marriageHeartsRequirement = config.get("General", "Marriage Hearts Requirement", 100, "Number of hearts required to get married.").getInt();
+        roseGoldSpawnWeight = config.get("General", "Rose Gold Spawn Weight", 6, "Spawn weights for Rose Gold").getInt();
+        babyGrowUpTime = config.get("General", "Baby Grow Up Time (Minutes)", 30, "Minutes it takes for a baby to be ready to grow up.").getInt();
+        childGrowUpTime = config.get("General", "Child Grow Up Time (Minutes)", 60, "Minutes it takes for a child to grow into an adult.").getInt();
+        villagerSpawnerCap = config.get("General", "Villager Spawner Cap", 5, "Maximum number of villagers that a spawner will create in the area before it stops.").getInt();
+        villagerSpawnerRateMinutes = config.get("General", "Villager Spawner Rate", 30, "The spawner will spawn 1 villager per this many minutes.").getInt();
+        allowTrading = config.get("General", "Enable Trading?", true, "Is trading with villagers enabled?").getBoolean();
+        logVillagerDeaths = config.get("General", "Log Villager Deaths?", true, "Should villager deaths be logged?").getBoolean();
+        enableRevivals = config.get("General", "Enable Revivals?", true, "Should reviving dead villagers be enabled?").getBoolean();
+        villagerChatPrefix = config.get("General", "Villager Chat Prefix", "", "Formatting prefix used for all chat with villagers.").getString();
+        allowPlayerMarriage = config.get("General", "Allow Player Marriage?", true, "Enables or disables player marriage.").getBoolean();
+        enableAdminCommands = config.get("General", "Enable Admin Commands?", true, "Enables or disables MCA admin commands for ops.").getBoolean();
+        allowCrashReporting = config.get("General", "Allow Crash Reporting?", true, "If enabled, sends crash reports to MCA developers.").getBoolean();
+        allowUpdateChecking = config.get("General", "Allow Update Checking?", true, "If enabled, notifies you when an update to MCA is available.").getBoolean();
         config.save();
     }
 
@@ -101,7 +74,7 @@ public final class Config implements Serializable {
         for (String s : config.getCategoryNames()) {
             if (!s.equals("server")) {
                 IConfigElement element = new ConfigElement(config.getCategory(s));
-                for (IConfigElement e : (List<IConfigElement>) element.getChildElements()) {
+                for (IConfigElement e : element.getChildElements()) {
                     elements.add(e);
                 }
             }

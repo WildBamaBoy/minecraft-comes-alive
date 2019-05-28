@@ -54,7 +54,7 @@ public class ClientMessageQueue {
             }
 
             if (villager != null) {
-                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, villager, msg.getCareerId(), "careerId");
+                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, villager, msg.getCareerId(), EntityVillagerMCA.VANILLA_CAREER_ID_FIELD_INDEX);
             }
         } catch (ClassCastException e) {
             MCA.getLog().error("Failed to cast entity to villager on career ID update.");

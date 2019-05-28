@@ -23,10 +23,12 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
     }
 
     public void updateTask() {
+        super.updateTask();
+
         ItemStack pickStack = villager.inventory.getBestItemOfType(ItemPickaxe.class);
         if (pickStack == ItemStack.EMPTY) {
+            villager.say(getAssigningPlayer(), "chore.mining.nopick");
             villager.stopChore();
-            //TODO tell no pick
             return;
         }
 
@@ -38,12 +40,8 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
 
             if (closestOre != null) {
                 Block block = villager.world.getBlockState(closestOre).getBlock();
-
-                if (assigningPlayer != null) {
-                    villager.say(assigningPlayer, "chore.mining.orenotify", block.getLocalizedName());
-                } else {
-                    villager.stopChore();
-                }
+                villager.say(getAssigningPlayer(), "chore.mining.orenotify", block.getLocalizedName());
+                pickStack.damageItem(2, villager);
             }
             ticks = 0;
         } else {

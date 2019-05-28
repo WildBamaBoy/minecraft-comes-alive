@@ -2,30 +2,44 @@ package mca.core.forge;
 
 import mca.client.network.ClientMessageQueue;
 import mca.core.MCA;
+import mca.core.MCAServer;
 import mca.core.minecraft.BlocksMCA;
 import mca.core.minecraft.ItemsMCA;
-import mca.core.minecraft.VillageHelper;
 import mca.core.minecraft.WorldEventListenerMCA;
 import mca.entity.EntityVillagerMCA;
+import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 public class EventHooks {
-    public int serverTicks = 0;
+    // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
+    public Map<UUID, ItemStack> limbo = new HashMap<>();
 
     @SubscribeEvent
     public void onRegisterItems(RegistryEvent.Register<Item> event) {
         ItemsMCA.register(event);
         BlocksMCA.registerItemBlocks(event);
+
+        GameRegistry.addSmelting(BlocksMCA.ROSE_GOLD_ORE, new ItemStack(ItemsMCA.ROSE_GOLD_INGOT), 5.0F);
     }
 
     @SubscribeEvent
@@ -47,14 +61,7 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
-        serverTicks++;
-
-        if (serverTicks >= 100) {
-            World overworld = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
-            VillageHelper.tick(overworld);
-
-            serverTicks = 0;
-        }
+        MCAServer.get().tick();
     }
 
     @SubscribeEvent
@@ -72,6 +79,34 @@ public class EventHooks {
                 newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
                 world.spawnEntity(newVillager);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onItemToss(ItemTossEvent event) {
+        ItemStack stack = event.getEntityItem().getItem();
+        if (stack.getItem() instanceof ItemBaby) {
+            event.getPlayer().addItemStackToInventory(stack);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        // When players respawn check to see if their baby was saved in limbo. Add it back to their inventory.
+        if (limbo.containsKey(event.player.getUniqueID())) {
+            event.player.inventory.addItemStackToInventory(limbo.get(event.player.getUniqueID()));
+            limbo.remove(event.player.getUniqueID());
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingDeath(LivingDeathEvent event) {
+        // If a player dies while holding a baby, remember it until they respawn.
+        if (event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer)event.getEntityLiving();
+            Optional<ItemStack> babyStack = player.inventory.mainInventory.stream().filter(s -> s.getItem() instanceof ItemBaby).findFirst();
+            babyStack.ifPresent(s -> limbo.put(player.getUniqueID(), babyStack.get()));
         }
     }
 }

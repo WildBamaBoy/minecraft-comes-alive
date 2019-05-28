@@ -5,6 +5,7 @@ import mca.api.types.APIButton;
 import mca.api.types.Gift;
 import mca.api.types.SkinsGroup;
 import mca.client.gui.component.GuiButtonEx;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
@@ -53,6 +54,8 @@ public class API {
         buttonMap.put("interact", Util.readResourceAsJSON("api/gui/interact.json", APIButton[].class));
         buttonMap.put("debug", Util.readResourceAsJSON("api/gui/debug.json", APIButton[].class));
         buttonMap.put("editor", Util.readResourceAsJSON("api/gui/editor.json", APIButton[].class));
+        buttonMap.put("work", Util.readResourceAsJSON("api/gui/work.json", APIButton[].class));
+
         //Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
         for (Gift gift : gifts) {
@@ -123,7 +126,7 @@ public class API {
      */
     public static String getResponseForGift(ItemStack stack) {
         int value = getGiftValueFromStack(stack);
-        return "gift." + (value <= 0 ? "bad" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
+        return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
     }
 
     /**
@@ -169,7 +172,7 @@ public class API {
      */
     public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, EntityPlayer player, GuiScreen screen) {
         // Get the private buttonList from the GuiScreen
-        List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, "buttonList");
+        List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
 
         // Add all buttons found for the provided key
         for (APIButton b : buttonMap.get(guiKey)) {
@@ -201,7 +204,7 @@ public class API {
      * @return GuiButtonEx matching the provided id
      */
     public static Optional<GuiButtonEx> getButton(String id, GuiScreen screen) {
-        List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, "buttonList");
+        List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
         Optional<GuiButton> button = buttonList.stream().filter(
                 (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getLangId().equals(id)).findFirst();
 

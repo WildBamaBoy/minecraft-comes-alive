@@ -6,7 +6,6 @@ import mca.client.gui.component.GuiButtonEx;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -15,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
@@ -26,23 +24,6 @@ public class GuiVillagerEditor extends GuiScreen {
 
     private GuiTextField nameTextField;
     private GuiTextField dummyTextField;
-
-    private GuiButton textureButton;
-    private GuiButton randomButton;
-    private GuiButton genderButton;
-    private GuiButton shiftTextureIndexUpButton;
-    private GuiButton shiftTextureIndexDownButton;
-    private GuiButton professionButton;
-    private GuiButton shiftProfessionUpButton;
-    private GuiButton shiftProfessionDownButton;
-
-    private GuiButton heightButton;
-    private GuiButton shiftHeightUpButton;
-    private GuiButton shiftHeightDownButton;
-    private GuiButton girthButton;
-    private GuiButton shiftGirthUpButton;
-    private GuiButton shiftGirthDownButton;
-    private GuiButton isInfectedButton;
 
     private GuiButton doneButton;
 

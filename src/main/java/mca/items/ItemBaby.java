@@ -85,11 +85,8 @@ public class ItemBaby extends Item {
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
                 playerData.setHasBaby(false);
 
-
                 // set proper dialogue type
                 child.getPlayerHistoryFor(player.getUniqueID()).setDialogueType(EnumDialogueType.CHILDP);
-                //TODO server lockup here for some reason
-                //TODO handle multiple players
             }
         }
 

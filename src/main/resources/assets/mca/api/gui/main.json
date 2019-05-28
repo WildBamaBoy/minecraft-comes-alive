@@ -52,7 +52,18 @@
       "height": 20,
       "notifyServer": true,
       "targetServer": false,
-      "constraints": ""
+      "constraints": "notfamily|hideonfail"
+    },
+    {
+      "id": 12,
+      "identifier": "gui.button.inventory",
+      "x": 140,
+      "y": -27,
+      "width": 65,
+      "height": 20,
+      "notifyServer": true,
+      "targetServer": false,
+      "constraints": "family|hideonfail"
     },
     {
       "id": 6,
@@ -97,21 +108,10 @@
       "height": 20,
       "notifyServer": false,
       "targetServer": false,
-      "constraints": ""
+      "constraints": "family|hideonfail"
     },
     {
       "id": 10,
-      "identifier": "gui.button.special",
-      "x": 140,
-      "y": 83,
-      "width": 65,
-      "height": 20,
-      "notifyServer": false,
-      "targetServer": false,
-      "constraints": "notspouse|hideonfail"
-    },
-    {
-      "id": 11,
       "identifier": "gui.button.procreate",
       "x": 140,
       "y": 83,

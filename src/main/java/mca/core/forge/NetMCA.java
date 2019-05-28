@@ -1,12 +1,11 @@
 package mca.core.forge;
 
+import com.google.common.base.Optional;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiStaffOfLife;
 import mca.client.network.ClientMessageQueue;
-import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.data.PlayerHistory;
 import mca.entity.data.SavedVillagers;
 import mca.entity.inventory.InventoryMCA;
 import mca.items.ItemBaby;
@@ -19,7 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -30,13 +29,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.util.control.Exception;
-import sun.plugin2.message.Message;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 public class NetMCA {
@@ -54,6 +50,7 @@ public class NetMCA {
         INSTANCE.registerMessage(SavedVillagersResponseHandler.class, SavedVillagersResponse.class, 8, Side.CLIENT);
         INSTANCE.registerMessage(ReviveVillagerHandler.class, ReviveVillager.class, 9, Side.SERVER);
         INSTANCE.registerMessage(SetNameHandler.class, SetName.class, 10, Side.SERVER);
+        INSTANCE.registerMessage(SpawnParticlesHandler.class, SpawnParticles.class, 11, Side.CLIENT);
     }
 
     @SideOnly(Side.CLIENT)
@@ -158,7 +155,7 @@ public class NetMCA {
             EntityVillagerMCA villager = (EntityVillagerMCA) player.getEntityWorld().getEntityByID(message.speakingEntityId);
 
             if (villager != null) {
-                villager.say(player, message.phraseId);
+                villager.say(Optional.of(player), message.phraseId);
             }
 
             return null;
@@ -274,7 +271,7 @@ public class NetMCA {
                 EntityVillagerMCA villager = (EntityVillagerMCA) player.getServerWorld().getEntityFromUuid(message.entityUUID);
 
                 if (villager != null) {
-                    careerId = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, villager, "careerId");
+                    careerId = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, villager, EntityVillagerMCA.VANILLA_CAREER_ID_FIELD_INDEX);
                 }
             } catch (ClassCastException e) {
                 MCA.getLog().error("UUID provided in career request does not match an MCA villager!: " + message.entityUUID.toString());
@@ -494,10 +491,47 @@ public class NetMCA {
         @Override
         public IMessage onMessage(SetName message, MessageContext ctx) {
             World world = ctx.getServerHandler().player.world;
-            Optional<Entity> entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst();
-            if (entity.isPresent() && entity.get() instanceof EntityVillagerMCA) {
-                EntityVillagerMCA villager = (EntityVillagerMCA) entity.get();
+            Entity entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst().get();
+            if (entity != null && entity instanceof EntityVillagerMCA) {
+                EntityVillagerMCA villager = (EntityVillagerMCA) entity;
                 villager.set(EntityVillagerMCA.VILLAGER_NAME, message.name);
+            }
+            return null;
+        }
+    }
+
+    public static class SpawnParticles implements IMessage {
+        private UUID entityUUID;
+        private EnumParticleTypes particleType;
+
+        public SpawnParticles() { }
+
+        public SpawnParticles(UUID entityUUID, EnumParticleTypes particleType) {
+            this.entityUUID = entityUUID;
+            this.particleType = particleType;
+        }
+
+        @Override
+        public void toBytes(ByteBuf buf) {
+            ByteBufUtils.writeUTF8String(buf, entityUUID.toString());
+            buf.writeInt(particleType.getParticleID());
+        }
+
+        @Override
+        public void fromBytes(ByteBuf buf) {
+            entityUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
+            particleType = EnumParticleTypes.getParticleFromId(buf.readInt());
+        }
+    }
+
+    public static class SpawnParticlesHandler implements IMessageHandler<SpawnParticles, IMessage> {
+        @Override
+        public IMessage onMessage(SpawnParticles message, MessageContext ctx) {
+            World world = getPlayerClient().world;
+            Entity entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst().get();
+            if (entity != null && entity instanceof EntityVillagerMCA) {
+                EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+                villager.spawnParticles(message.particleType);
             }
             return null;
         }

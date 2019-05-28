@@ -95,6 +95,12 @@ public class PlayerSaveData extends WorldSavedData {
         markDirty();
     }
 
+    public void reset() {
+        endMarriage();
+        setHasBaby(false);
+        markDirty();
+    }
+
     public List<Field> getDataFields() {
         List<Field> fList = new ArrayList<>();
         for (Field f : this.getClass().getDeclaredFields()) {
@@ -111,28 +117,6 @@ public class PlayerSaveData extends WorldSavedData {
                 player.sendMessage(new TextComponentString(f.getName() + " = " + f.get(this).toString()));
             } catch (Exception e) {
                 MCA.getLog().error("Error dumping player data!");
-                MCA.getLog().error(e);
-            }
-        }
-    }
-
-    public void setFromCommand(String field, String value) {
-        for (Field f : getDataFields()) {
-            try {
-                if (f.getName().equals(field)) {
-                    if (f.getClass().isAssignableFrom(EnumMarriageState.class)) {
-                        f.set(this, EnumMarriageState.valueOf(value));
-                    } else if (f.getClass().isAssignableFrom(UUID.class)) {
-                        f.set(this, UUID.fromString(value));
-                    } else if (f.getClass().isAssignableFrom(Boolean.class)) {
-                        f.setBoolean(this, Boolean.getBoolean(value));
-                    } else {
-                        f.set(this, value);
-                    }
-                    markDirty();
-                }
-            } catch (Exception e) {
-                MCA.getLog().error("Error setting player data field.");
                 MCA.getLog().error(e);
             }
         }

@@ -6,6 +6,7 @@ import mca.util.Util;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -27,6 +28,10 @@ public class EntityAIChopping extends AbstractEntityAIChore {
     }
 
     public void updateTask() {
+        if (!villager.inventory.contains(ItemAxe.class)) {
+            villager.say(getAssigningPlayer(),"chore.chopping.noaxe");
+            villager.stopChore();
+        }
         if (targetTree == null) {
             List<BlockPos> nearbyLogs = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockLog.class, 10, 5);
             List<BlockPos> nearbyTrees = new ArrayList<>();
@@ -39,7 +44,7 @@ public class EntityAIChopping extends AbstractEntityAIChore {
             targetTree = Util.getNearestPoint(villager.getPos(), nearbyTrees);
         } else {
             double distance = Math.sqrt(villager.getDistanceSq(targetTree));
-            if (distance >= 2.5D) {
+            if (distance >= 3.5D) {
                 villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetTree), 0.5D);
             } else {
                 IBlockState state = villager.world.getBlockState(targetTree);
@@ -51,8 +56,8 @@ public class EntityAIChopping extends AbstractEntityAIChore {
                     if (chopTicks >= 80) {
                         chopTicks = 0;
                         villager.inventory.addItem(new ItemStack(log, 1));
-
-                        if (villager.world.rand.nextFloat() >= 0.94) {
+                        villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
+                        if (villager.world.rand.nextFloat() >= 0.90) {
                             destroyTree(targetTree);
                         }
                     }
@@ -64,18 +69,10 @@ public class EntityAIChopping extends AbstractEntityAIChore {
     }
 
     private void destroyTree(BlockPos origin) {
-        List<BlockPos> nearbyLogs = Util.getNearbyBlocks(origin, villager.world, BlockLog.class, 10, 5);
-        List<BlockPos> treeComponents = new ArrayList<>();
-        for (BlockPos pos : nearbyLogs) {
-            List<BlockPos> leaves = Util.getNearbyBlocks(pos, villager.world, BlockLeaves.class, 2, 5);
-            if (leaves.size() > 0) {
-                treeComponents.add(pos);
-                treeComponents.addAll(leaves);
-            }
-        }
-
-        for (BlockPos pos : treeComponents) {
+        BlockPos pos = origin;
+        while (villager.world.getBlockState(pos).getBlock() instanceof BlockLog) {
             villager.world.setBlockToAir(pos);
+            pos = pos.add(0, 1, 0);
         }
     }
 }

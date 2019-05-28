@@ -11,6 +11,7 @@ public class Constants {
     public static final UUID ZERO_UUID = new UUID(0, 0);
     private static final String SECTION_SIGN = "\u00a7";
 
+    public static final int GUI_SCREEN_BUTTON_LIST_FIELD_INDEX = 7;
     private Constants() {
     }
 

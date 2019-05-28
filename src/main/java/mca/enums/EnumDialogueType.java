@@ -3,7 +3,8 @@ package mca.enums;
 public enum EnumDialogueType {
     CHILDP("childp"),
     CHILD("child"),
-    ADULT("adult");
+    ADULT("adult"),
+    SPOUSE("spouse");
 
     String id;
 

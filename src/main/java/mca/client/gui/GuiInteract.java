@@ -29,7 +29,6 @@ public class GuiInteract extends GuiScreen {
     private static boolean displaySuccessChance;
     private final EntityVillagerMCA villager;
     private final EntityPlayer player;
-    private final PlayerHistory history;
 
     private boolean inGiftMode;
 
@@ -50,7 +49,6 @@ public class GuiInteract extends GuiScreen {
     public GuiInteract(EntityVillagerMCA villager, EntityPlayer player) {
         super();
         this.villager = villager;
-        this.history = villager.getPlayerHistoryFor(player.getUniqueID());
         this.player = player;
     }
 
@@ -135,6 +133,7 @@ public class GuiInteract extends GuiScreen {
     }
 
     private void drawIcons() {
+        PlayerHistory history = villager.getPlayerHistoryFor(player.getUniqueID());
         EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
         int marriageIconU =
                 marriageState == EnumMarriageState.MARRIED ? marriedIconU :
@@ -168,9 +167,9 @@ public class GuiInteract extends GuiScreen {
     private void drawTextPopups() {
         EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
         String marriageInfo;
-        int hearts = history.getHearts();
 
         if (hoveringOverHeartsIcon()) {
+            int hearts = villager.getPlayerHistoryFor(player.getUniqueID()).getHearts();
             this.drawHoveringText(hearts + " hearts", 35, 55);
         }
 
@@ -205,7 +204,7 @@ public class GuiInteract extends GuiScreen {
     }
 
     private boolean hoveringOverParentsIcon() {
-        return mouseX <= 32 && mouseX >= 16 && mouseY >= 115 && mouseY <= 100;
+        return mouseX <= 32 && mouseX >= 16 && mouseY >= 100 && mouseY <= 115;
     }
 
     private boolean hoveringOverGiftIcon() {
@@ -234,6 +233,9 @@ public class GuiInteract extends GuiScreen {
         /* Progression to different GUIs */
         if (id.equals("gui.button.interact")) {
             drawInteractButtonMenu();
+            return;
+        } else if (id.equals("gui.button.work")) {
+            drawWorkButtonMenu();
             return;
         } else if (id.equals("gui.button.backarrow")) {
             drawMainButtonMenu();
@@ -264,6 +266,11 @@ public class GuiInteract extends GuiScreen {
     private void drawInteractButtonMenu() {
         buttonList.clear();
         API.addButtons("interact", villager, player, this);
+    }
+
+    private void drawWorkButtonMenu() {
+        buttonList.clear();
+        API.addButtons("work", villager, player, this);
     }
 
     private void disableButton(String id) {

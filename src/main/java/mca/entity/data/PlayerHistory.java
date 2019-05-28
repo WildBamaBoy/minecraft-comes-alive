@@ -30,6 +30,12 @@ public class PlayerHistory {
         PlayerHistory history = new PlayerHistory();
         history.villager = villager;
         history.playerUUID = uuid;
+
+        if (villager.isChild()) {
+            history.setDialogueType(EnumDialogueType.CHILD);
+        } else {
+            history.setDialogueType(EnumDialogueType.ADULT);
+        }
         return history;
     }
 
@@ -95,8 +101,7 @@ public class PlayerHistory {
     }
 
     public void update() {
-        // every 5 minutes reduce interaction fatigue
-        // TODO make configurable
+        // every 5 minutes reduce interaction fatigues
         if (villager.ticksExisted % 6000 == 0) {
             changeInteractionFatigue(-1);
         }

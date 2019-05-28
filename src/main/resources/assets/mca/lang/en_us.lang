@@ -146,6 +146,8 @@ gui.button.prospecting=Prospecting
 gui.button.hunting=Hunting
 gui.button.cooking=Cooking
 gui.button.fishing=Fishing
+gui.button.chopping=Chopping
+gui.button.harvesting=Harvesting
 gui.button.start=Start
 gui.button.stop=Stop
 gui.button.havebaby=Have Baby
@@ -168,6 +170,7 @@ gui.button.infected=Change Infection
 gui.button.gender=Change Gender
 gui.button.texture=Change Texture
 gui.button.profession=Change Profession
+gui.button.stopworking=Stop Working
 gui.title.namebaby.male=It's a boy\!
 gui.title.namebaby.female=It's a girl\!
 gui.title.namebaby=Name your baby\:
@@ -189,11 +192,28 @@ gui.label.minutes=Minutes
 gui.label.parent=Parent:
 gui.label.male=Male
 gui.label.female=Female
+gui.label.prospecting=Prospecting
+gui.label.harvesting=Harvesting
+gui.label.chopping=Chopping
+gui.label.hunting=Hunting
+gui.label.fishing=Fishing
 
 gui.info.gift.line1=Gift Available
 gui.info.gift.line2=(Click to take)
 
-chore.mining.orenotify=There's some %1$s nearby...
+spouse.chore.mining.orenotify=There's some %1$s nearby...
+spouse.chore.mining.nopick=I forgot my pickaxe, dear, did you bring an extra one?
+spouse.chore.chopping.noaxe=Oh, I thought we were going for a picnic. I didn't bring an axe...
+spouse.chore.fishing.norod=I'd love to! But, I can't find my fishing rod.
+spouse.chore.hunting.nosword=I broke my sword yesterday. Do you have another one?
+spouse.chore.harvesting.nohoe=Do you have an extra hoe I could use?W
+
+childp.chore.mining.orenotify=I think there's some %1$s nearby...
+childp.chore.mining.nopick=I can't do that without a pickaxe!
+childp.chore.chopping.noaxe=I can't chop wood without an axe...
+childp.chore.fishing.norod=I can't fish without a fishing rod!
+childp.chore.hunting.nosword=Can you give me a sword first?
+childp.chore.harvesting.nohoe=I don't have a hoe to harvest with.
 
 gui.interact.label.married=Married to %v1%
 gui.interact.label.engaged=Engaged to %v1%
@@ -201,119 +221,71 @@ gui.interact.label.notmarried=Not married
 gui.interact.label.parents=Parents: %v1% and %v2%
 gui.interact.label.gift=Gift available. Click to claim.
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
-interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
-interaction.divorce.priest.fail.notmarried=You are not married to anyone.
+spouse.interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
+spouse.interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+adult.interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
+adult.interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
+adult.interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+adult.interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
+adult.interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
+adult.interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
+adult.interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+adult.interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
+adult.interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
+adult.interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
+adult.interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+spouse.interaction.engage.success1=Yes\! I will marry you\! I love you\!
+spouse.interaction.engage.success2=Of course I'll marry you\!
+spouse.interaction.engage.success3=About time...just kidding\! Love you\!
+spouse.interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+spouse.interaction.marry.success1=It's a dream come true\! I'll love you forever\!
+spouse.interaction.marry.success2=We're finally married\! Now what?
+spouse.interaction.marry.success3=I'm happy to be married to you, %v1%.
+spouse.interaction.marry.success4=I can't wait to start our life together\!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+adult.interaction.matchmaker.fail.married1=I am already married to someone.
+adult.interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
+adult.interaction.matchmaker.fail.married3=I don't want that - I'm already married.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+adult.interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
+adult.interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
+adult.interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+adult.interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
+adult.interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
+adult.interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+adult.interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
+adult.interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
+adult.interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
 
-interaction.matchmaker.fail.married1=I am already married to someone.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+adult.interaction.sethome.success1=Okay, this will be my new home point.
+adult.interaction.sethome.success2=I understand, I'll be sleeping here at night.
+adult.interaction.sethome.success3=Sure thing, %v1%.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
-interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+adult.interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %v1% in the way.
+adult.interaction.sethome.fail2=Is there another place nearby? There's some %v1% in the way.
+adult.interaction.sethome.fail3=I can't have my home point here. There's some %v1% in the way.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+adult.interaction.gohome.success1=Alright, I'll go there immediately!
+adult.interaction.gohome.success2=Sure, I'll go home now.
+adult.interaction.gohome.success3=I'm going home. Goodbye!
 
-interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
-interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
-interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
+adult.interaction.gohome.fail.nohome=I don't have a home...
+adult.interaction.ridehorse.fail.notnearby=I don't see any rideable horses nearby.
 
-interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
-interaction.sethome.success3=Sure thing, %PlayerName%.
-
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %v1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %v1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %v1% in the way.
-
-interaction.gohome.success1=Alright, I'll go there immediately!
-interaction.gohome.success2=Sure, I'll go home now.
-interaction.gohome.success3=I'm going home. Goodbye!
-
-interaction.gohome.fail.nohome=I don't have a home...
-
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
-interaction.mining.fail.broken=My pickaxe has broken and I don't have another one!
-
-interaction.hire.fail.notenoughgold=You need a stack of %v1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
-interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
-
-interaction.ridehorse.fail.notnearby=I don't see any rideable horses nearby.
-
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
-interaction.resetbaby.fail=You do not have a baby.
-
-interaction.procreate.fail.lowhearts=I don't think we're ready. You haven't shown me enough attention lately.
-interaction.procreate.fail.hasbaby=We already have a baby...you didn't lose it did you?! You should go see the priest if so.
-
-interaction.checkhappiness.success=My records put the village's happiness at about %v1% percent.
-interaction.checkhappiness.fail=Our village isn't large enough for me to track our happiness yet. We need %v1% more villagers.
-
-interactionp.marry.sent=You have asked %v1% to marry you.
-interactionp.marry.success=You are now married to %v1%.
-interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%v1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
-interactionp.marry.prompt=%v1% would like to marry you.
-
-interactionp.havebaby.sent=You have asked %v1% to have a baby.
-interactionp.havebaby.prompt=%v1% would like to have a baby.
-interactionp.havebaby.fail.alreadyexists=You should already have a baby.
-
-interactionp.divorce.notify=You are no longer married to %v1%.
-
-interaction.adoptbaby.success=Wonderful\! I'd like you to meet %v1%, your new baby\! Treat them well.
+spouse.interaction.procreate.fail.hasbaby=We already have a baby...you didn't lose it did you?!
 
 notify.spouseendedmarriage=%Name% has ended their marriage with you.
 notify.child.grownup=%Name% has grown into an adult!
+notify.revival.disabled=Revivals have been disabled by the server administrator.
+notify.trading.disabled=Trading is disabled by the server administrator.
+gift.cake.fail=I will only eat cake if my spouse is nearby...please find them!
 
 ##################################
 # Responses to interactions
@@ -331,10 +303,10 @@ adult.gift.good4=Oh, I love these\!
 adult.gift.good5=A gift? For me? How nice\!
 adult.gift.better1=Hey, this is pretty cool\!
 adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
+adult.gift.better3=%v1%, you're such a good friend\!
 adult.gift.better4=Oh wow, I actually needed one of these\!
 adult.gift.better5=This is a pretty good gift\!
-adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
+adult.gift.best1=I...I don't know what to say. Thank you so much, %v1%\!
 adult.gift.best2=How did you...nevermind, this is amazing\!
 adult.gift.best3=Oh wow, I've always wanted one of these\!
 adult.gift.best4=This is fantastic\! I'll put it to good use.
@@ -453,7 +425,7 @@ child.tellstory.fail3=I believe you're speaking about my grandpa...
 child.tellstory.fail4=You're nothing but a scaredycat like dad said\!
 child.tellstory.fail5=How could you kill a poor chicken?
 child.greeting1=Hi, who are you?
-child.greeting2=My name's %Name%. What's your name?
+child.greeting2=Hi, what's your name?
 child.greeting3=Eek\! You look scary\!
 child.gift.fail1=Ew, I don't like this\!
 child.gift.fail2=Yuck\! I don't want this.
@@ -465,7 +437,7 @@ child.gift.good3=This is cool\!
 child.gift.better1=Awesome\! I'm going to show this to all my friends.
 child.gift.better2=You found it\! I lost this a few minutes ago.
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
-child.gift.best1=%PlayerName%, you give the best presents\!
+child.gift.best1=%v1%, you give the best presents\!
 child.gift.best2=Finally\! My friend will stop bragging now.
 child.gift.best3=Wow\! Where did you get this thing?
 child.gift.best4=My Dad has one of these. Now I have one too\!
@@ -475,9 +447,8 @@ childp.chat.success2=Can we go camping? Please?\!
 childp.chat.success3=Hi, can you make me a cake?
 childp.chat.success4=Can I have my own room away from our house? That would be cool\!
 childp.chat.success5=Let's move into a cave\! That sounds so fun\!
-childp.chat.fail1=%ParentOpposite% talks about them a lot...
-childp.chat.fail2=I don't think %ParentOpposite% would like that very much.
-childp.chat.fail3=Is that why %ParentOpposite% talked about this thing called "divorce?"
+childp.chat.fail2=I don't think I'd like that very much.
+childp.chat.fail3=Is that why I've heard so much about "divorce"? What does that mean?
 childp.chat.fail4=I want a new daddy.
 childp.chat.fail5=I don't want a baby sister.
 childp.joke.success1=*Laughs* Tell that one again\!
@@ -485,13 +456,13 @@ childp.joke.success2=I've got to tell my friend that one\!
 childp.joke.success3=How did the creeper explode?\!
 childp.joke.success4=*Laughs*Why is there no longer 3 of them?
 childp.joke.success5=*Laughs* ... *Laughs*... *Laughs*
-childp.joke.fail1=%ParentOpposite% said you were funny, though...
+childp.joke.fail1=I thought you were funny, though...
 childp.joke.fail2=I like knock knock jokes better.
 childp.joke.fail3=I don't get it, that was dumb.
 childp.joke.fail4=*Yawn* My friend's dad is cooler and funnier than you.
 childp.joke.fail5=I'd rather have cake.
 childp.shakehand.success1=Why do I need to learn this stuff?
-childp.shakehand.success2=%ParentOpposite% said that this is a polite thing to do.
+childp.shakehand.success2=I heard that this is a polite thing to do.
 childp.shakehand.success3=I'm gonna be just like you when I grow up\!
 childp.shakehand.success4=Can I have cake now?
 childp.shakehand.success5=I don't get it, but okay\!
@@ -500,21 +471,20 @@ childp.shakehand.fail2=You're such an old person.
 childp.shakehand.fail3=Only losers shake hands.
 childp.shakehand.fail4=I'll shake your hand if you give me cake.
 childp.shakehand.fail5=No, you'll slip and hit me.
-childp.tellstory.success1=%ParentOpposite% really did that?\! What happened to their clothes?
+childp.tellstory.success1=What!? You really did that?\! But...what happened to your friend?
 childp.tellstory.success2=I want to explore a cave, too\! Let's go\!
 childp.tellstory.success3=One day I'll kill more creepers than you\!
 childp.tellstory.success4=Oh, oh, oh\! Can we climb a tree, too?\!
 childp.tellstory.success5=Did the lava hurt?
 childp.tellstory.fail1=I don't want to hear about grandma.
 childp.tellstory.fail2=You always say that. I just want a pet.
-childp.tellstory.fail3=%ParentOpposite% has been lying to you, too.
+childp.tellstory.fail3=You're just fibbing. I don't belive that.
 childp.tellstory.fail4=You said you didn't eat the cake and cookies...
 childp.tellstory.fail5=Someone said you were a bad person, and I believe them\!
 childp.hug.success1=*Kisses* You're the best ever\!
 childp.hug.success2=I'm going to be as strong as you are one day\!
-childp.hug.success3=Why doesn't %ParentOpposite% hug anymore?
+childp.hug.success3=hug anymore?
 childp.hug.success4=I love hugs\! You're soft and warm\!
-childp.hug.success5=You should hug %ParentOpposite% too\!
 childp.hug.fail1=I'm too old for hugs\!
 childp.hug.fail2=Stop it\! I don't want people to see\!
 childp.hug.fail3=Go away, you're so annoying\!
@@ -524,25 +494,25 @@ childp.greeting1=Hey there\!
 childp.greeting2=Hey, what's going on?
 childp.greeting3=What are you doing?
 childp.greeting4=Where are you going?
-childp.gift.fail1=%ParentTitle%, this is a really bad gift.
-childp.gift.fail2=Ew, %ParentOpposite% gives better gifts\!
+childp.gift.fail1=This...is a really bad gift.
+childp.gift.fail2=Ew, I've gotten so much better before!
 childp.gift.fail3=Didn't you give me this like, last year?
-childp.gift.fail4=I could get this easily, no thanks, %ParentTitle%.
-childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
-childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
+childp.gift.fail4=I could get this easily, no thanks.
+childp.gift.good1=Oh, cool\! Thank you!
+childp.gift.good2=Is it my birthday? This is awesome!
 childp.gift.good3=This is much better than the last gift I got\!
 childp.gift.good4=Woo hoo\! It's mine, all mine\!
 childp.gift.good5=Can I...can I eat it?
 childp.gift.better1=For me? For free?\!
 childp.gift.better2=Ooh\! Shiny\!
-childp.gift.better3=I really like this, %ParentTitle%\!
+childp.gift.better3=I really like this one, can I have another?
 childp.gift.better4=All of my friends will be jealous now\!
-childp.gift.better5=This is great, %ParentTitle%\!
+childp.gift.better5=This is so cool! I've wanted one of these forever!
 childp.gift.best1=This must have cost a fortune\!
-childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
-childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
+childp.gift.best2=I knew you would get me one of these. I just knew it\!
+childp.gift.best3=Yay\! I have the best parents in the world\!
 childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
-childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+childp.gift.best5=Thank you so much\! You're the best ever\!
 
 spouse.chat.success1=I cleaned the entire house. How was your day?
 spouse.chat.success2=Honey, let's go camping sometime. Doesn't that sound like fun?
@@ -616,23 +586,23 @@ spouse.kiss.fail4=Go take a drink from the lake.
 spouse.kiss.fail5=Now that we're married I can tell you how lousy you are at kissing.
 spouse.greeting1=Hi honey, where have you been?
 spouse.greeting2=Hello dear, how is your day going?
-spouse.greeting3=Oh, %PlayerName%\! You look tired.
-spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
-spouse.greeting5=%PlayerName%, you're back\! I missed you.
+spouse.greeting3=Oh, %v1%\! You look tired.
+spouse.greeting4=Hey %v1%\! You look hungry. Would you like me to cook something?
+spouse.greeting5=%v1%, you're back\! I missed you.
 spouse.lowhearts.greeting1=There you are. Where did you go? You never tell me anything anymore.
 spouse.lowhearts.greeting2=Are you going to say hi to me this time?
 spouse.lowhearts.greeting3=Um, hi! I still exist, you know!
-spouse.lowhearts.greeting4=%PlayerName%, are you ignoring me on purpose?
+spouse.lowhearts.greeting4=%v1%, are you ignoring me on purpose?
 spouse.lowhearts.greeting5=I'm starting to feel like you don't pay attention to me.
 spouse.endmarriage1=I've had it. You don't treat me well enough. I'm leaving you!
 spouse.endmarriage2=I'm leaving. Forever! Don't look for me.
 spouse.endmarriage3=I'm sorry - I thought we could work things out, but it's not working for me. Goodbye.
-spouse.endmarriage4=%PlayerName%, this is goodbye. Don't try to follow me.
+spouse.endmarriage4=%v1%, this is goodbye. Don't try to follow me.
 spouse.gift.fail1=Oh honey...this is just terrible.
 spouse.gift.fail2=Um, is this supposed to be a gift for me?
 spouse.gift.fail3=Throw away your own junk\! Oh, this was a gift?...sorry.
 spouse.gift.fail4=I thought you knew me better than that. I hate these.
-spouse.gift.good1=%PlayerName%, you're so sweet.
+spouse.gift.good1=%v1%, you're so sweet.
 spouse.gift.good2=Ah\! You're too good to me.
 spouse.gift.good3=This is unexpected, thank you, dear\!
 spouse.gift.good4=Aw, how sweet of you.
@@ -641,8 +611,8 @@ spouse.gift.better1=Oh wow, this is actually really nice\!
 spouse.gift.better2=I love it\! Thank you\!
 spouse.gift.better3=This is amazing, dear\!
 spouse.gift.better4=You got this for me? How sweet\!
-spouse.gift.better5=Oh, thank you %PlayerName%\!
-spouse.gift.best1=Oh %PlayerName%, I love you\!
+spouse.gift.better5=Oh, thank you %v1%\!
+spouse.gift.best1=Oh %v1%, I love you\!
 spouse.gift.best2=You are *way* too good to me\!
 spouse.gift.best3=This must have been extremely expensive\! Thank you\!
 spouse.gift.best4=I...can't believe you'd get me something so thoughtful\!

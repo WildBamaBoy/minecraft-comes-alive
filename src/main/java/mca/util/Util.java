@@ -3,7 +3,9 @@ package mca.util;
 import com.google.common.base.Optional;
 import com.google.gson.Gson;
 import mca.core.MCA;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.io.IOUtils;
@@ -19,6 +21,26 @@ public class Util {
     private static final String RESOURCE_PREFIX = "assets/mca/";
 
     private Util() {
+    }
+
+    /**
+     * Finds a y position given an x,y,z coordinate triple that is assumed to be the world's "ground".
+     *
+     * @param world	The world in which blocks will be tested
+     * @param x			X coordinate
+     * @param y			Y coordinate, used as the starting height for finding ground.
+     * @param z			Z coordinate
+     * @return Integer representing the air block above the first non-air block given the provided ordered triples.
+     */
+    public static int getSpawnSafeTopLevel(World world, int x, int y, int z)
+    {
+        Block block = Blocks.AIR;
+        while (block == Blocks.AIR && y > 0) {
+            y--;
+            block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+        }
+
+        return y + 1;
     }
 
     public static String readResource(String path) {

@@ -1,9 +1,11 @@
 package mca.entity;
 
 
+import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;
 import mca.enums.EnumReaperAttackState;
+import mca.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -273,6 +275,10 @@ public class EntityGrimReaper extends EntityMob {
         super.onUpdate();
         extinguish(); //No fire.
 
+        if (!MCA.getConfig().allowGrimReaper) {
+            setDead();
+        }
+
         EntityLivingBase entityToAttack = this.getAttackTarget();
 
         if (entityToAttack != null && getAttackState() != EnumReaperAttackState.REST) {
@@ -297,8 +303,7 @@ public class EntityGrimReaper extends EntityMob {
                 //Let's have a light show.
                 int dX = rand.nextInt(8) + 4 * rand.nextFloat() >= 0.50F ? 1 : -1;
                 int dZ = rand.nextInt(8) + 4 * rand.nextFloat() >= 0.50F ? 1 : -1;
-//                int y = RadixLogic.getSpawnSafeTopLevel(world, (int) posX + dX, (int) posZ + dZ); //TODO
-                int y = 0;
+                int y = Util.getSpawnSafeTopLevel(world, (int) posX + dX, 256, (int) posZ + dZ);
 
                 EntityLightningBolt bolt = new EntityLightningBolt(world, dX, y, dZ, false);
                 world.addWeatherEffect(bolt);

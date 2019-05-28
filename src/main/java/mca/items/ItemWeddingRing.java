@@ -1,9 +1,11 @@
 package mca.items;
 
+import com.google.common.base.Optional;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerHistory;
 import mca.entity.data.PlayerSaveData;
+import mca.enums.EnumDialogueType;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ItemWeddingRing extends ItemSpecialCaseGift {
@@ -23,10 +25,11 @@ public class ItemWeddingRing extends ItemSpecialCaseGift {
         } else {
             response = "interaction.marry.success";
             playerData.marry(villager.getUniqueID(), villager.get(EntityVillagerMCA.VILLAGER_NAME));
+            villager.getPlayerHistoryFor(player.getUniqueID()).setDialogueType(EnumDialogueType.SPOUSE);
             villager.marry(player);
         }
 
-        villager.say(player, response);
+        villager.say(Optional.of(player), response);
         return false;
     }
 }

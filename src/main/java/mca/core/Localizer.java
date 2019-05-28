@@ -29,13 +29,12 @@ public class Localizer {
                 localizerMap.put(key, value);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            MCA.getLog().error("Error initializing localizer: " + e);
         }
     }
 
     public String localize(String key, String... vars) {
         String result = localizerMap.getOrDefault(key, key);
-
         if (result.equals(key)) {
             List<String> responses = new ArrayList<>();
             for (String value : localizerMap.keySet()) {
@@ -49,16 +48,15 @@ public class Localizer {
             }
         }
 
-        return result;
+        return parseVars(result, vars).replaceAll("\\\\", "");
     }
 
     private String parseVars(String str, String... vars) {
         int index = 1;
         String varString = "%v" + index + "%";
-
         while (str.contains(varString)) {
             try {
-                str = str.replaceAll(varString, vars[index]);
+                str = str.replaceAll(varString, vars[index - 1]);
             } catch (IndexOutOfBoundsException e) {
                 str = str.replaceAll(varString, "");
                 MCA.getLog().warn("Failed to replace variable in localized string: " + str);

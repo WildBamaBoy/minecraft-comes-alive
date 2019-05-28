@@ -24,6 +24,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.monster.EntityVex;
+import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
@@ -55,6 +58,9 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityVillagerMCA extends EntityVillager {
+    public static final int VANILLA_CAREER_ID_FIELD_INDEX = 13;
+    public static final int VANILLA_CAREER_LEVEL_FIELD_INDEX = 14;
+
     public static final DataParameter<String> VILLAGER_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
     public static final DataParameter<String> TEXTURE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
     public static final DataParameter<Integer> GENDER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
@@ -73,6 +79,8 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Boolean> IS_SWINGING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> HAS_BABY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> BABY_IS_MALE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Integer> BABY_AGE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -83,6 +91,7 @@ public class EntityVillagerMCA extends EntityVillager {
 
     private Vec3d home = Vec3d.ZERO;
     private int startingAge = 0;
+    private float swingProgressTicks;
 
     public EntityVillagerMCA() {
         super(null);
@@ -136,6 +145,8 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(IS_SWINGING, false);
         this.dataManager.register(HAS_BABY, false);
         this.dataManager.register(BABY_IS_MALE, false);
+        this.dataManager.register(BABY_AGE, 0);
+        this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
         this.setSilent(false);
     }
 
@@ -149,7 +160,6 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIFishing(this));
         this.tasks.addTask(0, new EntityAIMoveState(this));
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
-        this.tasks.addTask(0, new EntityAISwing(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
     }
 
@@ -164,7 +174,7 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
         super.attackEntityAsMob(entityIn);
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F); //TODO guard damage
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 6.0F : 2.0F);
     }
 
     @Override
@@ -184,8 +194,10 @@ public class EntityVillagerMCA extends EntityVillager {
         set(IS_INFECTED, nbt.getBoolean("infected"));
         set(AGE_STATE, nbt.getInteger("ageState"));
         set(ACTIVE_CHORE, nbt.getInteger("activeChore"));
+        set(CHORE_ASSIGNING_PLAYER, Optional.of(nbt.getUniqueId("choreAssigningPlayer")));
         set(HAS_BABY, nbt.getBoolean("hasBaby"));
         set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
+        set(PARENTS, nbt.getCompoundTag("parents"));
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
         //Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
@@ -221,14 +233,16 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("ageState", get(AGE_STATE));
         nbt.setInteger("startingAge", startingAge);
         nbt.setInteger("activeChore", get(ACTIVE_CHORE));
+        nbt.setUniqueId("choreAssigningPlayer", get(CHORE_ASSIGNING_PLAYER).or(Constants.ZERO_UUID));
         nbt.setTag("inventory", inventory.writeInventoryToNBT());
         nbt.setInteger("babyAge", babyAge);
+        nbt.setTag("parents", get(PARENTS));
     }
 
     @Override
     protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
         super.damageEntity(damageSource, damageAmount);
-        if (MCA.getConfig().enableInfection && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance) {
+        if (MCA.getConfig().enableInfection && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100) {
             set(IS_INFECTED, true);
         }
     }
@@ -236,6 +250,7 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     public void onUpdate() {
         super.onUpdate();
+        updateSwinging();
 
         if (this.isServerWorld()) {
             onEachServerUpdate();
@@ -287,7 +302,11 @@ public class EntityVillagerMCA extends EntityVillager {
     protected void onGrowingAdult() {
         Entity[] parents = ParentData.fromNBT(get(PARENTS)).getParentEntities(world);
         set(AGE_STATE, EnumAgeState.ADULT.getId());
-        Arrays.stream(parents).filter((e) -> e instanceof EntityPlayer).forEach((e) -> say((EntityPlayer) e, "notify.child.grownup"));
+        Arrays.stream(parents).filter((e) -> e instanceof EntityPlayer).forEach((e) -> {
+            PlayerHistory history = getPlayerHistoryFor(e.getUniqueID());
+            history.setDialogueType(EnumDialogueType.ADULT);
+            say(Optional.of((EntityPlayer)e), "notify.child.grownup");
+        });
     }
 
     @Override
@@ -301,11 +320,28 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    public void swingArm(@Nonnull EnumHand hand) {
-        super.swingArm(hand);
-        if (!get(IS_SWINGING)) {
+    public void swingArm(EnumHand hand) {
+        this.setActiveHand(EnumHand.MAIN_HAND);
+        super.swingArm(EnumHand.MAIN_HAND);
+
+        if (!get(IS_SWINGING) || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0) {
+            swingProgressTicks = -1;
             set(IS_SWINGING, true);
         }
+    }
+
+    private void updateSwinging() {
+        if (get(IS_SWINGING)) {
+            swingProgressTicks++;
+
+            if (swingProgressTicks >= 8) {
+                swingProgressTicks = 0;
+                set(IS_SWINGING, false);
+            }
+        } else {
+            swingProgressTicks = 0;
+        }
+        swingProgress = swingProgressTicks / (float) 8;
     }
 
     @Override
@@ -358,11 +394,11 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private VillagerRegistry.VillagerCareer getVanillaCareer() {
-        return this.getProfessionForge().getCareer(ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, "careerId"));
+        return this.getProfessionForge().getCareer(ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, VANILLA_CAREER_ID_FIELD_INDEX));
     }
 
     private void setVanillaCareer(int careerId) {
-        ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, careerId, "careerId");
+        ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, careerId, VANILLA_CAREER_ID_FIELD_INDEX);
     }
 
     private void setSizeForAge() {
@@ -380,16 +416,16 @@ public class EntityVillagerMCA extends EntityVillager {
                 startRiding(horses.stream().min(Comparator.comparingDouble(this::getDistance)).get(), true);
                 getNavigator().clearPath();
             } catch (NoSuchElementException e) {
-                say(player, "interaction.ridehorse.fail.notnearby");
+                say(Optional.of(player), "interaction.ridehorse.fail.notnearby");
             }
         }
     }
 
     private void goHome(EntityPlayerMP player) {
         if (home.equals(Vec3d.ZERO)) {
-            say(player, "interaction.gohome.fail");
+            say(Optional.of(player), "interaction.gohome.fail");
         } else {
-            say(player, "interaction.gohome.success");
+            say(Optional.of(player), "interaction.gohome.success");
             if (!getNavigator().setPath(getNavigator().getPathToXYZ(home.x, home.y, home.z), 1.0D)) {
                 attemptTeleport(home.x, home.y, home.z);
             }
@@ -398,15 +434,24 @@ public class EntityVillagerMCA extends EntityVillager {
 
     private void setHome(EntityPlayerMP player) {
         if (attemptTeleport(posX, posY, posZ)) {
-            say(player, "interaction.sethome.success");
+            say(Optional.of(player), "interaction.sethome.success");
             this.home = this.getPositionVector();
         } else {
-            say(player, "interaction.sethome.fail");
+            say(Optional.of(player), "interaction.sethome.fail");
         }
     }
 
-    public void say(@Nonnull EntityPlayer player, String phraseId, @Nullable Object... params) {
-        player.sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + String.format(MCA.getLocalizer().localize(phraseId), params)));
+    public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
+        if (player.isPresent()) {
+            if (params == null || params.length == 0) {
+                params = new String[1];
+            }
+            params[0] = player.get().getName();
+            String dialogueType = getPlayerHistoryFor(player.get().getUniqueID()).getDialogueType().getId();
+            player.get().sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + String.format(MCA.getLocalizer().localize(dialogueType + "." + phraseId, params), params)));
+        } else {
+            MCA.getLog().warn(new Throwable("Say called on player that is not present!"));
+        }
     }
 
     public boolean isMarried() {
@@ -429,7 +474,6 @@ public class EntityVillagerMCA extends EntityVillager {
         set(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
     }
 
-
     private void handleInteraction(EntityPlayerMP player, PlayerHistory history, APIButton button) {
         float successChance = 0.85F;
         int heartsBoost = button.getConstraints().contains(EnumConstraint.ROMANTIC) ? 15 : 5;
@@ -437,15 +481,19 @@ public class EntityVillagerMCA extends EntityVillager {
         String interactionName = button.getLangId().replace("gui.button.", "");
 
         successChance -= button.getConstraints().contains(EnumConstraint.ROMANTIC) ? 0.25F : 0.0F;
-        successChance -= history.getInteractionFatigue() * 0.05F;
         successChance += (history.getHearts() / 10.0D) * 0.025F;
+
+        if (MCA.getConfig().enableDiminishingReturns) {
+            successChance -= history.getInteractionFatigue() * 0.05F;
+        }
+
         boolean succeeded = rand.nextFloat() < successChance;
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
 
-        String responseId = String.format("%s.%s.%s", history.getDialogueType().getId(), interactionName, succeeded ? "success" : "fail");
-        say(player, responseId);
+        String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
+        say(Optional.of(player), responseId);
     }
 
     public void handleButtonClick(EntityPlayerMP player, String buttonId) {
@@ -483,21 +531,28 @@ public class EntityVillagerMCA extends EntityVillager {
                     player.sendMessage(new TextComponentString(MCA.getLocalizer().localize("info.trading.disabled")));
                 }
                 break;
+            case "gui.button.inventory":
+                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, player.world, this.getEntityId(), 0, 0);
+                break;
             case "gui.button.gift":
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
                 if (!handleSpecialCaseGift(player, stack)) {
                     history.changeHearts(API.getGiftValueFromStack(stack));
                     player.inventory.decrStackSize(player.inventory.currentItem, -1);
-                    say(player, API.getResponseForGift(stack));
+                    say(Optional.of(player), API.getResponseForGift(stack));
                 }
                 break;
             case "gui.button.procreate":
                 if (PlayerSaveData.get(player).getHasBaby()) {
-                    say(player, "interaction.procreate.fail.hasbaby");
+                    say(Optional.of(player), "interaction.procreate.fail.hasbaby");
                 } else if (history.getHearts() < 100) {
-                    say(player, "interaction.procreate.fail.lowhearts");
+                    say(Optional.of(player), "interaction.procreate.fail.lowhearts");
                 } else {
-                    set(IS_PROCREATING, true);
+                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
+                    if (task != null) {
+                        ((EntityAIProcreate)task.action).procreateTimer = 20 * 3; //3 seconds
+                        set(IS_PROCREATING, true);
+                    }
                 }
                 break;
             case "gui.button.infected":
@@ -521,7 +576,14 @@ public class EntityVillagerMCA extends EntityVillager {
                 RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
                 setProfession(registry.getRandomObject(world.rand));
                 setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
+                applySpecialAI();
                 break;
+            case "gui.button.prospecting": startChore(EnumChore.PROSPECT, player); break;
+            case "gui.button.hunting": startChore(EnumChore.HUNT, player); break;
+            case "gui.button.fishing": startChore(EnumChore.FISH, player); break;
+            case "gui.button.chopping": startChore(EnumChore.CHOP, player); break;
+            case "gui.button.harvesting": startChore(EnumChore.HARVEST, player); break;
+            case "gui.button.stopworking": stopChore(); break;
         }
     }
 
@@ -535,9 +597,12 @@ public class EntityVillagerMCA extends EntityVillager {
         } else if (item == Items.CAKE) {
             Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
             if (spouse.isPresent()) {
-                //TODO
+                EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA)spouse.get();
+                progressor.set(HAS_BABY, true);
+                progressor.set(BABY_IS_MALE, rand.nextBoolean());
+                progressor.spawnParticles(EnumParticleTypes.HEART);
             } else {
-                say(player, "spouse not nearby"); //TODO
+                say(Optional.of(player), "gift.cake.fail");
             }
         } else if (item == Items.GOLDEN_APPLE && this.isChild()) {
             this.addGrowth(((startingAge / 4) / 20 * -1));
@@ -548,12 +613,12 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void onEachClientUpdate() {
-        if (this.ticksExisted % 20 == 0) {
-            onEachClientSecond();
+        if (get(IS_PROCREATING)) {
+            this.rotationYawHead += 50.0F;
         }
 
-        if (get(IS_PROCREATING)) {
-            this.world.spawnParticle(EnumParticleTypes.HEART, posX + rand.nextDouble() * width * 2.0D - width, posY + rand.nextDouble() * height, posZ + rand.nextDouble() * width * 2.0D - width, 0.0D, 0.0D, 0.0D);
+        if (this.ticksExisted % 20 == 0) {
+            onEachClientSecond();
         }
     }
 
@@ -566,6 +631,12 @@ public class EntityVillagerMCA extends EntityVillager {
             onEachServerSecond();
         }
 
+        if (this.ticksExisted % 200 == 0) { //Every 10 seconds
+            if (this.getHealth() < this.getMaxHealth()) {
+                this.setHealth(this.getHealth() + 1.0F); //heal
+            }
+        }
+
         if (isChild()) {
             set(AGE_STATE, EnumAgeState.byCurrentAge(startingAge, getGrowingAge()).getId());
         }
@@ -574,6 +645,23 @@ public class EntityVillagerMCA extends EntityVillager {
     private void onEachServerSecond() {
         NBTTagCompound memories = get(PLAYER_HISTORY_MAP);
         memories.getKeySet().forEach((key) -> PlayerHistory.fromNBT(this, UUID.fromString(key), memories.getCompoundTag(key)).update());
+
+        if (get(HAS_BABY)) {
+            set(BABY_AGE, get(BABY_AGE) + 1);
+
+            if (get(BABY_AGE) >= MCA.getConfig().babyGrowUpTime * 60) { //grow up time is in minutes and we measure age in seconds
+                EntityVillagerMCA child = new EntityVillagerMCA(world, null ,get(BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE);
+                child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
+                child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
+                child.setScaleForAge(true);
+                child.setPosition(this.posX, this.posY, this.posZ);
+                child.set(EntityVillagerMCA.PARENTS, ParentData.create(this.getUniqueID(), this.get(SPOUSE_UUID).get(), this.get(VILLAGER_NAME), this.get(SPOUSE_NAME)).toNBT());
+                world.spawnEntity(child);
+
+                set(HAS_BABY, false);
+                set(BABY_AGE, 0);
+            }
+        }
     }
 
     public ResourceLocation getTextureResourceLocation() {
@@ -598,10 +686,38 @@ public class EntityVillagerMCA extends EntityVillager {
             this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
             this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.8D, false));
             this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityZombie.class, 100, false, false, null));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVex.class, 100, false, false, null));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVindicator.class, 100, false, false, null));
+        }
+    }
+
+    public void spawnParticles(EnumParticleTypes particleType)
+    {
+        if (this.world.isRemote) {
+            for (int i = 0; i < 5; ++i) {
+                double d0 = this.rand.nextGaussian() * 0.02D;
+                double d1 = this.rand.nextGaussian() * 0.02D;
+                double d2 = this.rand.nextGaussian() * 0.02D;
+                this.world.spawnParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 1.0D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2);
+            }
+        } else {
+            NetMCA.INSTANCE.sendToAll(new NetMCA.SpawnParticles(this.getUniqueID(), particleType));
         }
     }
 
     public void stopChore() {
         set(ACTIVE_CHORE, EnumChore.NONE.getId());
+        set(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
+    }
+
+    public void startChore(EnumChore chore, EntityPlayer player) {
+        set(ACTIVE_CHORE, chore.getId());
+        set(CHORE_ASSIGNING_PLAYER, Optional.of(player.getUniqueID()));
+    }
+
+    public boolean playerIsParent(EntityPlayer player) {
+        ParentData data = ParentData.fromNBT(get(PARENTS));
+        return data.getParent1UUID().equals(player.getUniqueID()) || data.getParent2UUID().equals(player.getUniqueID());
     }
 }

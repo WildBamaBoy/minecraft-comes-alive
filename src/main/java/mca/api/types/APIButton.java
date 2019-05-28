@@ -91,7 +91,12 @@ public class APIButton {
             return true;
         } else if (constraints.contains(EnumConstraint.NOT_SPOUSE) && !villager.isMarriedTo(player.getUniqueID())) {
             return true;
-        } else if (constraints.isEmpty()) {
+        } else if (constraints.contains(EnumConstraint.FAMILY) && (villager.playerIsParent(player) || villager.isMarriedTo(player.getUniqueID()))){
+            return true;
+        } else if (constraints.contains(EnumConstraint.NOT_FAMILY) && !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUniqueID()))) {
+            return true;
+        }
+        else if (constraints.isEmpty()) {
             return true;
         }
         return false;
