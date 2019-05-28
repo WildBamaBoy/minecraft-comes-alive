@@ -172,7 +172,7 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
         super.attackEntityAsMob(entityIn);
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 6.0F : 2.0F);
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 2.0F);
     }
 
     @Override
