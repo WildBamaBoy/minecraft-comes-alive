@@ -459,8 +459,8 @@ public class EntityVillagerMCA extends EntityVillager {
             // Provide player as a param, always
             if (params == null || params.length == 0) {
                 params = new String[1];
+                params[0] = player.get().getName();
             }
-            params[0] = player.get().getName();
 
             // Infected villagers do not speak.
             if (get(IS_INFECTED)) {
@@ -557,11 +557,11 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.gift":
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
-                player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 if (!handleSpecialCaseGift(player, stack)) {
                     history.changeHearts(API.getGiftValueFromStack(stack));
                     say(Optional.of(player), API.getResponseForGift(stack));
                 }
+                player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 break;
             case "gui.button.procreate":
                 if (PlayerSaveData.get(player).getHasBaby()) {
