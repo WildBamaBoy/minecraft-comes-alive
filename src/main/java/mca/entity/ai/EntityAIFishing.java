@@ -58,7 +58,7 @@ public class EntityAIFishing extends AbstractEntityAIChore {
             if (ticks >= villager.world.rand.nextInt(200) + 200) {
                 if (villager.world.rand.nextFloat() >= 0.35F) {
                     int typesSize = ItemFishFood.FishType.values().length;
-                    ItemFishFood.FishType type = ItemFishFood.FishType.values()[villager.world.rand.nextInt(typesSize) + 1];
+                    ItemFishFood.FishType type = ItemFishFood.FishType.values()[villager.world.rand.nextInt(typesSize)];
                     ItemStack stack = new ItemStack(Items.FISH, 1, type.getMetadata());
 
                     villager.swingArm(EnumHand.MAIN_HAND);
