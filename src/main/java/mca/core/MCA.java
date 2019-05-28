@@ -121,7 +121,7 @@ public class MCA {
             try {
                 if (crashReportFiles != null) {
                     Optional<File> newestFile = Arrays.stream(crashReportFiles).max(Comparator.comparingLong(File::lastModified));
-                    if (newestFile.isPresent()) {
+                    if (newestFile.isPresent() && newestFile.get().lastModified() > startupTimestamp) {
                         Map<String, String> payload = new HashMap<>();
                         payload.put("minecraft_version", FMLCommonHandler.instance().getMinecraftServerInstance().getMinecraftVersion());
                         payload.put("operating_system", System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
