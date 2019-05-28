@@ -560,7 +560,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
                 if (!handleSpecialCaseGift(player, stack)) {
                     history.changeHearts(API.getGiftValueFromStack(stack));
-                    player.inventory.decrStackSize(player.inventory.currentItem, -1);
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
                     say(Optional.of(player), API.getResponseForGift(stack));
                 }
                 break;
