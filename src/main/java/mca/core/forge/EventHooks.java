@@ -13,20 +13,26 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -64,6 +70,7 @@ public class EventHooks {
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         MCAServer.get().tick();
+        //TODO handle reaper summon
     }
 
     @SubscribeEvent
@@ -90,6 +97,53 @@ public class EventHooks {
         if (stack.getItem() instanceof ItemBaby) {
             event.getPlayer().addItemStackToInventory(stack);
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlaceEvent(BlockEvent.PlaceEvent event) {
+        int x = event.getPos().getX();
+        int y = event.getPos().getY();
+        int z = event.getPos().getZ();
+        Block placedBlock = event.getPlacedBlock().getBlock();
+
+        if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
+            int totemsFound = 0;
+
+            //Check on +/- X and Z for at least 3 totems on fire.
+            for (int i = 0; i < 4; i++) {
+                int dX = 0;
+                int dZ = 0;
+
+                switch (i) {
+                    case 0: dX = -3; break;
+                    case 1: dX = 3; break;
+                    case 2: dZ = -3; break;
+                    case 3: dZ = 3; break;
+                }
+
+                //Scan upwards to ensure it's obsidian, and on fire.
+                for (int j = -1; j < 2; j++) {
+                    Block block = event.getWorld().getBlockState(new BlockPos(x + dX, y + j, z + dZ)).getBlock();
+                    if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) {
+                        break;
+                    }
+
+                    //If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
+                    if (j == 1 && block == Blocks.FIRE) {
+                        totemsFound++;
+                    }
+                }
+            }
+
+            if (totemsFound >= 3 && !event.getWorld().isDaytime()) {
+                //FIXME
+                //summonPoint = event.getWorld(), new BlockPos(x + 1, y + 10, z + 1);
+
+                for (int i = 0; i < 2; i++) {
+                    event.getWorld().setBlockToAir(new BlockPos(x, y - i, z));
+                }
+            }
         }
     }
 
