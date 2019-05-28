@@ -288,7 +288,8 @@ childp.interaction.gohome.fail.nohome=I don't remember where home is! We move to
 
 adult.interaction.ridehorse.fail.notnearby=I don't see any rideable horses nearby.
 
-spouse.interaction.procreate.fail.hasbaby=We already have a baby...you didn't lose it did you?!
+spouse.interaction.procreate.fail.hasbaby1=We already have a baby...you didn't lose it did you?!
+spouse.interaction.procreate.fail.hasbaby2=...you lost baby Joby didn't you? Wait...was his name Joby?
 
 notify.spouseendedmarriage=%Name% has ended their marriage with you.
 notify.spousedied=Your spouse %v1% has died by %v2%
