@@ -239,8 +239,14 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
+        // Guards take 30% less damage
+        if (getProfessionForge() == ProfessionsMCA.guard) {
+            damageAmount *= 0.70;
+        }
         super.damageEntity(damageSource, damageAmount);
-        if (MCA.getConfig().enableInfection && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100) {
+
+        // Check for infection to apply. Does not affect guards.
+        if (MCA.getConfig().enableInfection && getProfessionForge() != ProfessionsMCA.guard && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100) {
             set(IS_INFECTED, true);
         }
     }
