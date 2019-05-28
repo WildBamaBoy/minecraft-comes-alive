@@ -269,11 +269,6 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    protected SoundEvent getHurtSound() {
-        return get(IS_INFECTED) ? SoundEvents.ENTITY_ZOMBIE_HURT : null;
-    }
-
-    @Override
     protected SoundEvent getDeathSound() {
         return get(IS_INFECTED) ? SoundEvents.ENTITY_ZOMBIE_DEATH : null;
     }
