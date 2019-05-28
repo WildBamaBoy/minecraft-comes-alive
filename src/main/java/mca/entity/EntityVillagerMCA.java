@@ -157,7 +157,6 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIMoveState(this));
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
-        this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.6D));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
     }
@@ -533,9 +532,11 @@ public class EntityVillagerMCA extends EntityVillager {
         switch (buttonId) {
             case "gui.button.move":
                 set(MOVE_STATE, EnumMoveState.MOVE.getId());
+                this.playerToFollowUUID = Constants.ZERO_UUID;
                 break;
             case "gui.button.stay":
                 set(MOVE_STATE, EnumMoveState.STAY.getId());
+                this.playerToFollowUUID = Constants.ZERO_UUID;
                 break;
             case "gui.button.follow":
                 set(MOVE_STATE, EnumMoveState.FOLLOW.getId());
