@@ -27,6 +27,7 @@ import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -304,6 +305,10 @@ public class EntityVillagerMCA extends EntityVillager {
                     spouse.get().endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
+                    EntityPlayer player = world.getPlayerEntityByUUID(spouseUUID);
+                    if (player != null) {
+                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", this.getName(), this.getCombatTracker().getDeathMessage().getUnformattedText())));
+                    }
                 }
             }
 

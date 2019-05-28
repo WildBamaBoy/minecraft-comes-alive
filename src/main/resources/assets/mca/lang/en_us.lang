@@ -291,6 +291,7 @@ adult.interaction.ridehorse.fail.notnearby=I don't see any rideable horses nearb
 spouse.interaction.procreate.fail.hasbaby=We already have a baby...you didn't lose it did you?!
 
 notify.spouseendedmarriage=%Name% has ended their marriage with you.
+notify.spousedied=Your spouse %v1% has died by %v2%
 notify.child.grownup=%Name% has grown into an adult!
 notify.revival.disabled=Revivals have been disabled by the server administrator.
 notify.trading.disabled=Trading is disabled by the server administrator.
