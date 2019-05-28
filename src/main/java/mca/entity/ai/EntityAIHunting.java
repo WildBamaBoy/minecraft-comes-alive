@@ -19,7 +19,7 @@ public class EntityAIHunting extends AbstractEntityAIChore {
 
     public EntityAIHunting(EntityVillagerMCA entityIn) {
         super(entityIn);
-        this.setMutexBits(4);
+        this.setMutexBits(1);
     }
 
     public boolean shouldExecute() {

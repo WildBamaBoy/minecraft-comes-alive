@@ -20,7 +20,7 @@ public class EntityAIChopping extends AbstractEntityAIChore {
 
     public EntityAIChopping(EntityVillagerMCA entityIn) {
         super(entityIn);
-        this.setMutexBits(4);
+        this.setMutexBits(1);
     }
 
     public boolean shouldExecute() {

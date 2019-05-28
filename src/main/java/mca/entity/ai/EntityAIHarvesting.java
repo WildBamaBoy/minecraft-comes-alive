@@ -21,7 +21,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
 
     public EntityAIHarvesting(EntityVillagerMCA villagerIn) {
         super(villagerIn);
-        this.setMutexBits(4);
+        this.setMutexBits(1);
     }
 
     public boolean shouldExecute() {

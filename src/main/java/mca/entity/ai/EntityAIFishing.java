@@ -22,7 +22,7 @@ public class EntityAIFishing extends AbstractEntityAIChore {
 
     public EntityAIFishing(EntityVillagerMCA entityIn) {
         super(entityIn);
-        this.setMutexBits(4);
+        this.setMutexBits(1);
     }
 
     public boolean shouldExecute() {
