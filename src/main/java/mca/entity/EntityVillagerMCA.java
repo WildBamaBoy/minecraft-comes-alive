@@ -657,7 +657,7 @@ public class EntityVillagerMCA extends EntityVillager {
             onEachServerSecond();
         }
 
-        if (this.ticksExisted % 200 == 0) { //Every 10 seconds
+        if (this.ticksExisted % 200 == 0 && this.getHealth() > 0.0F) { //Every 10 seconds and when we're not already dead
             if (this.getHealth() < this.getMaxHealth()) {
                 this.setHealth(this.getHealth() + 1.0F); //heal
             }
