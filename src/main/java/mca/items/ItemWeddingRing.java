@@ -7,6 +7,7 @@ import mca.entity.data.PlayerHistory;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.EnumDialogueType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumParticleTypes;
 
 public class ItemWeddingRing extends ItemSpecialCaseGift {
     public boolean handle(EntityPlayer player, EntityVillagerMCA villager) {
@@ -26,6 +27,7 @@ public class ItemWeddingRing extends ItemSpecialCaseGift {
             response = "interaction.marry.success";
             playerData.marry(villager.getUniqueID(), villager.get(EntityVillagerMCA.VILLAGER_NAME));
             villager.getPlayerHistoryFor(player.getUniqueID()).setDialogueType(EnumDialogueType.SPOUSE);
+            villager.spawnParticles(EnumParticleTypes.HEART);
             villager.marry(player);
         }
 
