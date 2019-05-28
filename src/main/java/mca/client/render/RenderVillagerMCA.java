@@ -71,12 +71,12 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
             heartsDrawn++;
 
             GL11.glPushMatrix();{
-                GL11.glTranslatef((float) posX + 0.0F, (float) posY + villager.height + 0.25F, (float) posZ);
+                GL11.glTranslatef((float) posX + 0.0F, (float) posY + villager.height + 1.0F, (float) posZ);
                 GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
                 GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
                 GL11.glDisable(GL11.GL_LIGHTING);
-                GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
+                GL11.glTranslatef(-2.0F, 2.0F, -2.0F);
                 drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - 45, (int)posY - 4, heartU, 0, 16, 16);
             }
             GL11.glPopMatrix();

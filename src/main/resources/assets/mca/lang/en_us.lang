@@ -275,8 +275,17 @@ adult.interaction.sethome.fail3=I can't have my home point here. There's some %v
 adult.interaction.gohome.success1=Alright, I'll go there immediately!
 adult.interaction.gohome.success2=Sure, I'll go home now.
 adult.interaction.gohome.success3=I'm going home. Goodbye!
+spouse.interaction.gohome.success1=Sure, dear, I'll head home now.
+spouse.interaction.gohome.success2=See you there, dear!
+childp.interaction.gohome.success1=See ya!
+childp.interaction.gohome.success2=Okay! Bye!
+child.interaction.gohome.success1=Okay! I think I remember where I live...
 
 adult.interaction.gohome.fail.nohome=I don't have a home...
+spouse.interaction.gohome.fail.nohome=Remind me again where our house was?
+child.interaction.gohome.fail.nohome=I don't remember where I live...
+childp.interaction.gohome.fail.nohome=I don't remember where home is! We move too much!
+
 adult.interaction.ridehorse.fail.notnearby=I don't see any rideable horses nearby.
 
 spouse.interaction.procreate.fail.hasbaby=We already have a baby...you didn't lose it did you?!
