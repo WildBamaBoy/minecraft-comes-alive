@@ -267,6 +267,11 @@ adult.interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be 
 adult.interaction.sethome.success1=Okay, this will be my new home point.
 adult.interaction.sethome.success2=I understand, I'll be sleeping here at night.
 adult.interaction.sethome.success3=Sure thing, %v1%.
+spouse.interaction.sethome.success1=I really like this place, good job %v1%!
+spouse.interaction.sethome.success2=This is like a dream home!
+childp.interaction.sethome.success1=Okay fine, where's my room?
+childp.interaction.sethome.success2=This is cool I guess. Can I go play now?
+childp.interaction.sethome.success3=Okay, but I want the biggest room!
 
 adult.interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %v1% in the way.
 adult.interaction.sethome.fail2=Is there another place nearby? There's some %v1% in the way.
