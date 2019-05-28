@@ -33,6 +33,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,10 +42,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
@@ -260,6 +258,21 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
+    protected SoundEvent getAmbientSound() {
+        return null;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound() {
+        return get(IS_INFECTED) ? SoundEvents.ENTITY_ZOMBIE_HURT : null;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return get(IS_INFECTED) ? SoundEvents.ENTITY_ZOMBIE_DEATH : null;
+    }
+
+    @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         if (getProfessionForge() == ProfessionsMCA.bandit) {
             return false;
@@ -443,12 +456,20 @@ public class EntityVillagerMCA extends EntityVillager {
 
     public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
         if (player.isPresent()) {
+            // Provide player as a param, always
             if (params == null || params.length == 0) {
                 params = new String[1];
             }
             params[0] = player.get().getName();
-            String dialogueType = getPlayerHistoryFor(player.get().getUniqueID()).getDialogueType().getId();
-            player.get().sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + String.format(MCA.getLocalizer().localize(dialogueType + "." + phraseId, params), params)));
+
+            // Infected villagers do not speak.
+            if (get(IS_INFECTED)) {
+                player.get().sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + "???"));
+                this.playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, 0.5F, rand.nextFloat() + 0.5F);
+            } else {
+                String dialogueType = getPlayerHistoryFor(player.get().getUniqueID()).getDialogueType().getId();
+                player.get().sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + String.format(MCA.getLocalizer().localize(dialogueType + "." + phraseId, params), params)));
+            }
         } else {
             MCA.getLog().warn(new Throwable("Say called on player that is not present!"));
         }

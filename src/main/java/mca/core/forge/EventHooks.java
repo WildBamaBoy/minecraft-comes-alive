@@ -10,6 +10,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -107,6 +109,20 @@ public class EventHooks {
             EntityPlayer player = (EntityPlayer)event.getEntityLiving();
             Optional<ItemStack> babyStack = player.inventory.mainInventory.stream().filter(s -> s.getItem() instanceof ItemBaby).findFirst();
             babyStack.ifPresent(s -> limbo.put(player.getUniqueID(), babyStack.get()));
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingSetTarget(LivingSetAttackTargetEvent event)
+    {
+        //Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
+        if (event.getEntityLiving() instanceof EntityMob && event.getTarget() instanceof EntityVillagerMCA) {
+            EntityMob mob = (EntityMob) event.getEntityLiving();
+            EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
+
+            if (target.get(EntityVillagerMCA.IS_INFECTED)) {
+                mob.setAttackTarget(null);
+            }
         }
     }
 }
