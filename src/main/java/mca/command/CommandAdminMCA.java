@@ -36,7 +36,7 @@ public class CommandAdminMCA extends CommandBase {
     @Override
     public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException {
         try {
-            if (MCA.getConfig().enableAdminCommands) {
+            if (!MCA.getConfig().enableAdminCommands) {
                 sendMessage(commandSender, "MCA admin commands have been disabled by the server administrator.");
                 return;
             }
