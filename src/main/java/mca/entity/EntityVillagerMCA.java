@@ -21,10 +21,7 @@ import mca.util.ItemStackCache;
 import mca.util.ResourceLocationCache;
 import mca.util.Util;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
@@ -159,6 +156,8 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIMoveState(this));
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
     }
 
     public <T> T get(DataParameter<T> key) {
