@@ -27,7 +27,6 @@ import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -41,6 +40,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
@@ -85,7 +85,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public int babyAge = 0;
     public UUID playerToFollowUUID = Constants.ZERO_UUID;
 
-    private Vec3d home = Vec3d.ZERO;
+    private BlockPos home = BlockPos.ORIGIN;
     private int startingAge = 0;
     private float swingProgressTicks;
 
@@ -202,7 +202,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.startingAge = nbt.getInteger("startingAge");
         setGrowingAge(nbt.getInteger("Age"));
 
-        this.home = new Vec3d(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
+        this.home = new BlockPos(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
         this.playerToFollowUUID = nbt.getUniqueId("playerToFollowUUID");
         this.babyAge = nbt.getInteger("babyAge");
         applySpecialAI();
@@ -220,9 +220,9 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setTag("playerHistoryMap", get(PLAYER_HISTORY_MAP));
         nbt.setInteger("moveState", get(MOVE_STATE));
         nbt.setInteger("marriageState", get(MARRIAGE_STATE));
-        nbt.setDouble("homePositionX", home.x);
-        nbt.setDouble("homePositionY", home.y);
-        nbt.setDouble("homePositionZ", home.z);
+        nbt.setDouble("homePositionX", home.getX());
+        nbt.setDouble("homePositionY", home.getY());
+        nbt.setDouble("homePositionZ", home.getZ());
         nbt.setUniqueId("playerToFollowUUID", playerToFollowUUID);
         nbt.setUniqueId("spouseUUID", get(SPOUSE_UUID).or(Constants.ZERO_UUID));
         nbt.setString("spouseName", get(SPOUSE_NAME));
@@ -444,8 +444,8 @@ public class EntityVillagerMCA extends EntityVillager {
             say(Optional.of(player), "interaction.gohome.fail");
         } else {
             say(Optional.of(player), "interaction.gohome.success");
-            if (!getNavigator().setPath(getNavigator().getPathToXYZ(home.x, home.y, home.z), 1.0D)) {
-                attemptTeleport(home.x, home.y, home.z);
+            if (!getNavigator().setPath(getNavigator().getPathToXYZ(home.getX(), home.getY(), home.getZ()), 1.0D)) {
+                attemptTeleport(home.getX(), home.getY(), home.getZ());
             }
         }
     }
@@ -453,7 +453,8 @@ public class EntityVillagerMCA extends EntityVillager {
     private void setHome(EntityPlayerMP player) {
         if (attemptTeleport(posX, posY, posZ)) {
             say(Optional.of(player), "interaction.sethome.success");
-            this.home = this.getPositionVector();
+            this.home = this.getPosition();
+            this.setHomePosAndDistance(this.home, 32);
         } else {
             say(Optional.of(player), "interaction.sethome.fail");
         }
@@ -746,5 +747,15 @@ public class EntityVillagerMCA extends EntityVillager {
     public boolean playerIsParent(EntityPlayer player) {
         ParentData data = ParentData.fromNBT(get(PARENTS));
         return data.getParent1UUID().equals(player.getUniqueID()) || data.getParent2UUID().equals(player.getUniqueID());
+    }
+
+    @Override
+    public BlockPos getHomePosition() {
+        return home;
+    }
+
+    @Override
+    public void detachHome() {
+        //no-op, skip EntityVillager's detaching homes which messes up MoveTowardsRestriction.
     }
 }
