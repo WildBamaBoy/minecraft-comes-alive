@@ -157,6 +157,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIMoveState(this));
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
+        this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.6D));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
     }
