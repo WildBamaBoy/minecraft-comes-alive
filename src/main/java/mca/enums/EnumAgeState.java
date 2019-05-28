@@ -32,6 +32,8 @@ public enum EnumAgeState {
             return EnumAgeState.CHILD;
         } else if (growingAge >= step * 3 && growingAge < step * 2) {
             return EnumAgeState.TODDLER;
+        } else if (growingAge >= step * 4 && growingAge < step * 3) {
+            return EnumAgeState.BABY;
         }
         return EnumAgeState.ADULT;
     }
@@ -80,7 +82,7 @@ public enum EnumAgeState {
     public float getScaleForAge() {
         switch (this) {
             case BABY:
-                return 0.35F;
+                return 0.40F;
             case TODDLER:
                 return 0.50F;
             case CHILD:

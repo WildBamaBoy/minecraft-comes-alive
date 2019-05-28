@@ -666,7 +666,11 @@ public class EntityVillagerMCA extends EntityVillager {
         }
 
         if (isChild()) {
-            set(AGE_STATE, EnumAgeState.byCurrentAge(startingAge, getGrowingAge()).getId());
+            EnumAgeState current = EnumAgeState.byId(get(AGE_STATE));
+            EnumAgeState target = EnumAgeState.byCurrentAge(startingAge, getGrowingAge());
+            if (current != target) {
+                set(AGE_STATE, target.getId());
+            }
         }
     }
 
