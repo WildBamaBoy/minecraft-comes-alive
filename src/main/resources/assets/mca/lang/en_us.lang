@@ -197,6 +197,8 @@ gui.label.harvesting=Harvesting
 gui.label.chopping=Chopping
 gui.label.hunting=Hunting
 gui.label.fishing=Fishing
+gui.label.staying=Staying
+gui.label.following=Following
 
 gui.info.gift.line1=Gift Available
 gui.info.gift.line2=(Click to take)

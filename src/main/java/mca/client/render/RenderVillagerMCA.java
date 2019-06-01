@@ -47,12 +47,11 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
                 renderHealth(entity, x, y, z, (int) entity.getHealth(), (int) entity.getMaxHealth());
             }
 
-            if (entity.get(EntityVillagerMCA.ACTIVE_CHORE) != EnumChore.NONE.getId()) {
-                EnumChore chore = EnumChore.byId(entity.get(EntityVillagerMCA.ACTIVE_CHORE));
+            if (entity.getCurrentActivity() != null) {
                 double d0 = entity.getDistanceSq(this.renderManager.renderViewEntity);
                 float f = entity.isSneaking() ? NAME_TAG_RANGE_SNEAK : NAME_TAG_RANGE;
                 if (d0 < (double) (f * f)) {
-                    this.renderEntityName(entity, x, y - 0.25F, z, "(" + chore.getFriendlyName() + ")", d0);
+                    this.renderEntityName(entity, x, y - 0.25F, z, "(" + entity.getCurrentActivity() + ")", d0);
                 }
             }
         }

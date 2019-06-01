@@ -768,4 +768,18 @@ public class EntityVillagerMCA extends EntityVillager {
     public void detachHome() {
         //no-op, skip EntityVillager's detaching homes which messes up MoveTowardsRestriction.
     }
+
+    public String getCurrentActivity() {
+        EnumMoveState moveState = EnumMoveState.byId(get(MOVE_STATE));
+        if (moveState != EnumMoveState.MOVE) {
+            return moveState.getFriendlyName();
+        }
+
+        EnumChore chore = EnumChore.byId(get(ACTIVE_CHORE));
+        if (chore != EnumChore.NONE) {
+            return chore.getFriendlyName();
+        }
+
+        return null;
+    }
 }
