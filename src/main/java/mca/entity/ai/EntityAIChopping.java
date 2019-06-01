@@ -51,7 +51,7 @@ public class EntityAIChopping extends AbstractEntityAIChore {
             targetTree = Util.getNearestPoint(villager.getPos(), nearbyTrees);
         } else {
             double distance = Math.sqrt(villager.getDistanceSq(targetTree));
-            if (distance >= 3.5D) {
+            if (distance >= 4.0D) {
                 villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetTree), 0.5D);
             } else {
                 IBlockState state = villager.world.getBlockState(targetTree);
