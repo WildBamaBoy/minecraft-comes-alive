@@ -215,6 +215,13 @@ childp.chore.fishing.norod=I can't fish without a fishing rod!
 childp.chore.hunting.nosword=Can you give me a sword first?
 childp.chore.harvesting.nohoe=I don't have a hoe to harvest with.
 
+adult.chore.mining.orenotify=Found something! There's some %1$s nearby.
+adult.chore.mining.nopick=I don't have a pickaxe anymore.
+adult.chore.chopping.noaxe=I don't have an axe anymore.
+adult.chore.fishing.norod=I don't have a fishing rod anymore.
+adult.chore.hunting.nosword=I lost my sword! Do you have another?
+adult.chore.harvesting.nohoe=I don't have a hoe to harvest with.
+
 gui.interact.label.married=Married to %v1%
 gui.interact.label.engaged=Engaged to %v1%
 gui.interact.label.notmarried=Not married
