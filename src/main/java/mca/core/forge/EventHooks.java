@@ -9,11 +9,13 @@ import mca.core.minecraft.WorldEventListenerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
+import net.minecraft.client.audio.Sound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
@@ -21,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -177,6 +180,14 @@ public class EventHooks {
             if (target.get(EntityVillagerMCA.IS_INFECTED)) {
                 mob.setAttackTarget(null);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlaySoundAtEntityEvent(PlaySoundAtEntityEvent event) {
+        // Cancel all villager sounds. We unfortunately cannot control on a per entity basis as getEntity() always returns null.
+        if (event.getSound().getSoundName().toString().contains("villager")) {
+            event.setCanceled(true);
         }
     }
 }
