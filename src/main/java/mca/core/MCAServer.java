@@ -1,12 +1,16 @@
 package mca.core;
 
+import mca.core.forge.NetMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.VillageHelper;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -16,6 +20,9 @@ import java.util.*;
 public class MCAServer {
     private static MCAServer instance;
     private int serverTicks = 0;
+    private int reaperSummonTicks = 0;
+    private BlockPos reaperSpawnPos = BlockPos.ORIGIN;
+    private World reaperSpawnWorld = null;
 
     // Maps a player's UUID to a list of UUIDs that have proposed to them with /mca propose
     private static Map<UUID, List<UUID>> proposals;
@@ -42,6 +49,20 @@ public class MCAServer {
             World overworld = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
             VillageHelper.tick(overworld);
             serverTicks = 0;
+        }
+
+        if (reaperSummonTicks > 0) {
+            reaperSummonTicks--;
+            if (reaperSummonTicks % 20 == 0) { //every second
+                EntityLightningBolt lightningBolt = new EntityLightningBolt(reaperSpawnWorld, reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ(), false);
+                reaperSpawnWorld.addWeatherEffect(lightningBolt);
+            }
+
+            if (reaperSummonTicks == 0) { // when counter reaches 0
+                EntityGrimReaper reaper = new EntityGrimReaper(reaperSpawnWorld);
+                reaper.setPosition(reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ());
+                reaperSpawnWorld.spawnEntity(reaper);
+            }
         }
 
         // Collect all expired procreate requests and remove them.
@@ -266,5 +287,14 @@ public class MCAServer {
 
     private void infoMessage(EntityPlayer player, String message) {
         player.sendMessage(new TextComponentString(Constants.Color.YELLOW + message));
+    }
+
+    public void setReaperSpawnPos(World world, BlockPos pos) {
+        this.reaperSpawnWorld = world;
+        this.reaperSpawnPos = pos;
+    }
+
+    public void startSpawnReaper() {
+        this.reaperSummonTicks = 20 * 4; // 3 seconds
     }
 }

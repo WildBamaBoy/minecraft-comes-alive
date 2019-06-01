@@ -73,7 +73,6 @@ public class EventHooks {
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         MCAServer.get().tick();
-        //TODO handle reaper summon
     }
 
     @SubscribeEvent
@@ -140,9 +139,8 @@ public class EventHooks {
             }
 
             if (totemsFound >= 3 && !event.getWorld().isDaytime()) {
-                //FIXME
-                //summonPoint = event.getWorld(), new BlockPos(x + 1, y + 10, z + 1);
-
+                MCAServer.get().setReaperSpawnPos(event.getWorld(), new BlockPos(x + 1, y + 10, z + 1));
+                MCAServer.get().startSpawnReaper();
                 for (int i = 0; i < 2; i++) {
                     event.getWorld().setBlockToAir(new BlockPos(x, y - i, z));
                 }
