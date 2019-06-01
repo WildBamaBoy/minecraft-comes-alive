@@ -20,7 +20,6 @@ public class EntityAIVerifyBed extends EntityAIBase {
     public void updateTask() {
         ticks++;
         if (ticks % 100 == 0) {
-            System.out.println("verify");
             BlockPos bed = villager.get(EntityVillagerMCA.BED_POS);
             if (villager.world.getBlockState(bed).getBlock() != Blocks.BED) {
                 villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
