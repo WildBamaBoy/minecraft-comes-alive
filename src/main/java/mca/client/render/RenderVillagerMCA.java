@@ -2,7 +2,6 @@ package mca.client.render;
 
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumAgeState;
-import mca.enums.EnumChore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.BufferBuilder;

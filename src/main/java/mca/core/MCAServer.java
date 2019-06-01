@@ -1,6 +1,5 @@
 package mca.core;
 
-import mca.core.forge.NetMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityGrimReaper;
@@ -19,16 +18,14 @@ import java.util.*;
 
 public class MCAServer {
     private static MCAServer instance;
+    // Maps a player's UUID to a list of UUIDs that have proposed to them with /mca propose
+    private static Map<UUID, List<UUID>> proposals;
+    // List of UUIDs that initiated procreation mapped to the time the request expires.
+    private static Map<UUID, Long> procreateMap;
     private int serverTicks = 0;
     private int reaperSummonTicks = 0;
     private BlockPos reaperSpawnPos = BlockPos.ORIGIN;
     private World reaperSpawnWorld = null;
-
-    // Maps a player's UUID to a list of UUIDs that have proposed to them with /mca propose
-    private static Map<UUID, List<UUID>> proposals;
-
-    // List of UUIDs that initiated procreation mapped to the time the request expires.
-    private static Map<UUID, Long> procreateMap;
 
     private MCAServer() {
         proposals = new HashMap<>();
@@ -75,8 +72,9 @@ public class MCAServer {
 
     /**
      * Returns true if receiver has a proposal from sender.
-     * @param sender    Command sender
-     * @param receiver  Player whose name was entered by the sender
+     *
+     * @param sender   Command sender
+     * @param receiver Player whose name was entered by the sender
      * @return boolean
      */
     private boolean hasProposalFrom(EntityPlayer sender, EntityPlayer receiver) {
@@ -85,6 +83,7 @@ public class MCAServer {
 
     /**
      * Returns all proposals for the provided player
+     *
      * @param player Player whose proposals should be returned.
      * @return List<UUID>
      */
@@ -94,8 +93,9 @@ public class MCAServer {
 
     /**
      * Removes the provided proposer from the target's list of proposals.
-     * @param target    Target player who's proposal list will be modified.
-     * @param proposer  The proposer to the target player.
+     *
+     * @param target   Target player who's proposal list will be modified.
+     * @param proposer The proposer to the target player.
      */
     private void removeProposalFor(EntityPlayer target, EntityPlayer proposer) {
         List<UUID> list = getProposalsFor(target);
@@ -105,6 +105,7 @@ public class MCAServer {
 
     /**
      * Lists all proposals for the given player.
+     *
      * @param sender Player whose active proposals will be listed.
      */
     public void listProposals(EntityPlayer sender) {
@@ -127,8 +128,9 @@ public class MCAServer {
 
     /**
      * Sends a proposal from the sender to the receiver.
-     * @param sender    The player sending the proposal.
-     * @param receiver  The player being proposed to.
+     *
+     * @param sender   The player sending the proposal.
+     * @param receiver The player being proposed to.
      */
     public void sendProposal(EntityPlayer sender, EntityPlayer receiver) {
         // Ensure the sender isn't already married.
@@ -161,8 +163,8 @@ public class MCAServer {
     /**
      * Rejects and removes a proposal from the receiver to the sender.
      *
-     * @param sender    The person rejecting the proposal.
-     * @param receiver  The initial proposer.
+     * @param sender   The person rejecting the proposal.
+     * @param receiver The initial proposer.
      */
     public void rejectProposal(EntityPlayer sender, EntityPlayer receiver) {
         // Ensure a proposal existed.
@@ -178,8 +180,9 @@ public class MCAServer {
 
     /**
      * Accepts and removes a proposal from the receiver to the sender.
-     * @param sender    The person accepting the proposal.
-     * @param receiver  The initial proposer.
+     *
+     * @param sender   The person accepting the proposal.
+     * @param receiver The initial proposer.
      */
     public void acceptProposal(EntityPlayer sender, EntityPlayer receiver) {
         // Ensure a proposal is active.
@@ -206,7 +209,8 @@ public class MCAServer {
 
     /**
      * Ends the sender's marriage and notifies their spouse if the spouse is online.
-     * @param sender    The person ending their marriage.
+     *
+     * @param sender The person ending their marriage.
      */
     public void endMarriage(EntityPlayer sender) {
         // Retrieve all data instances and an instance of the ex-spouse if they are present.
@@ -214,7 +218,7 @@ public class MCAServer {
 
         // Ensure the sender is married
         if (!senderData.isMarriedOrEngaged()) {
-            failMessage(sender,"You are not married.");
+            failMessage(sender, "You are not married.");
             return;
         }
 
@@ -233,12 +237,13 @@ public class MCAServer {
         receiverData.endMarriage();
 
         // Notify the ex if they are online.
-        spouse.ifPresent(e -> failMessage((EntityPlayer)e, sender.getName() + " has ended their marriage with you."));
+        spouse.ifPresent(e -> failMessage((EntityPlayer) e, sender.getName() + " has ended their marriage with you."));
     }
 
     /**
      * Initiates procreation with a married player.
-     * @param sender    The person requesting procreation.
+     *
+     * @param sender The person requesting procreation.
      */
     public void procreate(EntityPlayer sender) {
         // Ensure the sender is married.
