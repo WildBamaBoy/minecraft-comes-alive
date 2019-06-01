@@ -7,6 +7,7 @@ import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
@@ -38,6 +39,8 @@ public class GuiHandler implements IGuiHandler {
                 return new GuiStaffOfLife(player);
             case Constants.GUI_ID_VILLAGEREDITOR:
                 return new GuiVillagerEditor((EntityVillagerMCA) world.getEntityByID(entityId), player);
+            case Constants.GUI_ID_GUIDEBOOK:
+                return new GuiScreenBook(player, player.inventory.getCurrentItem(), false);
             default:
                 MCA.getLog().fatal("Failed to handle provided GUI ID on client: " + guiId);
                 return null;
