@@ -323,7 +323,7 @@ public class EntityVillagerMCA extends EntityVillager {
         Arrays.stream(parents).filter((e) -> e instanceof EntityPlayer).forEach((e) -> {
             PlayerHistory history = getPlayerHistoryFor(e.getUniqueID());
             history.setDialogueType(EnumDialogueType.ADULT);
-            say(Optional.of((EntityPlayer)e), "notify.child.grownup");
+            e.sendMessage(new TextComponentString(MCA.getLocalizer().localize("notify.child.grownup", this.get(VILLAGER_NAME))));
         });
     }
 
