@@ -3,13 +3,17 @@ package mca.entity.ai;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import mca.util.Util;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +39,15 @@ public class EntityAIChopping extends AbstractEntityAIChore {
         if (targetTree == null) {
             List<BlockPos> nearbyLogs = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockLog.class, 10, 5);
             List<BlockPos> nearbyTrees = new ArrayList<>();
-            for (BlockPos pos : nearbyLogs) {
-                List<BlockPos> leaves = Util.getNearbyBlocks(pos, villager.world, BlockLeaves.class, 1, 5);
-                if (leaves.size() > 0) {
-                    nearbyTrees.add(pos);
-                }
-            }
+
+            // valid "trees" are logs on the ground with leaves around them
+            nearbyLogs.stream()
+                    .filter(log -> {
+                        IBlockState down = villager.world.getBlockState(log.down());
+                        List<BlockPos> leaves = Util.getNearbyBlocks(log, villager.world, BlockLeaves.class, 1, 5);
+                        return leaves.size() > 0 && (down.getBlock() == Blocks.GRASS || down.getBlock() == Blocks.DIRT);
+                    })
+                    .forEach(nearbyTrees::add);
             targetTree = Util.getNearestPoint(villager.getPos(), nearbyTrees);
         } else {
             double distance = Math.sqrt(villager.getDistanceSq(targetTree));
