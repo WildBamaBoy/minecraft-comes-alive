@@ -79,12 +79,13 @@ public final class ItemsMCA {
                     + "I couldn't count how many times my family has been blown to pieces by creepers.\n\nHow are they still around, you may ask?"
                     + "\n\nEasy! I, dear reader, have discovered a CURE for death itself! And through this book, I can share it with you."));
 
+            /*
             pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Memorials\n\n" + Constants.Format.RESET
                     + "When a family member dies, they will drop a chest - and inside will be an " + Constants.Format.BOLD + "item" + Constants.Format.RESET + " that was important to them.\n\n"
                     + "This is the key to reviving someone, don't lose it! Only your spouse and children will drop these items."));
-
+            */
             pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Staff Of Life\n\n" + Constants.Format.RESET
-                    + "The Staff is a powerful item that can revive up to 5 people. Place a memorial item on the ground and wave the staff over it. Within moments, your loved one will be fully revived!\n\n"));
+                    + "The Staff is a powerful item that can revive up to 5 people. Wave the staff around and speak the name of the villager you wish to revive. Within moments, your loved one will be fully revived!\n\n"));
 
             pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Summoning Grim\n\n" + Constants.Format.RESET
                     + "Unfortunately, you must obtain the Staff from the Grim Reaper himself.\n\n"
@@ -95,7 +96,7 @@ public final class ItemsMCA {
                     + "     # # # # # # #\n"
                     + "     # # # # # # #\n"
                     + "     X # # E # # X\n\n"
-                    + "X = Column\n"
+                    + "X = Obsidian Column\n"
                     + "E = Emerald\n"
                     + "# = Empty"));
 
