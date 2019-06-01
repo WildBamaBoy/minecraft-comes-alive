@@ -20,6 +20,7 @@ import mca.items.ItemSpecialCaseGift;
 import mca.util.ItemStackCache;
 import mca.util.ResourceLocationCache;
 import mca.util.Util;
+import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
@@ -77,6 +78,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Boolean> BABY_IS_MALE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Integer> BABY_AGE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
     public static final DataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+    public static final DataParameter<BlockPos> BED_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -143,6 +145,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(BABY_IS_MALE, false);
         this.dataManager.register(BABY_AGE, 0);
         this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
+        this.dataManager.register(BED_POS, BlockPos.ORIGIN);
         this.setSilent(false);
     }
 
@@ -157,6 +160,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIMoveState(this));
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
+        this.tasks.addTask(0, new EntityAIVerifyBed(this));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
     }
@@ -196,6 +200,7 @@ public class EntityVillagerMCA extends EntityVillager {
         set(HAS_BABY, nbt.getBoolean("hasBaby"));
         set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
         set(PARENTS, nbt.getCompoundTag("parents"));
+        set(BED_POS, new BlockPos(nbt.getInteger("bedX"), nbt.getInteger("bedY"), nbt.getInteger("bedZ")));
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
         //Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
@@ -235,6 +240,9 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setTag("inventory", inventory.writeInventoryToNBT());
         nbt.setInteger("babyAge", babyAge);
         nbt.setTag("parents", get(PARENTS));
+        nbt.setInteger("bedX", get(BED_POS).getX());
+        nbt.setInteger("bedY", get(BED_POS).getY());
+        nbt.setInteger("bedZ", get(BED_POS).getZ());
     }
 
     @Override
@@ -460,6 +468,11 @@ public class EntityVillagerMCA extends EntityVillager {
             say(Optional.of(player), "interaction.sethome.success");
             this.home = this.getPosition();
             this.setHomePosAndDistance(this.home, 32);
+            BlockPos bed = Util.getNearestPoint(this.getPos(), Util.getNearbyBlocks(this.getPos(), world, BlockBed.class, 6, 3));
+            if (bed != null) {
+                set(BED_POS, bed);
+            }
+
         } else {
             say(Optional.of(player), "interaction.sethome.fail");
         }
