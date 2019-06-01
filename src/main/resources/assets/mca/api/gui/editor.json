@@ -47,7 +47,15 @@
     {
       "id": 6,
       "identifier": "gui.button.done",
-      "x": -50,
+      "x": -65,
+      "y": 85,
+      "width": 75,
+      "height": 20
+    },
+    {
+      "id": 7,
+      "identifier": "gui.button.copyuuid",
+      "x": 25,
       "y": 85,
       "width": 75,
       "height": 20

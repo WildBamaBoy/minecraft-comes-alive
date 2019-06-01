@@ -583,8 +583,12 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.gift":
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
                 if (!handleSpecialCaseGift(player, stack)) {
-                    history.changeHearts(API.getGiftValueFromStack(stack));
-                    say(Optional.of(player), API.getResponseForGift(stack));
+                    if (stack.getItem() == Items.GOLDEN_APPLE) {
+                        set(IS_INFECTED, false);
+                    } else {
+                        history.changeHearts(API.getGiftValueFromStack(stack));
+                        say(Optional.of(player), API.getResponseForGift(stack));
+                    }
                 }
                 player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 break;
