@@ -37,7 +37,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         }
 
         if (target == null) {
-            List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockCrops.class, 8, 3);
+            List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockCrops.class, 16, 3);
             List<BlockPos> harvestable = new ArrayList<>();
             for (BlockPos pos : nearbyCrops) {
                 IBlockState state = villager.world.getBlockState(pos);
