@@ -208,7 +208,7 @@ spouse.chore.mining.nopick=I forgot my pickaxe, dear, did you bring an extra one
 spouse.chore.chopping.noaxe=Oh, I thought we were going for a picnic. I didn't bring an axe...
 spouse.chore.fishing.norod=I'd love to! But, I can't find my fishing rod.
 spouse.chore.hunting.nosword=I broke my sword yesterday. Do you have another one?
-spouse.chore.harvesting.nohoe=Do you have an extra hoe I could use?W
+spouse.chore.harvesting.nohoe=Do you have an extra hoe I could use?
 
 childp.chore.mining.orenotify=I think there's some %1$s nearby...
 childp.chore.mining.nopick=I can't do that without a pickaxe!
