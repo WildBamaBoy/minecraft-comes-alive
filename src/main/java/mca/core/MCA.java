@@ -26,16 +26,20 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+
+import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 @Mod(modid = MCA.MODID, name = MCA.NAME, version = MCA.VERSION, guiFactory = "mca.client.MCAGuiFactory")
 public class MCA {
@@ -51,6 +55,8 @@ public class MCA {
     private static Localizer localizer;
     private static Config config;
     private static long startupTimestamp;
+    public static String latestVersion = "";
+    public static boolean updateAvailable = false;
 
     public static Logger getLog() {
         return logger;
@@ -89,6 +95,32 @@ public class MCA {
         MinecraftForge.EVENT_BUS.register(new EventHooks());
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         NetMCA.registerMessages();
+
+        if (MCA.getConfig().allowUpdateChecking) {
+            String url = "http://minecraftcomesalive.com/api/latest";
+            HttpClient client = HttpClientBuilder.create().build();
+            HttpGet request = new HttpGet(url);
+            request.addHeader("User-Agent", USER_AGENT);
+            try {
+                HttpResponse response = client.execute(request);
+                BufferedReader rd = new BufferedReader(
+                        new InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer result = new StringBuffer();
+                String line = "";
+                while ((line = rd.readLine()) != null) {
+                    result.append(line);
+                }
+
+                if (!result.toString().equals(VERSION)) {
+                    latestVersion = result.toString();
+                    updateAvailable = true;
+                    MCA.getLog().warn("An update for Minecraft Comes Alive is available: v" + latestVersion);
+                }
+            } catch (IOException e) {
+                MCA.getLog().error("Failed to check for updates.", e);
+            }
+        }
     }
 
     @EventHandler
@@ -130,7 +162,7 @@ public class MCA {
                         payload.put("body", FileUtils.readFileToString(newestFile.get(), "UTF-8"));
 
                         byte[] out = new Gson().toJson(payload).getBytes(StandardCharsets.UTF_8);
-                        URL url = new URL("https://minecraftcomesalive.com/api/crash-reports");
+                        URL url = new URL("http://minecraftcomesalive.com/api/crash-reports");
                         URLConnection con = url.openConnection();
                         HttpURLConnection http = (HttpURLConnection)con;
                         http.setRequestMethod("POST");
