@@ -13,6 +13,8 @@ import mca.core.minecraft.ProfessionsMCA;
 import mca.core.minecraft.RoseGoldOreGenerator;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
+import mca.util.Util;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -57,6 +59,7 @@ public class MCA {
     private static long startupTimestamp;
     public static String latestVersion = "";
     public static boolean updateAvailable = false;
+    public String[] supporters = new String[0];
 
     public static Logger getLog() {
         return logger;
@@ -96,31 +99,18 @@ public class MCA {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         NetMCA.registerMessages();
 
+        // Check for updates
         if (MCA.getConfig().allowUpdateChecking) {
-            String url = "http://minecraftcomesalive.com/api/latest";
-            HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(url);
-            request.addHeader("User-Agent", USER_AGENT);
-            try {
-                HttpResponse response = client.execute(request);
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent()));
-
-                StringBuffer result = new StringBuffer();
-                String line = "";
-                while ((line = rd.readLine()) != null) {
-                    result.append(line);
-                }
-
-                if (!result.toString().equals(VERSION)) {
-                    latestVersion = result.toString();
-                    updateAvailable = true;
-                    MCA.getLog().warn("An update for Minecraft Comes Alive is available: v" + latestVersion);
-                }
-            } catch (IOException e) {
-                MCA.getLog().error("Failed to check for updates.", e);
+            String remoteVersion = Util.httpGet("http://minecraftcomesalive.com/api/latest");
+            if (!remoteVersion.equals(VERSION)) {
+                updateAvailable = true;
+                MCA.getLog().warn("An update for Minecraft Comes Alive is available: v" + latestVersion);
             }
         }
+
+        // Download supporters from remote
+        supporters = Util.httpGet("http://minecraftcomesalive.com/api/supporters").split(",");
+        MCA.getLog().info("Loaded " + supporters.length + " supporters.");
     }
 
     @EventHandler
@@ -181,6 +171,14 @@ public class MCA {
             } catch (IOException e) {
                 MCA.getLog().error("An unexpected error occurred while attempting to submit the crash report.", e);
             }
+        }
+    }
+
+    public String getRandomSupporter() {
+        if (supporters.length > 0) {
+            return supporters[new Random().nextInt(supporters.length)];
+        } else {
+            return API.getRandomName(EnumGender.getRandom());
         }
     }
 }

@@ -53,6 +53,11 @@ public class Localizer {
 
     private String parseVars(String str, String... vars) {
         int index = 1;
+
+        if (str.contains("%Supporter%")) {
+            str = str.replaceAll("%Supporter%", MCA.getInstance().getRandomSupporter());
+        }
+
         String varString = "%v" + index + "%";
         while (str.contains(varString)) {
             try {

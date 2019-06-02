@@ -9,13 +9,20 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import javax.annotation.Nullable;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 public class Util {
     private static final String RESOURCE_PREFIX = "assets/mca/";
@@ -111,5 +118,26 @@ public class Util {
         }
 
         return returnPoint;
+    }
+
+    public static String httpGet(String url) {
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        request.addHeader("User-Agent", USER_AGENT);
+        try {
+            HttpResponse response = client.execute(request);
+            BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(response.getEntity().getContent()));
+
+            StringBuffer result = new StringBuffer();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            return result.toString();
+        } catch (IOException e) {
+            MCA.getLog().error("Failed to check for updates.", e);
+        }
+        return "";
     }
 }
