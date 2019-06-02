@@ -26,10 +26,12 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -179,8 +181,10 @@ public class EventHooks {
     @SubscribeEvent
     public void onPlaySoundAtEntityEvent(PlaySoundAtEntityEvent event) {
         // Cancel all villager sounds. We unfortunately cannot control on a per entity basis as getEntity() always returns null.
-        if (event.getSound().getSoundName().toString().contains("villager")) {
-            event.setCanceled(true);
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+            if (event.getSound().getSoundName().toString().contains("villager")) {
+                event.setCanceled(true);
+            }
         }
     }
 }
