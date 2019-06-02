@@ -640,7 +640,7 @@ public class EntityVillagerMCA extends EntityVillager {
     private boolean handleSpecialCaseGift(EntityPlayer player, ItemStack stack) {
         Item item = stack.getItem();
 
-        if (item instanceof ItemSpecialCaseGift) {
+        if (item instanceof ItemSpecialCaseGift && !this.isChild()) { // special case gifts are rings so far so prevent giving them to children
             boolean decStackSize = ((ItemSpecialCaseGift) item).handle(player, this);
             if (decStackSize) player.inventory.decrStackSize(player.inventory.currentItem, -1);
             return true;
