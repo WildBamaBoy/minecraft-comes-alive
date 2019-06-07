@@ -204,21 +204,21 @@ gui.label.following=Following
 gui.info.gift.line1=Gift Available
 gui.info.gift.line2=(Click to take)
 
-spouse.chore.mining.orenotify=There's some %1$s nearby...
+spouse.chore.mining.orenotify=There's some %v2% nearby...
 spouse.chore.mining.nopick=I forgot my pickaxe, dear, did you bring an extra one?
 spouse.chore.chopping.noaxe=Oh, I thought we were going for a picnic. I didn't bring an axe...
 spouse.chore.fishing.norod=I'd love to! But, I can't find my fishing rod.
 spouse.chore.hunting.nosword=I broke my sword yesterday. Do you have another one?
 spouse.chore.harvesting.nohoe=Do you have an extra hoe I could use?
 
-childp.chore.mining.orenotify=I think there's some %1$s nearby...
+childp.chore.mining.orenotify=I think there's some %v2% nearby...
 childp.chore.mining.nopick=I can't do that without a pickaxe!
 childp.chore.chopping.noaxe=I can't chop wood without an axe...
 childp.chore.fishing.norod=I can't fish without a fishing rod!
 childp.chore.hunting.nosword=Can you give me a sword first?
 childp.chore.harvesting.nohoe=I don't have a hoe to harvest with.
 
-adult.chore.mining.orenotify=Found something! There's some %1$s nearby.
+adult.chore.mining.orenotify=Found something! There's some %v2% nearby.
 adult.chore.mining.nopick=I don't have a pickaxe anymore.
 adult.chore.chopping.noaxe=I don't have an axe anymore.
 adult.chore.fishing.norod=I don't have a fishing rod anymore.
@@ -308,6 +308,7 @@ spouse.interaction.procreate.fail.hasbaby2=...you lost baby Joby didn't you? Wai
 
 notify.spouseendedmarriage=%Name% has ended their marriage with you.
 notify.spousedied=Your spouse %v1% has died by %v2%
+notify.childdied=Your child %v1% has died by %v2%
 notify.child.grownup=%v1% has grown into an adult!
 notify.revival.disabled=Revivals have been disabled by the server administrator.
 notify.trading.disabled=Trading is disabled by the server administrator.

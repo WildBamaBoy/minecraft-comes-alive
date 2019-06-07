@@ -476,6 +476,8 @@ public class EntityVillagerMCA extends EntityVillager {
 
     public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
         if (player.isPresent()) {
+            EntityPlayer thePlayer = player.get();
+
             // Provide player as a param, always
             if (params == null || params.length == 0) {
                 params = new String[1];
@@ -484,11 +486,11 @@ public class EntityVillagerMCA extends EntityVillager {
 
             // Infected villagers do not speak.
             if (get(IS_INFECTED)) {
-                player.get().sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + "???"));
+                thePlayer.sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + "???"));
                 this.playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, 0.5F, rand.nextFloat() + 0.5F);
             } else {
-                String dialogueType = getPlayerHistoryFor(player.get().getUniqueID()).getDialogueType().getId();
-                player.get().sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + String.format(MCA.getLocalizer().localize(dialogueType + "." + phraseId, params), params)));
+                String phrase = getPlayerHistoryFor(player.get().getUniqueID()).getDialogueType().getId() + "." + phraseId;
+                thePlayer.sendMessage(new TextComponentString(String.format("%1$s: %2$s", getDisplayName().getFormattedText(), MCA.getLocalizer().localize(phrase, params))));
             }
         } else {
             MCA.getLog().warn(new Throwable("Say called on player that is not present!"));
