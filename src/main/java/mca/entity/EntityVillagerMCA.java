@@ -298,7 +298,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public void onDeath(@Nonnull DamageSource cause) {
         if (!world.isRemote) {
             if (MCA.getConfig().logVillagerDeaths) {
-                MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + " caused by " + cause.getDamageType() + ". UUID: " + this.getUniqueID().toString());
+                MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + cause.getImmediateSource().getName() + ". UUID: " + this.getUniqueID().toString());
             }
 
             inventory.dropAllItems();
@@ -308,15 +308,25 @@ public class EntityVillagerMCA extends EntityVillager {
                 Optional<EntityVillagerMCA> spouse = Util.getEntityByUUID(world, spouseUUID, EntityVillagerMCA.class);
                 PlayerSaveData playerSaveData = PlayerSaveData.getExisting(world, spouseUUID);
 
+                // Notify spouse of the death
                 if (spouse.isPresent()) {
                     spouse.get().endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
                     EntityPlayer player = world.getPlayerEntityByUUID(spouseUUID);
                     if (player != null) {
-                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", this.getName(), this.getCombatTracker().getDeathMessage().getUnformattedText())));
+                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
                     }
                 }
+
+                // Notify all parents of the death
+                ParentData parents = ParentData.fromNBT(get(PARENTS));
+                Arrays.stream(parents.getParentEntities(world))
+                        .filter(e -> e instanceof EntityPlayer)
+                        .forEach(e -> {
+                            EntityPlayer player = (EntityPlayer) e;
+                            player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
+                        });
             }
 
             SavedVillagers.get(world).save(this);
