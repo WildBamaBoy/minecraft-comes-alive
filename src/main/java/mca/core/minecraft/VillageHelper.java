@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import com.google.common.base.Optional;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -66,7 +67,7 @@ public class VillageHelper {
             Vec3d spawnPos = findRandomSpawnPos(world, village, village.getCenter(), 2, 4, 2);
 
             if (spawnPos != null) {
-                EntityVillagerMCA guard = new EntityVillagerMCA(world, ProfessionsMCA.guard, null);
+                EntityVillagerMCA guard = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.guard), Optional.absent());
                 guard.setPosition(spawnPos.x + 0.5D, spawnPos.y + 1.0D, spawnPos.z + 0.5D);
                 guard.finalizeMobSpawn(world.getDifficultyForLocation(guard.getPos()), null, false);
                 world.spawnEntity(guard);
@@ -78,7 +79,7 @@ public class VillageHelper {
         int banditsToSpawn = world.rand.nextInt(5) + 1;
 
         while (banditsToSpawn > 0) {
-            EntityVillagerMCA bandit = new EntityVillagerMCA(world, ProfessionsMCA.bandit, null);
+            EntityVillagerMCA bandit = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.bandit), Optional.absent());
             BlockPos spawnLocation = village.getCenter();
             bandit.setPosition(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ());
             world.spawnEntity(bandit);

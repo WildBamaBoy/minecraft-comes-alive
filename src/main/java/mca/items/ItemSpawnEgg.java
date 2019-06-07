@@ -1,5 +1,6 @@
 package mca.items;
 
+import com.google.common.base.Optional;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +27,7 @@ public class ItemSpawnEgg extends Item {
         int posZ = pos.getZ();
 
         if (!world.isRemote) {
-            EntityVillagerMCA villager = new EntityVillagerMCA(world, null, isMale ? EnumGender.MALE : EnumGender.FEMALE);
+            EntityVillagerMCA villager = new EntityVillagerMCA(world, Optional.absent(), Optional.of(isMale ? EnumGender.MALE : EnumGender.FEMALE));
             villager.setPosition(posX + 0.5D, posY, posZ + 0.5D);
             villager.finalizeMobSpawn(world.getDifficultyForLocation(villager.getPos()), null, false);
             world.spawnEntity(villager);

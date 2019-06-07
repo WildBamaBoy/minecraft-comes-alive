@@ -6,6 +6,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,6 +21,8 @@ import java.util.Random;
 
 @GameRegistry.ObjectHolder("mca")
 public class ProfessionsMCA {
+    public static IForgeRegistry<VillagerProfession> registry;
+
     public static final VillagerProfession guard = new VillagerProfession("mca:guard", "mca:textures/skins/", "mca:textures/skins/");
     public static final VillagerProfession bandit = new VillagerProfession("mca:bandit", "mca:textures/skins/", "mca:textures/skins/");
     public static final VillagerProfession child = new VillagerProfession("mca:child", "mca:textures/skins/", "mca:textures/skins/");
@@ -65,6 +68,11 @@ public class ProfessionsMCA {
         return ItemStack.EMPTY;
     }
 
+    public static VillagerProfession randomProfession() {
+        int i = new Random().nextInt(registry.getKeys().size() - 1);
+        return registry.getValue((ResourceLocation)registry.getKeys().toArray()[i]);
+    }
+
     @Mod.EventBusSubscriber(modid = "mca")
     public static class RegistrationHandler {
         /**
@@ -74,8 +82,7 @@ public class ProfessionsMCA {
          */
         @SubscribeEvent
         public static void onEvent(final RegistryEvent.Register<VillagerProfession> event) {
-            final IForgeRegistry<VillagerProfession> registry = event.getRegistry();
-
+            registry = event.getRegistry();
             registry.register(guard);
             registry.register(bandit);
             registry.register(child);

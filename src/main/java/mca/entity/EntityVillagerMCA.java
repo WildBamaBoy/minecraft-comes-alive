@@ -46,6 +46,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
@@ -101,22 +102,15 @@ public class EntityVillagerMCA extends EntityVillager {
         inventory = new InventoryMCA(this);
     }
 
-    public EntityVillagerMCA(World worldIn, @Nullable VillagerRegistry.VillagerProfession profession, @Nullable EnumGender gender) {
+    public EntityVillagerMCA(World worldIn, Optional<VillagerRegistry.VillagerProfession> profession, Optional<EnumGender> gender) {
         this(worldIn);
 
         if (!worldIn.isRemote) {
-            RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
-            VillagerRegistry.VillagerProfession randomProfession = registry.getRandomObject(worldIn.rand);
-            while (randomProfession == ProfessionsMCA.bandit || randomProfession == ProfessionsMCA.child) {
-                randomProfession = registry.getRandomObject(worldIn.rand);
-            }
-
-            gender = gender == null ? EnumGender.getRandom() : gender;
-            set(GENDER, gender.getId());
-            set(VILLAGER_NAME, API.getRandomName(gender));
-            setProfession(profession != null ? profession : randomProfession);
+            set(GENDER, gender.isPresent() ? EnumGender.getRandom().getId() : gender.get().getId());
+            set(VILLAGER_NAME, API.getRandomName(gender.get()));
+            setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
-            set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), gender));
+            set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), gender.get()));
 
             applySpecialAI();
         }
@@ -343,8 +337,10 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     @Nonnull
     public ITextComponent getDisplayName() {
+        // translate profession name
+        ITextComponent careerName = new TextComponentTranslation("entity.Villager." + getVanillaCareer().getName());
         EnumAgeState age = EnumAgeState.byId(get(AGE_STATE));
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : super.getDisplayName().getUnformattedText();
+        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : careerName.getUnformattedText();
         String color = this.getProfessionForge() == ProfessionsMCA.bandit ? Constants.Color.RED : this.getProfessionForge() == ProfessionsMCA.guard ? Constants.Color.GREEN : "";
 
         return new TextComponentString(String.format("%1$s%2$s%3$s (%4$s)", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME), professionName));
@@ -704,7 +700,7 @@ public class EntityVillagerMCA extends EntityVillager {
             set(BABY_AGE, get(BABY_AGE) + 1);
 
             if (get(BABY_AGE) >= MCA.getConfig().babyGrowUpTime * 60) { //grow up time is in minutes and we measure age in seconds
-                EntityVillagerMCA child = new EntityVillagerMCA(world, null ,get(BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE);
+                EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.absent(), Optional.of(get(BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
                 child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
                 child.setScaleForAge(true);

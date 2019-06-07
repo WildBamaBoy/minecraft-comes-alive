@@ -1,5 +1,6 @@
 package mca.items;
 
+import com.google.common.base.Optional;
 import mca.core.Constants;
 import mca.core.Localizer;
 import mca.core.MCA;
@@ -73,7 +74,7 @@ public class ItemBaby extends Item {
 
         if (!world.isRemote) {
             if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { //Name is good and we're ready to grow
-                EntityVillagerMCA child = new EntityVillagerMCA(world, ProfessionsMCA.child, this.isMale ? EnumGender.MALE : EnumGender.FEMALE);
+                EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.child), Optional.of(this.isMale ? EnumGender.MALE : EnumGender.FEMALE));
                 child.set(EntityVillagerMCA.VILLAGER_NAME, getBabyName(stack));
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
                 child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
