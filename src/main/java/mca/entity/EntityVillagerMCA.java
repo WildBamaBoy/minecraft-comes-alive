@@ -318,16 +318,16 @@ public class EntityVillagerMCA extends EntityVillager {
                         player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
                     }
                 }
-
-                // Notify all parents of the death
-                ParentData parents = ParentData.fromNBT(get(PARENTS));
-                Arrays.stream(parents.getParentEntities(world))
-                        .filter(e -> e instanceof EntityPlayer)
-                        .forEach(e -> {
-                            EntityPlayer player = (EntityPlayer) e;
-                            player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
-                        });
             }
+
+            // Notify all parents of the death
+            ParentData parents = ParentData.fromNBT(get(PARENTS));
+            Arrays.stream(parents.getParentEntities(world))
+                    .filter(e -> e instanceof EntityPlayer)
+                    .forEach(e -> {
+                        EntityPlayer player = (EntityPlayer) e;
+                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
+                    });
 
             SavedVillagers.get(world).save(this);
         }
