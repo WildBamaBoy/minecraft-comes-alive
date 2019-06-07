@@ -542,10 +542,12 @@ public class EntityVillagerMCA extends EntityVillager {
         }
 
         boolean succeeded = rand.nextFloat() < successChance;
+        if (MCA.getConfig().enableDiminishingReturns && succeeded) {
+            heartsBoost -= history.getInteractionFatigue() * 0.05F;
+        }
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
-
         String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
         say(Optional.of(player), responseId);
     }
