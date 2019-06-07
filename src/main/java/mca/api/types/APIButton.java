@@ -85,7 +85,7 @@ public class APIButton {
 
         if (constraints.contains(EnumConstraint.ADULTS) && !villager.isChild()) {
             return true;
-        } else if (constraints.contains(EnumConstraint.ROMANTIC) && (!villager.isMarried() || villager.isMarriedTo(player.getUniqueID()))) {
+        } else if (constraints.contains(EnumConstraint.ROMANTIC) && !villager.isChild() && (!villager.isMarried() || villager.isMarriedTo(player.getUniqueID()))) {
             return true;
         } else if (constraints.contains(EnumConstraint.SPOUSE) && villager.isMarriedTo(player.getUniqueID())) {
             return true;
@@ -95,8 +95,7 @@ public class APIButton {
             return true;
         } else if (constraints.contains(EnumConstraint.NOT_FAMILY) && !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUniqueID()))) {
             return true;
-        }
-        else if (constraints.isEmpty()) {
+        } else if (constraints.isEmpty()) {
             return true;
         }
         return false;
