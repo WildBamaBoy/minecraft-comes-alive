@@ -10,6 +10,7 @@ import java.util.*;
 
 public class Localizer {
     private Map<String, String> localizerMap = new HashMap<String, String>();
+    private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
     public Localizer() {
         InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/en_us.lang");
@@ -34,6 +35,12 @@ public class Localizer {
     }
 
     public String localize(String key, String... vars) {
+        ArrayList<String> list = new ArrayList<>();
+        Collections.addAll(list, vars);
+        return localize(key, vars != null ? list : EMPTY_LIST);
+    }
+
+    public String localize(String key, ArrayList<String> vars) {
         String result = localizerMap.getOrDefault(key, key);
         if (result.equals(key)) {
             List<String> responses = new ArrayList<>();
@@ -51,17 +58,16 @@ public class Localizer {
         return parseVars(result, vars).replaceAll("\\\\", "");
     }
 
-    private String parseVars(String str, String... vars) {
+    private String parseVars(String str, ArrayList<String> vars) {
         int index = 1;
-
         if (str.contains("%Supporter%")) {
             str = str.replaceAll("%Supporter%", MCA.getInstance().getRandomSupporter());
         }
 
         String varString = "%v" + index + "%";
-        while (str.contains(varString)) {
+        while (str.contains("%v") && index < 10) { // signature of a var being present
             try {
-                str = str.replaceAll(varString, vars[index - 1]);
+                str = str.replaceAll(varString, vars.get(index - 1));
             } catch (IndexOutOfBoundsException e) {
                 str = str.replaceAll(varString, "");
                 MCA.getLog().warn("Failed to replace variable in localized string: " + str);
