@@ -593,15 +593,18 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.gift":
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
+                int giftValue = API.getGiftValueFromStack(stack);
                 if (!handleSpecialCaseGift(player, stack)) {
                     if (stack.getItem() == Items.GOLDEN_APPLE) {
                         set(IS_INFECTED, false);
                     } else {
-                        history.changeHearts(API.getGiftValueFromStack(stack));
+                        history.changeHearts(giftValue);
                         say(Optional.of(player), API.getResponseForGift(stack));
                     }
                 }
-                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                if (giftValue > 0) {
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                }
                 break;
             case "gui.button.procreate":
                 if (PlayerSaveData.get(player).getHasBaby()) {
