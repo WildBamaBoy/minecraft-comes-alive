@@ -1,5 +1,6 @@
 package mca.blocks;
 
+import com.google.common.base.Optional;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.Block;
@@ -31,7 +32,7 @@ public class BlockVillagerSpawner extends Block {
                 BlockPos above = pos.add(0, yMod + 1, 0);
 
                 if (world.isAirBlock(current) && world.isAirBlock(above)) {
-                    EntityVillagerMCA villager = new EntityVillagerMCA(world, null, null);
+                    EntityVillagerMCA villager = new EntityVillagerMCA(world, Optional.absent(), Optional.absent());
                     villager.setPosition(current.getX(), current.getY(), current.getZ());
                     world.spawnEntity(villager);
                     break;
