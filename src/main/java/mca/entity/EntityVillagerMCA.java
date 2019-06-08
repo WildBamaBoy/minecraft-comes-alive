@@ -530,11 +530,11 @@ public class EntityVillagerMCA extends EntityVillager {
 
     private void handleInteraction(EntityPlayerMP player, PlayerHistory history, APIButton button) {
         float successChance = 0.85F;
-        int heartsBoost = button.getConstraints().contains(EnumConstraint.ROMANTIC) ? 15 : 5;
+        int heartsBoost = button.getConstraints().contains(EnumConstraint.ADULTS) ? 15 : 5;
 
         String interactionName = button.getLangId().replace("gui.button.", "");
 
-        successChance -= button.getConstraints().contains(EnumConstraint.ROMANTIC) ? 0.25F : 0.0F;
+        successChance -= button.getConstraints().contains(EnumConstraint.ADULTS) ? 0.25F : 0.0F;
         successChance += (history.getHearts() / 10.0D) * 0.025F;
 
         if (MCA.getConfig().enableDiminishingReturns) {

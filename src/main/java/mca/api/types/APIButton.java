@@ -85,8 +85,6 @@ public class APIButton {
 
         if (constraints.contains(EnumConstraint.ADULTS) && !villager.isChild()) {
             return true;
-        } else if (constraints.contains(EnumConstraint.ROMANTIC) && !villager.isChild() && (!villager.isMarried() || villager.isMarriedTo(player.getUniqueID()))) {
-            return true;
         } else if (constraints.contains(EnumConstraint.SPOUSE) && villager.isMarriedTo(player.getUniqueID())) {
             return true;
         } else if (constraints.contains(EnumConstraint.NOT_SPOUSE) && !villager.isMarriedTo(player.getUniqueID())) {

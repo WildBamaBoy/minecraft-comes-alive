@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum EnumConstraint {
-    ROMANTIC("romantic"),
     FAMILY("family"),
     NOT_FAMILY("notfamily"),
     ADULTS("adults"),
