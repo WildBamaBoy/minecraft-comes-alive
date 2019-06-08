@@ -93,6 +93,15 @@ public class EventHooks {
     }
 
     @SubscribeEvent
+    public void onWorldUnload(WorldEvent.Unload event) {
+        // Only send crash reports on unloading the overworld. This will never change based on other mods installed
+        // and ensures only one crash report is sent per instance.
+        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) {
+            MCA.getInstance().checkForCrashReports();
+        }
+    }
+
+    @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         World world = event.getWorld();
         Entity entity = event.getEntity();

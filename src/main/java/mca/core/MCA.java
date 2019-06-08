@@ -34,6 +34,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -137,6 +138,18 @@ public class MCA {
 
     @EventHandler
     public void serverStopping(FMLServerStoppingEvent event) {
+        checkForCrashReports();
+    }
+
+    public String getRandomSupporter() {
+        if (supporters.length > 0) {
+            return supporters[new Random().nextInt(supporters.length)];
+        } else {
+            return API.getRandomName(EnumGender.getRandom());
+        }
+    }
+
+    public void checkForCrashReports() {
         if (MCA.getConfig().allowCrashReporting) {
             File crashReportsFolder = new File(System.getProperty("user.dir") + "/crash-reports/");
             File[] crashReportFiles = crashReportsFolder.listFiles(File::isFile);
@@ -144,6 +157,7 @@ public class MCA {
                 if (crashReportFiles != null) {
                     Optional<File> newestFile = Arrays.stream(crashReportFiles).max(Comparator.comparingLong(File::lastModified));
                     if (newestFile.isPresent() && newestFile.get().lastModified() > startupTimestamp) {
+                        MCA.getLog().warn("Crash detected! Attempting to upload report...");
                         Map<String, String> payload = new HashMap<>();
                         payload.put("minecraft_version", FMLCommonHandler.instance().getMinecraftServerInstance().getMinecraftVersion());
                         payload.put("operating_system", System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
@@ -159,26 +173,23 @@ public class MCA {
                         http.setDoOutput(true);
                         http.setFixedLengthStreamingMode(out.length);
                         http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                        http.setRequestProperty("User-Agent", "Minecraft Client " + FMLCommonHandler.instance().getMinecraftServerInstance().getMinecraftVersion());
                         http.connect();
-                        try(OutputStream os = http.getOutputStream()) {
-                            os.write(out);
-                        }
+                        OutputStream os = http.getOutputStream();
+                        os.write(out);
+                        os.flush();
+                        os.close();
+
                         if (http.getResponseCode() != 200) {
                             MCA.getLog().error("Failed to submit crash report. Non-OK response code returned: " + http.getResponseCode());
+                        } else {
+                            MCA.getLog().warn("Crash report submitted successfully.");
                         }
                     }
                 }
             } catch (IOException e) {
                 MCA.getLog().error("An unexpected error occurred while attempting to submit the crash report.", e);
             }
-        }
-    }
-
-    public String getRandomSupporter() {
-        if (supporters.length > 0) {
-            return supporters[new Random().nextInt(supporters.length)];
-        } else {
-            return API.getRandomName(EnumGender.getRandom());
         }
     }
 }
