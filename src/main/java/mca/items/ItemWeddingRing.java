@@ -23,7 +23,7 @@ public class ItemWeddingRing extends ItemSpecialCaseGift {
             response = "interaction.marry.fail.marriedtoother";
         } else if (this instanceof ItemEngagementRing && history.getHearts() < MCA.getConfig().marriageHeartsRequirement / 2) {
             response = "interaction.marry.fail.lowhearts";
-        } else if (history.getHearts() < MCA.getConfig().marriageHeartsRequirement) {
+        } else if (!(this instanceof ItemEngagementRing) && history.getHearts() < MCA.getConfig().marriageHeartsRequirement) {
             response = "interaction.marry.fail.lowhearts";
         } else {
             response = "interaction.marry.success";
