@@ -1,6 +1,7 @@
 package mca.core.forge;
 
 import mca.client.network.ClientMessageQueue;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.MCAServer;
 import mca.core.minecraft.BlocksMCA;
@@ -17,6 +18,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -32,6 +35,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.server.command.TextComponentHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +74,22 @@ public class EventHooks {
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         MCAServer.get().tick();
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (MCA.updateAvailable) {
+            TextComponentString updateMessage = new TextComponentString(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
+            String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
+
+            TextComponentString chatComponentUpdate = new TextComponentString(updateURLText);
+            chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
+            chatComponentUpdate.getStyle().setUnderlined(true);
+
+            event.player.sendMessage(updateMessage);
+            event.player.sendMessage(chatComponentUpdate);
+            MCA.updateAvailable = false;
+        }
     }
 
     @SubscribeEvent

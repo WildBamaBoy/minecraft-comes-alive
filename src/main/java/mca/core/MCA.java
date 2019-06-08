@@ -47,7 +47,7 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
 public class MCA {
     public static final String MODID = "mca";
     public static final String NAME = "Minecraft Comes Alive";
-    public static final String VERSION = "6.0.0-beta";
+    public static final String VERSION = "6.0.0";
     @SidedProxy(clientSide = "mca.core.forge.ClientProxy", serverSide = "mca.core.forge.ServerProxy")
     public static ServerProxy proxy;
     public static CreativeTabs creativeTab;
@@ -101,8 +101,8 @@ public class MCA {
 
         // Check for updates
         if (MCA.getConfig().allowUpdateChecking) {
-            String remoteVersion = Util.httpGet("http://minecraftcomesalive.com/api/latest");
-            if (!remoteVersion.equals(VERSION)) {
+            latestVersion = Util.httpGet("https://minecraftcomesalive.com/api/latest");
+            if (!latestVersion.equals(VERSION)) {
                 updateAvailable = true;
                 MCA.getLog().warn("An update for Minecraft Comes Alive is available: v" + latestVersion);
             }
