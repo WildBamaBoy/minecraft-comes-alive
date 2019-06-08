@@ -106,11 +106,12 @@ public class EntityVillagerMCA extends EntityVillager {
         this(worldIn);
 
         if (!worldIn.isRemote) {
-            set(GENDER, gender.isPresent() ? gender.get().getId() : EnumGender.getRandom().getId());
-            set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
+            EnumGender eGender = gender.isPresent() ? gender.get() : EnumGender.getRandom();
+            set(GENDER, eGender.getId());
+            set(VILLAGER_NAME, API.getRandomName(eGender));
             setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
-            set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), gender.get()));
+            set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), eGender));
 
             applySpecialAI();
         }
