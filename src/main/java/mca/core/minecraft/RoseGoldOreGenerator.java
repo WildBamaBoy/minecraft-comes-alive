@@ -1,6 +1,8 @@
 package mca.core.minecraft;
 
+import mca.core.MCA;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -25,6 +27,10 @@ public final class RoseGoldOreGenerator implements IWorldGenerator {
     }
 
     public void addOreSpawn(Block block, World world, Random random, int blockPosX, int blockPosZ, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn) {
+        if (block == BlocksMCA.ROSE_GOLD_ORE && !MCA.getConfig().allowRoseGoldGeneration) {
+            block = Blocks.STONE;
+        }
+
         int range = 25;
         for (int x = 0; x < chancesToSpawn; x++) {
             int posX = blockPosX + random.nextInt(maxX);

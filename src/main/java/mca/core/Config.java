@@ -33,6 +33,7 @@ public final class Config implements Serializable {
     public boolean enableAdminCommands;
     public boolean allowCrashReporting;
     public boolean allowUpdateChecking;
+    public boolean allowRoseGoldGeneration;
 
     public Config(FMLPreInitializationEvent event) {
         config = new Configuration(event.getSuggestedConfigurationFile());
@@ -61,6 +62,7 @@ public final class Config implements Serializable {
         enableAdminCommands = config.get("General", "Enable Admin Commands?", true, "Enables or disables MCA admin commands for ops.").getBoolean();
         allowCrashReporting = config.get("General", "Allow Crash Reporting?", true, "If enabled, sends crash reports to MCA developers.").getBoolean();
         allowUpdateChecking = config.get("General", "Allow Update Checking?", true, "If enabled, notifies you when an update to MCA is available.").getBoolean();
+        allowRoseGoldGeneration = config.get("General", "Allow Rose Gold World Generation", true, "If enabled, generates rose gold in your world. If disabled, generates stone instead.").getBoolean();
         config.save();
     }
 
