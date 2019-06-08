@@ -1,5 +1,6 @@
 package mca.client.render;
 
+import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumAgeState;
 import net.minecraft.client.Minecraft;
@@ -20,7 +21,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
     private static final float LABEL_SCALE = 0.027F;
 
     public RenderVillagerMCA(RenderManager manager) {
-        super(manager, new ModelBiped(0.0F, 0.0F, 64, 64), 0.5F);
+        super(manager, new ModelVillagerMCA(), 0.5F);
         this.addLayer(new LayerBipedArmor(this));
         this.addLayer(new LayerHeldItem(this));
     }
@@ -38,8 +39,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
     }
 
     @Override
-    public void renderName(EntityVillagerMCA entity, double x, double y, double z)
-    {
+    public void renderName(EntityVillagerMCA entity, double x, double y, double z) {
         super.renderName(entity, x, y ,z);
         if (canRenderName(entity)) {
             if (entity.getHealth() < entity.getMaxHealth()) {
@@ -56,8 +56,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         }
     }
 
-    private void renderHealth(EntityVillagerMCA villager, double posX, double posY, double posZ, int currentHealth, int maxHealth)
-    {
+    private void renderHealth(EntityVillagerMCA villager, double posX, double posY, double posZ, int currentHealth, int maxHealth) {
         final int redHeartU = 80;
         final int darkHeartU = 96;
         int heartsDrawn = 0;
