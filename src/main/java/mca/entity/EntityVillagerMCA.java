@@ -342,6 +342,12 @@ public class EntityVillagerMCA extends EntityVillager {
             history.setDialogueType(EnumDialogueType.ADULT);
             e.sendMessage(new TextComponentString(MCA.getLocalizer().localize("notify.child.grownup", this.get(VILLAGER_NAME))));
         });
+
+        // set profession away from child for villager children
+        if (getProfessionForge() == ProfessionsMCA.child) {
+            setProfession(ProfessionsMCA.randomProfession());
+            setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
+        }
     }
 
     @Override
