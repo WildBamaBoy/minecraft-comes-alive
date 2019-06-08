@@ -1,6 +1,7 @@
 package mca.core.minecraft;
 
 import mca.util.ItemStackCache;
+import mca.util.ResourceLocationCache;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
@@ -69,8 +70,12 @@ public class ProfessionsMCA {
     }
 
     public static VillagerProfession randomProfession() {
-        int i = new Random().nextInt(registry.getKeys().size() - 1);
-        return registry.getValue((ResourceLocation)registry.getKeys().toArray()[i]);
+        ResourceLocation professionResource = null;
+        while (professionResource == null || professionResource.getResourcePath().contains("nitwit") || professionResource.getResourcePath().contains("child")) {
+            int i = new Random().nextInt(registry.getKeys().size() - 1);
+            professionResource = (ResourceLocation)registry.getKeys().toArray()[i];
+        }
+        return registry.getValue(professionResource);
     }
 
     @Mod.EventBusSubscriber(modid = "mca")
