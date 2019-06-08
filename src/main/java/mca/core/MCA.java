@@ -102,7 +102,7 @@ public class MCA {
         // Check for updates
         if (MCA.getConfig().allowUpdateChecking) {
             latestVersion = Util.httpGet("https://minecraftcomesalive.com/api/latest");
-            if (!latestVersion.equals(VERSION)) {
+            if (!latestVersion.equals(VERSION) && !latestVersion.equals("")) {
                 updateAvailable = true;
                 MCA.getLog().warn("An update for Minecraft Comes Alive is available: v" + latestVersion);
             }

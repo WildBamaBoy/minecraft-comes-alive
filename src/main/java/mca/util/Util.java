@@ -137,6 +137,6 @@ public class Util {
         } catch (IOException e) {
             MCA.getLog().error("Failed to GET from: " + url);
         }
-        return MCA.VERSION; //default to returning the current version so update messages aren't shown on failure
+        return "";
     }
 }
