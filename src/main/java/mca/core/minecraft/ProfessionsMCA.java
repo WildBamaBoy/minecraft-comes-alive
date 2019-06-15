@@ -24,11 +24,11 @@ import java.util.Random;
 public class ProfessionsMCA {
     public static IForgeRegistry<VillagerProfession> registry;
 
-    public static final VillagerProfession guard = new VillagerProfession("mca:guard", "mca:textures/skins/", "mca:textures/skins/");
-    public static final VillagerProfession bandit = new VillagerProfession("mca:bandit", "mca:textures/skins/", "mca:textures/skins/");
-    public static final VillagerProfession child = new VillagerProfession("mca:child", "mca:textures/skins/", "mca:textures/skins/");
-    public static final VillagerProfession baker = new VillagerProfession("mca:baker", "mca:textures/skins/", "mca:textures/skins/");
-    public static final VillagerProfession miner = new VillagerProfession("mca:miner", "mca:textures/skins/", "mca:textures/skins/");
+    public static final VillagerProfession guard = new VillagerProfession("mca:guard", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+    public static final VillagerProfession bandit = new VillagerProfession("mca:bandit", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+    public static final VillagerProfession child = new VillagerProfession("mca:child", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+    public static final VillagerProfession baker = new VillagerProfession("mca:baker", "minecraft:textures/entity/villager/farmer.png", "minecraft:textures/entity/zombie_villager/zombie_farmer.png");
+    public static final VillagerProfession miner = new VillagerProfession("mca:miner", "minecraft:textures/entity/villager/smith.png", "minecraft:textures/entity/zombie_villager/zombie_smith.png");
 
     public static VillagerCareer guard_warrior;
     public static VillagerCareer guard_archer;
