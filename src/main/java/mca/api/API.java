@@ -95,8 +95,11 @@ public class API {
         }
 
         MCA.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
-        //FIXME
-        return "";
+        SkinsGroup randomGroup = null;
+        while (randomGroup == null || randomGroup.getGender() != gender) {
+            randomGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));
+        }
+        return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
     }
 
     /**

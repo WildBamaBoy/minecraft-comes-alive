@@ -26,6 +26,11 @@ public enum EnumGender {
         return new Random().nextBoolean() ? MALE : FEMALE;
     }
 
+    public static EnumGender byName(String name) {
+        Optional<EnumGender> gender = Arrays.stream(values()).filter((e) -> e.getStrName().equals(name)).findFirst();
+        return gender.isPresent() ? gender.get() : UNASSIGNED;
+    }
+
     public int getId() {
         return id;
     }
