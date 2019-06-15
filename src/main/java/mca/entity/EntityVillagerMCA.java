@@ -565,6 +565,8 @@ public class EntityVillagerMCA extends EntityVillager {
         Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
         if (button.isPresent() && button.get().getIsInteraction()) {
             handleInteraction(player, history, button.get());
+        } else if (!button.isPresent()) {
+            MCA.getLog().warn("Button not found for key and ID: " + guiKey + ", " + buttonId);
         }
 
         switch (buttonId) {

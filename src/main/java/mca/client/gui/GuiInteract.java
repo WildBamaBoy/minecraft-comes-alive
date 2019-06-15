@@ -107,7 +107,7 @@ public class GuiInteract extends GuiScreen {
 
         //Right mouse button
         if (inGiftMode && button == 1) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction("gui.button.gift", activeKey, villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUniqueID()));
         }
     }
 
@@ -251,7 +251,7 @@ public class GuiInteract extends GuiScreen {
 
         /* Anything that should notify the server is handled here */
         else if (btn.getApiButton().getNotifyServer()) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(id, activeKey, villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, id, villager.getUniqueID()));
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
             disableAllButtons();
