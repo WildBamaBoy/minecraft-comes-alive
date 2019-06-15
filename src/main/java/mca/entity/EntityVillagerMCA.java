@@ -26,6 +26,7 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -559,11 +560,11 @@ public class EntityVillagerMCA extends EntityVillager {
         say(Optional.of(player), responseId);
     }
 
-    public void handleButtonClick(EntityPlayerMP player, String buttonId) {
+    public void handleButtonClick(EntityPlayerMP player, String guiKey, String buttonId) {
         PlayerHistory history = getPlayerHistoryFor(player.getUniqueID());
-        APIButton button = API.getButtonById(buttonId);
-        if (button != null && button.getIsInteraction()) {
-            handleInteraction(player, history, button);
+        Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
+        if (button.isPresent() && button.get().getIsInteraction()) {
+            handleInteraction(player, history, button.get());
         }
 
         switch (buttonId) {

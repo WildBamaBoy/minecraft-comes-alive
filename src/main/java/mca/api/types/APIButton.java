@@ -61,10 +61,16 @@ public class APIButton {
         return height;
     }
 
+    /**
+     * Buttons that notify the server send a packet to the entity or server handler with the ID of the button that was pressed.
+     */
     public boolean getNotifyServer() {
         return notifyServer;
     }
 
+    /**
+     * Buttons that target the server are handled by a special handler instead of the entity itself on press.
+     */
     public boolean getTargetServer() {
         return targetServer;
     }
@@ -99,6 +105,10 @@ public class APIButton {
         return false;
     }
 
+    /**
+     * Interactions generate a response and modify hearts.
+     * @return
+     */
     public boolean getIsInteraction() {
         return this.isInteraction;
     }

@@ -21,7 +21,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteract extends GuiScreen {
@@ -46,10 +46,14 @@ public class GuiInteract extends GuiScreen {
     private int mouseX;
     private int mouseY;
 
+    // Tracks which page we're on in the GUI for sending button events
+    private String activeKey;
+
     public GuiInteract(EntityVillagerMCA villager, EntityPlayer player) {
         super();
         this.villager = villager;
         this.player = player;
+        this.activeKey = "main";
     }
 
     @Override
@@ -103,7 +107,7 @@ public class GuiInteract extends GuiScreen {
 
         //Right mouse button
         if (inGiftMode && button == 1) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction("gui.button.gift", villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction("gui.button.gift", activeKey, villager.getUniqueID()));
         }
     }
 
@@ -232,19 +236,22 @@ public class GuiInteract extends GuiScreen {
 
         /* Progression to different GUIs */
         if (id.equals("gui.button.interact")) {
+            activeKey = "interact";
             drawInteractButtonMenu();
             return;
         } else if (id.equals("gui.button.work")) {
+            activeKey = "work";
             drawWorkButtonMenu();
             return;
         } else if (id.equals("gui.button.backarrow")) {
             drawMainButtonMenu();
+            activeKey = "main";
             return;
         }
 
         /* Anything that should notify the server is handled here */
         else if (btn.getApiButton().getNotifyServer()) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(id, villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(id, activeKey, villager.getUniqueID()));
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
             disableAllButtons();

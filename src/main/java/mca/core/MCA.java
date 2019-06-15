@@ -15,6 +15,7 @@ import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.util.Util;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -100,7 +101,6 @@ public class MCA {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         NetMCA.registerMessages();
 
-        // Check for updates
         if (MCA.getConfig().allowUpdateChecking) {
             latestVersion = Util.httpGet("https://minecraftcomesalive.com/api/latest");
             if (!latestVersion.equals(VERSION) && !latestVersion.equals("")) {
@@ -109,7 +109,6 @@ public class MCA {
             }
         }
 
-        // Download supporters from remote
         supporters = Util.httpGet("http://minecraftcomesalive.com/api/supporters").split(",");
         MCA.getLog().info("Loaded " + supporters.length + " supporters.");
     }
@@ -157,6 +156,7 @@ public class MCA {
                 if (crashReportFiles != null) {
                     Optional<File> newestFile = Arrays.stream(crashReportFiles).max(Comparator.comparingLong(File::lastModified));
                     if (newestFile.isPresent() && newestFile.get().lastModified() > startupTimestamp) {
+                        // Raw Java for sending the POST request as the HttpClient from Apache libs is not present on servers.
                         MCA.getLog().warn("Crash detected! Attempting to upload report...");
                         Map<String, String> payload = new HashMap<>();
                         payload.put("minecraft_version", FMLCommonHandler.instance().getMinecraftServerInstance().getMinecraftVersion());
@@ -179,7 +179,6 @@ public class MCA {
                         os.write(out);
                         os.flush();
                         os.close();
-
                         if (http.getResponseCode() != 200) {
                             MCA.getLog().error("Failed to submit crash report. Non-OK response code returned: " + http.getResponseCode());
                         } else {

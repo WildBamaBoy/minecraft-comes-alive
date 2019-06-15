@@ -59,13 +59,15 @@ public class NetMCA {
     }
 
     public static class ButtonAction implements IMessage {
+        private String guiKey;
         private String buttonId;
         private UUID targetUUID;
 
         public ButtonAction() {
         }
 
-        public ButtonAction(String buttonId, @Nullable UUID targetUUID) {
+        public ButtonAction(String guiKey, String buttonId, @Nullable UUID targetUUID) {
+            this.guiKey = guiKey;
             this.buttonId = buttonId;
             this.targetUUID = targetUUID;
         }
@@ -73,6 +75,7 @@ public class NetMCA {
         @Override
         public void toBytes(ByteBuf buf) {
             buf.writeBoolean(targetUUID != null);
+            ByteBufUtils.writeUTF8String(buf, this.guiKey);
             ByteBufUtils.writeUTF8String(buf, this.buttonId);
 
             if (targetUUID != null) {
@@ -83,11 +86,16 @@ public class NetMCA {
         @Override
         public void fromBytes(ByteBuf buf) {
             boolean hasTarget = buf.readBoolean();
+            this.guiKey = ByteBufUtils.readUTF8String(buf);
             this.buttonId = ByteBufUtils.readUTF8String(buf);
 
             if (hasTarget) {
                 this.targetUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
             }
+        }
+
+        public String getGuiKey() {
+            return this.guiKey;
         }
 
         public String getButtonId() {
@@ -111,10 +119,8 @@ public class NetMCA {
             //The message can target a particular villager, or the server itself.
             if (!message.targetsServer()) {
                 EntityVillagerMCA villager = (EntityVillagerMCA) player.getServerWorld().getEntityFromUuid(message.targetUUID);
-                String buttonId = message.buttonId;
-
                 if (villager != null) {
-                    player.getServerWorld().addScheduledTask(() -> villager.handleButtonClick(player, buttonId));
+                    player.getServerWorld().addScheduledTask(() -> villager.handleButtonClick(player, message.guiKey, message.buttonId));
                 }
             } else {
                 ServerMessageHandler.handleMessage(player, message);

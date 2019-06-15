@@ -19,6 +19,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import org.apache.commons.io.IOUtils;
+import com.google.common.base.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,8 +47,17 @@ public class API {
         SkinsGroup[] skins = Util.readResourceAsJSON("api/skins.json", SkinsGroup[].class);
         Collections.addAll(skinGroups, skins);
 
-        //Read data from non-JSON files
-        loadNames();
+        //Load names
+        InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
+        try {
+            // read in all names and process into the correct list
+            List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
+            lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("\\=")[1]));
+            lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("\\=")[1]));
+        } catch (Exception e) {
+            MCA.getLog().fatal(e);
+            throw new RuntimeException("Failed to load all NPC names from file", e);
+        }
 
         //Read in buttons
         buttonMap.put("main", Util.readResourceAsJSON("api/gui/main.json", APIButton[].class));
@@ -75,19 +85,18 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomSkin(VillagerRegistry.VillagerProfession profession, EnumGender gender) {
-        // Loop through all skin groups to find the target group
-        for (SkinsGroup group : skinGroups) {
-            if (group.getGender().equals(gender.getStrName()) && group.getProfession().equals(profession.getRegistryName().toString())) {
-                return group.getPaths()[rng.nextInt(group.getPaths().length - 1)];
-            }
+        Optional<SkinsGroup> group = Optional.fromJavaUtil(
+                skinGroups.stream()
+                        .filter(g -> g.getGender() == gender && g.getProfession().equals(profession.getRegistryName().toString()))
+                        .findFirst());
+
+        if (group.isPresent()) {
+            return group.get().getPaths()[rng.nextInt(group.get().getPaths().length - 1)];
         }
 
         MCA.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
-        SkinsGroup randGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));
-        while (randGroup.getGender().equals(gender.getStrName())) {
-            randGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));
-        }
-        return randGroup.getPaths()[rng.nextInt(randGroup.getPaths().length - 1)];
+        //FIXME
+        return "";
     }
 
     /**
@@ -96,15 +105,8 @@ public class API {
      * @param id String id matching the targeted button
      * @return Instance of APIButton matching the ID provided
      */
-    public static APIButton getButtonById(String id) {
-        for (Map.Entry<String, APIButton[]> entry : buttonMap.entrySet()) {
-            for (APIButton button : entry.getValue()) {
-                if (button.getLangId().equals(id)) {
-                    return button;
-                }
-            }
-        }
-        return null;
+    public static Optional<APIButton> getButtonById(String key, String id) {
+        return Optional.fromJavaUtil(Arrays.stream(buttonMap.get(key)).filter(b -> b.getLangId().equals(id)).findFirst());
     }
 
     /**
@@ -127,23 +129,6 @@ public class API {
     public static String getResponseForGift(ItemStack stack) {
         int value = getGiftValueFromStack(stack);
         return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
-    }
-
-    /**
-     * Loads names from the names.lang file into the appropriate male or female names list
-     */
-    private static void loadNames() {
-        InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
-
-        try {
-            // read in all names and process into the correct list
-            List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
-            lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("\\=")[1]));
-            lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("\\=")[1]));
-        } catch (Exception e) {
-            MCA.getLog().fatal(e);
-            throw new RuntimeException("Failed to load all NPC names from file", e);
-        }
     }
 
     /**
@@ -171,10 +156,7 @@ public class API {
      * @param screen   GuiScreen instance the buttons should be added to
      */
     public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, EntityPlayer player, GuiScreen screen) {
-        // Get the private buttonList from the GuiScreen
         List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-
-        // Add all buttons found for the provided key
         for (APIButton b : buttonMap.get(guiKey)) {
             GuiButtonEx guiButton = new GuiButtonEx(screen, b);
             buttonList.add(guiButton);
@@ -205,12 +187,12 @@ public class API {
      */
     public static Optional<GuiButtonEx> getButton(String id, GuiScreen screen) {
         List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-        Optional<GuiButton> button = buttonList.stream().filter(
-                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getLangId().equals(id)).findFirst();
+        Optional<GuiButton> button = Optional.fromJavaUtil(buttonList.stream().filter(
+                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getLangId().equals(id)).findFirst());
 
         if (button.isPresent()) {
             return Optional.of((GuiButtonEx) button.get());
         }
-        return Optional.empty();
+        return Optional.absent();
     }
 }

@@ -1,13 +1,15 @@
 package mca.api.types;
 
+import mca.enums.EnumGender;
+
 public class SkinsGroup {
-    private String gender;
+    private EnumGender gender;
     private String profession;
     private String[] paths;
 
     public SkinsGroup(String profession, String gender, String[] paths) {
         this.profession = profession;
-        this.gender = gender;
+        this.gender = EnumGender.valueOf(gender);
         this.paths = paths;
     }
 
@@ -15,7 +17,7 @@ public class SkinsGroup {
         return profession;
     }
 
-    public String getGender() {
+    public EnumGender getGender() {
         return gender;
     }
 

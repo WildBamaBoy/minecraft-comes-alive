@@ -27,6 +27,8 @@ public class BlockVillagerSpawner extends Block {
         if (nearbyVillagers < MCA.getConfig().villagerSpawnerCap) {
             int yMod = 0;
 
+            // Start from the current point possible and count up until air is hit. This allows the spawner to
+            // be placed anywhere below ground and still spawn a villager on a top level.
             while (pos.getY() + yMod < 256) {
                 BlockPos current = pos.add(0, yMod, 0);
                 BlockPos above = pos.add(0, yMod + 1, 0);

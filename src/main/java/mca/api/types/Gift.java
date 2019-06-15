@@ -4,9 +4,6 @@ import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-/**
- * Class Gift is an item
- */
 public class Gift {
     private String type;
     private String name;
@@ -30,6 +27,10 @@ public class Gift {
         return value;
     }
 
+    /**
+     * Used for verifying if a given gift exists in the game's registries.
+     * @return True if the item/block exists.
+     */
     public boolean exists() {
         if (getType().equals("block")) {
             return Block.getBlockFromName(getName()) != null;

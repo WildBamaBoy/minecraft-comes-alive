@@ -73,7 +73,7 @@ public class GuiVillagerEditor extends GuiScreen {
     protected void actionPerformed(GuiButton guiButton) {
         APIButton btn = ((GuiButtonEx) guiButton).getApiButton();
         if (btn.getNotifyServer()) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(btn.getLangId(), villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction("editor", btn.getLangId(), villager.getUniqueID()));
         } else if (btn.getLangId().equals("gui.button.done")) {
             mc.displayGuiScreen(null);
         } else if (btn.getLangId().equals("gui.button.copyuuid")) {
