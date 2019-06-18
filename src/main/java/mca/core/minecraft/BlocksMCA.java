@@ -22,10 +22,7 @@ public final class BlocksMCA {
     public static final Block ROSE_GOLD_ORE = new BlockOre();
     public static final BlockVillagerSpawner VILLAGER_SPAWNER = new BlockVillagerSpawner();
 
-    private static final ArrayList<Block> BLOCKS = new ArrayList<Block>();
-
-    private BlocksMCA() {
-    }
+    private static final ArrayList<Block> BLOCKS = new ArrayList<>();
 
     public static void register(RegistryEvent.Register<Block> event) {
         ROSE_GOLD_BLOCK.setHardness(3.0F).setResistance(5.0F).setCreativeTab(MCA.creativeTab);

@@ -21,7 +21,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteract extends GuiScreen {
@@ -91,9 +91,6 @@ public class GuiInteract extends GuiScreen {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
 
-        int x = Mouse.getEventX() * width / mc.displayWidth;
-        int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-
         if (Mouse.getEventDWheel() < 0) {
             player.inventory.currentItem = player.inventory.currentItem == 8 ? 0 : player.inventory.currentItem + 1;
         } else if (Mouse.getEventDWheel() > 0) {
@@ -105,15 +102,13 @@ public class GuiInteract extends GuiScreen {
     protected void mouseClicked(int posX, int posY, int button) throws IOException {
         super.mouseClicked(posX, posY, button);
 
-        //Right mouse button
-        if (inGiftMode && button == 1) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUniqueID()));
-        }
+        // Right mouse button
+        if (inGiftMode && button == 1) NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUniqueID()));
     }
 
     @Override
     protected void keyTyped(char keyChar, int keyCode) {
-        //Hotkey to leave gift mode
+        // Hotkey to leave gift mode
         if (keyCode == Keyboard.KEY_ESCAPE) {
             if (inGiftMode) {
                 inGiftMode = false;
@@ -130,8 +125,8 @@ public class GuiInteract extends GuiScreen {
                 if (intInput > 0) {
                     player.inventory.currentItem = intInput - 1;
                 }
-            } catch (NumberFormatException e) {
-                //When a non numeric character is entered.
+            } catch (NumberFormatException ignored) {
+                // When a non numeric character is entered.
             }
         }
     }
@@ -157,13 +152,9 @@ public class GuiInteract extends GuiScreen {
             this.drawTexturedModalRect(5, 15, heartIconU, 0, 16, 16);
             this.drawTexturedModalRect(5, 30, marriageIconU, 0, 16, 16);
 
-            if (canDrawParentsIcon()) {
-                this.drawTexturedModalRect(5, 45, parentsIconU, 0, 16, 16);
-            }
+            if (canDrawParentsIcon()) this.drawTexturedModalRect(5, 45, parentsIconU, 0, 16, 16);
 
-            if (canDrawGiftIcon()) {
-                this.drawTexturedModalRect(5, 60, giftIconU, 0, 16, 16);
-            }
+            if (canDrawGiftIcon()) this.drawTexturedModalRect(5, 60, giftIconU, 0, 16, 16);
         }
         GL11.glPopMatrix();
     }
@@ -179,13 +170,9 @@ public class GuiInteract extends GuiScreen {
 
         if (hoveringOverMarriageIcon()) {
             String spouseName = villager.get(EntityVillagerMCA.SPOUSE_NAME);
-            if (marriageState == EnumMarriageState.MARRIED) {
-                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
-            } else if (marriageState == EnumMarriageState.ENGAGED) {
-                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
-            } else {
-                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
-            }
+            if (marriageState == EnumMarriageState.MARRIED) marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
+            else if (marriageState == EnumMarriageState.ENGAGED) marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
+            else marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
 
             this.drawHoveringText(marriageInfo, 35, 85);
         }
@@ -194,9 +181,7 @@ public class GuiInteract extends GuiScreen {
             this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 35, 115);
         }
 
-        if (canDrawGiftIcon() && hoveringOverGiftIcon()) {
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
-        }
+        if (canDrawGiftIcon() && hoveringOverGiftIcon()) this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
     }
 
     private boolean hoveringOverHeartsIcon() {
@@ -250,7 +235,7 @@ public class GuiInteract extends GuiScreen {
         }
 
         /* Anything that should notify the server is handled here */
-        else if (btn.getApiButton().getNotifyServer()) {
+        else if (btn.getApiButton().isNotifyServer()) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, id, villager.getUniqueID()));
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
@@ -283,9 +268,7 @@ public class GuiInteract extends GuiScreen {
     private void disableButton(String id) {
         Optional<GuiButtonEx> b = API.getButton(id, this);
 
-        if (b.isPresent()) {
-            b.get().enabled = false;
-        }
+        b.ifPresent(guiButtonEx -> guiButtonEx.enabled = false);
     }
 
     private void enableAllButtons() {

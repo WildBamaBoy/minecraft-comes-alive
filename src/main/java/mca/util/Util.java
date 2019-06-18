@@ -25,9 +25,6 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
 public class Util {
     private static final String RESOURCE_PREFIX = "assets/mca/";
 
-    private Util() {
-    }
-
     /**
      * Finds a y position given an x,y,z coordinate triple that is assumed to be the world's "ground".
      *
@@ -134,7 +131,7 @@ public class Util {
             }
             in.close();
             return response.toString();
-        } catch (IOException e) {
+        } catch (IOException ignored) {
             MCA.getLog().error("Failed to GET from: " + url);
         }
         return "";

@@ -7,9 +7,10 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Localizer {
-    private Map<String, String> localizerMap = new HashMap<String, String>();
+    private Map<String, String> localizerMap = new HashMap<>();
     private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
     public Localizer() {
@@ -43,16 +44,8 @@ public class Localizer {
     public String localize(String key, ArrayList<String> vars) {
         String result = localizerMap.getOrDefault(key, key);
         if (result.equals(key)) {
-            List<String> responses = new ArrayList<>();
-            for (String value : localizerMap.keySet()) {
-                if (value.contains(key)) {
-                    responses.add(localizerMap.get(value).replace("\\", ""));
-                }
-            }
-
-            if (responses.size() > 0) {
-                result = responses.get(new Random().nextInt(responses.size()));
-            }
+            List<String> responses = localizerMap.keySet().stream().filter(key::contains).collect(Collectors.toList());
+            if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
 
         return parseVars(result, vars).replaceAll("\\\\", "");

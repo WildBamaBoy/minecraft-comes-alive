@@ -84,7 +84,7 @@ public class EntityGrimReaper extends EntityMob {
     }
 
     public void setAttackState(EnumReaperAttackState state) {
-        //Only update if needed so that sounds only play once.
+        // Only update if needed so that sounds only play once.
         if (this.dataManager.get(ATTACK_STATE) != state.getId()) {
             this.dataManager.set(ATTACK_STATE, state.getId());
 
@@ -112,9 +112,9 @@ public class EntityGrimReaper extends EntityMob {
     public boolean attackEntityFrom(DamageSource source, float damage) {
         bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 
-        //Ignore wall damage and fire damage.
+        // Ignore wall damage and fire damage.
         if (source == DamageSource.IN_WALL || source == DamageSource.ON_FIRE || source.isExplosion() || source == DamageSource.IN_FIRE) {
-            //Teleport out of any walls we may end up in.
+            // Teleport out of any walls we may end up in.
             if (source == DamageSource.IN_WALL) {
                 teleportTo(this.posX, this.posY + 3, this.posZ);
             }
@@ -122,7 +122,7 @@ public class EntityGrimReaper extends EntityMob {
             return false;
         }
 
-        //Ignore damage when blocking, and teleport behind the player when they attempt to block.
+        // Ignore damage when blocking, and teleport behind the player when they attempt to block.
         else if (!world.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getImmediateSource() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) source.getImmediateSource();
 
@@ -135,7 +135,7 @@ public class EntityGrimReaper extends EntityMob {
             return false;
         }
 
-        //Randomly portal behind the player who just attacked.
+        // Randomly portal behind the player who just attacked.
         else if (!world.isRemote && source.getImmediateSource() instanceof EntityPlayer && rand.nextFloat() >= 0.30F) {
             EntityPlayer player = (EntityPlayer) source.getImmediateSource();
 
@@ -145,7 +145,7 @@ public class EntityGrimReaper extends EntityMob {
             teleportTo(player.posX - (deltaX * 2), player.posY + 2, this.posZ - (deltaZ * 2));
         }
 
-        //Teleport behind the player who fired an arrow and ignore its damage.
+        // Teleport behind the player who fired an arrow and ignore its damage.
         else if (source.getImmediateSource() instanceof EntityArrow) {
             EntityArrow arrow = (EntityArrow) source.getImmediateSource();
 
@@ -161,7 +161,7 @@ public class EntityGrimReaper extends EntityMob {
             return false;
         }
 
-        //Still take damage when healing, but reduced by a third.
+        // Still take damage when healing, but reduced by a third.
         else if (this.getAttackState() == EnumReaperAttackState.REST) {
             damage /= 3;
         }
@@ -170,9 +170,9 @@ public class EntityGrimReaper extends EntityMob {
 
         if (!world.isRemote && this.getHealth() <= (this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() / 2) && healingCooldown == 0) {
             setAttackState(EnumReaperAttackState.REST);
-            healingCooldown = 4200; //3 minutes 30 seconds
+            healingCooldown = 4200; // 3 minutes 30 seconds
             teleportTo(this.posX, this.posY + 8, this.posZ);
-            setStateTransitionCooldown(1200); //1 minute
+            setStateTransitionCooldown(1200); // 1 minute
         }
 
         return true;
@@ -180,6 +180,7 @@ public class EntityGrimReaper extends EntityMob {
 
     protected void attackEntity(Entity entity, float damage) {
         EntityLivingBase entityToAttack = this.getAttackTarget();
+        if (entityToAttack == null) return;
 
         // Set attack state to post attack.
         // If we're blocking, we will teleport away instead of attacking to prevent an unfair attack.
@@ -197,16 +198,16 @@ public class EntityGrimReaper extends EntityMob {
                 }
 
                 setAttackState(EnumReaperAttackState.POST);
-                setStateTransitionCooldown(10); //For preventing immediate return to the PRE or IDLE stage. Ticked down in onUpdate()
+                setStateTransitionCooldown(10); // For preventing immediate return to the PRE or IDLE stage. Ticked down in onUpdate()
             }
         }
 
-        //Check if we're waiting for cooldown from the last attack.
+        // Check if we're waiting for cooldown from the last attack.
         if (getStateTransitionCooldown() == 0) {
-            //Within 3 blocks from the target, ready the scythe
+            // Within 3 blocks from the target, ready the scythe
             if (getDistance(entityToAttack) <= 3.5D) {
-                //Check to see if the player's blocking, then teleport behind them.
-                //Also randomly swap their selected item with something else in the hotbar and apply blindness.
+                // Check to see if the player's blocking, then teleport behind them.
+                // Also randomly swap their selected item with something else in the hotbar and apply blindness.
                 if (entityToAttack instanceof EntityPlayer) {
                     EntityPlayer player = (EntityPlayer) entityToAttack;
 
@@ -227,9 +228,9 @@ public class EntityGrimReaper extends EntityMob {
 
                             player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.world.getDifficulty().getDifficultyId() * 40, 1));
                         }
-                    } else //If the player is not blocking, ready the scythe, or randomly block their attack.
+                    } else // If the player is not blocking, ready the scythe, or randomly block their attack.
                     {
-                        //Don't block if we've already committed to an attack.
+                        // Don't block if we've already committed to an attack.
                         if (rand.nextFloat() >= 40.0F && getAttackState() != EnumReaperAttackState.PRE) {
                             setStateTransitionCooldown(20);
                             setAttackState(EnumReaperAttackState.BLOCK);
@@ -239,7 +240,7 @@ public class EntityGrimReaper extends EntityMob {
                         }
                     }
                 }
-            } else //Reset the attacking state when we're more than 3 blocks away.
+            } else // Reset the attacking state when we're more than 3 blocks away.
             {
                 setAttackState(EnumReaperAttackState.IDLE);
             }
@@ -273,7 +274,7 @@ public class EntityGrimReaper extends EntityMob {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        extinguish(); //No fire.
+        extinguish(); // No fire.
 
         if (!MCA.getConfig().allowGrimReaper) {
             setDead();
@@ -286,13 +287,13 @@ public class EntityGrimReaper extends EntityMob {
             this.getMoveHelper().setMoveTo(entityToAttack.posX, entityToAttack.posY, entityToAttack.posZ, 6.0F);
         }
 
-        //Increment floating ticks on the client when resting.
+        // Increment floating ticks on the client when resting.
         if (world.isRemote && getAttackState() == EnumReaperAttackState.REST) {
             floatingTicks += 0.1F;
         }
 
-        //Increase health when resting and check to stop rest state.
-        //Runs on common to spawn lightning.
+        // Increase health when resting and check to stop rest state.
+        // Runs on common to spawn lightning.
         if (getAttackState() == EnumReaperAttackState.REST) {
             if (!world.isRemote && getStateTransitionCooldown() == 1) {
                 setAttackState(EnumReaperAttackState.IDLE);
@@ -300,7 +301,7 @@ public class EntityGrimReaper extends EntityMob {
             } else if (!world.isRemote && getStateTransitionCooldown() % 100 == 0) {
                 this.setHealth(this.getHealth() + MathHelper.clamp(10.5F - (timesHealed * 3.5F), 3.0F, 10.5F));
 
-                //Let's have a light show.
+                // Let's have a light show.
                 int dX = rand.nextInt(8) + 4 * rand.nextFloat() >= 0.50F ? 1 : -1;
                 int dZ = rand.nextInt(8) + 4 * rand.nextFloat() >= 0.50F ? 1 : -1;
                 int y = Util.getSpawnSafeTopLevel(world, (int) posX + dX, 256, (int) posZ + dZ);
@@ -308,7 +309,7 @@ public class EntityGrimReaper extends EntityMob {
                 EntityLightningBolt bolt = new EntityLightningBolt(world, dX, y, dZ, false);
                 world.addWeatherEffect(bolt);
 
-                //Also spawn a random skeleton or zombie.
+                // Also spawn a random skeleton or zombie.
                 if (!world.isRemote) {
                     EntityMob mob = rand.nextFloat() >= 0.50F ? new EntityZombie(world) : new EntitySkeleton(world);
                     mob.setPosition(posX + dX + 4, y, posZ + dZ + 4);
@@ -322,7 +323,7 @@ public class EntityGrimReaper extends EntityMob {
             }
         }
 
-        //Prevent flying off into oblivion on death...
+        // Prevent flying off into oblivion on death...
         if (this.getHealth() <= 0.0F) {
             motionX = 0;
             motionY = 0;
@@ -330,14 +331,14 @@ public class EntityGrimReaper extends EntityMob {
             return;
         }
 
-        //Stop at our current position if resting
+        // Stop at our current position if resting
         if (getAttackState() == EnumReaperAttackState.REST) {
             motionX = 0;
             motionY = 0;
             motionZ = 0;
         }
 
-        //Logic for flying.
+        // Logic for flying.
         fallDistance = 0.0F;
 
         if (motionY > 0) {
@@ -347,7 +348,7 @@ public class EntityGrimReaper extends EntityMob {
             motionY = motionY * 0.6F + yMod * 0.3F;
         }
 
-        //Tick down cooldowns.
+        // Tick down cooldowns.
         if (getStateTransitionCooldown() > 0) {
             setStateTransitionCooldown(getStateTransitionCooldown() - 1);
         }
@@ -356,15 +357,15 @@ public class EntityGrimReaper extends EntityMob {
             healingCooldown--;
         }
 
-        //See if our entity to attack has died at any point.
+        // See if our entity to attack has died at any point.
         if (entityToAttack != null && entityToAttack.isDead) {
             this.setAttackTarget(null);
             setAttackState(EnumReaperAttackState.IDLE);
         }
 
-        //Move towards target if we're not resting
+        // Move towards target if we're not resting
         if (entityToAttack != null && getAttackState() != EnumReaperAttackState.REST) {
-            //If we have a creature to attack, we need to move downwards if we're above it, and vice-versa.
+            // If we have a creature to attack, we need to move downwards if we're above it, and vice-versa.
             double sqDistanceTo = Math.sqrt(Math.pow(entityToAttack.posX - posX, 2) + Math.pow(entityToAttack.posZ - posZ, 2));
             float moveAmount = 0.0F;
 

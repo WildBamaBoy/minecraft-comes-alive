@@ -71,15 +71,13 @@ public final class Config implements Serializable {
     }
 
     public List<IConfigElement> getCategories() {
-        List<IConfigElement> elements = new ArrayList<IConfigElement>();
+        List<IConfigElement> elements = new ArrayList<>();
 
         for (String s : config.getCategoryNames()) {
-            if (!s.equals("server")) {
-                IConfigElement element = new ConfigElement(config.getCategory(s));
-                for (IConfigElement e : element.getChildElements()) {
-                    elements.add(e);
-                }
-            }
+            if (s.equals("server")) continue;
+
+            IConfigElement element = new ConfigElement(config.getCategory(s));
+            elements.addAll(element.getChildElements());
         }
 
         return elements;

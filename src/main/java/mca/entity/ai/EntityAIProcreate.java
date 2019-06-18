@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import lombok.RequiredArgsConstructor;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
@@ -12,13 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 
+@RequiredArgsConstructor
 public class EntityAIProcreate extends EntityAIBase {
     private final EntityVillagerMCA villager;
     public int procreateTimer;
-
-    public EntityAIProcreate(EntityVillagerMCA villager) {
-        this.villager = villager;
-    }
 
     @Override
     public boolean shouldExecute() {
@@ -27,9 +25,7 @@ public class EntityAIProcreate extends EntityAIBase {
 
     @Override
     public void updateTask() {
-        if (procreateTimer % 5 == 0) {
-            villager.spawnParticles(EnumParticleTypes.HEART);
-        }
+        if (procreateTimer % 5 == 0) villager.spawnParticles(EnumParticleTypes.HEART);
 
         if (--procreateTimer <= 0) {
             villager.set(EntityVillagerMCA.IS_PROCREATING, false);
@@ -40,9 +36,8 @@ public class EntityAIProcreate extends EntityAIBase {
                 spousePlayer.inventory.addItemStackToInventory(new ItemStack(villager.getRNG().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
                 PlayerSaveData.get(spousePlayer).setHasBaby(true);
 
-                if (villager.getRNG().nextFloat() < MCA.getConfig().chanceToHaveTwins / 100) {
+                if (villager.getRNG().nextFloat() < MCA.getConfig().chanceToHaveTwins / 100)
                     spousePlayer.inventory.addItemStackToInventory(new ItemStack(villager.getRNG().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
-                }
             }
         }
     }

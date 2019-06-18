@@ -1,31 +1,17 @@
 package mca.api.types;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
+@AllArgsConstructor
+@Getter
 public class Gift {
     private String type;
     private String name;
     private int value;
-
-    public Gift(String type, String name, int value) {
-        this.type = type;
-        this.name = name;
-        this.value = value;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getValue() {
-        return value;
-    }
 
     /**
      * Used for verifying if a given gift exists in the game's registries.

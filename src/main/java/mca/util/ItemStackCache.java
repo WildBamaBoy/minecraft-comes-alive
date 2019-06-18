@@ -10,9 +10,7 @@ public class ItemStackCache {
     private static Map<Item, ItemStack> cache = new HashMap<>();
 
     public static ItemStack get(Item item) {
-        if (!cache.containsKey(item)) {
-            cache.put(item, new ItemStack(item, 1));
-        }
+        if (!cache.containsKey(item)) cache.put(item, new ItemStack(item, 1));
         return cache.get(item);
     }
 }

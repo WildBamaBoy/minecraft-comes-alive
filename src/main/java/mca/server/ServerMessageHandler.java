@@ -6,8 +6,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 
 public class ServerMessageHandler {
-    private ServerMessageHandler() {
-    }
 
     public static void handleMessage(EntityPlayerMP player, NetMCA.ButtonAction message) {
         switch (message.getButtonId()) {

@@ -8,9 +8,6 @@ import java.util.Map;
 public class ResourceLocationCache {
     private static Map<String, ResourceLocation> cache = new HashMap<>();
 
-    private ResourceLocationCache() {
-    }
-
     public static ResourceLocation getResourceLocationFor(String location) {
         if (cache.containsKey(location)) {
             return cache.get(location);

@@ -1,5 +1,6 @@
 package mca.entity.data;
 
+import lombok.Getter;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.enums.EnumMarriageState;
@@ -11,10 +12,12 @@ import net.minecraft.world.storage.WorldSavedData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Getter
 public class PlayerSaveData extends WorldSavedData {
     private static final String PREFIX = "MCA-Player-V1-";
 
@@ -78,18 +81,6 @@ public class PlayerSaveData extends WorldSavedData {
         markDirty();
     }
 
-    public UUID getSpouseUUID() {
-        return spouseUUID;
-    }
-
-    public String getSpouseName() {
-        return spouseName;
-    }
-
-    public boolean getHasBaby() {
-        return hasBaby;
-    }
-
     public void setHasBaby(boolean value) {
         this.hasBaby = value;
         markDirty();
@@ -102,13 +93,7 @@ public class PlayerSaveData extends WorldSavedData {
     }
 
     public List<Field> getDataFields() {
-        List<Field> fList = new ArrayList<>();
-        for (Field f : this.getClass().getDeclaredFields()) {
-            if (!Modifier.isFinal(f.getModifiers())) {
-                fList.add(f);
-            }
-        }
-        return fList;
+        return Arrays.stream(this.getClass().getDeclaredFields()).filter(f -> !Modifier.isFinal(f.getModifiers())).collect(Collectors.toList());
     }
 
     public void dump(EntityPlayer player) {

@@ -9,6 +9,7 @@ import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.world.World;
@@ -20,6 +21,7 @@ public class GuiHandler implements IGuiHandler {
         switch (guiId) {
             case Constants.GUI_ID_INVENTORY:
                 EntityVillagerMCA villager = (EntityVillagerMCA) world.getEntityByID(entityId);
+                if (villager == null || villager.inventory == null) return null;
                 return new ContainerChest(player.inventory, villager.inventory, player);
             default:
                 return null;
@@ -30,7 +32,9 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int entityId, int unused1, int unused2) {
         switch (guiId) {
             case Constants.GUI_ID_INVENTORY:
-                return new GuiChest(player.inventory, ((EntityVillagerMCA) world.getEntityByID(entityId)).inventory);
+                Entity entity = world.getEntityByID(entityId);
+                if (entity == null) return null;
+                return new GuiChest(player.inventory, ((EntityVillagerMCA) entity).inventory);
             case Constants.GUI_ID_INTERACT:
                 return new GuiInteract((EntityVillagerMCA) world.getEntityByID(entityId), player);
             case Constants.GUI_ID_NAMEBABY:

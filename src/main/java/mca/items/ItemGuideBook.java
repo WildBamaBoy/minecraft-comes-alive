@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextComponentUtils;
 import net.minecraft.world.World;
 
 public class ItemGuideBook extends ItemWrittenBook {
+
     public ItemGuideBook() {
         super();
     }
@@ -30,9 +31,7 @@ public class ItemGuideBook extends ItemWrittenBook {
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int unknownInt, boolean unknownBoolean) {
         super.onUpdate(itemStack, world, entity, unknownInt, unknownBoolean);
 
-        if (!world.isRemote && !itemStack.hasTagCompound()) {
-            ItemsMCA.setBookNBT(itemStack);
-        }
+        if (!world.isRemote && !itemStack.hasTagCompound()) ItemsMCA.setBookNBT(itemStack);
     }
 
     @Override

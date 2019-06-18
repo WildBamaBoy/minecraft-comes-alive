@@ -1,5 +1,7 @@
 package mca.api.types;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,68 +14,18 @@ import java.util.List;
  * These buttons are dynamically attached to a GuiScreen and include additional instruction/constraints for building
  * and processing interactions.
  */
+@AllArgsConstructor
 public class APIButton {
-    private int id;             //numeric id
-    private String identifier;  //string identifier for the button in the .lang file
-    private int x;              //x position
-    private int y;              //y position
-    private int width;          //button width
-    private int height;         //button height
-    private boolean notifyServer;   //whether the button press is sent to the server for processing
-    private boolean targetServer;   //whether the button is processed by the villager or the server itself
-    private String constraints;     //list of EnumConstraints separated by a pipe character |
-    private boolean isInteraction;  //whether the button is an interaction that generates a response and boosts/decreases hearts
-
-    public APIButton(int id, String identifier, int x, int y, int width, int height, boolean notifyServer, boolean targetServer, String constraints, boolean isInteraction) {
-        this.id = id;
-        this.identifier = identifier;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.notifyServer = notifyServer;
-        this.targetServer = targetServer;
-        this.constraints = constraints;
-        this.isInteraction = isInteraction;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getLangId() {
-        return identifier;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Buttons that notify the server send a packet to the entity or server handler with the ID of the button that was pressed.
-     */
-    public boolean getNotifyServer() {
-        return notifyServer;
-    }
-
-    /**
-     * Buttons that target the server are handled by a special handler instead of the entity itself on press.
-     */
-    public boolean getTargetServer() {
-        return targetServer;
-    }
+    @Getter private int id;             // numeric id
+    @Getter private String langId;  // string identifier for the button in the .lang file
+    @Getter private int x;              // x position
+    @Getter private int y;              // y position
+    @Getter private int width;          // button width
+    @Getter private int height;         // button height
+    @Getter private boolean notifyServer;   // whether the button press is sent to the server for processing
+    @Getter private boolean targetServer;   // whether the button is processed by the villager or the server itself
+    private String constraints;     // list of EnumConstraints separated by a pipe character |
+    @Getter private boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
 
     public List<EnumConstraint> getConstraints() {
         return EnumConstraint.fromStringList(constraints);
@@ -103,13 +55,5 @@ public class APIButton {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Interactions generate a response and modify hearts.
-     * @return
-     */
-    public boolean getIsInteraction() {
-        return this.isInteraction;
     }
 }

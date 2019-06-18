@@ -66,14 +66,12 @@ public class ItemBaby extends Item {
         int posY = pos.getY() + 1;
         int posZ = pos.getZ();
 
-        if (world.isRemote) {
-            if (getBabyName(stack).equals("")) { //Right-clicking an unnamed baby allows you to name it
-                player.openGui(MCA.getInstance(), Constants.GUI_ID_NAMEBABY, player.world, player.getEntityId(), 0, 0);
-            }
-        }
+        // Right-clicking an unnamed baby allows you to name it
+        if (world.isRemote && getBabyName(stack).equals(""))
+            player.openGui(MCA.getInstance(), Constants.GUI_ID_NAMEBABY, player.world, player.getEntityId(), 0, 0);
 
         if (!world.isRemote) {
-            if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { //Name is good and we're ready to grow
+            if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
                 EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.child), Optional.of(this.isMale ? EnumGender.MALE : EnumGender.FEMALE));
                 child.set(EntityVillagerMCA.VILLAGER_NAME, getBabyName(stack));
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
@@ -121,26 +119,17 @@ public class ItemBaby extends Item {
             int ageInMinutes = nbt.getInteger("age");
             String ownerName = nbt.getUniqueId("ownerUUID").equals(player.getUniqueID()) ? MCA.getLocalizer().localize("label.you") : nbt.getString("ownerName");
 
-            if (getBabyName(stack).equals("")) {
+            if (getBabyName(stack).equals(""))
                 tooltip.add(textColor + loc.localize("gui.label.name") + " " + Constants.Format.RESET + MCA.getLocalizer().localize("label.unnamed"));
-            } else {
+            else
                 tooltip.add(textColor + loc.localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name"));
-            }
 
             tooltip.add(textColor + loc.localize("gui.label.age") + " " + Constants.Format.RESET + ageInMinutes + " " + (ageInMinutes == 1 ? loc.localize("gui.label.minute") : loc.localize("gui.label.minutes")));
             tooltip.add(textColor + loc.localize("gui.label.parent") + " " + Constants.Format.RESET + ownerName);
 
-            if (nbt.getBoolean("isInfected")) {
-                tooltip.add(Constants.Color.GREEN + loc.localize("gui.label.infected"));
-            }
-
-            if (isReadyToGrowUp(stack)) {
-                tooltip.add(Constants.Color.GREEN + loc.localize("gui.label.readytogrow"));
-            }
-
-            if (nbt.getString("name").equals(loc.localize("gui.label.unnamed"))) {
-                tooltip.add(Constants.Color.YELLOW + loc.localize("gui.label.rightclicktoname"));
-            }
+            if (nbt.getBoolean("isInfected")) tooltip.add(Constants.Color.GREEN + loc.localize("gui.label.infected"));
+            if (isReadyToGrowUp(stack)) tooltip.add(Constants.Color.GREEN + loc.localize("gui.label.readytogrow"));
+            if (nbt.getString("name").equals(loc.localize("gui.label.unnamed"))) tooltip.add(Constants.Color.YELLOW + loc.localize("gui.label.rightclicktoname"));
         }
     }
 

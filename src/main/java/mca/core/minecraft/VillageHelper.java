@@ -14,39 +14,26 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class VillageHelper {
-    public static void tick(World world) {
-        List<Village> villageList = world.getVillageCollection().getVillageList();
 
-        for (Village village : villageList) {
-            spawnGuards(world, village);
-        }
+    public static void tick(World world) {
+        world.getVillageCollection().getVillageList().forEach(v -> spawnGuards(world, v));
     }
 
     public static void forceSpawnGuards(EntityPlayerMP player) {
         Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
-
-        if (nearestVillage != null) {
-            spawnGuards(player.world, nearestVillage);
-        } else {
-            player.sendMessage(new TextComponentString("No village found!"));
-        }
+        spawnGuards(player.world, nearestVillage);
     }
 
     public static void forceRaid(EntityPlayerMP player) {
         Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
-
-        if (nearestVillage != null) {
-            startRaid(player.world, nearestVillage);
-        } else {
-            player.sendMessage(new TextComponentString("No village found!"));
-        }
+        startRaid(player.world, nearestVillage);
     }
 
     private static void spawnGuards(World world, Village village) {
         int guardCapacity = village.getNumVillagers() / MCA.getConfig().guardSpawnRate;
         int guards = 0;
 
-        //Grab all villagers in the area
+        // Grab all villagers in the area
         List<EntityVillagerMCA> list = world.getEntitiesWithinAABB(EntityVillagerMCA.class,
                 new AxisAlignedBB((double) (village.getCenter().getX() - village.getVillageRadius()),
                         (double) (village.getCenter().getY() - 4),
@@ -55,14 +42,12 @@ public class VillageHelper {
                         (double) (village.getCenter().getY() + 4),
                         (double) (village.getCenter().getZ() + village.getVillageRadius())));
 
-        //Count up the guards
+        // Count up the guards
         for (EntityVillagerMCA villager : list) {
-            if (villager.getProfessionForge().getRegistryName().equals(ProfessionsMCA.guard.getRegistryName())) {
-                guards++;
-            }
+            if (villager.getProfessionForge().getRegistryName().equals(ProfessionsMCA.guard.getRegistryName())) guards++;
         }
 
-        //Spawn a new guard if we don't have enough
+        // Spawn a new guard if we don't have enough
         if (guards < guardCapacity) {
             Vec3d spawnPos = findRandomSpawnPos(world, village, village.getCenter(), 2, 4, 2);
 
@@ -91,32 +76,27 @@ public class VillageHelper {
         for (int i = 0; i < 10; ++i) {
             BlockPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
 
-            if (village.isBlockPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new BlockPos(x, y, z), blockpos)) {
+            if (village.isBlockPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new BlockPos(x, y, z), blockpos))
                 return new Vec3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
-            }
         }
 
         return null;
     }
 
     private static boolean isAreaClearAround(World world, BlockPos blockSize, BlockPos blockLocation) {
-        if (!world.getBlockState(blockLocation.down()).isTopSolid()) {
-            return false;
-        } else {
-            int i = blockLocation.getX() - blockSize.getX() / 2;
-            int j = blockLocation.getZ() - blockSize.getZ() / 2;
+        if (!world.getBlockState(blockLocation.down()).isTopSolid()) return false;
+        int i = blockLocation.getX() - blockSize.getX() / 2;
+        int j = blockLocation.getZ() - blockSize.getZ() / 2;
 
-            for (int k = i; k < i + blockSize.getX(); ++k) {
-                for (int l = blockLocation.getY(); l < blockLocation.getY() + blockSize.getY(); ++l) {
-                    for (int i1 = j; i1 < j + blockSize.getZ(); ++i1) {
-                        if (world.getBlockState(new BlockPos(k, l, i1)).isNormalCube()) {
-                            return false;
-                        }
+        for (int k = i; k < i + blockSize.getX(); ++k) {
+            for (int l = blockLocation.getY(); l < blockLocation.getY() + blockSize.getY(); ++l) {
+                for (int i1 = j; i1 < j + blockSize.getZ(); ++i1) {
+                    if (world.getBlockState(new BlockPos(k, l, i1)).isNormalCube()) {
+                        return false;
                     }
                 }
             }
-
-            return true;
         }
+        return true;
     }
 }

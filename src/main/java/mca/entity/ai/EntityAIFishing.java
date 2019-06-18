@@ -43,9 +43,8 @@ public class EntityAIFishing extends AbstractEntityAIChore {
             targetWater = nearbyStaticLiquid.stream()
                     .filter((p) -> villager.world.getBlockState(p).getBlock() == Blocks.WATER)
                     .min(Comparator.comparingDouble(villager::getDistanceSq)).orElse(null);
-        } else if (villager.getDistanceSq(targetWater) > 5.0D) {
-            villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetWater), 0.8D);
-        } else if (villager.getDistanceSq(targetWater) < 5.0D) {
+        } else if (villager.getDistanceSq(targetWater) > 5.0D) villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetWater), 0.8D);
+        else if (villager.getDistanceSq(targetWater) < 5.0D) {
             villager.getNavigator().clearPath();
 
             if (!hasCastRod) {

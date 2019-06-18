@@ -27,10 +27,6 @@ public abstract class AbstractEntityAIChore extends EntityAIBase {
 
     Optional<EntityPlayer> getAssigningPlayer() {
         EntityPlayer player = villager.world.getPlayerEntityByUUID(villager.get(EntityVillagerMCA.CHORE_ASSIGNING_PLAYER).or(Constants.ZERO_UUID));
-        if (player != null) {
-            return Optional.of(player);
-        } else {
-            return Optional.absent();
-        }
+        return Optional.fromNullable(player);
     }
 }

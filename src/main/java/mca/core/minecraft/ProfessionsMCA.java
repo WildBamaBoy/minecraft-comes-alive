@@ -61,11 +61,8 @@ public class ProfessionsMCA {
     }
 
     public static ItemStack getDefaultHeldItem(VillagerProfession profession, VillagerCareer career) {
-        if (profession == ProfessionsMCA.guard) {
-            return career == ProfessionsMCA.guard_archer ? ItemStackCache.get(Items.BOW) : ItemStackCache.get(Items.IRON_SWORD);
-        } else if (profession == ProfessionsMCA.bandit) {
-            return ItemStackCache.get(Items.IRON_SWORD);
-        }
+        if (profession == ProfessionsMCA.guard) return career == ProfessionsMCA.guard_archer ? ItemStackCache.get(Items.BOW) : ItemStackCache.get(Items.IRON_SWORD);
+        else if (profession == ProfessionsMCA.bandit) return ItemStackCache.get(Items.IRON_SWORD);
         return ItemStack.EMPTY;
     }
 
@@ -97,6 +94,7 @@ public class ProfessionsMCA {
     }
 
     public static class BakerTradesLvl1 implements EntityVillager.ITradeList {
+
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 1), new ItemStack(Items.WHEAT, 6)));
@@ -105,6 +103,7 @@ public class ProfessionsMCA {
     }
 
     public static class BakerTradesLvl2 implements EntityVillager.ITradeList {
+
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 2), new ItemStack(Items.EGG, 12)));
@@ -114,6 +113,7 @@ public class ProfessionsMCA {
     }
 
     public static class BakerTradesLvl3 implements EntityVillager.ITradeList {
+
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(new ItemStack(Items.CAKE, 1), new ItemStack(Items.EMERALD, 5)));
@@ -124,6 +124,7 @@ public class ProfessionsMCA {
     }
 
     public static class MinerTradesLvl1 implements EntityVillager.ITradeList {
+
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(new ItemStack(Blocks.COBBLESTONE, 8), new ItemStack(Blocks.STONE, 4)));
@@ -132,6 +133,7 @@ public class ProfessionsMCA {
     }
 
     public static class MinerTradesLvl2 implements EntityVillager.ITradeList {
+
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(new ItemStack(Items.GOLD_INGOT, 3), new ItemStack(Items.EMERALD, 2)));
@@ -140,6 +142,7 @@ public class ProfessionsMCA {
     }
 
     public static class MinerTradesLvl3 implements EntityVillager.ITradeList {
+
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(new ItemStack(Items.EMERALD, 4), new ItemStack(Items.IRON_PICKAXE, 1)));

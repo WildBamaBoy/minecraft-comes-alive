@@ -24,7 +24,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
             return false;
         }
 
-        List<EntityVillagerMCA> villagers = villager.world.getEntities(EntityVillagerMCA.class, v -> !v.isMarried() && !v.isChild() && v.getDistance(villager) < 3.0D && v != villager);
+        List<EntityVillagerMCA> villagers = villager.world.getEntities(EntityVillagerMCA.class, v -> v != null && !v.isMarried() && !v.isChild() && v.getDistance(villager) < 3.0D && v != villager);
         java.util.Optional<EntityVillagerMCA> target = villagers.stream().min(Comparator.comparingDouble(villager::getDistance));
 
         // ensure we found a nearby villager
@@ -47,10 +47,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
         target.get().spawnParticles(EnumParticleTypes.HEART);
 
         // remove the rings for survival mode
-        if (!player.isCreative()) {
-            player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-        }
-
+        if (!player.isCreative()) player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
         return true;
     }
 }

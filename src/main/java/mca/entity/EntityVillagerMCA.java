@@ -26,7 +26,6 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -199,7 +198,7 @@ public class EntityVillagerMCA extends EntityVillager {
         set(BED_POS, new BlockPos(nbt.getInteger("bedX"), nbt.getInteger("bedY"), nbt.getInteger("bedZ")));
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
-        //Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
+        // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
         this.startingAge = nbt.getInteger("startingAge");
         setGrowingAge(nbt.getInteger("Age"));
 
@@ -545,14 +544,10 @@ public class EntityVillagerMCA extends EntityVillager {
         successChance -= button.getConstraints().contains(EnumConstraint.ADULTS) ? 0.25F : 0.0F;
         successChance += (history.getHearts() / 10.0D) * 0.025F;
 
-        if (MCA.getConfig().enableDiminishingReturns) {
-            successChance -= history.getInteractionFatigue() * 0.05F;
-        }
+        if (MCA.getConfig().enableDiminishingReturns) successChance -= history.getInteractionFatigue() * 0.05F;
 
         boolean succeeded = rand.nextFloat() < successChance;
-        if (MCA.getConfig().enableDiminishingReturns && succeeded) {
-            heartsBoost -= history.getInteractionFatigue() * 0.05F;
-        }
+        if (MCA.getConfig().enableDiminishingReturns && succeeded) heartsBoost -= history.getInteractionFatigue() * 0.05F;
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
@@ -562,12 +557,10 @@ public class EntityVillagerMCA extends EntityVillager {
 
     public void handleButtonClick(EntityPlayerMP player, String guiKey, String buttonId) {
         PlayerHistory history = getPlayerHistoryFor(player.getUniqueID());
-        Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
-        if (button.isPresent() && button.get().getIsInteraction()) {
-            handleInteraction(player, history, button.get());
-        } else if (!button.isPresent()) {
+        java.util.Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
+        if (!button.isPresent()) {
             MCA.getLog().warn("Button not found for key and ID: " + guiKey + ", " + buttonId);
-        }
+        } else if (button.get().isInteraction()) handleInteraction(player, history, button.get());
 
         switch (buttonId) {
             case "gui.button.move":
@@ -605,9 +598,8 @@ public class EntityVillagerMCA extends EntityVillager {
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
                 int giftValue = API.getGiftValueFromStack(stack);
                 if (!handleSpecialCaseGift(player, stack)) {
-                    if (stack.getItem() == Items.GOLDEN_APPLE) {
-                        set(IS_INFECTED, false);
-                    } else {
+                    if (stack.getItem() == Items.GOLDEN_APPLE) set(IS_INFECTED, false);
+                    else {
                         history.changeHearts(giftValue);
                         say(Optional.of(player), API.getResponseForGift(stack));
                     }
@@ -617,14 +609,12 @@ public class EntityVillagerMCA extends EntityVillager {
                 }
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(player).getHasBaby()) {
-                    say(Optional.of(player), "interaction.procreate.fail.hasbaby");
-                } else if (history.getHearts() < 100) {
-                    say(Optional.of(player), "interaction.procreate.fail.lowhearts");
-                } else {
+                if (PlayerSaveData.get(player).getHasBaby()) say(Optional.of(player), "interaction.procreate.fail.hasbaby");
+                else if (history.getHearts() < 100) say(Optional.of(player), "interaction.procreate.fail.lowhearts");
+                else {
                     EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
                     if (task != null) {
-                        ((EntityAIProcreate)task.action).procreateTimer = 20 * 3; //3 seconds
+                        ((EntityAIProcreate)task.action).procreateTimer = 20 * 3; // 3 seconds
                         set(IS_PROCREATING, true);
                     }
                 }
@@ -675,9 +665,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 progressor.set(HAS_BABY, true);
                 progressor.set(BABY_IS_MALE, rand.nextBoolean());
                 progressor.spawnParticles(EnumParticleTypes.HEART);
-            } else {
-                say(Optional.of(player), "gift.cake.fail");
-            }
+            } else say(Optional.of(player), "gift.cake.fail");
         } else if (item == Items.GOLDEN_APPLE && this.isChild()) {
             this.addGrowth(((startingAge / 4) / 20 * -1));
             return true;
@@ -701,13 +689,13 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void onEachServerUpdate() {
-        if (this.ticksExisted % 20 == 0) { //Every second
+        if (this.ticksExisted % 20 == 0) { // Every second
             onEachServerSecond();
         }
 
-        if (this.ticksExisted % 200 == 0 && this.getHealth() > 0.0F) { //Every 10 seconds and when we're not already dead
+        if (this.ticksExisted % 200 == 0 && this.getHealth() > 0.0F) { // Every 10 seconds and when we're not already dead
             if (this.getHealth() < this.getMaxHealth()) {
-                this.setHealth(this.getHealth() + 1.0F); //heal
+                this.setHealth(this.getHealth() + 1.0F); // heal
             }
         }
 
@@ -727,7 +715,7 @@ public class EntityVillagerMCA extends EntityVillager {
         if (get(HAS_BABY)) {
             set(BABY_AGE, get(BABY_AGE) + 1);
 
-            if (get(BABY_AGE) >= MCA.getConfig().babyGrowUpTime * 60) { //grow up time is in minutes and we measure age in seconds
+            if (get(BABY_AGE) >= MCA.getConfig().babyGrowUpTime * 60) { // grow up time is in minutes and we measure age in seconds
                 EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.absent(), Optional.of(get(BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
                 child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
@@ -804,7 +792,7 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     public void detachHome() {
-        //no-op, skip EntityVillager's detaching homes which messes up MoveTowardsRestriction.
+        // no-op, skip EntityVillager's detaching homes which messes up MoveTowardsRestriction.
     }
 
     public String getCurrentActivity() {

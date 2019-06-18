@@ -24,10 +24,8 @@ public class InventoryMCA extends InventoryBasic {
     public int getFirstSlotContainingItem(Item item) {
         for (int i = 0; i < this.getSizeInventory(); i++) {
             ItemStack stack = this.getStackInSlot(i);
-
-            if (stack.getItem() == item) {
-                return i;
-            }
+            if (stack.getItem() != item) continue;
+            return i;
         }
         return -1;
     }
@@ -35,13 +33,9 @@ public class InventoryMCA extends InventoryBasic {
     public boolean contains(Class clazz) {
         for (int i = 0; i < this.getSizeInventory(); ++i) {
             final ItemStack stack = this.getStackInSlot(i);
-            if (stack != null) {
-                final Item item = stack.getItem();
+            final Item item = stack.getItem();
 
-                if (item.getClass() == clazz) {
-                    return true;
-                }
-            }
+            if (item.getClass() == clazz) return true;
         }
         return false;
     }
@@ -53,11 +47,8 @@ public class InventoryMCA extends InventoryBasic {
      * @return The item stack containing the item of the specified type with the highest max damage.
      */
     public ItemStack getBestItemOfType(@Nullable Class type) {
-        if (type == null) {
-            return ItemStack.EMPTY;
-        } else {
-            return getStackInSlot(getBestItemOfTypeSlot(type));
-        }
+        if (type == null) return ItemStack.EMPTY;
+        else return getStackInSlot(getBestItemOfTypeSlot(type));
     }
 
     public ItemStack getBestArmorOfType(EntityEquipmentSlot slot) {
@@ -68,9 +59,7 @@ public class InventoryMCA extends InventoryBasic {
             ItemStack stack = this.getStackInSlot(i);
             if (stack.getItem() instanceof ItemArmor) {
                 ItemArmor armor = (ItemArmor) stack.getItem();
-                if (armor.armorType == slot) {
-                    armors.add(stack);
-                }
+                if (armor.armorType == slot) armors.add(stack);
             }
         }
 
@@ -90,15 +79,13 @@ public class InventoryMCA extends InventoryBasic {
         for (int i = 0; i < this.getSizeInventory(); ++i) {
             ItemStack stackInInventory = this.getStackInSlot(i);
 
-            if (stackInInventory != null) {
-                final String itemClassName = stackInInventory.getItem().getClass().getName();
+            final String itemClassName = stackInInventory.getItem().getClass().getName();
 
-                if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage()) {
-                    highestMaxDamage = stackInInventory.getMaxDamage();
-                    return i;
-                }
+            if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage()) {
+                highestMaxDamage = stackInInventory.getMaxDamage();
+                return i;
             }
-        }
+       }
 
         return -1;
     }

@@ -32,9 +32,7 @@ public class ItemSpawnEgg extends Item {
             villager.finalizeMobSpawn(world.getDifficultyForLocation(villager.getPos()), null, false);
             world.spawnEntity(villager);
 
-            if (!player.capabilities.isCreativeMode) {
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-            }
+            if (!player.capabilities.isCreativeMode) player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
         }
 
         return EnumActionResult.PASS;
