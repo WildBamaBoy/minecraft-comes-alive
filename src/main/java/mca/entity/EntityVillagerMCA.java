@@ -639,7 +639,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.profession":
                 RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
-                setProfession(registry.getRandomObject(world.rand));
+                setProfession(ProfessionsMCA.randomProfession());
                 setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
                 applySpecialAI();
                 break;

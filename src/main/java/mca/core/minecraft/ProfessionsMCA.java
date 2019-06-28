@@ -18,12 +18,11 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.Arrays;
 import java.util.Random;
 
 @GameRegistry.ObjectHolder("mca")
 public class ProfessionsMCA {
-    public static IForgeRegistry<VillagerProfession> registry;
-
     public static final VillagerProfession guard = new VillagerProfession("mca:guard", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
     public static final VillagerProfession bandit = new VillagerProfession("mca:bandit", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
     public static final VillagerProfession child = new VillagerProfession("mca:child", "minecraft:textures/entity/villager/villager.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
@@ -39,6 +38,12 @@ public class ProfessionsMCA {
     public static VillagerCareer child_child;
     public static VillagerCareer baker_baker;
     public static VillagerCareer miner_miner;
+
+    public static IForgeRegistry<VillagerProfession> registry;
+
+    private static final VillagerProfession[] FORBIDDEN_RANDOM_PROFESSIONS = {
+            bandit, child
+    };
 
     public static void registerCareers() {
         guard_warrior = new VillagerCareer(guard, "warrior");
@@ -67,12 +72,12 @@ public class ProfessionsMCA {
     }
 
     public static VillagerProfession randomProfession() {
-        ResourceLocation professionResource = null;
-        while (professionResource == null || professionResource.getResourcePath().contains("nitwit") || professionResource.getResourcePath().contains("child")) {
+        ResourceLocation resource = null;
+        while (resource == null || inForbiddenProfessions(registry.getValue(resource))) {
             int i = new Random().nextInt(registry.getKeys().size() - 1);
-            professionResource = (ResourceLocation)registry.getKeys().toArray()[i];
+            resource = (ResourceLocation)registry.getKeys().toArray()[i];
         }
-        return registry.getValue(professionResource);
+        return registry.getValue(resource);
     }
 
     @Mod.EventBusSubscriber(modid = "mca")
@@ -149,5 +154,14 @@ public class ProfessionsMCA {
             recipeList.add(new MerchantRecipe(new ItemStack(Blocks.EMERALD_BLOCK, 1), new ItemStack(Items.DIAMOND_PICKAXE, 1)));
             recipeList.add(new MerchantRecipe(new ItemStack(Items.IRON_INGOT, 8), new ItemStack(Items.DIAMOND, 1)));
         }
+    }
+
+    private static boolean inForbiddenProfessions(VillagerProfession profIn) {
+        for (VillagerProfession profession : FORBIDDEN_RANDOM_PROFESSIONS) {
+            if (profession == profIn) {
+                return true;
+            }
+        }
+        return false;
     }
 }
