@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class APIButton {
     @Getter private int id;             // numeric id
-    @Getter private String langId;  // string identifier for the button in the .lang file
+    @Getter private String identifier;  // string identifier for the button in the .lang file
     @Getter private int x;              // x position
     @Getter private int y;              // y position
     @Getter private int width;          // button width

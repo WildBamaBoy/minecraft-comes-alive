@@ -105,7 +105,7 @@ public class API {
      * @return Instance of APIButton matching the ID provided
      */
     public static Optional<APIButton> getButtonById(String key, String id) {
-        return Arrays.stream(buttonMap.get(key)).filter(b -> b.getLangId().equals(id)).findFirst();
+        return Arrays.stream(buttonMap.get(key)).filter(b -> b.getIdentifier().equals(id)).findFirst();
     }
 
     /**
@@ -160,7 +160,7 @@ public class API {
 
             // Ensure that if a constraint is attached to the button
             if (villager == null && b.getConstraints().size() > 0) {
-                MCA.getLog().error("No villager provided for list of buttons with constraints! Button ID:" + b.getLangId());
+                MCA.getLog().error("No villager provided for list of buttons with constraints! Button ID:" + b.getIdentifier());
                 continue;
             }
 
@@ -182,7 +182,7 @@ public class API {
     public static Optional<GuiButtonEx> getButton(String id, GuiScreen screen) {
         List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
         Optional<GuiButton> button = buttonList.stream().filter(
-                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getLangId().equals(id)).findFirst();
+                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getIdentifier().equals(id)).findFirst();
 
         return button.map(guiButton -> (GuiButtonEx) guiButton);
     }
