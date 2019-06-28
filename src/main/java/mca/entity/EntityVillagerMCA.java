@@ -299,7 +299,8 @@ public class EntityVillagerMCA extends EntityVillager {
     public void onDeath(@Nonnull DamageSource cause) {
         if (!world.isRemote) {
             if (MCA.getConfig().logVillagerDeaths) {
-                MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + cause.getImmediateSource().getName() + ". UUID: " + this.getUniqueID().toString());
+                String causeName = cause.getImmediateSource() == null ? "Unknown" : cause.getImmediateSource().getName();
+                MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + causeName + ". UUID: " + this.getUniqueID().toString());
             }
 
             inventory.dropAllItems();
@@ -539,7 +540,7 @@ public class EntityVillagerMCA extends EntityVillager {
         float successChance = 0.85F;
         int heartsBoost = button.getConstraints().contains(EnumConstraint.ADULTS) ? 15 : 5;
 
-        String interactionName = button.getLangId().replace("gui.button.", "");
+        String interactionName = button.getIdentifier().replace("gui.button.", "");
 
         successChance -= button.getConstraints().contains(EnumConstraint.ADULTS) ? 0.25F : 0.0F;
         successChance += (history.getHearts() / 10.0D) * 0.025F;

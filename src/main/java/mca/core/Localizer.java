@@ -44,7 +44,7 @@ public class Localizer {
     public String localize(String key, ArrayList<String> vars) {
         String result = localizerMap.getOrDefault(key, key);
         if (result.equals(key)) {
-            List<String> responses = localizerMap.keySet().stream().filter(key::contains).collect(Collectors.toList());
+            List<String> responses = localizerMap.entrySet().stream().filter(entry -> entry.getKey().contains(key)).map(Map.Entry::getValue).collect(Collectors.toList());
             if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
 
@@ -53,9 +53,7 @@ public class Localizer {
 
     private String parseVars(String str, ArrayList<String> vars) {
         int index = 1;
-        if (str.contains("%Supporter%")) {
-            str = str.replaceAll("%Supporter%", MCA.getInstance().getRandomSupporter());
-        }
+        str = str.replaceAll("%Supporter%", MCA.getInstance().getRandomSupporter());
 
         String varString = "%v" + index + "%";
         while (str.contains("%v") && index < 10) { // signature of a var being present

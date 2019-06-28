@@ -212,7 +212,7 @@ public class GuiInteract extends GuiScreen {
 
     protected void actionPerformed(GuiButton button) {
         GuiButtonEx btn = (GuiButtonEx) button;
-        String id = btn.getApiButton().getLangId();
+        String id = btn.getApiButton().getIdentifier();
 
         if (timeSinceLastClick <= 2) {
             return; /* Prevents click-throughs on Mojang's button system */
@@ -249,10 +249,11 @@ public class GuiInteract extends GuiScreen {
     private void drawMainButtonMenu() {
         buttonList.clear();
         API.addButtons("main", villager, player, this);
+
         EnumMoveState moveState = EnumMoveState.byId(villager.get(EntityVillagerMCA.MOVE_STATE));
         if (moveState == EnumMoveState.FOLLOW) disableButton("gui.button.follow");
-        if (moveState == EnumMoveState.STAY) disableButton("gui.button.stay");
-        if (moveState == EnumMoveState.MOVE) disableButton("gui.button.move");
+        else if (moveState == EnumMoveState.STAY) disableButton("gui.button.stay");
+        else if (moveState == EnumMoveState.MOVE) disableButton("gui.button.move");
     }
 
     private void drawInteractButtonMenu() {

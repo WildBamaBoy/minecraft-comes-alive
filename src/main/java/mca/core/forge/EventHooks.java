@@ -35,7 +35,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.server.command.TextComponentHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,7 +102,8 @@ public class EventHooks {
         Entity entity = event.getEntity();
 
         if (world.isRemote) return;
-        if (!MCA.getConfig().overwriteOriginalVillagers && !entity.getClass().equals(EntityVillager.class)) return;
+        if (!MCA.getConfig().overwriteOriginalVillagers) return;
+        if (entity instanceof EntityVillagerMCA || !(entity instanceof EntityVillager)) return;
 
         EntityVillager originalVillager = (EntityVillager) entity;
         originalVillager.setDead();
