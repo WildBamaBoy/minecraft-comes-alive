@@ -103,15 +103,18 @@ public class EventHooks {
 
         if (world.isRemote) return;
         if (!MCA.getConfig().overwriteOriginalVillagers) return;
-        if (entity instanceof EntityVillagerMCA || !(entity instanceof EntityVillager)) return;
 
-        EntityVillager originalVillager = (EntityVillager) entity;
-        originalVillager.setDead();
+        if (entity.getClass().equals(EntityVillager.class)) {
+            EntityVillager originalVillager = (EntityVillager) entity;
+            originalVillager.setDead();
 
-        EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
-        newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
-        newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
-        world.spawnEntity(newVillager);
+            EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
+            newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
+            newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
+            world.spawnEntity(newVillager);
+        } else if (entity instanceof EntityVillagerMCA){
+            ((EntityVillagerMCA)entity).setHomePosAndDistance(((EntityVillagerMCA) entity).getPos(), 32);
+        }
     }
 
     @SubscribeEvent
