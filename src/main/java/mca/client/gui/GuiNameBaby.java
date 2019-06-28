@@ -66,10 +66,10 @@ public class GuiNameBaby extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (!button.enabled && button == doneButton) {
+        if (button == doneButton) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.BabyName(babyNameTextField.getText().trim()));
             mc.displayGuiScreen(null);
-        } else if (!button.enabled && button == randomButton) {
+        } else if (button == randomButton) {
             babyNameTextField.setText(API.getRandomName(baby.getGender()));
         }
     }
