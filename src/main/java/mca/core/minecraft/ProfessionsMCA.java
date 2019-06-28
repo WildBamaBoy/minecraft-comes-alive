@@ -73,7 +73,7 @@ public class ProfessionsMCA {
 
     public static VillagerProfession randomProfession() {
         ResourceLocation resource = null;
-        while (resource == null || inForbiddenProfessions(registry.getValue(resource))) {
+        while (resource == null || resource.getResourcePath().contains("nitwit") || inForbiddenProfessions(registry.getValue(resource))) {
             int i = new Random().nextInt(registry.getKeys().size() - 1);
             resource = (ResourceLocation)registry.getKeys().toArray()[i];
         }
