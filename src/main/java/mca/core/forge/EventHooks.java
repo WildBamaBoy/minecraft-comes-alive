@@ -197,6 +197,10 @@ public class EventHooks {
     public void onPlaySoundAtEntityEvent(PlaySoundAtEntityEvent event) {
         // Cancel all villager sounds. We unfortunately cannot control on a per entity basis as getEntity() always returns null.
         if (FMLCommonHandler.instance().getEffectiveSide() != Side.CLIENT) return;
-        event.setCanceled(event.getSound().getSoundName().toString().contains("villager"));
+        try {
+            event.setCanceled(event.getSound().getSoundName().toString().contains("villager"));
+        } catch (NullPointerException e) {
+            // throw out potential NPEs due to bad event data. some of these have been reported
+        }
     }
 }
