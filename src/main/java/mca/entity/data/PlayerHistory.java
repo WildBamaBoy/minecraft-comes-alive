@@ -11,7 +11,7 @@ import java.util.UUID;
 public class PlayerHistory {
     @Getter private int hearts;
     @Getter private int interactionFatigue;
-    @Getter private boolean hasGift;
+    @Getter private boolean giftPresent;
     @Getter private int greetTimer;
     @Getter private EnumDialogueType dialogueType;
 
@@ -21,7 +21,7 @@ public class PlayerHistory {
     private PlayerHistory() {
         hearts = 0;
         interactionFatigue = 0;
-        hasGift = false;
+        giftPresent = false;
         greetTimer = 0;
         playerUUID = Constants.ZERO_UUID;
         dialogueType = EnumDialogueType.ADULT;
@@ -47,7 +47,7 @@ public class PlayerHistory {
 
         history.hearts = nbt.getInteger("hearts");
         history.interactionFatigue = nbt.getInteger("interactionFatigue");
-        history.hasGift = nbt.getBoolean("hasGift");
+        history.giftPresent = nbt.getBoolean("giftPresent");
         history.greetTimer = nbt.getInteger("greetTimer");
         history.dialogueType = EnumDialogueType.byValue(nbt.getString("dialogueType"));
 
@@ -59,7 +59,7 @@ public class PlayerHistory {
 
         nbt.setInteger("hearts", hearts);
         nbt.setInteger("interactionFatigue", interactionFatigue);
-        nbt.setBoolean("hasGift", hasGift);
+        nbt.setBoolean("giftPresent", giftPresent);
         nbt.setInteger("greetTimer", greetTimer);
         nbt.setString("dialogueType", dialogueType.getId());
 

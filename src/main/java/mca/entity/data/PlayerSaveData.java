@@ -24,7 +24,7 @@ public class PlayerSaveData extends WorldSavedData {
     private UUID spouseUUID = Constants.ZERO_UUID;
     private EnumMarriageState marriageState = EnumMarriageState.NOT_MARRIED;
     private String spouseName = "";
-    private boolean hasBaby = false;
+    private boolean babyPresent = false;
 
     public PlayerSaveData(String id) {
         super(id);
@@ -51,7 +51,7 @@ public class PlayerSaveData extends WorldSavedData {
         nbt.setUniqueId("spouseUUID", spouseUUID);
         nbt.setInteger("marriageState", marriageState.getId());
         nbt.setString("spouseName", spouseName);
-        nbt.setBoolean("hasBaby", hasBaby);
+        nbt.setBoolean("babyPresent", babyPresent);
         return nbt;
     }
 
@@ -60,7 +60,7 @@ public class PlayerSaveData extends WorldSavedData {
         spouseUUID = nbt.getUniqueId("spouseUUID");
         marriageState = EnumMarriageState.byId(nbt.getInteger("marriageState"));
         spouseName = nbt.getString("spouseName");
-        hasBaby = nbt.getBoolean("hasBaby");
+        babyPresent = nbt.getBoolean("babyPresent");
     }
 
     public boolean isMarriedOrEngaged() {
@@ -81,14 +81,14 @@ public class PlayerSaveData extends WorldSavedData {
         markDirty();
     }
 
-    public void setHasBaby(boolean value) {
-        this.hasBaby = value;
+    public void setBabyPresent(boolean value) {
+        this.babyPresent = value;
         markDirty();
     }
 
     public void reset() {
         endMarriage();
-        setHasBaby(false);
+        setBabyPresent(false);
         markDirty();
     }
 
