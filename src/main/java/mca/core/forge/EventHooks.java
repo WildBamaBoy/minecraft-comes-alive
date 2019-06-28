@@ -111,9 +111,8 @@ public class EventHooks {
             EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
             newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
             newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
+            newVillager.setHomePosAndDistance(newVillager.getPos(), 32);
             world.spawnEntity(newVillager);
-        } else if (entity instanceof EntityVillagerMCA){
-            ((EntityVillagerMCA)entity).setHomePosAndDistance(((EntityVillagerMCA) entity).getPos(), 32);
         }
     }
 
