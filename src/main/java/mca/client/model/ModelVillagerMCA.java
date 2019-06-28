@@ -23,15 +23,15 @@ public class ModelVillagerMCA extends ModelBiped {
     }
 
     @Override
-    public void render(Entity entity, float f1, float f2, float f3, float f4, float f5, float f6) {
-        super.render(entity, f1, f2, f3, f4, f5, f6);
+    public void render(Entity entity, float swing, float swingAmount, float age, float headYaw, float headPitch, float scale) {
+        super.render(entity, swing, swingAmount, age, headYaw, headPitch, scale);
         EntityVillagerMCA villager = (EntityVillagerMCA)entity;
         if (EnumGender.byId(villager.get(EntityVillagerMCA.GENDER)) == EnumGender.FEMALE && !villager.isChild() && villager.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY) {
             GL11.glPushMatrix();
             GL11.glTranslated(0.005D, -0.05D, -0.28D);
             GL11.glScaled(1.15D, 1.0D, 1.0D);
             GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
-            breasts.render(f6);
+            breasts.render(scale);
             GL11.glPopMatrix();
         }
     }

@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class ItemsMCA {
     public static final ItemSpawnEgg EGG_MALE = new ItemSpawnEgg(true);
@@ -40,7 +41,7 @@ public final class ItemsMCA {
     public static final ItemGuideBook BOOK_ROSE_GOLD = new ItemGuideBook();
     public static final ItemGuideBook BOOK_INFECTION = new ItemGuideBook();
 
-    private static final ArrayList<Item> ITEMS = new ArrayList<Item>();
+    private static final List<Item> ITEMS = new ArrayList<>();
 
     public static void register(RegistryEvent.Register<Item> event) {
         for (Field f : ItemsMCA.class.getFields()) {
@@ -59,17 +60,14 @@ public final class ItemsMCA {
     }
 
     public static void assignCreativeTabs() {
-        for (Item item : ITEMS) {
-            item.setCreativeTab(MCA.creativeTab);
-        }
+        for (Item item : ITEMS) item.setCreativeTab(MCA.creativeTab);
     }
 
     public static void setBookNBT(ItemStack stack) {
         Item book = stack.getItem();
         NBTTagCompound nbt = new NBTTagCompound();
 
-        if (book == BOOK_DEATH)
-        {
+        if (book == BOOK_DEATH) {
             nbt.setString("title", "Death, and How to Cure It!");
             nbt.setString("author", "Ozzie the Warrior");
             nbt.setBoolean("resolved", true);
@@ -139,47 +137,7 @@ public final class ItemsMCA {
             pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Introduction\n\n" + Constants.Format.RESET
                     + "Interaction is key to building relationships and finding the love of your life.\n\n"
                     + "I've happily written this book in order to share my knowledge of interaction, love, and, unfortunately, divorce, to anyone who may need a little push in the right direction."));
-/*
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Personalities\n\n" + Constants.Format.RESET
-                    + "When speaking to any villager, you'll notice they have a personality.\n\n"
-                    + "Pay close attention to this. I have outlined each personality's quirks here. Each personality has a particular category they fall into (1-3)."));
 
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Personalities pt. 2\n" + Constants.Format.RESET
-                    + Constants.Format.BOLD + "Athletic (2): " + Constants.Format.RESET + "Runs faster\n"
-                    + Constants.Format.BOLD + "Confident (3): " + Constants.Format.RESET + "Hits harder\n"
-                    + Constants.Format.BOLD + "Strong (3): " + Constants.Format.RESET + "Doubled attack damage\n"
-                    + Constants.Format.BOLD + "Friendly (1): " + Constants.Format.RESET + "Gains hearts faster\n"
-                    + Constants.Format.BOLD + "Curious (2): " + Constants.Format.RESET + "Finds more when working\n"
-                    + Constants.Format.BOLD + "Peaceful (1): " + Constants.Format.RESET + "Will not fight\n"));
-
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Personalities pt. 3\n" + Constants.Format.RESET
-                    + Constants.Format.BOLD + "Flirty (2): " + Constants.Format.RESET + "Bonus to all interactions\n"
-                    + Constants.Format.BOLD + "Witty (2): " + Constants.Format.RESET + "Appreciates jokes\n"
-                    + Constants.Format.BOLD + "Sensitive (1): " + Constants.Format.RESET + "Easily offended\n"
-                    + Constants.Format.BOLD + "Greedy (3): " + Constants.Format.RESET + "Finds less when working\n"
-                    + Constants.Format.BOLD + "Stubborn (3): " + Constants.Format.RESET + "Harder to gain hearts\n"
-                    + Constants.Format.BOLD + "Odd (2): " + Constants.Format.RESET + "N/A\n"));
-
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Personalities pt. 4\n" + Constants.Format.RESET
-                    + "The category shows what a person likes more than others:\n"
-                    + Constants.Format.BOLD + "1:" + Constants.Format.RESET + "Chatting, Stories\n"
-                    + Constants.Format.BOLD + "2:" + Constants.Format.RESET + "Joking, Romance\n"
-                    + Constants.Format.BOLD + "3:" + Constants.Format.RESET + "Chatting, Shake Hand, Stories\n\n"
-                    + "In the case of personality type 3, it is not recommended to attempt jokes or romantic interactions."));
-
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Moods\n" + Constants.Format.RESET
-                    + "Every person has a mood, which is always apparent when speaking to them.\n\n"
-                    + "Moods can change throughout the day, and determine how likely a villager is to like your interaction, and how many hearts you'll gain."));
-
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Moods pt. 2\n" + Constants.Format.RESET
-                    + "Villagers in a good mood may have a certain 'glow' about them, and will be easier to interact with.\n\n"
-                    + "Villagers in a bad mood may cry, or be visibly angry and be more difficult to interact with."));
-
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Moods pt. 3\n" + Constants.Format.RESET
-                    + "The death of a villager seems to put those nearby in bad moods.\n\n"
-                    + "Taxing also gradually decreases the moods of everyone nearby.\n\n"
-                    + "Gifts and successful interactions are known to boost moods."));
-*/
             pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Interacting\n" + Constants.Format.RESET
                     + "Choose wisely when interacting with a villager!\n\n"
                     + "If choosing a romantic interaction, be sure that the villager you are talking to likes you a lot."));
@@ -191,18 +149,6 @@ public final class ItemsMCA {
             pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Marriage\n" + Constants.Format.RESET
                     + "To get married, simply gift a villager a wedding ring once you feel you have reached the highest relationship level.\n\n"
                     + "Once you're married, you can then procreate and have children of your own!"));
-
-            /*
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Engagement\n" + Constants.Format.RESET
-                    + "Gift an engagement ring before gifting a wedding ring.\n\n"
-                    + "All nearby villagers will give you gifts when you get married, but only if you're engaged first!\n\n"
-                    + "Villagers that like you more will give you better gifts."));
-
-            pages.appendTag(new NBTTagString(Constants.Format.BOLD + "Divorce\n" + Constants.Format.RESET
-                    + "Unfortunately, sometimes it is best to split from your spouse and move on.\n\n"
-                    + "To do this, you may craft divorce papers with paper, a feather, and ink.\n\n"
-                    + "Gift them to your spouse and the marriage will end. They will not be happy!"));
-            */
 
             nbt.setTag("pages", pages);
         }
@@ -316,9 +262,7 @@ public final class ItemsMCA {
     public static void registerModelMeshers() {
         ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-        for (Item item : ITEMS) {
-            mesher.register(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-        }
+        for (Item item : ITEMS) mesher.register(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
     }
 
     private static void setItemName(Item item, String itemName) {

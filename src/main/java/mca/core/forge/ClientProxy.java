@@ -20,8 +20,4 @@ public class ClientProxy extends ServerProxy {
         ItemsMCA.registerModelMeshers();
         BlocksMCA.registerModelMeshers();
     }
-
-    @Override
-    public void registerEventHandlers() {
-    }
 }

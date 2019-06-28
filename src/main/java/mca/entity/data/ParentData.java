@@ -1,5 +1,6 @@
 package mca.entity.data;
 
+import lombok.Getter;
 import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.Entity;
@@ -10,14 +11,12 @@ import java.util.UUID;
 
 import static mca.entity.EntityVillagerMCA.*;
 
+@Getter
 public class ParentData {
     private UUID parent1UUID = Constants.ZERO_UUID;
     private UUID parent2UUID = Constants.ZERO_UUID;
     private String parent1Name = "";
     private String parent2Name = "";
-
-    private ParentData() {
-    }
 
     public static ParentData fromNBT(NBTTagCompound nbt) {
         ParentData data = new ParentData();
@@ -64,13 +63,7 @@ public class ParentData {
     }
 
     public Entity getParentEntity(World world, UUID uuid) {
-        for (Entity entity : world.loadedEntityList) {
-            if (entity.getUniqueID().equals(uuid)) {
-                return entity;
-            }
-        }
-
-        return null;
+        return world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(uuid)).findFirst().orElse(null);  // TODO: This should definitely be changed to an optional
     }
 
     public Entity[] getParentEntities(World world) {
@@ -78,21 +71,5 @@ public class ParentData {
                 getParentEntity(world, getParent1UUID()),
                 getParentEntity(world, getParent2UUID())
         };
-    }
-
-    public UUID getParent1UUID() {
-        return parent1UUID;
-    }
-
-    public UUID getParent2UUID() {
-        return parent2UUID;
-    }
-
-    public String getParent1Name() {
-        return parent1Name;
-    }
-
-    public String getParent2Name() {
-        return parent2Name;
     }
 }

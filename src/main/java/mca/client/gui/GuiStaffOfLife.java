@@ -5,6 +5,7 @@ import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
@@ -57,13 +58,9 @@ public class GuiStaffOfLife extends GuiScreen {
         if (guibutton == reviveButton) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.ReviveVillager(UUID.fromString(keys.get(index))));
             mc.displayGuiScreen(null);
-        } else if (guibutton == backButton) {
-            selectData(index - 1);
-        } else if (guibutton == nextButton) {
-            selectData(index + 1);
-        } else if (guibutton == closeButton) {
-            mc.displayGuiScreen(null);
-        }
+        } else if (guibutton == backButton) selectData(index - 1);
+        else if (guibutton == nextButton) selectData(index + 1);
+        else if (guibutton == closeButton) mc.displayGuiScreen(null);
     }
 
     @Override
@@ -96,11 +93,9 @@ public class GuiStaffOfLife extends GuiScreen {
     }
 
     private void selectData(int i) {
-        if (i < 0) {
-            i = keys.size() - 1;
-        } else if (i > keys.size() - 1) {
-            i = 0;
-        }
+        if (i < 0) i = keys.size() - 1;
+        else if (i > keys.size() - 1) i = 0;
+
         index = i;
         updateDummy(villagerData.get(keys.get(index)));
         nameButton.displayString = dummy.getDisplayName().getUnformattedText();
@@ -110,8 +105,6 @@ public class GuiStaffOfLife extends GuiScreen {
         int posX = width / 2;
         int posY = height / 2 + 45;
 
-        if (dummy != null) {
-            net.minecraft.client.gui.inventory.GuiInventory.drawEntityOnScreen(posX, posY, 60, 0, 0, dummy);
-        }
+        if (dummy != null) GuiInventory.drawEntityOnScreen(posX, posY, 60, 0, 0, dummy);
     }
 }

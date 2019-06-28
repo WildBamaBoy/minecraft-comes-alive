@@ -1,8 +1,15 @@
 package mca.enums;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+@AllArgsConstructor
+@Getter
 public enum EnumConstraint {
     FAMILY("family"),
     NOT_FAMILY("notfamily"),
@@ -10,11 +17,8 @@ public enum EnumConstraint {
     SPOUSE("spouse"),
     NOT_SPOUSE("notspouse"),
     HIDE_ON_FAIL("hideonfail");
-    String id;
 
-    EnumConstraint(String id) {
-        this.id = id;
-    }
+    String id;
 
     public static List<EnumConstraint> fromStringList(String constraints) {
         List<EnumConstraint> list = new ArrayList<>();
@@ -34,17 +38,9 @@ public enum EnumConstraint {
     }
 
     public static EnumConstraint byValue(String value) {
-        for (EnumConstraint constraint : values()) {
-            if (constraint.getId().equals(value)) {
-                return constraint;
-            }
-        }
-
-        return null;
+        Optional<EnumConstraint> state = Arrays.stream(values()).filter((e) -> e.id.equals(value)).findFirst();
+        return state.orElse(null);
     }
 
-    public String getId() {
-        return id;
-    }
 }
 

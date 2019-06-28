@@ -70,12 +70,12 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                     try {
                         IProperty<Integer> property = (IProperty<Integer>) crop.getBlockState().getProperty("age");
                         villager.world.setBlockState(target, state.withProperty(property, 0));
-                    } catch (Exception e) { //age property may have some issues on certain mods, if it errors just set to air
+                    } catch (Exception e) { // age property may have some issues on certain mods, if it errors just set to air
                         MCA.getLog().warn("Error resetting crop age at " + target.toString() + "! Setting to air.");
                         villager.world.setBlockToAir(target);
                     }
                     target = null;
-                } else { //Target is no longer a crop block, so we null it out and get a different target
+                } else { // Target is no longer a crop block, so we null it out and get a different target
                     target = null;
                 }
             }

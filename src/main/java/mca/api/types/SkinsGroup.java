@@ -1,27 +1,16 @@
 package mca.api.types;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import mca.enums.EnumGender;
 
+@AllArgsConstructor
 public class SkinsGroup {
     private String gender;
-    private String profession;
-    private String[] paths;
-
-    public SkinsGroup(String profession, String gender, String[] paths) {
-        this.profession = profession;
-        this.gender = gender;
-        this.paths = paths;
-    }
-
-    public String getProfession() {
-        return profession;
-    }
+    @Getter private String profession;
+    @Getter private String[] paths;
 
     public EnumGender getGender() {
         return EnumGender.byName(gender);
-    }
-
-    public String[] getPaths() {
-        return paths;
     }
 }

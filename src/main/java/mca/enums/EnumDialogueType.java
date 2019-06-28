@@ -1,5 +1,12 @@
 package mca.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.Arrays;
+
+@AllArgsConstructor
+@Getter
 public enum EnumDialogueType {
     CHILDP("childp"),
     CHILD("child"),
@@ -8,21 +15,8 @@ public enum EnumDialogueType {
 
     String id;
 
-    EnumDialogueType(String id) {
-        this.id = id;
-    }
-
     public static EnumDialogueType byValue(String value) {
-        for (EnumDialogueType constraint : values()) {
-            if (constraint.getId().equals(value)) {
-                return constraint;
-            }
-        }
-        return null;
-    }
-
-    public String getId() {
-        return id;
+        return Arrays.stream(values()).filter(c -> c.getId().equals(value)).findFirst().orElse(null);
     }
 }
 

@@ -15,17 +15,17 @@ public class ItemWeddingRing extends ItemSpecialCaseGift {
         PlayerHistory history = villager.getPlayerHistoryFor(player.getUniqueID());
         String response;
 
-        if (villager.isMarriedTo(player.getUniqueID())) {
+        if (villager.isMarriedTo(player.getUniqueID()))
             response = "interaction.marry.fail.marriedtogiver";
-        } else if (villager.isMarried()) {
+        else if (villager.isMarried())
             response = "interaction.marry.fail.marriedtoother";
-        } else if (playerData.isMarriedOrEngaged()) {
+        else if (playerData.isMarriedOrEngaged())
             response = "interaction.marry.fail.marriedtoother";
-        } else if (this instanceof ItemEngagementRing && history.getHearts() < MCA.getConfig().marriageHeartsRequirement / 2) {
+        else if (this instanceof ItemEngagementRing && history.getHearts() < MCA.getConfig().marriageHeartsRequirement / 2)
             response = "interaction.marry.fail.lowhearts";
-        } else if (!(this instanceof ItemEngagementRing) && history.getHearts() < MCA.getConfig().marriageHeartsRequirement) {
+        else if (!(this instanceof ItemEngagementRing) && history.getHearts() < MCA.getConfig().marriageHeartsRequirement)
             response = "interaction.marry.fail.lowhearts";
-        } else {
+        else {
             response = "interaction.marry.success";
             playerData.marry(villager.getUniqueID(), villager.get(EntityVillagerMCA.VILLAGER_NAME));
             villager.getPlayerHistoryFor(player.getUniqueID()).setDialogueType(EnumDialogueType.SPOUSE);

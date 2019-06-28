@@ -20,17 +20,16 @@ public class EntityAIAgeBaby extends EntityAIBase {
     }
 
     public void updateTask() {
-        if (villager.ticksExisted % 1200 == 0) {
-            villager.babyAge += 1;
+        if (villager.ticksExisted % 1200 != 0) return;
+        villager.babyAge += 1;
 
-            if (villager.babyAge >= MCA.getConfig().babyGrowUpTime) {
-                EntityVillagerMCA child = new EntityVillagerMCA(villager.world, Optional.absent(), Optional.of(villager.get(EntityVillagerMCA.BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
-                child.set(EntityVillagerMCA.PARENTS, ParentData.fromVillager(villager).toNBT());
-                child.setPosition(villager.posX, villager.posY, villager.posZ);
+        if (villager.babyAge < MCA.getConfig().babyGrowUpTime) return;
 
-                villager.world.spawnEntity(child);
-                villager.set(EntityVillagerMCA.HAS_BABY, false);
-            }
-        }
+        EntityVillagerMCA child = new EntityVillagerMCA(villager.world, Optional.absent(), Optional.of(villager.get(EntityVillagerMCA.BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
+        child.set(EntityVillagerMCA.PARENTS, ParentData.fromVillager(villager).toNBT());
+        child.setPosition(villager.posX, villager.posY, villager.posZ);
+
+        villager.world.spawnEntity(child);
+        villager.set(EntityVillagerMCA.HAS_BABY, false);
     }
 }

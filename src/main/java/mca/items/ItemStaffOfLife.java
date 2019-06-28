@@ -27,9 +27,8 @@ public class ItemStaffOfLife extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        if (!MCA.getConfig().enableRevivals) {
+        if (!MCA.getConfig().enableRevivals)
             playerIn.sendMessage(new TextComponentString(MCA.getLocalizer().localize("notify.revival.disabled")));
-        }
 
         playerIn.openGui(MCA.getInstance(), Constants.GUI_ID_STAFFOFLIFE, playerIn.world, 0, 0, 0);
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -42,9 +41,7 @@ public class ItemStaffOfLife extends Item {
             tooltip.add("Use to revive a previously dead");
             tooltip.add("villager, but all of their memories");
             tooltip.add("will be forgotten.");
-        } else {
-            tooltip.add("Hold " + Constants.Color.YELLOW + "SHIFT" + Constants.Color.GRAY + " for info.");
-        }
+        } else tooltip.add("Hold " + Constants.Color.YELLOW + "SHIFT" + Constants.Color.GRAY + " for info.");
     }
 
     @SideOnly(Side.CLIENT)

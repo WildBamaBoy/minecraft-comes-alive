@@ -50,7 +50,7 @@ public class MCAServer {
 
         if (reaperSummonTicks > 0) {
             reaperSummonTicks--;
-            if (reaperSummonTicks % 20 == 0) { //every second
+            if (reaperSummonTicks % 20 == 0) { // every second
                 EntityLightningBolt lightningBolt = new EntityLightningBolt(reaperSpawnWorld, reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ(), false);
                 reaperSpawnWorld.addWeatherEffect(lightningBolt);
             }

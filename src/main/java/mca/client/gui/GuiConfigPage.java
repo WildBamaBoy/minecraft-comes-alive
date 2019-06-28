@@ -7,8 +7,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 
 import java.util.List;
 
-public class GuiConfigPage extends GuiConfig
-{
+public class GuiConfigPage extends GuiConfig {
     public GuiConfigPage(GuiScreen parent) {
         this(parent,
                 MCA.getConfig().getCategories(),

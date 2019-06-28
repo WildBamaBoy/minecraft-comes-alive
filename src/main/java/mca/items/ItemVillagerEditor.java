@@ -6,8 +6,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemVillagerEditor extends Item {
+
     public ItemVillagerEditor() {
         super();
+
         maxStackSize = 1;
         setUnlocalizedName("villager_editor");
     }

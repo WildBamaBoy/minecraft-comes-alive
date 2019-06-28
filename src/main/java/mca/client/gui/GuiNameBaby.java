@@ -28,9 +28,7 @@ public class GuiNameBaby extends GuiScreen {
         super();
         this.player = player;
 
-        if (babyStack.getItem() instanceof ItemBaby) {
-            this.baby = (ItemBaby) babyStack.getItem();
-        }
+        if (babyStack.getItem() instanceof ItemBaby) this.baby = (ItemBaby) babyStack.getItem();
     }
 
     @Override
@@ -53,9 +51,7 @@ public class GuiNameBaby extends GuiScreen {
         babyNameTextField = new GuiTextField(3, fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
         babyNameTextField.setMaxStringLength(32);
 
-        if (this.baby == null) {
-            this.mc.displayGuiScreen(null);
-        }
+        if (this.baby == null) this.mc.displayGuiScreen(null);
     }
 
     @Override
@@ -69,13 +65,11 @@ public class GuiNameBaby extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton guibutton) {
-        if (!guibutton.enabled) {
-            return;
-        } else if (guibutton == doneButton) {
+    protected void actionPerformed(GuiButton button) {
+        if (!button.enabled && button == doneButton) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.BabyName(babyNameTextField.getText().trim()));
             mc.displayGuiScreen(null);
-        } else if (guibutton == randomButton) {
+        } else if (!button.enabled && button == randomButton) {
             babyNameTextField.setText(API.getRandomName(baby.getGender()));
         }
     }

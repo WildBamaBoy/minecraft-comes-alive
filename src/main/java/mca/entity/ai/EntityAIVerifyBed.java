@@ -21,9 +21,7 @@ public class EntityAIVerifyBed extends EntityAIBase {
         ticks++;
         if (ticks % 100 == 0) {
             BlockPos bed = villager.get(EntityVillagerMCA.BED_POS);
-            if (villager.world.getBlockState(bed).getBlock() != Blocks.BED) {
-                villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
-            }
+            if (villager.world.getBlockState(bed).getBlock() != Blocks.BED) villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
             ticks = 0;
         }
     }

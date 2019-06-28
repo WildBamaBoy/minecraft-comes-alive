@@ -44,11 +44,7 @@ public class GuiVillagerEditor extends GuiScreen {
 
         if (nameTextField != null && doneButton != null) {
             nameTextField.updateCursorCounter();
-            if (nameTextField.getText().isEmpty()) {
-                doneButton.enabled = false;
-            } else {
-                doneButton.enabled = true;
-            }
+            doneButton.enabled = !nameTextField.getText().isEmpty();
         }
     }
 
@@ -72,7 +68,7 @@ public class GuiVillagerEditor extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton guiButton) {
         APIButton btn = ((GuiButtonEx) guiButton).getApiButton();
-        if (btn.getNotifyServer()) {
+        if (btn.isNotifyServer()) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction("editor", btn.getLangId(), villager.getUniqueID()));
         } else if (btn.getLangId().equals("gui.button.done")) {
             mc.displayGuiScreen(null);
@@ -82,7 +78,7 @@ public class GuiVillagerEditor extends GuiScreen {
     }
 
     @Override
-    protected void keyTyped(char c, int i) throws IOException {
+    protected void keyTyped(char c, int i) {
         if (i == Keyboard.KEY_ESCAPE) {
             Minecraft.getMinecraft().displayGuiScreen(null);
         } else {

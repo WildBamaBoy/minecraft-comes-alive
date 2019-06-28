@@ -61,9 +61,7 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
-        if (event.getWorld().isRemote) {
-            event.getWorld().addEventListener(new WorldEventListenerMCA());
-        }
+        if (event.getWorld().isRemote) event.getWorld().addEventListener(new WorldEventListenerMCA());
     }
 
     @SubscribeEvent
@@ -78,27 +76,25 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (MCA.updateAvailable) {
-            TextComponentString updateMessage = new TextComponentString(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
-            String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
+        if (!MCA.updateAvailable) return;
+        TextComponentString updateMessage = new TextComponentString(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
+        String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
 
-            TextComponentString chatComponentUpdate = new TextComponentString(updateURLText);
-            chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
-            chatComponentUpdate.getStyle().setUnderlined(true);
+        TextComponentString chatComponentUpdate = new TextComponentString(updateURLText);
+        chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
+        chatComponentUpdate.getStyle().setUnderlined(true);
 
-            event.player.sendMessage(updateMessage);
-            event.player.sendMessage(chatComponentUpdate);
-            MCA.updateAvailable = false;
-        }
+        event.player.sendMessage(updateMessage);
+        event.player.sendMessage(chatComponentUpdate);
+
+        MCA.updateAvailable = false;
     }
 
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event) {
         // Only send crash reports on unloading the overworld. This will never change based on other mods installed
         // and ensures only one crash report is sent per instance.
-        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) {
-            MCA.getInstance().checkForCrashReports();
-        }
+        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) MCA.getInstance().checkForCrashReports();
     }
 
     @SubscribeEvent
@@ -106,17 +102,16 @@ public class EventHooks {
         World world = event.getWorld();
         Entity entity = event.getEntity();
 
-        if (!world.isRemote) {
-            if (MCA.getConfig().overwriteOriginalVillagers && entity.getClass().equals(EntityVillager.class)) {
-                EntityVillager originalVillager = (EntityVillager) entity;
-                originalVillager.setDead();
+        if (world.isRemote) return;
+        if (!MCA.getConfig().overwriteOriginalVillagers && !entity.getClass().equals(EntityVillager.class)) return;
 
-                EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
-                newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
-                newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
-                world.spawnEntity(newVillager);
-            }
-        }
+        EntityVillager originalVillager = (EntityVillager) entity;
+        originalVillager.setDead();
+
+        EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
+        newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
+        newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
+        world.spawnEntity(newVillager);
     }
 
     @SubscribeEvent
@@ -138,38 +133,28 @@ public class EventHooks {
         if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
             int totemsFound = 0;
 
-            //Check on +/- X and Z for at least 3 totems on fire.
+            // Check on +/- X and Z for at least 3 totems on fire.
             for (int i = 0; i < 4; i++) {
                 int dX = 0;
                 int dZ = 0;
 
-                switch (i) {
-                    case 0: dX = -3; break;
-                    case 1: dX = 3; break;
-                    case 2: dZ = -3; break;
-                    case 3: dZ = 3; break;
-                }
+                if (i == 0 || i == 2) dX = -3;
+                else dZ = 3;
 
-                //Scan upwards to ensure it's obsidian, and on fire.
+                // Scan upwards to ensure it's obsidian, and on fire.
                 for (int j = -1; j < 2; j++) {
                     Block block = event.getWorld().getBlockState(new BlockPos(x + dX, y + j, z + dZ)).getBlock();
-                    if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) {
-                        break;
-                    }
+                    if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) break;
 
-                    //If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
-                    if (j == 1 && block == Blocks.FIRE) {
-                        totemsFound++;
-                    }
+                    // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
+                    if (j == 1 && block == Blocks.FIRE) totemsFound++;
                 }
             }
 
             if (totemsFound >= 3 && !event.getWorld().isDaytime()) {
                 MCAServer.get().setReaperSpawnPos(event.getWorld(), new BlockPos(x + 1, y + 10, z + 1));
                 MCAServer.get().startSpawnReaper();
-                for (int i = 0; i < 2; i++) {
-                    event.getWorld().setBlockToAir(new BlockPos(x, y - i, z));
-                }
+                for (int i = 0; i < 2; i++) event.getWorld().setBlockToAir(new BlockPos(x, y - i, z));
             }
         }
     }
@@ -194,9 +179,8 @@ public class EventHooks {
     }
 
     @SubscribeEvent
-    public void onLivingSetTarget(LivingSetAttackTargetEvent event)
-    {
-        //Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
+    public void onLivingSetTarget(LivingSetAttackTargetEvent event) {
+        // Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
         if (event.getEntityLiving() instanceof EntityMob && event.getTarget() instanceof EntityVillagerMCA) {
             EntityMob mob = (EntityMob) event.getEntityLiving();
             EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
@@ -210,10 +194,7 @@ public class EventHooks {
     @SubscribeEvent
     public void onPlaySoundAtEntityEvent(PlaySoundAtEntityEvent event) {
         // Cancel all villager sounds. We unfortunately cannot control on a per entity basis as getEntity() always returns null.
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-            if (event.getSound().getSoundName().toString().contains("villager")) {
-                event.setCanceled(true);
-            }
-        }
+        if (FMLCommonHandler.instance().getEffectiveSide() != Side.CLIENT) return;
+        event.setCanceled(event.getSound().getSoundName().toString().contains("villager"));
     }
 }

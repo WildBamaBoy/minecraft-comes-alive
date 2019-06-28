@@ -1,5 +1,6 @@
 package mca.entity.data;
 
+import lombok.Getter;
 import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
@@ -8,13 +9,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.UUID;
 
 public class PlayerHistory {
-    private int hearts;
-    private int interactionFatigue;
-    private boolean hasGift;
-    private int greetTimer;
-    private EnumDialogueType dialogueType;
+    @Getter private int hearts;
+    @Getter private int interactionFatigue;
+    @Getter private boolean hasGift;
+    @Getter private int greetTimer;
+    @Getter private EnumDialogueType dialogueType;
 
-    private UUID playerUUID;
+    @Getter private UUID playerUUID;
     private EntityVillagerMCA villager;
 
     private PlayerHistory() {
@@ -65,25 +66,9 @@ public class PlayerHistory {
         return nbt;
     }
 
-    public int getHearts() {
-        return hearts;
-    }
-
     public void setHearts(int value) {
         hearts = value;
         villager.updatePlayerHistoryMap(this);
-    }
-
-    public int getInteractionFatigue() {
-        return interactionFatigue;
-    }
-
-    public boolean getHasGift() {
-        return hasGift;
-    }
-
-    public int getGreetTimer() {
-        return greetTimer;
     }
 
     public void changeHearts(int value) {
@@ -96,19 +81,9 @@ public class PlayerHistory {
         villager.updatePlayerHistoryMap(this);
     }
 
-    public UUID getPlayerUUID() {
-        return playerUUID;
-    }
-
     public void update() {
         // every 5 minutes reduce interaction fatigues
-        if (villager.ticksExisted % 6000 == 0) {
-            changeInteractionFatigue(-1);
-        }
-    }
-
-    public EnumDialogueType getDialogueType() {
-        return this.dialogueType;
+        if (villager.ticksExisted % 6000 == 0) changeInteractionFatigue(-1);
     }
 
     public void setDialogueType(EnumDialogueType type) {

@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class BlockVillagerSpawner extends Block {
+
     public BlockVillagerSpawner() {
         super(Material.IRON);
         setTickRandomly(true);

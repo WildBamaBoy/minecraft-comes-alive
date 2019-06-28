@@ -19,7 +19,6 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import org.apache.commons.io.IOUtils;
-import com.google.common.base.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,15 +42,15 @@ public class API {
     public static void init() {
         rng = new Random();
 
-        //Load skins
+        // Load skins
         SkinsGroup[] skins = Util.readResourceAsJSON("api/skins.json", SkinsGroup[].class);
         Collections.addAll(skinGroups, skins);
 
-        //Load names
-        InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
+        // Load names
+        InputStream namesStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
         try {
             // read in all names and process into the correct list
-            List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
+            List<String> lines = IOUtils.readLines(namesStream, Charsets.UTF_8);
             lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("\\=")[1]));
             lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("\\=")[1]));
         } catch (Exception e) {
@@ -59,14 +58,14 @@ public class API {
             throw new RuntimeException("Failed to load all NPC names from file", e);
         }
 
-        //Read in buttons
+        // Read in buttons
         buttonMap.put("main", Util.readResourceAsJSON("api/gui/main.json", APIButton[].class));
         buttonMap.put("interact", Util.readResourceAsJSON("api/gui/interact.json", APIButton[].class));
         buttonMap.put("debug", Util.readResourceAsJSON("api/gui/debug.json", APIButton[].class));
         buttonMap.put("editor", Util.readResourceAsJSON("api/gui/editor.json", APIButton[].class));
         buttonMap.put("work", Util.readResourceAsJSON("api/gui/work.json", APIButton[].class));
 
-        //Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
+        // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
         for (Gift gift : gifts) {
             if (!gift.exists()) {
@@ -85,21 +84,18 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomSkin(VillagerRegistry.VillagerProfession profession, EnumGender gender) {
-        Optional<SkinsGroup> group = Optional.fromJavaUtil(
-                skinGroups.stream()
-                        .filter(g -> g.getGender() == gender && g.getProfession().equals(profession.getRegistryName().toString()))
-                        .findFirst());
+        Optional<SkinsGroup> group = skinGroups.stream()
+                        .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
+                        .findFirst();
 
-        if (group.isPresent()) {
-            return group.get().getPaths()[rng.nextInt(group.get().getPaths().length - 1)];
-        }
-
-        MCA.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
-        SkinsGroup randomGroup = null;
-        while (randomGroup == null || randomGroup.getGender() != gender) {
-            randomGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));
-        }
-        return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
+        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length - 1)]).orElseGet(() -> {
+            MCA.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
+            SkinsGroup randomGroup = null;
+            while (randomGroup == null || randomGroup.getGender() != gender) {
+                randomGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));
+            }
+            return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
+        });
     }
 
     /**
@@ -109,7 +105,7 @@ public class API {
      * @return Instance of APIButton matching the ID provided
      */
     public static Optional<APIButton> getButtonById(String key, String id) {
-        return Optional.fromJavaUtil(Arrays.stream(buttonMap.get(key)).filter(b -> b.getLangId().equals(id)).findFirst());
+        return Arrays.stream(buttonMap.get(key)).filter(b -> b.getLangId().equals(id)).findFirst();
     }
 
     /**
@@ -119,6 +115,8 @@ public class API {
      * @return int value determining the gift value of a stack
      */
     public static int getGiftValueFromStack(ItemStack stack) {
+        if (stack.getItem().getRegistryName() == null) return 0;
+
         String name = stack.getItem().getRegistryName().toString();
         return giftMap.containsKey(name) ? giftMap.get(name).getValue() : -5;
     }
@@ -141,12 +139,8 @@ public class API {
      * @return A gender appropriate name based on the provided gender.
      */
     public static String getRandomName(@Nonnull EnumGender gender) {
-        if (gender == EnumGender.MALE) {
-            return maleNames.get(rng.nextInt(maleNames.size()));
-        } else if (gender == EnumGender.FEMALE) {
-            return femaleNames.get(rng.nextInt(femaleNames.size()));
-        }
-
+        if (gender == EnumGender.MALE) return maleNames.get(rng.nextInt(maleNames.size()));
+        else if (gender == EnumGender.FEMALE) return femaleNames.get(rng.nextInt(femaleNames.size()));
         return "";
     }
 
@@ -173,11 +167,8 @@ public class API {
             // Remove the button if we specify it should not be present on constraint failure
             // Otherwise we just mark the button as disabled.
             boolean isValid = b.isValidForConstraint(villager, player);
-            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) {
-                buttonList.remove(guiButton);
-            } else if (!isValid) {
-                guiButton.enabled = false;
-            }
+            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) buttonList.remove(guiButton);
+            else if (!isValid) guiButton.enabled = false;
         }
     }
 
@@ -190,12 +181,9 @@ public class API {
      */
     public static Optional<GuiButtonEx> getButton(String id, GuiScreen screen) {
         List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-        Optional<GuiButton> button = Optional.fromJavaUtil(buttonList.stream().filter(
-                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getLangId().equals(id)).findFirst());
+        Optional<GuiButton> button = buttonList.stream().filter(
+                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getLangId().equals(id)).findFirst();
 
-        if (button.isPresent()) {
-            return Optional.of((GuiButtonEx) button.get());
-        }
-        return Optional.absent();
+        return button.map(guiButton -> (GuiButtonEx) guiButton);
     }
 }

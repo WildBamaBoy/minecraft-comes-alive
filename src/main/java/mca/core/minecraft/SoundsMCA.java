@@ -19,11 +19,6 @@ public final class SoundsMCA {
     private static final ResourceLocation loc_reaper_summon = new ResourceLocation("mca:reaper.summon");
     public static final SoundEvent reaper_summon = new SoundEvent(loc_reaper_summon);
 
-    private SoundsMCA() {
-    }
-
-    ;
-
     public static void register(RegistryEvent.Register<SoundEvent> event) {
         IForgeRegistry<SoundEvent> registry = event.getRegistry();
         reaper_scythe_out.setRegistryName(loc_reaper_scythe_out);

@@ -49,7 +49,7 @@ public class SavedVillagers extends WorldSavedData {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        villagerData.forEach((k,v) -> nbt.setTag(k, v));
+        villagerData.forEach(nbt::setTag);
         return nbt;
     }
 

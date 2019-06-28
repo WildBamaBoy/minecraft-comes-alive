@@ -30,7 +30,7 @@ public class EntityAIChopping extends AbstractEntityAIChore {
 
     public void updateTask() {
         if (!villager.inventory.contains(ItemAxe.class)) {
-            villager.say(getAssigningPlayer(),"chore.chopping.noaxe");
+            villager.say(getAssigningPlayer(), "chore.chopping.noaxe");
             villager.stopChore();
         }
         if (targetTree == null) {
@@ -46,29 +46,24 @@ public class EntityAIChopping extends AbstractEntityAIChore {
                     })
                     .forEach(nearbyTrees::add);
             targetTree = Util.getNearestPoint(villager.getPos(), nearbyTrees);
-        } else {
-            double distance = Math.sqrt(villager.getDistanceSq(targetTree));
-            if (distance >= 4.0D) {
-                villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetTree), 0.5D);
-            } else {
-                IBlockState state = villager.world.getBlockState(targetTree);
-                if (state.getBlock() instanceof BlockLog) {
-                    BlockLog log = (BlockLog) state.getBlock();
-                    villager.swingArm(EnumHand.MAIN_HAND);
-                    chopTicks++;
+            return;
+        }
+        double distance = Math.sqrt(villager.getDistanceSq(targetTree));
+        if (distance >= 4.0D) villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetTree), 0.5D);
+        else {
+            IBlockState state = villager.world.getBlockState(targetTree);
+            if (state.getBlock() instanceof BlockLog) {
+                BlockLog log = (BlockLog) state.getBlock();
+                villager.swingArm(EnumHand.MAIN_HAND);
+                chopTicks++;
 
-                    if (chopTicks >= 80) {
-                        chopTicks = 0;
-                        villager.inventory.addItem(new ItemStack(log, 1));
-                        villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
-                        if (villager.world.rand.nextFloat() >= 0.90) {
-                            destroyTree(targetTree);
-                        }
-                    }
-                } else {
-                    targetTree = null;
+                if (chopTicks >= 80) {
+                    chopTicks = 0;
+                    villager.inventory.addItem(new ItemStack(log, 1));
+                    villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
+                    if (villager.world.rand.nextFloat() >= 0.90) destroyTree(targetTree);
                 }
-            }
+            } else targetTree = null;
         }
     }
 

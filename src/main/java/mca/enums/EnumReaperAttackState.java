@@ -1,5 +1,12 @@
 package mca.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.Arrays;
+
+@AllArgsConstructor
+@Getter
 public enum EnumReaperAttackState {
     IDLE(0),
     PRE(1),
@@ -9,21 +16,7 @@ public enum EnumReaperAttackState {
 
     int id;
 
-    EnumReaperAttackState(int id) {
-        this.id = id;
-    }
-
     public static EnumReaperAttackState fromId(int id) {
-        for (EnumReaperAttackState state : values()) {
-            if (id == state.id) {
-                return state;
-            }
-        }
-
-        return IDLE;
-    }
-
-    public int getId() {
-        return this.id;
+        return Arrays.stream(values()).filter(s -> s.id == id).findFirst().orElse(IDLE);
     }
 }

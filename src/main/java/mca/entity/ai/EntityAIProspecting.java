@@ -44,8 +44,8 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
                 pickStack.damageItem(2, villager);
             }
             ticks = 0;
-        } else {
-            ticks++;
+            return;
         }
+        ticks++;
     }
 }

@@ -38,17 +38,17 @@ public class WorldEventListenerMCA implements IWorldEventListener {
     }
 
     public void onEntityAdded(Entity entityIn) {
-        //Ask the server to send the villager's career ID when it is loaded into the world client-side
+        // Ask the server to send the villager's career ID when it is loaded into the world client-side
         if (entityIn instanceof EntityVillagerMCA) {
-            //Career ID is not data managed, but we depend on it to display the proper profession for the villager alongside their name.
-            //The ID is randomized client-side with populateBuyingList(), which doesn't affect anything. This throws off the career ID that we send the client.
-            //To stop this, we default the career ID and level client-side to 1. This prevents populateBuyingList() from running and allows our career ID sent from the server to apply.
+            // Career ID is not data managed, but we depend on it to display the proper profession for the villager alongside their name.
+            // The ID is randomized client-side with populateBuyingList(), which doesn't affect anything. This throws off the career ID that we send the client.
+            // To stop this, we default the career ID and level client-side to 1. This prevents populateBuyingList() from running and allows our career ID sent from the server to apply.
             ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, (EntityVillagerMCA) entityIn, 1, EntityVillagerMCA.VANILLA_CAREER_ID_FIELD_INDEX);
             ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, (EntityVillagerMCA) entityIn, 1, EntityVillagerMCA.VANILLA_CAREER_LEVEL_FIELD_INDEX);
             NetMCA.INSTANCE.sendToServer(new NetMCA.CareerRequest(entityIn.getUniqueID()));
 
-            //The villager's inventory is also not synced to the client until it is opened in a Container.
-            //When the entity joins the client world, ask the server to send over the inventory data.
+            // The villager's inventory is also not synced to the client until it is opened in a Container.
+            // When the entity joins the client world, ask the server to send over the inventory data.
             NetMCA.INSTANCE.sendToServer(new NetMCA.InventoryRequest(entityIn.getUniqueID()));
         }
     }
