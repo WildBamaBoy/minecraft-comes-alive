@@ -609,7 +609,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 }
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(player).getHasBaby()) say(Optional.of(player), "interaction.procreate.fail.hasbaby");
+                if (PlayerSaveData.get(player).isBabyPresent()) say(Optional.of(player), "interaction.procreate.fail.hasbaby");
                 else if (history.getHearts() < 100) say(Optional.of(player), "interaction.procreate.fail.lowhearts");
                 else {
                     EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);

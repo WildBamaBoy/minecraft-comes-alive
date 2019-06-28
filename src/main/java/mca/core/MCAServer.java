@@ -254,7 +254,7 @@ public class MCAServer {
         }
 
         // Ensure we don't already have a baby
-        if (senderData.getHasBaby()) {
+        if (senderData.isBabyPresent()) {
             failMessage(sender, "You already have a baby.");
             return;
         }
@@ -274,8 +274,8 @@ public class MCAServer {
                 spouse.addItemStackToInventory(new ItemStack(sender.world.rand.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
 
                 PlayerSaveData spouseData = PlayerSaveData.get(spouse);
-                spouseData.setHasBaby(true);
-                senderData.setHasBaby(true);
+                spouseData.setBabyPresent(true);
+                senderData.setBabyPresent(true);
             }
         } else {
             failMessage(sender, "Your spouse is not present on the server.");

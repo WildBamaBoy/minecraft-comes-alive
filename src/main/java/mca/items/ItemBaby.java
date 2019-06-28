@@ -83,7 +83,7 @@ public class ItemBaby extends Item {
                 PlayerSaveData playerData = PlayerSaveData.get(player);
                 child.set(EntityVillagerMCA.PARENTS, ParentData.create(player.getUniqueID(), playerData.getSpouseUUID(), player.getName(), playerData.getSpouseName()).toNBT());
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-                playerData.setHasBaby(false);
+                playerData.setBabyPresent(false);
 
                 // set proper dialogue type
                 child.getPlayerHistoryFor(player.getUniqueID()).setDialogueType(EnumDialogueType.CHILDP);

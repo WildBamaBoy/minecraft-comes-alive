@@ -84,7 +84,7 @@ public class GuiVillagerEditor extends GuiScreen {
         } else {
             nameTextField.textboxKeyTyped(c, i);
             String text = nameTextField.getText().trim();
-            NetMCA.INSTANCE.sendToServer(new NetMCA.SetName(villager.getUniqueID(), text));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.SetName(text, villager.getUniqueID()));
             drawEditorGui();
         }
     }

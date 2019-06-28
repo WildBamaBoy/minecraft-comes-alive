@@ -207,7 +207,7 @@ public class GuiInteract extends GuiScreen {
     }
 
     private boolean canDrawGiftIcon() {
-        return villager.getPlayerHistoryFor(player.getUniqueID()).getHasGift();
+        return villager.getPlayerHistoryFor(player.getUniqueID()).isGiftPresent();
     }
 
     protected void actionPerformed(GuiButton button) {
