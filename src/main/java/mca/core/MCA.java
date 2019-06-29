@@ -101,7 +101,7 @@ public class MCA {
             }
         }
 
-        supporters = Util.httpGet("http://minecraftcomesalive.com/api/supporters").split(",");
+        supporters = Util.httpGet("https://minecraftcomesalive.com/api/supporters").split(",");
         MCA.getLog().info("Loaded " + supporters.length + " supporters.");
     }
 
