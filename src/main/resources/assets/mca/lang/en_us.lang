@@ -301,7 +301,10 @@ spouse.interaction.gohome.fail.nohome=Remind me again where our house was?
 child.interaction.gohome.fail.nohome=I don't remember where I live...
 childp.interaction.gohome.fail.nohome=I don't remember where home is! We move too much!
 
+child.interaction.ridehorse.fail.notnearby=Where are the horses? I want to ride!
+childp.interaction.ridehorse.fail.notnearby=Where is my horse? I hope I didn't lose it again...
 adult.interaction.ridehorse.fail.notnearby=I don't see any rideable horses nearby.
+spouse.interaction.ridehorse.fail.notnearby=Where is my horse, dear? I can't find it.
 
 spouse.interaction.procreate.fail.hasbaby1=We already have a baby...you didn't lose it did you?!
 spouse.interaction.procreate.fail.hasbaby2=...you lost baby Joby didn't you? Wait...was his name Joby?
