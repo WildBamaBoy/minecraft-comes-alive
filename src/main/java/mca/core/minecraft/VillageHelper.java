@@ -47,8 +47,8 @@ public class VillageHelper {
             if (villager.getProfessionForge().getRegistryName().equals(ProfessionsMCA.guard.getRegistryName())) guards++;
         }
 
-        // Spawn a new guard if we don't have enough
-        if (guards < guardCapacity) {
+        // Spawn a new guard if we don't have enough, up to 10
+        if (guards < guardCapacity && guards < 10) {
             Vec3d spawnPos = findRandomSpawnPos(world, village, village.getCenter(), 2, 4, 2);
 
             if (spawnPos != null) {
