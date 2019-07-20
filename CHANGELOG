@@ -22,6 +22,8 @@ Fixed: The villager editor will no longer produce Pillagers.
 Fixed: The force child growth command now works properly.
 Fixed: Romantic actions appearing on non-adults.
 Fixed: Crashes with other mods referencing onPlaySoundAtEntityEvent.
+Fixed: Overspawn of guards in villagers. Now limited to 10 guards at a time.
+Fixed: Missing message for riding horses on spouses.
 
 6.0.0-beta
 This version of MCA has been fully rewritten from the ground up to be more user, server, and mod friendly with a streamlined and robust codebase. Compatibility with previous saves should not be expected.
