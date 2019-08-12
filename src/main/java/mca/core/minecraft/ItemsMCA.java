@@ -35,6 +35,7 @@ public final class ItemsMCA {
     public static final Item GOLD_DUST = new Item().setUnlocalizedName("gold_dust");
     public static final Item VILLAGER_EDITOR = new ItemVillagerEditor();
     public static final Item STAFF_OF_LIFE = new ItemStaffOfLife();
+    public static final Item WHISTLE = new ItemWhistle();
     public static final ItemGuideBook BOOK_DEATH = new ItemGuideBook();
     public static final ItemGuideBook BOOK_ROMANCE = new ItemGuideBook();
     public static final ItemGuideBook BOOK_FAMILY = new ItemGuideBook();
@@ -60,7 +61,7 @@ public final class ItemsMCA {
     }
 
     public static void assignCreativeTabs() {
-        for (Item item : ITEMS) item.setCreativeTab(MCA.creativeTab);
+        ITEMS.stream().forEach(i -> i.setCreativeTab(MCA.creativeTab));
     }
 
     public static void setBookNBT(ItemStack stack) {

@@ -1,11 +1,11 @@
 package mca.core.forge;
 
-import com.google.common.base.Optional;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mca.client.gui.GuiStaffOfLife;
+import mca.client.gui.GuiWhistle;
 import mca.client.network.ClientMessageQueue;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
@@ -16,6 +16,7 @@ import mca.server.ServerMessageHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,11 +33,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.collection.parallel.ParIterableLike;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class NetMCA {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("mca");
@@ -54,6 +54,9 @@ public class NetMCA {
         INSTANCE.registerMessage(ReviveVillagerHandler.class, ReviveVillager.class, 9, Side.SERVER);
         INSTANCE.registerMessage(SetNameHandler.class, SetName.class, 10, Side.SERVER);
         INSTANCE.registerMessage(SpawnParticlesHandler.class, SpawnParticles.class, 11, Side.CLIENT);
+        INSTANCE.registerMessage(GetFamilyHandler.class, GetFamily.class, 12, Side.SERVER);
+        INSTANCE.registerMessage(GetFamilyResponseHandler.class, GetFamilyResponse.class, 13, Side.CLIENT);
+        INSTANCE.registerMessage(CallToPlayerHandler.class, CallToPlayer.class, 14, Side.SERVER);
     }
 
     @SideOnly(Side.CLIENT)
@@ -136,7 +139,7 @@ public class NetMCA {
             EntityPlayer player = getPlayerClient();
             EntityVillagerMCA villager = (EntityVillagerMCA) player.getEntityWorld().getEntityByID(message.speakingEntityId);
 
-            if (villager != null) villager.say(Optional.of(player), message.phraseId);
+            if (villager != null) villager.say(com.google.common.base.Optional.of(player), message.phraseId);
 
             return null;
         }
@@ -455,7 +458,6 @@ public class NetMCA {
     }
 
     public static class SpawnParticlesHandler implements IMessageHandler<SpawnParticles, IMessage> {
-
         @Override
         public IMessage onMessage(SpawnParticles message, MessageContext ctx) {
             World world = getPlayerClient().world;
@@ -465,6 +467,94 @@ public class NetMCA {
                 EntityVillagerMCA villager = (EntityVillagerMCA) entity.get();
                 villager.spawnParticles(message.particleType);
             }
+            return null;
+        }
+    }
+
+    @NoArgsConstructor
+    public static class GetFamily implements IMessage {
+        @Override
+        public void toBytes(ByteBuf buf) {}
+
+        @Override
+        public void fromBytes(ByteBuf buf) {}
+    }
+
+    public static class GetFamilyHandler implements IMessageHandler<GetFamily, IMessage> {
+        @Override
+        public IMessage onMessage(GetFamily message, MessageContext ctx) {
+            EntityPlayer player = ctx.getServerHandler().player;
+            List<EntityVillagerMCA> villagers = new ArrayList<>();
+            List<NBTTagCompound> familyData = new ArrayList<>();
+
+            player.world.loadedEntityList.stream().filter(e -> e instanceof EntityVillagerMCA).forEach(e -> villagers.add((EntityVillagerMCA)e));
+            villagers.stream().filter(e -> e.isMarriedTo(player.getUniqueID()) || e.playerIsParent(player)).forEach(e -> {
+                NBTTagCompound nbt = new NBTTagCompound();
+                e.writeEntityToNBT(nbt);
+                familyData.add(nbt);
+            });
+            return new GetFamilyResponse(familyData);
+        }
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetFamilyResponse implements IMessage {
+        private List<NBTTagCompound> familyData;
+
+        @Override
+        public void toBytes(ByteBuf buf) {
+            buf.writeInt(familyData.size());
+            familyData.stream().forEach(n -> ByteBufUtils.writeTag(buf, n));
+        }
+
+        @Override
+        public void fromBytes(ByteBuf buf) {
+            familyData = new ArrayList<>();
+            int size = buf.readInt();
+            for (int i = 0; i < size; i++) {
+                familyData.add(ByteBufUtils.readTag(buf));
+            }
+        }
+    }
+
+    public static class GetFamilyResponseHandler implements IMessageHandler<GetFamilyResponse, IMessage> {
+        @Override
+        public IMessage onMessage(GetFamilyResponse message, MessageContext ctx) {
+            GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+            if (screen instanceof GuiWhistle) {
+                GuiWhistle whistleScreen = (GuiWhistle)screen;
+                whistleScreen.setVillagerDataList(message.familyData);
+            }
+            return null;
+        }
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CallToPlayer implements IMessage {
+        private UUID targetUUID;
+
+        @Override
+        public void toBytes(ByteBuf buf) {
+            ByteBufUtils.writeUTF8String(buf, targetUUID.toString());
+        }
+
+        @Override
+        public void fromBytes(ByteBuf buf) {
+            targetUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
+        }
+    }
+
+    public static class CallToPlayerHandler implements IMessageHandler<CallToPlayer, IMessage> {
+        @Override
+        public IMessage onMessage(CallToPlayer message, MessageContext ctx) {
+            EntityPlayer player = ctx.getServerHandler().player;
+            Optional<Entity> entity = player.world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(message.targetUUID)).findFirst();
+            entity.ifPresent(e -> {
+                e.setPosition(player.posX, player.posY, player.posZ);
+                ((EntityLiving)e).getNavigator().clearPath();
+            });
             return null;
         }
     }

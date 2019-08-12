@@ -1,9 +1,6 @@
 package mca.core.forge;
 
-import mca.client.gui.GuiInteract;
-import mca.client.gui.GuiNameBaby;
-import mca.client.gui.GuiStaffOfLife;
-import mca.client.gui.GuiVillagerEditor;
+import mca.client.gui.*;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
@@ -45,6 +42,8 @@ public class GuiHandler implements IGuiHandler {
                 return new GuiVillagerEditor((EntityVillagerMCA) world.getEntityByID(entityId), player);
             case Constants.GUI_ID_GUIDEBOOK:
                 return new GuiScreenBook(player, player.inventory.getCurrentItem(), false);
+            case Constants.GUI_ID_WHISTLE:
+                return new GuiWhistle();
             default:
                 MCA.getLog().fatal("Failed to handle provided GUI ID on client: " + guiId);
                 return null;
