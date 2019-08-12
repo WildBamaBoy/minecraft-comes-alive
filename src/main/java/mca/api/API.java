@@ -79,11 +79,32 @@ public class API {
     /**
      * Returns a random skin based on the profession and gender provided.
      *
-     * @param profession The VillagerRegistry.VillagerProfession using the skin
-     * @param gender     The EnumGender of the skin
+     * @param villager The villager who will be assigned the random skin.
      * @return String location of the random skin
      */
-    public static String getRandomSkin(VillagerRegistry.VillagerProfession profession, EnumGender gender) {
+    public static String getRandomSkin(EntityVillagerMCA villager) {
+        VillagerRegistry.VillagerProfession profession = villager.getProfessionForge();
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        String name = villager.get(EntityVillagerMCA.VILLAGER_NAME);
+
+        //Special-case skins
+        if (gender == EnumGender.MALE) {
+            switch (name.toLowerCase()) {
+                case "pewdiepie": return "mca:skins/male/special/pewdiepie_boy.png";
+                case "sven": return "mca:skins/male/special/sven.png";
+                case "noob":
+                case "noober":
+                case "neeber": return "mca:skins/male/special/noob.png";
+                case "shepard": return "mca:skins/male/special/shepard.png";
+                case "minsc": return "mca:skins/male/special/minsc.png";
+            }
+        } else if (gender == EnumGender.FEMALE) {
+            switch (name.toLowerCase()) {
+                case "pewdiepie": return "mca:skins/female/special/pewdiepie_girl.png";
+            }
+        }
+
+        //Default skin behavior
         Optional<SkinsGroup> group = skinGroups.stream()
                         .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
                         .findFirst();

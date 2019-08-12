@@ -111,7 +111,7 @@ public class EntityVillagerMCA extends EntityVillager {
             set(VILLAGER_NAME, API.getRandomName(eGender));
             setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
-            set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), eGender));
+            set(TEXTURE, API.getRandomSkin(this));
 
             applySpecialAI();
         }
@@ -632,7 +632,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 }
                 // intentional fall-through here
             case "gui.button.texture":
-                set(TEXTURE, API.getRandomSkin(this.getProfessionForge(), EnumGender.byId(get(GENDER))));
+                set(TEXTURE, API.getRandomSkin(this));
                 break;
             case "gui.button.random":
                 set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
