@@ -12,6 +12,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -114,6 +116,22 @@ public class EventHooks {
             newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
             newVillager.forcePositionAsHome();
             world.spawnEntity(newVillager);
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityDamaged(LivingDamageEvent event) {
+        if (event.getEntity() instanceof EntityVillagerMCA) {
+            EntityVillagerMCA villager = (EntityVillagerMCA)event.getEntity();
+            Entity source = event.getSource() != null ? event.getSource().getTrueSource() : null;
+
+            if (source instanceof EntityLivingBase) {
+                villager.world.loadedEntityList.stream().filter(e ->
+                        e instanceof EntityVillagerMCA &&
+                        e.getDistance(villager) <= 10.0D &&
+                        ((EntityVillagerMCA)e).getProfessionForge() == ProfessionsMCA.guard)
+                .forEach(e -> ((EntityVillagerMCA) e).setAttackTarget((EntityLivingBase)source));
+            }
         }
     }
 
