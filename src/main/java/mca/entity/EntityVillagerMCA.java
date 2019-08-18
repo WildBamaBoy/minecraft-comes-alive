@@ -477,6 +477,14 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
+    /**
+     * Forces the villager's home to be set to their position. No checks for safety are made.
+     * This is used on overwriting the original villager.
+     */
+    public void forcePositionAsHome() {
+        this.home = this.getPosition();
+    }
+
     private void setHome(EntityPlayerMP player) {
         if (attemptTeleport(posX, posY, posZ)) {
             say(Optional.of(player), "interaction.sethome.success");
