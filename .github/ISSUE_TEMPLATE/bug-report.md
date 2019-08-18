@@ -22,12 +22,12 @@ Please include steps we can take to reproduce the bug:
  - MCA Version: [e.g. 6.0.0] **Any version below 6.0.0 is NOT supported. Do not submit an issue for these versions.**
  - Launcher: [e.g. Standard, Twitch, MultiMC]
 
-** Modpack Information**
+**Modpack Information**
 Complete this section if you are using a modpack.
  - Modpack Name: [e.g. FTB Infinity]
  - Modpack Version: [e.g 3.1.0]
 
-** Mods List **
+**Mods List**
 Complete this section if you are NOT using a modpack but have other mods installed alongside MCA.
  - Please list the other mods you have installed
 
