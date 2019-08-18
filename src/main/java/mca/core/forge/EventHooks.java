@@ -6,6 +6,7 @@ import mca.core.MCA;
 import mca.core.MCAServer;
 import mca.core.minecraft.BlocksMCA;
 import mca.core.minecraft.ItemsMCA;
+import mca.core.minecraft.ProfessionsMCA;
 import mca.core.minecraft.WorldEventListenerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
@@ -111,7 +112,7 @@ public class EventHooks {
             EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
             newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
             newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
-            newVillager.setHomePosAndDistance(newVillager.getPos(), 32);
+            newVillager.forcePositionAsHome();
             world.spawnEntity(newVillager);
         }
     }
