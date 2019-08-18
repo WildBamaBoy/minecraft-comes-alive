@@ -40,8 +40,9 @@ public class ClientMessageQueue {
         try {
             Optional<EntityVillagerMCA> villager = getVillagerByUUID(player.getEntityWorld(), msg.getEntityUUID());
 
-            if (!villager.isPresent())
-                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, null, msg.getCareerId(), EntityVillagerMCA.VANILLA_CAREER_ID_FIELD_INDEX);
+            if (villager.isPresent()) {
+                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, villager.get(), msg.getCareerId(), EntityVillagerMCA.VANILLA_CAREER_ID_FIELD_INDEX);
+            }
         } catch (ClassCastException e) {
             MCA.getLog().error("Failed to cast entity to villager on career ID update.");
         } catch (Exception e) {
