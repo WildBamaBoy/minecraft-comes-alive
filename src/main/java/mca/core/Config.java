@@ -25,6 +25,7 @@ public final class Config implements Serializable {
     public int childGrowUpTime;
     public int villagerSpawnerCap;
     public int villagerSpawnerRateMinutes;
+    public int villagerMaxHealth;
     public boolean allowTrading;
     public boolean logVillagerDeaths;
     public boolean enableRevivals;
@@ -63,6 +64,7 @@ public final class Config implements Serializable {
         allowCrashReporting = config.get("General", "Allow Crash Reporting?", true, "If enabled, sends crash reports to MCA developers.").getBoolean();
         allowUpdateChecking = config.get("General", "Allow Update Checking?", true, "If enabled, notifies you when an update to MCA is available.").getBoolean();
         allowRoseGoldGeneration = config.get("General", "Allow Rose Gold World Generation", true, "If enabled, generates rose gold in your world. If disabled, generates stone instead.").getBoolean();
+        villagerMaxHealth = config.get("General", "Villager Max Health", 20, "Each villager's maximum health. 1 point equals 1 heart.").getInt();
         config.save();
     }
 

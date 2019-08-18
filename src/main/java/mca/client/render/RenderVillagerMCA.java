@@ -60,11 +60,14 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         final int redHeartU = 80;
         final int darkHeartU = 96;
         int heartsDrawn = 0;
-        maxHealth = Math.round((float)maxHealth / 2.0F);
-        currentHealth = Math.round((float)currentHealth / 2.0F);
 
-        for (int i = 0; i < maxHealth; i++) {
-            int heartU = i < currentHealth ? redHeartU : darkHeartU;
+        float maxHealthF = Math.round((float)maxHealth / 2.0F);
+        float currentHealthF = Math.round((float)currentHealth / 2.0F);
+        int heartsMax = Math.round((maxHealthF / maxHealthF) * 10.0F);
+        int heartsToDraw = Math.round((currentHealthF / maxHealthF) * 10.0F);
+
+        for (int i = 0; i < heartsMax; i++) {
+            int heartU = i < heartsToDraw ? redHeartU : darkHeartU;
             heartsDrawn++;
 
             GL11.glPushMatrix();{

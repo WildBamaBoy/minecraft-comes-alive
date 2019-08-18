@@ -22,6 +22,7 @@ import mca.util.ResourceLocationCache;
 import mca.util.Util;
 import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
@@ -142,6 +143,16 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
         this.dataManager.register(BED_POS, BlockPos.ORIGIN);
         this.setSilent(false);
+    }
+
+    @Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(MCA.getConfig().villagerMaxHealth);
+
+        if (this.getHealth() <= MCA.getConfig().villagerMaxHealth) {
+            this.setHealth(MCA.getConfig().villagerMaxHealth);
+        }
     }
 
     @Override
