@@ -25,12 +25,8 @@ public class GuiVillagerEditor extends GuiScreen {
     private final EntityPlayer player;
 
     private GuiTextField nameTextField;
-    private GuiTextField dummyTextField;
-
-    private GuiButton doneButton;
-    private GuiButton copyUUIDButton;
-
-    private int currentPage = 1;
+    private GuiTextField professionTextField;
+    private GuiTextField textureTextField;
 
     public GuiVillagerEditor(EntityVillagerMCA EntityHuman, EntityPlayer player) {
         super();
@@ -41,11 +37,9 @@ public class GuiVillagerEditor extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-
-        if (nameTextField != null && doneButton != null) {
-            nameTextField.updateCursorCounter();
-            doneButton.enabled = !nameTextField.getText().isEmpty();
-        }
+        nameTextField.updateCursorCounter();
+        professionTextField.updateCursorCounter();
+        textureTextField.updateCursorCounter();
     }
 
     @Override
@@ -56,8 +50,12 @@ public class GuiVillagerEditor extends GuiScreen {
         nameTextField = new GuiTextField(1, fontRenderer, width / 2 - 205, height / 2 - 95, 150, 20);
         nameTextField.setMaxStringLength(32);
         nameTextField.setText(villager.get(EntityVillagerMCA.VILLAGER_NAME));
-        dummyTextField = new GuiTextField(2, fontRenderer, width / 2 + 90, height / 2 - 100, 100, 200);
-        dummyTextField.setMaxStringLength(0);
+        professionTextField = new GuiTextField(2, fontRenderer, width / 2 - 190, height / 2 + 10, 250, 20);
+        professionTextField.setMaxStringLength(64);
+        professionTextField.setText(villager.getVanillaCareer().getName());
+        textureTextField = new GuiTextField(3, fontRenderer, width / 2 - 190, height / 2 - 15, 250, 20);
+        textureTextField.setMaxStringLength(128);
+        textureTextField.setText(villager.get(EntityVillagerMCA.TEXTURE));
     }
 
     @Override
@@ -74,6 +72,21 @@ public class GuiVillagerEditor extends GuiScreen {
             mc.displayGuiScreen(null);
         } else if (btn.getIdentifier().equals("gui.button.copyuuid")) {
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(villager.getUniqueID().toString()), null);
+            Minecraft.getMinecraft().player.sendChatMessage("Villager UUID copied to clipboard.");
+        } else if (btn.getIdentifier().equals("gui.button.profession.set")) {
+            String profession = professionTextField.getText();
+            NetMCA.INSTANCE.sendToServer(new NetMCA.SetProfession(villager.getUniqueID(), profession));
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            NetMCA.INSTANCE.sendToServer(new NetMCA.CareerRequest(villager.getUniqueID()));
+                        }
+                    },500
+            );
+        } else if (btn.getIdentifier().contains("gui.button.texture")) {
+            String texture = btn.getIdentifier().endsWith(".set") ? textureTextField.getText() : API.getRandomSkin(villager);
+            NetMCA.INSTANCE.sendToServer(new NetMCA.SetTexture(villager.getUniqueID(), texture));
+            textureTextField.setText(texture);
         }
     }
 
@@ -82,9 +95,12 @@ public class GuiVillagerEditor extends GuiScreen {
         if (i == Keyboard.KEY_ESCAPE) {
             Minecraft.getMinecraft().displayGuiScreen(null);
         } else {
-            nameTextField.textboxKeyTyped(c, i);
-            String text = nameTextField.getText().trim();
-            NetMCA.INSTANCE.sendToServer(new NetMCA.SetName(text, villager.getUniqueID()));
+            if (nameTextField.textboxKeyTyped(c, i)) {
+                String text = nameTextField.getText().trim();
+                NetMCA.INSTANCE.sendToServer(new NetMCA.SetName(text, villager.getUniqueID()));
+            }
+            textureTextField.textboxKeyTyped(c, i);
+            professionTextField.textboxKeyTyped(c, i);
             drawEditorGui();
         }
     }
@@ -93,6 +109,8 @@ public class GuiVillagerEditor extends GuiScreen {
     protected void mouseClicked(int clickX, int clickY, int clicked) throws IOException {
         super.mouseClicked(clickX, clickY, clicked);
         nameTextField.mouseClicked(clickX, clickY, clicked);
+        professionTextField.mouseClicked(clickX, clickY, clicked);
+        textureTextField.mouseClicked(clickX, clickY, clicked);
     }
 
     @Override
@@ -111,7 +129,8 @@ public class GuiVillagerEditor extends GuiScreen {
         drawString(fontRenderer, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
         drawCenteredString(fontRenderer, MCA.getLocalizer().localize("gui.title.editor"), width / 2, height / 2 - 110, 0xffffff);
         nameTextField.drawTextBox();
-
+        professionTextField.drawTextBox();
+        textureTextField.drawTextBox();
         super.drawScreen(sizeX, sizeY, offset);
     }
 }

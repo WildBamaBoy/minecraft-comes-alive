@@ -449,11 +449,11 @@ public class EntityVillagerMCA extends EntityVillager {
         set(HAS_BABY, false);
     }
 
-    private VillagerRegistry.VillagerCareer getVanillaCareer() {
+    public VillagerRegistry.VillagerCareer getVanillaCareer() {
         return this.getProfessionForge().getCareer(ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, VANILLA_CAREER_ID_FIELD_INDEX));
     }
 
-    private void setVanillaCareer(int careerId) {
+    public void setVanillaCareer(int careerId) {
         ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, careerId, VANILLA_CAREER_ID_FIELD_INDEX);
     }
 
@@ -641,6 +641,13 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.infected":
                 set(IS_INFECTED, !get(IS_INFECTED));
+                break;
+            case "gui.button.texture.randomize":
+                set(TEXTURE, API.getRandomSkin(this));
+                break;
+            case "gui.button.profession.randomize":
+                setProfession(ProfessionsMCA.randomProfession());
+                setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
                 break;
             case "gui.button.gender":
                 EnumGender gender = EnumGender.byId(get(GENDER));

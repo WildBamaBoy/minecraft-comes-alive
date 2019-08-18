@@ -8,6 +8,7 @@ import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
 import mca.client.network.ClientMessageQueue;
 import mca.core.MCA;
+import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.SavedVillagers;
 import mca.entity.inventory.InventoryMCA;
@@ -23,6 +24,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -31,6 +34,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.collection.parallel.ParIterableLike;
@@ -57,6 +61,8 @@ public class NetMCA {
         INSTANCE.registerMessage(GetFamilyHandler.class, GetFamily.class, 12, Side.SERVER);
         INSTANCE.registerMessage(GetFamilyResponseHandler.class, GetFamilyResponse.class, 13, Side.CLIENT);
         INSTANCE.registerMessage(CallToPlayerHandler.class, CallToPlayer.class, 14, Side.SERVER);
+        INSTANCE.registerMessage(SetTextureHandler.class, SetTexture.class, 15, Side.SERVER);
+        INSTANCE.registerMessage(SetProfessionHandler.class, SetProfession.class, 16, Side.SERVER);
     }
 
     @SideOnly(Side.CLIENT)
@@ -555,6 +561,92 @@ public class NetMCA {
                 e.setPosition(player.posX, player.posY, player.posZ);
                 ((EntityLiving)e).getNavigator().clearPath();
             });
+            return null;
+        }
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SetProfession implements IMessage {
+        private UUID targetUUID;
+        private String profession;
+
+        @Override
+        public void toBytes(ByteBuf buf) {
+            ByteBufUtils.writeUTF8String(buf, targetUUID.toString());
+            ByteBufUtils.writeUTF8String(buf, profession);
+        }
+
+        @Override
+        public void fromBytes(ByteBuf buf) {
+            targetUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
+            profession = ByteBufUtils.readUTF8String(buf);
+        }
+    }
+
+    public static class SetProfessionHandler implements IMessageHandler<SetProfession, IMessage> {
+        @Override
+        public IMessage onMessage(SetProfession message, MessageContext ctx) {
+            boolean isCareerSet = false;
+            EntityPlayer player = ctx.getServerHandler().player;
+            Optional<Entity> entity = player.world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(message.targetUUID)).findFirst();
+            if (entity.isPresent()) {
+                // Loop through all professions in the registry
+                for (Map.Entry<ResourceLocation, VillagerRegistry.VillagerProfession> professionEntry : ProfessionsMCA.registry.getEntries()) {
+                    List<VillagerRegistry.VillagerCareer> careers = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.VillagerProfession.class, professionEntry.getValue(), 3);
+
+                    // Career ids are based on their index in the careers list
+                    for (int i = 0; i < careers.size(); i++) {
+                        VillagerRegistry.VillagerCareer career = careers.get(i);
+
+                        // If we found the correct career, set the profession and career accordingly
+                        if (career.getName().equals(message.profession)) {
+                            EntityVillagerMCA villager = (EntityVillagerMCA)entity.get();
+                            villager.setProfession(professionEntry.getValue());
+                            villager.setVanillaCareer(i);
+                            player.sendMessage(new TextComponentString("Career set to " + message.profession));
+                            isCareerSet = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                MCA.getLog().error("Entity not found on career set!: " + message.targetUUID.toString());
+                return null;
+            }
+
+            if (!isCareerSet) {
+                player.sendMessage(new TextComponentString("Career not found: " + message.profession));
+            }
+            return null;
+        }
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SetTexture implements IMessage {
+        private UUID targetUUID;
+        private String texture;
+
+        @Override
+        public void toBytes(ByteBuf buf) {
+            ByteBufUtils.writeUTF8String(buf, targetUUID.toString());
+            ByteBufUtils.writeUTF8String(buf, texture);
+        }
+
+        @Override
+        public void fromBytes(ByteBuf buf) {
+            targetUUID = UUID.fromString(ByteBufUtils.readUTF8String(buf));
+            texture = ByteBufUtils.readUTF8String(buf);
+        }
+    }
+
+    public static class SetTextureHandler implements IMessageHandler<SetTexture, IMessage> {
+        @Override
+        public IMessage onMessage(SetTexture message, MessageContext ctx) {
+            EntityPlayer player = ctx.getServerHandler().player;
+            Optional<Entity> entity = player.world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(message.targetUUID)).findFirst();
+            entity.ifPresent(e -> ((EntityVillagerMCA)e).set(EntityVillagerMCA.TEXTURE, message.texture));
             return null;
         }
     }
