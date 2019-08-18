@@ -294,16 +294,8 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
-        if (getProfessionForge() == ProfessionsMCA.bandit) {
-            return false;
-        } else if (player.getHeldItemMainhand().getItem() == ItemsMCA.VILLAGER_EDITOR) {
-            player.openGui(MCA.getInstance(), Constants.GUI_ID_VILLAGEREDITOR, player.world, this.getEntityId(), 0, 0);
-            return true;
-        } else {
-            player.addStat(StatList.TALKED_TO_VILLAGER);
-            player.openGui(MCA.getInstance(), Constants.GUI_ID_INTERACT, player.world, this.getEntityId(), 0, 0);
-            return true;
-        }
+        // No-op, handled by EventHooks
+        return true;
     }
 
     @Override
