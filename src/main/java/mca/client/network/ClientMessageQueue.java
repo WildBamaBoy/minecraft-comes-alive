@@ -51,9 +51,10 @@ public class ClientMessageQueue {
 
     private static void handleInventory(NetMCA.InventoryResponse msg) {
         EntityPlayer player = Minecraft.getMinecraft().player;
-        Optional<EntityVillagerMCA> villager = getVillagerByUUID(player.world, msg.getEntityUUID());
-
-        villager.ifPresent(entityVillagerMCA -> entityVillagerMCA.inventory.readInventoryFromNBT(msg.getInventoryNBT().getTagList("inventory", 10)));
+        if (player != null) {
+            Optional<EntityVillagerMCA> villager = getVillagerByUUID(player.world, msg.getEntityUUID());
+            villager.ifPresent(entityVillagerMCA -> entityVillagerMCA.inventory.readInventoryFromNBT(msg.getInventoryNBT().getTagList("inventory", 10)));
+        }
     }
 
     private static Optional<EntityVillagerMCA> getVillagerByUUID(World world, UUID uuid) {
