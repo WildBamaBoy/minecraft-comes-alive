@@ -40,7 +40,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -81,6 +80,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Integer> BABY_AGE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
     public static final DataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     public static final DataParameter<BlockPos> BED_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
+    public static final DataParameter<BlockPos> WORKPLACE_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -142,6 +142,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(BABY_AGE, 0);
         this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
         this.dataManager.register(BED_POS, BlockPos.ORIGIN);
+        this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN);
         this.setSilent(false);
     }
 
@@ -149,6 +150,7 @@ public class EntityVillagerMCA extends EntityVillager {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(MCA.getConfig().villagerMaxHealth);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(48.0D);
 
         if (this.getHealth() <= MCA.getConfig().villagerMaxHealth) {
             this.setHealth(MCA.getConfig().villagerMaxHealth);
@@ -207,6 +209,7 @@ public class EntityVillagerMCA extends EntityVillager {
         set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
         set(PARENTS, nbt.getCompoundTag("parents"));
         set(BED_POS, new BlockPos(nbt.getInteger("bedX"), nbt.getInteger("bedY"), nbt.getInteger("bedZ")));
+        set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
         // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
@@ -249,6 +252,9 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("bedX", get(BED_POS).getX());
         nbt.setInteger("bedY", get(BED_POS).getY());
         nbt.setInteger("bedZ", get(BED_POS).getZ());
+        nbt.setInteger("workplaceX", get(WORKPLACE_POS).getX());
+        nbt.setInteger("workplaceY", get(WORKPLACE_POS).getY());
+        nbt.setInteger("workplaceZ", get(WORKPLACE_POS).getZ());
     }
 
     @Override
@@ -480,6 +486,11 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
+    //either goes to the workplace, or randomly walks around
+    public BlockPos getWorkplace() {
+        return get(WORKPLACE_POS);
+    }
+
     /**
      * Forces the villager's home to be set to their position. No checks for safety are made.
      * This is used on overwriting the original villager.
@@ -501,6 +512,11 @@ public class EntityVillagerMCA extends EntityVillager {
         } else {
             say(Optional.of(player), "interaction.sethome.fail");
         }
+    }
+
+    public void setWorkplace(EntityPlayerMP player) {
+        say(Optional.of(player), "interaction.setworkplace.success");
+        set(WORKPLACE_POS, player.getPosition());
     }
 
     public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
@@ -667,6 +683,9 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.chopping": startChore(EnumChore.CHOP, player); break;
             case "gui.button.harvesting": startChore(EnumChore.HARVEST, player); break;
             case "gui.button.stopworking": stopChore(); break;
+            case "gui.button.setworkplace":
+                setWorkplace(player);
+                break;
         }
     }
 

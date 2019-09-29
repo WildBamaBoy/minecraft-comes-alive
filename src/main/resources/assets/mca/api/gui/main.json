@@ -120,5 +120,16 @@
       "notifyServer": true,
       "targetServer": false,
       "constraints": "spouse|hideonfail"
+    },
+    {
+      "id": 11,
+      "identifier": "gui.button.setworkplace",
+      "x": 140,
+      "y": 105,
+      "width": 65,
+      "height": 20,
+      "notifyServer": true,
+      "targetServer": false,
+      "constraints": ""
     }
 ]

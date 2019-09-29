@@ -129,6 +129,7 @@ gui.button.move=Move Freely
 gui.button.trade=Trade
 gui.button.sethome=Set Home
 gui.button.gohome=Go Home
+gui.button.setworkplace=Workplace
 gui.button.ridehorse=Ride Horse
 gui.button.special=Special
 gui.button.procreate=Procreate
@@ -289,6 +290,10 @@ childp.interaction.sethome.success3=Okay, but I want the biggest room!
 adult.interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %v1% in the way.
 adult.interaction.sethome.fail2=Is there another place nearby? There's some %v1% in the way.
 adult.interaction.sethome.fail3=I can't have my home point here. There's some %v1% in the way.
+
+adult.interaction.setworkplace.success1=Sure thing, %v1%.
+spouse.interaction.setworkplace.success1=I really like this place.
+childp.interaction.setworkplace.success1=Okay fine!
 
 adult.interaction.gohome.success1=Alright, I'll go there immediately!
 adult.interaction.gohome.success2=Sure, I'll go home now.
