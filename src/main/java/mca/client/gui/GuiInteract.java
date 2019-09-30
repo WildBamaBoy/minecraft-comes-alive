@@ -232,6 +232,10 @@ public class GuiInteract extends GuiScreen {
             drawMainButtonMenu();
             activeKey = "main";
             return;
+        } else if (id.equals("gui.button.location")) {
+            activeKey = "location";
+            drawLocationButtonMenu();
+            return;
         }
 
         /* Anything that should notify the server is handled here */
@@ -264,6 +268,11 @@ public class GuiInteract extends GuiScreen {
     private void drawWorkButtonMenu() {
         buttonList.clear();
         API.addButtons("work", villager, player, this);
+    }
+
+    private void drawLocationButtonMenu() {
+        buttonList.clear();
+        API.addButtons("location", villager, player, this);
     }
 
     private void disableButton(String id) {

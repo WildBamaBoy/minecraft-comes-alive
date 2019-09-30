@@ -64,6 +64,7 @@ public class API {
         buttonMap.put("debug", Util.readResourceAsJSON("api/gui/debug.json", APIButton[].class));
         buttonMap.put("editor", Util.readResourceAsJSON("api/gui/editor.json", APIButton[].class));
         buttonMap.put("work", Util.readResourceAsJSON("api/gui/work.json", APIButton[].class));
+        buttonMap.put("location", Util.readResourceAsJSON("api/gui/location.json", APIButton[].class));
 
         // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);

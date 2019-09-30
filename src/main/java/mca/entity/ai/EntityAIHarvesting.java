@@ -4,17 +4,14 @@ import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import mca.util.Util;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,14 +69,11 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
             if (villager.getWorkplace().getY() > 0 && villager.getDistanceSq(villager.getWorkplace()) > 256.0D) {
                 //go to their workplace (if set and more than 16 blocks away)
                 MCA.getLog().info("Villager goes to workplace");
-                lastCropScan = 0;
-                if (!villager.getNavigator().setPath(villager.getNavigator().getPathToPos(villager.getWorkplace()), 0.5D)) {
-                   villager.attemptTeleport(villager.getWorkplace().getX(), villager.getWorkplace().getY(), villager.getWorkplace().getZ());
-                }
+                villager.moveTowardsBlock(villager.getWorkplace());
             } else {
                 //failed (no crop on range), allows now other, lower priority tasks to interrupt
                 MCA.getLog().info("Villager idles");
-                blockWork = villager.ticksExisted + 300;
+                blockWork = villager.ticksExisted + 200 + villager.getRNG().nextInt(200);
             }
         } else {
             //harvest if next to it, else try to reach it
@@ -112,7 +106,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                 }
 
                 //wait before harvesting next crop
-                blockWork = villager.ticksExisted + 10;
+                blockWork = villager.ticksExisted + 20;
             }
         }
     }
