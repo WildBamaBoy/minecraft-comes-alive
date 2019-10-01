@@ -2,30 +2,26 @@ package mca.entity.ai;
 
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.util.Util;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static net.minecraft.block.BlockBed.OCCUPIED;
-
 public class EntityAISleeping extends AbstractEntityAIChore {
+    int failed = 0;
+
     public EntityAISleeping(EntityVillagerMCA villagerIn) {
         super(villagerIn);
         this.setMutexBits(1);
     }
 
     public boolean shouldExecute() {
-        if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN) {
-            return false; //can be disabled to allow every villager to sleep
+        if (villager.ticksExisted - failed < 1200) {
+            return false;
         }
 
         long time = villager.world.getWorldTime() % 24000L;
+        if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN && time < 18000) { //at tick 18000 villager without bed are allowed to automatically choose one
+            return false;
+        }
+
         if (time > 12000 && time < 23000) {
             return true;
         } else {
@@ -44,22 +40,16 @@ public class EntityAISleeping extends AbstractEntityAIChore {
     public void startExecuting() {
         if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN || villager.getDistanceSq(villager.get(EntityVillagerMCA.BED_POS)) < 4.0) {
             //search for the nearest bed, might be a different than before
-            List<BlockPos> nearbyBeds = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockBed.class, 8, 8);
-            List<BlockPos> valid = new ArrayList<>();
-            for (BlockPos pos : nearbyBeds) {
-                IBlockState state = villager.world.getBlockState(pos);
-                if (!state.getValue(OCCUPIED)) {
-                    valid.add(pos);
-                }
-            }
-
-            BlockPos pos = Util.getNearestPoint(villager.getPos(), valid);
+            BlockPos pos = villager.searchBed();
 
             if (pos == null) {
                 //no bed found, let's forget about the remembered bed
-                //TODO: notify the player
-                MCA.getLog().info(villager.getName() + " lost the bed");
-                villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
+                if (villager.get(EntityVillagerMCA.BED_POS) != BlockPos.ORIGIN) {
+                    //TODO: notify the player?
+                    MCA.getLog().info(villager.getName() + " lost the bed");
+                    villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
+                }
+                failed = villager.ticksExisted;
             } else {
                 MCA.getLog().info(villager.getName() + " sleeps now");
                 villager.set(EntityVillagerMCA.BED_POS, pos);
@@ -79,8 +69,7 @@ public class EntityAISleeping extends AbstractEntityAIChore {
     }
 
     public void updateTask() {
-        //villager.getLookHelper().setLookPosition(villager.posX, villager.posY - 10.0f, villager.posZ, (float)villager.getHorizontalFaceSpeed(), (float)villager.getVerticalFaceSpeed());
-        //TODO: implement non-nightmare-style head movements while sleeping
-        //TODO: check if bed has been destroyed
+        villager.setRotationYawHead(0.0f);
+        villager.rotationYaw = 0.0f;
     }
 }
