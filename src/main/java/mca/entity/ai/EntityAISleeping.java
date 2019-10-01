@@ -26,7 +26,7 @@ public class EntityAISleeping extends AbstractEntityAIChore {
         }
 
         long time = villager.world.getWorldTime() % 24000L;
-        if (time > 13000 && time < 23000) {
+        if (time > 12000 && time < 23000) {
             return true;
         } else {
             //wake up if still sleeping
@@ -73,7 +73,7 @@ public class EntityAISleeping extends AbstractEntityAIChore {
 
     public void resetTask() {
         if (villager.isSleeping()) {
-            MCA.getLog().info("Villager wakes up");
+            MCA.getLog().info(villager.getName() + " wakes up");
             villager.stopSleeping();
         }
     }

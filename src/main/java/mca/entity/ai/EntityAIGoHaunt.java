@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 
 public class EntityAIGoHaunt extends AbstractEntityAIChore {
@@ -17,7 +18,7 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
 
         long time = villager.world.getWorldTime() % 24000L;
 
-        if (time < 9000 || time > 12000) {
+        if (time < 9000 || time > 11000) {
             //spare time is over, villager will start going home
             atHaunt = false;
             return false;
@@ -44,6 +45,7 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
     }
 
     public void startExecuting() {
+        MCA.getLog().info(villager.getName() + " goes to haunt");
         villager.moveTowardsBlock(villager.getHaunt());
     }
 

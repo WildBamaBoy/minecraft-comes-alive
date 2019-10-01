@@ -60,7 +60,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         //no crop next to villager -> long range scan
         //limited to once a minute to reduce CPU usage
         if (target == null && villager.ticksExisted - lastCropScan > 1200) {
-            MCA.getLog().info("Villager scans for crops");
+            MCA.getLog().info(villager.getName() + " scans for crops");
             lastCropScan = villager.ticksExisted;
             target = searchCrop(32, 16);
         }
@@ -68,12 +68,12 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         if (target == null) {
             if (villager.getWorkplace().getY() > 0 && villager.getDistanceSq(villager.getWorkplace()) > 256.0D) {
                 //go to their workplace (if set and more than 16 blocks away)
-                MCA.getLog().info("Villager goes to workplace");
+                MCA.getLog().info(villager.getName() + " goes to workplace");
                 villager.moveTowardsBlock(villager.getWorkplace());
             } else {
                 //failed (no crop on range), allows now other, lower priority tasks to interrupt
-                MCA.getLog().info("Villager idles");
-                blockWork = villager.ticksExisted + 200 + villager.getRNG().nextInt(200);
+                MCA.getLog().info(villager.getName() + " idles");
+                blockWork = villager.ticksExisted + 100 + villager.getRNG().nextInt(100);
             }
         } else {
             //harvest if next to it, else try to reach it
@@ -83,8 +83,8 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                     villager.attemptTeleport(target.getX(), target.getY(), target.getZ());
                 }
             } else {
+                //harvest
                 IBlockState state = villager.world.getBlockState(target);
-
                 if (state.getBlock() instanceof BlockCrops) {
                     BlockCrops crop = (BlockCrops) state.getBlock();
                     NonNullList<ItemStack> drops = NonNullList.create();

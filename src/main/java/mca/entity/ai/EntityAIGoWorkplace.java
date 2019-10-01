@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 
 public class EntityAIGoWorkplace extends AbstractEntityAIChore {
@@ -17,7 +18,7 @@ public class EntityAIGoWorkplace extends AbstractEntityAIChore {
 
         long time = villager.world.getWorldTime() % 24000L;
 
-        if (time > 4000) {
+        if (time < 4000 || time > 7000) {
             //work is over, villager will start spreading
             atWork = false;
             return false;
@@ -44,6 +45,7 @@ public class EntityAIGoWorkplace extends AbstractEntityAIChore {
     }
 
     public void startExecuting() {
+        MCA.getLog().info(villager.getName() + " goes to work");
         villager.moveTowardsBlock(villager.getWorkplace());
     }
 
