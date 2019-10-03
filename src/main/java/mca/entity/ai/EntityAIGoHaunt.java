@@ -12,7 +12,7 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
     }
 
     public boolean shouldExecute() {
-        if (villager.getHaunt().getY() == 0 || villager.world.isRaining()) {
+        if (villager.getHaunt().getY() == 0) {
             return false; //no workplace or it is raining
         }
 
@@ -24,16 +24,16 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
             return false;
         }
 
-        double validArea = 256.0D; //allows 16 blocks radius to stay
+        double validArea = 64.0D; //allows 8 blocks radius to stay
         double distance = villager.getDistanceSq(villager.getHaunt());
 
         if (!atHaunt) {
-            if (distance < 25.0) {
-                //arrived at workplace
+            if (distance < 9.0) {
+                //arrived at haunt
                 atHaunt = true;
             } else {
                 //did not reach workplace for today -> shrink valid area so the villager gathers clearly at his workplace
-                validArea = 16.0D;
+                validArea = 4.0D;
             }
         }
 

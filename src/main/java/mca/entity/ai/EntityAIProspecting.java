@@ -19,6 +19,9 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
     }
 
     public boolean shouldExecute() {
+        if (villager.getHealth() < villager.getMaxHealth()) {
+            villager.stopChore();
+        }
         return EnumChore.byId(villager.get(EntityVillagerMCA.ACTIVE_CHORE)) == EnumChore.PROSPECT;
     }
 

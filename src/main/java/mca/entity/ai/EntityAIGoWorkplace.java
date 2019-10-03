@@ -28,12 +28,12 @@ public class EntityAIGoWorkplace extends AbstractEntityAIChore {
         double distance = villager.getDistanceSq(villager.getWorkplace());
 
         if (!atWork) {
-            if (distance < 25.0) {
+            if (distance < 9.0) {
                 //arrived at workplace
                 atWork = true;
             } else {
                 //did not reach workplace for today -> shrink valid area so the villager gathers clearly at his workplace
-                validArea = 16.0D;
+                validArea = 4.0D;
             }
         }
 

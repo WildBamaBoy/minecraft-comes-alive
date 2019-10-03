@@ -1,11 +1,12 @@
 package mca.entity.ai;
 
 import mca.core.MCA;
+import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.util.math.BlockPos;
 
 public class EntityAISleeping extends AbstractEntityAIChore {
-    int failed = 0;
+    private int failed = 0;
 
     public EntityAISleeping(EntityVillagerMCA villagerIn) {
         super(villagerIn);
@@ -14,15 +15,32 @@ public class EntityAISleeping extends AbstractEntityAIChore {
 
     public boolean shouldExecute() {
         if (villager.ticksExisted - failed < 1200) {
+            //wake up if still sleeping
+            if (villager.isSleeping()) {
+                villager.stopSleeping();
+            }
             return false;
         }
 
         long time = villager.world.getWorldTime() % 24000L;
         if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN && time < 18000) { //at tick 18000 villager without bed are allowed to automatically choose one
+            //wake up if still sleeping
+            if (villager.isSleeping()) {
+                villager.stopSleeping();
+            }
             return false;
         }
 
-        if (time > 12000 && time < 23000) {
+        //if guards detect enemies they won't sleep
+        if (villager.getProfessionForge() == ProfessionsMCA.guard && villager.getAttackTarget() != null) {
+            //wake up, this is a emergency!
+            if (villager.isSleeping()) {
+                villager.stopSleeping();
+            }
+            return false;
+        }
+
+        if (time > (villager.getProfessionForge() == ProfessionsMCA.guard ? 14000 : 12000) && time < 23000) {
             return true;
         } else {
             //wake up if still sleeping
@@ -34,7 +52,7 @@ public class EntityAISleeping extends AbstractEntityAIChore {
     }
 
     public boolean shouldContinueExecuting() {
-        return !villager.getNavigator().noPath() || (shouldExecute() && villager.isSleeping());
+        return shouldExecute() && (!villager.getNavigator().noPath() || villager.isSleeping());
     }
 
     public void startExecuting() {
@@ -48,6 +66,8 @@ public class EntityAISleeping extends AbstractEntityAIChore {
                     //TODO: notify the player?
                     MCA.getLog().info(villager.getName() + " lost the bed");
                     villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
+                } else {
+                    MCA.getLog().info(villager.getName() + " has no bed");
                 }
                 failed = villager.ticksExisted;
             } else {
@@ -69,7 +89,9 @@ public class EntityAISleeping extends AbstractEntityAIChore {
     }
 
     public void updateTask() {
-        villager.setRotationYawHead(0.0f);
-        villager.rotationYaw = 0.0f;
+        if (villager.isSleeping()) {
+            villager.setRotationYawHead(0.0f);
+            villager.rotationYaw = 0.0f;
+        }
     }
 }

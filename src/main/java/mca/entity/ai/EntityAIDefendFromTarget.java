@@ -12,7 +12,7 @@ public class EntityAIDefendFromTarget extends EntityAIBase {
 
     public EntityAIDefendFromTarget(EntityCreature creature) {
         this.attacker = creature;
-        this.setMutexBits(3);
+        this.setMutexBits(0);
     }
 
     public boolean shouldExecute() {
@@ -27,7 +27,6 @@ public class EntityAIDefendFromTarget extends EntityAIBase {
         } else if (this.attackTick > 0) {
             return false;
         } else {
-            System.out.println(this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ));
             return 4.0D >= this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
         }
     }

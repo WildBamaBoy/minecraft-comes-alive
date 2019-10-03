@@ -173,26 +173,6 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIProspecting(this));
-        this.tasks.addTask(0, new EntityAIHunting(this));
-        this.tasks.addTask(0, new EntityAIChopping(this));
-        this.tasks.addTask(0, new EntityAIHarvesting(this));
-        this.tasks.addTask(0, new EntityAIFishing(this));
-        this.tasks.addTask(0, new EntityAIMoveState(this));
-        this.tasks.addTask(0, new EntityAIAgeBaby(this));
-        this.tasks.addTask(0, new EntityAIProcreate(this));
-        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
-        this.tasks.addTask(5, new EntityAIGoHaunt(this));
-        this.tasks.addTask(1, new EntityAISleeping(this));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
-
-
-    }
-
     public <T> T get(DataParameter<T> key) {
         return this.dataManager.get(key);
     }
@@ -286,9 +266,9 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
-        // Guards take 30% less damage
+        // Guards take 50% less damage
         if (getProfessionForge() == ProfessionsMCA.guard) {
-            damageAmount *= 0.70;
+            damageAmount *= 0.50;
         }
         super.damageEntity(damageSource, damageAmount);
 
@@ -405,6 +385,12 @@ public class EntityVillagerMCA extends EntityVillager {
     @Nonnull
     public String getCustomNameTag() {
         return get(VILLAGER_NAME);
+    }
+
+    @Override
+    @Nonnull
+    public boolean hasCustomName() {
+        return true;
     }
 
     @Override
@@ -537,15 +523,14 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void setHome(EntityPlayerMP player) {
-        if (attemptTeleport(posX, posY, posZ)) {
+        if (attemptTeleport(player.posX, player.posY, player.posZ)) {
             say(Optional.of(player), "interaction.sethome.success");
-            this.home = this.getPosition();
+            this.home = player.getPosition();
             this.setHomePosAndDistance(this.home, 32);
             BlockPos bed = searchBed();
             if (bed != null) {
                 set(BED_POS, bed);
             }
-
         } else {
             say(Optional.of(player), "interaction.sethome.fail");
         }
@@ -836,9 +821,26 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
+    @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(0, new EntityAIProspecting(this));
+        this.tasks.addTask(0, new EntityAIHunting(this));
+        this.tasks.addTask(0, new EntityAIChopping(this));
+        this.tasks.addTask(0, new EntityAIHarvesting(this));
+        this.tasks.addTask(0, new EntityAIFishing(this));
+        this.tasks.addTask(0, new EntityAIMoveState(this));
+        this.tasks.addTask(0, new EntityAIAgeBaby(this));
+        this.tasks.addTask(0, new EntityAIProcreate(this));
+        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
+        this.tasks.addTask(5, new EntityAIGoHaunt(this));
+        this.tasks.addTask(1, new EntityAISleeping(this));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
+    }
+
     private void applySpecialAI() {
         if (getProfessionForge() == ProfessionsMCA.bandit) {
-            this.targetTasks.taskEntries.clear();
             this.tasks.taskEntries.clear();
             this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
             this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
@@ -846,7 +848,9 @@ public class EntityVillagerMCA extends EntityVillager {
             this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
             this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         } else if (getProfessionForge() == ProfessionsMCA.guard) {
-            this.tasks.addTask(0, new EntityAIAttackMelee(this, 0.8D, false));
+            removeCertainTasks(EntityAIAvoidEntity.class);
+
+            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
             this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
 
             this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
@@ -856,8 +860,24 @@ public class EntityVillagerMCA extends EntityVillager {
         } else {
             //every other villager is allowed to defend itself from zombies while fleeing
             this.tasks.addTask(0, new EntityAIDefendFromTarget(this));
+
             this.targetTasks.taskEntries.clear();
-            this.targetTasks.addTask(0, new EntityAIFindEntityNearest(this, EntityZombie.class));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
+        }
+    }
+
+    //guards should not run away from zombies
+    //TODO: should only avoid zombies when low on health
+    private void removeCertainTasks(Class typ) {
+        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
+
+        while (iterator.hasNext()) {
+            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
+            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+
+            if (entityaibase.getClass().equals(typ)) {
+                iterator.remove();
+            }
         }
     }
 
@@ -934,7 +954,7 @@ public class EntityVillagerMCA extends EntityVillager {
         List<BlockPos> valid = new ArrayList<>();
         for (BlockPos pos : nearbyBeds) {
             IBlockState state = world.getBlockState(pos);
-            if (!state.getValue(OCCUPIED) && state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
+            if (!(state.getValue(OCCUPIED).booleanValue()) && state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
                 valid.add(pos);
             }
         }
