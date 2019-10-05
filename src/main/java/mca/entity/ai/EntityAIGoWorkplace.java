@@ -1,6 +1,5 @@
 package mca.entity.ai;
 
-import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 
 public class EntityAIGoWorkplace extends AbstractEntityAIChore {
@@ -45,7 +44,7 @@ public class EntityAIGoWorkplace extends AbstractEntityAIChore {
     }
 
     public void startExecuting() {
-        MCA.getLog().info(villager.getName() + " goes to work");
+        //MCA.getLog().info(villager.getName() + " goes to work");
         villager.moveTowardsBlock(villager.getWorkplace());
     }
 

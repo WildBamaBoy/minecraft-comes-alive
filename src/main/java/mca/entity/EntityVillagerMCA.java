@@ -938,15 +938,19 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     public void moveTowardsBlock(BlockPos target) {
+        moveTowardsBlock(target, 0.5D);
+    }
+
+    public void moveTowardsBlock(BlockPos target, double speed) {
         double range = getNavigator().getPathSearchRange() - 6.0D;
 
         if (getDistanceSq(target) > Math.pow(range, 2.0)) {
             Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this, (int) range, 8, new Vec3d(target.getX(), target.getY(), target.getZ()));
-            if (vec3d != null && !getNavigator().setPath(getNavigator().getPathToXYZ(vec3d.x, vec3d.y, vec3d.z), 0.5D)) {
+            if (vec3d != null && !getNavigator().setPath(getNavigator().getPathToXYZ(vec3d.x, vec3d.y, vec3d.z), speed)) {
                 attemptTeleport(vec3d.x, vec3d.y, vec3d.z);
             }
         } else {
-            if (!getNavigator().setPath(getNavigator().getPathToPos(target), 0.5D)) {
+            if (!getNavigator().setPath(getNavigator().getPathToPos(target), speed)) {
                 attemptTeleport(target.getX(), target.getY(), target.getZ());
             }
         }

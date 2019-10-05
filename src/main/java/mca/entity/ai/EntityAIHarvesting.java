@@ -7,8 +7,7 @@ import mca.util.Util;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -63,7 +62,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         //no crop next to villager -> long range scan
         //limited to once a minute to reduce CPU usage
         if (target == null && villager.ticksExisted - lastCropScan > 1200) {
-            MCA.getLog().info(villager.getName() + " scans for crops");
+            //MCA.getLog().info(villager.getName() + " scans for crops");
             lastCropScan = villager.ticksExisted;
             target = searchCrop(32, 16);
         }
@@ -71,11 +70,11 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         if (target == null) {
             if (villager.getWorkplace().getY() > 0 && villager.getDistanceSq(villager.getWorkplace()) > 256.0D) {
                 //go to their workplace (if set and more than 16 blocks away)
-                MCA.getLog().info(villager.getName() + " goes to workplace");
+                //MCA.getLog().info(villager.getName() + " goes to workplace");
                 villager.moveTowardsBlock(villager.getWorkplace());
             } else {
                 //failed (no crop on range), allows now other, lower priority tasks to interrupt
-                MCA.getLog().info(villager.getName() + " idles");
+                //MCA.getLog().info(villager.getName() + " idles");
                 blockWork = villager.ticksExisted + 100 + villager.getRNG().nextInt(100);
             }
         } else {
@@ -109,7 +108,9 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                 }
 
                 //wait before harvesting next crop
-                blockWork = villager.ticksExisted + 20;
+                ItemStack hoeStack = villager.inventory.getBestItemOfType(ItemHoe.class);
+                float efficiency = hoeStack == ItemStack.EMPTY ? 0.0f : Item.ToolMaterial.valueOf(((ItemHoe) hoeStack.getItem()).getMaterialName()).getEfficiency();
+                blockWork = villager.ticksExisted + (int) Math.max(2.0f, 60.0f - efficiency * 5.0f);
             }
         }
     }

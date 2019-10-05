@@ -1,7 +1,7 @@
 package mca.entity.ai;
 
-import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumChore;
 
 public class EntityAIGoHaunt extends AbstractEntityAIChore {
     private boolean atHaunt = false;
@@ -13,7 +13,12 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
 
     public boolean shouldExecute() {
         if (villager.getHaunt().getY() == 0) {
-            return false; //no workplace or it is raining
+            return false; //no workplace
+        }
+
+        //no time, has to work
+        if (EnumChore.byId(villager.get(EntityVillagerMCA.ACTIVE_CHORE)) != EnumChore.NONE) {
+            return false;
         }
 
         long time = villager.world.getWorldTime() % 24000L;
@@ -45,7 +50,7 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
     }
 
     public void startExecuting() {
-        MCA.getLog().info(villager.getName() + " goes to haunt");
+        //MCA.getLog().info(villager.getName() + " goes to haunt");
         villager.moveTowardsBlock(villager.getHaunt());
     }
 
