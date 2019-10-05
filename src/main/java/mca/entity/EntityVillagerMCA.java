@@ -934,10 +934,10 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     public void moveTowardsBlock(BlockPos target) {
-        double range = getNavigator().getPathSearchRange() - 4.0D;
+        double range = getNavigator().getPathSearchRange() - 6.0D;
 
         if (getDistanceSq(target) > Math.pow(range, 2.0)) {
-            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this, 14, 8, new Vec3d(target.getX(), target.getY(), target.getZ()));
+            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this, (int) range, 8, new Vec3d(target.getX(), target.getY(), target.getZ()));
             if (vec3d != null && !getNavigator().setPath(getNavigator().getPathToXYZ(vec3d.x, vec3d.y, vec3d.z), 0.5D)) {
                 attemptTeleport(vec3d.x, vec3d.y, vec3d.z);
             }
@@ -954,7 +954,7 @@ public class EntityVillagerMCA extends EntityVillager {
         List<BlockPos> valid = new ArrayList<>();
         for (BlockPos pos : nearbyBeds) {
             IBlockState state = world.getBlockState(pos);
-            if (!(state.getValue(OCCUPIED).booleanValue()) && state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
+            if (!(state.getValue(OCCUPIED)) && state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
                 valid.add(pos);
             }
         }
@@ -1035,20 +1035,21 @@ public class EntityVillagerMCA extends EntityVillager {
 
         set(SLEEPING, true);
 
-        IBlockState blockstate = this.world.getBlockState(get(EntityVillagerMCA.BED_POS));
+        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
+        IBlockState blockstate = this.world.getBlockState(bedLocation);
         if (blockstate.getBlock() == Blocks.BED) {
-            Blocks.BED.setBedOccupied(this.world, get(EntityVillagerMCA.BED_POS), null, true);
+            blockstate.getBlock().setBedOccupied(world, bedLocation, null, true);
         }
     }
 
     public void stopSleeping() {
         BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
         if (bedLocation != BlockPos.ORIGIN) {
-            IBlockState iblockstate = this.world.getBlockState(bedLocation);
+            IBlockState blockstate = this.world.getBlockState(bedLocation);
 
-            if (iblockstate.getBlock().isBed(iblockstate, world, bedLocation, this)) {
-                iblockstate.getBlock().setBedOccupied(world, bedLocation, null, false);
-                BlockPos blockpos = iblockstate.getBlock().getBedSpawnPosition(iblockstate, world, bedLocation, null);
+            if (blockstate.getBlock().isBed(blockstate, world, bedLocation, this)) {
+                blockstate.getBlock().setBedOccupied(world, bedLocation, null, false);
+                BlockPos blockpos = blockstate.getBlock().getBedSpawnPosition(blockstate, world, bedLocation, null);
 
                 if (blockpos == null) {
                     blockpos = bedLocation.up();
