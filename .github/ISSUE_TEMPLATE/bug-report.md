@@ -19,8 +19,8 @@ Please include steps we can take to reproduce the bug:
 **Minecraft Information (please complete all questions entirely):**
  - Minecraft Version: [e.g. 1.12.2]
  - Forge Version: [e.g. 14.23.5.2838]
- - MCA Version: [e.g. 6.0.0] **Any version below 6.0.0 is NOT supported. Do not submit an issue for these versions.**
- - Launcher: [e.g. Standard, Twitch, MultiMC]
+ - MCA Version: [e.g. 6.0.0] **Any version below 6.0.0 is NOT supported. Do not submit an issue for these versions. Do not post your Minecraft version here.**
+ - Launcher: [e.g. Vanilla, Twitch, MultiMC]
 
 **Modpack Information**
 Complete this section if you are using a modpack.
