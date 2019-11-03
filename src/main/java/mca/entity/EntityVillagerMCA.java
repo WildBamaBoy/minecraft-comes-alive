@@ -89,7 +89,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     public static final DataParameter<BlockPos> BED_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<BlockPos> WORKPLACE_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
-    public static final DataParameter<BlockPos> HAUNT_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
+    public static final DataParameter<BlockPos> HANGOUT_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
@@ -157,7 +157,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
         this.dataManager.register(BED_POS, BlockPos.ORIGIN);
         this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN);
-        this.dataManager.register(HAUNT_POS, BlockPos.ORIGIN);
+        this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN);
         this.dataManager.register(SLEEPING, false);
         this.setSilent(false);
     }
@@ -209,7 +209,7 @@ public class EntityVillagerMCA extends EntityVillager {
         set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
         set(PARENTS, nbt.getCompoundTag("parents"));
         set(BED_POS, new BlockPos(nbt.getInteger("bedX"), nbt.getInteger("bedY"), nbt.getInteger("bedZ")));
-        set(HAUNT_POS, new BlockPos(nbt.getInteger("hauntX"), nbt.getInteger("hauntY"), nbt.getInteger("hauntZ")));
+        set(HANGOUT_POS, new BlockPos(nbt.getInteger("hangoutX"), nbt.getInteger("hangoutY"), nbt.getInteger("hangoutZ")));
         set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
         set(SLEEPING, nbt.getBoolean("sleeping"));
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
@@ -258,9 +258,9 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("workplaceX", get(WORKPLACE_POS).getX());
         nbt.setInteger("workplaceY", get(WORKPLACE_POS).getY());
         nbt.setInteger("workplaceZ", get(WORKPLACE_POS).getZ());
-        nbt.setInteger("hauntX", get(HAUNT_POS).getX());
-        nbt.setInteger("hauntY", get(HAUNT_POS).getY());
-        nbt.setInteger("hauntZ", get(HAUNT_POS).getZ());
+        nbt.setInteger("hangoutX", get(HANGOUT_POS).getX());
+        nbt.setInteger("hangoutY", get(HANGOUT_POS).getY());
+        nbt.setInteger("hangoutZ", get(HANGOUT_POS).getZ());
         nbt.setBoolean("sleeping", get(SLEEPING));
     }
 
@@ -514,8 +514,8 @@ public class EntityVillagerMCA extends EntityVillager {
         return get(WORKPLACE_POS);
     }
 
-    public BlockPos getHaunt() {
-        return get(HAUNT_POS);
+    public BlockPos getHangout() {
+        return get(HANGOUT_POS);
     }
 
     /**
@@ -545,9 +545,9 @@ public class EntityVillagerMCA extends EntityVillager {
         set(WORKPLACE_POS, player.getPosition());
     }
 
-    public void setHaunt(EntityPlayerMP player) {
-        say(Optional.of(player), "interaction.sethaunt.success");
-        set(HAUNT_POS, player.getPosition());
+    public void setHangout(EntityPlayerMP player) {
+        say(Optional.of(player), "interaction.sethangout.success");
+        set(HANGOUT_POS, player.getPosition());
     }
 
     public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
@@ -647,8 +647,8 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.setworkplace":
                 setWorkplace(player);
                 break;
-            case "gui.button.sethaunt":
-                setHaunt(player);
+            case "gui.button.sethangout":
+                setHangout(player);
                 break;
             case "gui.button.trade":
                 if (MCA.getConfig().allowTrading) {
@@ -837,7 +837,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
         this.tasks.addTask(5, new EntityAIGoWorkplace(this));
-        this.tasks.addTask(5, new EntityAIGoHaunt(this));
+        this.tasks.addTask(5, new EntityAIGoHangout(this));
         this.tasks.addTask(1, new EntityAISleeping(this));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
