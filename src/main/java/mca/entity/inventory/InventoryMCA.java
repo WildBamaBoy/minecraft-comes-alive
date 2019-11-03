@@ -96,6 +96,7 @@ public class InventoryMCA extends InventoryBasic {
             ItemStack stack = this.getStackInSlot(i);
             villager.entityDropItem(stack, 1.0F);
         }
+        clear();
     }
 
     public void readInventoryFromNBT(NBTTagList tagList) {

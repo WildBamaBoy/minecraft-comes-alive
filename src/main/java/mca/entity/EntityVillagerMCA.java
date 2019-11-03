@@ -319,12 +319,8 @@ public class EntityVillagerMCA extends EntityVillager {
                 String causeName = cause.getImmediateSource() == null ? "Unknown" : cause.getImmediateSource().getName();
                 MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + causeName + ". UUID: " + this.getUniqueID().toString());
             }
-
-            //TODO: player history gets lsot on revive
-            //TODO: childp becomes to child on revive (needs verification)
-
+            
             inventory.dropAllItems();
-            inventory.clear(); //fixes issue #1227, dropAllItems() should clear, but it does not work
 
             if (isMarried()) {
                 UUID spouseUUID = get(SPOUSE_UUID).or(Constants.ZERO_UUID);
