@@ -5,8 +5,6 @@ import mca.entity.EntityVillagerMCA;
 import net.minecraft.util.math.BlockPos;
 
 public class EntityAISleeping extends AbstractEntityAIChore {
-    private int failed = 0;
-
     public EntityAISleeping(EntityVillagerMCA villagerIn) {
         super(villagerIn);
         this.setMutexBits(1);
@@ -15,14 +13,6 @@ public class EntityAISleeping extends AbstractEntityAIChore {
     public boolean shouldExecute() {
         //let the avoid tasks work
         if (villager.getHealth() < villager.getMaxHealth()) {
-            return false;
-        }
-
-        if (villager.ticksExisted - failed < 1200) {
-            //wake up if still sleeping
-            if (villager.isSleeping()) {
-                villager.stopSleeping();
-            }
             return false;
         }
 
@@ -61,33 +51,26 @@ public class EntityAISleeping extends AbstractEntityAIChore {
 
     public void startExecuting() {
         if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN || villager.getDistanceSq(villager.get(EntityVillagerMCA.BED_POS)) < 4.0) {
-            //search for the nearest bed, might be a different than before
+            //search for the nearest bed, might be different than before
             BlockPos pos = villager.searchBed();
 
             if (pos == null) {
                 //no bed found, let's forget about the remembered bed
                 if (villager.get(EntityVillagerMCA.BED_POS) != BlockPos.ORIGIN) {
                     //TODO: notify the player?
-                    //MCA.getLog().info(villager.getName() + " lost the bed");
                     villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
-                } else {
-                    //MCA.getLog().info(villager.getName() + " has no bed");
                 }
-                failed = villager.ticksExisted;
             } else {
-                //MCA.getLog().info(villager.getName() + " sleeps now");
                 villager.set(EntityVillagerMCA.BED_POS, pos);
                 villager.startSleeping();
             }
         } else {
-            //MCA.getLog().info(villager.getName() + " is going to bed");
             villager.moveTowardsBlock(villager.get(EntityVillagerMCA.BED_POS), 0.75);
         }
     }
 
     public void resetTask() {
         if (villager.isSleeping()) {
-            //MCA.getLog().info(villager.getName() + " wakes up");
             villager.stopSleeping();
         }
     }
