@@ -1,3 +1,13 @@
+6.1.0
+Feature: Added Workplaces and Hangouts (thank you Luke100000!)
+Feature: Added sleeping in beds (thank you Luke100000!)
+
+Fixed: Crashing on villager death by modded entities, fire, fall, etc.
+Fixed: Inventory is not duplicated on revival (thank you Luke100000!)
+Fixed: Guards no longer run from enemies (thank you Luke100000!)
+Fixed: Guards no longer defend Pillagers.
+Fixed: Additional fix for villagers walking away from the village.
+
 6.0.1
 Feature: Whistle to call your family has been added back into the game.
 Feature: Special skins for naming your children certain names (secret!)
