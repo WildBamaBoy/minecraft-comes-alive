@@ -40,17 +40,19 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     @Override
     public void renderName(EntityVillagerMCA entity, double x, double y, double z) {
-        super.renderName(entity, x, y ,z);
+        float modY = entity.isSleeping() ? -1.5F : 0;
+        super.renderName(entity, x, y + modY, z);
+
         if (canRenderName(entity)) {
             if (entity.getHealth() < entity.getMaxHealth()) {
-                renderHealth(entity, x, y, z, (int) entity.getHealth(), (int) entity.getMaxHealth());
+                renderHealth(entity, x, y + modY, z, (int) entity.getHealth(), (int) entity.getMaxHealth());
             }
 
             if (entity.getCurrentActivity() != null) {
                 double d0 = entity.getDistanceSq(this.renderManager.renderViewEntity);
                 float f = entity.isSneaking() ? NAME_TAG_RANGE_SNEAK : NAME_TAG_RANGE;
                 if (d0 < (double) (f * f)) {
-                    this.renderEntityName(entity, x, y - 0.25F, z, "(" + entity.getCurrentActivity() + ")", d0);
+                    this.renderEntityName(entity, x, y - 0.25F + modY , z, "(" + entity.getCurrentActivity() + ")", d0);
                 }
             }
         }
