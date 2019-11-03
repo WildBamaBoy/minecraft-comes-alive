@@ -130,7 +130,7 @@ gui.button.trade=Trade
 gui.button.sethome=Home
 gui.button.gohome=Go Home
 gui.button.setworkplace=Workplace
-gui.button.sethaunt=Haunt
+gui.button.sethangout=Hangout
 gui.button.location=Locations
 gui.button.ridehorse=Ride Horse
 gui.button.special=Special
@@ -306,10 +306,10 @@ spouse.interaction.setworkplace.success1=I really like this place.
 child.interaction.setworkplace.success1=Okay fine!
 childp.interaction.setworkplace.success1=Okay fine!
 
-adult.interaction.sethaunt.success1=This is my favorite spot. I'm often here in the evening.
-spouse.interaction.sethaunt.success1=I really like this place.
-child.interaction.sethaunt.success1=Okay fine! I will play here before bedtime.
-childp.interaction.sethaunt.success1=Okay fine! I will play here before bedtime.
+adult.interaction.sethangout.success1=This is my favorite spot. I'm often here in the evening.
+spouse.interaction.sethangout.success1=I really like this place.
+child.interaction.sethangout.success1=Okay fine! I will play here before bedtime.
+childp.interaction.sethangout.success1=Okay fine! I will play here before bedtime.
 
 adult.interaction.gohome.success1=Alright, I'll go there immediately!
 adult.interaction.gohome.success2=Sure, I'll go home now.

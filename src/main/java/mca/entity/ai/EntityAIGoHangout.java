@@ -3,16 +3,16 @@ package mca.entity.ai;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 
-public class EntityAIGoHaunt extends AbstractEntityAIChore {
-    private boolean atHaunt = false;
+public class EntityAIGoHangout extends AbstractEntityAIChore {
+    private boolean atHangout = false;
     
-    public EntityAIGoHaunt(EntityVillagerMCA villagerIn) {
+    public EntityAIGoHangout(EntityVillagerMCA villagerIn) {
         super(villagerIn);
         this.setMutexBits(1);
     }
 
     public boolean shouldExecute() {
-        if (villager.getHaunt().getY() == 0) {
+        if (villager.getHangout().getY() == 0) {
             return false; //no workplace
         }
 
@@ -25,17 +25,17 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
 
         if (time < 9000 || time > 11000) {
             //spare time is over, villager will start going home
-            atHaunt = false;
+            atHangout = false;
             return false;
         }
 
         double validArea = 64.0D; //allows 8 blocks radius to stay
-        double distance = villager.getDistanceSq(villager.getHaunt());
+        double distance = villager.getDistanceSq(villager.getHangout());
 
-        if (!atHaunt) {
+        if (!atHangout) {
             if (distance < 9.0) {
-                //arrived at haunt
-                atHaunt = true;
+                //arrived at hangout
+                atHangout = true;
             } else {
                 //did not reach workplace for today -> shrink valid area so the villager gathers clearly at his workplace
                 validArea = 4.0D;
@@ -50,8 +50,7 @@ public class EntityAIGoHaunt extends AbstractEntityAIChore {
     }
 
     public void startExecuting() {
-        //MCA.getLog().info(villager.getName() + " goes to haunt");
-        villager.moveTowardsBlock(villager.getHaunt());
+        villager.moveTowardsBlock(villager.getHangout());
     }
 
     public void updateTask() {
