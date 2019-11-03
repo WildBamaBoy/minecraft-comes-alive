@@ -21,6 +21,8 @@ import mca.util.ItemStackCache;
 import mca.util.ResourceLocationCache;
 import mca.util.Util;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -31,6 +33,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -40,7 +43,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -51,10 +53,15 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static net.minecraft.block.BlockBed.OCCUPIED;
+import static net.minecraft.block.BlockBed.PART;
 
 public class EntityVillagerMCA extends EntityVillager {
     public static final int VANILLA_CAREER_ID_FIELD_INDEX = 13;
@@ -81,6 +88,9 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Integer> BABY_AGE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
     public static final DataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     public static final DataParameter<BlockPos> BED_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
+    public static final DataParameter<BlockPos> WORKPLACE_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
+    public static final DataParameter<BlockPos> HAUNT_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
+    public static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -92,6 +102,10 @@ public class EntityVillagerMCA extends EntityVillager {
     private BlockPos home = BlockPos.ORIGIN;
     private int startingAge = 0;
     private float swingProgressTicks;
+
+    public float renderOffsetX;
+    public float renderOffsetY;
+    public float renderOffsetZ;
 
     public EntityVillagerMCA() {
         super(null);
@@ -142,6 +156,9 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(BABY_AGE, 0);
         this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
         this.dataManager.register(BED_POS, BlockPos.ORIGIN);
+        this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN);
+        this.dataManager.register(HAUNT_POS, BlockPos.ORIGIN);
+        this.dataManager.register(SLEEPING, false);
         this.setSilent(false);
     }
 
@@ -149,26 +166,11 @@ public class EntityVillagerMCA extends EntityVillager {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(MCA.getConfig().villagerMaxHealth);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
 
         if (this.getHealth() <= MCA.getConfig().villagerMaxHealth) {
             this.setHealth(MCA.getConfig().villagerMaxHealth);
         }
-    }
-
-    @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIProspecting(this));
-        this.tasks.addTask(0, new EntityAIHunting(this));
-        this.tasks.addTask(0, new EntityAIChopping(this));
-        this.tasks.addTask(0, new EntityAIHarvesting(this));
-        this.tasks.addTask(0, new EntityAIFishing(this));
-        this.tasks.addTask(0, new EntityAIMoveState(this));
-        this.tasks.addTask(0, new EntityAIAgeBaby(this));
-        this.tasks.addTask(0, new EntityAIProcreate(this));
-        this.tasks.addTask(0, new EntityAIVerifyBed(this));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
     }
 
     public <T> T get(DataParameter<T> key) {
@@ -207,6 +209,9 @@ public class EntityVillagerMCA extends EntityVillager {
         set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
         set(PARENTS, nbt.getCompoundTag("parents"));
         set(BED_POS, new BlockPos(nbt.getInteger("bedX"), nbt.getInteger("bedY"), nbt.getInteger("bedZ")));
+        set(HAUNT_POS, new BlockPos(nbt.getInteger("hauntX"), nbt.getInteger("hauntY"), nbt.getInteger("hauntZ")));
+        set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
+        set(SLEEPING, nbt.getBoolean("sleeping"));
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
         // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
@@ -216,6 +221,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.home = new BlockPos(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
         this.playerToFollowUUID = nbt.getUniqueId("playerToFollowUUID");
         this.babyAge = nbt.getInteger("babyAge");
+
         applySpecialAI();
     }
 
@@ -249,13 +255,20 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("bedX", get(BED_POS).getX());
         nbt.setInteger("bedY", get(BED_POS).getY());
         nbt.setInteger("bedZ", get(BED_POS).getZ());
+        nbt.setInteger("workplaceX", get(WORKPLACE_POS).getX());
+        nbt.setInteger("workplaceY", get(WORKPLACE_POS).getY());
+        nbt.setInteger("workplaceZ", get(WORKPLACE_POS).getZ());
+        nbt.setInteger("hauntX", get(HAUNT_POS).getX());
+        nbt.setInteger("hauntY", get(HAUNT_POS).getY());
+        nbt.setInteger("hauntZ", get(HAUNT_POS).getZ());
+        nbt.setBoolean("sleeping", get(SLEEPING));
     }
 
     @Override
     protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
-        // Guards take 30% less damage
+        // Guards take 50% less damage
         if (getProfessionForge() == ProfessionsMCA.guard) {
-            damageAmount *= 0.70;
+            damageAmount *= 0.50;
         }
         super.damageEntity(damageSource, damageAmount);
 
@@ -269,6 +282,7 @@ public class EntityVillagerMCA extends EntityVillager {
     public void onUpdate() {
         super.onUpdate();
         updateSwinging();
+        updateSleeping();
 
         if (this.isServerWorld()) {
             onEachServerUpdate();
@@ -306,7 +320,11 @@ public class EntityVillagerMCA extends EntityVillager {
                 MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + causeName + ". UUID: " + this.getUniqueID().toString());
             }
 
+            //TODO: player history gets lsot on revive
+            //TODO: childp becomes to child on revive (needs verification)
+
             inventory.dropAllItems();
+            inventory.clear(); //fixes issue #1227, dropAllItems() should clear, but it does not work
 
             if (isMarried()) {
                 UUID spouseUUID = get(SPOUSE_UUID).or(Constants.ZERO_UUID);
@@ -365,6 +383,18 @@ public class EntityVillagerMCA extends EntityVillager {
         String color = this.getProfessionForge() == ProfessionsMCA.bandit ? Constants.Color.RED : this.getProfessionForge() == ProfessionsMCA.guard ? Constants.Color.GREEN : "";
 
         return new TextComponentString(String.format("%1$s%2$s%3$s (%4$s)", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME), professionName));
+    }
+
+    @Override
+    @Nonnull
+    public String getCustomNameTag() {
+        return get(VILLAGER_NAME);
+    }
+
+    @Override
+    @Nonnull
+    public boolean hasCustomName() {
+        return true;
     }
 
     @Override
@@ -480,6 +510,14 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
+    public BlockPos getWorkplace() {
+        return get(WORKPLACE_POS);
+    }
+
+    public BlockPos getHaunt() {
+        return get(HAUNT_POS);
+    }
+
     /**
      * Forces the villager's home to be set to their position. No checks for safety are made.
      * This is used on overwriting the original villager.
@@ -489,18 +527,27 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void setHome(EntityPlayerMP player) {
-        if (attemptTeleport(posX, posY, posZ)) {
+        if (attemptTeleport(player.posX, player.posY, player.posZ)) {
             say(Optional.of(player), "interaction.sethome.success");
-            this.home = this.getPosition();
+            this.home = player.getPosition();
             this.setHomePosAndDistance(this.home, 32);
-            BlockPos bed = Util.getNearestPoint(this.getPos(), Util.getNearbyBlocks(this.getPos(), world, BlockBed.class, 6, 3));
+            BlockPos bed = searchBed();
             if (bed != null) {
                 set(BED_POS, bed);
             }
-
         } else {
             say(Optional.of(player), "interaction.sethome.fail");
         }
+    }
+
+    public void setWorkplace(EntityPlayerMP player) {
+        say(Optional.of(player), "interaction.setworkplace.success");
+        set(WORKPLACE_POS, player.getPosition());
+    }
+
+    public void setHaunt(EntityPlayerMP player) {
+        say(Optional.of(player), "interaction.sethaunt.success");
+        set(HAUNT_POS, player.getPosition());
     }
 
     public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
@@ -559,7 +606,8 @@ public class EntityVillagerMCA extends EntityVillager {
         if (MCA.getConfig().enableDiminishingReturns) successChance -= history.getInteractionFatigue() * 0.05F;
 
         boolean succeeded = rand.nextFloat() < successChance;
-        if (MCA.getConfig().enableDiminishingReturns && succeeded) heartsBoost -= history.getInteractionFatigue() * 0.05F;
+        if (MCA.getConfig().enableDiminishingReturns && succeeded)
+            heartsBoost -= history.getInteractionFatigue() * 0.05F;
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
@@ -585,6 +633,7 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.follow":
                 set(MOVE_STATE, EnumMoveState.FOLLOW.getId());
                 this.playerToFollowUUID = player.getUniqueID();
+                stopChore();
                 break;
             case "gui.button.ridehorse":
                 toggleMount(player);
@@ -594,6 +643,12 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.gohome":
                 goHome(player);
+                break;
+            case "gui.button.setworkplace":
+                setWorkplace(player);
+                break;
+            case "gui.button.sethaunt":
+                setHaunt(player);
                 break;
             case "gui.button.trade":
                 if (MCA.getConfig().allowTrading) {
@@ -621,12 +676,13 @@ public class EntityVillagerMCA extends EntityVillager {
                 }
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(player).isBabyPresent()) say(Optional.of(player), "interaction.procreate.fail.hasbaby");
+                if (PlayerSaveData.get(player).isBabyPresent())
+                    say(Optional.of(player), "interaction.procreate.fail.hasbaby");
                 else if (history.getHearts() < 100) say(Optional.of(player), "interaction.procreate.fail.lowhearts");
                 else {
                     EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
                     if (task != null) {
-                        ((EntityAIProcreate)task.action).procreateTimer = 20 * 3; // 3 seconds
+                        ((EntityAIProcreate) task.action).procreateTimer = 20 * 3; // 3 seconds
                         set(IS_PROCREATING, true);
                     }
                 }
@@ -661,12 +717,24 @@ public class EntityVillagerMCA extends EntityVillager {
                 setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
                 applySpecialAI();
                 break;
-            case "gui.button.prospecting": startChore(EnumChore.PROSPECT, player); break;
-            case "gui.button.hunting": startChore(EnumChore.HUNT, player); break;
-            case "gui.button.fishing": startChore(EnumChore.FISH, player); break;
-            case "gui.button.chopping": startChore(EnumChore.CHOP, player); break;
-            case "gui.button.harvesting": startChore(EnumChore.HARVEST, player); break;
-            case "gui.button.stopworking": stopChore(); break;
+            case "gui.button.prospecting":
+                startChore(EnumChore.PROSPECT, player);
+                break;
+            case "gui.button.hunting":
+                startChore(EnumChore.HUNT, player);
+                break;
+            case "gui.button.fishing":
+                startChore(EnumChore.FISH, player);
+                break;
+            case "gui.button.chopping":
+                startChore(EnumChore.CHOP, player);
+                break;
+            case "gui.button.harvesting":
+                startChore(EnumChore.HARVEST, player);
+                break;
+            case "gui.button.stopworking":
+                stopChore();
+                break;
         }
     }
 
@@ -680,7 +748,7 @@ public class EntityVillagerMCA extends EntityVillager {
         } else if (item == Items.CAKE) {
             Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
             if (spouse.isPresent()) {
-                EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA)spouse.get();
+                EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
                 progressor.set(HAS_BABY, true);
                 progressor.set(BABY_IS_MALE, rand.nextBoolean());
                 progressor.spawnParticles(EnumParticleTypes.HEART);
@@ -757,26 +825,67 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
+    @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(0, new EntityAIProspecting(this));
+        this.tasks.addTask(0, new EntityAIHunting(this));
+        this.tasks.addTask(0, new EntityAIChopping(this));
+        this.tasks.addTask(0, new EntityAIHarvesting(this));
+        this.tasks.addTask(0, new EntityAIFishing(this));
+        this.tasks.addTask(0, new EntityAIMoveState(this));
+        this.tasks.addTask(0, new EntityAIAgeBaby(this));
+        this.tasks.addTask(0, new EntityAIProcreate(this));
+        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
+        this.tasks.addTask(5, new EntityAIGoHaunt(this));
+        this.tasks.addTask(1, new EntityAISleeping(this));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
+    }
+
     private void applySpecialAI() {
         if (getProfessionForge() == ProfessionsMCA.bandit) {
-            this.targetTasks.taskEntries.clear();
             this.tasks.taskEntries.clear();
             this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
             this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
-            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
+            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         } else if (getProfessionForge() == ProfessionsMCA.guard) {
+            removeCertainTasks(EntityAIAvoidEntity.class);
+
             this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
             this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityZombie.class, 100, false, false, null));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVex.class, 100, false, false, null));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityVindicator.class, 100, false, false, null));
+
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVex.class, 100, false, false, null));
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVindicator.class, 100, false, false, null));
+        } else {
+            //every other villager is allowed to defend itself from zombies while fleeing
+            this.tasks.addTask(0, new EntityAIDefendFromTarget(this));
+
+            this.targetTasks.taskEntries.clear();
+            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
         }
     }
 
-    public void spawnParticles(EnumParticleTypes particleType)
-    {
+    //guards should not run away from zombies
+    //TODO: should only avoid zombies when low on health
+    private void removeCertainTasks(Class typ) {
+        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
+
+        while (iterator.hasNext()) {
+            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
+            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+
+            if (entityaibase.getClass().equals(typ)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public void spawnParticles(EnumParticleTypes particleType) {
         if (this.world.isRemote) {
             for (int i = 0; i < 5; ++i) {
                 double d0 = this.rand.nextGaussian() * 0.02D;
@@ -826,5 +935,138 @@ public class EntityVillagerMCA extends EntityVillager {
         }
 
         return null;
+    }
+
+    public void moveTowardsBlock(BlockPos target) {
+        moveTowardsBlock(target, 0.5D);
+    }
+
+    public void moveTowardsBlock(BlockPos target, double speed) {
+        double range = getNavigator().getPathSearchRange() - 6.0D;
+
+        if (getDistanceSq(target) > Math.pow(range, 2.0)) {
+            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this, (int) range, 8, new Vec3d(target.getX(), target.getY(), target.getZ()));
+            if (vec3d != null && !getNavigator().setPath(getNavigator().getPathToXYZ(vec3d.x, vec3d.y, vec3d.z), speed)) {
+                attemptTeleport(vec3d.x, vec3d.y, vec3d.z);
+            }
+        } else {
+            if (!getNavigator().setPath(getNavigator().getPathToPos(target), speed)) {
+                attemptTeleport(target.getX(), target.getY(), target.getZ());
+            }
+        }
+    }
+
+    //searches for the nearest bed
+    public BlockPos searchBed() {
+        List<BlockPos> nearbyBeds = Util.getNearbyBlocks(getPos(), world, BlockBed.class, 8, 8);
+        List<BlockPos> valid = new ArrayList<>();
+        for (BlockPos pos : nearbyBeds) {
+            IBlockState state = world.getBlockState(pos);
+            if (!(state.getValue(OCCUPIED)) && state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
+                valid.add(pos);
+            }
+        }
+        return Util.getNearestPoint(getPos(), valid);
+    }
+
+    /**
+     * Returns the orientation of the bed in degrees.
+     */
+    @SideOnly(Side.CLIENT)
+    public float getBedOrientationInDegrees() {
+        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
+        IBlockState state = bedLocation == BlockPos.ORIGIN ? null : this.world.getBlockState(bedLocation);
+        if (state != null && state.getBlock().isBed(state, world, bedLocation, this)) {
+            EnumFacing enumfacing = state.getBlock().getBedDirection(state, world, bedLocation);
+
+            switch (enumfacing) {
+                case SOUTH:
+                    return 90.0F;
+                case WEST:
+                    return 0.0F;
+                case NORTH:
+                    return 270.0F;
+                case EAST:
+                    return 180.0F;
+            }
+        }
+
+        return 0.0F;
+    }
+
+    public boolean isSleeping() {
+        return get(SLEEPING);
+    }
+
+    private void updateSleeping() {
+        if (isSleeping()) {
+            BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
+
+            final IBlockState state = this.world.isBlockLoaded(bedLocation) ? this.world.getBlockState(bedLocation) : null;
+            final boolean isBed = state != null && state.getBlock().isBed(state, this.world, bedLocation, this);
+
+            if (isBed) {
+                final EnumFacing enumfacing = state.getBlock() instanceof BlockHorizontal ? state.getValue(BlockHorizontal.FACING) : null;
+
+                if (enumfacing != null) {
+                    float f1 = 0.5F + (float) enumfacing.getFrontOffsetX() * 0.4F;
+                    float f = 0.5F + (float) enumfacing.getFrontOffsetZ() * 0.4F;
+                    this.setRenderOffsetForSleep(enumfacing);
+                    this.setPosition((double) ((float) bedLocation.getX() + f1), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + f));
+                } else {
+                    this.setPosition((double) ((float) bedLocation.getX() + 0.5F), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + 0.5F));
+                }
+
+                this.setSize(0.2F, 0.2F);
+
+                this.motionX = 0.0D;
+                this.motionY = 0.0D;
+                this.motionZ = 0.0D;
+            } else {
+                set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
+                stopSleeping();
+            }
+        } else {
+            this.setSize(0.6F, 1.8F);
+        }
+    }
+
+    private void setRenderOffsetForSleep(EnumFacing bedDirection) {
+        this.renderOffsetX = -1.0F * (float) bedDirection.getFrontOffsetX();
+        this.renderOffsetZ = -1.0F * (float) bedDirection.getFrontOffsetZ();
+    }
+
+    public void startSleeping() {
+        if (this.isRiding()) {
+            this.dismountRidingEntity();
+        }
+
+        set(SLEEPING, true);
+
+        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
+        IBlockState blockstate = this.world.getBlockState(bedLocation);
+        if (blockstate.getBlock() == Blocks.BED) {
+            blockstate.getBlock().setBedOccupied(world, bedLocation, null, true);
+        }
+    }
+
+    public void stopSleeping() {
+        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
+        if (bedLocation != BlockPos.ORIGIN) {
+            IBlockState blockstate = this.world.getBlockState(bedLocation);
+
+            if (blockstate.getBlock().isBed(blockstate, world, bedLocation, this)) {
+                blockstate.getBlock().setBedOccupied(world, bedLocation, null, false);
+                BlockPos blockpos = blockstate.getBlock().getBedSpawnPosition(blockstate, world, bedLocation, null);
+
+                if (blockpos == null) {
+                    blockpos = bedLocation.up();
+                }
+
+                this.setPosition((double) ((float) blockpos.getX() + 0.5F), (double) ((float) blockpos.getY() + 0.1F), (double) ((float) blockpos.getZ() + 0.5F));
+            }
+        }
+
+        set(SLEEPING, false);
     }
 }

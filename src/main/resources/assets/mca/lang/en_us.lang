@@ -127,8 +127,11 @@ gui.button.follow=Follow Me
 gui.button.stay=Stay Here
 gui.button.move=Move Freely
 gui.button.trade=Trade
-gui.button.sethome=Set Home
+gui.button.sethome=Home
 gui.button.gohome=Go Home
+gui.button.setworkplace=Workplace
+gui.button.sethaunt=Haunt
+gui.button.location=Locations
 gui.button.ridehorse=Ride Horse
 gui.button.special=Special
 gui.button.procreate=Procreate
@@ -221,6 +224,13 @@ childp.chore.fishing.norod=I can't fish without a fishing rod!
 childp.chore.hunting.nosword=Can you give me a sword first?
 childp.chore.harvesting.nohoe=I don't have a hoe to harvest with.
 
+child.chore.mining.orenotify=I think there's some %v2% nearby...
+child.chore.mining.nopick=I can't do that without a pickaxe!
+child.chore.chopping.noaxe=I can't chop wood without an axe...
+child.chore.fishing.norod=I can't fish without a fishing rod!
+child.chore.hunting.nosword=Can you give me a sword first?
+child.chore.harvesting.nohoe=I don't have a hoe to harvest with.
+
 adult.chore.mining.orenotify=Found something! There's some %v2% nearby.
 adult.chore.mining.nopick=I don't have a pickaxe anymore.
 adult.chore.chopping.noaxe=I don't have an axe anymore.
@@ -285,10 +295,21 @@ spouse.interaction.sethome.success2=This is like a dream home!
 childp.interaction.sethome.success1=Okay fine, where's my room?
 childp.interaction.sethome.success2=This is cool I guess. Can I go play now?
 childp.interaction.sethome.success3=Okay, but I want the biggest room!
+child.interaction.sethome.success2=This is cool I guess.
 
 adult.interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %v1% in the way.
 adult.interaction.sethome.fail2=Is there another place nearby? There's some %v1% in the way.
 adult.interaction.sethome.fail3=I can't have my home point here. There's some %v1% in the way.
+
+adult.interaction.setworkplace.success1=Sure thing, %v1%.
+spouse.interaction.setworkplace.success1=I really like this place.
+child.interaction.setworkplace.success1=Okay fine!
+childp.interaction.setworkplace.success1=Okay fine!
+
+adult.interaction.sethaunt.success1=This is my favorite spot. I'm often here in the evening.
+spouse.interaction.sethaunt.success1=I really like this place.
+child.interaction.sethaunt.success1=Okay fine! I will play here before bedtime.
+childp.interaction.sethaunt.success1=Okay fine! I will play here before bedtime.
 
 adult.interaction.gohome.success1=Alright, I'll go there immediately!
 adult.interaction.gohome.success2=Sure, I'll go home now.

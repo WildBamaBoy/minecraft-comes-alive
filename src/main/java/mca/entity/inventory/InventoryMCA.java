@@ -75,6 +75,7 @@ public class InventoryMCA extends InventoryBasic {
 
     public int getBestItemOfTypeSlot(Class type) {
         int highestMaxDamage = 0;
+        int best = -1;
 
         for (int i = 0; i < this.getSizeInventory(); ++i) {
             ItemStack stackInInventory = this.getStackInSlot(i);
@@ -83,11 +84,11 @@ public class InventoryMCA extends InventoryBasic {
 
             if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage()) {
                 highestMaxDamage = stackInInventory.getMaxDamage();
-                return i;
+                best = i;
             }
-       }
+        }
 
-        return -1;
+        return best;
     }
 
     public void dropAllItems() {
@@ -106,7 +107,7 @@ public class InventoryMCA extends InventoryBasic {
             NBTTagCompound nbt = tagList.getCompoundTagAt(i);
             int slot = nbt.getByte("Slot") & 255;
 
-            if (slot >= 0 && slot < this.getSizeInventory()) {
+            if (slot < this.getSizeInventory()) {
                 this.setInventorySlotContents(slot, new ItemStack(nbt));
             }
         }

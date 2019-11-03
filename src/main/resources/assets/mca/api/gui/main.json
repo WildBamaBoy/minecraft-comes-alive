@@ -67,12 +67,12 @@
     },
     {
       "id": 6,
-      "identifier": "gui.button.sethome",
+      "identifier": "gui.button.location",
       "x": 140,
       "y": -5,
       "width": 65,
       "height": 20,
-      "notifyServer": true,
+      "notifyServer": false,
       "targetServer": false,
       "constraints": ""
     },

@@ -113,4 +113,24 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         buffer.pos(x + 0, y + 0, 0.0D).tex((u + 0) * f, ((v + 0) * f1)).endVertex();
         tessellator.draw();
     }
+
+    @Override
+    protected void renderLivingAt(EntityVillagerMCA entityLiving, double x, double y, double z) {
+        if (entityLiving.isEntityAlive() && entityLiving.isSleeping()) {
+            super.renderLivingAt(entityLiving, x + (double)entityLiving.renderOffsetX, y + (double)entityLiving.renderOffsetY, z + (double)entityLiving.renderOffsetZ);
+        } else {
+            super.renderLivingAt(entityLiving, x, y, z);
+        }
+    }
+
+    @Override
+    protected void applyRotations(EntityVillagerMCA entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
+        if (entityLiving.isSleeping()) {
+            GlStateManager.rotate(entityLiving.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(this.getDeathMaxRotation(entityLiving), 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
+            rotationYaw = 180.0f;
+        }
+        super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
+    }
 }
