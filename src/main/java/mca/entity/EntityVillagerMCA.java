@@ -315,11 +315,11 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     public void onDeath(@Nonnull DamageSource cause) {
         if (!world.isRemote) {
+            String causeName = cause.getImmediateSource() == null ? cause.getDamageType() : cause.getImmediateSource().getName();
             if (MCA.getConfig().logVillagerDeaths) {
-                String causeName = cause.getImmediateSource() == null ? "Unknown" : cause.getImmediateSource().getName();
                 MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + causeName + ". UUID: " + this.getUniqueID().toString());
             }
-            
+
             inventory.dropAllItems();
 
             if (isMarried()) {
@@ -334,7 +334,7 @@ public class EntityVillagerMCA extends EntityVillager {
                     playerSaveData.endMarriage();
                     EntityPlayer player = world.getPlayerEntityByUUID(spouseUUID);
                     if (player != null) {
-                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
+                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), causeName)));
                     }
                 }
             }
@@ -345,7 +345,7 @@ public class EntityVillagerMCA extends EntityVillager {
                     .filter(e -> e instanceof EntityPlayer)
                     .forEach(e -> {
                         EntityPlayer player = (EntityPlayer) e;
-                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), cause.getImmediateSource().getName())));
+                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), causeName)));
                     });
 
             SavedVillagers.get(world).save(this);
