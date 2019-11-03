@@ -147,8 +147,8 @@ public class EventHooks {
         if (event.getEntity() instanceof EntityVillagerMCA) {
             EntityVillagerMCA villager = (EntityVillagerMCA)event.getEntity();
             Entity source = event.getSource() != null ? event.getSource().getTrueSource() : null;
-
-            if (source instanceof EntityLivingBase) {
+            
+            if (source instanceof EntityLivingBase && villager.getProfessionForge() != ProfessionsMCA.bandit) {
                 villager.world.loadedEntityList.stream().filter(e ->
                         e instanceof EntityVillagerMCA &&
                         e.getDistance(villager) <= 10.0D &&
