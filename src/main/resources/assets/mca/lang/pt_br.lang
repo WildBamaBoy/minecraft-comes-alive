@@ -127,9 +127,12 @@ gui.button.follow=Me siga
 gui.button.stay=Fique aqui
 gui.button.move=Mova-se livremente
 gui.button.trade=Trocar
-gui.button.sethome=Definir casa
+gui.button.sethome=Casa
 gui.button.gohome=Vá para casa
-gui.button.ridehorse=Andar à cavalo
+gui.button.setworkplace=Local de trabalho
+gui.button.sethangout=Sair e curtir
+gui.button.location=Lugares
+gui.button.ridehorse=Andar a cavalo
 gui.button.special=Especial
 gui.button.procreate=Ter um bebê
 gui.button.work=Trabalho
@@ -221,10 +224,17 @@ childp.chore.fishing.norod=Eu não posso pescar sem uma vara de pesca!
 childp.chore.hunting.nosword=Pode me dar uma espada primeiro??
 childp.chore.harvesting.nohoe=Eu não tenho uma enxada para colher.
 
-adult.chore.mining.orenotify=Encontrei algo! Há alguma %v2% por perto.
-adult.chore.mining.nopick=Eu não tenho mais picareta.
-adult.chore.chopping.noaxe=Eu não tenho mais um machado.
-adult.chore.fishing.norod=Eu não tenho mais uma vara de pesca.
+child.chore.mining.orenotify=Acho que tem algum %v2% por perto...
+child.chore.mining.nopick=Eu não posso fazer isso sem uma picareta!
+child.chore.chopping.noaxe=Eu não posso cortar madeira sem um machado...
+child.chore.fishing.norod=Eu não posso pescar sem uma vara de pesca!
+child.chore.hunting.nosword=Pode me dar uma espada primeiro??
+child.chore.harvesting.nohoe=Eu não tenho uma enxada para colher.
+
+adult.chore.mining.orenotify=Achei alguma coisa! Tem %v2% por perto.
+adult.chore.mining.nopick=Eu não tenho nenhuma picareta.
+adult.chore.chopping.noaxe=Eu não tenho nenhum machado.
+adult.chore.fishing.norod=Eu não tenho nenhuma vara de pescar.
 adult.chore.hunting.nosword=Eu perdi minha espada! Você tem outra?
 adult.chore.harvesting.nohoe=Eu não tenho uma enxada para colher.
 
@@ -285,19 +295,30 @@ spouse.interaction.sethome.success2=Isto é como a casa dos sonhos!
 childp.interaction.sethome.success1=Tudo bem, onde está meu quarto?
 childp.interaction.sethome.success2=Isso é legal, eu acho. Posso ir brincar agora?
 childp.interaction.sethome.success3=Tudo bem, mas eu quero o maior quarto!
+child.interaction.sethome.success2=Isso é legal, eu acho.
 
 adult.interaction.sethome.fail1=Isso não parece um ponto seguro para mim. Há alguma %v1% no caminho.
 adult.interaction.sethome.fail2=Existe outro lugar por perto? Há alguma %v1% no caminho.
 adult.interaction.sethome.fail3=Eu não posso ter minha casa aqui. Há alguma %v1% no caminho.
 
-adult.interaction.gohome.success1=Tudo bem, eu vou lá imediatamente!
+adult.interaction.setworkplace.success1=Com certeza, %v1%.
+spouse.interaction.setworkplace.success1=Eu gosto mesmo desse lugar.
+child.interaction.setworkplace.success1=Ok, tudo bem!
+childp.interaction.setworkplace.success1=Ok, tudo bem!
+
+adult.interaction.sethangout.success1=Este é o meu lugar favorito. Venho muito aqui à noite.
+spouse.interaction.sethangout.success1=Eu gosto mesmo desse lugar.
+child.interaction.sethangout.success1=Certo, tudo bem! Vou brincar aqui antes de dormir.
+childp.interaction.sethangout.success1=Certo, tudo bem! Vou brincar aqui antes de dormir.
+
+adult.interaction.gohome.success1=Tudo bem, vou lá imediatamente!
 adult.interaction.gohome.success2=Claro, eu vou para casa agora.
 adult.interaction.gohome.success3=Eu estou indo para casa. Adeus!
-spouse.interaction.gohome.success1=Claro, querido(a), vou para casa agora.
+spouse.interaction.gohome.success1=Claro, querido(a), eu vou para casa agora.
 spouse.interaction.gohome.success2=Vejo você lá, querido(a)!
 childp.interaction.gohome.success1=Até mais!
-childp.interaction.gohome.success2=Tudo bem! Tchau!
-child.interaction.gohome.success1=Tudo bem! Eu acho que lembro onde eu moro...
+childp.interaction.gohome.success2=Ok! Tchau!
+child.interaction.gohome.success1=Ok! Acho que me lembro aonde moro...
 
 adult.interaction.gohome.fail.nohome=Eu não tenho casa...
 spouse.interaction.gohome.fail.nohome=Me lembre onde é a nossa casa?
