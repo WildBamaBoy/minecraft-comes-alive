@@ -1,10 +1,10 @@
 package mca.enums;
 
+import java.util.Arrays;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mca.core.MCA;
-
-import java.util.Arrays;
 
 @AllArgsConstructor
 public enum EnumMoveState {

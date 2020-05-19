@@ -1,21 +1,22 @@
 package mca.entity.data;
 
-import lombok.Getter;
-import mca.core.Constants;
-import mca.core.MCA;
-import mca.enums.EnumMarriageState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import lombok.Getter;
+import mca.api.objects.Player;
+import mca.api.wrappers.WorldWrapper;
+import mca.core.Constants;
+import mca.core.MCA;
+import mca.enums.EnumMarriageState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.storage.WorldSavedData;
 
 @Getter
 public class PlayerSaveData extends WorldSavedData {
@@ -31,19 +32,23 @@ public class PlayerSaveData extends WorldSavedData {
     }
 
     public static PlayerSaveData get(EntityPlayer player) {
+    	return PlayerSaveData.get(new Player(player));
+    }
+    
+    public static PlayerSaveData get(Player player) {
         String dataId = PREFIX + player.getUniqueID().toString();
-        PlayerSaveData data = (PlayerSaveData) player.world.loadData(PlayerSaveData.class, dataId);
+        PlayerSaveData data = (PlayerSaveData) player.world.getVanillaWorld().loadData(PlayerSaveData.class, dataId);
 
         if (data == null) {
             data = new PlayerSaveData(dataId);
-            player.world.setData(dataId, data);
+            player.world.getVanillaWorld().setData(dataId, data);
         }
 
         return data;
     }
 
-    public static PlayerSaveData getExisting(World world, UUID uuid) {
-        return (PlayerSaveData) world.loadData(PlayerSaveData.class, PREFIX + uuid.toString());
+    public static PlayerSaveData getExisting(WorldWrapper world, UUID uuid) {
+        return (PlayerSaveData) world.getVanillaWorld().loadData(PlayerSaveData.class, PREFIX + uuid.toString());
     }
 
     @Override

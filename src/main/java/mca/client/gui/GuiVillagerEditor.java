@@ -1,7 +1,14 @@
 package mca.client.gui;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+
+import mca.api.objects.Player;
+import org.lwjgl.input.Keyboard;
+
 import mca.api.API;
-import mca.api.types.APIButton;
+import mca.api.objects.APIButton;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
@@ -13,11 +20,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
-import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiVillagerEditor extends GuiScreen {
@@ -120,7 +122,7 @@ public class GuiVillagerEditor extends GuiScreen {
 
     private void drawEditorGui() {
         buttonList.clear();
-        API.addButtons("editor", villager, player, this);
+        API.addButtons("editor", villager, new Player(player), this);
     }
 
     @Override

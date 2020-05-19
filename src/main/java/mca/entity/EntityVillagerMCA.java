@@ -1,39 +1,60 @@
 package mca.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+
+import lombok.Getter;
+import lombok.Setter;
 import mca.api.API;
-import mca.api.types.APIButton;
+import mca.api.objects.*;
+import mca.api.wrappers.DataManagerWrapper;
+import mca.api.wrappers.NBTWrapper;
+import mca.api.platforms.VillagerPlatform;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
-import mca.entity.ai.*;
+import mca.entity.ai.EntityAIAgeBaby;
+import mca.entity.ai.EntityAIChopping;
+import mca.entity.ai.EntityAIDefendFromTarget;
+import mca.entity.ai.EntityAIFishing;
+import mca.entity.ai.EntityAIGoHangout;
+import mca.entity.ai.EntityAIGoWorkplace;
+import mca.entity.ai.EntityAIHarvesting;
+import mca.entity.ai.EntityAIHunting;
+import mca.entity.ai.EntityAIMoveState;
+import mca.entity.ai.EntityAIProcreate;
+import mca.entity.ai.EntityAIProspecting;
+import mca.entity.ai.EntityAISleeping;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerHistory;
 import mca.entity.data.PlayerSaveData;
 import mca.entity.data.SavedVillagers;
 import mca.entity.inventory.InventoryMCA;
-import mca.enums.*;
+import mca.enums.EnumAgeState;
+import mca.enums.EnumChore;
+import mca.enums.EnumConstraint;
+import mca.enums.EnumDialogueType;
+import mca.enums.EnumGender;
+import mca.enums.EnumMarriageState;
+import mca.enums.EnumMoveState;
 import mca.items.ItemSpecialCaseGift;
 import mca.util.ItemStackCache;
 import mca.util.ResourceLocationCache;
-import mca.util.Util;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -43,30 +64,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-
-import static net.minecraft.block.BlockBed.OCCUPIED;
-import static net.minecraft.block.BlockBed.PART;
-
-public class EntityVillagerMCA extends EntityVillager {
-    public static final int VANILLA_CAREER_ID_FIELD_INDEX = 13;
-    public static final int VANILLA_CAREER_LEVEL_FIELD_INDEX = 14;
-
+public class EntityVillagerMCA extends VillagerPlatform {
     public static final DataParameter<String> VILLAGER_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
     public static final DataParameter<String> TEXTURE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
     public static final DataParameter<Integer> GENDER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
@@ -91,21 +103,22 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<BlockPos> WORKPLACE_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<BlockPos> HANGOUT_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
-
+    public final InventoryMCA inventory;
+    private Pos home = Pos.ORIGIN;
+    
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
 
-    public final InventoryMCA inventory;
-    public int babyAge = 0;
     public UUID playerToFollowUUID = Constants.ZERO_UUID;
 
-    private BlockPos home = BlockPos.ORIGIN;
-    private int startingAge = 0;
+    // Non persisting fields
     private float swingProgressTicks;
-
-    public float renderOffsetX;
-    public float renderOffsetY;
-    public float renderOffsetZ;
+    private int startingAge;
+    
+    // Client side fields
+    @Getter @Setter private float renderOffsetX;
+    @Getter @Setter private float renderOffsetY;
+    @Getter @Setter private float renderOffsetZ;
 
     public EntityVillagerMCA() {
         super(null);
@@ -117,54 +130,38 @@ public class EntityVillagerMCA extends EntityVillager {
         inventory = new InventoryMCA(this);
     }
 
-    public EntityVillagerMCA(World worldIn, Optional<VillagerRegistry.VillagerProfession> profession, Optional<EnumGender> gender) {
-        this(worldIn);
-
-        if (!worldIn.isRemote) {
-            EnumGender eGender = gender.isPresent() ? gender.get() : EnumGender.getRandom();
-            set(GENDER, eGender.getId());
-            set(VILLAGER_NAME, API.getRandomName(eGender));
-            setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
-            setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
-            set(TEXTURE, API.getRandomSkin(this));
-
-            applySpecialAI();
-        }
-    }
-
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(VILLAGER_NAME, "");
-        this.dataManager.register(TEXTURE, "");
-        this.dataManager.register(GENDER, EnumGender.MALE.getId());
-        this.dataManager.register(GIRTH, 0.0F);
-        this.dataManager.register(TALLNESS, 0.0F);
-        this.dataManager.register(PLAYER_HISTORY_MAP, new NBTTagCompound());
-        this.dataManager.register(MOVE_STATE, EnumMoveState.MOVE.getId());
-        this.dataManager.register(SPOUSE_NAME, "");
-        this.dataManager.register(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
-        this.dataManager.register(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
-        this.dataManager.register(IS_PROCREATING, false);
-        this.dataManager.register(PARENTS, new NBTTagCompound());
-        this.dataManager.register(IS_INFECTED, false);
-        this.dataManager.register(AGE_STATE, EnumAgeState.ADULT.getId());
-        this.dataManager.register(ACTIVE_CHORE, EnumChore.NONE.getId());
-        this.dataManager.register(IS_SWINGING, false);
-        this.dataManager.register(HAS_BABY, false);
-        this.dataManager.register(BABY_IS_MALE, false);
-        this.dataManager.register(BABY_AGE, 0);
-        this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
-        this.dataManager.register(BED_POS, BlockPos.ORIGIN);
-        this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN);
-        this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN);
-        this.dataManager.register(SLEEPING, false);
+    protected void initialize() {
+        this.dataManager = new DataManagerWrapper(this.getDataManager());
+        this.dataManager.register(VILLAGER_NAME, "", "villagerName");
+        this.dataManager.register(TEXTURE, "", "texture");
+        this.dataManager.register(GENDER, EnumGender.MALE.getId(), "gender");
+        this.dataManager.register(GIRTH, 0.0F, "girth");
+        this.dataManager.register(TALLNESS, 0.0F, "tallness");
+        this.dataManager.register(PLAYER_HISTORY_MAP, new NBTWrapper().getVanillaCompound(), "playerHistoryMap");
+        this.dataManager.register(MOVE_STATE, EnumMoveState.MOVE.getId(), "moveState");
+        this.dataManager.register(SPOUSE_NAME, "", "spouseName");
+        this.dataManager.register(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID), "spouseUUID");
+        this.dataManager.register(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId(), "marriageState");
+        this.dataManager.register(IS_PROCREATING, false, "isProcreating");
+        this.dataManager.register(PARENTS, new NBTWrapper().getVanillaCompound(), "parents");
+        this.dataManager.register(IS_INFECTED, false, "isInfected");
+        this.dataManager.register(AGE_STATE, EnumAgeState.ADULT.getId(), "ageState");
+        this.dataManager.register(ACTIVE_CHORE, EnumChore.NONE.getId(), "activeChore");
+        this.dataManager.register(IS_SWINGING, false, "isSwinging");
+        this.dataManager.register(HAS_BABY, false, "hasBaby");
+        this.dataManager.register(BABY_IS_MALE, false, "babyIsMale");
+        this.dataManager.register(BABY_AGE, 0, "babyAge");
+        this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID), "choreAssigningPlayer");
+        this.dataManager.register(BED_POS, BlockPos.ORIGIN, "bedPos");
+        this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN, "workplacePos");
+        this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN, "hangoutPos");
+        this.dataManager.register(SLEEPING, false, "sleeping");
         this.setSilent(false);
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void applyAttributes() {
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(MCA.getConfig().villagerMaxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
 
@@ -173,116 +170,50 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    public <T> T get(DataParameter<T> key) {
-        return this.dataManager.get(key);
-    }
-
-    public <T> void set(DataParameter<T> key, T value) {
-        this.dataManager.set(key, value);
+    @Override
+    public boolean attackNPC(NPC npc) {
+        return npc.attackFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 2.0F);
     }
 
     @Override
-    public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
-        super.attackEntityAsMob(entityIn);
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 2.0F);
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound nbt) {
-        super.readEntityFromNBT(nbt);
-        set(VILLAGER_NAME, nbt.getString("name"));
-        set(GENDER, nbt.getInteger("gender"));
-        set(TEXTURE, nbt.getString("texture"));
-        set(GIRTH, nbt.getFloat("girth"));
-        set(TALLNESS, nbt.getFloat("tallness"));
-        set(PLAYER_HISTORY_MAP, nbt.getCompoundTag("playerHistoryMap"));
-        set(MOVE_STATE, nbt.getInteger("moveState"));
-        set(MARRIAGE_STATE, nbt.getInteger("marriageState"));
-        set(SPOUSE_UUID, Optional.of(nbt.getUniqueId("spouseUUID")));
-        set(SPOUSE_NAME, nbt.getString("spouseName"));
-        set(IS_PROCREATING, nbt.getBoolean("isProcreating"));
-        set(IS_INFECTED, nbt.getBoolean("infected"));
-        set(AGE_STATE, nbt.getInteger("ageState"));
-        set(ACTIVE_CHORE, nbt.getInteger("activeChore"));
-        set(CHORE_ASSIGNING_PLAYER, Optional.of(nbt.getUniqueId("choreAssigningPlayer")));
-        set(HAS_BABY, nbt.getBoolean("hasBaby"));
-        set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
-        set(PARENTS, nbt.getCompoundTag("parents"));
-        set(BED_POS, new BlockPos(nbt.getInteger("bedX"), nbt.getInteger("bedY"), nbt.getInteger("bedZ")));
-        set(HANGOUT_POS, new BlockPos(nbt.getInteger("hangoutX"), nbt.getInteger("hangoutY"), nbt.getInteger("hangoutZ")));
-        set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
-        set(SLEEPING, nbt.getBoolean("sleeping"));
+    public void load(NBTWrapper nbt) {
+    	this.dataManager.loadAll(nbt);
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
         // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
         this.startingAge = nbt.getInteger("startingAge");
         setGrowingAge(nbt.getInteger("Age"));
 
-        this.home = new BlockPos(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
-        this.playerToFollowUUID = nbt.getUniqueId("playerToFollowUUID");
-        this.babyAge = nbt.getInteger("babyAge");
+        this.home = new Pos(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
+        this.playerToFollowUUID = nbt.getUUID("playerToFollowUUID");
 
         applySpecialAI();
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound nbt) {
-        super.writeEntityToNBT(nbt);
-        nbt.setUniqueId("uuid", this.getUniqueID()); // for SavedVillagers
-        nbt.setString("name", get(VILLAGER_NAME));
-        nbt.setString("texture", get(TEXTURE));
-        nbt.setInteger("gender", get(GENDER));
-        nbt.setFloat("girth", get(GIRTH));
-        nbt.setFloat("tallness", get(TALLNESS));
-        nbt.setTag("playerHistoryMap", get(PLAYER_HISTORY_MAP));
-        nbt.setInteger("moveState", get(MOVE_STATE));
-        nbt.setInteger("marriageState", get(MARRIAGE_STATE));
-        nbt.setDouble("homePositionX", home.getX());
-        nbt.setDouble("homePositionY", home.getY());
-        nbt.setDouble("homePositionZ", home.getZ());
-        nbt.setUniqueId("playerToFollowUUID", playerToFollowUUID);
-        nbt.setUniqueId("spouseUUID", get(SPOUSE_UUID).or(Constants.ZERO_UUID));
-        nbt.setString("spouseName", get(SPOUSE_NAME));
-        nbt.setBoolean("isProcreating", get(IS_PROCREATING));
-        nbt.setBoolean("infected", get(IS_INFECTED));
-        nbt.setInteger("ageState", get(AGE_STATE));
-        nbt.setInteger("startingAge", startingAge);
-        nbt.setInteger("activeChore", get(ACTIVE_CHORE));
-        nbt.setUniqueId("choreAssigningPlayer", get(CHORE_ASSIGNING_PLAYER).or(Constants.ZERO_UUID));
-        nbt.setTag("inventory", inventory.writeInventoryToNBT());
-        nbt.setInteger("babyAge", babyAge);
-        nbt.setTag("parents", get(PARENTS));
-        nbt.setInteger("bedX", get(BED_POS).getX());
-        nbt.setInteger("bedY", get(BED_POS).getY());
-        nbt.setInteger("bedZ", get(BED_POS).getZ());
-        nbt.setInteger("workplaceX", get(WORKPLACE_POS).getX());
-        nbt.setInteger("workplaceY", get(WORKPLACE_POS).getY());
-        nbt.setInteger("workplaceZ", get(WORKPLACE_POS).getZ());
-        nbt.setInteger("hangoutX", get(HANGOUT_POS).getX());
-        nbt.setInteger("hangoutY", get(HANGOUT_POS).getY());
-        nbt.setInteger("hangoutZ", get(HANGOUT_POS).getZ());
-        nbt.setBoolean("sleeping", get(SLEEPING));
+    public void save(NBTWrapper nbt) {
+    	this.dataManager.saveAll(nbt);
+    	nbt.setTag("inventory", inventory.writeInventoryToNBT());
     }
 
-    @Override
-    protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
-        // Guards take 50% less damage
+    @Override 
+    protected float applyDamageModifications(DamageSource source, float amount) {
         if (getProfessionForge() == ProfessionsMCA.guard) {
-            damageAmount *= 0.50;
+            amount *= 0.50;
         }
-        super.damageEntity(damageSource, damageAmount);
-
-        // Check for infection to apply. Does not affect guards.
-        if (MCA.getConfig().enableInfection && getProfessionForge() != ProfessionsMCA.guard && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100) {
+        return amount;
+    }
+    
+    @Override
+    protected void afterApplyingDamage(DamageSource source, float amount) {
+        if (MCA.getConfig().enableInfection && getProfessionForge() != ProfessionsMCA.guard && source.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100) {
             set(IS_INFECTED, true);
         }
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void update() {
         updateSwinging();
-        updateSleeping();
 
         if (this.isServerWorld()) {
             onEachServerUpdate();
@@ -292,28 +223,12 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    protected SoundEvent getAmbientSound() {
-        return null;
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_GENERIC_HURT;
-    }
-
-    @Override
     protected SoundEvent getDeathSound() {
         return get(IS_INFECTED) ? SoundEvents.ENTITY_ZOMBIE_DEATH : null;
     }
-
+    
     @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
-        // No-op, handled by EventHooks
-        return true;
-    }
-
-    @Override
-    public void onDeath(@Nonnull DamageSource cause) {
+    public void onDeath(DamageSource cause) {
         if (!world.isRemote) {
             String causeName = cause.getImmediateSource() == null ? cause.getDamageType() : cause.getImmediateSource().getName();
             if (MCA.getConfig().logVillagerDeaths) {
@@ -324,42 +239,38 @@ public class EntityVillagerMCA extends EntityVillager {
 
             if (isMarried()) {
                 UUID spouseUUID = get(SPOUSE_UUID).or(Constants.ZERO_UUID);
-                Optional<EntityVillagerMCA> spouse = Util.getEntityByUUID(world, spouseUUID, EntityVillagerMCA.class);
+                Optional<EntityVillagerMCA> spouse = Optional.fromJavaUtil(world.getVillagerByUUID(spouseUUID));
                 PlayerSaveData playerSaveData = PlayerSaveData.getExisting(world, spouseUUID);
+
 
                 // Notify spouse of the death
                 if (spouse.isPresent()) {
                     spouse.get().endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
-                    EntityPlayer player = world.getPlayerEntityByUUID(spouseUUID);
+                    Player player = world.getPlayerEntityByUUID(spouseUUID);
                     if (player != null) {
-                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), causeName)));
+                        player.sendMessage(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), causeName));
                     }
                 }
             }
 
             // Notify all parents of the death
             ParentData parents = ParentData.fromNBT(get(PARENTS));
-            Arrays.stream(parents.getParentEntities(world))
-                    .filter(e -> e instanceof EntityPlayer)
-                    .forEach(e -> {
-                        EntityPlayer player = (EntityPlayer) e;
-                        player.sendMessage(new TextComponentString(Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), causeName)));
-                    });
-
+            parents.sendMessage(world, Constants.Color.RED + MCA.getLocalizer().localize("notify.childdied", get(VILLAGER_NAME), causeName));
             SavedVillagers.get(world).save(this);
         }
     }
 
     @Override
     protected void onGrowingAdult() {
-        Entity[] parents = ParentData.fromNBT(get(PARENTS)).getParentEntities(world);
         set(AGE_STATE, EnumAgeState.ADULT.getId());
-        Arrays.stream(parents).filter((e) -> e instanceof EntityPlayer).forEach((e) -> {
+        
+        NPC[] parents = ParentData.fromNBT(get(PARENTS)).getBothParentNPCs(world);
+        Arrays.stream(parents).filter((e) -> e instanceof Player).forEach((e) -> {
             PlayerHistory history = getPlayerHistoryFor(e.getUniqueID());
             history.setDialogueType(EnumDialogueType.ADULT);
-            e.sendMessage(new TextComponentString(MCA.getLocalizer().localize("notify.child.grownup", this.get(VILLAGER_NAME))));
+            e.sendMessage(MCA.getLocalizer().localize("notify.child.grownup", this.get(VILLAGER_NAME)));
         });
 
         // set profession away from child for villager children
@@ -370,7 +281,6 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    @Nonnull
     public ITextComponent getDisplayName() {
         // translate profession name
         ITextComponent careerName = new TextComponentTranslation("entity.Villager." + getVanillaCareer().getName());
@@ -382,44 +292,19 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    @Nonnull
     public String getCustomNameTag() {
         return get(VILLAGER_NAME);
     }
 
     @Override
-    @Nonnull
-    public boolean hasCustomName() {
-        return true;
-    }
-
-    @Override
-    public void swingArm(EnumHand hand) {
-        this.setActiveHand(EnumHand.MAIN_HAND);
-        super.swingArm(EnumHand.MAIN_HAND);
-
+    public void swing(EnumHand hand) {
         if (!get(IS_SWINGING) || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0) {
             swingProgressTicks = -1;
             set(IS_SWINGING, true);
         }
     }
 
-    private void updateSwinging() {
-        if (get(IS_SWINGING)) {
-            swingProgressTicks++;
-
-            if (swingProgressTicks >= 8) {
-                swingProgressTicks = 0;
-                set(IS_SWINGING, false);
-            }
-        } else {
-            swingProgressTicks = 0;
-        }
-        swingProgress = swingProgressTicks / (float) 8;
-    }
-
     @Override
-    @Nonnull
     public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
         if (slotIn == EntityEquipmentSlot.MAINHAND) {
             VillagerRegistry.VillagerProfession profession = getProfessionForge();
@@ -434,6 +319,42 @@ public class EntityVillagerMCA extends EntityVillager {
         } else {
             return inventory.getBestArmorOfType(slotIn);
         }
+    }
+
+    @Override
+    protected void initializeAI() {
+        this.tasks.addTask(0, new EntityAIProspecting(this));
+        this.tasks.addTask(0, new EntityAIHunting(this));
+        this.tasks.addTask(0, new EntityAIChopping(this));
+        this.tasks.addTask(0, new EntityAIHarvesting(this));
+        this.tasks.addTask(0, new EntityAIFishing(this));
+        this.tasks.addTask(0, new EntityAIMoveState(this));
+        this.tasks.addTask(0, new EntityAIAgeBaby(this));
+        this.tasks.addTask(0, new EntityAIProcreate(this));
+        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
+        this.tasks.addTask(5, new EntityAIGoHangout(this));
+        this.tasks.addTask(1, new EntityAISleeping(this));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
+    }
+    
+    @Override
+	public Pos getHomePos() {
+		return home;
+	}
+
+    private void updateSwinging() {
+        if (get(IS_SWINGING)) {
+            swingProgressTicks++;
+
+            if (swingProgressTicks >= 8) {
+                swingProgressTicks = 0;
+                set(IS_SWINGING, false);
+            }
+        } else {
+            swingProgressTicks = 0;
+        }
+        swingProgress = swingProgressTicks / (float) 8;
     }
 
     public void setStartingAge(int value) {
@@ -467,27 +388,18 @@ public class EntityVillagerMCA extends EntityVillager {
         set(HAS_BABY, false);
     }
 
-    public VillagerRegistry.VillagerCareer getVanillaCareer() {
-        return this.getProfessionForge().getCareer(ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, VANILLA_CAREER_ID_FIELD_INDEX));
-    }
-
-    public void setVanillaCareer(int careerId) {
-        ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, careerId, VANILLA_CAREER_ID_FIELD_INDEX);
-    }
-
     private void setSizeForAge() {
         EnumAgeState age = EnumAgeState.byId(get(AGE_STATE));
         this.setSize(age.getWidth(), age.getHeight());
         this.setScale(1.0F); // trigger rebuild of the bounding box
     }
 
-    private void toggleMount(EntityPlayerMP player) {
+    private void toggleMount(Player player) {
         if (getRidingEntity() != null) {
             dismountRidingEntity();
         } else {
             try {
-                List<EntityHorse> horses = world.getEntities(EntityHorse.class, h -> (h.isHorseSaddled() && !h.isBeingRidden() && h.getDistance(this) < 3.0D));
-                startRiding(horses.stream().min(Comparator.comparingDouble(this::getDistance)).get(), true);
+            	startRiding(world.getClosestSaddledHorseTo(this));
                 getNavigator().clearPath();
             } catch (NoSuchElementException e) {
                 say(Optional.of(player), "interaction.ridehorse.fail.notnearby");
@@ -495,8 +407,8 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    private void goHome(EntityPlayerMP player) {
-        if (home.equals(Vec3d.ZERO)) {
+    private void goHome(Player player) {
+        if (home.equals(Pos.ORIGIN)) {
             say(Optional.of(player), "interaction.gohome.fail");
         } else {
             say(Optional.of(player), "interaction.gohome.success");
@@ -506,64 +418,65 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    public BlockPos getWorkplace() {
-        return get(WORKPLACE_POS);
-    }
-
-    public BlockPos getHangout() {
-        return get(HANGOUT_POS);
-    }
-
     /**
      * Forces the villager's home to be set to their position. No checks for safety are made.
      * This is used on overwriting the original villager.
      */
     public void forcePositionAsHome() {
-        this.home = this.getPosition();
+        this.home = new Pos(this.getPosition());
     }
 
-    private void setHome(EntityPlayerMP player) {
-        if (attemptTeleport(player.posX, player.posY, player.posZ)) {
+    private void setHome(Player player) {
+        if (attemptTeleport(player.getPosX(), player.getPosY(), player.getPosZ())) {
             say(Optional.of(player), "interaction.sethome.success");
             this.home = player.getPosition();
-            this.setHomePosAndDistance(this.home, 32);
-            BlockPos bed = searchBed();
+            this.setHomePosAndDistance(this.home.getBlockPos(), 32);
+            
+            Pos bed = EntityAISleeping.findAnyBed(this);
             if (bed != null) {
-                set(BED_POS, bed);
+                set(BED_POS, bed.getBlockPos());
             }
         } else {
             say(Optional.of(player), "interaction.sethome.fail");
         }
     }
 
-    public void setWorkplace(EntityPlayerMP player) {
+    public void setWorkplace(Player player) {
         say(Optional.of(player), "interaction.setworkplace.success");
-        set(WORKPLACE_POS, player.getPosition());
+        set(WORKPLACE_POS, player.getPosition().getBlockPos());
     }
 
-    public void setHangout(EntityPlayerMP player) {
+    public void setHangout(Player player) {
         say(Optional.of(player), "interaction.sethangout.success");
-        set(HANGOUT_POS, player.getPosition());
+        set(HANGOUT_POS, player.getPosition().getBlockPos());
     }
 
-    public void say(Optional<EntityPlayer> player, String phraseId, @Nullable String... params) {
+    public Pos getWorkplace() {
+        return new Pos(get(WORKPLACE_POS));
+    }
+
+    public Pos getHangout() {
+        return new Pos(get(HANGOUT_POS));
+    }
+
+    public void say(Optional<Player> player, String phraseId, String... params) {
         ArrayList<String> paramsList = new ArrayList<>();
         if (params != null) Collections.addAll(paramsList, params);
 
         if (player.isPresent()) {
-            EntityPlayer thePlayer = player.get();
+            Player thePlayer = player.get();
 
             // Provide player as the first param, always
             paramsList.add(0, thePlayer.getName());
 
             // Infected villagers do not speak.
             if (get(IS_INFECTED)) {
-                thePlayer.sendMessage(new TextComponentString(getDisplayName().getFormattedText() + ": " + "???"));
+                thePlayer.sendMessage(getDisplayName().getFormattedText() + ": " + "???");
                 this.playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, 0.5F, rand.nextFloat() + 0.5F);
             } else {
                 String dialogueType = getPlayerHistoryFor(player.get().getUniqueID()).getDialogueType().getId();
                 String phrase = MCA.getLocalizer().localize(dialogueType + "." + phraseId, paramsList);
-                thePlayer.sendMessage(new TextComponentString(String.format("%1$s: %2$s", getDisplayName().getFormattedText(), phrase)));
+                thePlayer.sendMessage(String.format("%1$s: %2$s", getDisplayName().getFormattedText(), phrase));
             }
         } else {
             MCA.getLog().warn(new Throwable("Say called on player that is not present!"));
@@ -578,7 +491,7 @@ public class EntityVillagerMCA extends EntityVillager {
         return get(SPOUSE_UUID).or(Constants.ZERO_UUID).equals(uuid);
     }
 
-    public void marry(EntityPlayer player) {
+    public void marry(Player player) {
         set(SPOUSE_UUID, Optional.of(player.getUniqueID()));
         set(SPOUSE_NAME, player.getName());
         set(MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
@@ -590,7 +503,7 @@ public class EntityVillagerMCA extends EntityVillager {
         set(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
     }
 
-    private void handleInteraction(EntityPlayerMP player, PlayerHistory history, APIButton button) {
+    private void handleInteraction(Player player, PlayerHistory history, APIButton button) {
         float successChance = 0.85F;
         int heartsBoost = button.getConstraints().contains(EnumConstraint.ADULTS) ? 15 : 5;
 
@@ -611,7 +524,7 @@ public class EntityVillagerMCA extends EntityVillager {
         say(Optional.of(player), responseId);
     }
 
-    public void handleButtonClick(EntityPlayerMP player, String guiKey, String buttonId) {
+    public void handleButtonClick(Player player, String guiKey, String buttonId) {
         PlayerHistory history = getPlayerHistoryFor(player.getUniqueID());
         java.util.Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {
@@ -648,14 +561,14 @@ public class EntityVillagerMCA extends EntityVillager {
                 break;
             case "gui.button.trade":
                 if (MCA.getConfig().allowTrading) {
-                    setCustomer(player);
+                    setCustomer(player.getPlayer());
                     player.displayVillagerTradeGui(this);
                 } else {
-                    player.sendMessage(new TextComponentString(MCA.getLocalizer().localize("info.trading.disabled")));
+                    player.sendMessage(MCA.getLocalizer().localize("info.trading.disabled"));
                 }
                 break;
             case "gui.button.inventory":
-                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, player.world, this.getEntityId(), 0, 0);
+                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, player.world.getVanillaWorld(), this.getEntityId(), 0, 0);
                 break;
             case "gui.button.gift":
                 ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
@@ -708,7 +621,6 @@ public class EntityVillagerMCA extends EntityVillager {
                 set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
                 break;
             case "gui.button.profession":
-                RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
                 setProfession(ProfessionsMCA.randomProfession());
                 setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
                 applySpecialAI();
@@ -734,7 +646,7 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    private boolean handleSpecialCaseGift(EntityPlayer player, ItemStack stack) {
+    private boolean handleSpecialCaseGift(Player player, ItemStack stack) {
         Item item = stack.getItem();
 
         if (item instanceof ItemSpecialCaseGift && !this.isChild()) { // special case gifts are rings so far so prevent giving them to children
@@ -742,9 +654,9 @@ public class EntityVillagerMCA extends EntityVillager {
             if (decStackSize) player.inventory.decrStackSize(player.inventory.currentItem, -1);
             return true;
         } else if (item == Items.CAKE) {
-            Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
+            Optional<NPC> spouse = Optional.fromJavaUtil(world.getNPCByUUID(get(SPOUSE_UUID).or(Constants.ZERO_UUID)));
             if (spouse.isPresent()) {
-                EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
+                EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get().getEntity();
                 progressor.set(HAS_BABY, true);
                 progressor.set(BABY_IS_MALE, rand.nextBoolean());
                 progressor.spawnParticles(EnumParticleTypes.HEART);
@@ -794,23 +706,6 @@ public class EntityVillagerMCA extends EntityVillager {
     private void onEachServerSecond() {
         NBTTagCompound memories = get(PLAYER_HISTORY_MAP);
         memories.getKeySet().forEach((key) -> PlayerHistory.fromNBT(this, UUID.fromString(key), memories.getCompoundTag(key)).update());
-
-        if (get(HAS_BABY)) {
-            set(BABY_AGE, get(BABY_AGE) + 1);
-
-            if (get(BABY_AGE) >= MCA.getConfig().babyGrowUpTime * 60) { // grow up time is in minutes and we measure age in seconds
-                EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.absent(), Optional.of(get(BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
-                child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
-                child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
-                child.setScaleForAge(true);
-                child.setPosition(this.posX, this.posY, this.posZ);
-                child.set(EntityVillagerMCA.PARENTS, ParentData.create(this.getUniqueID(), this.get(SPOUSE_UUID).get(), this.get(VILLAGER_NAME), this.get(SPOUSE_NAME)).toNBT());
-                world.spawnEntity(child);
-
-                set(HAS_BABY, false);
-                set(BABY_AGE, 0);
-            }
-        }
     }
 
     public ResourceLocation getTextureResourceLocation() {
@@ -819,24 +714,6 @@ public class EntityVillagerMCA extends EntityVillager {
         } else {
             return ResourceLocationCache.getResourceLocationFor(get(TEXTURE));
         }
-    }
-
-    @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIProspecting(this));
-        this.tasks.addTask(0, new EntityAIHunting(this));
-        this.tasks.addTask(0, new EntityAIChopping(this));
-        this.tasks.addTask(0, new EntityAIHarvesting(this));
-        this.tasks.addTask(0, new EntityAIFishing(this));
-        this.tasks.addTask(0, new EntityAIMoveState(this));
-        this.tasks.addTask(0, new EntityAIAgeBaby(this));
-        this.tasks.addTask(0, new EntityAIProcreate(this));
-        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
-        this.tasks.addTask(5, new EntityAIGoHangout(this));
-        this.tasks.addTask(1, new EntityAISleeping(this));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
     }
 
     private void applySpecialAI() {
@@ -848,7 +725,7 @@ public class EntityVillagerMCA extends EntityVillager {
             this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
             this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         } else if (getProfessionForge() == ProfessionsMCA.guard) {
-            removeCertainTasks(EntityAIAvoidEntity.class);
+        	removeAITask(EntityAIAvoidEntity.class);
 
             this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
             this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
@@ -866,19 +743,8 @@ public class EntityVillagerMCA extends EntityVillager {
         }
     }
 
-    //guards should not run away from zombies
-    //TODO: should only avoid zombies when low on health
-    private void removeCertainTasks(Class typ) {
-        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
-
-        while (iterator.hasNext()) {
-            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
-            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
-
-            if (entityaibase.getClass().equals(typ)) {
-                iterator.remove();
-            }
-        }
+    private void removeAITask(Class<? extends EntityAIBase> clazz) {
+        this.tasks.taskEntries.removeIf(ai -> ai.getClass().equals(clazz));
     }
 
     public void spawnParticles(EnumParticleTypes particleType) {
@@ -899,24 +765,14 @@ public class EntityVillagerMCA extends EntityVillager {
         set(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
     }
 
-    public void startChore(EnumChore chore, EntityPlayer player) {
+    public void startChore(EnumChore chore, Player player) {
         set(ACTIVE_CHORE, chore.getId());
         set(CHORE_ASSIGNING_PLAYER, Optional.of(player.getUniqueID()));
     }
 
-    public boolean playerIsParent(EntityPlayer player) {
+    public boolean playerIsParent(Player player) {
         ParentData data = ParentData.fromNBT(get(PARENTS));
         return data.getParent1UUID().equals(player.getUniqueID()) || data.getParent2UUID().equals(player.getUniqueID());
-    }
-
-    @Override
-    public BlockPos getHomePosition() {
-        return home;
-    }
-
-    @Override
-    public void detachHome() {
-        // no-op, skip EntityVillager's detaching homes which messes up MoveTowardsRestriction.
     }
 
     public String getCurrentActivity() {
@@ -933,136 +789,22 @@ public class EntityVillagerMCA extends EntityVillager {
         return null;
     }
 
-    public void moveTowardsBlock(BlockPos target) {
+    public void moveTowardsBlock(Pos target) {
         moveTowardsBlock(target, 0.5D);
     }
 
-    public void moveTowardsBlock(BlockPos target, double speed) {
+    public void moveTowardsBlock(Pos target, double speed) {
         double range = getNavigator().getPathSearchRange() - 6.0D;
 
-        if (getDistanceSq(target) > Math.pow(range, 2.0)) {
+        if (getDistanceSq(target.getBlockPos()) > Math.pow(range, 2.0)) {
             Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this, (int) range, 8, new Vec3d(target.getX(), target.getY(), target.getZ()));
             if (vec3d != null && !getNavigator().setPath(getNavigator().getPathToXYZ(vec3d.x, vec3d.y, vec3d.z), speed)) {
                 attemptTeleport(vec3d.x, vec3d.y, vec3d.z);
             }
         } else {
-            if (!getNavigator().setPath(getNavigator().getPathToPos(target), speed)) {
+            if (!getNavigator().setPath(getNavigator().getPathToPos(target.getBlockPos()), speed)) {
                 attemptTeleport(target.getX(), target.getY(), target.getZ());
             }
         }
-    }
-
-    //searches for the nearest bed
-    public BlockPos searchBed() {
-        List<BlockPos> nearbyBeds = Util.getNearbyBlocks(getPos(), world, BlockBed.class, 8, 8);
-        List<BlockPos> valid = new ArrayList<>();
-        for (BlockPos pos : nearbyBeds) {
-            IBlockState state = world.getBlockState(pos);
-            if (!(state.getValue(OCCUPIED)) && state.getValue(PART) != BlockBed.EnumPartType.HEAD) {
-                valid.add(pos);
-            }
-        }
-        return Util.getNearestPoint(getPos(), valid);
-    }
-
-    /**
-     * Returns the orientation of the bed in degrees.
-     */
-    @SideOnly(Side.CLIENT)
-    public float getBedOrientationInDegrees() {
-        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
-        IBlockState state = bedLocation == BlockPos.ORIGIN ? null : this.world.getBlockState(bedLocation);
-        if (state != null && state.getBlock().isBed(state, world, bedLocation, this)) {
-            EnumFacing enumfacing = state.getBlock().getBedDirection(state, world, bedLocation);
-
-            switch (enumfacing) {
-                case SOUTH:
-                    return 90.0F;
-                case WEST:
-                    return 0.0F;
-                case NORTH:
-                    return 270.0F;
-                case EAST:
-                    return 180.0F;
-            }
-        }
-
-        return 0.0F;
-    }
-
-    public boolean isSleeping() {
-        return get(SLEEPING);
-    }
-
-    private void updateSleeping() {
-        if (isSleeping()) {
-            BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
-
-            final IBlockState state = this.world.isBlockLoaded(bedLocation) ? this.world.getBlockState(bedLocation) : null;
-            final boolean isBed = state != null && state.getBlock().isBed(state, this.world, bedLocation, this);
-
-            if (isBed) {
-                final EnumFacing enumfacing = state.getBlock() instanceof BlockHorizontal ? state.getValue(BlockHorizontal.FACING) : null;
-
-                if (enumfacing != null) {
-                    float f1 = 0.5F + (float) enumfacing.getFrontOffsetX() * 0.4F;
-                    float f = 0.5F + (float) enumfacing.getFrontOffsetZ() * 0.4F;
-                    this.setRenderOffsetForSleep(enumfacing);
-                    this.setPosition((double) ((float) bedLocation.getX() + f1), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + f));
-                } else {
-                    this.setPosition((double) ((float) bedLocation.getX() + 0.5F), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + 0.5F));
-                }
-
-                this.setSize(0.2F, 0.2F);
-
-                this.motionX = 0.0D;
-                this.motionY = 0.0D;
-                this.motionZ = 0.0D;
-            } else {
-                set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
-                stopSleeping();
-            }
-        } else {
-            this.setSize(0.6F, 1.8F);
-        }
-    }
-
-    private void setRenderOffsetForSleep(EnumFacing bedDirection) {
-        this.renderOffsetX = -1.0F * (float) bedDirection.getFrontOffsetX();
-        this.renderOffsetZ = -1.0F * (float) bedDirection.getFrontOffsetZ();
-    }
-
-    public void startSleeping() {
-        if (this.isRiding()) {
-            this.dismountRidingEntity();
-        }
-
-        set(SLEEPING, true);
-
-        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
-        IBlockState blockstate = this.world.getBlockState(bedLocation);
-        if (blockstate.getBlock() == Blocks.BED) {
-            blockstate.getBlock().setBedOccupied(world, bedLocation, null, true);
-        }
-    }
-
-    public void stopSleeping() {
-        BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
-        if (bedLocation != BlockPos.ORIGIN) {
-            IBlockState blockstate = this.world.getBlockState(bedLocation);
-
-            if (blockstate.getBlock().isBed(blockstate, world, bedLocation, this)) {
-                blockstate.getBlock().setBedOccupied(world, bedLocation, null, false);
-                BlockPos blockpos = blockstate.getBlock().getBedSpawnPosition(blockstate, world, bedLocation, null);
-
-                if (blockpos == null) {
-                    blockpos = bedLocation.up();
-                }
-
-                this.setPosition((double) ((float) blockpos.getX() + 0.5F), (double) ((float) blockpos.getY() + 0.1F), (double) ((float) blockpos.getZ() + 0.5F));
-            }
-        }
-
-        set(SLEEPING, false);
     }
 }

@@ -1,6 +1,10 @@
 package mca.command;
 
+import java.util.Arrays;
+import java.util.UUID;
+
 import com.google.common.base.Optional;
+
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
@@ -18,9 +22,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
-
-import java.util.Arrays;
-import java.util.UUID;
 
 public class CommandAdminMCA extends CommandBase {
     @Override

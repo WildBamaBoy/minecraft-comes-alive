@@ -1,7 +1,7 @@
 package mca.client.gui.component;
 
 import lombok.Getter;
-import mca.api.types.APIButton;
+import mca.api.objects.APIButton;
 import mca.core.MCA;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

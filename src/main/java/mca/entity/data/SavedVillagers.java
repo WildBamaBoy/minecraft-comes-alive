@@ -1,13 +1,13 @@
 package mca.entity.data;
 
-import mca.entity.EntityVillagerMCA;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import mca.api.wrappers.WorldWrapper;
+import mca.entity.EntityVillagerMCA;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.storage.WorldSavedData;
 
 /**
  * SavedVillagers handles saving dead villagers to the world which allows them to be restored later.
@@ -20,11 +20,11 @@ public class SavedVillagers extends WorldSavedData {
         super(id);
     }
 
-    public static SavedVillagers get(World world) {
-        SavedVillagers data = (SavedVillagers) world.loadData(SavedVillagers.class, DATA_ID);
+    public static SavedVillagers get(WorldWrapper world) {
+        SavedVillagers data = (SavedVillagers) world.getVanillaWorld().loadData(SavedVillagers.class, DATA_ID);
         if (data == null) {
             data = new SavedVillagers(DATA_ID);
-            world.setData(DATA_ID, data);
+            world.getVanillaWorld().setData(DATA_ID, data);
         }
         return data;
     }

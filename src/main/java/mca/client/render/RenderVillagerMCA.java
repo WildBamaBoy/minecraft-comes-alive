@@ -1,10 +1,13 @@
 package mca.client.render;
 
+import mca.api.objects.Pos;
+import org.lwjgl.opengl.GL11;
+
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumAgeState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -13,8 +16,11 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<EntityVillagerMCA> {
     private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
@@ -40,7 +46,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     @Override
     public void renderName(EntityVillagerMCA entity, double x, double y, double z) {
-        float modY = entity.isSleeping() ? -1.5F : 0;
+        float modY = entity.get(EntityVillagerMCA.SLEEPING) ? -1.5F : 0;
         super.renderName(entity, x, y + modY, z);
 
         if (canRenderName(entity)) {
@@ -118,21 +124,44 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     @Override
     protected void renderLivingAt(EntityVillagerMCA entityLiving, double x, double y, double z) {
-        if (entityLiving.isEntityAlive() && entityLiving.isSleeping()) {
-            super.renderLivingAt(entityLiving, x + (double)entityLiving.renderOffsetX, y + (double)entityLiving.renderOffsetY, z + (double)entityLiving.renderOffsetZ);
+        if (entityLiving.isEntityAlive() && entityLiving.get(EntityVillagerMCA.SLEEPING)) {
+            super.renderLivingAt(entityLiving, x + (double)entityLiving.getRenderOffsetX(), y + (double)entityLiving.getRenderOffsetY(), z + (double)entityLiving.getRenderOffsetZ());
         } else {
             super.renderLivingAt(entityLiving, x, y, z);
         }
     }
 
     @Override
-    protected void applyRotations(EntityVillagerMCA entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
-        if (entityLiving.isSleeping()) {
-            GlStateManager.rotate(entityLiving.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(this.getDeathMaxRotation(entityLiving), 0.0F, 0.0F, 1.0F);
+    protected void applyRotations(EntityVillagerMCA entity, float p_77043_2_, float rotationYaw, float partialTicks) {
+        if (entity.get(EntityVillagerMCA.SLEEPING)) {
+            GlStateManager.rotate(getBedOrientationInDegrees(entity), 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(this.getDeathMaxRotation(entity), 0.0F, 0.0F, 1.0F);
             GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
             rotationYaw = 180.0f;
         }
-        super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
+        super.applyRotations(entity, p_77043_2_, rotationYaw, partialTicks);
+    }
+    
+	private float getBedOrientationInDegrees(EntityVillagerMCA entity) {
+        BlockPos bedLocation = entity.get(EntityVillagerMCA.BED_POS);
+        IBlockState state = bedLocation == BlockPos.ORIGIN ? null : entity.world.getBlockState(new Pos(bedLocation));
+        if (state != null && state.getBlock().isBed(state, entity.world.getVanillaWorld(), bedLocation, entity)) {
+            EnumFacing enumfacing = state.getBlock().getBedDirection(state, entity.world.getVanillaWorld(), bedLocation);
+
+            switch (enumfacing) {
+                case SOUTH:
+                    return 90.0F;
+                case WEST:
+                    return 0.0F;
+                case NORTH:
+                    return 270.0F;
+                case EAST:
+                    return 180.0F;
+			default:
+				break;
+            }
+        }
+
+        return 0.0F;
     }
 }

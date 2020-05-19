@@ -1,12 +1,11 @@
-package mca.api.types;
+package mca.api.objects;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.List;
 
 /**
  * APIButton is a button defined in assets/mca/api/gui/*
@@ -38,7 +37,7 @@ public class APIButton {
      * @param player   Instance of the EntityPlayer performing the action
      * @return boolean whether the button is valid for a constraint
      */
-    public boolean isValidForConstraint(EntityVillagerMCA villager, EntityPlayer player) {
+    public boolean isValidForConstraint(EntityVillagerMCA villager, Player player) {
         List<EnumConstraint> constraints = getConstraints();
 
         if (constraints.contains(EnumConstraint.ADULTS) && !villager.isChild()) {

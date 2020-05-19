@@ -1,9 +1,9 @@
 package mca.items;
 
+import mca.api.objects.Player;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
 public abstract class ItemSpecialCaseGift extends Item {
-    public abstract boolean handle(EntityPlayer player, EntityVillagerMCA villager);
+    public abstract boolean handle(Player player, EntityVillagerMCA villager);
 }

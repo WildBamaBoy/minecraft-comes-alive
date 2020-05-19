@@ -1,5 +1,8 @@
 package mca.entity.ai;
 
+import java.util.Comparator;
+import java.util.Optional;
+
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import net.minecraft.entity.item.EntityItem;
@@ -8,9 +11,6 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-
-import java.util.Comparator;
-import java.util.Optional;
 
 public class EntityAIHunting extends AbstractEntityAIChore {
     private int ticks = 0;
@@ -60,7 +60,7 @@ public class EntityAIHunting extends AbstractEntityAIChore {
 
             if (!pathSuccess || target.isDead) {
                 // search for EntityItems around the target and grab them
-                villager.world.loadedEntityList.stream()
+                villager.world.getLoadedEntityList().stream()
                         .filter((e) -> e instanceof EntityItem && e.getDistance(target) <= 5.0D)
                         .forEach((item) -> {
                             villager.inventory.addItem(((EntityItem) item).getItem());

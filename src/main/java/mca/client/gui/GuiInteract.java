@@ -1,6 +1,14 @@
 package mca.client.gui;
 
+import java.io.IOException;
+import java.util.Optional;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import mca.api.API;
+import mca.api.objects.Player;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -12,23 +20,16 @@ import mca.enums.EnumMarriageState;
 import mca.enums.EnumMoveState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import java.io.IOException;
-import java.util.Optional;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteract extends GuiScreen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
     private static boolean displaySuccessChance;
     private final EntityVillagerMCA villager;
-    private final EntityPlayer player;
+    private final Player player;
 
     private boolean inGiftMode;
 
@@ -49,7 +50,7 @@ public class GuiInteract extends GuiScreen {
     // Tracks which page we're on in the GUI for sending button events
     private String activeKey;
 
-    public GuiInteract(EntityVillagerMCA villager, EntityPlayer player) {
+    public GuiInteract(EntityVillagerMCA villager, Player player) {
         super();
         this.villager = villager;
         this.player = player;

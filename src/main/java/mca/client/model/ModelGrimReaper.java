@@ -1,12 +1,13 @@
 package mca.client.model;
 
+import org.lwjgl.opengl.GL11;
+
 import mca.entity.EntityGrimReaper;
 import mca.enums.EnumReaperAttackState;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class ModelGrimReaper extends ModelBiped {
     private ModelRenderer head;

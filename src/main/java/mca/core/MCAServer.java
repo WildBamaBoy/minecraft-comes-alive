@@ -1,20 +1,23 @@
 package mca.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import com.google.common.base.Optional;
+import mca.api.objects.NPC;
+import mca.api.objects.Player;
+import mca.api.objects.Pos;
+import mca.api.wrappers.WorldWrapper;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import java.util.*;
 
 public class MCAServer {
     private static MCAServer instance;
@@ -24,8 +27,8 @@ public class MCAServer {
     private static Map<UUID, Long> procreateMap;
     private int serverTicks = 0;
     private int reaperSummonTicks = 0;
-    private BlockPos reaperSpawnPos = BlockPos.ORIGIN;
-    private World reaperSpawnWorld = null;
+    private Pos reaperSpawnPos = Pos.ORIGIN;
+    private WorldWrapper reaperSpawnWorld = null;
 
     private MCAServer() {
         proposals = new HashMap<>();
@@ -43,20 +46,18 @@ public class MCAServer {
         serverTicks++;
 
         if (serverTicks >= 100) {
-            World overworld = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
-            VillageHelper.tick(overworld);
+            VillageHelper.tick(WorldWrapper.getOverworld());
             serverTicks = 0;
         }
 
         if (reaperSummonTicks > 0) {
             reaperSummonTicks--;
             if (reaperSummonTicks % 20 == 0) { // every second
-                EntityLightningBolt lightningBolt = new EntityLightningBolt(reaperSpawnWorld, reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ(), false);
-                reaperSpawnWorld.addWeatherEffect(lightningBolt);
+                reaperSpawnWorld.spawnLightningBolt(reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ());
             }
 
             if (reaperSummonTicks == 0) { // when counter reaches 0
-                EntityGrimReaper reaper = new EntityGrimReaper(reaperSpawnWorld);
+                EntityGrimReaper reaper = new EntityGrimReaper(reaperSpawnWorld.getVanillaWorld());
                 reaper.setPosition(reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ());
                 reaperSpawnWorld.spawnEntity(reaper);
             }
@@ -77,7 +78,7 @@ public class MCAServer {
      * @param receiver Player whose name was entered by the sender
      * @return boolean
      */
-    private boolean hasProposalFrom(EntityPlayer sender, EntityPlayer receiver) {
+    private boolean hasProposalFrom(Player sender, Player receiver) {
         return getProposalsFor(receiver).contains(sender.getUniqueID());
     }
 
@@ -87,7 +88,7 @@ public class MCAServer {
      * @param player Player whose proposals should be returned.
      * @return List<UUID>
      */
-    private List<UUID> getProposalsFor(EntityPlayer player) {
+    private List<UUID> getProposalsFor(Player player) {
         return proposals.getOrDefault(player.getUniqueID(), new ArrayList<>());
     }
 
@@ -97,7 +98,7 @@ public class MCAServer {
      * @param target   Target player who's proposal list will be modified.
      * @param proposer The proposer to the target player.
      */
-    private void removeProposalFor(EntityPlayer target, EntityPlayer proposer) {
+    private void removeProposalFor(Player target, Player proposer) {
         List<UUID> list = getProposalsFor(target);
         list.remove(proposer.getUniqueID());
         proposals.put(target.getUniqueID(), list);
@@ -108,7 +109,7 @@ public class MCAServer {
      *
      * @param sender Player whose active proposals will be listed.
      */
-    public void listProposals(EntityPlayer sender) {
+    public void listProposals(Player sender) {
         List<UUID> proposals = getProposalsFor(sender);
 
         if (proposals.size() == 0) {
@@ -119,7 +120,7 @@ public class MCAServer {
 
         // Send the name of all online players to the command sender.
         proposals.forEach((uuid -> {
-            EntityPlayer player = sender.world.getPlayerEntityByUUID(uuid);
+            Player player = sender.world.getPlayerEntityByUUID(uuid);
             if (player != null) {
                 infoMessage(sender, "- " + player.getName());
             }
@@ -132,7 +133,7 @@ public class MCAServer {
      * @param sender   The player sending the proposal.
      * @param receiver The player being proposed to.
      */
-    public void sendProposal(EntityPlayer sender, EntityPlayer receiver) {
+    public void sendProposal(Player sender, Player receiver) {
         // Ensure the sender isn't already married.
         if (PlayerSaveData.get(sender).isMarriedOrEngaged()) {
             failMessage(sender, "You cannot send a proposal since you are already married or engaged.");
@@ -166,7 +167,7 @@ public class MCAServer {
      * @param sender   The person rejecting the proposal.
      * @param receiver The initial proposer.
      */
-    public void rejectProposal(EntityPlayer sender, EntityPlayer receiver) {
+    public void rejectProposal(Player sender, Player receiver) {
         // Ensure a proposal existed.
         if (!hasProposalFrom(receiver, sender)) {
             failMessage(sender, receiver.getName() + " hasn't proposed to you.");
@@ -184,7 +185,7 @@ public class MCAServer {
      * @param sender   The person accepting the proposal.
      * @param receiver The initial proposer.
      */
-    public void acceptProposal(EntityPlayer sender, EntityPlayer receiver) {
+    public void acceptProposal(Player sender, Player receiver) {
         // Ensure a proposal is active.
         if (!hasProposalFrom(receiver, sender)) {
             failMessage(sender, receiver.getName() + " hasn't proposed to you.");
@@ -212,7 +213,7 @@ public class MCAServer {
      *
      * @param sender The person ending their marriage.
      */
-    public void endMarriage(EntityPlayer sender) {
+    public void endMarriage(Player sender) {
         // Retrieve all data instances and an instance of the ex-spouse if they are present.
         PlayerSaveData senderData = PlayerSaveData.get(sender);
 
@@ -223,8 +224,8 @@ public class MCAServer {
         }
 
         // Lookup the spouse, if it's a villager, we can't continue
-        Optional<Entity> spouse = sender.world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(senderData.getSpouseUUID())).findFirst();
-        if (spouse.isPresent() && spouse.get() instanceof EntityVillagerMCA) {
+        Optional<NPC> spouse = Optional.fromJavaUtil(sender.world.getNPCByUUID(senderData.getSpouseUUID()));
+        if (spouse.toJavaUtil().isPresent() && spouse.get().getEntity() instanceof EntityVillagerMCA) {
             failMessage(sender, "You cannot use this command when married to a villager.");
             return;
         }
@@ -237,7 +238,7 @@ public class MCAServer {
         receiverData.endMarriage();
 
         // Notify the ex if they are online.
-        spouse.ifPresent(e -> failMessage((EntityPlayer) e, sender.getName() + " has ended their marriage with you."));
+        spouse.toJavaUtil().ifPresent(e -> failMessage((Player) e, sender.getName() + " has ended their marriage with you."));
     }
 
     /**
@@ -245,7 +246,7 @@ public class MCAServer {
      *
      * @param sender The person requesting procreation.
      */
-    public void procreate(EntityPlayer sender) {
+    public void procreate(Player sender) {
         // Ensure the sender is married.
         PlayerSaveData senderData = PlayerSaveData.get(sender);
         if (!senderData.isMarriedOrEngaged()) {
@@ -260,7 +261,7 @@ public class MCAServer {
         }
 
         // Ensure the spouse is online.
-        EntityPlayer spouse = sender.world.getPlayerEntityByUUID(senderData.getSpouseUUID());
+        Player spouse = sender.world.getPlayerEntityByUUID(senderData.getSpouseUUID());
         if (spouse != null) {
             // If the spouse is online and has previously sent a procreation request that hasn't expired, we can continue.
             // Otherwise we notify the spouse that they must also enter the command.
@@ -282,19 +283,19 @@ public class MCAServer {
         }
     }
 
-    private void successMessage(EntityPlayer player, String message) {
-        player.sendMessage(new TextComponentString(Constants.Color.GREEN + message));
+    private void successMessage(Player player, String message) {
+        player.sendMessage(Constants.Color.GREEN + message);
     }
 
-    private void failMessage(EntityPlayer player, String message) {
-        player.sendMessage(new TextComponentString(Constants.Color.RED + message));
+    private void failMessage(Player player, String message) {
+        player.sendMessage(Constants.Color.RED + message);
     }
 
-    private void infoMessage(EntityPlayer player, String message) {
-        player.sendMessage(new TextComponentString(Constants.Color.YELLOW + message));
+    private void infoMessage(Player player, String message) {
+        player.sendMessage(Constants.Color.YELLOW + message);
     }
 
-    public void setReaperSpawnPos(World world, BlockPos pos) {
+    public void setReaperSpawnPos(WorldWrapper world, Pos pos) {
         this.reaperSpawnWorld = world;
         this.reaperSpawnPos = pos;
     }

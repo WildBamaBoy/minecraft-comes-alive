@@ -1,5 +1,7 @@
 package mca.core.minecraft;
 
+import java.util.Random;
+
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -9,8 +11,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-
-import java.util.Random;
 
 public final class RoseGoldOreGenerator implements IWorldGenerator {
     public RoseGoldOreGenerator() {

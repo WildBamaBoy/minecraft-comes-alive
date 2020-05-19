@@ -1,5 +1,9 @@
 package mca.entity.ai;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import mca.api.objects.Pos;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
@@ -7,13 +11,12 @@ import mca.util.Util;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EntityAIHarvesting extends AbstractEntityAIChore {
     private int blockWork = 0;
@@ -35,10 +38,10 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         return !villager.getNavigator().noPath();
     }
 
-    private BlockPos searchCrop(int rangeX, int rangeY) {
-        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockCrops.class, rangeX, rangeY);
-        List<BlockPos> harvestable = new ArrayList<>();
-        for (BlockPos pos : nearbyCrops) {
+    private Pos searchCrop(int rangeX, int rangeY) {
+        List<Pos> nearbyCrops = Util.getNearbyBlocks(Util.wrapPos(villager), villager.world, BlockCrops.class, rangeX, rangeY);
+        List<Pos> harvestable = new ArrayList<>();
+        for (Pos pos : nearbyCrops) {
             IBlockState state = villager.world.getBlockState(pos);
             BlockCrops crop = (BlockCrops) state.getBlock();
 
@@ -47,7 +50,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
             }
         }
 
-        return Util.getNearestPoint(villager.getPos(), harvestable);
+        return Util.getNearestPoint(Util.wrapPos(villager), harvestable);
     }
 
     public void startExecuting() {
@@ -57,7 +60,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         }
 
         //search crop
-        BlockPos target = searchCrop(16, 3);
+        Pos target = searchCrop(16, 3);
 
         //no crop next to villager -> long range scan
         //limited to once a minute to reduce CPU usage
@@ -68,7 +71,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         }
 
         if (target == null) {
-            if (villager.getWorkplace().getY() > 0 && villager.getDistanceSq(villager.getWorkplace()) > 256.0D) {
+            if (villager.getWorkplace().getY() > 0 && villager.getDistanceSq(villager.getWorkplace().getBlockPos()) > 256.0D) {
                 //go to their workplace (if set and more than 16 blocks away)
                 //MCA.getLog().info(villager.getName() + " goes to workplace");
                 villager.moveTowardsBlock(villager.getWorkplace());
@@ -79,9 +82,9 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
             }
         } else {
             //harvest if next to it, else try to reach it
-            double distanceTo = Math.sqrt(villager.getDistanceSq(target));
+            double distanceTo = Math.sqrt(villager.getDistanceSq(target.getBlockPos()));
             if (distanceTo >= 2.0D) {
-                if (!villager.getNavigator().setPath(villager.getNavigator().getPathToPos(target), 0.5D)) {
+                if (!villager.getNavigator().setPath(villager.getNavigator().getPathToPos(target.getBlockPos()), 0.5D)) {
                     villager.attemptTeleport(target.getX(), target.getY(), target.getZ());
                 }
             } else {
@@ -90,7 +93,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                 if (state.getBlock() instanceof BlockCrops) {
                     BlockCrops crop = (BlockCrops) state.getBlock();
                     NonNullList<ItemStack> drops = NonNullList.create();
-                    crop.getDrops(drops, villager.world, target, state, 0);
+                    crop.getDrops(drops, villager.world.getVanillaWorld(), target.getBlockPos(), state, 0);
                     for (ItemStack stack : drops) {
                         villager.inventory.addItem(stack);
                     }

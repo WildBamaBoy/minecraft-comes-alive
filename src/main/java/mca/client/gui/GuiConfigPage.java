@@ -1,11 +1,11 @@
 package mca.client.gui;
 
+import java.util.List;
+
 import mca.core.MCA;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
-
-import java.util.List;
 
 public class GuiConfigPage extends GuiConfig {
     public GuiConfigPage(GuiScreen parent) {

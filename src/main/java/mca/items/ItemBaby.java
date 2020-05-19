@@ -1,12 +1,17 @@
 package mca.items;
 
+import java.util.List;
+
 import com.google.common.base.Optional;
+
 import mca.api.API;
+import mca.api.wrappers.WorldWrapper;
 import mca.core.Constants;
 import mca.core.Localizer;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerFactory;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.EnumAgeState;
@@ -25,10 +30,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.List;
 
 public class ItemBaby extends Item {
     private boolean isMale;
@@ -73,7 +77,8 @@ public class ItemBaby extends Item {
 
         if (!world.isRemote) {
             if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
-                EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.child), Optional.of(this.isMale ? EnumGender.MALE : EnumGender.FEMALE));
+                EntityVillagerMCA child = VillagerFactory.newVillager(new WorldWrapper(world)).withGender(this.isMale ? EnumGender.MALE : EnumGender.FEMALE).withProfession(ProfessionsMCA.child).build();
+
                 child.set(EntityVillagerMCA.VILLAGER_NAME, getBabyName(stack));
                 child.set(EntityVillagerMCA.TEXTURE, API.getRandomSkin(child)); // allow for special-case skins to be applied with the proper name attached to the child at this point
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
@@ -83,7 +88,7 @@ public class ItemBaby extends Item {
                 world.spawnEntity(child);
 
                 PlayerSaveData playerData = PlayerSaveData.get(player);
-                child.set(EntityVillagerMCA.PARENTS, ParentData.create(player.getUniqueID(), playerData.getSpouseUUID(), player.getName(), playerData.getSpouseName()).toNBT());
+                child.set(EntityVillagerMCA.PARENTS, ParentData.create(player.getUniqueID(), playerData.getSpouseUUID(), player.getName(), playerData.getSpouseName()).toVanillaNBT());
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
                 playerData.setBabyPresent(false);
 

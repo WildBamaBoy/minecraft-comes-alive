@@ -1,16 +1,7 @@
 package mca.util;
 
-import com.google.common.base.Optional;
-import com.google.gson.Gson;
-import mca.core.MCA;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.apache.commons.io.IOUtils;
+import static org.apache.http.protocol.HTTP.USER_AGENT;
 
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.apache.http.protocol.HTTP.USER_AGENT;
+import javax.annotation.Nullable;
+
+import mca.api.objects.Pos;
+import mca.api.wrappers.WorldWrapper;
+import org.apache.commons.io.IOUtils;
+
+import com.google.common.base.Optional;
+import com.google.gson.Gson;
+
+import mca.core.MCA;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class Util {
     private static final String RESOURCE_PREFIX = "assets/mca/";
@@ -43,6 +48,10 @@ public class Util {
         }
 
         return y + 1;
+    }
+
+    public static Pos wrapPos(Entity entity) {
+        return new Pos(entity.getPosition());
     }
 
     public static String readResource(String path) {
@@ -82,13 +91,13 @@ public class Util {
         return Optional.absent();
     }
 
-    public static List<BlockPos> getNearbyBlocks(BlockPos origin, World world, @Nullable Class filter, int xzDist, int yDist) {
-        final List<BlockPos> pointsList = new ArrayList<>();
+    public static List<Pos> getNearbyBlocks(Pos origin, WorldWrapper world, @Nullable Class filter, int xzDist, int yDist) {
+        final List<Pos> pointsList = new ArrayList<>();
         for (int x = -xzDist; x <= xzDist; x++) {
             for (int y = -yDist; y <= yDist; y++) {
                 for (int z = -xzDist; z <= xzDist; z++) {
                     if (x != 0 || y != 0 || z != 0) {
-                        BlockPos pos = new BlockPos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
+                        Pos pos = new Pos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
                         if (filter != null && filter.isAssignableFrom(world.getBlockState(pos).getBlock().getClass())) {
                             pointsList.add(pos);
                         } else if (filter == null) {
@@ -101,10 +110,10 @@ public class Util {
         return pointsList;
     }
 
-    public static BlockPos getNearestPoint(BlockPos origin, List<BlockPos> blocks) {
+    public static Pos getNearestPoint(Pos origin, List<Pos> blocks) {
         double closest = 100.0D;
-        BlockPos returnPoint = null;
-        for (BlockPos point : blocks) {
+        Pos returnPoint = null;
+        for (Pos point : blocks) {
             double distance = origin.getDistance(point.getX(), point.getY(), point.getZ());
             if (distance < closest) {
                 closest = distance;

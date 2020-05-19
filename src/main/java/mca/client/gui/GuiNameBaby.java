@@ -1,5 +1,9 @@
 package mca.client.gui;
 
+import java.io.IOException;
+
+import org.lwjgl.input.Keyboard;
+
 import mca.api.API;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
@@ -11,9 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-
-import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiNameBaby extends GuiScreen {

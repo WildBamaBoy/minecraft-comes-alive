@@ -1,21 +1,26 @@
 package mca.client.gui;
 
-import lombok.NonNull;
-import mca.core.forge.NetMCA;
-import net.minecraft.nbt.NBTTagCompound;
+import static mca.entity.EntityVillagerMCA.AGE_STATE;
+import static mca.entity.EntityVillagerMCA.GIRTH;
+import static mca.entity.EntityVillagerMCA.IS_INFECTED;
+import static mca.entity.EntityVillagerMCA.TALLNESS;
+import static mca.entity.EntityVillagerMCA.TEXTURE;
+import static mca.entity.EntityVillagerMCA.VILLAGER_NAME;
+
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
+import lombok.NonNull;
 import mca.core.MCA;
+import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.List;
-
-import static mca.entity.EntityVillagerMCA.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiWhistle extends GuiScreen {

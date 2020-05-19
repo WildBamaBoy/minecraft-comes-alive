@@ -1,13 +1,13 @@
 package mca.core;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Config implements Serializable {
     private transient final Configuration config;

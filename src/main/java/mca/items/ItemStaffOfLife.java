@@ -1,5 +1,11 @@
 package mca.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.lwjgl.input.Keyboard;
+
 import mca.core.Constants;
 import mca.core.MCA;
 import net.minecraft.client.util.ITooltipFlag;
@@ -12,10 +18,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ItemStaffOfLife extends Item {
     public ItemStaffOfLife() {

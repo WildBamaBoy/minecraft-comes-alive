@@ -1,12 +1,12 @@
 package mca.entity.data;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import net.minecraft.nbt.NBTTagCompound;
-
-import java.util.UUID;
 
 public class PlayerHistory {
     @Getter private int hearts;

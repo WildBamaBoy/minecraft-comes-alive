@@ -1,4 +1,4 @@
-package mca.api.types;
+package mca.api.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

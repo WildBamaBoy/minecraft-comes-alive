@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import mca.api.objects.Pos;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import mca.util.Util;
@@ -39,7 +40,7 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
         float notifyRate = Math.max(600 - efficiency * 50, 100);
 
         if (ticks >= notifyRate) {
-            BlockPos closestOre = Util.getNearestPoint(villager.getPos(), Util.getNearbyBlocks(villager.getPos(), villager.world, BlockOre.class, 4, 3));
+            Pos closestOre = Util.getNearestPoint(Util.wrapPos(villager), Util.getNearbyBlocks(Util.wrapPos(villager), villager.world, BlockOre.class, 4, 3));
 
             if (closestOre != null) {
                 Block block = villager.world.getBlockState(closestOre).getBlock();

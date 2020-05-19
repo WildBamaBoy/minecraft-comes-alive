@@ -1,9 +1,9 @@
 package mca.util;
 
-import net.minecraft.util.ResourceLocation;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import net.minecraft.util.ResourceLocation;
 
 public class ResourceLocationCache {
     private static Map<String, ResourceLocation> cache = new HashMap<>();

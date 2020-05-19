@@ -1,17 +1,18 @@
 package mca.items;
 
-import com.google.common.base.Optional;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumMarriageState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
-
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.common.base.Optional;
+import mca.api.objects.Player;
+import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumMarriageState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumParticleTypes;
+
 public class ItemMatchmakersRing extends ItemSpecialCaseGift {
-    public boolean handle(EntityPlayer player, EntityVillagerMCA villager) {
+    public boolean handle(Player player, EntityVillagerMCA villager) {
+
         // ensure two rings are in the inventory
         if (player.inventory.getStackInSlot(player.inventory.currentItem).getCount() < 2) {
             villager.say(Optional.of(player), "interaction.matchmaker.fail.needtwo");
@@ -24,7 +25,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
             return false;
         }
 
-        List<EntityVillagerMCA> villagers = villager.world.getEntities(EntityVillagerMCA.class, v -> v != null && !v.isMarried() && !v.isChild() && v.getDistance(villager) < 3.0D && v != villager);
+        List<EntityVillagerMCA> villagers = villager.world.getVanillaWorld().getEntities(EntityVillagerMCA.class, v -> v != null && !v.isMarried() && !v.isChild() && v.getDistance(villager) < 3.0D && v != villager);
         java.util.Optional<EntityVillagerMCA> target = villagers.stream().min(Comparator.comparingDouble(villager::getDistance));
 
         // ensure we found a nearby villager
