@@ -58,16 +58,19 @@ public class VillagerFactory {
 	}
 	
 	public VillagerFactory withPosition(double posX, double posY, double posZ) {
+		isPositionSet = true;
 		villager.setPosition(posX, posY, posZ);
 		return this;
 	}
 	
 	public VillagerFactory withPosition(NPC npc) {
+		isPositionSet = true;
 		villager.setPosition(npc.getPosX(), npc.getPosY(), npc.getPosZ());
 		return this;
 	}
 
 	public VillagerFactory withPosition(Pos pos) {
+		isPositionSet = true;
 		villager.setPosition(pos.getX(), pos.getY(), pos.getZ());
 		return this;
 	}

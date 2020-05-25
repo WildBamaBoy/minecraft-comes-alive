@@ -38,7 +38,6 @@ public class DataManagerWrapper {
 		vanillaManager.setDirty(key);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> void saveAll(NBTWrapper nbt) {
 		for (Entry<String, DataEntry<?>> entry : registeredParams.entrySet()) {
 			DataParameter<?> param = entry.getValue().getKey();
@@ -66,8 +65,8 @@ public class DataManagerWrapper {
 			} else if (serializer == DataSerializers.OPTIONAL_UNIQUE_ID) {
 				// Odd mixing of java util's optionals and guava's optionals. Try to handle both.
 				try {
-					java.util.Optional uuid = (java.util.Optional)paramValue;
-					nbt.setUUID(paramName, (UUID)uuid.orElse(new UUID(0,0)));
+					com.google.common.base.Optional uuid = (com.google.common.base.Optional)paramValue;
+					nbt.setUUID(paramName, (UUID)uuid.or(new UUID(0,0)));
 				} catch (ClassCastException e) {
 					java.util.Optional uuid = (java.util.Optional)paramValue;
 					nbt.setUUID(paramName, (UUID)uuid.orElse(new UUID(0,0)));
@@ -82,7 +81,6 @@ public class DataManagerWrapper {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> void loadAll(NBTWrapper nbt) {
 		for (Entry<String, DataEntry<?>> entry : registeredParams.entrySet()) {
 			DataParameter<?> param = entry.getValue().getKey();
@@ -105,7 +103,7 @@ public class DataManagerWrapper {
 				BlockPos pos = new BlockPos(nbt.getInteger(paramName + "X"), nbt.getInteger(paramName + "Y"), nbt.getInteger(paramName + "Z"));
 				vanillaManager.set((DataParameter<T>)param, (T)pos);
 			} else if (serializer == DataSerializers.OPTIONAL_UNIQUE_ID) {
-				vanillaManager.set((DataParameter<T>)param, (T)java.util.Optional.of(nbt.getUUID(paramName)));
+				vanillaManager.set((DataParameter<T>)param, (T)com.google.common.base.Optional.of(nbt.getUUID(paramName)));
 			} else if (serializer == DataSerializers.COMPOUND_TAG) {
 				vanillaManager.set((DataParameter<T>)param, (T)nbt.getCompoundTag(paramName));
 			} else if (serializer == DataSerializers.BYTE) {
