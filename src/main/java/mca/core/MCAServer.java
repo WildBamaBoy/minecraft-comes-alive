@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
-import com.google.common.base.Optional;
 import mca.api.objects.NPC;
 import mca.api.objects.Player;
 import mca.api.objects.Pos;
@@ -120,10 +120,8 @@ public class MCAServer {
 
         // Send the name of all online players to the command sender.
         proposals.forEach((uuid -> {
-            Player player = sender.world.getPlayerEntityByUUID(uuid);
-            if (player != null) {
-                infoMessage(sender, "- " + player.getName());
-            }
+            Optional<Player> player = sender.world.getPlayerEntityByUUID(uuid);
+            player.ifPresent(p -> infoMessage(sender, "- " + p.getName()));
         }));
     }
 
@@ -224,8 +222,8 @@ public class MCAServer {
         }
 
         // Lookup the spouse, if it's a villager, we can't continue
-        Optional<NPC> spouse = Optional.fromJavaUtil(sender.world.getNPCByUUID(senderData.getSpouseUUID()));
-        if (spouse.toJavaUtil().isPresent() && spouse.get().getEntity() instanceof EntityVillagerMCA) {
+        Optional<NPC> spouse = sender.world.getNPCByUUID(senderData.getSpouseUUID());
+        if (spouse.isPresent() && spouse.get().getEntity() instanceof EntityVillagerMCA) {
             failMessage(sender, "You cannot use this command when married to a villager.");
             return;
         }
@@ -238,7 +236,7 @@ public class MCAServer {
         receiverData.endMarriage();
 
         // Notify the ex if they are online.
-        spouse.toJavaUtil().ifPresent(e -> failMessage((Player) e, sender.getName() + " has ended their marriage with you."));
+        spouse.ifPresent(e -> failMessage((Player) e, sender.getName() + " has ended their marriage with you."));
     }
 
     /**
@@ -261,25 +259,27 @@ public class MCAServer {
         }
 
         // Ensure the spouse is online.
-        Player spouse = sender.world.getPlayerEntityByUUID(senderData.getSpouseUUID());
-        if (spouse != null) {
+        Optional<Player> spouse = sender.world.getPlayerEntityByUUID(senderData.getSpouseUUID());
+        spouse.ifPresent(s -> {
             // If the spouse is online and has previously sent a procreation request that hasn't expired, we can continue.
             // Otherwise we notify the spouse that they must also enter the command.
-            if (!procreateMap.containsKey(spouse.getUniqueID())) {
-                procreateMap.put(sender.getUniqueID(), System.currentTimeMillis() + 10000);
-                infoMessage(spouse, sender.getName() + " has requested procreation. To accept, type /mca procreate within 10 seconds.");
-            } else {
-                // On success, add a randomly generated baby to the original requester.
-                successMessage(sender, "Procreation successful!");
-                successMessage(spouse, "Procreation successful!");
-                spouse.addItemStackToInventory(new ItemStack(sender.world.rand.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
+        	 if (!procreateMap.containsKey(s.getUniqueID())) {
+                 procreateMap.put(sender.getUniqueID(), System.currentTimeMillis() + 10000);
+                 infoMessage(s, sender.getName() + " has requested procreation. To accept, type /mca procreate within 10 seconds.");
+             } else {
+                 // On success, add a randomly generated baby to the original requester.
+                 successMessage(sender, "Procreation successful!");
+                 successMessage(s, "Procreation successful!");
+                 s.addItemStackToInventory(new ItemStack(sender.world.rand.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
 
-                PlayerSaveData spouseData = PlayerSaveData.get(spouse);
-                spouseData.setBabyPresent(true);
-                senderData.setBabyPresent(true);
-            }
-        } else {
-            failMessage(sender, "Your spouse is not present on the server.");
+                 PlayerSaveData spouseData = PlayerSaveData.get(s);
+                 spouseData.setBabyPresent(true);
+                 senderData.setBabyPresent(true);
+             }
+        });
+        
+        if (!spouse.isPresent()) {
+        	failMessage(sender, "Your spouse is not present on the server.");	
         }
     }
 

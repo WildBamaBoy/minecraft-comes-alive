@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import mca.api.wrappers.WorldWrapper;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerFactory;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -75,7 +77,7 @@ public class GuiStaffOfLife extends GuiScreen {
         villagerData = data;
 
         if (data.size() > 0) {
-            dummy = new EntityVillagerMCA(player.world);
+            dummy = VillagerFactory.newVillager(new WorldWrapper(player.world)).build();
             keys.addAll(data.keySet());
             selectData(0);
         } else {

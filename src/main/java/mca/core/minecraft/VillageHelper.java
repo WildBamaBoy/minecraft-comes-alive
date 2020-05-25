@@ -7,6 +7,7 @@ import mca.api.objects.Pos;
 import mca.api.wrappers.WorldWrapper;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerFactory;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -51,11 +52,8 @@ public class VillageHelper {
             Vec3d spawnPos = findRandomSpawnPos(world, village, new Pos(village.getCenter()), 2, 4, 2);
 
             if (spawnPos != null) {
-                EntityVillagerMCA guard = new EntityVillagerMCA(world.getVanillaWorld());
-                guard.setProfession(ProfessionsMCA.guard);
-                guard.setPosition(spawnPos.x + 0.5D, spawnPos.y + 1.0D, spawnPos.z + 0.5D);
-                guard.finalizeMobSpawn(world.getDifficultyForLocation(guard.getPos()), null, false);
-                world.spawnEntity(guard);
+                VillagerFactory.newVillager(world).withProfession(ProfessionsMCA.guard)
+                	.withPosition(spawnPos.x + 0.5D, spawnPos.y + 1.0D, spawnPos.z + 0.5D).spawn();
             }
         }
     }
@@ -64,11 +62,7 @@ public class VillageHelper {
         int banditsToSpawn = world.rand.nextInt(5) + 1;
 
         while (banditsToSpawn > 0) {
-            EntityVillagerMCA bandit = new EntityVillagerMCA(world.getVanillaWorld());
-            bandit.setProfession(ProfessionsMCA.bandit);
-            BlockPos spawnLocation = village.getCenter();
-            bandit.setPosition(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ());
-            world.spawnEntity(bandit);
+        	VillagerFactory.newVillager(world).withProfession(ProfessionsMCA.bandit).withPosition(new Pos(village.getCenter())).spawn();
             banditsToSpawn--;
         }
     }

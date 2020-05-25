@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import mca.api.objects.NPC;
 import mca.api.objects.Pos;
 import mca.api.wrappers.WorldWrapper;
 import mca.client.network.ClientMessageQueue;
@@ -16,6 +17,7 @@ import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.core.minecraft.WorldEventListenerMCA;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerFactory;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -118,12 +120,11 @@ public class EventHooks {
             originalVillager.setDead();
 
             //TODO make sure careers work.
-            EntityVillagerMCA newVillager = new EntityVillagerMCA(world);
-            newVillager.setProfession(originalVillager.getProfessionForge());
-            newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
-            newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
-            newVillager.forcePositionAsHome();
-            world.spawnEntity(newVillager);
+            VillagerFactory factory = VillagerFactory.newVillager(new WorldWrapper(world))
+            		.withProfession(originalVillager.getProfessionForge())
+            		.withPosition(new NPC(originalVillager))
+            		.spawn();
+            factory.build().forcePositionAsHome();
         }
     }
 

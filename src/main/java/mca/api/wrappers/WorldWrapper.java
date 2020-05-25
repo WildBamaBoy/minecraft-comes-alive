@@ -3,9 +3,9 @@ package mca.api.wrappers;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-import java.util.Optional;
 
 import lombok.Getter;
 import mca.api.objects.NPC;
@@ -76,8 +76,13 @@ public class WorldWrapper {
 		vanillaWorld.scheduleUpdate(pos.getBlockPos(), blockIn, delay);
 	}
 	
-	public Player getPlayerEntityByUUID(UUID uuid) {
-		return new Player(vanillaWorld.getPlayerEntityByUUID(uuid));
+	public Optional<Player> getPlayerEntityByUUID(UUID uuid) {
+		EntityPlayer player = vanillaWorld.getPlayerEntityByUUID(uuid);
+		if (player != null) {
+			return Optional.of(new Player(player));
+		} else {
+			return Optional.empty();
+		}
 	}
 	
 	public Optional<NPC> getNPCByUUID(UUID uuid) {

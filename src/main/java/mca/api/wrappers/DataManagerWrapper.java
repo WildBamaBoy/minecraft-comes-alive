@@ -69,8 +69,8 @@ public class DataManagerWrapper {
 					java.util.Optional uuid = (java.util.Optional)paramValue;
 					nbt.setUUID(paramName, (UUID)uuid.orElse(new UUID(0,0)));
 				} catch (ClassCastException e) {
-					com.google.common.base.Optional uuid = (com.google.common.base.Optional)paramValue;
-					nbt.setUUID(paramName, (UUID)uuid.or(new UUID(0,0)));
+					java.util.Optional uuid = (java.util.Optional)paramValue;
+					nbt.setUUID(paramName, (UUID)uuid.orElse(new UUID(0,0)));
 				}
 			} else if (serializer == DataSerializers.COMPOUND_TAG) {
 				nbt.setTag(paramName, (NBTTagCompound)paramValue);
@@ -105,7 +105,7 @@ public class DataManagerWrapper {
 				BlockPos pos = new BlockPos(nbt.getInteger(paramName + "X"), nbt.getInteger(paramName + "Y"), nbt.getInteger(paramName + "Z"));
 				vanillaManager.set((DataParameter<T>)param, (T)pos);
 			} else if (serializer == DataSerializers.OPTIONAL_UNIQUE_ID) {
-				vanillaManager.set((DataParameter<T>)param, (T)com.google.common.base.Optional.of(nbt.getUUID(paramName)));
+				vanillaManager.set((DataParameter<T>)param, (T)java.util.Optional.of(nbt.getUUID(paramName)));
 			} else if (serializer == DataSerializers.COMPOUND_TAG) {
 				vanillaManager.set((DataParameter<T>)param, (T)nbt.getCompoundTag(paramName));
 			} else if (serializer == DataSerializers.BYTE) {

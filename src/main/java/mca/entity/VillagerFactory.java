@@ -1,7 +1,11 @@
 package mca.entity;
 
 import mca.api.API;
+import mca.api.exceptions.VillagerSpawnException;
+import mca.api.objects.NPC;
+import mca.api.objects.Pos;
 import mca.api.wrappers.WorldWrapper;
+import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.data.ParentData;
 import mca.enums.EnumGender;
@@ -14,6 +18,7 @@ public class VillagerFactory {
 	private boolean isTextureSet;
 	private boolean isGenderSet;
 	private boolean isCareerSet;
+	private boolean isPositionSet;
 	
 	private VillagerFactory(WorldWrapper world) {
 		this.villager = new EntityVillagerMCA(world.getVanillaWorld());
@@ -57,6 +62,26 @@ public class VillagerFactory {
 		return this;
 	}
 	
+	public VillagerFactory withPosition(NPC npc) {
+		villager.setPosition(npc.getPosX(), npc.getPosY(), npc.getPosZ());
+		return this;
+	}
+
+	public VillagerFactory withPosition(Pos pos) {
+		villager.setPosition(pos.getX(), pos.getY(), pos.getZ());
+		return this;
+	}
+	
+	public VillagerFactory spawn() {
+		if (!isPositionSet) {
+			MCA.getLog().catching(new VillagerSpawnException("Attempted to spawn villager without a position being set!"));
+		}
+		
+		villager.finalizeMobSpawn(villager.world.getDifficultyForLocation(villager.getPos()), null, false);
+		villager.world.spawnEntity(villager);
+		return this;
+	}
+	
 	public EntityVillagerMCA build() {
 		if (!isGenderSet) {
 			villager.set(EntityVillagerMCA.GENDER, EnumGender.getRandom().getId());
@@ -81,3 +106,4 @@ public class VillagerFactory {
 		return villager;
 	}
 }
+

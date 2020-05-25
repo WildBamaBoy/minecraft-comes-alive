@@ -1,6 +1,6 @@
 package mca.items;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import mca.api.objects.Player;
 import mca.core.MCA;

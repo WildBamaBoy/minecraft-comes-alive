@@ -12,9 +12,11 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.NonNull;
+import mca.api.wrappers.WorldWrapper;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -143,7 +145,7 @@ public class GuiWhistle extends GuiScreen {
         try {
             NBTTagCompound firstData = dataList.get(0);
             villagerNameButton.displayString = firstData.getString("name");
-            dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().world);
+            dummyHuman = VillagerFactory.newVillager(new WorldWrapper(Minecraft.getMinecraft().world)).build();
             updateDummyVillagerWithData(firstData);
         }
 

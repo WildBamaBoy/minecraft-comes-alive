@@ -22,6 +22,7 @@ import mca.client.network.ClientMessageQueue;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerFactory;
 import mca.entity.data.SavedVillagers;
 import mca.entity.inventory.InventoryMCA;
 import mca.items.ItemBaby;
@@ -158,7 +159,7 @@ public class NetMCA {
         public IMessage onMessage(Say message, MessageContext ctx) {
             Player player = new Player(getPlayerClient());
             Optional<NPC> npc = player.world.getNPCByUUID(message.speakingEntityUUID);
-            npc.ifPresent(v -> v.asVillager().say(com.google.common.base.Optional.of(player), message.phraseId));
+            npc.ifPresent(v -> v.asVillager().say(java.util.Optional.of(player), message.phraseId));
             return null;
         }
     }
@@ -398,10 +399,7 @@ public class NetMCA {
             SavedVillagers villagers = SavedVillagers.get(player.world);
             NBTTagCompound nbt = SavedVillagers.get(player.world).loadByUUID(message.target);
             if (nbt != null) {
-                EntityVillagerMCA villager = new EntityVillagerMCA(player.world.getVanillaWorld());
-                villager.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
-                player.world.spawnEntity(villager);
-
+                EntityVillagerMCA villager = VillagerFactory.newVillager(player.world).withPosition(player).spawn().build();
                 villager.readEntityFromNBT(nbt);
                 villager.reset();
 
@@ -437,7 +435,7 @@ public class NetMCA {
         @Override
         public IMessage onMessage(SetName message, MessageContext ctx) {
             World world = ctx.getServerHandler().player.world;
-            java.util.Optional<Entity> entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst();
+            Optional<Entity> entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst();
             if (!entity.isPresent()) return null;
             if (entity.get() instanceof EntityVillagerMCA) {
                 EntityVillagerMCA villager = (EntityVillagerMCA) entity.get();
@@ -470,7 +468,7 @@ public class NetMCA {
         @Override
         public IMessage onMessage(SpawnParticles message, MessageContext ctx) {
             World world = getPlayerClient().world;
-            java.util.Optional<Entity> entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst();
+            Optional<Entity> entity = world.loadedEntityList.stream().filter((e) -> e.getUniqueID().equals(message.entityUUID)).findFirst();
             if (!entity.isPresent()) return null;
             if (entity.get() instanceof EntityVillagerMCA) {
                 EntityVillagerMCA villager = (EntityVillagerMCA) entity.get();

@@ -17,7 +17,7 @@ import mca.api.objects.Pos;
 import mca.api.wrappers.WorldWrapper;
 import org.apache.commons.io.IOUtils;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.google.gson.Gson;
 
 import mca.core.MCA;
@@ -79,7 +79,7 @@ public class Util {
                 return Optional.of(entity);
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static <T extends Entity> Optional<T> getEntityByUUID(World world, UUID uuid, Class<? extends T> clazz) {
@@ -88,7 +88,7 @@ public class Util {
                 return Optional.of((T) entity);
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static List<Pos> getNearbyBlocks(Pos origin, WorldWrapper world, @Nullable Class filter, int xzDist, int yDist) {

@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 import com.google.common.base.Predicate;
 
 import lombok.Getter;
@@ -87,7 +87,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
     public static final DataParameter<NBTTagCompound> PLAYER_HISTORY_MAP = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.COMPOUND_TAG);
     public static final DataParameter<Integer> MOVE_STATE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
     public static final DataParameter<String> SPOUSE_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
-    public static final DataParameter<Optional<UUID>> SPOUSE_UUID = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+    public static final DataParameter<com.google.common.base.Optional<UUID>> SPOUSE_UUID = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     public static final DataParameter<Integer> MARRIAGE_STATE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
     public static final DataParameter<Boolean> IS_PROCREATING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
     public static final DataParameter<NBTTagCompound> PARENTS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.COMPOUND_TAG);
@@ -98,7 +98,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
     public static final DataParameter<Boolean> HAS_BABY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> BABY_IS_MALE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Integer> BABY_AGE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
-    public static final DataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+    public static final DataParameter<com.google.common.base.Optional<UUID>> CHORE_ASSIGNING_PLAYER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     public static final DataParameter<BlockPos> BED_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<BlockPos> WORKPLACE_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<BlockPos> HANGOUT_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
@@ -141,7 +141,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
         this.dataManager.register(PLAYER_HISTORY_MAP, new NBTWrapper().getVanillaCompound(), "playerHistoryMap");
         this.dataManager.register(MOVE_STATE, EnumMoveState.MOVE.getId(), "moveState");
         this.dataManager.register(SPOUSE_NAME, "", "spouseName");
-        this.dataManager.register(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID), "spouseUUID");
+        this.dataManager.register(SPOUSE_UUID, com.google.common.base.Optional.of(Constants.ZERO_UUID), "spouseUUID");
         this.dataManager.register(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId(), "marriageState");
         this.dataManager.register(IS_PROCREATING, false, "isProcreating");
         this.dataManager.register(PARENTS, new NBTWrapper().getVanillaCompound(), "parents");
@@ -152,7 +152,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
         this.dataManager.register(HAS_BABY, false, "hasBaby");
         this.dataManager.register(BABY_IS_MALE, false, "babyIsMale");
         this.dataManager.register(BABY_AGE, 0, "babyAge");
-        this.dataManager.register(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID), "choreAssigningPlayer");
+        this.dataManager.register(CHORE_ASSIGNING_PLAYER, com.google.common.base.Optional.of(Constants.ZERO_UUID), "choreAssigningPlayer");
         this.dataManager.register(BED_POS, BlockPos.ORIGIN, "bedPos");
         this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN, "workplacePos");
         this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN, "hangoutPos");
@@ -239,7 +239,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
 
             if (isMarried()) {
                 UUID spouseUUID = get(SPOUSE_UUID).or(Constants.ZERO_UUID);
-                Optional<EntityVillagerMCA> spouse = Optional.fromJavaUtil(world.getVillagerByUUID(spouseUUID));
+                Optional<EntityVillagerMCA> spouse = world.getVillagerByUUID(spouseUUID);
                 PlayerSaveData playerSaveData = PlayerSaveData.getExisting(world, spouseUUID);
 
 
@@ -248,10 +248,8 @@ public class EntityVillagerMCA extends VillagerPlatform {
                     spouse.get().endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
-                    Player player = world.getPlayerEntityByUUID(spouseUUID);
-                    if (player != null) {
-                        player.sendMessage(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), causeName));
-                    }
+                    Optional<Player> player = world.getPlayerEntityByUUID(spouseUUID);
+                    player.ifPresent(p -> p.sendMessage(Constants.Color.RED + MCA.getLocalizer().localize("notify.spousedied", get(VILLAGER_NAME), causeName)));
                 }
             }
 
@@ -383,7 +381,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
         setHealth(20.0F);
 
         set(SPOUSE_NAME, "");
-        set(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
+        set(SPOUSE_UUID, com.google.common.base.Optional.of(Constants.ZERO_UUID));
         set(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
         set(HAS_BABY, false);
     }
@@ -492,13 +490,13 @@ public class EntityVillagerMCA extends VillagerPlatform {
     }
 
     public void marry(Player player) {
-        set(SPOUSE_UUID, Optional.of(player.getUniqueID()));
+        set(SPOUSE_UUID, com.google.common.base.Optional.of(player.getUniqueID()));
         set(SPOUSE_NAME, player.getName());
         set(MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
     }
 
     private void endMarriage() {
-        set(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
+        set(SPOUSE_UUID, com.google.common.base.Optional.of(Constants.ZERO_UUID));
         set(SPOUSE_NAME, "");
         set(MARRIAGE_STATE, EnumMarriageState.NOT_MARRIED.getId());
     }
@@ -654,7 +652,7 @@ public class EntityVillagerMCA extends VillagerPlatform {
             if (decStackSize) player.inventory.decrStackSize(player.inventory.currentItem, -1);
             return true;
         } else if (item == Items.CAKE) {
-            Optional<NPC> spouse = Optional.fromJavaUtil(world.getNPCByUUID(get(SPOUSE_UUID).or(Constants.ZERO_UUID)));
+            Optional<NPC> spouse = world.getNPCByUUID(get(SPOUSE_UUID).or(Constants.ZERO_UUID));
             if (spouse.isPresent()) {
                 EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get().getEntity();
                 progressor.set(HAS_BABY, true);
@@ -762,12 +760,12 @@ public class EntityVillagerMCA extends VillagerPlatform {
 
     public void stopChore() {
         set(ACTIVE_CHORE, EnumChore.NONE.getId());
-        set(CHORE_ASSIGNING_PLAYER, Optional.of(Constants.ZERO_UUID));
+        set(CHORE_ASSIGNING_PLAYER, com.google.common.base.Optional.of(Constants.ZERO_UUID));
     }
 
     public void startChore(EnumChore chore, Player player) {
         set(ACTIVE_CHORE, chore.getId());
-        set(CHORE_ASSIGNING_PLAYER, Optional.of(player.getUniqueID()));
+        set(CHORE_ASSIGNING_PLAYER, com.google.common.base.Optional.of(player.getUniqueID()));
     }
 
     public boolean playerIsParent(Player player) {

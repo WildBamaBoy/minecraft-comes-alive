@@ -2,7 +2,7 @@ package mca.items;
 
 import java.util.List;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import mca.api.API;
 import mca.api.wrappers.WorldWrapper;
