@@ -1,6 +1,8 @@
 package mca.api.wrappers;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,6 +14,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.datasync.EntityDataManager.DataEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -19,16 +22,16 @@ import net.minecraft.util.text.TextComponentString;
 public class DataManagerWrapper {
 	@Getter private EntityDataManager vanillaManager;
 	
-	private HashMap<DataParameter<?>, String> parameterNames;
-
+	private HashMap<String, EntityDataManager.DataEntry<?>> registeredParams;
+	
 	public DataManagerWrapper(EntityDataManager vanillaManager) {
 		this.vanillaManager = vanillaManager;
-		parameterNames = new HashMap<>();
+		this.registeredParams = new HashMap<>();
 	}
 	
 	public <T> void register(DataParameter<T> key, T value, String name) {
 		vanillaManager.register(key, value);
-		parameterNames.put(key, name);
+		registeredParams.put(name,  new EntityDataManager.DataEntry<T>(key, value));
 	}
 
 	public <T> void setDirty(DataParameter<T> key) {
@@ -37,10 +40,10 @@ public class DataManagerWrapper {
 	
 	@SuppressWarnings("unchecked")
 	public <T> void saveAll(NBTWrapper nbt) {
-		for (EntityDataManager.DataEntry<?> entry : vanillaManager.getAll()) {
-			DataParameter<?> param = entry.getKey();
+		for (Entry<String, DataEntry<?>> entry : registeredParams.entrySet()) {
+			DataParameter<?> param = entry.getValue().getKey();
 			DataSerializer<?> serializer = param.getSerializer();
-			String paramName = parameterNames.get(param);
+			String paramName = entry.getKey();
 			T paramValue = (T) vanillaManager.get(param);
 
 			if (serializer == DataSerializers.VARINT) {
@@ -61,24 +64,30 @@ public class DataManagerWrapper {
 				nbt.setInteger(paramName + "Y", pos.getY());
 				nbt.setInteger(paramName + "Z", pos.getZ());
 			} else if (serializer == DataSerializers.OPTIONAL_UNIQUE_ID) {
-				com.google.common.base.Optional uuid = (com.google.common.base.Optional)paramValue;
-				nbt.setUUID(paramName, (UUID)uuid.or(new UUID(0,0)));
+				// Odd mixing of java util's optionals and guava's optionals. Try to handle both.
+				try {
+					java.util.Optional uuid = (java.util.Optional)paramValue;
+					nbt.setUUID(paramName, (UUID)uuid.orElse(new UUID(0,0)));
+				} catch (ClassCastException e) {
+					com.google.common.base.Optional uuid = (com.google.common.base.Optional)paramValue;
+					nbt.setUUID(paramName, (UUID)uuid.or(new UUID(0,0)));
+				}
 			} else if (serializer == DataSerializers.COMPOUND_TAG) {
 				nbt.setTag(paramName, (NBTTagCompound)paramValue);
 			} else if (serializer == DataSerializers.BYTE) {
 				nbt.setInteger(paramName, (Byte)paramValue);
 			} else {
-				MCA.getLog().error(String.format("Unrecognized value type `%s` on attempt to save param id `%d` with value `%s`", entry.getValue().getClass().getName(), entry.getKey().getId(), entry.getValue().toString()));
+				MCA.getLog().error(String.format("Unrecognized value type `%s` on attempt to save param `%s`", paramValue.getClass().getName(), paramName));
 			}
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> void loadAll(NBTWrapper nbt) {
-		for (EntityDataManager.DataEntry<?> entry : vanillaManager.getAll()) {
-			DataParameter<?> param = entry.getKey();
+		for (Entry<String, DataEntry<?>> entry : registeredParams.entrySet()) {
+			DataParameter<?> param = entry.getValue().getKey();
 			DataSerializer<?> serializer = param.getSerializer();
-			String paramName = parameterNames.get(param);
+			String paramName = entry.getKey();
 
 			if (serializer == DataSerializers.VARINT) {
 				vanillaManager.set((DataParameter<T>)param, (T)Integer.valueOf(nbt.getInteger(paramName)));
@@ -96,7 +105,7 @@ public class DataManagerWrapper {
 				BlockPos pos = new BlockPos(nbt.getInteger(paramName + "X"), nbt.getInteger(paramName + "Y"), nbt.getInteger(paramName + "Z"));
 				vanillaManager.set((DataParameter<T>)param, (T)pos);
 			} else if (serializer == DataSerializers.OPTIONAL_UNIQUE_ID) {
-				vanillaManager.set((DataParameter<T>)param, (T)Optional.of(nbt.getUUID(paramName)));
+				vanillaManager.set((DataParameter<T>)param, (T)com.google.common.base.Optional.of(nbt.getUUID(paramName)));
 			} else if (serializer == DataSerializers.COMPOUND_TAG) {
 				vanillaManager.set((DataParameter<T>)param, (T)nbt.getCompoundTag(paramName));
 			} else if (serializer == DataSerializers.BYTE) {
