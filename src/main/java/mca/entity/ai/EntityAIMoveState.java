@@ -23,27 +23,31 @@ public class EntityAIMoveState extends EntityAIBase {
 
 	public void updateTask() {
 		PathNavigate nav = villager.getNavigator();
+		EnumMoveState moveState = EnumMoveState.byId(villager.get(EntityVillagerMCA.MOVE_STATE));
 		Optional<Player> playerToFollow = villager.world.getPlayerEntityByUUID(villager.playerToFollowUUID);
-		playerToFollow.ifPresent(p ->{
-			switch (EnumMoveState.byId(villager.get(EntityVillagerMCA.MOVE_STATE))) {
-			case FOLLOW:
-				double distance = playerToFollow != null ? villager.getDistance(p.getPlayer()) : -1.0D;
-				if (distance >= 3.0D && distance <= 10.0D) {
-					nav.setPath(nav.getPathToEntityLiving(p.getPlayer()), villager.isRiding() ? 1.7D : 0.8D);
-				} else if (distance > 10.0D) {
-					villager.attemptTeleport(p.getPosX(), p.getPosY(), p.getPosZ());
-				} else { // close enough to avoid crowding the player
-					nav.clearPath();
-				}
-				break;
-			case STAY:
-				nav.clearPath();
-				break;
-			}		
-		});
 		
-		if (!playerToFollow.isPresent()) {
+		// We're supposed to be following someone and we cannot find that player.
+		if (moveState == EnumMoveState.FOLLOW && !playerToFollow.isPresent()) {
+			villager.playerToFollowUUID = Constants.ZERO_UUID;
 			villager.set(EntityVillagerMCA.MOVE_STATE, EnumMoveState.MOVE.getId());
+		}
+		
+		// We're supposed to be following someone and we are able to find that player.
+		else if (moveState == EnumMoveState.FOLLOW && playerToFollow.isPresent()) {
+			Player player = playerToFollow.get();
+			double distance = playerToFollow != null ? villager.getDistance(player.getPlayer()) : -1.0D;
+			if (distance >= 3.0D && distance <= 10.0D) {
+				nav.setPath(nav.getPathToEntityLiving(player.getPlayer()), villager.isRiding() ? 1.7D : 0.8D);
+			} else if (distance > 10.0D) {
+				villager.attemptTeleport(player.getPosX(), player.getPosY(), player.getPosZ());
+			} else { // close enough to avoid crowding the player
+				nav.clearPath();
+			}
+		}
+		
+		// Stay logic, just constantly clear the navigator path.
+		else if (moveState == EnumMoveState.STAY) {
+			nav.clearPath();
 		}
 	}
 }
