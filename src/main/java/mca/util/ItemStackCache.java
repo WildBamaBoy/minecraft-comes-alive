@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ItemStackCache {
-    private static Map<Item, ItemStack> cache = new HashMap<>();
+    private static final Map<Item, ItemStack> cache = new HashMap<>();
 
     public static ItemStack get(Item item) {
         if (!cache.containsKey(item)) cache.put(item, new ItemStack(item, 1));

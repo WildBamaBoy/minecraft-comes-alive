@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 public class SavedVillagers extends WorldSavedData {
     private static final String DATA_ID = "MCA-Villagers-V1";
-    private Map<String, NBTTagCompound> villagerData = new HashMap<>();
+    private final Map<String, NBTTagCompound> villagerData = new HashMap<>();
 
     public SavedVillagers(String id) {
         super(id);

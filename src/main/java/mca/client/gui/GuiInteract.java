@@ -34,14 +34,14 @@ public class GuiInteract extends GuiScreen {
 
     private int timeSinceLastClick;
 
-    private int marriedIconU = 0;
-    private int engagedIconU = 64;
-    private int notMarriedIconU = 16;
-    private int parentsIconU = 32;
-    private int giftIconU = 48;
-    private int redHeartIconU = 80;
-    private int blackHeartIconU = 96;
-    private int goldHeartIconU = 112;
+    private final int marriedIconU = 0;
+    private final int engagedIconU = 64;
+    private final int notMarriedIconU = 16;
+    private final int parentsIconU = 32;
+    private final int giftIconU = 48;
+    private final int redHeartIconU = 80;
+    private final int blackHeartIconU = 96;
+    private final int goldHeartIconU = 112;
 
     private int mouseX;
     private int mouseY;
@@ -103,7 +103,8 @@ public class GuiInteract extends GuiScreen {
         super.mouseClicked(posX, posY, button);
 
         // Right mouse button
-        if (inGiftMode && button == 1) NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUniqueID()));
+        if (inGiftMode && button == 1)
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUniqueID()));
     }
 
     @Override
@@ -170,8 +171,10 @@ public class GuiInteract extends GuiScreen {
 
         if (hoveringOverMarriageIcon()) {
             String spouseName = villager.get(EntityVillagerMCA.SPOUSE_NAME);
-            if (marriageState == EnumMarriageState.MARRIED) marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
-            else if (marriageState == EnumMarriageState.ENGAGED) marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
+            if (marriageState == EnumMarriageState.MARRIED)
+                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
+            else if (marriageState == EnumMarriageState.ENGAGED)
+                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
             else marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
 
             this.drawHoveringText(marriageInfo, 35, 85);
@@ -181,7 +184,8 @@ public class GuiInteract extends GuiScreen {
             this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 35, 115);
         }
 
-        if (canDrawGiftIcon() && hoveringOverGiftIcon()) this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
+        if (canDrawGiftIcon() && hoveringOverGiftIcon())
+            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
     }
 
     private boolean hoveringOverHeartsIcon() {

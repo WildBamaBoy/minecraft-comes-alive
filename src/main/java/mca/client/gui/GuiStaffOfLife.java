@@ -25,11 +25,11 @@ public class GuiStaffOfLife extends GuiScreen {
     private GuiButton nextButton;
     private GuiButton closeButton;
     private EntityVillagerMCA dummy;
-    private EntityPlayer player;
+    private final EntityPlayer player;
 
     // selection fields
     private int index = 0;
-    private List<String> keys = new ArrayList<>();
+    private final List<String> keys = new ArrayList<>();
 
     public GuiStaffOfLife(EntityPlayer player) {
         super();

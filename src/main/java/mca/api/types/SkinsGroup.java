@@ -6,9 +6,9 @@ import mca.enums.EnumGender;
 
 @AllArgsConstructor
 public class SkinsGroup {
-    private String gender;
-    @Getter private String profession;
-    @Getter private String[] paths;
+    private final String gender;
+    @Getter private final String profession;
+    @Getter private final String[] paths;
 
     public EnumGender getGender() {
         return EnumGender.byName(gender);

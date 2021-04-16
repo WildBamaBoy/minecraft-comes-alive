@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Localizer {
-    private Map<String, String> localizerMap = new HashMap<>();
+    private final Map<String, String> localizerMap = new HashMap<>();
     private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
     public Localizer() {

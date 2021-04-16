@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 @AllArgsConstructor
 @Getter
 public class Gift {
-    private String type;
-    private String name;
-    private int value;
+    private final String type;
+    private final String name;
+    private final int value;
 
     /**
      * Used for verifying if a given gift exists in the game's registries.

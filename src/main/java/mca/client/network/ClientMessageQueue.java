@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ClientMessageQueue {
-    private static ConcurrentLinkedQueue<IMessage> scheduledMessages = new ConcurrentLinkedQueue<>();
+    private static final ConcurrentLinkedQueue<IMessage> scheduledMessages = new ConcurrentLinkedQueue<>();
 
     public static void processScheduledMessages() {
         IMessage next = scheduledMessages.poll();

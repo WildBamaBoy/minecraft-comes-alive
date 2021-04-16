@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemSpawnEgg extends Item {
-    private boolean isMale;
+    private final boolean isMale;
 
     public ItemSpawnEgg(boolean isMale) {
         this.isMale = isMale;

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiButtonEx extends GuiButton {
-    @Getter private APIButton apiButton;
+    @Getter private final APIButton apiButton;
 
     public GuiButtonEx(GuiScreen gui, APIButton apiButton) {
         super(apiButton.getId(), (gui.width / 2) + apiButton.getX(), (gui.height / 2) + apiButton.getY(), apiButton.getWidth(), apiButton.getHeight(), MCA.getLocalizer().localize(apiButton.getIdentifier()));

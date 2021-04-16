@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryMCA extends InventoryBasic {
-    private EntityVillagerMCA villager;
+    private final EntityVillagerMCA villager;
 
     public InventoryMCA(EntityVillagerMCA villager) {
         super("Villager Inventory", true, 27);

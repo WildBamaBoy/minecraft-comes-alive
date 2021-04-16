@@ -46,7 +46,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -106,11 +105,6 @@ public class EntityVillagerMCA extends EntityVillager {
     public float renderOffsetX;
     public float renderOffsetY;
     public float renderOffsetZ;
-
-    public EntityVillagerMCA() {
-        super(null);
-        inventory = null;
-    }
 
     public EntityVillagerMCA(World worldIn) {
         super(worldIn);
@@ -198,13 +192,13 @@ public class EntityVillagerMCA extends EntityVillager {
         set(PLAYER_HISTORY_MAP, nbt.getCompoundTag("playerHistoryMap"));
         set(MOVE_STATE, nbt.getInteger("moveState"));
         set(MARRIAGE_STATE, nbt.getInteger("marriageState"));
-        set(SPOUSE_UUID, Optional.of(nbt.getUniqueId("spouseUUID")));
+        set(SPOUSE_UUID, Optional.fromNullable(nbt.getUniqueId("spouseUUID")));
         set(SPOUSE_NAME, nbt.getString("spouseName"));
         set(IS_PROCREATING, nbt.getBoolean("isProcreating"));
         set(IS_INFECTED, nbt.getBoolean("infected"));
         set(AGE_STATE, nbt.getInteger("ageState"));
         set(ACTIVE_CHORE, nbt.getInteger("activeChore"));
-        set(CHORE_ASSIGNING_PLAYER, Optional.of(nbt.getUniqueId("choreAssigningPlayer")));
+        set(CHORE_ASSIGNING_PLAYER, Optional.fromNullable(nbt.getUniqueId("choreAssigningPlayer")));
         set(HAS_BABY, nbt.getBoolean("hasBaby"));
         set(BABY_IS_MALE, nbt.getBoolean("babyIsMale"));
         set(PARENTS, nbt.getCompoundTag("parents"));
@@ -273,7 +267,7 @@ public class EntityVillagerMCA extends EntityVillager {
         super.damageEntity(damageSource, damageAmount);
 
         // Check for infection to apply. Does not affect guards.
-        if (MCA.getConfig().enableInfection && getProfessionForge() != ProfessionsMCA.guard && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100) {
+        if (MCA.getConfig().enableInfection && getProfessionForge() != ProfessionsMCA.guard && damageSource.getImmediateSource() instanceof EntityZombie && getRNG().nextFloat() < MCA.getConfig().infectionChance / 100.0) {
             set(IS_INFECTED, true);
         }
     }
@@ -297,7 +291,7 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_GENERIC_HURT;
     }
 
@@ -307,7 +301,7 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+    public boolean processInteract(@Nonnull EntityPlayer player, @Nonnull EnumHand hand) {
         // No-op, handled by EventHooks
         return true;
     }
@@ -392,17 +386,16 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     @Override
-    @Nonnull
     public boolean hasCustomName() {
         return true;
     }
 
     @Override
-    public void swingArm(EnumHand hand) {
+    public void swingArm(@Nonnull EnumHand hand) {
         this.setActiveHand(EnumHand.MAIN_HAND);
         super.swingArm(EnumHand.MAIN_HAND);
 
-        if (!get(IS_SWINGING) || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0) {
+        if (!get(IS_SWINGING) || swingProgressTicks >= 8.0f / 2.0f || swingProgressTicks < 0) {
             swingProgressTicks = -1;
             set(IS_SWINGING, true);
         }
@@ -424,7 +417,7 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     @Nonnull
-    public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
+    public ItemStack getItemStackFromSlot(@Nonnull EntityEquipmentSlot slotIn) {
         if (slotIn == EntityEquipmentSlot.MAINHAND) {
             VillagerRegistry.VillagerProfession profession = getProfessionForge();
             EnumChore chore = EnumChore.byId(get(ACTIVE_CHORE));
@@ -500,7 +493,7 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void goHome(EntityPlayerMP player) {
-        if (home.equals(Vec3d.ZERO)) {
+        if (home.equals(BlockPos.ORIGIN)) {
             say(Optional.of(player), "interaction.gohome.fail");
         } else {
             say(Optional.of(player), "interaction.gohome.success");
@@ -712,7 +705,6 @@ public class EntityVillagerMCA extends EntityVillager {
                 set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
                 break;
             case "gui.button.profession":
-                RegistryNamespaced<ResourceLocation, VillagerRegistry.VillagerProfession> registry = ObfuscationReflectionHelper.getPrivateValue(VillagerRegistry.class, VillagerRegistry.instance(), "REGISTRY");
                 setProfession(ProfessionsMCA.randomProfession());
                 setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
                 applySpecialAI();
@@ -1012,9 +1004,9 @@ public class EntityVillagerMCA extends EntityVillager {
                     float f1 = 0.5F + (float) enumfacing.getFrontOffsetX() * 0.4F;
                     float f = 0.5F + (float) enumfacing.getFrontOffsetZ() * 0.4F;
                     this.setRenderOffsetForSleep(enumfacing);
-                    this.setPosition((double) ((float) bedLocation.getX() + f1), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + f));
+                    this.setPosition((float) bedLocation.getX() + f1, (float) bedLocation.getY() + 0.6875F, (float) bedLocation.getZ() + f);
                 } else {
-                    this.setPosition((double) ((float) bedLocation.getX() + 0.5F), (double) ((float) bedLocation.getY() + 0.6875F), (double) ((float) bedLocation.getZ() + 0.5F));
+                    this.setPosition((float) bedLocation.getX() + 0.5F, (float) bedLocation.getY() + 0.6875F, (float) bedLocation.getZ() + 0.5F);
                 }
 
                 this.setSize(0.2F, 0.2F);
@@ -1063,7 +1055,7 @@ public class EntityVillagerMCA extends EntityVillager {
                     blockpos = bedLocation.up();
                 }
 
-                this.setPosition((double) ((float) blockpos.getX() + 0.5F), (double) ((float) blockpos.getY() + 0.1F), (double) ((float) blockpos.getZ() + 0.5F));
+                this.setPosition((float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.1F, (float) blockpos.getZ() + 0.5F);
             }
         }
 

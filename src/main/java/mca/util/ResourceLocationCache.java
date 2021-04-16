@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResourceLocationCache {
-    private static Map<String, ResourceLocation> cache = new HashMap<>();
+    private static final Map<String, ResourceLocation> cache = new HashMap<>();
 
     public static ResourceLocation getResourceLocationFor(String location) {
         if (cache.containsKey(location)) {

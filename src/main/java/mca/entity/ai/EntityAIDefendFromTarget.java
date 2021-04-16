@@ -6,7 +6,7 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.EnumHand;
 
 public class EntityAIDefendFromTarget extends EntityAIBase {
-    private EntityCreature attacker;
+    private final EntityCreature attacker;
 
     private int attackTick;
 

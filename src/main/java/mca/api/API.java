@@ -29,11 +29,11 @@ import java.util.*;
  * Class API handles interaction with MCA's configurable options via JSON in the resources folder
  */
 public class API {
-    private static Map<String, Gift> giftMap = new HashMap<>();
-    private static Map<String, APIButton[]> buttonMap = new HashMap<>();
-    private static List<String> maleNames = new ArrayList<>();
-    private static List<String> femaleNames = new ArrayList<>();
-    private static List<SkinsGroup> skinGroups = new ArrayList<>();
+    private static final Map<String, Gift> giftMap = new HashMap<>();
+    private static final Map<String, APIButton[]> buttonMap = new HashMap<>();
+    private static final List<String> maleNames = new ArrayList<>();
+    private static final List<String> femaleNames = new ArrayList<>();
+    private static final List<SkinsGroup> skinGroups = new ArrayList<>();
     private static Random rng;
 
     /**

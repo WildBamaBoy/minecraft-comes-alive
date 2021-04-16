@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class ItemBaby extends Item {
-    private boolean isMale;
+    private final boolean isMale;
 
     public ItemBaby(boolean isMale) {
         this.isMale = isMale;

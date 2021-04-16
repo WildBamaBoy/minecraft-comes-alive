@@ -11,7 +11,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 public class ModelVillagerMCA extends ModelBiped {
-    private ModelRenderer breasts;
+    private final ModelRenderer breasts;
 
     public ModelVillagerMCA() {
         super(0.0F, 0.0F, 64, 64);
