@@ -35,12 +35,8 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
 
         // setup the marriage by assigning spouse UUIDs
         EntityVillagerMCA spouse = target.get();
-        villager.set(EntityVillagerMCA.SPOUSE_UUID, Optional.of(target.get().getUniqueID()));
-        villager.set(EntityVillagerMCA.MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
-        villager.set(EntityVillagerMCA.SPOUSE_NAME, spouse.get(EntityVillagerMCA.VILLAGER_NAME));
-        spouse.set(EntityVillagerMCA.SPOUSE_UUID, Optional.of(villager.getUniqueID()));
-        spouse.set(EntityVillagerMCA.MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
-        spouse.set(EntityVillagerMCA.SPOUSE_NAME, villager.get(EntityVillagerMCA.VILLAGER_NAME));
+        villager.marry(spouse);
+        spouse.marry(villager);
 
         // spawn hearts to show something happened
         villager.spawnParticles(EnumParticleTypes.HEART);

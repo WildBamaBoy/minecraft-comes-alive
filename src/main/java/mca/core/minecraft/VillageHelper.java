@@ -35,12 +35,12 @@ public class VillageHelper {
 
         // Grab all villagers in the area
         List<EntityVillagerMCA> list = world.getEntitiesWithinAABB(EntityVillagerMCA.class,
-                new AxisAlignedBB((double) (village.getCenter().getX() - village.getVillageRadius()),
-                        (double) (village.getCenter().getY() - 4),
-                        (double) (village.getCenter().getZ() - village.getVillageRadius()),
-                        (double) (village.getCenter().getX() + village.getVillageRadius()),
-                        (double) (village.getCenter().getY() + 4),
-                        (double) (village.getCenter().getZ() + village.getVillageRadius())));
+                new AxisAlignedBB(village.getCenter().getX() - village.getVillageRadius(),
+                        village.getCenter().getY() - 4,
+                        village.getCenter().getZ() - village.getVillageRadius(),
+                        village.getCenter().getX() + village.getVillageRadius(),
+                        village.getCenter().getY() + 4,
+                        village.getCenter().getZ() + village.getVillageRadius()));
 
         // Count up the guards
         for (EntityVillagerMCA villager : list) {
@@ -77,7 +77,7 @@ public class VillageHelper {
             BlockPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
 
             if (village.isBlockPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new BlockPos(x, y, z), blockpos))
-                return new Vec3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
+                return new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
         }
 
         return null;

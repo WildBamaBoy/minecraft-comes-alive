@@ -262,7 +262,7 @@ public class EntityVillagerMCA extends EntityVillager {
     protected void damageEntity(@Nonnull DamageSource damageSource, float damageAmount) {
         // Guards take 50% less damage
         if (getProfessionForge() == ProfessionsMCA.guard) {
-            damageAmount *= 0.50;
+            damageAmount *= 0.5;
         }
         super.damageEntity(damageSource, damageAmount);
 
@@ -314,7 +314,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + causeName + ". UUID: " + this.getUniqueID().toString());
             }
 
-            //TODO: player history gets lsot on revive
+            //TODO: player history gets lost on revive
             //TODO: childp becomes to child on revive (needs verification)
 
             inventory.dropAllItems();
@@ -581,6 +581,12 @@ public class EntityVillagerMCA extends EntityVillager {
         set(MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
     }
 
+    public void marry(EntityVillagerMCA spouse) {
+        set(SPOUSE_UUID, Optional.of(spouse.getUniqueID()));
+        set(SPOUSE_NAME, spouse.get(EntityVillagerMCA.VILLAGER_NAME));
+        set(MARRIAGE_STATE, EnumMarriageState.MARRIED.getId());
+    }
+
     private void endMarriage() {
         set(SPOUSE_UUID, Optional.of(Constants.ZERO_UUID));
         set(SPOUSE_NAME, "");
@@ -779,6 +785,7 @@ public class EntityVillagerMCA extends EntityVillager {
         }
 
         if (isChild()) {
+            // get older
             EnumAgeState current = EnumAgeState.byId(get(AGE_STATE));
             EnumAgeState target = EnumAgeState.byCurrentAge(startingAge, getGrowingAge());
             if (current != target) {
