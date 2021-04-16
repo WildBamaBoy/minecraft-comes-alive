@@ -145,6 +145,7 @@ gui.button.tellstory=Tell Story
 gui.button.flirt=Flirt
 gui.button.hug=Hug
 gui.button.kiss=Kiss
+gui.button.village=Village
 gui.button.prospecting=Prospecting
 gui.button.hunting=Hunting
 gui.button.cooking=Cooking
@@ -209,6 +210,10 @@ gui.label.following=Following
 
 gui.info.gift.line1=Gift Available
 gui.info.gift.line2=(Click to take)
+
+events.marry=%v1% and %v2% are now married!
+events.baby=%v1% and %v2% have born a baby!
+events.village=My village is %v1% blocks big and has %v2% villager out of %v3% possible doors.
 
 spouse.chore.mining.orenotify=There's some %v2% nearby...
 spouse.chore.mining.nopick=I forgot my pickaxe, dear, did you bring an extra one?

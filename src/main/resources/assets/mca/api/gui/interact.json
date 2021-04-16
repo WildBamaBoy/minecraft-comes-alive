@@ -104,5 +104,17 @@
       "targetServer": false,
       "constraints": "adults",
       "isInteraction": true
+    },
+    {
+      "id": 8,
+      "identifier": "gui.button.village",
+      "x": 140,
+      "y": 70,
+      "width": 65,
+      "height": 20,
+      "notifyServer": true,
+      "targetServer": false,
+      "constraints": "adults",
+      "isInteraction": false
     }
 ]

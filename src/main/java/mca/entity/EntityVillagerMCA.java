@@ -9,6 +9,7 @@ import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
+import mca.core.minecraft.VillageHelper;
 import mca.entity.ai.*;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerHistory;
@@ -49,6 +50,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
@@ -733,6 +735,18 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.stopworking":
                 stopChore();
                 break;
+            case "gui.button.village":
+                Village village = VillageHelper.findClosestVillage(world, this.getPos());
+                if (village != null) {
+                    String phrase = MCA.getLocalizer().localize("events.village",
+                            String.valueOf(village.getVillageRadius()),
+                            String.valueOf(village.getNumVillagers()),
+                            String.valueOf(village.getNumVillageDoors())
+                    );
+                    player.sendMessage(new TextComponentString(phrase));
+                } else {
+                    player.sendMessage(new TextComponentString("I wasn't able to find a village."));
+                }
         }
     }
 
