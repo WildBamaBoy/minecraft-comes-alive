@@ -123,3 +123,9 @@ publishing {
         }
     }
 }
+
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+    }
+}
