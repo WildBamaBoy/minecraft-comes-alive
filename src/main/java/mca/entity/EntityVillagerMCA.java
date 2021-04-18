@@ -850,6 +850,7 @@ public class EntityVillagerMCA extends EntityVillager {
         this.tasks.addTask(0, new EntityAIAgeBaby(this));
         this.tasks.addTask(0, new EntityAIProcreate(this));
         this.tasks.addTask(5, new EntityAIGoWorkplace(this));
+        this.tasks.addTask(6, new EntityAIWork(this));
         this.tasks.addTask(5, new EntityAIGoHangout(this));
         this.tasks.addTask(1, new EntityAISleeping(this));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -1066,11 +1067,11 @@ public class EntityVillagerMCA extends EntityVillager {
     public void stopSleeping() {
         BlockPos bedLocation = get(EntityVillagerMCA.BED_POS);
         if (bedLocation != BlockPos.ORIGIN) {
-            IBlockState blockstate = this.world.getBlockState(bedLocation);
+            IBlockState blockState = this.world.getBlockState(bedLocation);
 
-            if (blockstate.getBlock().isBed(blockstate, world, bedLocation, this)) {
-                blockstate.getBlock().setBedOccupied(world, bedLocation, null, false);
-                BlockPos blockpos = blockstate.getBlock().getBedSpawnPosition(blockstate, world, bedLocation, null);
+            if (blockState.getBlock().isBed(blockState, world, bedLocation, this)) {
+                blockState.getBlock().setBedOccupied(world, bedLocation, null, false);
+                BlockPos blockpos = blockState.getBlock().getBedSpawnPosition(blockState, world, bedLocation, null);
 
                 if (blockpos == null) {
                     blockpos = bedLocation.up();
