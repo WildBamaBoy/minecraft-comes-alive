@@ -1,6 +1,5 @@
 package mca.core;
 
-import com.google.gson.Gson;
 import mca.api.API;
 import mca.command.CommandAdminMCA;
 import mca.command.CommandMCA;
@@ -19,23 +18,20 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Date;
+import java.util.Random;
 
 @Mod(modid = MCA.MODID, name = MCA.NAME, version = MCA.VERSION, guiFactory = "mca.client.MCAGuiFactory")
 public class MCA {
@@ -93,14 +89,6 @@ public class MCA {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         NetMCA.registerMessages();
 
-        if (MCA.getConfig().allowUpdateChecking) {
-            latestVersion = Util.httpGet("https://minecraftcomesalive.com/api/latest");
-            if (!latestVersion.equals(VERSION) && !latestVersion.equals("")) {
-                updateAvailable = true;
-                MCA.getLog().warn("An update for Minecraft Comes Alive is available: v" + latestVersion);
-            }
-        }
-
         supporters = Util.httpGet("https://minecraftcomesalive.com/api/supporters").split(",");
         MCA.getLog().info("Loaded " + supporters.length + " supporters.");
     }
@@ -127,60 +115,11 @@ public class MCA {
         event.registerServerCommand(new CommandAdminMCA());
     }
 
-    @EventHandler
-    public void serverStopping(FMLServerStoppingEvent event) {
-        checkForCrashReports();
-    }
-
     public String getRandomSupporter() {
         if (supporters.length > 0) {
             return supporters[new Random().nextInt(supporters.length)];
         } else {
             return API.getRandomName(EnumGender.getRandom());
-        }
-    }
-
-    public void checkForCrashReports() {
-        if (MCA.getConfig().allowCrashReporting) {
-            File crashReportsFolder = new File(System.getProperty("user.dir") + "/crash-reports/");
-            File[] crashReportFiles = crashReportsFolder.listFiles(File::isFile);
-            try {
-                if (crashReportFiles != null) {
-                    Optional<File> newestFile = Arrays.stream(crashReportFiles).max(Comparator.comparingLong(File::lastModified));
-                    if (newestFile.isPresent() && newestFile.get().lastModified() > startupTimestamp) {
-                        // Raw Java for sending the POST request as the HttpClient from Apache libs is not present on servers.
-                        MCA.getLog().warn("Crash detected! Attempting to upload report...");
-                        Map<String, String> payload = new HashMap<>();
-                        payload.put("minecraft_version", FMLCommonHandler.instance().getMinecraftServerInstance().getMinecraftVersion());
-                        payload.put("operating_system", System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
-                        payload.put("java_version", System.getProperty("java.version") + ", " + System.getProperty("java.vendor"));
-                        payload.put("mod_version", MCA.VERSION);
-                        payload.put("body", FileUtils.readFileToString(newestFile.get(), "UTF-8"));
-
-                        byte[] out = new Gson().toJson(payload).getBytes(StandardCharsets.UTF_8);
-                        URL url = new URL("http://minecraftcomesalive.com/api/crash-reports");
-                        URLConnection con = url.openConnection();
-                        HttpURLConnection http = (HttpURLConnection)con;
-                        http.setRequestMethod("POST");
-                        http.setDoOutput(true);
-                        http.setFixedLengthStreamingMode(out.length);
-                        http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                        http.setRequestProperty("User-Agent", "Minecraft Client " + FMLCommonHandler.instance().getMinecraftServerInstance().getMinecraftVersion());
-                        http.connect();
-                        OutputStream os = http.getOutputStream();
-                        os.write(out);
-                        os.flush();
-                        os.close();
-                        if (http.getResponseCode() != 200) {
-                            MCA.getLog().error("Failed to submit crash report. Non-OK response code returned: " + http.getResponseCode());
-                        } else {
-                            MCA.getLog().warn("Crash report submitted successfully.");
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                MCA.getLog().error("An unexpected error occurred while attempting to submit the crash report.", e);
-            }
         }
     }
 }
