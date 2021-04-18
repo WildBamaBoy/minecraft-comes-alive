@@ -96,13 +96,6 @@ public class EventHooks {
     }
 
     @SubscribeEvent
-    public void onWorldUnload(WorldEvent.Unload event) {
-        // Only send crash reports on unloading the overworld. This will never change based on other mods installed
-        // and ensures only one crash report is sent per instance.
-        if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) MCA.getInstance().checkForCrashReports();
-    }
-
-    @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         World world = event.getWorld();
         Entity entity = event.getEntity();
@@ -173,6 +166,7 @@ public class EventHooks {
         int z = event.getPos().getZ();
         Block placedBlock = event.getPlacedBlock().getBlock();
 
+        // summon the grim reaper
         if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
             int totemsFound = 0;
 

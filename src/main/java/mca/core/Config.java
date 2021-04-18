@@ -32,9 +32,11 @@ public final class Config implements Serializable {
     public String villagerChatPrefix;
     public boolean allowPlayerMarriage;
     public boolean enableAdminCommands;
-    public boolean allowCrashReporting;
-    public boolean allowUpdateChecking;
     public boolean allowRoseGoldGeneration;
+    public int marriageChance;
+    public int marriageLimit;
+    public int childrenChance;
+    public int childrenLimit;
 
     public Config(FMLPreInitializationEvent event) {
         config = new Configuration(event.getSuggestedConfigurationFile());
@@ -61,10 +63,12 @@ public final class Config implements Serializable {
         villagerChatPrefix = config.get("General", "Villager Chat Prefix", "", "Formatting prefix used for all chat with villagers.").getString();
         allowPlayerMarriage = config.get("General", "Allow Player Marriage?", true, "Enables or disables player marriage.").getBoolean();
         enableAdminCommands = config.get("General", "Enable Admin Commands?", true, "Enables or disables MCA admin commands for ops.").getBoolean();
-        allowCrashReporting = config.get("General", "Allow Crash Reporting?", true, "If enabled, sends crash reports to MCA developers.").getBoolean();
-        allowUpdateChecking = config.get("General", "Allow Update Checking?", true, "If enabled, notifies you when an update to MCA is available.").getBoolean();
         allowRoseGoldGeneration = config.get("General", "Allow Rose Gold World Generation", true, "If enabled, generates rose gold in your world. If disabled, generates stone instead.").getBoolean();
         villagerMaxHealth = config.get("General", "Villager Max Health", 20, "Each villager's maximum health. 1 point equals 1 heart.").getInt();
+        marriageChance = config.get("General", "Villager Marriage Chance", 5, "Chance that two villagers get married every 5 minutes.").getInt();
+        marriageLimit = config.get("General", "Villager Marriage Limit", 50, "Percentage of Villagers who will get married over time.").getInt();
+        childrenChance = config.get("General", "Villager Children Chance", 5, "Chance that a married villager get children every 5 minutes.").getInt();
+        childrenLimit = config.get("General", "Villager Children Limit", 50, "Percentage of Villagers in the village, until they stop procreating.").getInt();
         config.save();
     }
 
@@ -79,6 +83,7 @@ public final class Config implements Serializable {
             if (s.equals("server")) continue;
 
             IConfigElement element = new ConfigElement(config.getCategory(s));
+            elements.addAll(element.getChildElements());
             elements.addAll(element.getChildElements());
         }
 
