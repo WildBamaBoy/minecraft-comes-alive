@@ -12,6 +12,7 @@ import mca.entity.data.PlayerSaveData;
 import mca.enums.EnumAgeState;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
+import mca.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -29,6 +30,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
+
+import static mca.entity.EntityVillagerMCA.SPOUSE_UUID;
 
 public class ItemBaby extends Item {
     private final boolean isMale;
@@ -75,15 +78,25 @@ public class ItemBaby extends Item {
             if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
                 EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.child), Optional.of(this.isMale ? EnumGender.MALE : EnumGender.FEMALE));
                 child.set(EntityVillagerMCA.VILLAGER_NAME, getBabyName(stack));
-                child.set(EntityVillagerMCA.CLOTHES, API.getRandomClothing(child)); // allow for special-case skins to be applied with the proper name attached to the child at this point
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
                 child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
                 child.setScaleForAge(true);
                 child.setPosition(posX, posY, posZ);
-                world.spawnEntity(child);
 
                 PlayerSaveData playerData = PlayerSaveData.get(player);
+
+                //assumes your child is from the players current spouse
+                //as the father does not have any genes it just takes the one from the mother
+                Optional<Entity> spouse = Util.getEntityByUUID(player.world, playerData.getSpouseUUID());
+                if (spouse.isPresent() && spouse.get() instanceof EntityVillagerMCA) {
+                    EntityVillagerMCA spouseVillager = (EntityVillagerMCA) spouse.get();
+                    child.inheritGenes(spouseVillager, spouseVillager);
+                }
+
                 child.set(EntityVillagerMCA.PARENTS, ParentData.create(player.getUniqueID(), playerData.getSpouseUUID(), player.getName(), playerData.getSpouseName()).toNBT());
+
+                world.spawnEntity(child);
+
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
                 playerData.setBabyPresent(false);
 

@@ -1,21 +1,18 @@
 package mca.client.gui;
 
 import lombok.NonNull;
-import mca.core.forge.NetMCA;
-import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.StringUtils;
-
 import mca.core.MCA;
+import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
-
-import static mca.entity.EntityVillagerMCA.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiWhistle extends GuiScreen {
@@ -71,30 +68,22 @@ public class GuiWhistle extends GuiScreen {
             if (guibutton == selectionLeftButton) {
                 if (selectedIndex == 1) {
                     selectedIndex = villagerDataList.size();
-                }
-
-                else {
+                } else {
                     selectedIndex--;
                 }
-            }
-
-            else if (guibutton == selectionRightButton) {
+            } else if (guibutton == selectionRightButton) {
                 if (selectedIndex == villagerDataList.size()) {
                     selectedIndex = 1;
-                }
-
-                else {
+                } else {
                     selectedIndex++;
                 }
-            }
-
-            else if (guibutton == callButton) {
+            } else if (guibutton == callButton) {
                 NetMCA.INSTANCE.sendToServer(new NetMCA.CallToPlayer(data.getUniqueId("uuid")));
                 Minecraft.getMinecraft().displayGuiScreen(null);
             }
 
             villagerNameButton.displayString = data.getString("name");
-            updateDummyVillagerWithData(data);
+            dummyHuman.readAppearanceFromNBT(data);
         }
     }
 
@@ -105,14 +94,10 @@ public class GuiWhistle extends GuiScreen {
 
         if (loadingAnimationTicks != -1) {
             drawString(fontRenderer, "Loading" + StringUtils.repeat(".", loadingAnimationTicks % 10), width / 2 - 20, height / 2 - 10, 0xffffff);
-        }
-
-        else {
+        } else {
             if (villagerDataList.size() == 0) {
                 drawCenteredString(fontRenderer, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);
-            }
-
-            else {
+            } else {
                 drawCenteredString(fontRenderer, selectedIndex + " / " + villagerDataList.size(), width / 2, height / 2 + 50, 0xffffff);
             }
         }
@@ -139,18 +124,9 @@ public class GuiWhistle extends GuiScreen {
             NBTTagCompound firstData = dataList.get(0);
             villagerNameButton.displayString = firstData.getString("name");
             dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().world);
-            updateDummyVillagerWithData(firstData);
-        }
-
-        catch (IndexOutOfBoundsException e) {
+            dummyHuman.readAppearanceFromNBT(firstData);
+        } catch (IndexOutOfBoundsException e) {
             callButton.enabled = false;
         }
-    }
-
-    private void updateDummyVillagerWithData(NBTTagCompound nbt) {
-        dummyHuman.set(VILLAGER_NAME, nbt.getString("name"));
-        dummyHuman.set(CLOTHES, nbt.getString("clothes"));
-        dummyHuman.set(IS_INFECTED, nbt.getBoolean("infected"));
-        dummyHuman.set(AGE_STATE, nbt.getInteger("ageState"));
     }
 }

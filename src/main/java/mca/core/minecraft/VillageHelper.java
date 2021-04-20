@@ -44,6 +44,7 @@ public class VillageHelper {
 
     // if the population is low, find a couple and let them have a child
     private static void procreate(World world, Village village) {
+        //TODO config says every 5 minutes, actual time is 5 sec, increase that time as it's too fast anyways
         if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 100.0f) {
             if (village.getNumVillagers() < village.getNumVillageDoors() * MCA.getConfig().childrenLimit / 100.0f) {
                 // look for married women without baby

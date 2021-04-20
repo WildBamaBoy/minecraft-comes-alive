@@ -103,8 +103,11 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Float> GENE_EUMELANIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_PHEOMELANIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_SKIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
-    public static final DataParameter<Float> GENE_HAIR = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_FACE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+
+    // genes list
+    public static final DataParameter<Float>[] GENES = new DataParameter[]{
+            GENE_SIZE, GENE_WIDTH, GENE_BELLY, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -173,17 +176,9 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN);
         this.dataManager.register(SLEEPING, false);
 
-        this.dataManager.register(GENE_SIZE, 0.0f);
-        this.dataManager.register(GENE_WIDTH, 0.0f);
-        this.dataManager.register(GENE_BELLY, 0.0f);
-        this.dataManager.register(GENE_BREAST, 0.0f);
-        this.dataManager.register(GENE_MELANIN, 0.0f);
-        this.dataManager.register(GENE_HEMOGLOBIN, 0.0f);
-        this.dataManager.register(GENE_EUMELANIN, 0.0f);
-        this.dataManager.register(GENE_PHEOMELANIN, 0.0f);
-        this.dataManager.register(GENE_SKIN, 0.0f);
-        this.dataManager.register(GENE_HAIR, 0.0f);
-        this.dataManager.register(GENE_FACE, 0.0f);
+        for (DataParameter<Float> dp : GENES) {
+            this.dataManager.register(dp, 0.5f);
+        }
 
         this.setSilent(false);
     }
@@ -217,19 +212,14 @@ public class EntityVillagerMCA extends EntityVillager {
     public void readEntityFromNBT(NBTTagCompound nbt) {
         super.readEntityFromNBT(nbt);
 
-        set(VILLAGER_NAME, nbt.getString("name"));
-        set(GENDER, nbt.getInteger("gender"));
-        set(CLOTHES, nbt.getString("clothes"));
-        set(HAIR, nbt.getString("hair"));
-        set(HAIR_OVERLAY, nbt.getString("hair_overlay"));
+        readAppearanceFromNBT(nbt);
+
         set(PLAYER_HISTORY_MAP, nbt.getCompoundTag("playerHistoryMap"));
         set(MOVE_STATE, nbt.getInteger("moveState"));
         set(MARRIAGE_STATE, nbt.getInteger("marriageState"));
         set(SPOUSE_UUID, Optional.fromNullable(nbt.getUniqueId("spouseUUID")));
         set(SPOUSE_NAME, nbt.getString("spouseName"));
         set(IS_PROCREATING, nbt.getBoolean("isProcreating"));
-        set(IS_INFECTED, nbt.getBoolean("infected"));
-        set(AGE_STATE, nbt.getInteger("ageState"));
         set(ACTIVE_CHORE, nbt.getInteger("activeChore"));
         set(CHORE_ASSIGNING_PLAYER, Optional.fromNullable(nbt.getUniqueId("choreAssigningPlayer")));
         set(HAS_BABY, nbt.getBoolean("hasBaby"));
@@ -249,7 +239,6 @@ public class EntityVillagerMCA extends EntityVillager {
         set(GENE_EUMELANIN, nbt.getFloat("gene_eumelanin"));
         set(GENE_PHEOMELANIN, nbt.getFloat("gene_pheomelanin"));
         set(GENE_SKIN, nbt.getFloat("gene_skin"));
-        set(GENE_HAIR, nbt.getFloat("gene_hair"));
         set(GENE_FACE, nbt.getFloat("gene_face"));
 
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
@@ -269,6 +258,28 @@ public class EntityVillagerMCA extends EntityVillager {
         this.babyAge = nbt.getInteger("babyAge");
 
         applySpecialAI();
+    }
+
+    //loads/copy appearance relevant data
+    public void readAppearanceFromNBT(NBTTagCompound nbt) {
+        set(GENDER, nbt.getInteger("gender"));
+        set(VILLAGER_NAME, nbt.getString("name"));
+        set(CLOTHES, nbt.getString("clothes"));
+        set(HAIR, nbt.getString("hair"));
+        set(HAIR_OVERLAY, nbt.getString("hair_overlay"));
+        set(IS_INFECTED, nbt.getBoolean("infected"));
+        set(AGE_STATE, nbt.getInteger("ageState"));
+
+        set(GENE_SIZE, nbt.getFloat("gene_size"));
+        set(GENE_WIDTH, nbt.getFloat("gene_width"));
+        set(GENE_BELLY, nbt.getFloat("gene_belly"));
+        set(GENE_BREAST, nbt.getFloat("gene_breast"));
+        set(GENE_MELANIN, nbt.getFloat("gene_melanin"));
+        set(GENE_HEMOGLOBIN, nbt.getFloat("gene_hemoglobin"));
+        set(GENE_EUMELANIN, nbt.getFloat("gene_eumelanin"));
+        set(GENE_PHEOMELANIN, nbt.getFloat("gene_pheomelanin"));
+        set(GENE_SKIN, nbt.getFloat("gene_skin"));
+        set(GENE_FACE, nbt.getFloat("gene_face"));
     }
 
     @Override
@@ -319,7 +330,6 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setFloat("gene_eumelanin", get(GENE_EUMELANIN));
         nbt.setFloat("gene_pheomelanin", get(GENE_PHEOMELANIN));
         nbt.setFloat("gene_skin", get(GENE_SKIN));
-        nbt.setFloat("gene_hair", get(GENE_HAIR));
         nbt.setFloat("gene_face", get(GENE_FACE));
     }
 
@@ -331,18 +341,37 @@ public class EntityVillagerMCA extends EntityVillager {
         set(HAIR_OVERLAY, hair[1]);
     }
 
+    //returns a float between 0 and 1, weighted at 0.5
+    private float centeredRandom() {
+        return (float) Math.min(1.0, Math.max(0.0, (this.rand.nextFloat() - 0.5f) * (this.rand.nextFloat() - 0.5f) + 0.5f));
+    }
+
+    //initializes the genes with random numbers
     private void initializeGenes() {
-        set(GENE_SIZE, rand.nextFloat());
-        set(GENE_WIDTH, rand.nextFloat());
-        set(GENE_BELLY, rand.nextFloat());
-        set(GENE_BREAST, rand.nextFloat());
-        set(GENE_MELANIN, rand.nextFloat());
-        set(GENE_HEMOGLOBIN, rand.nextFloat());
-        set(GENE_EUMELANIN, rand.nextFloat());
-        set(GENE_PHEOMELANIN, rand.nextFloat());
-        set(GENE_SKIN, rand.nextFloat());
-        set(GENE_HAIR, rand.nextFloat());
-        set(GENE_FACE, rand.nextFloat());
+        for (DataParameter<Float> dp : GENES) {
+            set(dp, rand.nextFloat());
+        }
+
+        // size is more centered
+        set(GENE_SIZE, centeredRandom());
+        set(GENE_WIDTH, centeredRandom());
+        set(GENE_BELLY, centeredRandom());
+
+        //TODO add relations, e.g. high melanin level usually increases the darkness of hair too
+
+        //TODO make tendencies per village, so it looks like they lived there longer
+    }
+
+    //interpolates and mutates the genes from two parent villager
+    public void inheritGenes(EntityVillagerMCA mother, EntityVillagerMCA father) {
+        for (DataParameter<Float> dp : GENES) {
+            float m = mother.get(dp);
+            float f = father.get(dp);
+            float interpolation = rand.nextFloat();
+            float mutation = (rand.nextFloat() - 0.5f) * 0.2f;
+            float g = m * interpolation + f * (1.0f - interpolation) + mutation;
+            set(dp, (float) Math.min(1.0, Math.max(0.0, g)));
+        }
     }
 
     @Override

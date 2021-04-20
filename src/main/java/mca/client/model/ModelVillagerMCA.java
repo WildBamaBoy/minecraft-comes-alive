@@ -119,7 +119,7 @@ public class ModelVillagerMCA extends ModelBiped {
         if (EnumGender.byId(villager.get(EntityVillagerMCA.GENDER)) == EnumGender.FEMALE && !villager.isChild() && villager.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY) {
             double sc = villager.get(EntityVillagerMCA.GENE_BREAST);
             GL11.glPushMatrix();
-            GL11.glTranslated(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.175, -0.12D);
+            GL11.glTranslated(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.175, -0.11D);
             GL11.glScaled(cloth ? 1.166666 : 1.0, 1.0, 0.75 + sc * 0.5);
             GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
             GL11.glScaled(sc * 0.3 + 0.85, sc * 0.75 + 0.75, sc * 0.75 + 0.75);
