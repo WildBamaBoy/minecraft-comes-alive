@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
+import net.minecraft.world.gen.structure.StructureVillagePieces;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -29,28 +30,35 @@ public class ModelVillagerMCA extends ModelBiped {
     private final boolean cloth;
 
     public ModelVillagerMCA() {
-        this(0.0f, false);
+        this(0.0f, 0.0f, false);
     }
 
-    public ModelVillagerMCA(float modelSize, boolean cloth) {
+    public ModelVillagerMCA(float modelSize, float headSize, boolean cloth) {
         super(modelSize, 0.0F, 64, 64);
 
         bipedCape = new ModelRenderer(this, 0, 0);
         bipedCape.addBox(-5.0F, 0.0F, -1.0F, 10, 16, 1, modelSize);
 
-        this.bipedLeftArm = new ModelRenderer(this, 32, 48);
-        this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 3, 12, 4, modelSize);
-        this.bipedLeftArm.setRotationPoint(5.0F, 2.5F, 0.0F);
-        this.bipedRightArm = new ModelRenderer(this, 40, 16);
-        this.bipedRightArm.addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, modelSize);
-        this.bipedRightArm.setRotationPoint(-5.0F, 2.5F, 0.0F);
-        this.bipedLeftArmwear = new ModelRenderer(this, 48, 48);
-        this.bipedLeftArmwear.addBox(-1.0F, -2.0F, -2.0F, 3, 12, 4, modelSize + 0.25F);
-        this.bipedLeftArmwear.setRotationPoint(5.0F, 2.5F, 0.0F);
-        this.bipedRightArmwear = new ModelRenderer(this, 40, 32);
-        this.bipedRightArmwear.addBox(-2.0F, -2.0F, -2.0F, 3, 12, 4, modelSize + 0.25F);
-        this.bipedRightArmwear.setRotationPoint(-5.0F, 2.5F, 10.0F);
+        //head
+        this.bipedHead = new ModelRenderer(this, 0, 0);
+        this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, headSize);
+        this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.bipedHeadwear = new ModelRenderer(this, 32, 0);
+        this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, headSize + 0.5F);
+        this.bipedHeadwear.setRotationPoint(0.0F, 0.0F, 0.0F);
 
+        //arms
+        this.bipedLeftArm = new ModelRenderer(this, 32, 48);
+        this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize);
+        this.bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
+        this.bipedLeftArmwear = new ModelRenderer(this, 48, 48);
+        this.bipedLeftArmwear.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
+        this.bipedLeftArmwear.setRotationPoint(5.0F, 2.0F, 0.0F);
+        this.bipedRightArmwear = new ModelRenderer(this, 40, 32);
+        this.bipedRightArmwear.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
+        this.bipedRightArmwear.setRotationPoint(-5.0F, 2.0F, 10.0F);
+
+        //legs
         bipedLeftLeg = new ModelRenderer(this, 16, 48);
         bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize);
         bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
@@ -109,7 +117,7 @@ public class ModelVillagerMCA extends ModelBiped {
         //breasts
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         if (EnumGender.byId(villager.get(EntityVillagerMCA.GENDER)) == EnumGender.FEMALE && !villager.isChild() && villager.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY) {
-            double sc = 0.5;
+            double sc = villager.get(EntityVillagerMCA.GENE_BREAST);
             GL11.glPushMatrix();
             GL11.glTranslated(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.175, -0.12D);
             GL11.glScaled(cloth ? 1.166666 : 1.0, 1.0, 0.75 + sc * 0.5);

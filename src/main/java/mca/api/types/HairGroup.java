@@ -5,10 +5,9 @@ import lombok.Getter;
 import mca.enums.EnumGender;
 
 @AllArgsConstructor
-public class SkinsGroup {
+public class HairGroup {
     private final String gender;
-    @Getter private final String profession;
-    @Getter private final String[] paths;
+    @Getter private final String[][] paths;
 
     public EnumGender getGender() {
         return EnumGender.byName(gender);

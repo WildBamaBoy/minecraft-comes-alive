@@ -21,24 +21,34 @@ public abstract class LayerVillager implements LayerRenderer<EntityLivingBase> {
     private final RenderLivingBase<?> renderer;
     protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
 
-    public LayerVillager(RenderLivingBase<?> rendererIn, float offset) {
+    public LayerVillager(RenderLivingBase<?> rendererIn, float offset, float offsetHead) {
         this.renderer = rendererIn;
-        this.model = new ModelVillagerMCA(offset, true);
+        this.model = new ModelVillagerMCA(offset, offsetHead, true);
     }
 
-    abstract boolean hasOverlay(EntityLivingBase entity);
+    String getTexture(EntityLivingBase entity) {
+        return null;
+    }
 
-    abstract String getClothing(EntityLivingBase entity);
+    String getOverlayTexture(EntityLivingBase entity) {
+        return null;
+    }
 
     float[] getColor(EntityLivingBase entity) {
-        return new float[] {1.0f, 1.0f, 1.0f};
+        return new float[]{1.0f, 1.0f, 1.0f};
     }
 
     @ParametersAreNonnullByDefault
     public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         for (int overlay = 0; overlay <= 1; overlay++) {
-            if (overlay == 0 || hasOverlay(entity)) {
-                ResourceLocation res = this.getClothingResource(entity, overlay == 1);
+            String p;
+            if (overlay == 0) {
+                p = getTexture(entity);
+            } else {
+                p = getOverlayTexture(entity);
+            }
+            if (p != null && p.length() > 0) {
+                ResourceLocation res = getClothingResource(p);
                 this.renderer.bindTexture(res);
 
                 //color the non overlay
@@ -60,9 +70,7 @@ public abstract class LayerVillager implements LayerRenderer<EntityLivingBase> {
         return false;
     }
 
-    private ResourceLocation getClothingResource(EntityLivingBase entity, boolean overlay) {
-        String s = getClothing(entity) + (overlay ? "_overlay" : "") + ".png";
-
+    private ResourceLocation getClothingResource(String s) {
         ResourceLocation resourcelocation = textureRes.get(s);
         if (resourcelocation == null) {
             resourcelocation = new ResourceLocation(s);

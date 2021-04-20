@@ -1,6 +1,8 @@
 package mca.client.render;
 
 import mca.client.model.ModelVillagerMCA;
+import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class LayerFace extends LayerVillager {
     public LayerFace(RenderLivingBase<?> rendererIn) {
-        super(rendererIn, 0.0f);
+        super(rendererIn, 0.0f, 0.0f);
 
         // LayerViller is only designed for ModelVillagerMCA anyways
         ((ModelVillagerMCA) this.model).setVisible(false);
@@ -19,19 +21,15 @@ public class LayerFace extends LayerVillager {
 
     @Override
     public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+        GlStateManager.enableBlend();
         super.doRenderLayer(entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
+        GlStateManager.disableBlend();
     }
 
     @Override
-    boolean hasOverlay(EntityLivingBase entity) {
-        //TODO
-        return false;
-    }
-
-    @Override
-    String getClothing(EntityLivingBase entity) {
-        //TODO
-        return "mca:skins/test/face";
+    String getTexture(EntityLivingBase entity) {
+        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        return "mca:skins/faces/" + (gender == EnumGender.FEMALE ? "female" : "male") + "/0.png";
     }
 }

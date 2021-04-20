@@ -149,9 +149,7 @@ public class GuiWhistle extends GuiScreen {
 
     private void updateDummyVillagerWithData(NBTTagCompound nbt) {
         dummyHuman.set(VILLAGER_NAME, nbt.getString("name"));
-        dummyHuman.set(TEXTURE, nbt.getString("texture"));
-        dummyHuman.set(GIRTH, nbt.getFloat("girth"));
-        dummyHuman.set(TALLNESS, nbt.getFloat("tallness"));
+        dummyHuman.set(CLOTHES, nbt.getString("clothes"));
         dummyHuman.set(IS_INFECTED, nbt.getBoolean("infected"));
         dummyHuman.set(AGE_STATE, nbt.getInteger("ageState"));
     }

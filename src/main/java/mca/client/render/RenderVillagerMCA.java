@@ -4,6 +4,7 @@ import mca.client.colors.SkinColors;
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumAgeState;
+import mca.enums.EnumGender;
 import mca.util.ResourceLocationCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -37,8 +38,11 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
             GlStateManager.scale(scaleForAge, scaleForAge, scaleForAge);
         }
 
-        //chonk
-        GlStateManager.scale(1.5, 0.5, 1.5);
+        //dimensions
+        float height = villager.get(EntityVillagerMCA.GENE_SIZE) * 0.5f + 0.75f;
+        float width = villager.get(EntityVillagerMCA.GENE_WIDTH) * 0.5f + 0.75f;
+        float belly = villager.get(EntityVillagerMCA.GENE_BELLY) * 0.5f + 0.75f;
+        GlStateManager.scale(width, height, belly);
 
         if (villager.isRiding()) {
             GlStateManager.translate(0, 0.5, 0);
@@ -46,11 +50,14 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
     }
 
     @Override
-    public void doRender(EntityVillagerMCA entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        double[] color = SkinColors.getColor(0.5, 0.5);
+    public void doRender(EntityVillagerMCA villager, double x, double y, double z, float entityYaw, float partialTicks) {
+        float melanin = villager.get(EntityVillagerMCA.GENE_MELANIN);
+        float hemoglobin = villager.get(EntityVillagerMCA.GENE_HEMOGLOBIN);
+        
+        double[] color = SkinColors.getColor(melanin, hemoglobin);
         GlStateManager.color((float) color[0], (float) color[1], (float) color[2]);
 
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        super.doRender(villager, x, y, z, entityYaw, partialTicks);
     }
 
     @Override
@@ -103,8 +110,9 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     @Override
     protected ResourceLocation getEntityTexture(EntityVillagerMCA villager) {
-        //return villager.getTextureResourceLocation();
-        return ResourceLocationCache.getResourceLocationFor("mca:skins/test/skin.png");
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        String s = "mca:skins/skin/" + (gender == EnumGender.FEMALE ? "female" : "male") + "/0.png";
+        return ResourceLocationCache.getResourceLocationFor(s);
     }
 
     @Override

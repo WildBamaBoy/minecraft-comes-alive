@@ -75,7 +75,7 @@ public class ItemBaby extends Item {
             if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
                 EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.child), Optional.of(this.isMale ? EnumGender.MALE : EnumGender.FEMALE));
                 child.set(EntityVillagerMCA.VILLAGER_NAME, getBabyName(stack));
-                child.set(EntityVillagerMCA.TEXTURE, API.getRandomSkin(child)); // allow for special-case skins to be applied with the proper name attached to the child at this point
+                child.set(EntityVillagerMCA.CLOTHES, API.getRandomClothing(child)); // allow for special-case skins to be applied with the proper name attached to the child at this point
                 child.set(EntityVillagerMCA.AGE_STATE, EnumAgeState.BABY.getId());
                 child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
                 child.setScaleForAge(true);

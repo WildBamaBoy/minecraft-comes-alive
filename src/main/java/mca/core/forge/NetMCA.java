@@ -646,7 +646,7 @@ public class NetMCA {
         public IMessage onMessage(SetTexture message, MessageContext ctx) {
             EntityPlayer player = ctx.getServerHandler().player;
             Optional<Entity> entity = player.world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(message.targetUUID)).findFirst();
-            entity.ifPresent(e -> ((EntityVillagerMCA)e).set(EntityVillagerMCA.TEXTURE, message.texture));
+            entity.ifPresent(e -> ((EntityVillagerMCA)e).set(EntityVillagerMCA.CLOTHES, message.texture));
             return null;
         }
     }

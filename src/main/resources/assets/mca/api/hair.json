@@ -1,0 +1,9 @@
+[
+  {
+    "gender": "female",
+    "paths": [
+      ["mca:skins/clothing/female/child/0.png"],
+      ["mca:skins/clothing/female/child/1.png", "mca:skins/clothing/female/child/1_overlay.png"]
+    ]
+  }
+]
