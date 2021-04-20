@@ -80,7 +80,8 @@
     "gender": "female",
     "profession": "mca:baker",
     "paths": [
-      "mca:skins/clothing/female/baker/0.png"
+      "mca:skins/clothing/female/baker/pullover.png",
+      "mca:skins/clothing/female/baker/leatherSkirt.png"
     ]
   },
   {

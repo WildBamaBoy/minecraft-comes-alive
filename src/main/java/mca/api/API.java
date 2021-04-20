@@ -1,10 +1,7 @@
 package mca.api;
 
 import com.google.common.base.Charsets;
-import mca.api.types.APIButton;
-import mca.api.types.ClothingGroup;
-import mca.api.types.Gift;
-import mca.api.types.HairGroup;
+import mca.api.types.*;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -64,9 +61,10 @@ public class API {
         buttonMap.put("main", Util.readResourceAsJSON("api/gui/main.json", APIButton[].class));
         buttonMap.put("interact", Util.readResourceAsJSON("api/gui/interact.json", APIButton[].class));
         buttonMap.put("debug", Util.readResourceAsJSON("api/gui/debug.json", APIButton[].class));
-        buttonMap.put("editor", Util.readResourceAsJSON("api/gui/editor.json", APIButton[].class));
         buttonMap.put("work", Util.readResourceAsJSON("api/gui/work.json", APIButton[].class));
-        buttonMap.put("location", Util.readResourceAsJSON("api/gui/location.json", APIButton[].class));
+        buttonMap.put("locations", Util.readResourceAsJSON("api/gui/locations.json", APIButton[].class));
+        buttonMap.put("command", Util.readResourceAsJSON("api/gui/command.json", APIButton[].class));
+        buttonMap.put("clothing", Util.readResourceAsJSON("api/gui/clothing.json", APIButton[].class));
 
         // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
@@ -79,6 +77,16 @@ public class API {
         }
     }
 
+    //returns the clothing group based of gender and profession
+    private static Optional<ClothingGroup> getClothingGroup(EntityVillagerMCA villager) {
+        VillagerRegistry.VillagerProfession profession = villager.getProfessionForge();
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+
+        return clothing.stream()
+                .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
+                .findFirst();
+    }
+
     /**
      * Returns a random skin based on the profession and gender provided.
      *
@@ -86,22 +94,37 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomClothing(EntityVillagerMCA villager) {
-        VillagerRegistry.VillagerProfession profession = villager.getProfessionForge();
-        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-
         //Default skin behavior
-        Optional<ClothingGroup> group = clothing.stream()
-                .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
-                .findFirst();
+        Optional<ClothingGroup> group = getClothingGroup(villager);
 
         return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
-            MCA.getLog().warn("No clothing found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
             ClothingGroup randomGroup = null;
+            EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
             while (randomGroup == null || randomGroup.getGender() != gender) {
                 randomGroup = clothing.get(rng.nextInt(clothing.size()));
             }
             return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
         });
+    }
+
+    //returns the next clothing
+    public static String getNextClothing(EntityVillagerMCA villager, String current) {
+        return getNextClothing(villager, current, 1);
+    }
+
+    //returns the next clothing with given offset to current
+    public static String getNextClothing(EntityVillagerMCA villager, String current, int next) {
+        Optional<ClothingGroup> group = getClothingGroup(villager);
+
+        return group.map(g -> {
+            String[] arr = g.getPaths();
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i].equals(current)) {
+                    return arr[(i + next) % arr.length];
+                }
+            }
+            return current;
+        }).orElse(current);
     }
 
     /**
@@ -110,13 +133,32 @@ public class API {
      * @param villager The villager who will be assigned the hair.
      * @return String location of the random skin
      */
-    public static String[] getRandomHair(EntityVillagerMCA villager) {
+    public static Hair getRandomHair(EntityVillagerMCA villager) {
         EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-
         Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
 
-        String[] hair = group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElse(new String[]{""});
-        return new String[]{hair.length == 0 ? "" : hair[0], hair.length == 1 ? "" : hair[1]};
+        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElse(new Hair());
+    }
+
+    //returns the next clothing
+    public static Hair getNextHair(EntityVillagerMCA villager, Hair current) {
+        return getNextHair(villager, current, 1);
+    }
+
+    //returns the next clothing with given offset to current
+    public static Hair getNextHair(EntityVillagerMCA villager, Hair current, int next) {
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
+
+        return group.map(g -> {
+            Hair[] arr = g.getPaths();
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i].equals(current)) {
+                    return arr[(i + next) % arr.length];
+                }
+            }
+            return current;
+        }).orElse(current);
     }
 
     /**
@@ -136,6 +178,7 @@ public class API {
      * @return int value determining the gift value of a stack
      */
     public static int getGiftValueFromStack(ItemStack stack) {
+        if (stack.isEmpty()) return 0;
         if (stack.getItem().getRegistryName() == null) return 0;
 
         String name = stack.getItem().getRegistryName().toString();

@@ -21,7 +21,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteract extends GuiScreen {
@@ -34,6 +36,7 @@ public class GuiInteract extends GuiScreen {
 
     private int timeSinceLastClick;
 
+    //icon UV coords
     private final int marriedIconU = 0;
     private final int engagedIconU = 64;
     private final int notMarriedIconU = 16;
@@ -45,6 +48,8 @@ public class GuiInteract extends GuiScreen {
 
     private int mouseX;
     private int mouseY;
+
+    private final int positionIcons = 110;
 
     // Tracks which page we're on in the GUI for sending button events
     private String activeKey;
@@ -80,6 +85,7 @@ public class GuiInteract extends GuiScreen {
     @Override
     public void drawScreen(int i, int j, float f) {
         super.drawScreen(i, j, f);
+
         drawIcons();
         drawTextPopups();
 
@@ -150,25 +156,42 @@ public class GuiInteract extends GuiScreen {
             GL11.glScalef(2.0F, 2.0F, 2.0F);
 
             this.mc.getTextureManager().bindTexture(ICON_TEXTURES);
-            this.drawTexturedModalRect(5, 15, heartIconU, 0, 16, 16);
-            this.drawTexturedModalRect(5, 30, marriageIconU, 0, 16, 16);
 
-            if (canDrawParentsIcon()) this.drawTexturedModalRect(5, 45, parentsIconU, 0, 16, 16);
+            this.drawTexturedModalRect(12, positionIcons / 2, heartIconU, 0, 16, 16);
+            this.drawTexturedModalRect(12, (positionIcons + 25) / 2, marriageIconU, 0, 16, 16);
 
-            if (canDrawGiftIcon()) this.drawTexturedModalRect(5, 60, giftIconU, 0, 16, 16);
+            if (canDrawParentsIcon()) this.drawTexturedModalRect(12, (positionIcons + 50) / 2, parentsIconU, 0, 16, 16);
+
+            if (canDrawGiftIcon()) this.drawTexturedModalRect(12, (positionIcons + 75) / 2, giftIconU, 0, 16, 16);
         }
         GL11.glPopMatrix();
     }
 
     private void drawTextPopups() {
-        EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
-        String marriageInfo;
+        //general information
+        int h = 18;
+        if (inGiftMode) {
+            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.giveGift"), 10, 28);
+        } else {
+            drawHoveringText(villager.getName(), 10, 28);
+        }
+        String profession = Objects.requireNonNull(villager.getProfessionForge().getRegistryName()).toString();
+        String[] test = profession.split(":");
+        drawHoveringText(MCA.getLocalizer().localize("profession." + test[1]), 10, 30 + h);
+        //drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.age", String.valueOf(villager.getGrowingAge())), 10, 30 + h * 2);
+        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.mood", "(WIP)"), 10, 30 + h * 2);
+        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.personality", "(WIP)"), 10, 30 + h * 3);
+        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.happiness", "(WIP)"), 10, 30 + h * 4);
 
+        //health
         if (hoveringOverHeartsIcon()) {
             int hearts = villager.getPlayerHistoryFor(player.getUniqueID()).getHearts();
-            this.drawHoveringText(hearts + " hearts", 35, 55);
+            this.drawHoveringText(hearts + " hearts", 50, positionIcons + 25);
         }
 
+        //marriage status
+        EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
+        String marriageInfo;
         if (hoveringOverMarriageIcon()) {
             String spouseName = villager.get(EntityVillagerMCA.SPOUSE_NAME);
             if (marriageState == EnumMarriageState.MARRIED)
@@ -177,31 +200,34 @@ public class GuiInteract extends GuiScreen {
                 marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
             else marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
 
-            this.drawHoveringText(marriageInfo, 35, 85);
-        }
-        if (canDrawParentsIcon() && hoveringOverParentsIcon()) {
-            ParentData data = ParentData.fromNBT(villager.get(EntityVillagerMCA.PARENTS));
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 35, 115);
+            this.drawHoveringText(marriageInfo, 50, positionIcons + 25 + 25);
         }
 
+        //parents
+        if (canDrawParentsIcon() && hoveringOverParentsIcon()) {
+            ParentData data = ParentData.fromNBT(villager.get(EntityVillagerMCA.PARENTS));
+            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 50, positionIcons + 25 + 50);
+        }
+
+        //gift
         if (canDrawGiftIcon() && hoveringOverGiftIcon())
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 35, 145);
+            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 50, positionIcons + 25 + 75);
     }
 
     private boolean hoveringOverHeartsIcon() {
-        return mouseX <= 32 && mouseX >= 16 && mouseY >= 32 && mouseY <= 48;
+        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons - 8 && mouseY <= positionIcons + 24;
     }
 
     private boolean hoveringOverMarriageIcon() {
-        return mouseX <= 32 && mouseX >= 16 && mouseY >= 66 && mouseY <= 81;
+        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons + 25 - 8 && mouseY <= positionIcons + 25 + 24;
     }
 
     private boolean hoveringOverParentsIcon() {
-        return mouseX <= 32 && mouseX >= 16 && mouseY >= 100 && mouseY <= 115;
+        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons + 50 - 8 && mouseY <= positionIcons + 50 + 24;
     }
 
     private boolean hoveringOverGiftIcon() {
-        return mouseX <= 32 && mouseX >= 16 && mouseY >= 124 && mouseY <= 148;
+        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons + 75 - 8 && mouseY <= positionIcons + 75 + 24;
     }
 
     private boolean canDrawParentsIcon() {
@@ -228,6 +254,14 @@ public class GuiInteract extends GuiScreen {
             activeKey = "interact";
             drawInteractButtonMenu();
             return;
+        } else if (id.equals("gui.button.command")) {
+            activeKey = "command";
+            drawCommandButtonMenu();
+            return;
+        } else if (id.equals("gui.button.clothing")) {
+            activeKey = "clothing";
+            drawClothingMenu();
+            return;
         } else if (id.equals("gui.button.work")) {
             activeKey = "work";
             drawWorkButtonMenu();
@@ -236,9 +270,9 @@ public class GuiInteract extends GuiScreen {
             drawMainButtonMenu();
             activeKey = "main";
             return;
-        } else if (id.equals("gui.button.location")) {
-            activeKey = "location";
-            drawLocationButtonMenu();
+        } else if (id.equals("gui.button.locations")) {
+            activeKey = "locations";
+            drawLocationsButtonMenu();
             return;
         }
 
@@ -269,14 +303,24 @@ public class GuiInteract extends GuiScreen {
         API.addButtons("interact", villager, player, this);
     }
 
+    private void drawCommandButtonMenu() {
+        buttonList.clear();
+        API.addButtons("command", villager, player, this);
+    }
+
+    private void drawClothingMenu() {
+        buttonList.clear();
+        API.addButtons("clothing", villager, player, this);
+    }
+
     private void drawWorkButtonMenu() {
         buttonList.clear();
         API.addButtons("work", villager, player, this);
     }
 
-    private void drawLocationButtonMenu() {
+    private void drawLocationsButtonMenu() {
         buttonList.clear();
-        API.addButtons("location", villager, player, this);
+        API.addButtons("locations", villager, player, this);
     }
 
     private void disableButton(String id) {

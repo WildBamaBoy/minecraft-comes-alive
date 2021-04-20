@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import mca.api.API;
 import mca.api.types.APIButton;
+import mca.api.types.Hair;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
@@ -336,9 +337,9 @@ public class EntityVillagerMCA extends EntityVillager {
     private void initializeSkin() {
         set(CLOTHES, API.getRandomClothing(this));
 
-        String[] hair = API.getRandomHair(this);
-        set(HAIR, hair[0]);
-        set(HAIR_OVERLAY, hair[1]);
+        Hair hair = API.getRandomHair(this);
+        set(HAIR, hair.getTexture());
+        set(HAIR_OVERLAY, hair.getOverlay());
     }
 
     //returns a float between 0 and 1, weighted at 0.5
@@ -737,6 +738,7 @@ public class EntityVillagerMCA extends EntityVillager {
             MCA.getLog().warn("Button not found for key and ID: " + guiKey + ", " + buttonId);
         } else if (button.get().isInteraction()) handleInteraction(player, history, button.get());
 
+        Hair hair;
         switch (buttonId) {
             case "gui.button.move":
                 set(MOVE_STATE, EnumMoveState.MOVE.getId());
@@ -805,26 +807,29 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.infected":
                 set(IS_INFECTED, !get(IS_INFECTED));
                 break;
-            case "gui.button.texture.randomize":
+            case "gui.button.randClothing":
                 set(CLOTHES, API.getRandomClothing(this));
                 break;
-            case "gui.button.profession.randomize":
-                setProfession(ProfessionsMCA.randomProfession());
-                setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
+            case "gui.button.prevClothing":
+                set(CLOTHES, API.getNextClothing(this, get(CLOTHES), -1));
                 break;
-            case "gui.button.gender":
-                EnumGender gender = EnumGender.byId(get(GENDER));
-                if (gender == EnumGender.MALE) {
-                    set(GENDER, EnumGender.FEMALE.getId());
-                } else {
-                    set(GENDER, EnumGender.MALE.getId());
-                }
-                // intentional fall-through here
-            case "gui.button.texture":
-                set(CLOTHES, API.getRandomClothing(this));
+            case "gui.button.nextClothing":
+                set(CLOTHES, API.getNextClothing(this, get(CLOTHES)));
                 break;
-            case "gui.button.random":
-                set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
+            case "gui.button.randHair":
+                hair = API.getRandomHair(this);
+                set(HAIR, hair.getTexture());
+                set(HAIR_OVERLAY, hair.getOverlay());
+                break;
+            case "gui.button.prevHair":
+                hair = API.getNextHair(this, new Hair(get(HAIR), get(HAIR_OVERLAY)), -1);
+                set(HAIR, hair.getTexture());
+                set(HAIR_OVERLAY, hair.getOverlay());
+                break;
+            case "gui.button.nextHair":
+                hair = API.getNextHair(this, new Hair(get(HAIR), get(HAIR_OVERLAY)));
+                set(HAIR, hair.getTexture());
+                set(HAIR_OVERLAY, hair.getOverlay());
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());
