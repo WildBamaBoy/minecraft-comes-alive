@@ -2,8 +2,14 @@
   {
     "gender": "female",
     "paths": [
-      ["mca:skins/clothing/female/child/0.png"],
-      ["mca:skins/clothing/female/child/1.png", "mca:skins/clothing/female/child/1_overlay.png"]
+      ["mca:skins/hair/female/0.png"],
+      ["mca:skins/hair/female/1.png", "mca:skins/hair/female/1_overlay.png"]
+    ]
+  },
+  {
+    "gender": "male",
+    "paths": [
+      ["mca:skins/hair/male/0.png"]
     ]
   }
 ]

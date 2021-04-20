@@ -138,13 +138,9 @@ public class EntityVillagerMCA extends EntityVillager {
             setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
 
-            set(CLOTHES, API.getRandomClothing(this));
-
-            String[] hair = API.getRandomHair(this);
-            set(HAIR, hair[0]);
-            set(HAIR_OVERLAY, hair[1]);
-
             applySpecialAI();
+            initializeGenes();
+            initializeSkin();
         }
     }
 
@@ -177,17 +173,17 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN);
         this.dataManager.register(SLEEPING, false);
 
-        this.dataManager.register(GENE_SIZE, rand.nextFloat());
-        this.dataManager.register(GENE_WIDTH, rand.nextFloat());
-        this.dataManager.register(GENE_BELLY, rand.nextFloat());
-        this.dataManager.register(GENE_BREAST, rand.nextFloat());
-        this.dataManager.register(GENE_MELANIN, rand.nextFloat());
-        this.dataManager.register(GENE_HEMOGLOBIN, rand.nextFloat());
-        this.dataManager.register(GENE_EUMELANIN, rand.nextFloat());
-        this.dataManager.register(GENE_PHEOMELANIN, rand.nextFloat());
-        this.dataManager.register(GENE_SKIN, rand.nextFloat());
-        this.dataManager.register(GENE_HAIR, rand.nextFloat());
-        this.dataManager.register(GENE_FACE, rand.nextFloat());
+        this.dataManager.register(GENE_SIZE, 0.0f);
+        this.dataManager.register(GENE_WIDTH, 0.0f);
+        this.dataManager.register(GENE_BELLY, 0.0f);
+        this.dataManager.register(GENE_BREAST, 0.0f);
+        this.dataManager.register(GENE_MELANIN, 0.0f);
+        this.dataManager.register(GENE_HEMOGLOBIN, 0.0f);
+        this.dataManager.register(GENE_EUMELANIN, 0.0f);
+        this.dataManager.register(GENE_PHEOMELANIN, 0.0f);
+        this.dataManager.register(GENE_SKIN, 0.0f);
+        this.dataManager.register(GENE_HAIR, 0.0f);
+        this.dataManager.register(GENE_FACE, 0.0f);
 
         this.setSilent(false);
     }
@@ -258,6 +254,12 @@ public class EntityVillagerMCA extends EntityVillager {
 
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
+        //older versions
+        if (get(GENE_SIZE) == 0) {
+            initializeGenes();
+            initializeSkin();
+        }
+
         // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
         this.startingAge = nbt.getInteger("startingAge");
         setGrowingAge(nbt.getInteger("Age"));
@@ -319,6 +321,28 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setFloat("gene_skin", get(GENE_SKIN));
         nbt.setFloat("gene_hair", get(GENE_HAIR));
         nbt.setFloat("gene_face", get(GENE_FACE));
+    }
+
+    private void initializeSkin() {
+        set(CLOTHES, API.getRandomClothing(this));
+
+        String[] hair = API.getRandomHair(this);
+        set(HAIR, hair[0]);
+        set(HAIR_OVERLAY, hair[1]);
+    }
+
+    private void initializeGenes() {
+        set(GENE_SIZE, rand.nextFloat());
+        set(GENE_WIDTH, rand.nextFloat());
+        set(GENE_BELLY, rand.nextFloat());
+        set(GENE_BREAST, rand.nextFloat());
+        set(GENE_MELANIN, rand.nextFloat());
+        set(GENE_HEMOGLOBIN, rand.nextFloat());
+        set(GENE_EUMELANIN, rand.nextFloat());
+        set(GENE_PHEOMELANIN, rand.nextFloat());
+        set(GENE_SKIN, rand.nextFloat());
+        set(GENE_HAIR, rand.nextFloat());
+        set(GENE_FACE, rand.nextFloat());
     }
 
     @Override

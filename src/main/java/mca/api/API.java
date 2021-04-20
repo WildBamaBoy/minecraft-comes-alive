@@ -94,11 +94,11 @@ public class API {
                 .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
                 .findFirst();
 
-        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length - 1)]).orElseGet(() -> {
+        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
             MCA.getLog().warn("No clothing found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
             ClothingGroup randomGroup = null;
             while (randomGroup == null || randomGroup.getGender() != gender) {
-                randomGroup = clothing.get(rng.nextInt(clothing.size() - 1));
+                randomGroup = clothing.get(rng.nextInt(clothing.size()));
             }
             return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
         });
@@ -115,7 +115,8 @@ public class API {
 
         Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
 
-        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length - 1)]).orElse(new String[]{""});
+        String[] hair = group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElse(new String[]{""});
+        return new String[]{hair.length == 0 ? "" : hair[0], hair.length == 1 ? "" : hair[1]};
     }
 
     /**
