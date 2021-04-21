@@ -111,7 +111,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
     @Override
     protected ResourceLocation getEntityTexture(EntityVillagerMCA villager) {
         EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-        int skin = (int) Math.min(9, Math.max(1, villager.get(EntityVillagerMCA.GENE_SKIN)));
+        int skin = (int) Math.min(9, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN)));
         String s = String.format("mca:skins/skin/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
         return ResourceLocationCache.getResourceLocationFor(s);
     }

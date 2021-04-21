@@ -3,7 +3,9 @@
     "gender": "male",
     "profession": "minecraft:farmer",
     "paths": [
-      "mca:skins/clothing/male/farmer/0.png"
+      "mca:skins/clothing/male/farmer/0.png",
+      "mca:skins/clothing/male/farmer/1.png",
+      "mca:skins/clothing/male/farmer/2.png"
     ]
   },
   {
@@ -19,7 +21,9 @@
     "gender": "male",
     "profession": "minecraft:librarian",
     "paths": [
-      "mca:skins/clothing/male/librarian/0.png"
+      "mca:skins/clothing/male/librarian/0.png",
+      "mca:skins/clothing/male/librarian/1.png",
+      "mca:skins/clothing/male/librarian/2.png"
     ]
   },
   {
@@ -35,35 +39,45 @@
     "gender": "male",
     "profession": "minecraft:priest",
     "paths": [
-      "mca:skins/clothing/male/priest/0.png"
+      "mca:skins/clothing/male/priest/0.png",
+      "mca:skins/clothing/male/priest/1.png",
+      "mca:skins/clothing/male/priest/2.png"
     ]
   },
   {
     "gender": "female",
     "profession": "minecraft:priest",
     "paths": [
-      "mca:skins/clothing/female/priest/0.png"
+      "mca:skins/clothing/female/priest/0.png",
+      "mca:skins/clothing/female/priest/1.png",
+      "mca:skins/clothing/female/priest/2.png"
     ]
   },
   {
     "gender": "male",
     "profession": "minecraft:smith",
     "paths": [
-      "mca:skins/clothing/male/smith/0.png"
+      "mca:skins/clothing/male/smith/0.png",
+      "mca:skins/clothing/male/smith/1.png",
+      "mca:skins/clothing/male/smith/2.png"
     ]
   },
   {
     "gender": "female",
     "profession": "minecraft:smith",
     "paths": [
-      "mca:skins/clothing/female/smith/0.png"
+      "mca:skins/clothing/female/smith/0.png",
+      "mca:skins/clothing/female/smith/1.png",
+      "mca:skins/clothing/female/smith/2.png"
     ]
   },
   {
     "gender": "male",
     "profession": "minecraft:butcher",
     "paths": [
-      "mca:skins/clothing/male/butcher/0.png"
+      "mca:skins/clothing/male/butcher/0.png",
+      "mca:skins/clothing/male/butcher/1.png",
+      "mca:skins/clothing/male/butcher/2.png"
     ]
   },
   {
@@ -79,29 +93,35 @@
     "gender": "male",
     "profession": "mca:baker",
     "paths": [
-      "mca:skins/clothing/male/baker/0.png"
+      "mca:skins/clothing/male/baker/0.png",
+      "mca:skins/clothing/male/baker/1.png",
+      "mca:skins/clothing/male/baker/2.png"
     ]
   },
   {
     "gender": "female",
     "profession": "mca:baker",
     "paths": [
-      "mca:skins/clothing/female/baker/pullover.png",
-      "mca:skins/clothing/female/baker/leatherSkirt.png"
+      "mca:skins/clothing/female/baker/0.png",
+      "mca:skins/clothing/female/baker/1.png",
+      "mca:skins/clothing/female/baker/2.png"
     ]
   },
   {
   "gender": "male",
   "profession": "mca:miner",
   "paths": [
-    "mca:skins/clothing/male/miner/0.png"
+    "mca:skins/clothing/male/miner/0.png",
+    "mca:skins/clothing/male/miner/1.png",
+    "mca:skins/clothing/male/miner/2.png"
   ]
   },
   {
     "gender": "female",
     "profession": "mca:miner",
     "paths": [
-      "mca:skins/clothing/female/miner/0.png"
+      "mca:skins/clothing/female/miner/0.png",
+      "mca:skins/clothing/female/miner/1.png"
     ]
   },
   {
@@ -122,7 +142,10 @@
     "gender": "male",
     "profession": "mca:child",
     "paths": [
-      "mca:skins/clothing/male/child/0.png"
+      "mca:skins/clothing/male/child/0.png",
+      "mca:skins/clothing/male/child/1.png",
+      "mca:skins/clothing/male/child/2.png",
+      "mca:skins/clothing/male/child/3.png"
     ]
   },
   {
