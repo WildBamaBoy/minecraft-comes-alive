@@ -50,7 +50,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -109,6 +108,8 @@ public class EntityVillagerMCA extends EntityVillager {
     // genes list
     public static final DataParameter<Float>[] GENES = new DataParameter[]{
             GENE_SIZE, GENE_WIDTH, GENE_BELLY, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
+    public static final String[] GENES_NAMES = new String[]{
+            "gene_size", "gene_width", "gene_belly", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -231,17 +232,6 @@ public class EntityVillagerMCA extends EntityVillager {
         set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
         set(SLEEPING, nbt.getBoolean("sleeping"));
 
-        set(GENE_SIZE, nbt.getFloat("gene_size"));
-        set(GENE_WIDTH, nbt.getFloat("gene_width"));
-        set(GENE_BELLY, nbt.getFloat("gene_belly"));
-        set(GENE_BREAST, nbt.getFloat("gene_breast"));
-        set(GENE_MELANIN, nbt.getFloat("gene_melanin"));
-        set(GENE_HEMOGLOBIN, nbt.getFloat("gene_hemoglobin"));
-        set(GENE_EUMELANIN, nbt.getFloat("gene_eumelanin"));
-        set(GENE_PHEOMELANIN, nbt.getFloat("gene_pheomelanin"));
-        set(GENE_SKIN, nbt.getFloat("gene_skin"));
-        set(GENE_FACE, nbt.getFloat("gene_face"));
-
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
         //older versions
@@ -271,16 +261,9 @@ public class EntityVillagerMCA extends EntityVillager {
         set(IS_INFECTED, nbt.getBoolean("infected"));
         set(AGE_STATE, nbt.getInteger("ageState"));
 
-        set(GENE_SIZE, nbt.getFloat("gene_size"));
-        set(GENE_WIDTH, nbt.getFloat("gene_width"));
-        set(GENE_BELLY, nbt.getFloat("gene_belly"));
-        set(GENE_BREAST, nbt.getFloat("gene_breast"));
-        set(GENE_MELANIN, nbt.getFloat("gene_melanin"));
-        set(GENE_HEMOGLOBIN, nbt.getFloat("gene_hemoglobin"));
-        set(GENE_EUMELANIN, nbt.getFloat("gene_eumelanin"));
-        set(GENE_PHEOMELANIN, nbt.getFloat("gene_pheomelanin"));
-        set(GENE_SKIN, nbt.getFloat("gene_skin"));
-        set(GENE_FACE, nbt.getFloat("gene_face"));
+        for (int i = 0; i < GENES.length; i++) {
+            set(GENES[i], nbt.getFloat(GENES_NAMES[i]));
+        }
     }
 
     @Override
@@ -322,16 +305,9 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("hangoutZ", get(HANGOUT_POS).getZ());
         nbt.setBoolean("sleeping", get(SLEEPING));
 
-        nbt.setFloat("gene_size", get(GENE_SIZE));
-        nbt.setFloat("gene_width", get(GENE_WIDTH));
-        nbt.setFloat("gene_belly", get(GENE_BELLY));
-        nbt.setFloat("gene_breast", get(GENE_BREAST));
-        nbt.setFloat("gene_melanin", get(GENE_MELANIN));
-        nbt.setFloat("gene_hemoglobin", get(GENE_HEMOGLOBIN));
-        nbt.setFloat("gene_eumelanin", get(GENE_EUMELANIN));
-        nbt.setFloat("gene_pheomelanin", get(GENE_PHEOMELANIN));
-        nbt.setFloat("gene_skin", get(GENE_SKIN));
-        nbt.setFloat("gene_face", get(GENE_FACE));
+        for (int i = 0; i < GENES.length; i++) {
+            nbt.setFloat(GENES_NAMES[i], get(GENES[i]));
+        }
     }
 
     private void initializeSkin() {
@@ -488,12 +464,8 @@ public class EntityVillagerMCA extends EntityVillager {
     @Nonnull
     public ITextComponent getDisplayName() {
         // translate profession name
-        ITextComponent careerName = new TextComponentTranslation("entity.Villager." + getVanillaCareer().getName());
-        EnumAgeState age = EnumAgeState.byId(get(AGE_STATE));
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : careerName.getUnformattedText();
         String color = this.getProfessionForge() == ProfessionsMCA.bandit ? Constants.Color.RED : this.getProfessionForge() == ProfessionsMCA.guard ? Constants.Color.GREEN : "";
-
-        return new TextComponentString(String.format("%1$s%2$s%3$s (%4$s)", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME), professionName));
+        return new TextComponentString(String.format("%1$s%2$s%3$s", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME)));
     }
 
     @Override
@@ -807,26 +779,26 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.infected":
                 set(IS_INFECTED, !get(IS_INFECTED));
                 break;
-            case "gui.button.randClothing":
+            case "gui.button.clothing.randClothing":
                 set(CLOTHES, API.getRandomClothing(this));
                 break;
-            case "gui.button.prevClothing":
+            case "gui.button.clothing.prevClothing":
                 set(CLOTHES, API.getNextClothing(this, get(CLOTHES), -1));
                 break;
-            case "gui.button.nextClothing":
+            case "gui.button.clothing.nextClothing":
                 set(CLOTHES, API.getNextClothing(this, get(CLOTHES)));
                 break;
-            case "gui.button.randHair":
+            case "gui.button.clothing.randHair":
                 hair = API.getRandomHair(this);
                 set(HAIR, hair.getTexture());
                 set(HAIR_OVERLAY, hair.getOverlay());
                 break;
-            case "gui.button.prevHair":
+            case "gui.button.clothing.prevHair":
                 hair = API.getNextHair(this, new Hair(get(HAIR), get(HAIR_OVERLAY)), -1);
                 set(HAIR, hair.getTexture());
                 set(HAIR_OVERLAY, hair.getOverlay());
                 break;
-            case "gui.button.nextHair":
+            case "gui.button.clothing.nextHair":
                 hair = API.getNextHair(this, new Hair(get(HAIR), get(HAIR_OVERLAY)));
                 set(HAIR, hair.getTexture());
                 set(HAIR_OVERLAY, hair.getOverlay());

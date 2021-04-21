@@ -221,12 +221,23 @@ gui.button.kiss=Kiss
 
 gui.button.village=Village
 
-gui.button.randClothing=Random Clothes
-gui.button.prevClothing=Prev
-gui.button.nextClothing=Next
-gui.button.randHair=Random Hair
-gui.button.nextHair=Prev
-gui.button.prevHair=Next
+gene.size=Size
+gene.width=Width
+gene.belly=Belly
+gene.breast=Breast
+gene.melanin=Melanin
+gene.hemoglobin=Hemoglobin
+gene.eumelanin=Eumelanin
+gene.pheomelanin=Pheomelanin
+gene.skin=Skin
+gene.face=Face
+
+gui.button.clothing.randClothing=Random Clothes
+gui.button.clothing.prevClothing=Prev
+gui.button.clothing.nextClothing=Next
+gui.button.clothing.randHair=Random Hair
+gui.button.clothing.nextHair=Prev
+gui.button.clothing.prevHair=Next
 
 gui.button.prospecting=Prospecting
 gui.button.hunting=Hunting
@@ -275,7 +286,6 @@ gui.label.readytogrow=Ready to grow!
 gui.label.owner=Owner
 gui.label.infected=Infected!
 gui.label.name=Name:
-gui.label.age=Age:
 gui.label.unnamed=Unnamed
 gui.label.rightclicktoname=Right-click to name
 gui.label.minute=Minute

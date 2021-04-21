@@ -2,9 +2,9 @@
     {
       "id": 1,
       "identifier": "gui.button.backarrow",
-      "x": 120,
+      "x": 115,
       "y": -115,
-      "width": 15,
+      "width": 20,
       "height": 20,
       "notifyServer": false,
       "targetServer": false,

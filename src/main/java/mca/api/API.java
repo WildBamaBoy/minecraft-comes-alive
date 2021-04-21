@@ -1,6 +1,8 @@
 package mca.api;
 
 import com.google.common.base.Charsets;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import mca.api.types.*;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
@@ -21,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -29,6 +32,7 @@ import java.util.*;
 public class API {
     private static final Map<String, Gift> giftMap = new HashMap<>();
     private static final Map<String, APIButton[]> buttonMap = new HashMap<>();
+    private static final Map<String, APIIcon> iconMap = new HashMap<>();
     private static final List<String> maleNames = new ArrayList<>();
     private static final List<String> femaleNames = new ArrayList<>();
     private static final List<ClothingGroup> clothing = new ArrayList<>();
@@ -65,6 +69,10 @@ public class API {
         buttonMap.put("locations", Util.readResourceAsJSON("api/gui/locations.json", APIButton[].class));
         buttonMap.put("command", Util.readResourceAsJSON("api/gui/command.json", APIButton[].class));
         buttonMap.put("clothing", Util.readResourceAsJSON("api/gui/clothing.json", APIButton[].class));
+
+        // Icons
+        Type mapType = new TypeToken<Map<String, APIIcon>>() {}.getType();
+        iconMap.putAll((new Gson()).fromJson(Util.readResource("api/gui/icons.json"), mapType));
 
         // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
@@ -169,6 +177,20 @@ public class API {
      */
     public static Optional<APIButton> getButtonById(String key, String id) {
         return Arrays.stream(buttonMap.get(key)).filter(b -> b.getIdentifier().equals(id)).findFirst();
+    }
+
+    /**
+     * Returns an API icon based on its key
+     *
+     * @param key String key of icon
+     * @return Instance of APIIcon matching the ID provided
+     */
+    public static APIIcon getIcon(String key) {
+        if (!iconMap.containsKey(key)) {
+            MCA.getLog().error("Icon " + key + " does not exist!");
+            iconMap.put(key, new APIIcon(0, 0, 0, 0));
+        }
+        return iconMap.get(key);
     }
 
     /**

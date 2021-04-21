@@ -1,19 +1,24 @@
 package mca.client.gui;
 
 import mca.api.API;
+import mca.api.types.APIIcon;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
+import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerHistory;
+import mca.enums.EnumAgeState;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMoveState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -21,9 +26,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
+
+import static mca.entity.EntityVillagerMCA.AGE_STATE;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteract extends GuiScreen {
@@ -36,20 +43,10 @@ public class GuiInteract extends GuiScreen {
 
     private int timeSinceLastClick;
 
-    //icon UV coords
-    private final int marriedIconU = 0;
-    private final int engagedIconU = 64;
-    private final int notMarriedIconU = 16;
-    private final int parentsIconU = 32;
-    private final int giftIconU = 48;
-    private final int redHeartIconU = 80;
-    private final int blackHeartIconU = 96;
-    private final int goldHeartIconU = 112;
+    private float iconScale = 1.5f;
 
     private int mouseX;
     private int mouseY;
-
-    private final int positionIcons = 110;
 
     // Tracks which page we're on in the GUI for sending button events
     private String activeKey;
@@ -138,61 +135,92 @@ public class GuiInteract extends GuiScreen {
         }
     }
 
+    private void drawIcon(String key) {
+        APIIcon icon = API.getIcon(key);
+        this.drawTexturedModalRect((float) (icon.getX() / iconScale), (float) (icon.getY() / iconScale), icon.getU(), icon.getV(), 16, 16);
+    }
+
+    private void drawHoveringIconText(String text, String key) {
+        APIIcon icon = API.getIcon(key);
+        this.drawHoveringText(text, icon.getX(), icon.getY());
+    }
+
+    private void drawHoveringIconText(List<String> text, String key) {
+        APIIcon icon = API.getIcon(key);
+        this.drawHoveringText(text, icon.getX() + 64, icon.getY() + 64);
+    }
+
     private void drawIcons() {
-        PlayerHistory history = villager.getPlayerHistoryFor(player.getUniqueID());
         EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
-        int marriageIconU =
-                marriageState == EnumMarriageState.MARRIED ? marriedIconU :
-                        marriageState == EnumMarriageState.ENGAGED ? engagedIconU :
-                                notMarriedIconU;
-        int heartIconU =
-                history.getHearts() < 0 ? blackHeartIconU :
-                        history.getHearts() >= 100 ? goldHeartIconU :
-                                redHeartIconU;
+        String marriageIcon =
+                marriageState == EnumMarriageState.MARRIED ? "married" :
+                        marriageState == EnumMarriageState.ENGAGED ? "engaged" :
+                                "notMarried";
+
+        PlayerHistory history = villager.getPlayerHistoryFor(player.getUniqueID());
+        String heartIcon =
+                history.getHearts() < 0 ? "blackHeart" :
+                        history.getHearts() >= 100 ? "goldHeart" :
+                                "redHeart";
+
+        String emeraldIcon = "neutralEmerald";
 
         GL11.glPushMatrix();
         {
             GL11.glColor3f(255.0F, 255.0F, 255.0F);
-            GL11.glScalef(2.0F, 2.0F, 2.0F);
+            GL11.glScalef(iconScale, iconScale, iconScale);
 
             this.mc.getTextureManager().bindTexture(ICON_TEXTURES);
 
-            this.drawTexturedModalRect(12, positionIcons / 2, heartIconU, 0, 16, 16);
-            this.drawTexturedModalRect(12, (positionIcons + 25) / 2, marriageIconU, 0, 16, 16);
+            drawIcon(marriageIcon);
+            drawIcon(heartIcon);
+            drawIcon(emeraldIcon);
+            drawIcon("genes");
 
-            if (canDrawParentsIcon()) this.drawTexturedModalRect(12, (positionIcons + 50) / 2, parentsIconU, 0, 16, 16);
-
-            if (canDrawGiftIcon()) this.drawTexturedModalRect(12, (positionIcons + 75) / 2, giftIconU, 0, 16, 16);
+            if (canDrawParentsIcon()) drawIcon("parents");
+            if (canDrawGiftIcon()) drawIcon("gift");
         }
         GL11.glPopMatrix();
     }
 
     private void drawTextPopups() {
         //general information
-        int h = 18;
+        ITextComponent careerName = new TextComponentTranslation("entity.Villager." + villager.getVanillaCareer().getName());
+        EnumAgeState age = EnumAgeState.byId(villager.get(AGE_STATE));
+        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : careerName.getUnformattedText();
+
+        //name or state tip (gifting, ...)
+        int h = 17;
         if (inGiftMode) {
             this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.giveGift"), 10, 28);
         } else {
             drawHoveringText(villager.getName(), 10, 28);
         }
-        String profession = Objects.requireNonNull(villager.getProfessionForge().getRegistryName()).toString();
-        String[] test = profession.split(":");
-        drawHoveringText(MCA.getLocalizer().localize("profession." + test[1]), 10, 30 + h);
-        //drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.age", String.valueOf(villager.getGrowingAge())), 10, 30 + h * 2);
+
+        //age or profession
+        drawHoveringText(professionName, 10, 30 + h);
+
+        //personality
         drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.mood", "(WIP)"), 10, 30 + h * 2);
         drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.personality", "(WIP)"), 10, 30 + h * 3);
         drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.happiness", "(WIP)"), 10, 30 + h * 4);
 
-        //health
-        if (hoveringOverHeartsIcon()) {
+        //hearts
+        if (hoveringOverIcon("redHeart")) {
             int hearts = villager.getPlayerHistoryFor(player.getUniqueID()).getHearts();
-            this.drawHoveringText(hearts + " hearts", 50, positionIcons + 25);
+            drawHoveringIconText(hearts + " hearts", "redHeart");
+        }
+
+        //hearts
+        if (hoveringOverIcon("neutralEmerald")) {
+            //int hearts = villager.getPlayerHistoryFor(player.getUniqueID()).getHearts();
+            drawHoveringIconText("Happiness: 5", "neutralEmerald");
         }
 
         //marriage status
         EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
         String marriageInfo;
-        if (hoveringOverMarriageIcon()) {
+        if (hoveringOverIcon("married")) {
             String spouseName = villager.get(EntityVillagerMCA.SPOUSE_NAME);
             if (marriageState == EnumMarriageState.MARRIED)
                 marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
@@ -200,34 +228,36 @@ public class GuiInteract extends GuiScreen {
                 marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
             else marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
 
-            this.drawHoveringText(marriageInfo, 50, positionIcons + 25 + 25);
+            drawHoveringIconText(marriageInfo, "married");
         }
 
         //parents
-        if (canDrawParentsIcon() && hoveringOverParentsIcon()) {
+        if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
             ParentData data = ParentData.fromNBT(villager.get(EntityVillagerMCA.PARENTS));
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), 50, positionIcons + 25 + 50);
+            drawHoveringIconText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), "parents");
         }
 
         //gift
-        if (canDrawGiftIcon() && hoveringOverGiftIcon())
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.gift"), 50, positionIcons + 25 + 75);
+        if (canDrawGiftIcon() && hoveringOverIcon("gift"))
+            drawHoveringIconText(MCA.getLocalizer().localize("gui.interact.label.gift"), "gift");
+
+        //genes
+        if (hoveringOverIcon("genes")) {
+            List<String> lines = new LinkedList<>();
+            lines.add("Genes");
+            for (int i = 0; i < EntityVillagerMCA.GENES.length; i++) {
+                String key = EntityVillagerMCA.GENES_NAMES[i].replace("_", ".");
+                int value = (int) (villager.get(EntityVillagerMCA.GENES[i]) * 100);
+                lines.add(String.format("%s: %d%%", MCA.getLocalizer().localize(key), value));
+            }
+            drawHoveringIconText(lines, "genes");
+        }
     }
 
-    private boolean hoveringOverHeartsIcon() {
-        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons - 8 && mouseY <= positionIcons + 24;
-    }
-
-    private boolean hoveringOverMarriageIcon() {
-        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons + 25 - 8 && mouseY <= positionIcons + 25 + 24;
-    }
-
-    private boolean hoveringOverParentsIcon() {
-        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons + 50 - 8 && mouseY <= positionIcons + 50 + 24;
-    }
-
-    private boolean hoveringOverGiftIcon() {
-        return mouseX <= 64 && mouseX >= 32 && mouseY >= positionIcons + 75 - 8 && mouseY <= positionIcons + 75 + 24;
+    //checks if the mouse hovers over a specified button
+    private boolean hoveringOverIcon(String key) {
+        APIIcon icon = API.getIcon(key);
+        return mouseX > icon.getX() && mouseX < icon.getX() + 16 * iconScale && mouseY > icon.getY() && mouseY < icon.getY() + 16 * iconScale;
     }
 
     private boolean canDrawParentsIcon() {
@@ -279,6 +309,11 @@ public class GuiInteract extends GuiScreen {
         /* Anything that should notify the server is handled here */
         else if (btn.getApiButton().isNotifyServer()) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, id, villager.getUniqueID()));
+
+            //don't exist
+            if (id.contains("gui.button.clothing")) {
+                return;
+            }
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
             disableAllButtons();
