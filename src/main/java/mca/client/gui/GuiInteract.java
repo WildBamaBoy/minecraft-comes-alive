@@ -142,12 +142,12 @@ public class GuiInteract extends GuiScreen {
 
     private void drawHoveringIconText(String text, String key) {
         APIIcon icon = API.getIcon(key);
-        this.drawHoveringText(text, icon.getX(), icon.getY());
+        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 32);
     }
 
     private void drawHoveringIconText(List<String> text, String key) {
         APIIcon icon = API.getIcon(key);
-        this.drawHoveringText(text, icon.getX() + 64, icon.getY() + 64);
+        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 32);
     }
 
     private void drawIcons() {

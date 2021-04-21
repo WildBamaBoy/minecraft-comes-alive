@@ -31,7 +31,7 @@ public class LayerFace extends LayerVillager {
     String getTexture(EntityLivingBase entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-        int skin = (int) Math.min(1, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN)));
+        int skin = (int) Math.min(1, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN) * 2));
         return String.format("mca:skins/faces/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
     }
 }

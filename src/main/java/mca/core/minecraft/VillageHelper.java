@@ -44,8 +44,7 @@ public class VillageHelper {
 
     // if the population is low, find a couple and let them have a child
     private static void procreate(World world, Village village) {
-        //TODO config says every 5 minutes, actual time is 5 sec, increase that time as it's too fast anyways
-        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 100.0f) {
+        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 1000.0f) {
             List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
             if (allVillagers.size() < village.getNumVillageDoors() * MCA.getConfig().childrenLimit / 100.0f) {
                 // look for married women without baby
@@ -79,7 +78,7 @@ public class VillageHelper {
 
     // if the amount of couples is low, let them marry
     private static void marry(World world, Village village) {
-        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 100.0f) {
+        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 1000.0f) {
             List<EntityVillagerMCA> villagers = new ArrayList<>();
             List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
             for (EntityVillagerMCA v : allVillagers) {

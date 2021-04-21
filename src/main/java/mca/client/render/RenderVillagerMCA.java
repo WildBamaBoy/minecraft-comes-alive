@@ -41,8 +41,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         //dimensions TODO the head gets deformed when turning
         float height = villager.get(EntityVillagerMCA.GENE_SIZE) * 0.5f + 0.75f;
         float width = villager.get(EntityVillagerMCA.GENE_WIDTH) * 0.5f + 0.75f;
-        float belly = villager.get(EntityVillagerMCA.GENE_BELLY) * 0.5f + 0.75f;
-        GlStateManager.scale(width, height, belly);
+        GlStateManager.scale(width, height, width);
 
         if (villager.isRiding()) {
             GlStateManager.translate(0, 0.5, 0);
@@ -111,7 +110,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
     @Override
     protected ResourceLocation getEntityTexture(EntityVillagerMCA villager) {
         EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-        int skin = (int) Math.min(9, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN)));
+        int skin = (int) Math.min(9, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN) * 10));
         String s = String.format("mca:skins/skin/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
         return ResourceLocationCache.getResourceLocationFor(s);
     }

@@ -42,7 +42,7 @@ public class MCAServer {
     public void tick() {
         serverTicks++;
 
-        if (serverTicks >= 100) {
+        if (serverTicks >= 1200) {
             World overworld = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
             VillageHelper.tick(overworld);
             serverTicks = 0;

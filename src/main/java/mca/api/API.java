@@ -128,7 +128,7 @@ public class API {
             String[] arr = g.getPaths();
             for (int i = 0; i < arr.length; i++) {
                 if (arr[i].equals(current)) {
-                    return arr[(i + next) % arr.length];
+                    return arr[Math.floorMod(i + next, arr.length)];
                 }
             }
             return current;
@@ -162,7 +162,7 @@ public class API {
             Hair[] arr = g.getPaths();
             for (int i = 0; i < arr.length; i++) {
                 if (arr[i].equals(current)) {
-                    return arr[(i + next) % arr.length];
+                    return arr[Math.floorMod(i + next, arr.length)];
                 }
             }
             return current;
