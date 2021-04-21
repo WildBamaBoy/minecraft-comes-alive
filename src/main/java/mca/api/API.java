@@ -1,9 +1,9 @@
 package mca.api;
 
 import com.google.common.base.Charsets;
-import mca.api.types.APIButton;
-import mca.api.types.Gift;
-import mca.api.types.SkinsGroup;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import mca.api.types.*;
 import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -23,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -31,9 +32,11 @@ import java.util.*;
 public class API {
     private static final Map<String, Gift> giftMap = new HashMap<>();
     private static final Map<String, APIButton[]> buttonMap = new HashMap<>();
+    private static final Map<String, APIIcon> iconMap = new HashMap<>();
     private static final List<String> maleNames = new ArrayList<>();
     private static final List<String> femaleNames = new ArrayList<>();
-    private static final List<SkinsGroup> skinGroups = new ArrayList<>();
+    private static final List<ClothingGroup> clothing = new ArrayList<>();
+    private static final List<HairGroup> hair = new ArrayList<>();
     private static Random rng;
 
     /**
@@ -43,8 +46,8 @@ public class API {
         rng = new Random();
 
         // Load skins
-        SkinsGroup[] skins = Util.readResourceAsJSON("api/skins.json", SkinsGroup[].class);
-        Collections.addAll(skinGroups, skins);
+        Collections.addAll(clothing, Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class));
+        Collections.addAll(hair, Util.readResourceAsJSON("api/hair.json", HairGroup[].class));
 
         // Load names
         InputStream namesStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
@@ -62,9 +65,14 @@ public class API {
         buttonMap.put("main", Util.readResourceAsJSON("api/gui/main.json", APIButton[].class));
         buttonMap.put("interact", Util.readResourceAsJSON("api/gui/interact.json", APIButton[].class));
         buttonMap.put("debug", Util.readResourceAsJSON("api/gui/debug.json", APIButton[].class));
-        buttonMap.put("editor", Util.readResourceAsJSON("api/gui/editor.json", APIButton[].class));
         buttonMap.put("work", Util.readResourceAsJSON("api/gui/work.json", APIButton[].class));
-        buttonMap.put("location", Util.readResourceAsJSON("api/gui/location.json", APIButton[].class));
+        buttonMap.put("locations", Util.readResourceAsJSON("api/gui/locations.json", APIButton[].class));
+        buttonMap.put("command", Util.readResourceAsJSON("api/gui/command.json", APIButton[].class));
+        buttonMap.put("clothing", Util.readResourceAsJSON("api/gui/clothing.json", APIButton[].class));
+
+        // Icons
+        Type mapType = new TypeToken<Map<String, APIIcon>>() {}.getType();
+        iconMap.putAll((new Gson()).fromJson(Util.readResource("api/gui/icons.json"), mapType));
 
         // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
@@ -77,47 +85,88 @@ public class API {
         }
     }
 
+    //returns the clothing group based of gender and profession
+    private static Optional<ClothingGroup> getClothingGroup(EntityVillagerMCA villager) {
+        VillagerRegistry.VillagerProfession profession = villager.getProfessionForge();
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+
+        return clothing.stream()
+                .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
+                .findFirst();
+    }
+
     /**
      * Returns a random skin based on the profession and gender provided.
      *
      * @param villager The villager who will be assigned the random skin.
      * @return String location of the random skin
      */
-    public static String getRandomSkin(EntityVillagerMCA villager) {
-        VillagerRegistry.VillagerProfession profession = villager.getProfessionForge();
-        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-        String name = villager.get(EntityVillagerMCA.VILLAGER_NAME);
-
-        //Special-case skins
-        if (gender == EnumGender.MALE) {
-            switch (name.toLowerCase()) {
-                case "pewdiepie": return "mca:skins/male/special/pewdiepie_boy.png";
-                case "sven": return "mca:skins/male/special/sven.png";
-                case "noob":
-                case "noober":
-                case "neeber": return "mca:skins/male/special/noob.png";
-                case "shepard": return "mca:skins/male/special/shepard.png";
-                case "minsc": return "mca:skins/male/special/minsc.png";
-            }
-        } else if (gender == EnumGender.FEMALE) {
-            switch (name.toLowerCase()) {
-                case "pewdiepie": return "mca:skins/female/special/pewdiepie_girl.png";
-            }
-        }
-
+    public static String getRandomClothing(EntityVillagerMCA villager) {
         //Default skin behavior
-        Optional<SkinsGroup> group = skinGroups.stream()
-                        .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
-                        .findFirst();
+        Optional<ClothingGroup> group = getClothingGroup(villager);
 
-        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length - 1)]).orElseGet(() -> {
-            MCA.getLog().warn("No skin found for profession: `" + profession.getRegistryName() + "`. A random skin will be generated.");
-            SkinsGroup randomGroup = null;
+        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
+            ClothingGroup randomGroup = null;
+            EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
             while (randomGroup == null || randomGroup.getGender() != gender) {
-                randomGroup = skinGroups.get(rng.nextInt(skinGroups.size() - 1));
+                randomGroup = clothing.get(rng.nextInt(clothing.size()));
             }
             return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
         });
+    }
+
+    //returns the next clothing
+    public static String getNextClothing(EntityVillagerMCA villager, String current) {
+        return getNextClothing(villager, current, 1);
+    }
+
+    //returns the next clothing with given offset to current
+    public static String getNextClothing(EntityVillagerMCA villager, String current, int next) {
+        Optional<ClothingGroup> group = getClothingGroup(villager);
+
+        return group.map(g -> {
+            String[] arr = g.getPaths();
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i].equals(current)) {
+                    return arr[Math.floorMod(i + next, arr.length)];
+                }
+            }
+            return current;
+        }).orElse(current);
+    }
+
+    /**
+     * Returns a random hair and optional overlay based on the gender provided.
+     *
+     * @param villager The villager who will be assigned the hair.
+     * @return String location of the random skin
+     */
+    public static Hair getRandomHair(EntityVillagerMCA villager) {
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
+
+        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElse(new Hair());
+    }
+
+    //returns the next clothing
+    public static Hair getNextHair(EntityVillagerMCA villager, Hair current) {
+        return getNextHair(villager, current, 1);
+    }
+
+    //returns the next clothing with given offset to current
+    public static Hair getNextHair(EntityVillagerMCA villager, Hair current, int next) {
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
+
+        return group.map(g -> {
+            Hair[] arr = g.getPaths();
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i].equals(current)) {
+                    return arr[Math.floorMod(i + next, arr.length)];
+                }
+            }
+            return current;
+        }).orElse(current);
     }
 
     /**
@@ -131,12 +180,27 @@ public class API {
     }
 
     /**
+     * Returns an API icon based on its key
+     *
+     * @param key String key of icon
+     * @return Instance of APIIcon matching the ID provided
+     */
+    public static APIIcon getIcon(String key) {
+        if (!iconMap.containsKey(key)) {
+            MCA.getLog().error("Icon " + key + " does not exist!");
+            iconMap.put(key, new APIIcon(0, 0, 0, 0));
+        }
+        return iconMap.get(key);
+    }
+
+    /**
      * Returns the value of a gift from an ItemStack
      *
      * @param stack ItemStack containing the gift item
      * @return int value determining the gift value of a stack
      */
     public static int getGiftValueFromStack(ItemStack stack) {
+        if (stack.isEmpty()) return 0;
         if (stack.getItem().getRegistryName() == null) return 0;
 
         String name = stack.getItem().getRegistryName().toString();

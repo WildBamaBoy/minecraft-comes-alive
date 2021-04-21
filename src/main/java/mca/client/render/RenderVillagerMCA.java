@@ -1,10 +1,12 @@
 package mca.client.render;
 
+import mca.client.colors.SkinColors;
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumAgeState;
+import mca.enums.EnumGender;
+import mca.util.ResourceLocationCache;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,6 +24,9 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     public RenderVillagerMCA(RenderManager manager) {
         super(manager, new ModelVillagerMCA(), 0.5F);
+        this.addLayer(new LayerClothing(this));
+        this.addLayer(new LayerHair(this));
+        this.addLayer(new LayerFace(this));
         this.addLayer(new LayerBipedArmor(this));
         this.addLayer(new LayerHeldItem(this));
     }
@@ -33,14 +38,30 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
             GlStateManager.scale(scaleForAge, scaleForAge, scaleForAge);
         }
 
+        //dimensions TODO the head gets deformed when turning
+        float height = villager.get(EntityVillagerMCA.GENE_SIZE) * 0.5f + 0.75f;
+        float width = villager.get(EntityVillagerMCA.GENE_WIDTH) * 0.5f + 0.75f;
+        GlStateManager.scale(width, height, width);
+
         if (villager.isRiding()) {
             GlStateManager.translate(0, 0.5, 0);
         }
     }
 
     @Override
+    public void doRender(EntityVillagerMCA villager, double x, double y, double z, float entityYaw, float partialTicks) {
+        float melanin = villager.get(EntityVillagerMCA.GENE_MELANIN);
+        float hemoglobin = villager.get(EntityVillagerMCA.GENE_HEMOGLOBIN);
+
+        double[] color = SkinColors.getColor(melanin, hemoglobin);
+        GlStateManager.color((float) color[0], (float) color[1], (float) color[2]);
+
+        super.doRender(villager, x, y, z, entityYaw, partialTicks);
+    }
+
+    @Override
     public void renderName(EntityVillagerMCA entity, double x, double y, double z) {
-        super.renderName(entity, x, y ,z);
+        super.renderName(entity, x, y, z);
         if (canRenderName(entity)) {
             if (entity.getHealth() < entity.getMaxHealth()) {
                 renderHealth(entity, x, y, z, (int) entity.getHealth(), (int) entity.getMaxHealth());
@@ -61,8 +82,8 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         final int darkHeartU = 96;
         int heartsDrawn = 0;
 
-        float maxHealthF = Math.round((float)maxHealth / 2.0F);
-        float currentHealthF = Math.round((float)currentHealth / 2.0F);
+        float maxHealthF = Math.round((float) maxHealth / 2.0F);
+        float currentHealthF = Math.round((float) currentHealth / 2.0F);
         int heartsMax = Math.round((maxHealthF / maxHealthF) * 10.0F);
         int heartsToDraw = Math.round((currentHealthF / maxHealthF) * 10.0F);
 
@@ -70,14 +91,15 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
             int heartU = i < heartsToDraw ? redHeartU : darkHeartU;
             heartsDrawn++;
 
-            GL11.glPushMatrix();{
+            GL11.glPushMatrix();
+            {
                 GL11.glTranslatef((float) posX + 0.0F, (float) posY + villager.height + 1.0F, (float) posZ);
                 GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
                 GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glTranslatef(-2.0F, 2.0F, -2.0F);
-                drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - 45, (int)posY - 4, heartU, 0, 16, 16);
+                drawTexturedRectangle(gui, (int) posX + (heartsDrawn * 8) - 45, (int) posY - 4, heartU, 0, 16, 16);
             }
             GL11.glPopMatrix();
             GL11.glDepthMask(true);
@@ -87,7 +109,10 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     @Override
     protected ResourceLocation getEntityTexture(EntityVillagerMCA villager) {
-        return villager.getTextureResourceLocation();
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        int skin = (int) Math.min(9, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN) * 10));
+        String s = String.format("mca:skins/skin/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
+        return ResourceLocationCache.getResourceLocationFor(s);
     }
 
     @Override
@@ -96,8 +121,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         return distance < 5F;
     }
 
-    public static void drawTexturedRectangle(ResourceLocation texture, int x, int y, int u, int v, int width, int height)
-    {
+    public static void drawTexturedRectangle(ResourceLocation texture, int x, int y, int u, int v, int width, int height) {
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
         float f = 0.00390625F;
@@ -107,17 +131,17 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
         BufferBuilder buffer = tessellator.getBuffer();
 
         buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        buffer.pos(x + 0, y + height, 0.0D).tex((u + 0) * f, ((v + height) * f1)).endVertex();
+        buffer.pos(x, y + height, 0.0D).tex((u) * f, ((v + height) * f1)).endVertex();
         buffer.pos(x + width, y + height, 0.0D).tex((u + width) * f, ((v + height) * f1)).endVertex();
-        buffer.pos(x + width, y + 0,	0.0D).tex((u + width) * f, ((v + 0) * f1)).endVertex();
-        buffer.pos(x + 0, y + 0, 0.0D).tex((u + 0) * f, ((v + 0) * f1)).endVertex();
+        buffer.pos(x + width, y, 0.0D).tex((u + width) * f, ((v) * f1)).endVertex();
+        buffer.pos(x, y, 0.0D).tex((u) * f, ((v) * f1)).endVertex();
         tessellator.draw();
     }
 
     @Override
     protected void renderLivingAt(EntityVillagerMCA entityLiving, double x, double y, double z) {
         if (entityLiving.isEntityAlive() && entityLiving.isSleeping()) {
-            super.renderLivingAt(entityLiving, x + (double)entityLiving.renderOffsetX, y + (double)entityLiving.renderOffsetY, z + (double)entityLiving.renderOffsetZ);
+            super.renderLivingAt(entityLiving, x + (double) entityLiving.renderOffsetX, y + (double) entityLiving.renderOffsetY, z + (double) entityLiving.renderOffsetZ);
         } else {
             super.renderLivingAt(entityLiving, x, y, z);
         }

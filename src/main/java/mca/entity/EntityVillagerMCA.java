@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import mca.api.API;
 import mca.api.types.APIButton;
+import mca.api.types.Hair;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
@@ -49,7 +50,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -69,10 +69,10 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final int VANILLA_CAREER_LEVEL_FIELD_INDEX = 14;
 
     public static final DataParameter<String> VILLAGER_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
-    public static final DataParameter<String> TEXTURE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
+    public static final DataParameter<String> CLOTHES = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
+    public static final DataParameter<String> HAIR = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
+    public static final DataParameter<String> HAIR_OVERLAY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
     public static final DataParameter<Integer> GENDER = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
-    public static final DataParameter<Float> GIRTH = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
-    public static final DataParameter<Float> TALLNESS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<NBTTagCompound> PLAYER_HISTORY_MAP = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.COMPOUND_TAG);
     public static final DataParameter<Integer> MOVE_STATE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
     public static final DataParameter<String> SPOUSE_NAME = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.STRING);
@@ -92,6 +92,24 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<BlockPos> WORKPLACE_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<BlockPos> HANGOUT_POS = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BLOCK_POS);
     public static final DataParameter<Boolean> SLEEPING = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+
+    // genes
+    public static final DataParameter<Float> GENE_SIZE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_WIDTH = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_BELLY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_BREAST = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_MELANIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_HEMOGLOBIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_EUMELANIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_PHEOMELANIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_SKIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> GENE_FACE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+
+    // genes list
+    public static final DataParameter<Float>[] GENES = new DataParameter[]{
+            GENE_SIZE, GENE_WIDTH, GENE_BELLY, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
+    public static final String[] GENES_NAMES = new String[]{
+            "gene_size", "gene_width", "gene_belly", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -119,23 +137,27 @@ public class EntityVillagerMCA extends EntityVillager {
         if (!worldIn.isRemote) {
             EnumGender eGender = gender.isPresent() ? gender.get() : EnumGender.getRandom();
             set(GENDER, eGender.getId());
+
             set(VILLAGER_NAME, API.getRandomName(eGender));
+
             setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
-            set(TEXTURE, API.getRandomSkin(this));
 
             applySpecialAI();
+            initializeGenes();
+            initializeSkin();
         }
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
+
         this.dataManager.register(VILLAGER_NAME, "");
-        this.dataManager.register(TEXTURE, "");
+        this.dataManager.register(CLOTHES, "");
+        this.dataManager.register(HAIR, "");
+        this.dataManager.register(HAIR_OVERLAY, "");
         this.dataManager.register(GENDER, EnumGender.MALE.getId());
-        this.dataManager.register(GIRTH, 0.0F);
-        this.dataManager.register(TALLNESS, 0.0F);
         this.dataManager.register(PLAYER_HISTORY_MAP, new NBTTagCompound());
         this.dataManager.register(MOVE_STATE, EnumMoveState.MOVE.getId());
         this.dataManager.register(SPOUSE_NAME, "");
@@ -155,6 +177,11 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(WORKPLACE_POS, BlockPos.ORIGIN);
         this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN);
         this.dataManager.register(SLEEPING, false);
+
+        for (DataParameter<Float> dp : GENES) {
+            this.dataManager.register(dp, 0.5f);
+        }
+
         this.setSilent(false);
     }
 
@@ -186,19 +213,15 @@ public class EntityVillagerMCA extends EntityVillager {
     @Override
     public void readEntityFromNBT(NBTTagCompound nbt) {
         super.readEntityFromNBT(nbt);
-        set(VILLAGER_NAME, nbt.getString("name"));
-        set(GENDER, nbt.getInteger("gender"));
-        set(TEXTURE, nbt.getString("texture"));
-        set(GIRTH, nbt.getFloat("girth"));
-        set(TALLNESS, nbt.getFloat("tallness"));
+
+        readAppearanceFromNBT(nbt);
+
         set(PLAYER_HISTORY_MAP, nbt.getCompoundTag("playerHistoryMap"));
         set(MOVE_STATE, nbt.getInteger("moveState"));
         set(MARRIAGE_STATE, nbt.getInteger("marriageState"));
         set(SPOUSE_UUID, Optional.fromNullable(nbt.getUniqueId("spouseUUID")));
         set(SPOUSE_NAME, nbt.getString("spouseName"));
         set(IS_PROCREATING, nbt.getBoolean("isProcreating"));
-        set(IS_INFECTED, nbt.getBoolean("infected"));
-        set(AGE_STATE, nbt.getInteger("ageState"));
         set(ACTIVE_CHORE, nbt.getInteger("activeChore"));
         set(CHORE_ASSIGNING_PLAYER, Optional.fromNullable(nbt.getUniqueId("choreAssigningPlayer")));
         set(HAS_BABY, nbt.getBoolean("hasBaby"));
@@ -208,7 +231,14 @@ public class EntityVillagerMCA extends EntityVillager {
         set(HANGOUT_POS, new BlockPos(nbt.getInteger("hangoutX"), nbt.getInteger("hangoutY"), nbt.getInteger("hangoutZ")));
         set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
         set(SLEEPING, nbt.getBoolean("sleeping"));
+
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
+
+        //older versions
+        if (get(GENE_SIZE) == 0) {
+            initializeGenes();
+            initializeSkin();
+        }
 
         // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
         this.startingAge = nbt.getInteger("startingAge");
@@ -221,15 +251,31 @@ public class EntityVillagerMCA extends EntityVillager {
         applySpecialAI();
     }
 
+    //loads/copy appearance relevant data
+    public void readAppearanceFromNBT(NBTTagCompound nbt) {
+        set(GENDER, nbt.getInteger("gender"));
+        set(VILLAGER_NAME, nbt.getString("name"));
+        set(CLOTHES, nbt.getString("clothes"));
+        set(HAIR, nbt.getString("hair"));
+        set(HAIR_OVERLAY, nbt.getString("hair_overlay"));
+        set(IS_INFECTED, nbt.getBoolean("infected"));
+        set(AGE_STATE, nbt.getInteger("ageState"));
+
+        for (int i = 0; i < GENES.length; i++) {
+            set(GENES[i], nbt.getFloat(GENES_NAMES[i]));
+        }
+    }
+
     @Override
     public void writeEntityToNBT(NBTTagCompound nbt) {
         super.writeEntityToNBT(nbt);
+
         nbt.setUniqueId("uuid", this.getUniqueID()); // for SavedVillagers
         nbt.setString("name", get(VILLAGER_NAME));
-        nbt.setString("texture", get(TEXTURE));
+        nbt.setString("clothes", get(CLOTHES));
+        nbt.setString("hair", get(HAIR));
+        nbt.setString("hair_overlay", get(HAIR_OVERLAY));
         nbt.setInteger("gender", get(GENDER));
-        nbt.setFloat("girth", get(GIRTH));
-        nbt.setFloat("tallness", get(TALLNESS));
         nbt.setTag("playerHistoryMap", get(PLAYER_HISTORY_MAP));
         nbt.setInteger("moveState", get(MOVE_STATE));
         nbt.setInteger("marriageState", get(MARRIAGE_STATE));
@@ -258,6 +304,51 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("hangoutY", get(HANGOUT_POS).getY());
         nbt.setInteger("hangoutZ", get(HANGOUT_POS).getZ());
         nbt.setBoolean("sleeping", get(SLEEPING));
+
+        for (int i = 0; i < GENES.length; i++) {
+            nbt.setFloat(GENES_NAMES[i], get(GENES[i]));
+        }
+    }
+
+    private void initializeSkin() {
+        set(CLOTHES, API.getRandomClothing(this));
+
+        Hair hair = API.getRandomHair(this);
+        set(HAIR, hair.getTexture());
+        set(HAIR_OVERLAY, hair.getOverlay());
+    }
+
+    //returns a float between 0 and 1, weighted at 0.5
+    private float centeredRandom() {
+        return (float) Math.min(1.0, Math.max(0.0, (this.rand.nextFloat() - 0.5f) * (this.rand.nextFloat() - 0.5f) + 0.5f));
+    }
+
+    //initializes the genes with random numbers
+    private void initializeGenes() {
+        for (DataParameter<Float> dp : GENES) {
+            set(dp, rand.nextFloat());
+        }
+
+        // size is more centered
+        set(GENE_SIZE, centeredRandom());
+        set(GENE_WIDTH, centeredRandom());
+        set(GENE_BELLY, centeredRandom());
+
+        //TODO add relations, e.g. high melanin level usually increases the darkness of hair too
+
+        //TODO make tendencies per village, so it looks like they lived there longer
+    }
+
+    //interpolates and mutates the genes from two parent villager
+    public void inheritGenes(EntityVillagerMCA mother, EntityVillagerMCA father) {
+        for (DataParameter<Float> dp : GENES) {
+            float m = mother.get(dp);
+            float f = father.get(dp);
+            float interpolation = rand.nextFloat();
+            float mutation = (rand.nextFloat() - 0.5f) * 0.2f;
+            float g = m * interpolation + f * (1.0f - interpolation) + mutation;
+            set(dp, (float) Math.min(1.0, Math.max(0.0, g)));
+        }
     }
 
     @Override
@@ -373,12 +464,8 @@ public class EntityVillagerMCA extends EntityVillager {
     @Nonnull
     public ITextComponent getDisplayName() {
         // translate profession name
-        ITextComponent careerName = new TextComponentTranslation("entity.Villager." + getVanillaCareer().getName());
-        EnumAgeState age = EnumAgeState.byId(get(AGE_STATE));
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : careerName.getUnformattedText();
         String color = this.getProfessionForge() == ProfessionsMCA.bandit ? Constants.Color.RED : this.getProfessionForge() == ProfessionsMCA.guard ? Constants.Color.GREEN : "";
-
-        return new TextComponentString(String.format("%1$s%2$s%3$s (%4$s)", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME), professionName));
+        return new TextComponentString(String.format("%1$s%2$s%3$s", color, MCA.getConfig().villagerChatPrefix, get(VILLAGER_NAME)));
     }
 
     @Override
@@ -623,6 +710,7 @@ public class EntityVillagerMCA extends EntityVillager {
             MCA.getLog().warn("Button not found for key and ID: " + guiKey + ", " + buttonId);
         } else if (button.get().isInteraction()) handleInteraction(player, history, button.get());
 
+        Hair hair;
         switch (buttonId) {
             case "gui.button.move":
                 set(MOVE_STATE, EnumMoveState.MOVE.getId());
@@ -691,26 +779,29 @@ public class EntityVillagerMCA extends EntityVillager {
             case "gui.button.infected":
                 set(IS_INFECTED, !get(IS_INFECTED));
                 break;
-            case "gui.button.texture.randomize":
-                set(TEXTURE, API.getRandomSkin(this));
+            case "gui.button.clothing.randClothing":
+                set(CLOTHES, API.getRandomClothing(this));
                 break;
-            case "gui.button.profession.randomize":
-                setProfession(ProfessionsMCA.randomProfession());
-                setVanillaCareer(getProfessionForge().getRandomCareer(world.rand));
+            case "gui.button.clothing.prevClothing":
+                set(CLOTHES, API.getNextClothing(this, get(CLOTHES), -1));
                 break;
-            case "gui.button.gender":
-                EnumGender gender = EnumGender.byId(get(GENDER));
-                if (gender == EnumGender.MALE) {
-                    set(GENDER, EnumGender.FEMALE.getId());
-                } else {
-                    set(GENDER, EnumGender.MALE.getId());
-                }
-                // intentional fall-through here
-            case "gui.button.texture":
-                set(TEXTURE, API.getRandomSkin(this));
+            case "gui.button.clothing.nextClothing":
+                set(CLOTHES, API.getNextClothing(this, get(CLOTHES)));
                 break;
-            case "gui.button.random":
-                set(VILLAGER_NAME, API.getRandomName(EnumGender.byId(get(GENDER))));
+            case "gui.button.clothing.randHair":
+                hair = API.getRandomHair(this);
+                set(HAIR, hair.getTexture());
+                set(HAIR_OVERLAY, hair.getOverlay());
+                break;
+            case "gui.button.clothing.prevHair":
+                hair = API.getNextHair(this, new Hair(get(HAIR), get(HAIR_OVERLAY)), -1);
+                set(HAIR, hair.getTexture());
+                set(HAIR_OVERLAY, hair.getOverlay());
+                break;
+            case "gui.button.clothing.nextHair":
+                hair = API.getNextHair(this, new Hair(get(HAIR), get(HAIR_OVERLAY)));
+                set(HAIR, hair.getTexture());
+                set(HAIR_OVERLAY, hair.getOverlay());
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());
@@ -834,7 +925,7 @@ public class EntityVillagerMCA extends EntityVillager {
         if (get(IS_INFECTED)) {
             return ResourceLocationCache.getResourceLocationFor(String.format("mca:skins/%s/zombievillager.png", get(GENDER) == EnumGender.MALE.getId() ? "male" : "female"));
         } else {
-            return ResourceLocationCache.getResourceLocationFor(get(TEXTURE));
+            return ResourceLocationCache.getResourceLocationFor(get(CLOTHES));
         }
     }
 

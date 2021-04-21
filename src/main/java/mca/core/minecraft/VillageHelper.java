@@ -44,11 +44,12 @@ public class VillageHelper {
 
     // if the population is low, find a couple and let them have a child
     private static void procreate(World world, Village village) {
-        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 100.0f) {
-            if (village.getNumVillagers() < village.getNumVillageDoors() * MCA.getConfig().childrenLimit / 100.0f) {
+        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 1000.0f) {
+            List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
+            if (allVillagers.size() < village.getNumVillageDoors() * MCA.getConfig().childrenLimit / 100.0f) {
                 // look for married women without baby
                 List<EntityVillagerMCA> villagers = new ArrayList<>();
-                for (EntityVillagerMCA v : getVillagers(world, village)) {
+                for (EntityVillagerMCA v : allVillagers) {
                     if (v.isMarried() && !v.get(EntityVillagerMCA.HAS_BABY) && v.get(GENDER) == EnumGender.FEMALE.getId()) {
                         villagers.add(v);
                     }
@@ -77,15 +78,16 @@ public class VillageHelper {
 
     // if the amount of couples is low, let them marry
     private static void marry(World world, Village village) {
-        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 100.0f) {
+        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 1000.0f) {
             List<EntityVillagerMCA> villagers = new ArrayList<>();
-            for (EntityVillagerMCA v : getVillagers(world, village)) {
+            List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
+            for (EntityVillagerMCA v : allVillagers) {
                 if (!v.isMarried() && !v.isChild()) {
                     villagers.add(v);
                 }
             }
 
-            if (villagers.size() > village.getNumVillagers() * MCA.getConfig().marriageLimit / 100.0f) {
+            if (villagers.size() > allVillagers.size() * MCA.getConfig().marriageLimit / 100.0f) {
                 // choose a random villager
                 EntityVillagerMCA villager = villagers.remove(world.rand.nextInt(villagers.size()));
 

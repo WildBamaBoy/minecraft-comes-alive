@@ -55,7 +55,7 @@ public class GuiVillagerEditor extends GuiScreen {
         professionTextField.setText(villager.getVanillaCareer().getName());
         textureTextField = new GuiTextField(3, fontRenderer, width / 2 - 190, height / 2 - 15, 250, 20);
         textureTextField.setMaxStringLength(128);
-        textureTextField.setText(villager.get(EntityVillagerMCA.TEXTURE));
+        textureTextField.setText(villager.get(EntityVillagerMCA.CLOTHES));
     }
 
     @Override
@@ -84,7 +84,7 @@ public class GuiVillagerEditor extends GuiScreen {
                     },500
             );
         } else if (btn.getIdentifier().contains("gui.button.texture")) {
-            String texture = btn.getIdentifier().endsWith(".set") ? textureTextField.getText() : API.getRandomSkin(villager);
+            String texture = btn.getIdentifier().endsWith(".set") ? textureTextField.getText() : API.getRandomClothing(villager);
             NetMCA.INSTANCE.sendToServer(new NetMCA.SetTexture(villager.getUniqueID(), texture));
             textureTextField.setText(texture);
         }

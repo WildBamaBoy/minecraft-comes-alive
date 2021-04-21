@@ -56,6 +56,72 @@ relation.spouse=Spouse
 relation.daughter=Daughter
 relation.son=Son
 
+##############
+# Professions
+##############################
+profession.archer=Archer
+profession.armorer=Armorer
+profession.butcher=Butcher
+profession.priest=Priest
+profession.cleric=Cleric
+profession.farmer=Farmer
+profession.fisherman=Fisherman
+profession.fletcher=Fletcher
+profession.guard=Guard
+profession.spouse=Spouse
+profession.leatherworker=Leatherworker
+profession.librarian=Librarian
+profession.shepherd=Shepherd
+profession.toolsmith=Toolsmith
+profession.weaponsmith=Weaponsmith
+profession.miner=Miner
+profession.mason=Mason
+profession.baker=Baker
+profession.child=Child
+profession.househusband=Househusband
+profession.housewife=Housewife
+profession.villager=Villager
+profession.warrior=Warrior
+
+################
+# Personalities
+################################
+personality.athletic=Athletic
+personality.confident=Confident
+personality.strong=Strong
+personality.friendly=Friendly
+personality.curious=Curious
+personality.peaceful=Peaceful
+personality.flirty=Flirty
+personality.witty=Witty
+personality.sensitive=Sensitive
+personality.greedy=Greedy
+personality.stubborn=Stubborn
+personality.odd=Odd
+
+################
+# Moods
+################################
+mood.depressed=Depressed
+mood.sad=Sad
+mood.unhappy=Unhappy
+mood.passive=Passive
+mood.fine=Fine
+mood.happy=Happy
+mood.overjoyed=Overjoyed
+mood.bored_to_tears=Bored to tears
+mood.bored=Bored
+mood.uninterested=Uninterested
+mood.silly=Silly
+mood.giggly=Giggly
+mood.entertained=Entertained
+mood.infuriated=Infuriated
+mood.angry=Angry
+mood.annoyed=Annoyed
+mood.interested=Interested
+mood.talkative=Talkative
+mood.pleased=Pleased
+
 ##########################
 # Reactions
 ##########################
@@ -117,26 +183,33 @@ gui.button.debug.zombify=Zombify
 gui.button.debug.marrytoplayer=Marry to Player
 gui.button.debug.rebuildvillage=Rebuild Village
 gui.button.debug.openinventory=Open Inventory
+
 gui.button.yes=Yes
 gui.button.no=No
 gui.button.ok=Ok
 gui.button.done=Done
 gui.button.random=Random
+
 gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
+gui.button.command=Command
+gui.button.clothing=Clothing
 gui.button.trade=Trade
-gui.button.sethome=Home
-gui.button.gohome=Go Home
-gui.button.setworkplace=Workplace
-gui.button.sethangout=Hangout
-gui.button.location=Locations
-gui.button.ridehorse=Ride Horse
+gui.button.locations=Locations
 gui.button.special=Special
 gui.button.procreate=Procreate
 gui.button.work=Work
 gui.button.inventory=Inventory
+
+gui.button.sethome=Home
+gui.button.gohome=Go Home
+gui.button.setworkplace=Workplace
+gui.button.sethangout=Hangout
+
+gui.button.follow=Follow Me
+gui.button.stay=Stay Here
+gui.button.move=Move Freely
+gui.button.ridehorse=Ride Horse
+
 gui.button.chat=Chat
 gui.button.joke=Joke
 gui.button.gift=Gift
@@ -145,13 +218,34 @@ gui.button.tellstory=Tell Story
 gui.button.flirt=Flirt
 gui.button.hug=Hug
 gui.button.kiss=Kiss
+
 gui.button.village=Village
+
+gene.size=Size
+gene.width=Width
+gene.belly=Belly
+gene.breast=Breast
+gene.melanin=Melanin
+gene.hemoglobin=Hemoglobin
+gene.eumelanin=Eumelanin
+gene.pheomelanin=Pheomelanin
+gene.skin=Skin
+gene.face=Face
+
+gui.button.clothing.randClothing=Random Clothes
+gui.button.clothing.prevClothing=Prev
+gui.button.clothing.nextClothing=Next
+gui.button.clothing.randHair=Random Hair
+gui.button.clothing.nextHair=Prev
+gui.button.clothing.prevHair=Next
+
 gui.button.prospecting=Prospecting
 gui.button.hunting=Hunting
 gui.button.cooking=Cooking
 gui.button.fishing=Fishing
 gui.button.chopping=Chopping
 gui.button.harvesting=Harvesting
+
 gui.button.start=Start
 gui.button.stop=Stop
 gui.button.havebaby=Have Baby
@@ -192,7 +286,6 @@ gui.label.readytogrow=Ready to grow!
 gui.label.owner=Owner
 gui.label.infected=Infected!
 gui.label.name=Name:
-gui.label.age=Age:
 gui.label.unnamed=Unnamed
 gui.label.rightclicktoname=Right-click to name
 gui.label.minute=Minute
@@ -248,6 +341,11 @@ gui.interact.label.engaged=Engaged to %v1%
 gui.interact.label.notmarried=Not married
 gui.interact.label.parents=Parents: %v1% and %v2%
 gui.interact.label.gift=Gift available. Click to claim.
+gui.interact.label.giveGift=Select an item and press the right mouse button.
+gui.interact.label.age=Age: %v1%
+gui.interact.label.mood=Mood: %v1%
+gui.interact.label.personality=Personality: %v1%
+gui.interact.label.happiness=Happiness: %v1%
 
 spouse.interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
 spouse.interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?

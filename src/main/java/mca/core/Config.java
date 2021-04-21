@@ -65,9 +65,9 @@ public final class Config implements Serializable {
         enableAdminCommands = config.get("General", "Enable Admin Commands?", true, "Enables or disables MCA admin commands for ops.").getBoolean();
         allowRoseGoldGeneration = config.get("General", "Allow Rose Gold World Generation", true, "If enabled, generates rose gold in your world. If disabled, generates stone instead.").getBoolean();
         villagerMaxHealth = config.get("General", "Villager Max Health", 20, "Each villager's maximum health. 1 point equals 1 heart.").getInt();
-        marriageChance = config.get("General", "Villager Marriage Chance", 5, "Chance that two villagers get married every 5 minutes.").getInt();
+        marriageChance = config.get("General", "Villager Marriage Chance", 5, "Chance that two villagers get married every 10 minutes.").getInt();
         marriageLimit = config.get("General", "Villager Marriage Limit", 50, "Percentage of Villagers who will get married over time.").getInt();
-        childrenChance = config.get("General", "Villager Children Chance", 5, "Chance that a married villager get children every 5 minutes.").getInt();
+        childrenChance = config.get("General", "Villager Children Chance", 5, "Chance that a married villager get children every 10 minutes.").getInt();
         childrenLimit = config.get("General", "Villager Children Limit", 50, "Percentage of Villagers in the village, until they stop procreating.").getInt();
         config.save();
     }

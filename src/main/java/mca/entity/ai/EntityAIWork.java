@@ -144,6 +144,7 @@ public class EntityAIWork extends EntityAIBase {
             //work
             if (distance < 1.0D) {
                 villager.swingArm(EnumHand.MAIN_HAND);
+                villager.swingArm(EnumHand.OFF_HAND);
                 villager.getLookHelper().setLookPosition(target.getX(), target.getY(), target.getZ(), villager.getHorizontalFaceSpeed(), villager.getVerticalFaceSpeed());
                 //TODO how to tell the client to rotate towards the table?
 

@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "identifier": "gui.button.backarrow",
+    "x": 115,
+    "y": -115,
+    "width": 20,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "id": 2,
+    "identifier": "gui.button.follow",
+    "x": 140,
+    "y": -115,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "id": 3,
+    "identifier": "gui.button.stay",
+    "x": 140,
+    "y": -93,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "id": 4,
+    "identifier": "gui.button.move",
+    "x": 140,
+    "y": -71,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "id": 5,
+    "identifier": "gui.button.gohome",
+    "x": 140,
+    "y": -49,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "spouseOnly": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "id": 6,
+    "identifier": "gui.button.ridehorse",
+    "x": 140,
+    "y": -27,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  }
+]
