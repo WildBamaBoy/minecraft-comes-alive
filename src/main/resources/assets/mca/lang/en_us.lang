@@ -1,11 +1,9 @@
 #X-Generator: crowdin.com
 itemGroup.MCA=Minecraft Comes Alive
 
-enum.agestate.baby=Baby
-enum.agestate.toddler=Toddler
-enum.agestate.child=Child
-enum.agestate.teen=Teen
-enum.agestate.adult=Adult
+##############
+# Professions
+##############################
 entity.Villager.marauder=Marauder
 entity.Villager.outlaw=Outlaw
 entity.Villager.pillager=Pillager
@@ -56,32 +54,14 @@ relation.spouse=Spouse
 relation.daughter=Daughter
 relation.son=Son
 
-##############
-# Professions
-##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.priest=Priest
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
-profession.househusband=Househusband
-profession.housewife=Housewife
-profession.villager=Villager
-profession.warrior=Warrior
+################################
+# Ages
+################################
+enum.agestate.baby=Baby
+enum.agestate.toddler=Toddler
+enum.agestate.child=Child
+enum.agestate.teen=Teen
+enum.agestate.adult=Adult
 
 ################
 # Personalities
@@ -150,26 +130,9 @@ reaction.drawnweapon5=You can take whatever you want, just please don't hurt me\
 reaction.drawnweapon6=I don't want to die\! Stay away\!
 reaction.drawnweapon7=Mother Notch, please help me\!
 
-#########################
-# Messages for chores
-#########################
-mining.search.none=There's no %v1% nearby.
-mining.search.nearby=There's some %v1% nearby...
-mining.search.value=There's some %v1% %a2% blocks away.
-
-farming.nohoe=I'll need to have a hoe in order to farm.
-
-fishing.norod=I don't have a fishing rod!
-fishing.nowater=I don't see any water nearby...
-fishing.finished=I've finished fishing.
-
-cooking.nofood=I don't have any food to cook.
-cooking.nofuel=I don't have any fuel.
-cooking.nofurnace=There's no furnace nearby.
-
 #################
 # GUI
-################################
+#################
 gui.button.debug.startraid=Start Raid
 gui.button.debug.spawnguards=Spawn Guards
 gui.button.debug.selectnearestvillager=Get Nearest Villager
@@ -221,17 +184,6 @@ gui.button.kiss=Kiss
 
 gui.button.village=Village
 
-gene.size=Size
-gene.width=Width
-gene.belly=Belly
-gene.breast=Breast
-gene.melanin=Melanin
-gene.hemoglobin=Hemoglobin
-gene.eumelanin=Eumelanin
-gene.pheomelanin=Pheomelanin
-gene.skin=Skin
-gene.face=Face
-
 gui.button.clothing.randClothing=Random Clothes
 gui.button.clothing.prevClothing=Prev
 gui.button.clothing.nextClothing=Next
@@ -273,6 +225,7 @@ gui.button.profession.randomize=Randomize
 gui.button.stopworking=Stop Work
 gui.button.copyuuid=Copy UUID
 gui.button.call=Call
+
 gui.title.namebaby.male=It's a boy\!
 gui.title.namebaby.female=It's a girl\!
 gui.title.namebaby=Name your baby\:
@@ -304,9 +257,54 @@ gui.label.following=Following
 gui.info.gift.line1=Gift Available
 gui.info.gift.line2=(Click to take)
 
+gui.interact.label.married=Married to %v1%
+gui.interact.label.engaged=Engaged to %v1%
+gui.interact.label.notmarried=Not married
+gui.interact.label.parents=Parents: %v1% and %v2%
+gui.interact.label.gift=Gift available. Click to claim.
+gui.interact.label.giveGift=Select an item and press the right mouse button.
+gui.interact.label.age=Age: %v1%
+gui.interact.label.mood=Mood: %v1%
+gui.interact.label.personality=Personality: %v1%
+gui.interact.label.happiness=Happiness: %v1%
+
+################################
+# Genes
+################################
+gene.size=Size
+gene.width=Width
+gene.belly=Belly
+gene.breast=Breast
+gene.melanin=Melanin
+gene.hemoglobin=Hemoglobin
+gene.eumelanin=Eumelanin
+gene.pheomelanin=Pheomelanin
+gene.skin=Skin
+gene.face=Face
+
+################################
+# Events
+################################
 events.marry=%v1% and %v2% are now married!
 events.baby=%v1% and %v2% have born a baby!
 events.village=My village is %v1% blocks big and has %v2% villager out of %v3% possible doors.
+
+#########################
+# Messages for chores
+#########################
+mining.search.none=There's no %v1% nearby.
+mining.search.nearby=There's some %v1% nearby...
+mining.search.value=There's some %v1% %a2% blocks away.
+
+farming.nohoe=I'll need to have a hoe in order to farm.
+
+fishing.norod=I don't have a fishing rod!
+fishing.nowater=I don't see any water nearby...
+fishing.finished=I've finished fishing.
+
+cooking.nofood=I don't have any food to cook.
+cooking.nofuel=I don't have any fuel.
+cooking.nofurnace=There's no furnace nearby.
 
 spouse.chore.mining.orenotify=There's some %v2% nearby...
 spouse.chore.mining.nopick=I forgot my pickaxe, dear, did you bring an extra one?
@@ -335,17 +333,6 @@ adult.chore.chopping.noaxe=I don't have an axe anymore.
 adult.chore.fishing.norod=I don't have a fishing rod anymore.
 adult.chore.hunting.nosword=I lost my sword! Do you have another?
 adult.chore.harvesting.nohoe=I don't have a hoe to harvest with.
-
-gui.interact.label.married=Married to %v1%
-gui.interact.label.engaged=Engaged to %v1%
-gui.interact.label.notmarried=Not married
-gui.interact.label.parents=Parents: %v1% and %v2%
-gui.interact.label.gift=Gift available. Click to claim.
-gui.interact.label.giveGift=Select an item and press the right mouse button.
-gui.interact.label.age=Age: %v1%
-gui.interact.label.mood=Mood: %v1%
-gui.interact.label.personality=Personality: %v1%
-gui.interact.label.happiness=Happiness: %v1%
 
 spouse.interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
 spouse.interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
@@ -398,7 +385,7 @@ spouse.interaction.sethome.success2=This is like a dream home!
 childp.interaction.sethome.success1=Okay fine, where's my room?
 childp.interaction.sethome.success2=This is cool I guess. Can I go play now?
 childp.interaction.sethome.success3=Okay, but I want the biggest room!
-child.interaction.sethome.success2=This is cool I guess.
+child.interaction.sethome.success1=This is cool I guess.
 
 adult.interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %v1% in the way.
 adult.interaction.sethome.fail2=Is there another place nearby? There's some %v1% in the way.
@@ -444,7 +431,6 @@ notify.childdied=Your child %v1% has died by %v2%
 notify.child.grownup=%v1% has grown into an adult!
 notify.revival.disabled=Revivals have been disabled by the server administrator.
 notify.trading.disabled=Trading is disabled by the server administrator.
-gift.cake.fail=I will only eat cake if my spouse is nearby...please find them!
 
 ##################################
 # Responses to interactions
@@ -470,6 +456,12 @@ adult.gift.best2=How did you...nevermind, this is amazing\!
 adult.gift.best3=Oh wow, I've always wanted one of these\!
 adult.gift.best4=This is fantastic\! I'll put it to good use.
 adult.gift.best5=Thank you so much. I will remember this forever.
+adult.gift.success1=What's this? A cake? Oh...oh my. I...need to find my spouse.
+adult.gift.success2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
+adult.gift.success3=Finally, something that will help my marriage...
+adult.gift.cake.fail1=I don't think I want any more cake, but thank you.
+adult.gift.cake.fail2=No thanks, I don't want cake anymore.
+adult.gift.cake.fail3=Oh, no. I couldn't.
 adult.chat.success1=Man, cookies and milk does sound delicious right now.
 adult.chat.success2=Yes, I suppose the weather is nice today.
 adult.chat.success3=I'm doing just fine\! Hit my toe when I woke up, though.

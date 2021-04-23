@@ -120,7 +120,7 @@ public class GuiVillagerEditor extends GuiScreen {
 
     private void drawEditorGui() {
         buttonList.clear();
-        API.addButtons("editor", villager, player, this);
+        //TODO editor currently out of service
     }
 
     @Override
