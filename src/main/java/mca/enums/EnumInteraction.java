@@ -63,9 +63,12 @@ public enum EnumInteraction {
     }
 
     public int getSuccessChance(EntityVillagerMCA villager, PlayerHistory history) {
-        return getBaseChance() - history.getInteractionFatigue() * 6
+        return getBaseChance()
+                - history.getInteractionFatigue() * 5
+                + history.getHearts() / 5
                 + villager.getPersonality().getSuccessModifierForInteraction(this)
                 + villager.getMood().getSuccessModifierForInteraction(this)
+                + villager.getMood().getMoodGroup().getSuccessModifierForInteraction(this)
                 + getBonusChanceForCurrentPoints(history.getHearts());
     }
 
@@ -73,6 +76,6 @@ public enum EnumInteraction {
         return getBaseHearts()
                 + villager.getPersonality().getHeartsModifierForInteraction(this)
                 + villager.getMood().getHeartsModifierForInteraction(this)
-                + getBonusChanceForCurrentPoints(history.getHearts());
+                + villager.getMood().getMoodGroup().getHeartsModifierForInteraction(this);
     }
 }

@@ -432,6 +432,11 @@ public class EntityVillagerMCA extends EntityVillager {
                 MCA.getLog().info("Villager death: " + get(VILLAGER_NAME) + ". Caused by: " + causeName + ". UUID: " + this.getUniqueID().toString());
             }
 
+            //The death of a villager negatively modifies the mood of nearby villagers
+            for (EntityVillagerMCA villager : Util.getEntitiesWithinDistance(world, getPos(), 24, EntityVillagerMCA.class)) {
+                villager.modifyMoodLevel(-10);
+            }
+
             //TODO: player history gets lost on revive
             //TODO: childp becomes to child on revive (needs verification)
 
@@ -572,6 +577,14 @@ public class EntityVillagerMCA extends EntityVillager {
 
     public EnumMood getMood() {
         return getPersonality().getMoodGroup().getMood(get(MOOD));
+    }
+
+    public void modifyMoodLevel(int mood) {
+        set(MOOD, get(MOOD) + mood);
+    }
+
+    public int getMoodLevel() {
+        return get(MOOD);
     }
 
     public void reset() {
@@ -720,28 +733,19 @@ public class EntityVillagerMCA extends EntityVillager {
         String interactionName = button.getIdentifier().replace("gui.button.", "");
         EnumInteraction interaction = EnumInteraction.fromName(interactionName);
 
-        boolean isAdult = button.getConstraints().contains(EnumConstraint.ADULTS);
-
         //success chance and hearts
         float successChance = 0.85F;
         int heartsBoost = 5;
         if (interaction != null) {
-            heartsBoost = (int) (interaction.getBaseHearts() * (isAdult ? 1.0f : 0.5f));
-            heartsBoost += interaction.getHearts(this, history);
-            successChance += interaction.getSuccessChance(this, history) / 100.0f;
-        }
-
-        successChance -= isAdult ? 0.25F : 0.0F;
-        successChance += (history.getHearts() / 10.0D) * 0.025F;
-
-        if (MCA.getConfig().enableDiminishingReturns) {
-            successChance -= history.getInteractionFatigue() * 0.05F;
+            heartsBoost = interaction.getHearts(this, history);
+            successChance = interaction.getSuccessChance(this, history) / 100.0f;
         }
 
         boolean succeeded = rand.nextFloat() < successChance;
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
+        modifyMoodLevel(succeeded ? heartsBoost : (heartsBoost * -1));
         String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
         say(Optional.of(player), responseId);
     }
@@ -799,6 +803,7 @@ public class EntityVillagerMCA extends EntityVillager {
                 if (!handleSpecialCaseGift(player, stack)) {
                     if (stack.getItem() == Items.GOLDEN_APPLE) set(IS_INFECTED, false);
                     else {
+                        modifyMoodLevel(giftValue / 4 + 2);
                         history.changeHearts(giftValue);
                         say(Optional.of(player), API.getResponseForGift(stack));
                     }

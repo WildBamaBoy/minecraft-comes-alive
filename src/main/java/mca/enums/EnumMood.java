@@ -31,7 +31,7 @@ public enum EnumMood {
 
     public final static int minLevel = -3;
     public final static int maxLevel = 3;
-    public final static int levelsPerMood = 3;
+    public final static int levelsPerMood = 5;
 
     EnumMood(int level, EnumMoodGroup moodGroup) {
         this.level = level;
@@ -56,66 +56,28 @@ public enum EnumMood {
     }
 
     public int getSuccessModifierForInteraction(EnumInteraction interaction) {
-        int base = 0;
-
-        switch (interaction) {
-            case CHAT:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 5 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 2 : 0;
-                break;
-            case JOKE:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 5 : moodGroup == EnumMoodGroup.SERIOUS ? -3 : 0;
-                break;
-            case SHAKE_HAND:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 5 : 0;
-                break;
-            case TELL_STORY:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 3 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 3 : 0;
-                break;
-            case FLIRT:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0;
-                break;
-            case HUG:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0;
-                break;
-            case KISS:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0;
-                break;
-            default:
-                break;
-        }
-
-        return base * level;
+        //no need for custom values
+        return getHeartsModifierForInteraction(interaction);
     }
 
     public int getHeartsModifierForInteraction(EnumInteraction interaction) {
-        int base = 0;
-
         switch (interaction) {
             case CHAT:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 3 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 1 : 0;
-                break;
+                return level;
             case JOKE:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0;
-                break;
+                return level;
             case SHAKE_HAND:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 3 : 0;
-                break;
+                return -level;
             case TELL_STORY:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 2 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 2 : 0;
-                break;
+                return level;
             case FLIRT:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 2 : moodGroup == EnumMoodGroup.SERIOUS ? -1 : 0;
-                break;
+                return -level;
             case HUG:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 2 : moodGroup == EnumMoodGroup.SERIOUS ? -1 : 0;
-                break;
+                return level;
             case KISS:
-                base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 2 : moodGroup == EnumMoodGroup.SERIOUS ? -1 : 0;
-                break;
+                return -level;
             default:
-                break;
+                return 0;
         }
-
-        return base * level;
     }
 }

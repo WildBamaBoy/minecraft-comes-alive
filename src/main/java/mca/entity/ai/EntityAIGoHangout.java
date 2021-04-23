@@ -36,6 +36,11 @@ public class EntityAIGoHangout extends AbstractEntityAIChore {
             if (distance < 9.0) {
                 //arrived at hangout
                 atHangout = true;
+
+                //cures depression
+                if (villager.getMoodLevel() < 0)  {
+                    villager.modifyMoodLevel(3);
+                }
             } else {
                 //did not reach workplace for today -> shrink valid area so the villager gathers clearly at his workplace
                 validArea = 4.0D;

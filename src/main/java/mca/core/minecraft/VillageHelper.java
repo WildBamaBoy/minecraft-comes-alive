@@ -119,15 +119,7 @@ public class VillageHelper {
     //returns all villagers of a given village
     private static List<EntityVillagerMCA> getVillagers(World world, Village village) {
         int radius = village.getVillageRadius();
-        return world.getEntitiesWithinAABB(EntityVillagerMCA.class,
-                new AxisAlignedBB(
-                        village.getCenter().getX() - radius,
-                        village.getCenter().getY() - radius,
-                        village.getCenter().getZ() - radius,
-                        village.getCenter().getX() + radius,
-                        village.getCenter().getY() + radius,
-                        village.getCenter().getZ() + radius)
-        );
+        return Util.getEntitiesWithinDistance(world, village.getCenter(), radius, EntityVillagerMCA.class);
     }
 
     private static void spawnGuards(World world, Village village) {

@@ -3,9 +3,11 @@ package mca.util;
 import com.google.common.base.Optional;
 import com.google.gson.Gson;
 import mca.core.MCA;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.io.IOUtils;
@@ -28,14 +30,13 @@ public class Util {
     /**
      * Finds a y position given an x,y,z coordinate triple that is assumed to be the world's "ground".
      *
-     * @param world	The world in which blocks will be tested
-     * @param x			X coordinate
-     * @param y			Y coordinate, used as the starting height for finding ground.
-     * @param z			Z coordinate
+     * @param world The world in which blocks will be tested
+     * @param x     X coordinate
+     * @param y     Y coordinate, used as the starting height for finding ground.
+     * @param z     Z coordinate
      * @return Integer representing the air block above the first non-air block given the provided ordered triples.
      */
-    public static int getSpawnSafeTopLevel(World world, int x, int y, int z)
-    {
+    public static int getSpawnSafeTopLevel(World world, int x, int y, int z) {
         Block block = Blocks.AIR;
         while (block == Blocks.AIR && y > 0) {
             y--;
@@ -62,6 +63,21 @@ public class Util {
         Gson gson = new Gson();
         T data = gson.fromJson(Util.readResource(path), type);
         return data;
+    }
+
+    public static List<Entity> getEntitiesWithinDistance(World world, BlockPos pos, int radius) {
+        return getEntitiesWithinDistance(world, pos, radius, Entity.class);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesWithinDistance(World world, BlockPos pos, int radius, Class<T> type) {
+        return world.getEntitiesWithinAABB(type, new AxisAlignedBB(
+                pos.getX() - radius,
+                pos.getY() - radius,
+                pos.getZ() - radius,
+                pos.getX() + radius,
+                pos.getY() + radius,
+                pos.getZ() + radius)
+        );
     }
 
     public static Optional<Entity> getEntityByUUID(World world, UUID uuid) {

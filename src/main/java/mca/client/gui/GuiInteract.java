@@ -199,9 +199,15 @@ public class GuiInteract extends GuiScreen {
         //age or profession
         drawHoveringText(professionName, 10, 30 + h);
 
+        //mood
+        String color = villager.getMoodLevel() < 0 ? Constants.Color.RED : villager.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
+        String mood = MCA.getLocalizer().localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
+        drawHoveringText(color + mood, 10, 30 + h * 2);
+
         //personality
-        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.mood", villager.getMood().getLocalizedName()), 10, 30 + h * 2);
-        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName()), 10, 30 + h * 3);
+        color = Constants.Color.WHITE; //White we don't know if a personality is negative, nor do we have a proper discription yet
+        String personality = MCA.getLocalizer().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
+        drawHoveringText(color + personality, 10, 30 + h * 3);
 
         //hearts
         if (hoveringOverIcon("redHeart")) {
