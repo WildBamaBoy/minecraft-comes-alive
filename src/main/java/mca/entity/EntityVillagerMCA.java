@@ -214,8 +214,21 @@ public class EntityVillagerMCA extends EntityVillager {
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
+        //villager is peaceful and wont hurt as long as not necessary
+        if (getPersonality() == EnumPersonality.PEACEFUL && getHealth() == getMaxHealth()) {
+            return false;
+        }
+
         super.attackEntityAsMob(entityIn);
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 2.0F);
+
+        float damage = this.getProfessionForge() == ProfessionsMCA.guard ? 9.0F : 3.0F;
+
+        //personality bonus
+        if (getPersonality() == EnumPersonality.WEAK) damage *= 0.75;
+        if (getPersonality() == EnumPersonality.CONFIDENT) damage *= 1.25;
+        if (getPersonality() == EnumPersonality.STRONG) damage *= 1.5;
+
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
     }
 
     @Override
@@ -382,6 +395,11 @@ public class EntityVillagerMCA extends EntityVillager {
         if (getProfessionForge() == ProfessionsMCA.guard) {
             damageAmount *= 0.5;
         }
+
+        //personality bonus
+        if (getPersonality() == EnumPersonality.TOUGH) damageAmount *= 0.75;
+        if (getPersonality() == EnumPersonality.FRAGILE) damageAmount *= 1.15;
+
         super.damageEntity(damageSource, damageAmount);
 
         // Check for infection to apply. Does not affect guards.
@@ -1102,6 +1120,14 @@ public class EntityVillagerMCA extends EntityVillager {
 
     public void moveTowardsBlock(BlockPos target, double speed) {
         double range = getNavigator().getPathSearchRange() - 6.0D;
+
+        //personality bonuses
+        if (getPersonality() == EnumPersonality.ATHLETIC) speed *= 1.15;
+        if (getPersonality() == EnumPersonality.SLEEPY) speed *= 0.8;
+
+        //width and size impact
+        speed /= get(GENE_WIDTH);
+        speed *= get(GENE_SKIN);
 
         if (getDistanceSq(target) > Math.pow(range, 2.0)) {
             Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this, (int) range, 8, new Vec3d(target.getX(), target.getY(), target.getZ()));
