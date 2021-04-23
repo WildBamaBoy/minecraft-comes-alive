@@ -1,6 +1,7 @@
 package mca.client.render;
 
 import mca.client.colors.HairColors;
+import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -12,6 +13,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LayerHair extends LayerVillager {
     public LayerHair(RenderLivingBase<?> rendererIn) {
         super(rendererIn, 0.0833f, 0.16666f);
+
+        // LayerViller is only designed for ModelVillagerMCA anyways
+        ((ModelVillagerMCA) this.model).bipedLeftLeg.showModel = false;
+        ((ModelVillagerMCA) this.model).bipedLeftLegwear.showModel = false;
+        ((ModelVillagerMCA) this.model).bipedRightLeg.showModel = false;
+        ((ModelVillagerMCA) this.model).bipedRightLegwear.showModel = false;
     }
 
     @Override

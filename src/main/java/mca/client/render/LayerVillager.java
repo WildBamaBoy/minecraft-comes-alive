@@ -40,29 +40,32 @@ public abstract class LayerVillager implements LayerRenderer<EntityLivingBase> {
 
     @ParametersAreNonnullByDefault
     public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        for (int overlay = 0; overlay <= 1; overlay++) {
-            String p;
-            if (overlay == 0) {
-                p = getTexture(entity);
-            } else {
-                p = getOverlayTexture(entity);
-            }
-            if (p != null && p.length() > 0) {
-                ResourceLocation res = getClothingResource(p);
-                this.renderer.bindTexture(res);
+        model.setModelAttributes(this.renderer.getMainModel());
+        model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
 
-                //color the non overlay
-                if (overlay == 0) {
-                    float[] color = getColor(entity);
-                    GlStateManager.color(color[0], color[1], color[2], 1.0f);
-                } else {
-                    GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-                }
+        String p;
 
-                model.setModelAttributes(this.renderer.getMainModel());
-                model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
-                model.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-            }
+        //texture
+        p = getTexture(entity);
+        if (p != null && p.length() > 0) {
+            ResourceLocation res = getClothingResource(p);
+            this.renderer.bindTexture(res);
+
+            //color
+            float[] color = getColor(entity);
+            GlStateManager.color(color[0], color[1], color[2], 1.0f);
+
+            model.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        }
+
+        //overlay
+        p = getOverlayTexture(entity);
+        if (p != null && p.length() > 0) {
+            ResourceLocation res = getClothingResource(p);
+            this.renderer.bindTexture(res);
+
+            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+            model.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }
     }
 

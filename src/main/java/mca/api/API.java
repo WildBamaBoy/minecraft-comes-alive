@@ -131,8 +131,8 @@ public class API {
                     return arr[Math.floorMod(i + next, arr.length)];
                 }
             }
-            return current;
-        }).orElse(current);
+            return null;
+        }).orElse(getRandomClothing(villager));
     }
 
     /**
@@ -165,8 +165,8 @@ public class API {
                     return arr[Math.floorMod(i + next, arr.length)];
                 }
             }
-            return current;
-        }).orElse(current);
+            return null;
+        }).orElse(getRandomHair(villager));
     }
 
     /**

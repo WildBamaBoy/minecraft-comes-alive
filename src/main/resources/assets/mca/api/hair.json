@@ -2,7 +2,7 @@
   {
     "gender": "female",
     "paths": [
-      {"texture": "", "overlay":  "mca:skins/hair/female/band.png"}
+      {"texture": "", "overlay":  "mca:skins/hair/female/band.png"},
       {"texture": "mca:skins/hair/female/0.png"},
       {"texture": "mca:skins/hair/female/1.png"},
       {"texture": "mca:skins/hair/female/2.png"}
