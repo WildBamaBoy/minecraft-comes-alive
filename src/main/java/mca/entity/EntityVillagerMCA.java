@@ -96,7 +96,6 @@ public class EntityVillagerMCA extends EntityVillager {
     // genes
     public static final DataParameter<Float> GENE_SIZE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_WIDTH = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
-    public static final DataParameter<Float> GENE_BELLY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_BREAST = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_MELANIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_HEMOGLOBIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
@@ -105,11 +104,15 @@ public class EntityVillagerMCA extends EntityVillager {
     public static final DataParameter<Float> GENE_SKIN = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> GENE_FACE = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
 
+    //personality and mood
+    public static final DataParameter<Integer> PERSONALITY = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+    public static final DataParameter<Integer> MOOD = EntityDataManager.createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+
     // genes list
     public static final DataParameter<Float>[] GENES = new DataParameter[]{
-            GENE_SIZE, GENE_WIDTH, GENE_BELLY, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
+            GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     public static final String[] GENES_NAMES = new String[]{
-            "gene_size", "gene_width", "gene_belly", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
+            "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
 
     private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfessionForge() != ProfessionsMCA.bandit && v.getProfessionForge() != ProfessionsMCA.child;
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfessionForge() == ProfessionsMCA.bandit;
@@ -144,8 +147,10 @@ public class EntityVillagerMCA extends EntityVillager {
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
 
             applySpecialAI();
+
             initializeGenes();
             initializeSkin();
+            initializePersonality();
         }
     }
 
@@ -178,8 +183,11 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.register(HANGOUT_POS, BlockPos.ORIGIN);
         this.dataManager.register(SLEEPING, false);
 
+        this.dataManager.register(PERSONALITY, 0);
+        this.dataManager.register(MOOD, 0);
+
         for (DataParameter<Float> dp : GENES) {
-            this.dataManager.register(dp, 0.5f);
+            this.dataManager.register(dp, 0.0f);
         }
 
         this.setSilent(false);
@@ -232,12 +240,16 @@ public class EntityVillagerMCA extends EntityVillager {
         set(WORKPLACE_POS, new BlockPos(nbt.getInteger("workplaceX"), nbt.getInteger("workplaceY"), nbt.getInteger("workplaceZ")));
         set(SLEEPING, nbt.getBoolean("sleeping"));
 
+        set(PERSONALITY, nbt.getInteger("personality"));
+        set(MOOD, nbt.getInteger("mood"));
+
         inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 
-        //older versions
+        //also supports older versions
         if (get(GENE_SIZE) == 0) {
             initializeGenes();
             initializeSkin();
+            initializePersonality();
         }
 
         // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
@@ -255,11 +267,17 @@ public class EntityVillagerMCA extends EntityVillager {
     public void readAppearanceFromNBT(NBTTagCompound nbt) {
         set(GENDER, nbt.getInteger("gender"));
         set(VILLAGER_NAME, nbt.getString("name"));
-        set(CLOTHES, nbt.getString("clothes"));
-        set(HAIR, nbt.getString("hair"));
-        set(HAIR_OVERLAY, nbt.getString("hair_overlay"));
         set(IS_INFECTED, nbt.getBoolean("infected"));
         set(AGE_STATE, nbt.getInteger("ageState"));
+
+        //verify clothes and hair
+        set(CLOTHES, API.getNextClothing(this, nbt.getString("clothes"), 0));
+        Hair hair = API.getNextHair(this, new Hair(
+                nbt.getString("hair"),
+                nbt.getString("hair_overlay")
+        ), 0);
+        set(HAIR, hair.getTexture());
+        set(HAIR_OVERLAY, hair.getOverlay());
 
         for (int i = 0; i < GENES.length; i++) {
             set(GENES[i], nbt.getFloat(GENES_NAMES[i]));
@@ -305,6 +323,9 @@ public class EntityVillagerMCA extends EntityVillager {
         nbt.setInteger("hangoutZ", get(HANGOUT_POS).getZ());
         nbt.setBoolean("sleeping", get(SLEEPING));
 
+        nbt.setInteger("personality", get(PERSONALITY));
+        nbt.setInteger("mood", get(MOOD));
+
         for (int i = 0; i < GENES.length; i++) {
             nbt.setFloat(GENES_NAMES[i], get(GENES[i]));
         }
@@ -316,6 +337,11 @@ public class EntityVillagerMCA extends EntityVillager {
         Hair hair = API.getRandomHair(this);
         set(HAIR, hair.getTexture());
         set(HAIR_OVERLAY, hair.getOverlay());
+    }
+
+    private void initializePersonality() {
+        set(PERSONALITY, EnumPersonality.getRandom().getId());
+        set(MOOD, rand.nextInt((EnumMood.maxLevel - EnumMood.minLevel) * EnumMood.levelsPerMood + 1) + EnumMood.minLevel * EnumMood.levelsPerMood);
     }
 
     //returns a float between 0 and 1, weighted at 0.5
@@ -332,7 +358,6 @@ public class EntityVillagerMCA extends EntityVillager {
         // size is more centered
         set(GENE_SIZE, centeredRandom());
         set(GENE_WIDTH, centeredRandom());
-        set(GENE_BELLY, centeredRandom());
 
         //TODO add relations, e.g. high melanin level usually increases the darkness of hair too
 
@@ -541,6 +566,14 @@ public class EntityVillagerMCA extends EntityVillager {
         this.dataManager.setDirty(PLAYER_HISTORY_MAP);
     }
 
+    public EnumPersonality getPersonality() {
+        return EnumPersonality.getById(get(PERSONALITY));
+    }
+
+    public EnumMood getMood() {
+        return getPersonality().getMoodGroup().getMood(get(MOOD));
+    }
+
     public void reset() {
         set(PLAYER_HISTORY_MAP, new NBTTagCompound());
         dataManager.setDirty(PLAYER_HISTORY_MAP);
@@ -683,19 +716,29 @@ public class EntityVillagerMCA extends EntityVillager {
     }
 
     private void handleInteraction(EntityPlayerMP player, PlayerHistory history, APIButton button) {
-        float successChance = 0.85F;
-        int heartsBoost = button.getConstraints().contains(EnumConstraint.ADULTS) ? 15 : 5;
-
+        //interaction
         String interactionName = button.getIdentifier().replace("gui.button.", "");
+        EnumInteraction interaction = EnumInteraction.fromName(interactionName);
 
-        successChance -= button.getConstraints().contains(EnumConstraint.ADULTS) ? 0.25F : 0.0F;
+        boolean isAdult = button.getConstraints().contains(EnumConstraint.ADULTS);
+
+        //success chance and hearts
+        float successChance = 0.85F;
+        int heartsBoost = 5;
+        if (interaction != null) {
+            heartsBoost = (int) (interaction.getBaseHearts() * (isAdult ? 1.0f : 0.5f));
+            heartsBoost += interaction.getHearts(this, history);
+            successChance += interaction.getSuccessChance(this, history) / 100.0f;
+        }
+
+        successChance -= isAdult ? 0.25F : 0.0F;
         successChance += (history.getHearts() / 10.0D) * 0.025F;
 
-        if (MCA.getConfig().enableDiminishingReturns) successChance -= history.getInteractionFatigue() * 0.05F;
+        if (MCA.getConfig().enableDiminishingReturns) {
+            successChance -= history.getInteractionFatigue() * 0.05F;
+        }
 
         boolean succeeded = rand.nextFloat() < successChance;
-        if (MCA.getConfig().enableDiminishingReturns && succeeded)
-            heartsBoost -= history.getInteractionFatigue() * 0.05F;
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));
@@ -849,13 +892,19 @@ public class EntityVillagerMCA extends EntityVillager {
             if (decStackSize) player.inventory.decrStackSize(player.inventory.currentItem, -1);
             return true;
         } else if (item == Items.CAKE) {
-            Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
-            if (spouse.isPresent()) {
-                EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
-                progressor.set(HAS_BABY, true);
-                progressor.set(BABY_IS_MALE, rand.nextBoolean());
-                progressor.spawnParticles(EnumParticleTypes.HEART);
-            } else say(Optional.of(player), "gift.cake.fail");
+            if (isMarried() && !isChild()) {
+                Optional<Entity> spouse = Util.getEntityByUUID(world, get(SPOUSE_UUID).or(Constants.ZERO_UUID));
+                if (spouse.isPresent()) {
+                    EntityVillagerMCA progressor = this.get(GENDER) == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
+                    progressor.set(HAS_BABY, true);
+                    progressor.set(BABY_IS_MALE, rand.nextBoolean());
+                    progressor.spawnParticles(EnumParticleTypes.HEART);
+                    say(Optional.of(player), "gift.cake.success");
+                } else {
+                    say(Optional.of(player), "gift.cake.fail");
+                }
+                return true;
+            }
         } else if (item == Items.GOLDEN_APPLE && this.isChild()) {
             this.addGrowth(((startingAge / 4) / 20 * -1));
             return true;

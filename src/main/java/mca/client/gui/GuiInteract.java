@@ -6,7 +6,6 @@ import mca.client.gui.component.GuiButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
-import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentData;
 import mca.entity.data.PlayerHistory;
@@ -142,12 +141,12 @@ public class GuiInteract extends GuiScreen {
 
     private void drawHoveringIconText(String text, String key) {
         APIIcon icon = API.getIcon(key);
-        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 32);
+        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 20);
     }
 
     private void drawHoveringIconText(List<String> text, String key) {
         APIIcon icon = API.getIcon(key);
-        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 32);
+        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 20);
     }
 
     private void drawIcons() {
@@ -201,9 +200,8 @@ public class GuiInteract extends GuiScreen {
         drawHoveringText(professionName, 10, 30 + h);
 
         //personality
-        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.mood", "(WIP)"), 10, 30 + h * 2);
-        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.personality", "(WIP)"), 10, 30 + h * 3);
-        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.happiness", "(WIP)"), 10, 30 + h * 4);
+        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.mood", villager.getMood().getLocalizedName()), 10, 30 + h * 2);
+        drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName()), 10, 30 + h * 3);
 
         //hearts
         if (hoveringOverIcon("redHeart")) {
@@ -251,6 +249,14 @@ public class GuiInteract extends GuiScreen {
                 lines.add(String.format("%s: %d%%", MCA.getLocalizer().localize(key), value));
             }
             drawHoveringIconText(lines, "genes");
+        }
+
+        //happiness
+        if (hoveringOverIcon("neutralEmerald")) {
+            List<String> lines = new LinkedList<>();
+            lines.add(MCA.getLocalizer().localize("gui.interact.label.happiness", 0 + "/" + 10));
+
+            drawHoveringIconText(lines, "neutralEmerald");
         }
     }
 
