@@ -22,7 +22,7 @@ public enum EnumPersonality {
     WITTY(24, EnumMoodGroup.PLAYFUL),         //Bonus 2 points and 15 chance to jokes.
 
     //Negative
-    SENSITIVE(41, EnumMoodGroup.GENERAL),     //Chance of having feelings hurt and drastically dropping hearts.
+    SENSITIVE(41, EnumMoodGroup.GENERAL),     //Double heart penalty
     GREEDY(42, EnumMoodGroup.SERIOUS),        //Finds less on chores
     STUBBORN(43, EnumMoodGroup.SERIOUS),      //20% more difficult to speak with.
     ODD(44, EnumMoodGroup.PLAYFUL),           //Flirts, hugs and kisses are more likely to fail
@@ -76,6 +76,11 @@ public enum EnumPersonality {
         return MCA.getLocalizer().localize(name);
     }
 
+    public String getLocalizedDescription() {
+        String name = "personalityDescription." + this.name().toLowerCase();
+        return MCA.getLocalizer().localize(name);
+    }
+
     public int getSuccessModifierForInteraction(EnumInteraction interaction) {
         switch (interaction) {
             case CHAT:
@@ -85,7 +90,7 @@ public enum EnumPersonality {
             case SHAKE_HAND:
                 return 0;
             case TELL_STORY:
-                return this == CURIOUS ? 10 : this == STUBBORN ? -20 : 0;
+                return this == CURIOUS ? 20 : this == STUBBORN ? -20 : 0;
             case FLIRT:
                 return this == ODD ? -10 : 0;
             case HUG:
@@ -100,17 +105,17 @@ public enum EnumPersonality {
     public int getHeartsModifierForInteraction(EnumInteraction interaction) {
         switch (interaction) {
             case CHAT:
-                return this == FLIRTY ? 2 : 0;
+                return this == FRIENDLY ? 1 : this == FLIRTY ? 2 : 0;
             case JOKE:
-                return this == WITTY ? 2 : 0;
+                return this == FRIENDLY ? 1 : this == WITTY ? 2 : 0;
             case SHAKE_HAND:
-                return 0;
+                return this == FRIENDLY ? 1 : 0;
             case TELL_STORY:
-                return 0;
+                return this == FRIENDLY ? 1 : 0;
             case FLIRT:
-                return this == FLIRTY ? 3 : 0;
+                return this == FRIENDLY ? 1 : this == FLIRTY ? 3 : 0;
             case HUG:
-                return this == ODD ? 2 : 0;
+                return this == FRIENDLY ? 1 : this == ODD ? 2 : 0;
             case KISS:
                 return this == FLIRTY ? 1 : 0;
             default:

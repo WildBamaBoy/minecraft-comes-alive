@@ -70,6 +70,7 @@ personality.athletic=Athletic
 personality.confident=Confident
 personality.strong=Strong
 personality.friendly=Friendly
+personality.tough=Tough
 personality.curious=Curious
 personality.peaceful=Peaceful
 personality.flirty=Flirty
@@ -78,6 +79,26 @@ personality.sensitive=Sensitive
 personality.greedy=Greedy
 personality.stubborn=Stubborn
 personality.odd=Odd
+personality.sleepy=Sleepy
+personality.fragile=Fragile
+personality.weak=Weak
+
+personalityDescription.athletic=Runs faster
+personalityDescription.confident=Deals more damage
+personalityDescription.strong=Deals far more damage
+personalityDescription.friendly=Bonus hearts for interactions
+personalityDescription.tough=Extra defence
+personalityDescription.curious=Likes storys
+personalityDescription.peaceful=Will not attack if on full health
+personalityDescription.flirty=Bonus points for specific interactions
+personalityDescription.witty=Likes jokes
+personalityDescription.sensitive=Double heart penalty on failed interactions
+personalityDescription.greedy=Finds less on chores
+personalityDescription.stubborn=Harder to speak with
+personalityDescription.odd=Less success chance when entering personal space
+personalityDescription.sleepy=Slow. Always.
+personalityDescription.fragile=Less defence
+personalityDescription.weak=Deals less damage
 
 ################
 # Moods

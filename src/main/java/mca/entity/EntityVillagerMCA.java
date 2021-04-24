@@ -414,8 +414,8 @@ public class EntityVillagerMCA extends EntityVillager {
         }
 
         //personality bonus
-        if (getPersonality() == EnumPersonality.TOUGH) damageAmount *= 0.75;
-        if (getPersonality() == EnumPersonality.FRAGILE) damageAmount *= 1.15;
+        if (getPersonality() == EnumPersonality.TOUGH) damageAmount *= 0.5;
+        if (getPersonality() == EnumPersonality.FRAGILE) damageAmount *= 1.25;
 
         super.damageEntity(damageSource, damageAmount);
 
@@ -777,6 +777,11 @@ public class EntityVillagerMCA extends EntityVillager {
         }
 
         boolean succeeded = rand.nextFloat() < successChance;
+
+        //sensitive people doubles the loss
+        if (!succeeded && getPersonality() == EnumPersonality.SENSITIVE) {
+            heartsBoost *= 2;
+        }
 
         history.changeInteractionFatigue(1);
         history.changeHearts(succeeded ? heartsBoost : (heartsBoost * -1));

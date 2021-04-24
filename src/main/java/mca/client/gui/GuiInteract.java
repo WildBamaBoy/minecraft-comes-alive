@@ -205,9 +205,13 @@ public class GuiInteract extends GuiScreen {
         drawHoveringText(color + mood, 10, 30 + h * 2);
 
         //personality
-        color = Constants.Color.WHITE; //White we don't know if a personality is negative, nor do we have a proper discription yet
-        String personality = MCA.getLocalizer().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
-        drawHoveringText(color + personality, 10, 30 + h * 3);
+        if (hoveringOverText(10, 30 + h * 3, 128)) {
+            drawHoveringText(villager.getPersonality().getLocalizedDescription(), 10, 30 + h * 3);
+        } else {
+            color = Constants.Color.WHITE; //White as we don't know if a personality is negative
+            String personality = MCA.getLocalizer().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
+            drawHoveringText(color + personality, 10, 30 + h * 3);
+        }
 
         //hearts
         if (hoveringOverIcon("redHeart")) {
@@ -269,7 +273,18 @@ public class GuiInteract extends GuiScreen {
     //checks if the mouse hovers over a specified button
     private boolean hoveringOverIcon(String key) {
         APIIcon icon = API.getIcon(key);
-        return mouseX > icon.getX() && mouseX < icon.getX() + 16 * iconScale && mouseY > icon.getY() && mouseY < icon.getY() + 16 * iconScale;
+        return hoveringOver(icon.getX(), icon.getY(), (int) (16 * iconScale), (int) (16 * iconScale));
+    }
+
+    //checks if the mouse hovers over a rectangle
+    private boolean hoveringOver(int x, int y, int w, int h) {
+        return mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h;
+    }
+
+    //checks if the mouse hovers over a tooltip
+    //tooltips are not rendered on the given coordinates so we need an offset
+    private boolean hoveringOverText(int x, int y, int w) {
+        return hoveringOver(x + 8, y - 16, w, 16);
     }
 
     private boolean canDrawParentsIcon() {
