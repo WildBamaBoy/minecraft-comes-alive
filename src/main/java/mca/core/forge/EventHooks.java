@@ -109,7 +109,7 @@ public class EventHooks {
 
             EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
             newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
-            newVillager.finalizeMobSpawn(world.getDifficultyForLocation(newVillager.getPos()), null, false);
+            newVillager.onInitialSpawn(world.getDifficultyForLocation(newVillager.getPos()), null);
             newVillager.forcePositionAsHome();
             world.spawnEntity(newVillager);
         }

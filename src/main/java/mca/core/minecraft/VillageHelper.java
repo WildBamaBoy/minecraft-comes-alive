@@ -144,7 +144,7 @@ public class VillageHelper {
             if (spawnPos != null) {
                 EntityVillagerMCA guard = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.guard), Optional.absent());
                 guard.setPosition(spawnPos.x + 0.5D, spawnPos.y + 1.0D, spawnPos.z + 0.5D);
-                guard.finalizeMobSpawn(world.getDifficultyForLocation(guard.getPos()), null, false);
+                guard.onInitialSpawn(world.getDifficultyForLocation(guard.getPos()), null);
                 world.spawnEntity(guard);
             }
         }

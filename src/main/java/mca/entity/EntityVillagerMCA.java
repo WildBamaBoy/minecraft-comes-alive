@@ -26,6 +26,7 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityVex;
@@ -51,6 +52,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.village.Village;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
@@ -145,13 +147,21 @@ public class EntityVillagerMCA extends EntityVillager {
 
             setProfession(profession.isPresent() ? profession.get() : ProfessionsMCA.randomProfession());
             setVanillaCareer(getProfessionForge().getRandomCareer(worldIn.rand));
-
-            applySpecialAI();
-
-            initializeGenes();
-            initializeSkin();
-            initializePersonality();
         }
+    }
+
+    @Override
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData entity)  {
+        //finalizeMobSpawn is a method from the villager, false means it wont overwrite our profession
+        entity = super.finalizeMobSpawn(difficulty, entity, false);
+
+        applySpecialAI();
+
+        initializeGenes();
+        initializeSkin();
+        initializePersonality();
+
+        return entity;
     }
 
     @Override
@@ -372,9 +382,16 @@ public class EntityVillagerMCA extends EntityVillager {
         set(GENE_SIZE, centeredRandom());
         set(GENE_WIDTH, centeredRandom());
 
-        //TODO add relations, e.g. high melanin level usually increases the darkness of hair too
+        //temperature
+        float temp = world.getBiome(getPos()).getDefaultTemperature();
 
-        //TODO make tendencies per village, so it looks like they lived there longer
+        // melanin
+        set(GENE_MELANIN, Util.clamp((rand.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
+        set(GENE_HEMOGLOBIN, Util.clamp((rand.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
+
+        // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
+        set(GENE_EUMELANIN, rand.nextFloat());
+        set(GENE_PHEOMELANIN, rand.nextFloat());
     }
 
     //interpolates and mutates the genes from two parent villager

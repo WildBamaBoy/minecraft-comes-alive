@@ -108,7 +108,7 @@ public class API {
         return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
             ClothingGroup randomGroup = null;
             EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
-            while (randomGroup == null || randomGroup.getGender() != gender) {
+            while (randomGroup == null || randomGroup.getGender() != gender && gender != EnumGender.UNASSIGNED) {
                 randomGroup = clothing.get(rng.nextInt(clothing.size()));
             }
             return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];

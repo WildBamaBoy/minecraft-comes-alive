@@ -29,7 +29,7 @@ public class ItemSpawnEgg extends Item {
         if (!world.isRemote) {
             EntityVillagerMCA villager = new EntityVillagerMCA(world, Optional.absent(), Optional.of(isMale ? EnumGender.MALE : EnumGender.FEMALE));
             villager.setPosition(posX + 0.5D, posY, posZ + 0.5D);
-            villager.finalizeMobSpawn(world.getDifficultyForLocation(villager.getPos()), null, false);
+            villager.onInitialSpawn(world.getDifficultyForLocation(villager.getPos()), null);
             world.spawnEntity(villager);
 
             if (!player.capabilities.isCreativeMode) player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
