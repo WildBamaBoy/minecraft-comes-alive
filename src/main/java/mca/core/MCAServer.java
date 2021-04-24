@@ -1,6 +1,7 @@
 package mca.core;
 
 import mca.core.minecraft.ItemsMCA;
+import mca.core.minecraft.SoundsMCA;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
@@ -59,6 +60,7 @@ public class MCAServer {
                 EntityGrimReaper reaper = new EntityGrimReaper(reaperSpawnWorld);
                 reaper.setPosition(reaperSpawnPos.getX(), reaperSpawnPos.getY(), reaperSpawnPos.getZ());
                 reaperSpawnWorld.spawnEntity(reaper);
+                reaper.playSound(SoundsMCA.reaper_summon, 1.0F, 1.0F);
             }
         }
 

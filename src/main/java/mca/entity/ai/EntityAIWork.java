@@ -110,7 +110,6 @@ public class EntityAIWork extends EntityAIBase {
 
             //we don't want to stand on the table, but next to it
             for (Class b : workingBlocks.getOrDefault(villager.getVanillaCareer(), new Class[]{BlockWorkbench.class})) {
-                System.out.println(b);
                 List<BlockPos> available = Util.getNearbyBlocks(villager.getWorkplace(), villager.world, b, 16, 4);
                 workplaces.clear();
                 for (BlockPos target : available) {
@@ -151,7 +150,7 @@ public class EntityAIWork extends EntityAIBase {
                 //play working sounds
                 if (workingSound < villager.ticksExisted) {
                     workingSound = villager.ticksExisted + villager.getRNG().nextInt(40) + 20;
-                    villager.playSound(SoundsMCA.reaper_idle, 1.0F, 1.0F);
+                    villager.playSound(SoundsMCA.working_anvil, 1.0F, 1.0F);
                 }
             }
         }

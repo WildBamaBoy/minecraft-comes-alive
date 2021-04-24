@@ -1,8 +1,44 @@
 {
-    "reaper.scythe.out": { "category": "hostile", "subtitle": "Draws scythe", "sounds": [ "mca:reaper-scythe-out" ] },
-    "reaper.scythe.swing": { "category": "hostile", "subtitle": "Swings scythe", "sounds": [ "mca:reaper-scythe-swing" ] },
-    "reaper.idle": { "category": "hostile", "subtitle": "Evil laughter", "sounds": [ "mca:reaper-idle" ] },
-    "reaper.death": { "category": "hostile", "subtitle": "Reaper death", "sounds": [ "mca:reaper-death" ] },
-    "reaper.block": { "category": "hostile", "subtitle": "Blocked attack", "sounds": [ "mca:reaper-block" ] },
-    "reaper.summon": { "category": "hostile", "subtitle": "Evil laughter", "sounds": [ "mca:reaper-summon" ] }
+  "reaper.scythe_out": {
+    "subtitle": "Draws scythe",
+    "sounds": [
+      "mca:reaper/scythe_out"
+    ]
+  },
+  "reaper.scythe_swing": {
+    "subtitle": "Swings scythe",
+    "sounds": [
+      "mca:reaper/scythe_swing"
+    ]
+  },
+  "reaper.idle": {
+    "subtitle": "Evil laughter",
+    "sounds": [
+      "mca:reaper/idle"
+    ]
+  },
+  "reaper.death": {
+    "subtitle": "Reaper death",
+    "sounds": [
+      "mca:reaper/death"
+    ]
+  },
+  "reaper.block": {
+    "subtitle": "Blocked attack",
+    "sounds": [
+      "mca:reaper/block"
+    ]
+  },
+  "reaper.summon": {
+    "subtitle": "Evil laughter",
+    "sounds": [
+      "mca:reaper/summon"
+    ]
+  },
+  "working.anvil": {
+    "subtitle": "Anvil",
+    "sounds": [
+      "mca:working/anvil"
+    ]
+  }
 }
