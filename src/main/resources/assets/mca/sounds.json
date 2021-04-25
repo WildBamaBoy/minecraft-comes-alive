@@ -38,7 +38,30 @@
   "working.anvil": {
     "subtitle": "Anvil",
     "sounds": [
-      "mca:working/anvil"
+      "mca:working/anvil1",
+      "mca:working/anvil2",
+      "mca:working/anvil3"
+    ]
+  },
+  "working.page": {
+    "subtitle": "Pages",
+    "sounds": [
+      "mca:working/page1",
+      "mca:working/page2",
+      "mca:working/page3",
+      "mca:working/page4"
+    ]
+  },
+  "working.saw": {
+    "subtitle": "Saw",
+    "sounds": [
+      "mca:working/saw"
+    ]
+  },
+  "working.sharpen": {
+    "subtitle": "Sharpen",
+    "sounds": [
+      "mca:working/sharpen"
     ]
   }
 }

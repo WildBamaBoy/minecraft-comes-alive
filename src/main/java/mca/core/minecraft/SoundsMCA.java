@@ -22,6 +22,9 @@ public final class SoundsMCA {
     public static final SoundEvent reaper_summon = newSound("reaper.summon");
 
     public static final SoundEvent working_anvil = newSound("working.anvil");
+    public static final SoundEvent working_page = newSound("working.page");
+    public static final SoundEvent working_saw = newSound("working.saw");
+    public static final SoundEvent working_sharpen = newSound("working.sharpen");
 
     //simplifies sound creation
     private static SoundEvent newSound(String sound) {
