@@ -7,19 +7,13 @@ import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import mca.api.types.*;
-import mca.client.gui.component.ButtonEx;
-import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumConstraint;
 import mca.enums.EnumGender;
 import mca.util.Util;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringUtils;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nonnull;
@@ -27,6 +21,8 @@ import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.*;
+
+;
 
 /**
  * Class API handles interaction with MCA's configurable options via JSON in the resources folder
@@ -59,7 +55,7 @@ public class API {
             lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("\\=")[1]));
             lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("\\=")[1]));
         } catch (Exception e) {
-            MCA.getLog().fatal(e);
+            MCA.log("crash", e);
             throw new RuntimeException("Failed to load all NPC names from file", e);
         }
 
@@ -80,7 +76,7 @@ public class API {
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
         for (Gift gift : gifts) {
             if (!gift.exists()) {
-                MCA.getLog().warn("Could not find gift item or block in registry: " + gift.getName());
+                MCA.log("Could not find gift item or block in registry: " + gift.getName());
             } else {
                 giftMap.put(gift.getName(), gift);
             }
@@ -189,7 +185,7 @@ public class API {
      */
     public static APIIcon getIcon(String key) {
         if (!iconMap.containsKey(key)) {
-            MCA.getLog().error("Icon " + key + " does not exist!");
+            MCA.log("Icon " + key + " does not exist!");
             iconMap.put(key, new APIIcon(0, 0, 0, 0));
         }
         return iconMap.get(key);
@@ -241,23 +237,23 @@ public class API {
      * @param screen   Screen instance the buttons should be added to
      */
     public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, CPlayer player, Screen screen) {
-        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-        for (APIButton b : buttonMap.get(guiKey)) {
-            ButtonEx guiButton = new ButtonEx(screen, b);
-            buttonList.add(guiButton);
-
-            // Ensure that if a constraint is attached to the button
-            if (villager == null && b.getConstraints().size() > 0) {
-                MCA.getLog().error("No villager provided for list of buttons with constraints! Button ID:" + b.getIdentifier());
-                continue;
-            }
-
-            // Remove the button if we specify it should not be present on constraint failure
-            // Otherwise we just mark the button as disabled.
-            boolean isValid = b.isValidForConstraint(villager, player);
-            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) buttonList.remove(guiButton);
-            else if (!isValid) guiButton.enabled = false;
-        }
+//        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
+//        for (APIButton b : buttonMap.get(guiKey)) {
+//            ButtonEx guiButton = new ButtonEx(screen, b);
+//            buttonList.add(guiButton);
+//
+//            // Ensure that if a constraint is attached to the button
+//            if (villager == null && b.getConstraints().size() > 0) {
+//                MCA.getLog().error("No villager provided for list of buttons with constraints! Button ID:" + b.getIdentifier());
+//                continue;
+//            }
+//
+//            // Remove the button if we specify it should not be present on constraint failure
+//            // Otherwise we just mark the button as disabled.
+//            boolean isValid = b.isValidForConstraint(villager, player);
+//            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) buttonList.remove(guiButton);
+//            else if (!isValid) guiButton.enabled = false;
+//        }
     }
 
     /**
@@ -267,14 +263,13 @@ public class API {
      * @param screen Screen containing the button
      * @return ButtonEx matching the provided id
      */
-    public static Optional<ButtonEx> getButton(String id, Screen screen) {
-        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-        Optional<Button> button = buttonList.stream().filter(
-                (b) -> b instanceof ButtonEx && ((ButtonEx) b).getApiButton().getIdentifier().equals(id)).findFirst();
-
-        return button.map(guiButton -> (ButtonEx) guiButton);
-    }
-
+//    public static Optional<ButtonEx> getButton(String id, Screen screen) {
+//        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
+//        Optional<Button> button = buttonList.stream().filter(
+//                (b) -> b instanceof ButtonEx && ((ButtonEx) b).getApiButton().getIdentifier().equals(id)).findFirst();
+//
+//        return button.map(guiButton -> (ButtonEx) guiButton);
+//    }
     public static CVillagerProfession randomProfession() {
         return CVillagerProfession.fromMC(MCA.PROFESSION_GUARD.get());
     }

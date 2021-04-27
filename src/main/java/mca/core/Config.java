@@ -1,92 +1,61 @@
 package mca.core;
 
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Config implements Serializable {
-    private transient final Configuration config;
+    public boolean overwriteOriginalVillagers = true;
+    public boolean enableDiminishingReturns = true;
+    public boolean enableInfection = true;
+    public int infectionChance = 5;
+    public boolean allowGrimReaper = true;
+    public int guardSpawnRate = 6;
+    public int chanceToHaveTwins = 2;
+    public int marriageHeartsRequirement = 100;
+    public int roseGoldSpawnWeight = 6;
+    public int babyGrowUpTime = 30;
+    public int childGrowUpTime = 60;
+    public int villagerMaxHealth = 20;
+    public boolean allowTrading = true;
+    public boolean logVillagerDeaths = true;
+    public boolean enableRevivals = true;
+    public String villagerChatPrefix = "";
+    public boolean allowPlayerMarriage = true;
+    public boolean enableAdminCommands = true;
+    public boolean allowRoseGoldGeneration = true;
+    public int marriageChance = 5;
+    public int marriageLimit = 50;
+    public int childrenChance = 5;
+    public int childrenLimit = 50;
 
-    public boolean overwriteOriginalVillagers;
-    public boolean enableDiminishingReturns;
-    public boolean enableInfection;
-    public int infectionChance;
-    public boolean allowGrimReaper;
-    public int guardSpawnRate;
-    public int chanceToHaveTwins;
-    public int marriageHeartsRequirement;
-    public int roseGoldSpawnWeight;
-    public int babyGrowUpTime;
-    public int childGrowUpTime;
-    public int villagerSpawnerCap;
-    public int villagerSpawnerRateMinutes;
-    public int villagerMaxHealth;
-    public boolean allowTrading;
-    public boolean logVillagerDeaths;
-    public boolean enableRevivals;
-    public String villagerChatPrefix;
-    public boolean allowPlayerMarriage;
-    public boolean enableAdminCommands;
-    public boolean allowRoseGoldGeneration;
-    public int marriageChance;
-    public int marriageLimit;
-    public int childrenChance;
-    public int childrenLimit;
-
-    public Config(FMLPreInitializationEvent event) {
-        config = new Configuration(event.getSuggestedConfigurationFile());
-        addConfigValues();
+    public Config() {
     }
 
-    private void addConfigValues() {
-        overwriteOriginalVillagers = config.get("General", "Overwrite Original Villagers?", true, "Should original villagers be overwritten by MCA villagers?").getBoolean();
-        enableDiminishingReturns = config.get("General", "Enable Interaction Fatigue?", true, "Should interactions yield diminishing returns over time?").getBoolean();
-        enableInfection = config.get("General", "Enable Zombie Infection?", true, "Should zombies be able to infect villagers?").getBoolean();
-        infectionChance = config.get("General", "Chance of Infection", 5, "Chance that a villager will be infected on hit from a zombie. Default is 5 for 5%.").getInt();
-        allowGrimReaper = config.get("General", "Allow Grim Reaper?", true, "Should the Grim Reaper boss be enabled?").getBoolean();
-        guardSpawnRate = config.get("General", "Guard Spawn Rate", 6, "How many villagers that should be in a village before a guard spawns.").getInt();
-        chanceToHaveTwins = config.get("General", "Chance to Have Twins", 2, "Chance that you will have twins. Default is 2 for 2%.").getInt();
-        marriageHeartsRequirement = config.get("General", "Marriage Hearts Requirement", 100, "Number of hearts required to get married.").getInt();
-        roseGoldSpawnWeight = config.get("General", "Rose Gold Spawn Weight", 6, "Spawn weights for Rose Gold").getInt();
-        babyGrowUpTime = config.get("General", "Baby Grow Up Time (Minutes)", 30, "Minutes it takes for a baby to be ready to grow up.").getInt();
-        childGrowUpTime = config.get("General", "Child Grow Up Time (Minutes)", 60, "Minutes it takes for a child to grow into an adult.").getInt();
-        villagerSpawnerCap = config.get("General", "Villager Spawner Cap", 5, "Maximum number of villagers that a spawner will create in the area before it stops.").getInt();
-        villagerSpawnerRateMinutes = config.get("General", "Villager Spawner Rate", 30, "The spawner will spawn 1 villager per this many minutes.").getInt();
-        allowTrading = config.get("General", "Enable Trading?", true, "Is trading with villagers enabled?").getBoolean();
-        logVillagerDeaths = config.get("General", "Log Villager Deaths?", true, "Should villager deaths be logged?").getBoolean();
-        enableRevivals = config.get("General", "Enable Revivals?", true, "Should reviving dead villagers be enabled?").getBoolean();
-        villagerChatPrefix = config.get("General", "Villager Chat Prefix", "", "Formatting prefix used for all chat with villagers.").getString();
-        allowPlayerMarriage = config.get("General", "Allow Player Marriage?", true, "Enables or disables player marriage.").getBoolean();
-        enableAdminCommands = config.get("General", "Enable Admin Commands?", true, "Enables or disables MCA admin commands for ops.").getBoolean();
-        allowRoseGoldGeneration = config.get("General", "Allow Rose Gold World Generation", true, "If enabled, generates rose gold in your world. If disabled, generates stone instead.").getBoolean();
-        villagerMaxHealth = config.get("General", "Villager Max Health", 20, "Each villager's maximum health. 1 point equals 1 heart.").getInt();
-        marriageChance = config.get("General", "Villager Marriage Chance", 5, "Chance that two villagers get married every 10 minutes.").getInt();
-        marriageLimit = config.get("General", "Villager Marriage Limit", 50, "Percentage of Villagers who will get married over time.").getInt();
-        childrenChance = config.get("General", "Villager Children Chance", 5, "Chance that a married villager get children every 10 minutes.").getInt();
-        childrenLimit = config.get("General", "Villager Children Limit", 50, "Percentage of Villagers in the village, until they stop procreating.").getInt();
-        config.save();
-    }
-
-    public Configuration getInstance() {
-        return config;
-    }
-
-    public List<IConfigElement> getCategories() {
-        List<IConfigElement> elements = new ArrayList<>();
-
-        for (String s : config.getCategoryNames()) {
-            if (s.equals("server")) continue;
-
-            IConfigElement element = new ConfigElement(config.getCategory(s));
-            elements.addAll(element.getChildElements());
-            elements.addAll(element.getChildElements());
-        }
-
-        return elements;
-    }
+//    private void addConfigValues() {
+//        overwriteOriginalVillagers = this.get("General", "Overwrite Original Villagers?", true, "Should original villagers be overwritten by MCA villagers?").getBoolean();
+//        enableDiminishingReturns = this.get("General", "Enable Interaction Fatigue?", true, "Should interactions yield diminishing returns over time?").getBoolean();
+//        enableInfection = this.get("General", "Enable Zombie Infection?", true, "Should zombies be able to infect villagers?").getBoolean();
+//        infectionChance = this.get("General", "Chance of Infection", 5, "Chance that a villager will be infected on hit from a zombie. Default is 5 for 5%.").getInt();
+//        allowGrimReaper = this.get("General", "Allow Grim Reaper?", true, "Should the Grim Reaper boss be enabled?").getBoolean();
+//        guardSpawnRate = this.get("General", "Guard Spawn Rate", 6, "How many villagers that should be in a village before a guard spawns.").getInt();
+//        chanceToHaveTwins = this.get("General", "Chance to Have Twins", 2, "Chance that you will have twins. Default is 2 for 2%.").getInt();
+//        marriageHeartsRequirement = this.get("General", "Marriage Hearts Requirement", 100, "Number of hearts required to get married.").getInt();
+//        roseGoldSpawnWeight = this.get("General", "Rose Gold Spawn Weight", 6, "Spawn weights for Rose Gold").getInt();
+//        babyGrowUpTime = this.get("General", "Baby Grow Up Time (Minutes)", 30, "Minutes it takes for a baby to be ready to grow up.").getInt();
+//        childGrowUpTime = this.get("General", "Child Grow Up Time (Minutes)", 60, "Minutes it takes for a child to grow into an adult.").getInt();
+//        villagerSpawnerCap = this.get("General", "Villager Spawner Cap", 5, "Maximum number of villagers that a spawner will create in the area before it stops.").getInt();
+//        villagerSpawnerRateMinutes = this.get("General", "Villager Spawner Rate", 30, "The spawner will spawn 1 villager per this many minutes.").getInt();
+//        allowTrading = this.get("General", "Enable Trading?", true, "Is trading with villagers enabled?").getBoolean();
+//        logVillagerDeaths = this.get("General", "Log Villager Deaths?", true, "Should villager deaths be logged?").getBoolean();
+//        enableRevivals = this.get("General", "Enable Revivals?", true, "Should reviving dead villagers be enabled?").getBoolean();
+//        villagerChatPrefix = this.get("General", "Villager Chat Prefix", "", "Formatting prefix used for all chat with villagers.").getString();
+//        allowPlayerMarriage = this.get("General", "Allow Player Marriage?", true, "Enables or disables player marriage.").getBoolean();
+//        enableAdminCommands = this.get("General", "Enable Admin Commands?", true, "Enables or disables MCA admin commands for ops.").getBoolean();
+//        allowRoseGoldGeneration = this.get("General", "Allow Rose Gold World Generation", true, "If enabled, generates rose gold in your world. If disabled, generates stone instead.").getBoolean();
+//        villagerMaxHealth = this.get("General", "Villager Max Health", 20, "Each villager's maximum health. 1 point equals 1 heart.").getInt();
+//        marriageChance = this.get("General", "Villager Marriage Chance", 5, "Chance that two villagers get married every 10 minutes.").getInt();
+//        marriageLimit = this.get("General", "Villager Marriage Limit", 50, "Percentage of Villagers who will get married over time.").getInt();
+//        childrenChance = this.get("General", "Villager Children Chance", 5, "Chance that a married villager get children every 10 minutes.").getInt();
+//        childrenLimit = this.get("General", "Villager Children Limit", 50, "Percentage of Villagers in the village, until they stop procreating.").getInt();
+//        this.save();
+//    }
 }

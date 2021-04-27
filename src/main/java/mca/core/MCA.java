@@ -83,25 +83,25 @@ public class MCA extends CobaltForgeMod {
         ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, RenderVillagerMCA::new, EntityClassification.AMBIENT, "villager_mca",
                 1.0F, 1.85F);
 
-        PROFESSION_GUARD = registerProfession("guard", PointOfInterestType.ARMORER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
-        PROFESSION_CHILD = registerProfession("child", PointOfInterestType.HOME, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
+        PROFESSION_GUARD = registerProfession("guard", PointOfInterestType.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);
+        PROFESSION_CHILD = registerProfession("child", PointOfInterestType.HOME, SoundEvents.VILLAGER_WORK_FARMER);
     }
 
     @Override
     public void onSetup() {
         API.init();
-        config = new Config(event);
+        config = new Config();
         this.localizer.registerVarParser(str -> str.replaceAll("%Supporter%", getRandomSupporter()));
     }
 
     @Override
     public void onClientSetup() {
-        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
+        //RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
     }
 
     @Override
     public void registerCommands(FMLServerStartingEvent event) {
-        CommandMCA.register(event.getCommandDispatcher());
+
     }
 
     public String getModId() {

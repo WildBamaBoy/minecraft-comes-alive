@@ -1,119 +1,157 @@
 package mca.command;
 
-import mca.core.Constants;
-import mca.core.MCA;
-import mca.core.MCAServer;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import cobalt.minecraft.entity.player.CPlayer;
-import net.minecraft.server.MinecraftServer;
+import cobalt.minecraft.util.CText;
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import mca.core.MCA;
+import mca.entity.EntityVillagerMCA;
+import mca.entity.data.Memories;
+import mca.enums.EnumAgeState;
+import mca.items.ItemBaby;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.server.ServerWorld;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
-public class CommandMCA extends CommandBase {
-    @Override
-    public String getName() {
-        return "mca";
+public class CommandMCA {
+    private static final ArrayList<EntityVillagerMCA> prevVillagersRemoved = new ArrayList<>();
+
+    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+        dispatcher.register(Commands.literal("mca")
+                .then(register("clv", CommandMCA::clearLoadedVillagers))
+                .then(register("rcv", CommandMCA::restoreClearedVillagers))
+                .then(register("ffh", CommandMCA::forceFullHearts))
+                .then(register("fbg", CommandMCA::forceBabyGrowth))
+                .then(register("fcg", CommandMCA::forceChildGrowth))
+                .then(register("inh", CommandMCA::incrementHearts))
+                .then(register("deh", CommandMCA::decrementHearts))
+                .then(register("sgr", CommandMCA::spawnGrimReaper))
+                .then(register("kgr", CommandMCA::killGrimReaper))
+                .then(register("dpd", CommandMCA::dumpPlayerData))
+                .then(register("rvd", CommandMCA::resetVillagerData))
+                .then(register("rpd", CommandMCA::resetPlayerData))
+                .then(register("cve", CommandMCA::clearVillagerEditors))
+        );
     }
 
-    @Override
-    public String getUsage(ICommandSender commandSender) {
-        return "/mca <subcommand> <arguments>";
-    }
-
-    @Override
-    public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException {
-        try {
-            if (!MCA.getConfig().allowPlayerMarriage) {
-                sendMessage(commandSender, "MCA commands have been disabled by the server administrator.");
-                return;
+    private static int clearVillagerEditors(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+        for (int i = 0; i < player.inventory.getContainerSize(); i++) {
+            ItemStack stack = player.inventory.getItem(i);
+            if (stack.getItem() == MCA.ITEM_VILLAGER_EDITOR.get()) {
+                player.inventory.removeItem(stack);
             }
-
-            if (input.length == 0) {
-                throw new WrongUsageException("");
-            }
-
-            final CPlayer player = (CPlayer) commandSender;
-            String subcommand = input[0].toLowerCase();
-            String[] arguments = Arrays.copyOfRange(input, 1, input.length);
-            MCA.getLog().info(player.getName() + " entered command " + Arrays.toString(input));
-
-            switch (subcommand) {
-                case "help":
-                    displayHelp(commandSender);
-                    break;
-                case "propose":
-                    CPlayer target = player.world.getPlayerEntityByName(arguments[0]);
-                    if (target != null) {
-                        MCAServer.get().sendProposal(player, target);
-                    } else {
-                        player.sendMessage(new StringTextComponent("Player not found on the server."));
-                    }
-                    break;
-                case "accept":
-                    target = player.world.getPlayerEntityByName(arguments[0]);
-                    if (target != null) {
-                        MCAServer.get().acceptProposal(player, target);
-                    } else {
-                        player.sendMessage(new StringTextComponent("Player not found on the server."));
-                    }
-                    break;
-                case "proposals":
-                    MCAServer.get().listProposals(player);
-                    break;
-                case "procreate":
-                    MCAServer.get().procreate(player);
-                    break;
-                case "separate":
-                    MCAServer.get().endMarriage(player);
-                    break;
-                case "reject":
-                    target = player.world.getPlayerEntityByName(arguments[0]);
-                    if (target != null) {
-                        MCAServer.get().rejectProposal(player, target);
-                    } else {
-                        player.sendMessage(new StringTextComponent("Player not found on the server."));
-                    }
-                    break;
-                default:
-                    throw new WrongUsageException("");
-            }
-        } catch (ClassCastException e) {
-            throw new CommandException("MCA commands cannot be used through rcon.");
-        } catch (WrongUsageException e) {
-            throw new CommandException("Your command was invalid or improperly formatted. Usage: " + getUsage(commandSender));
         }
-    }
-
-    @Override
-    public int getRequiredPermissionLevel() {
         return 0;
     }
 
-    private void sendMessage(ICommandSender commandSender, String message) {
-        commandSender.sendMessage(new StringTextComponent(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message));
+    private static int resetPlayerData(CommandContext<CommandSource> ctx) {
+        return 0;
     }
 
-    private void sendMessage(ICommandSender commandSender, String message, boolean noPrefix) {
-        if (noPrefix) {
-            commandSender.sendMessage(new StringTextComponent(message));
-        } else {
-            sendMessage(commandSender, message);
+    private static int resetVillagerData(CommandContext<CommandSource> ctx) {
+        return 0;
+    }
+
+    private static int dumpPlayerData(CommandContext<CommandSource> ctx) {
+        return 0;
+    }
+
+    private static int killGrimReaper(CommandContext<CommandSource> ctx) {
+        return 0;
+    }
+
+    private static int spawnGrimReaper(CommandContext<CommandSource> ctx) {
+        return 0;
+    }
+
+    private static int decrementHearts(CommandContext<CommandSource> ctx) {
+        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+        getLoadedVillagers(ctx).forEach(v -> {
+            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(CPlayer.fromMC(player));
+            memories.setHearts(memories.getHearts() - 10);
+            ((EntityVillagerMCA) v).updateMemories(memories);
+        });
+        return 0;
+    }
+
+    private static int incrementHearts(CommandContext<CommandSource> ctx) {
+        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+        getLoadedVillagers(ctx).forEach(v -> {
+            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(CPlayer.fromMC(player));
+            memories.setHearts(memories.getHearts() + 10);
+            ((EntityVillagerMCA) v).updateMemories(memories);
+        });
+        return 0;
+    }
+
+    private static int forceChildGrowth(CommandContext<CommandSource> ctx) {
+        getLoadedVillagers(ctx).filter(v -> ((EntityVillagerMCA) v).ageState.get() != EnumAgeState.ADULT.getId()).forEach(v -> ((EntityVillagerMCA) v).ageState.set(EnumAgeState.ADULT.getId()));
+        return 0;
+    }
+
+    private static int forceBabyGrowth(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+        ItemStack heldStack = player.getMainHandItem();
+
+        if (heldStack.getItem() instanceof ItemBaby) {
+            //((ItemBaby) heldStack.getItem()).forceAgeUp();
         }
+        return 0;
     }
 
-    private void displayHelp(ICommandSender commandSender) {
-        sendMessage(commandSender, Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "PLAYER COMMANDS" + Constants.Color.DARKRED + " ---", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca propose <PlayerName>" + Constants.Color.GOLD + " - Proposes marriage to the given player.", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca proposals " + Constants.Color.GOLD + " - Shows all active proposals.", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca accept <PlayerName>" + Constants.Color.GOLD + " - Accepts the player's marriage request.", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca reject <PlayerName>" + Constants.Color.GOLD + " - Rejects the player's marriage request.", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca procreate " + Constants.Color.GOLD + " - Starts procreation.", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca separate " + Constants.Color.GOLD + " - Ends your marriage.", true);
-        sendMessage(commandSender, Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---", true);
-        sendMessage(commandSender, Constants.Color.WHITE + " /mca help " + Constants.Color.GOLD + " - Shows this list of commands.", true);
+    private static int forceFullHearts(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+        getLoadedVillagers(ctx).forEach(v -> {
+            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(CPlayer.fromMC(player));
+            memories.setHearts(100);
+            ((EntityVillagerMCA) v).updateMemories(memories);
+        });
+        return 0;
+    }
+
+    private static int restoreClearedVillagers(CommandContext<CommandSource> ctx) {
+        ServerWorld world = ctx.getSource().getLevel();
+//        prevVillagersRemoved.forEach(world::addEntity);
+        prevVillagersRemoved.clear();
+        success("Restored cleared villagers.", ctx);
+        return 0;
+    }
+
+    private static ArgumentBuilder<CommandSource, ?> register(String name, Command<CommandSource> cmd) {
+        return Commands.literal(name).requires(cs -> cs.hasPermission(0)).executes(cmd);
+    }
+
+    private static int clearLoadedVillagers(final CommandContext<CommandSource> ctx) {
+        prevVillagersRemoved.clear();
+        getLoadedVillagers(ctx).forEach(v -> {
+            prevVillagersRemoved.add((EntityVillagerMCA) v);
+            v.remove(true);
+        });
+
+        success("Removed loaded villagers.", ctx);
+        return 0;
+    }
+
+    private static Stream<Entity> getLoadedVillagers(final CommandContext<CommandSource> ctx) {
+        return ctx.getSource().getLevel().getEntities().filter(e -> e instanceof EntityVillagerMCA);
+    }
+
+    private static void success(String message, CommandContext<CommandSource> ctx) {
+        ctx.getSource().sendSuccess(new StringTextComponent(CText.Color.GREEN + message), true);
+    }
+
+    private static void fail(String message, CommandContext<CommandSource> ctx) {
+        ctx.getSource().sendFailure(new StringTextComponent(CText.Color.RED + message));
     }
 }
