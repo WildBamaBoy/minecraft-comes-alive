@@ -16,7 +16,7 @@ public class CItemBasic extends CItem {
 
     @Override
     public ActionResult<ItemStack> handleRightClick(CWorld worldIn, CPlayer playerIn, CEnumHand hand) {
-        return ActionResult.resultPass(getCurrentHeldItemStack(playerIn, hand).getMcItemStack());
+        return ActionResult.pass(getCurrentHeldItemStack(playerIn, hand).getMcItemStack());
     }
 
     @Override

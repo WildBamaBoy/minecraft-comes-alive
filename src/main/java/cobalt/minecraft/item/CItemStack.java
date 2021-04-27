@@ -1,5 +1,6 @@
 package cobalt.minecraft.item;
 
+import cobalt.minecraft.nbt.CNBT;
 import lombok.Getter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,5 +29,17 @@ public class CItemStack {
 
     public boolean isEmpty() {
         return mcItemStack.isEmpty();
+    }
+
+    public boolean hasTag() {
+        return mcItemStack.hasTag();
+    }
+
+    public CNBT getTag() {
+        return CNBT.fromMC(mcItemStack.getTag());
+    }
+
+    public void setTag(CNBT nbt) {
+        mcItemStack.setTag(nbt.getMcCompound());
     }
 }

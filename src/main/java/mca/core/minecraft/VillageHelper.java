@@ -80,7 +80,7 @@ public class VillageHelper {
             List<EntityVillagerMCA> villagers = new ArrayList<>();
             List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
             for (EntityVillagerMCA v : allVillagers) {
-                if (!v.isMarried() && !v.isChild()) {
+                if (!v.isMarried() && !v.isBaby()) {
                     villagers.add(v);
                 }
             }

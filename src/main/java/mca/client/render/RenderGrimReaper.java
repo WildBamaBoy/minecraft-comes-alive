@@ -1,34 +1,28 @@
 package mca.client.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.client.model.ModelGrimReaper;
 import mca.entity.EntityGrimReaper;
-import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.BipedRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
-public class RenderGrimReaper<T extends EntityGrimReaper> extends RenderBiped<T> {
+public class RenderGrimReaper extends BipedRenderer<EntityGrimReaper, ModelGrimReaper<EntityGrimReaper>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/entity/grimreaper.png");
 
-    public RenderGrimReaper(RenderManager manager) {
+    public RenderGrimReaper(EntityRendererManager manager, boolean p_i46103_2_) {
         super(manager, new ModelGrimReaper(), 0.5F);
     }
 
+
     @Override
-    public void doRender(T entity, double posX, double posY, double posZ, float angle, float offsetY) {
-        super.doRender(entity, posX, posY, posZ, angle, offsetY);
+    protected void scale(EntityGrimReaper villager, MatrixStack matrixStackIn, float partialTickTime) {
+        float scale = 1.3f;
+        matrixStackIn.scale(scale, scale, scale);
     }
 
     @Override
-    protected void preRenderCallback(T entity, float partialTickTime) {
-        super.preRenderCallback(entity, partialTickTime);
-
-        double scale = 1.3D;
-        GL11.glScaled(scale, scale, scale);
-    }
-
-    @Override
-    protected ResourceLocation getEntityTexture(T entity) {
+    public ResourceLocation getTextureLocation(EntityGrimReaper entity) {
         return TEXTURE;
     }
 }

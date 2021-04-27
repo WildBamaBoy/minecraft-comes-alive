@@ -94,7 +94,7 @@ public class CommandAdminMCA extends CommandBase {
 
     private void forceChildGrow(CPlayer player) {
         player.world.loadedEntityList.stream()
-                .filter(e -> e instanceof EntityVillagerMCA && ((EntityVillagerMCA)e).isChild())
+                .filter(e -> e instanceof EntityVillagerMCA && ((EntityVillagerMCA)e).isBaby())
                 .forEach(e -> ((EntityVillagerMCA) e).addGrowth(999999));
         sendMessage(player, Constants.Color.GREEN + "Forced any children to grow to adults.");
     }

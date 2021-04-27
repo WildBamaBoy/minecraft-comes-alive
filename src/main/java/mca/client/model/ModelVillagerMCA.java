@@ -1,21 +1,16 @@
 package mca.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel {
+public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T> {
     public ModelRenderer bipedLeftArmwear;
     public ModelRenderer bipedRightArmwear;
     public ModelRenderer bipedLeftLegwear;
@@ -97,7 +92,7 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel {
 
 //        GlStateManager.pushMatrix();
 
-//        if (isChild) {
+//        if (isBaby) {
 //            GlStateManager.scale(0.5F, 0.5F, 0.5F);
 //            GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
 //        } else {
@@ -116,22 +111,22 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel {
 
         //breasts
 //        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-//        if (EnumGender.byId(villager.get(EntityVillagerMCA.GENDER)) == EnumGender.FEMALE && !villager.isChild() && villager.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY) {
-            double sc = 1.0f;//villager.get(EntityVillagerMCA.GENE_BREAST);
-            GL11.glPushMatrix();
-            GL11.glTranslated(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.175, -0.11D);
-            GL11.glScaled(cloth ? 1.166666 : 1.0, 1.0, 0.75 + sc * 0.5);
-            GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glScaled(sc * 0.3 + 0.85, sc * 0.75 + 0.75, sc * 0.75 + 0.75);
-            breasts.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-            breastsWear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-            GL11.glPopMatrix();
+//        if (EnumGender.byId(villager.get(EntityVillagerMCA.GENDER)) == EnumGender.FEMALE && !villager.isBaby() && villager.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY) {
+        double sc = 1.0f;//villager.get(EntityVillagerMCA.GENE_BREAST);
+        GL11.glPushMatrix();
+        GL11.glTranslated(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.175, -0.11D);
+        GL11.glScaled(cloth ? 1.166666 : 1.0, 1.0, 0.75 + sc * 0.5);
+        GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glScaled(sc * 0.3 + 0.85, sc * 0.75 + 0.75, sc * 0.75 + 0.75);
+        breasts.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        breastsWear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        GL11.glPopMatrix();
 //        }
 
 //        GlStateManager.popMatrix();
     }
 
-    public void setupAnim(EntityVillagerMCA entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
 
         bipedLeftLegwear.copyFrom(leftLeg);

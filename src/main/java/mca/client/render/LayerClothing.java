@@ -1,21 +1,21 @@
 package mca.client.render;
 
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LayerClothing extends LayerVillager {
-    public LayerClothing(LivingRenderer<?> rendererIn) {
-        super(rendererIn, 0.16666f, 0.0833f);
+    public LayerClothing(IEntityRenderer renderer, BipedModel model) {
+        super(renderer, model);
     }
 
     @Override
     String getTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-        return villager.get(EntityVillagerMCA.clothes);
+        return villager.clothes.get();
     }
 }

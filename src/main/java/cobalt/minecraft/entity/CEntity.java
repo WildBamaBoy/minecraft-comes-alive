@@ -20,7 +20,7 @@ public class CEntity {
 
     protected CEntity(Entity entity) {
         this.mcEntity = entity;
-        this.world = entity != null ? CWorld.fromMC(entity.world) : null;
+        this.world = entity != null ? CWorld.fromMC(entity.level) : null;
     }
 
     public static CEntity fromMC(Entity entity) {
@@ -28,13 +28,13 @@ public class CEntity {
     }
 
     public double getPosX() {
-        return mcEntity.getPosX();
+        return mcEntity.getX();
     }
     public double getPosY() {
-        return mcEntity.getPosY();
+        return mcEntity.getY();
     }
     public double getPosZ() {
-        return mcEntity.getPosZ();
+        return mcEntity.getZ();
     }
 
     public CPos getPosition() {
@@ -42,11 +42,13 @@ public class CEntity {
     }
 
     public void sendMessage(String message) {
-        mcEntity.sendMessage(new StringTextComponent(message));
+        mcEntity.sendMessage(new StringTextComponent(message), getUUID());
     }
 
     public boolean attackFrom(DamageSource source, float amount) {
-        return mcEntity.attackEntityFrom(source, amount);
+        //return mcEntity.attackEntityFrom(source, amount);
+        //TODO
+        return false;
     }
 
     public String getName() {
@@ -58,7 +60,7 @@ public class CEntity {
     }
 
     public void dropItem(ItemStack stack, float offsetY) {
-        mcEntity.entityDropItem(stack, offsetY);
+        mcEntity.spawnAtLocation(stack, offsetY);
     }
 
     public boolean isPlayer() {

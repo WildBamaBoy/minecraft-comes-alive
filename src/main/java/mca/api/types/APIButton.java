@@ -41,7 +41,7 @@ public class APIButton {
     public boolean isValidForConstraint(EntityVillagerMCA villager, CPlayer player) {
         List<EnumConstraint> constraints = getConstraints();
 
-        if (constraints.contains(EnumConstraint.ADULTS) && !villager.isChild()) {
+        if (constraints.contains(EnumConstraint.ADULTS) && !villager.isBaby()) {
             return true;
         } else if (constraints.contains(EnumConstraint.SPOUSE) && villager.isMarriedTo(player.getUUID())) {
             return true;

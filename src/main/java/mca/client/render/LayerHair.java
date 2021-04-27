@@ -3,40 +3,41 @@ package mca.client.render;
 import mca.client.colors.HairColors;
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LayerHair extends LayerVillager {
-    public LayerHair(RenderLivingBase<?> rendererIn) {
-        super(rendererIn, 0.0833f, 0.16666f);
+    public LayerHair(IEntityRenderer renderer, BipedModel model) {
+        super(renderer, model);
 
         // LayerViller is only designed for ModelVillagerMCA anyways
-        ((ModelVillagerMCA) this.model).bipedLeftLeg.showModel = false;
-        ((ModelVillagerMCA) this.model).bipedLeftLegwear.showModel = false;
-        ((ModelVillagerMCA) this.model).bipedRightLeg.showModel = false;
-        ((ModelVillagerMCA) this.model).bipedRightLegwear.showModel = false;
+        ((ModelVillagerMCA) this.model).leftLeg.visible = false;
+        ((ModelVillagerMCA) this.model).bipedLeftLegwear.visible = false;
+        ((ModelVillagerMCA) this.model).rightLeg.visible = false;
+        ((ModelVillagerMCA) this.model).bipedRightLegwear.visible = false;
     }
 
     @Override
     String getTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-        return villager.get(EntityVillagerMCA.hair);
+        return villager.hair.get();
     }
 
     @Override
     String getOverlayTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-        return villager.get(EntityVillagerMCA.hairOverlay);
+        return villager.hairOverlay.get();
     }
 
     @Override
     float[] getColor(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-        float e = villager.get(EntityVillagerMCA.GENE_EUMELANIN);
-        float p = villager.get(EntityVillagerMCA.GENE_PHEOMELANIN);
+        float e = villager.GENE_EUMELANIN.get();
+        float p = villager.GENE_PHEOMELANIN.get();
         double[] color = HairColors.getColor(e, p);
         return new float[]{(float) color[0], (float) color[1], (float) color[2]};
     }

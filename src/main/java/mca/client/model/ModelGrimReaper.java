@@ -2,6 +2,7 @@ package mca.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import mca.entity.EntityGrimReaper;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -9,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelGrimReaper extends BipedModel {
+public class ModelGrimReaper<T extends EntityGrimReaper> extends BipedModel<T> {
     private final ModelRenderer head;
     private final ModelRenderer rightArm;
     private final ModelRenderer leftLeg;

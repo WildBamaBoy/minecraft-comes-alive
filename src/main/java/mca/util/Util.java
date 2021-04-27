@@ -66,7 +66,7 @@ public class Util {
         return data;
     }
 
-    public static List<Entity> getEntitiesWithinDistance(World world, CPos pos, int radius) {
+    public static List<Entity> getEntitiesWithinDistance(CWorld world, CPos pos, int radius) {
         return getEntitiesWithinDistance(world, pos, radius, Entity.class);
     }
 
@@ -81,7 +81,7 @@ public class Util {
         );
     }
 
-    public static Optional<Entity> getEntityByUUID(World world, UUID uuid) {
+    public static Optional<Entity> getEntityByUUID(CWorld world, UUID uuid) {
         for (Entity entity : world.loadedEntityList) {
             if (entity.getUUID().equals(uuid)) {
                 return Optional.of(entity);
@@ -149,7 +149,7 @@ public class Util {
             in.close();
             return response.toString();
         } catch (IOException ignored) {
-            MCA.getLog().error("Failed to GET from: " + url);
+            MCA.log("Failed to GET from: " + url);
         }
         return "";
     }

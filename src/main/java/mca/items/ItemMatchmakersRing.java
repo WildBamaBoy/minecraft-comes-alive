@@ -28,7 +28,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
             villager.say(player, "interaction.matchmaker.fail.married");
         }
 
-        List<EntityVillagerMCA> villagers = villager.world.getEntities(EntityVillagerMCA.class, v -> v != null && !v.isMarried() && !v.isChild() && v.getDistance(villager) < 3.0D && v != villager);
+        List<EntityVillagerMCA> villagers = villager.world.getEntities(EntityVillagerMCA.class, v -> v != null && !v.isMarried() && !v.isBaby() && v.getDistance(villager) < 3.0D && v != villager);
         java.util.Optional<EntityVillagerMCA> target = villagers.stream().min(Comparator.comparingDouble(villager::getDistance));
 
         // ensure we found a nearby villager

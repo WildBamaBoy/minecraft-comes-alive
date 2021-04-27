@@ -5,11 +5,8 @@ import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.minecraft.nbt.CNBT;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;

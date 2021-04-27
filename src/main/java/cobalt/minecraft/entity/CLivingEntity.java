@@ -15,19 +15,19 @@ import net.minecraft.world.World;
 import java.util.UUID;
 
 public class CLivingEntity extends CEntity {
-    @Getter private LivingEntity mcEntity;
-    @Getter private World mcWorld;
+    @Getter private final LivingEntity mcEntity;
+    @Getter private final World mcWorld;
 
     protected CLivingEntity(LivingEntity entity) {
         super(entity);
         this.mcEntity = entity;
-        this.mcWorld = entity.world;
+        this.mcWorld = entity.level;
     }
 
     public static CLivingEntity fromMC(LivingEntity entity) {
         return new CLivingEntity(entity);
     }
     public CItemStack getHeldItem(CEnumHand hand) {
-        return CItemStack.fromMC(mcEntity.getHeldItem(hand.getMcHand()));
+        return CItemStack.fromMC(mcEntity.getMainHandItem());
     }
 }

@@ -11,6 +11,7 @@ import cobalt.minecraft.network.datasync.*;
 import cobalt.minecraft.pathfinding.CPathNavigator;
 import cobalt.minecraft.util.CDamageSource;
 import cobalt.minecraft.util.math.CPos;
+import cobalt.minecraft.world.CWorld;
 import cobalt.util.ResourceLocationCache;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -20,7 +21,6 @@ import mca.api.types.Hair;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
-import mca.entity.ai.*;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
 import mca.entity.data.PlayerSaveData;
@@ -37,9 +37,11 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.UUID;
 
 public class EntityVillagerMCA extends VillagerWrapper {
     public static final int VANILLA_CAREER_ID_FIELD_INDEX = 13;
@@ -107,11 +109,11 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public float renderOffsetY;
     public float renderOffsetZ;
 
-    public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World world) {
+    public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, CWorld world) {
         super(type, world);
         inventory = new CInventory(CEntity.fromMC(this), 27);
 
-        if (world.isClientSide()) {
+        if (world.isRemote) {
             EnumGender eGender = EnumGender.getRandom();
             gender.set(eGender.getId());
 
@@ -195,7 +197,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         this.home = new CPos(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
         this.playerToFollowUUID = nbt.getUUID("playerToFollowUUID");
 
-        applySpecialAI();
+//        applySpecialAI();
     }
 
     @Override
@@ -547,7 +549,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         Memories memory = getMemoriesForPlayer(player);
         java.util.Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {
-            MCA.getLog().warn("Button not found for key and ID: " + guiKey + ", " + buttonId);
+            MCA.log("Button not found for key and ID: " + guiKey + ", " + buttonId);
         } else if (button.get().isInteraction()) handleInteraction(player, memory, button.get());
 
         Hair h;
@@ -611,11 +613,11 @@ public class EntityVillagerMCA extends VillagerWrapper {
                     say(player, "interaction.procreate.fail.hasbaby");
                 else if (memory.getHearts() < 100) say(player, "interaction.procreate.fail.lowhearts");
                 else {
-                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
-                    if (task != null) {
-                        ((EntityAIProcreate) task.action).procreateTimer = 20 * 3; // 3 seconds
-                        isProcreating.set(true);
-                    }
+//                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
+//                    if (task != null) {
+//                        ((EntityAIProcreate) task.action).procreateTimer = 20 * 3; // 3 seconds
+//                        isProcreating.set(true);
+//                    }
                 }
                 break;
             case "gui.button.infected":
@@ -647,7 +649,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());
-                applySpecialAI();
+//                applySpecialAI();
                 break;
             case "gui.button.prospecting":
                 startChore(EnumChore.PROSPECT, player);
@@ -685,12 +687,12 @@ public class EntityVillagerMCA extends VillagerWrapper {
     private boolean handleSpecialCaseGift(CPlayer player, CItemStack stack) {
         Item item = stack.getItem();
 
-        if (item instanceof ItemSpecialCaseGift && !isChild()) { // special case gifts are rings so far so prevent giving them to children
-            boolean decStackSize = ((ItemSpecialCaseGift) item).handle(player, this);
-            if (decStackSize) player.getHeldItem(CEnumHand.MAIN_HAND).decrStackSize();
+        if (item instanceof ItemSpecialCaseGift && !isBaby()) { // special case gifts are rings so far so prevent giving them to children
+//            boolean decStackSize = ((ItemSpecialCaseGift) item).handle(player, this);
+            player.getHeldItem(CEnumHand.MAIN_HAND).decrStackSize();
             return true;
         } else if (item == Items.CAKE) {
-            if (isMarried() && !isChild()) {
+            if (isMarried() && !isBaby()) {
                 Optional<Entity> spouse = Util.getEntityByUUID(world, spouseUUID.get().orElse(Constants.ZERO_UUID));
                 if (spouse.isPresent()) {
                     EntityVillagerMCA progressor = gender.get() == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
@@ -703,7 +705,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
                 }
                 return true;
             }
-        } else if (item == Items.GOLDEN_APPLE && this.isChild()) {
+        } else if (item == Items.GOLDEN_APPLE && this.isBaby()) {
 //            this.addGrowth(((startingAge / 4) / 20 * -1));
             return true;
         }
@@ -736,7 +738,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
             }
         }
 
-        if (isChild()) {
+        if (isBaby()) {
             // get older
 //            EnumAgeState current = EnumAgeState.byId(ageState.get());
 //            EnumAgeState target = EnumAgeState.byCurrentAge(startingAge, getGrowingAge());
@@ -776,66 +778,67 @@ public class EntityVillagerMCA extends VillagerWrapper {
         }
     }
 
-    @Override
-    protected void initializeAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIProspecting(this));
-        this.tasks.addTask(0, new EntityAIHunting(this));
-        this.tasks.addTask(0, new EntityAIChopping(this));
-        this.tasks.addTask(0, new EntityAIHarvesting(this));
-        this.tasks.addTask(0, new EntityAIFishing(this));
-        this.tasks.addTask(0, new EntityAIMoveState(this));
-        this.tasks.addTask(0, new EntityAIAgeBaby(this));
-        this.tasks.addTask(0, new EntityAIProcreate(this));
-        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
-        this.tasks.addTask(6, new EntityAIWork(this));
-        this.tasks.addTask(5, new EntityAIGoHangout(this));
-        this.tasks.addTask(1, new EntityAISleeping(this));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, CPlayer.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
-    }
+//    @Override
+//    protected void initializeAI() {
+//        super.initEntityAI();
+//
+//        this.tasks.addTask(0, new EntityAIProspecting(this));
+//        this.tasks.addTask(0, new EntityAIHunting(this));
+//        this.tasks.addTask(0, new EntityAIChopping(this));
+//        this.tasks.addTask(0, new EntityAIHarvesting(this));
+//        this.tasks.addTask(0, new EntityAIFishing(this));
+//        this.tasks.addTask(0, new EntityAIMoveState(this));
+//        this.tasks.addTask(0, new EntityAIAgeBaby(this));
+//        this.tasks.addTask(0, new EntityAIProcreate(this));
+//        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
+//        this.tasks.addTask(6, new EntityAIWork(this));
+//        this.tasks.addTask(5, new EntityAIGoHangout(this));
+//        this.tasks.addTask(1, new EntityAISleeping(this));
+//        this.tasks.addTask(10, new EntityAIWatchClosest(this, CPlayer.class, 8.0F));
+//        this.tasks.addTask(10, new EntityAILookIdle(this));
+//    }
 
-    private void applySpecialAI() {
-        if (getProfession() == ProfessionsMCA.bandit) {
-            this.tasks.taskEntries.clear();
-            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
-            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
-            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, CPlayer.class, true));
-        } else if (getProfession() == ProfessionsMCA.guard) {
-            removeCertainTasks(EntityAIAvoidEntity.class);
-
-            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
-            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVex.class, 100, false, false, null));
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVindicator.class, 100, false, false, null));
-        } else {
-            //every other villager is allowed to defend itself from zombies while fleeing
-            this.tasks.addTask(0, new EntityAIDefendFromTarget(this));
-
-            this.targetTasks.taskEntries.clear();
-            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
-        }
-    }
+//    private void applySpecialAI() {
+//        if (getProfession() == ProfessionsMCA.bandit) {
+//            this.tasks.taskEntries.clear();
+//            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
+//            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
+//
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
+//            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, CPlayer.class, true));
+//        } else if (getProfession() == ProfessionsMCA.guard) {
+//            removeCertainTasks(EntityAIAvoidEntity.class);
+//
+//            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
+//            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
+//
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVex.class, 100, false, false, null));
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVindicator.class, 100, false, false, null));
+//        } else {
+//            //every other villager is allowed to defend itself from zombies while fleeing
+//            this.tasks.addTask(0, new EntityAIDefendFromTarget(this));
+//
+//            this.targetTasks.taskEntries.clear();
+//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
+//        }
+//    }
 
     //guards should not run away from zombies
     //TODO: should only avoid zombies when low on health
-    private void removeCertainTasks(Class typ) {
-        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
-
-        while (iterator.hasNext()) {
-            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
-            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
-
-            if (entityaibase.getClass().equals(typ)) {
-                iterator.remove();
-            }
-        }
-    }
+//    private void removeCertainTasks(Class typ) {
+//        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
+//
+//        while (iterator.hasNext()) {
+//            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
+//            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
+//
+//            if (entityaibase.getClass().equals(typ)) {
+//                iterator.remove();
+//            }
+//        }
+//    }
 
     public void stopChore() {
         activeChore.set(EnumChore.NONE.getId());

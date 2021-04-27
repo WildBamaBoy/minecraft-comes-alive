@@ -63,4 +63,12 @@ public class PlayerSaveData extends CWorldSavedData {
         setBabyPresent(false);
         setDirty();
     }
+
+    public UUID getSpouseUUID() {
+        return spouseUUID;
+    }
+
+    public String getSpouseName() {
+        return spouseName;
+    }
 }

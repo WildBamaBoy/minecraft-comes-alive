@@ -29,9 +29,9 @@ import javax.annotation.Nonnull;
 public abstract class VillagerWrapper extends VillagerEntity {
     public CWorld world;
 
-    public VillagerWrapper(EntityType<? extends VillagerWrapper> entityType, World worldIn) {
-        super(entityType, worldIn);
-        this.world = CWorld.fromMC(worldIn);
+    public VillagerWrapper(EntityType<? extends VillagerWrapper> entityType, CWorld worldIn) {
+        super(entityType, worldIn.getMcWorld());
+        this.world = worldIn;
     }
 
     // Implementation of methods not reliant on villager-specific information.
@@ -153,8 +153,6 @@ public abstract class VillagerWrapper extends VillagerEntity {
 
     public abstract void swing(CEnumHand hand);
 
-    protected abstract void initializeAI();
-
     protected abstract float beforeDamaged(CDamageSource source, float value);
 
     protected abstract boolean afterDamaged(CDamageSource source, float value);
@@ -179,7 +177,7 @@ public abstract class VillagerWrapper extends VillagerEntity {
 
     public abstract CPos getHomePos();
 
-    public boolean isChild() {
+    public boolean isBaby() {
         return false;
     }
 }
