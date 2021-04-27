@@ -114,7 +114,7 @@ public class MCA extends CobaltForgeMod {
 
     public static final ItemGroup TAB = new ItemGroup("mcaTab") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(ITEM_ENGAGEMENT_RING.get());
         }
     };

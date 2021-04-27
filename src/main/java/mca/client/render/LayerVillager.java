@@ -1,45 +1,45 @@
 package mca.client.render;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.platform.GlStateManager;
 import mca.client.model.ModelVillagerMCA;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class LayerVillager implements LayerRenderer<EntityLivingBase> {
-    protected ModelBase model;
+public abstract class LayerVillager implements LayerRenderer<LivingEntity> {
+    protected Model model;
 
-    private final RenderLivingBase<?> renderer;
+    private final LivingRenderer<?> renderer;
     protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
 
-    public LayerVillager(RenderLivingBase<?> rendererIn, float offset, float offsetHead) {
+    public LayerVillager(LivingRenderer<?> rendererIn, float offset, float offsetHead) {
         this.renderer = rendererIn;
         this.model = new ModelVillagerMCA(offset, offsetHead, true);
     }
 
-    String getTexture(EntityLivingBase entity) {
+    String getTexture(LivingEntity entity) {
         return null;
     }
 
-    String getOverlayTexture(EntityLivingBase entity) {
+    String getOverlayTexture(LivingEntity entity) {
         return null;
     }
 
-    float[] getColor(EntityLivingBase entity) {
+    float[] getColor(LivingEntity entity) {
         return new float[]{1.0f, 1.0f, 1.0f};
     }
 
     @ParametersAreNonnullByDefault
-    public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void doRenderLayer(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         model.setModelAttributes(this.renderer.getMainModel());
         model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
 
@@ -67,10 +67,6 @@ public abstract class LayerVillager implements LayerRenderer<EntityLivingBase> {
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             model.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }
-    }
-
-    public boolean shouldCombineTextures() {
-        return false;
     }
 
     private ResourceLocation getClothingResource(String s) {

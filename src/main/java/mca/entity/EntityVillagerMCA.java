@@ -122,7 +122,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
     }
 
 //    @Override
-//    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData entity) {
+//    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData entity) {
 //        //finalizeMobSpawn is a method from the villager, false means it wont overwrite our profession
 //        entity = super.finalizeMobSpawn(difficulty, entity, false);
 //

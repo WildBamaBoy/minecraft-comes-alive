@@ -30,7 +30,7 @@ public class EntityAIMoveState extends EntityAIBase {
                     villager.set(EntityVillagerMCA.moveState, EnumMoveState.MOVE.getId());
                     break;
                 } else if (distance >= 3.0D && distance <= 10.0D) {
-                    nav.setPath(nav.getPathToEntityLiving(playerToFollow), villager.isRiding() ? 1.7D : 0.8D);
+                    nav.setPath(nav.getPathToLivingEntity(playerToFollow), villager.isRiding() ? 1.7D : 0.8D);
                 } else if (distance > 10.0D) {
                     villager.attemptTeleport(playerToFollow.posX, playerToFollow.posY, playerToFollow.posZ);
                 } else { // close enough to avoid crowding the player

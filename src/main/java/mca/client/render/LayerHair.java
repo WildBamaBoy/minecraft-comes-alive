@@ -4,7 +4,7 @@ import mca.client.colors.HairColors;
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,19 +21,19 @@ public class LayerHair extends LayerVillager {
     }
 
     @Override
-    String getTexture(EntityLivingBase entity) {
+    String getTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         return villager.get(EntityVillagerMCA.hair);
     }
 
     @Override
-    String getOverlayTexture(EntityLivingBase entity) {
+    String getOverlayTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         return villager.get(EntityVillagerMCA.hairOverlay);
     }
 
     @Override
-    float[] getColor(EntityLivingBase entity) {
+    float[] getColor(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         float e = villager.get(EntityVillagerMCA.GENE_EUMELANIN);
         float p = villager.get(EntityVillagerMCA.GENE_PHEOMELANIN);

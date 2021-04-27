@@ -1,7 +1,7 @@
 package mca.entity.ai;
 
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.CEnumHand;
 
@@ -18,7 +18,7 @@ public class EntityAIDefendFromTarget extends EntityAIBase {
     public boolean shouldExecute() {
         this.attackTick--;
 
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
         if (entitylivingbase == null) {
             return false;
@@ -38,7 +38,7 @@ public class EntityAIDefendFromTarget extends EntityAIBase {
     public void startExecuting() {
         this.attackTick = 10;
 
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        LivingEntity entitylivingbase = this.attacker.getAttackTarget();
         if (entitylivingbase != null) {
             this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
 

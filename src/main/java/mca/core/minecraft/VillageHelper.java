@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import cobalt.minecraft.world.CWorld;
 import com.google.common.base.Optional;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class VillageHelper {
 
-    public static void tick(World world) {
+    public static void tick(CWorld world) {
         world.getVillageCollection().getVillageList().forEach(v -> {
             spawnGuards(world, v);
             procreate(world, v);

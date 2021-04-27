@@ -7,7 +7,7 @@ import mca.core.minecraft.SoundsMCA;
 import mca.enums.EnumReaperAttackState;
 import mca.util.Util;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -179,7 +179,7 @@ public class EntityGrimReaper extends MobEntity {
     }
 
     protected void attackEntity(Entity entity, float damage) {
-        EntityLivingBase entityToAttack = this.getAttackTarget();
+        LivingEntity entityToAttack = this.getAttackTarget();
         if (entityToAttack == null) return;
 
         // Set attack state to post attack.
@@ -193,8 +193,8 @@ public class EntityGrimReaper extends MobEntity {
             } else {
                 entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.world.getDifficulty().getDifficultyId() * 5.75F);
 
-                if (entity instanceof EntityLivingBase) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getDifficultyId() * 20, 1));
+                if (entity instanceof LivingEntity) {
+                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getDifficultyId() * 20, 1));
                 }
 
                 setAttackState(EnumReaperAttackState.POST);
@@ -280,7 +280,7 @@ public class EntityGrimReaper extends MobEntity {
             setDead();
         }
 
-        EntityLivingBase entityToAttack = this.getAttackTarget();
+        LivingEntity entityToAttack = this.getAttackTarget();
 
         if (entityToAttack != null && getAttackState() != EnumReaperAttackState.REST) {
             attackEntity(entityToAttack, 5.0F);

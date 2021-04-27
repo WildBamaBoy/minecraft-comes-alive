@@ -5,7 +5,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -20,14 +20,14 @@ public class LayerFace extends LayerVillager {
     }
 
     @Override
-    public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void doRenderLayer(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         GlStateManager.enableBlend();
         super.doRenderLayer(entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
         GlStateManager.disableBlend();
     }
 
     @Override
-    String getTexture(EntityLivingBase entity) {
+    String getTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.gender));
         int skin = (int) Math.min(1, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN) * 2));

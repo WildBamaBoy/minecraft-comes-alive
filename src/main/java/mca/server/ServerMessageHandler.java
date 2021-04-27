@@ -22,16 +22,16 @@ public class ServerMessageHandler {
     }
 
     private static void startRaid(CPlayer player) {
-        player.sendMessage(new StringTextComponent("Starting raid on village..."));
+        player.sendMessage("Starting raid on village...");
         VillageHelper.forceRaid(player);
     }
 
     private static void spawnGuards(CPlayer player) {
-        player.sendMessage(new StringTextComponent("Spawning village guards..."));
-        VillageHelper.tick(player.world);
+        player.sendMessage("Spawning village guards...");
+        VillageHelper.tick(player.getWorld());
     }
 
     private static void rebuildVillage(CPlayer player) {
-        player.sendMessage(new StringTextComponent("Rebuilding annihilated village..."));
+        player.sendMessage("Rebuilding annihilated village...");
     }
 }

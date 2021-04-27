@@ -49,14 +49,14 @@ public class EntityAIHunting extends AbstractEntityAIChore {
 
                     if (animal.isPresent()) {
                         target = animal.get();
-                        target.getNavigation().setPath(target.getNavigation().getPathToEntityLiving(villager), 1.0F);
+                        target.getNavigation().setPath(target.getNavigation().getPathToLivingEntity(villager), 1.0F);
                     }
                 }
 
                 nextAction = 300;
             }
         } else {
-            boolean pathSuccess = villager.getNavigation().setPath(villager.getNavigation().getPathToEntityLiving(target), 0.6F);
+            boolean pathSuccess = villager.getNavigation().setPath(villager.getNavigation().getPathToLivingEntity(target), 0.6F);
 
             if (!pathSuccess || target.isDead) {
                 // search for EntityItems around the target and grab them
@@ -68,7 +68,7 @@ public class EntityAIHunting extends AbstractEntityAIChore {
                         });
                 target = null;
             } else if (villager.getDistance(target) <= 3.5F) {
-                villager.getNavigation().setPath(villager.getNavigation().getPathToEntityLiving(target), 1.0F);
+                villager.getNavigation().setPath(villager.getNavigation().getPathToLivingEntity(target), 1.0F);
                 villager.swingArm(CEnumHand.MAIN_HAND);
                 target.attackEntityFrom(DamageSource.causeMobDamage(villager), 6.0F);
                 villager.getHeldItem(CEnumHand.MAIN_HAND).damageItem(2, villager);

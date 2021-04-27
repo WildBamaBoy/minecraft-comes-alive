@@ -12,7 +12,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import cobalt.minecraft.entity.player.CPlayer;
@@ -140,12 +140,12 @@ public class EventHooks {
             EntityVillagerMCA villager = (EntityVillagerMCA)event.getEntity();
             Entity source = event.getSource() != null ? event.getSource().getTrueSource() : null;
 
-            if (source instanceof EntityLivingBase) {
+            if (source instanceof LivingEntity) {
                 villager.world.loadedEntityList.stream().filter(e ->
                         e instanceof EntityVillagerMCA &&
                         e.getDistance(villager) <= 10.0D &&
                         ((EntityVillagerMCA)e).getProfessionForge() == ProfessionsMCA.guard)
-                .forEach(e -> ((EntityVillagerMCA) e).setAttackTarget((EntityLivingBase)source));
+                .forEach(e -> ((EntityVillagerMCA) e).setAttackTarget((LivingEntity)source));
             }
         }
     }
@@ -208,8 +208,8 @@ public class EventHooks {
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event) {
         // If a player dies while holding a baby, remember it until they respawn.
-        if (event.getEntityLiving() instanceof CPlayer) {
-            CPlayer player = (CPlayer)event.getEntityLiving();
+        if (event.getLivingEntity() instanceof CPlayer) {
+            CPlayer player = (CPlayer)event.getLivingEntity();
             Optional<ItemStack> babyStack = player.inventory.mainInventory.stream().filter(s -> s.getItem() instanceof ItemBaby).findFirst();
             babyStack.ifPresent(s -> limbo.put(player.getUUID(), babyStack.get()));
         }
@@ -218,8 +218,8 @@ public class EventHooks {
     @SubscribeEvent
     public void onLivingSetTarget(LivingSetAttackTargetEvent event) {
         // Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
-        if (event.getEntityLiving() instanceof EntityMob && event.getTarget() instanceof EntityVillagerMCA) {
-            EntityMob mob = (EntityMob) event.getEntityLiving();
+        if (event.getLivingEntity() instanceof EntityMob && event.getTarget() instanceof EntityVillagerMCA) {
+            EntityMob mob = (EntityMob) event.getLivingEntity();
             EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
 
             if (target.get(EntityVillagerMCA.isInfected)) {
