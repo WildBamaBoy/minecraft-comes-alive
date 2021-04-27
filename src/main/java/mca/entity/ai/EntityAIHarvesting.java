@@ -8,9 +8,9 @@ import net.minecraft.block.BlockCrops;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.*;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.CEnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
+import cobalt.minecraft.util.math.CPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +28,17 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         if (villager.getHealth() < villager.getMaxHealth()) {
             villager.stopChore();
         }
-        return EnumChore.byId(villager.get(EntityVillagerMCA.ACTIVE_CHORE)) == EnumChore.HARVEST && (blockWork - villager.ticksExisted) < 0;
+        return EnumChore.byId(villager.get(EntityVillagerMCA.activeChore)) == EnumChore.HARVEST && (blockWork - villager.tickCount) < 0;
     }
 
     public boolean shouldContinueExecuting() {
-        return !villager.getNavigator().noPath();
+        return !villager.getNavigation().noPath();
     }
 
-    private BlockPos searchCrop(int rangeX, int rangeY) {
-        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockCrops.class, rangeX, rangeY);
-        List<BlockPos> harvestable = new ArrayList<>();
-        for (BlockPos pos : nearbyCrops) {
+    private CPos searchCrop(int rangeX, int rangeY) {
+        List<CPos> nearbyCrops = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockCrops.class, rangeX, rangeY);
+        List<CPos> harvestable = new ArrayList<>();
+        for (CPos pos : nearbyCrops) {
             IBlockState state = villager.world.getBlockState(pos);
             BlockCrops crop = (BlockCrops) state.getBlock();
 
@@ -57,13 +57,13 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
         }
 
         //search crop
-        BlockPos target = searchCrop(16, 3);
+        CPos target = searchCrop(16, 3);
 
         //no crop next to villager -> long range scan
         //limited to once a minute to reduce CPU usage
-        if (target == null && villager.ticksExisted - lastCropScan > 1200) {
+        if (target == null && villager.tickCount - lastCropScan > 1200) {
             //MCA.getLog().info(villager.getName() + " scans for crops");
-            lastCropScan = villager.ticksExisted;
+            lastCropScan = villager.tickCount;
             target = searchCrop(32, 16);
         }
 
@@ -75,13 +75,13 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
             } else {
                 //failed (no crop on range), allows now other, lower priority tasks to interrupt
                 //MCA.getLog().info(villager.getName() + " idles");
-                blockWork = villager.ticksExisted + 100 + villager.getRNG().nextInt(100);
+                blockWork = villager.tickCount + 100 + villager.getRNG().nextInt(100);
             }
         } else {
             //harvest if next to it, else try to reach it
             double distanceTo = Math.sqrt(villager.getDistanceSq(target));
             if (distanceTo >= 2.0D) {
-                if (!villager.getNavigator().setPath(villager.getNavigator().getPathToPos(target), 0.5D)) {
+                if (!villager.getNavigation().setPath(villager.getNavigation().getPathToPos(target), 0.5D)) {
                     villager.attemptTeleport(target.getX(), target.getY(), target.getZ());
                 }
             } else {
@@ -95,8 +95,8 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                         villager.inventory.addItem(stack);
                     }
 
-                    villager.swingArm(EnumHand.MAIN_HAND);
-                    villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
+                    villager.swingArm(CEnumHand.MAIN_HAND);
+                    villager.getHeldItem(CEnumHand.MAIN_HAND).damageItem(2, villager);
 
                     try {
                         IProperty<Integer> property = (IProperty<Integer>) crop.getBlockState().getProperty("age");
@@ -110,7 +110,7 @@ public class EntityAIHarvesting extends AbstractEntityAIChore {
                 //wait before harvesting next crop
                 ItemStack hoeStack = villager.inventory.getBestItemOfType(ItemHoe.class);
                 float efficiency = hoeStack == ItemStack.EMPTY ? 0.0f : Item.ToolMaterial.valueOf(((ItemHoe) hoeStack.getItem()).getMaterialName()).getEfficiency();
-                blockWork = villager.ticksExisted + (int) Math.max(2.0f, 60.0f - efficiency * 5.0f);
+                blockWork = villager.tickCount + (int) Math.max(2.0f, 60.0f - efficiency * 5.0f);
             }
         }
     }

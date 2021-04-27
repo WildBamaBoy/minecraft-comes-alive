@@ -1,26 +1,25 @@
 package mca.entity.data;
 
+import cobalt.minecraft.nbt.CNBT;
+import cobalt.minecraft.world.CWorld;
+import cobalt.minecraft.world.storage.CWorldSavedData;
+import lombok.Getter;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * SavedVillagers handles saving dead villagers to the world which allows them to be restored later.
- */
-public class SavedVillagers extends WorldSavedData {
-    private static final String DATA_ID = "MCA-Villagers-V1";
-    private final Map<String, NBTTagCompound> villagerData = new HashMap<>();
+public class SavedVillagers extends CWorldSavedData {
+    private static final String DATA_ID = "MCA-Villagers-V2";
+    @Getter
+    private final Map<String, CNBT> villagerData = new HashMap<>();
 
     public SavedVillagers(String id) {
         super(id);
     }
 
-    public static SavedVillagers get(World world) {
+    public static SavedVillagers get(CWorld world) {
         SavedVillagers data = (SavedVillagers) world.loadData(SavedVillagers.class, DATA_ID);
         if (data == null) {
             data = new SavedVillagers(DATA_ID);
@@ -29,32 +28,30 @@ public class SavedVillagers extends WorldSavedData {
         return data;
     }
 
-    public void save(EntityVillagerMCA villager) {
-        villagerData.put(villager.getUniqueID().toString(), villager.writeToNBT(new NBTTagCompound()));
-        markDirty();
+    public void saveVillager(EntityVillagerMCA villager) {
+        CNBT nbt = CNBT.createNew();
+        villager.save(nbt);
+        villagerData.put(villager.getUUID().toString(), nbt);
+        setDirty();
     }
 
-    public void remove(UUID uuid) {
+    public void removeVillager(UUID uuid) {
         villagerData.remove(uuid.toString());
-        markDirty();
+        setDirty();
     }
 
-    public Map<String, NBTTagCompound> getMap() {
-        return villagerData;
-    }
-
-    public NBTTagCompound loadByUUID(UUID uuid) {
+    public CNBT getVillagerByUUID(UUID uuid) {
         return villagerData.get(uuid.toString());
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+    public CNBT save(CNBT nbt) {
         villagerData.forEach(nbt::setTag);
         return nbt;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
+    public void load(CNBT nbt) {
         nbt.getKeySet().forEach((k) -> villagerData.put(k, nbt.getCompoundTag(k)));
     }
 }

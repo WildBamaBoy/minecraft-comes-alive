@@ -9,14 +9,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.CEnumHand;
+import cobalt.minecraft.util.math.CPos;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class EntityAIFishing extends AbstractEntityAIChore {
-    private BlockPos targetWater;
+    private CPos targetWater;
     private boolean hasCastRod;
     private int ticks;
 
@@ -29,7 +29,7 @@ public class EntityAIFishing extends AbstractEntityAIChore {
         if (villager.getHealth() < villager.getMaxHealth()) {
             villager.stopChore();
         }
-        return EnumChore.byId(villager.get(EntityVillagerMCA.ACTIVE_CHORE)) == EnumChore.FISH;
+        return EnumChore.byId(villager.get(EntityVillagerMCA.activeChore)) == EnumChore.FISH;
     }
 
     public void updateTask() {
@@ -42,16 +42,16 @@ public class EntityAIFishing extends AbstractEntityAIChore {
         }
 
         if (targetWater == null) {
-            List<BlockPos> nearbyStaticLiquid = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockStaticLiquid.class, 12, 3);
+            List<CPos> nearbyStaticLiquid = Util.getNearbyBlocks(villager.getPos(), villager.world, BlockStaticLiquid.class, 12, 3);
             targetWater = nearbyStaticLiquid.stream()
                     .filter((p) -> villager.world.getBlockState(p).getBlock() == Blocks.WATER)
                     .min(Comparator.comparingDouble(villager::getDistanceSq)).orElse(null);
-        } else if (villager.getDistanceSq(targetWater) > 5.0D) villager.getNavigator().setPath(villager.getNavigator().getPathToPos(targetWater), 0.8D);
+        } else if (villager.getDistanceSq(targetWater) > 5.0D) villager.getNavigation().setPath(villager.getNavigation().getPathToPos(targetWater), 0.8D);
         else if (villager.getDistanceSq(targetWater) < 5.0D) {
-            villager.getNavigator().clearPath();
+            villager.getNavigation().clearPath();
 
             if (!hasCastRod) {
-                villager.swingArm(EnumHand.MAIN_HAND);
+                villager.swingArm(CEnumHand.MAIN_HAND);
                 hasCastRod = true;
             }
 
@@ -63,9 +63,9 @@ public class EntityAIFishing extends AbstractEntityAIChore {
                     ItemFishFood.FishType type = ItemFishFood.FishType.values()[villager.world.rand.nextInt(typesSize)];
                     ItemStack stack = new ItemStack(Items.FISH, 1, type.getMetadata());
 
-                    villager.swingArm(EnumHand.MAIN_HAND);
+                    villager.swingArm(CEnumHand.MAIN_HAND);
                     villager.inventory.addItem(stack);
-                    villager.getHeldItem(EnumHand.MAIN_HAND).damageItem(2, villager);
+                    villager.getHeldItem(CEnumHand.MAIN_HAND).damageItem(2, villager);
                 }
                 ticks = 0;
             }

@@ -17,7 +17,7 @@ public class EntityAIGoHangout extends AbstractEntityAIChore {
         }
 
         //no time, has to work
-        if (EnumChore.byId(villager.get(EntityVillagerMCA.ACTIVE_CHORE)) != EnumChore.NONE) {
+        if (EnumChore.byId(villager.get(EntityVillagerMCA.activeChore)) != EnumChore.NONE) {
             return false;
         }
 
@@ -51,7 +51,7 @@ public class EntityAIGoHangout extends AbstractEntityAIChore {
     }
 
     public boolean shouldContinueExecuting() {
-        return !villager.getNavigator().noPath();
+        return !villager.getNavigation().noPath();
     }
 
     public void startExecuting() {

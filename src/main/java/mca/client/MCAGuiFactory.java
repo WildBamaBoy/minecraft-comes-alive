@@ -2,7 +2,7 @@ package mca.client;
 
 import mca.client.gui.GuiConfigPage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 
 import java.util.Set;
@@ -13,7 +13,7 @@ public class MCAGuiFactory implements IModGuiFactory
     public void initialize(Minecraft minecraftInstance) {}
 
     @Override
-    public GuiScreen createConfigGui(GuiScreen screen) {
+    public Screen createConfigGui(Screen screen) {
         return new GuiConfigPage(screen);
     }
 

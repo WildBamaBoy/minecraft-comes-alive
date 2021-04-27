@@ -37,6 +37,6 @@ public enum EnumAgeState {
     }
 
     public String localizedName() {
-        return MCA.getLocalizer().localize("enum.agestate." + name().toLowerCase());
+        return MCA.localize("enum.agestate." + name().toLowerCase());
     }
 }

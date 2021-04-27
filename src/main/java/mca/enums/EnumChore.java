@@ -27,7 +27,7 @@ public enum EnumChore {
     }
 
     public String getFriendlyName() {
-        return MCA.getLocalizer().localize(this.friendlyName);
+        return MCA.localize(this.friendlyName);
     }
 }
 

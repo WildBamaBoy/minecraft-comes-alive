@@ -7,7 +7,7 @@ import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.PlayerSaveData;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
@@ -20,7 +20,7 @@ public class EntityAIProcreate extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        return villager.get(EntityVillagerMCA.IS_PROCREATING);
+        return villager.get(EntityVillagerMCA.isProcreating);
     }
 
     @Override
@@ -28,9 +28,9 @@ public class EntityAIProcreate extends EntityAIBase {
         if (procreateTimer % 5 == 0) villager.spawnParticles(EnumParticleTypes.HEART);
 
         if (--procreateTimer <= 0) {
-            villager.set(EntityVillagerMCA.IS_PROCREATING, false);
+            villager.set(EntityVillagerMCA.isProcreating, false);
 
-            EntityPlayer spousePlayer = villager.world.getPlayerEntityByUUID(villager.get(EntityVillagerMCA.SPOUSE_UUID).or(Constants.ZERO_UUID));
+            CPlayer spousePlayer = villager.world.getPlayerEntityByUUID(villager.get(EntityVillagerMCA.SPOUSE_UUID).or(Constants.ZERO_UUID));
             if (spousePlayer != null) {
                 villager.world.playSound(null, villager.posX, villager.posY, villager.posZ, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 spousePlayer.inventory.addItemStackToInventory(new ItemStack(villager.getRNG().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));

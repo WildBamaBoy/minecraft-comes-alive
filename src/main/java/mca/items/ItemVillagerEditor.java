@@ -14,7 +14,7 @@ public class ItemVillagerEditor extends Item {
         setUnlocalizedName("villager_editor");
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
     public boolean hasEffect(ItemStack itemStack) {
         return true;

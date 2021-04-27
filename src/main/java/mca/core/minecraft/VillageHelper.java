@@ -7,20 +7,17 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.util.Util;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import cobalt.minecraft.util.math.CPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static mca.entity.EntityVillagerMCA.*;
 
 public class VillageHelper {
 
@@ -32,12 +29,12 @@ public class VillageHelper {
         });
     }
 
-    public static void forceSpawnGuards(EntityPlayerMP player) {
+    public static void forceSpawnGuards(CPlayer player) {
         Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
         spawnGuards(player.world, nearestVillage);
     }
 
-    public static void forceRaid(EntityPlayerMP player) {
+    public static void forceRaid(CPlayer player) {
         Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
         startRaid(player.world, nearestVillage);
     }
@@ -50,7 +47,7 @@ public class VillageHelper {
                 // look for married women without baby
                 List<EntityVillagerMCA> villagers = new ArrayList<>();
                 for (EntityVillagerMCA v : allVillagers) {
-                    if (v.isMarried() && !v.get(EntityVillagerMCA.HAS_BABY) && v.get(GENDER) == EnumGender.FEMALE.getId()) {
+                    if (v.isMarried() && !v.get(EntityVillagerMCA.hasBaby) && v.get(GENDER) == EnumGender.FEMALE.getId()) {
                         villagers.add(v);
                     }
                 }
@@ -67,8 +64,8 @@ public class VillageHelper {
 
                         // notify all players
                         // TODO create generic send all
-                        String phrase = MCA.getLocalizer().localize("events.baby", villager.getName(), spouse.get().getName());
-                        TextComponentString text = new TextComponentString(phrase);
+                        String phrase = MCA.localize("events.baby", villager.getName(), spouse.get().getName());
+                        StringTextComponent text = new StringTextComponent(phrase);
                         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(text);
                     }
                 }
@@ -104,8 +101,8 @@ public class VillageHelper {
 
                 if (spouse != null) {
                     // notify all players
-                    String phrase = MCA.getLocalizer().localize("events.marry", villager.getName(), spouse.getName());
-                    TextComponentString text = new TextComponentString(phrase);
+                    String phrase = MCA.localize("events.marry", villager.getName(), spouse.getName());
+                    StringTextComponent text = new StringTextComponent(phrase);
                     FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(text);
 
                     // marry
@@ -155,25 +152,25 @@ public class VillageHelper {
 
         while (banditsToSpawn > 0) {
             EntityVillagerMCA bandit = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.bandit), Optional.absent());
-            BlockPos spawnLocation = village.getCenter();
+            CPos spawnLocation = village.getCenter();
             bandit.setPosition(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ());
             world.spawnEntity(bandit);
             banditsToSpawn--;
         }
     }
 
-    private static Vec3d findRandomSpawnPos(World world, Village village, BlockPos pos, int x, int y, int z) {
+    private static Vec3d findRandomSpawnPos(World world, Village village, CPos pos, int x, int y, int z) {
         for (int i = 0; i < 10; ++i) {
-            BlockPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
+            CPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
 
-            if (village.isBlockPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new BlockPos(x, y, z), blockpos))
+            if (village.isCPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new CPos(x, y, z), blockpos))
                 return new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
         }
 
         return null;
     }
 
-    private static boolean isAreaClearAround(World world, BlockPos blockSize, BlockPos blockLocation) {
+    private static boolean isAreaClearAround(World world, CPos blockSize, CPos blockLocation) {
         if (!world.getBlockState(blockLocation.down()).isTopSolid()) return false;
         int i = blockLocation.getX() - blockSize.getX() / 2;
         int j = blockLocation.getZ() - blockSize.getZ() / 2;
@@ -181,7 +178,7 @@ public class VillageHelper {
         for (int k = i; k < i + blockSize.getX(); ++k) {
             for (int l = blockLocation.getY(); l < blockLocation.getY() + blockSize.getY(); ++l) {
                 for (int i1 = j; i1 < j + blockSize.getZ(); ++i1) {
-                    if (world.getBlockState(new BlockPos(k, l, i1)).isNormalCube()) {
+                    if (world.getBlockState(new CPos(k, l, i1)).isNormalCube()) {
                         return false;
                     }
                 }
@@ -190,7 +187,7 @@ public class VillageHelper {
         return true;
     }
 
-    public static Village findClosestVillage(World world, BlockPos p) {
+    public static Village findClosestVillage(World world, CPos p) {
         Village village = null;
         double best = Double.MAX_VALUE;
         for (Village v : world.getVillageCollection().getVillageList()) {

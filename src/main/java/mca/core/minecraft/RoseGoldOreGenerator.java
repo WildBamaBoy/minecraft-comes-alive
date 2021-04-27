@@ -3,7 +3,7 @@ package mca.core.minecraft;
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
+import cobalt.minecraft.util.math.CPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
@@ -32,7 +32,7 @@ public final class RoseGoldOreGenerator implements IWorldGenerator {
             int posX = blockPosX + random.nextInt(maxX);
             int posY = 12 + random.nextInt(range);
             int posZ = blockPosZ + random.nextInt(maxZ);
-            (new WorldGenMinable(block.getDefaultState(), maxVeinSize)).generate(world, random, new BlockPos(posX, posY, posZ));
+            (new WorldGenMinable(block.getDefaultState(), maxVeinSize)).generate(world, random, new CPos(posX, posY, posZ));
         }
     }
 }

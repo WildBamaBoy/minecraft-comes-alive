@@ -1,40 +1,30 @@
 package mca.items;
 
-import com.google.common.base.Optional;
-import mca.entity.EntityVillagerMCA;
+import cobalt.items.CItemBasic;
+import cobalt.minecraft.item.CItemUseContext;
+import lombok.Getter;
+import mca.entity.VillagerFactory;
 import mca.enums.EnumGender;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 
-public class ItemSpawnEgg extends Item {
-    private final boolean isMale;
+public class ItemSpawnEgg extends CItemBasic {
+    @Getter private final EnumGender gender;
 
-    public ItemSpawnEgg(boolean isMale) {
-        this.isMale = isMale;
-        this.setMaxStackSize(1);
+    public ItemSpawnEgg(EnumGender gender, Properties properties) {
+        super(properties);
+        this.gender = gender;
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        int posX = pos.getX();
-        int posY = pos.getY() + 1;
-        int posZ = pos.getZ();
-
-        if (!world.isRemote) {
-            EntityVillagerMCA villager = new EntityVillagerMCA(world, Optional.absent(), Optional.of(isMale ? EnumGender.MALE : EnumGender.FEMALE));
-            villager.setPosition(posX + 0.5D, posY, posZ + 0.5D);
-            villager.onInitialSpawn(world.getDifficultyForLocation(villager.getPos()), null);
-            world.spawnEntity(villager);
-
-            if (!player.capabilities.isCreativeMode) player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+    public ActionResultType handleUseOnBlock(CItemUseContext context) {
+        if (!context.getWorld().isRemote && context.getDirection() == Direction.UP) {
+            VillagerFactory.newVillager(context.getWorld())
+                    .withGender(gender)
+                    .withPosition(context.getPos())
+                    .spawn();
+            return ActionResultType.SUCCESS;
         }
-
-        return EnumActionResult.PASS;
+        return ActionResultType.PASS;
     }
 }

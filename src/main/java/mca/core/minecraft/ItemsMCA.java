@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import cobalt.minecraft.nbt.CNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
@@ -66,7 +66,7 @@ public final class ItemsMCA {
 
     public static void setBookNBT(ItemStack stack) {
         Item book = stack.getItem();
-        NBTTagCompound nbt = new NBTTagCompound();
+        CNBT nbt = new CNBT();
 
         if (book == BOOK_DEATH) {
             nbt.setString("title", "Death, and How to Cure It!");
@@ -259,7 +259,7 @@ public final class ItemsMCA {
         stack.setTagCompound(nbt);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static void registerModelMeshers() {
         ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 

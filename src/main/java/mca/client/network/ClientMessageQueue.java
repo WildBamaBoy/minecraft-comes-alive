@@ -6,7 +6,7 @@ import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -35,7 +35,7 @@ public class ClientMessageQueue {
     }
 
     private static void handleCareerId(NetMCA.CareerResponse msg) {
-        EntityPlayer player = Minecraft.getMinecraft().player;
+        CPlayer player = Minecraft.getMinecraft().player;
 
         try {
             Optional<EntityVillagerMCA> villager = getVillagerByUUID(player.getEntityWorld(), msg.getEntityUUID());
@@ -51,7 +51,7 @@ public class ClientMessageQueue {
     }
 
     private static void handleInventory(NetMCA.InventoryResponse msg) {
-        EntityPlayer player = Minecraft.getMinecraft().player;
+        CPlayer player = Minecraft.getMinecraft().player;
         if (player != null) {
             Optional<EntityVillagerMCA> villager = getVillagerByUUID(player.world, msg.getEntityUUID());
             villager.ifPresent(entityVillagerMCA -> entityVillagerMCA.inventory.readInventoryFromNBT(msg.getInventoryNBT().getTagList("inventory", 10)));
@@ -61,7 +61,7 @@ public class ClientMessageQueue {
     private static Optional<EntityVillagerMCA> getVillagerByUUID(World world, UUID uuid) {
         try {
             synchronized (world.loadedEntityList) {
-                return world.loadedEntityList.stream().filter(e -> e.getUniqueID().equals(uuid)).map(EntityVillagerMCA.class::cast).findFirst();
+                return world.loadedEntityList.stream().filter(e -> e.getUUID().equals(uuid)).map(EntityVillagerMCA.class::cast).findFirst();
             }
         } catch (ClassCastException ignored) {
             MCA.getLog().error("Failed to cast entity with UUID " + uuid.toString() + " to a villager!");

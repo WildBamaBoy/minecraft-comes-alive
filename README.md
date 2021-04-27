@@ -9,23 +9,14 @@ After getting married, you will be able to have children who will do many chores
 Children will eventually grow up into adults. Adults can get married and have children of their own, and this cycle can repeat indefinitely!
 
 ## Dependencies
-
 At runtime, MCA has no external dependencies other than Minecraft Forge.
 
 For development, MCA depends on Lombok. It will be installed automatically when you set up your development environment. Install the Lombok plugin for your relevant IDE if you have trouble building in your IDE.
 
 ## Contributing
-
 Any contributions to are welcome. Simply clone into your workspace, set it up, make your changes, and submit a pull request for review.
 
-## Info for developers
-
-Must use Java 8.
-This is bult on the latest forge for 1.12.2, which no longer uses the `setupDecompWorkspace` gradle task. You now want to use either `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE of choice.
-Furthermore, you can run the client and server with `runClient` and `runServer` respectively.
-
 ## Credits
-
 These individuals made substantial contributions to MCA - without them, continued progress may have been impossible.
  - SheWolfDeadly
  - ntzrmtthihu777

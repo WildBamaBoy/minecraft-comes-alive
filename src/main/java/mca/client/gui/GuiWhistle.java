@@ -5,25 +5,25 @@ import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
+import cobalt.minecraft.nbt.CNBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-@SideOnly(Side.CLIENT)
-public class GuiWhistle extends GuiScreen {
+@OnlyIn(Dist.CLIENT)
+public class GuiWhistle extends Screen {
     private EntityVillagerMCA dummyHuman;
-    private List<NBTTagCompound> villagerDataList;
+    private List<CNBT> villagerDataList;
 
-    private GuiButton selectionLeftButton;
-    private GuiButton selectionRightButton;
-    private GuiButton villagerNameButton;
-    private GuiButton callButton;
-    private GuiButton exitButton;
+    private Button selectionLeftButton;
+    private Button selectionRightButton;
+    private Button villagerNameButton;
+    private Button callButton;
+    private Button exitButton;
     private int loadingAnimationTicks;
     private int selectedIndex;
 
@@ -43,11 +43,11 @@ public class GuiWhistle extends GuiScreen {
     @Override
     public void initGui() {
         buttonList.clear();
-        buttonList.add(selectionLeftButton = new GuiButton(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
-        buttonList.add(selectionRightButton = new GuiButton(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
-        buttonList.add(villagerNameButton = new GuiButton(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-        buttonList.add(callButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.call")));
-        buttonList.add(exitButton = new GuiButton(6, width / 2 + 40, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.exit")));
+        buttonList.add(selectionLeftButton = new Button(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
+        buttonList.add(selectionRightButton = new Button(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
+        buttonList.add(villagerNameButton = new Button(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
+        buttonList.add(callButton = new Button(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.localize("gui.button.call")));
+        buttonList.add(exitButton = new Button(6, width / 2 + 40, height / 2 + 90, 60, 20, MCA.localize("gui.button.exit")));
         NetMCA.INSTANCE.sendToServer(new NetMCA.GetFamily());
     }
 
@@ -57,13 +57,13 @@ public class GuiWhistle extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton guibutton) {
+    protected void actionPerformed(Button guibutton) {
         if (guibutton == exitButton) {
-            Minecraft.getMinecraft().displayGuiScreen(null);
+            Minecraft.getMinecraft().displayScreen(null);
         }
 
         if (villagerDataList != null && villagerDataList.size() > 0) {
-            NBTTagCompound data = villagerDataList.get(selectedIndex - 1);
+            CNBT data = villagerDataList.get(selectedIndex - 1);
 
             if (guibutton == selectionLeftButton) {
                 if (selectedIndex == 1) {
@@ -78,8 +78,8 @@ public class GuiWhistle extends GuiScreen {
                     selectedIndex++;
                 }
             } else if (guibutton == callButton) {
-                NetMCA.INSTANCE.sendToServer(new NetMCA.CallToPlayer(data.getUniqueId("uuid")));
-                Minecraft.getMinecraft().displayGuiScreen(null);
+                NetMCA.INSTANCE.sendToServer(new NetMCA.CallToPlayer(data.getUUID("uuid")));
+                Minecraft.getMinecraft().displayScreen(null);
             }
 
             villagerNameButton.displayString = data.getString("name");
@@ -90,7 +90,7 @@ public class GuiWhistle extends GuiScreen {
     @Override
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawDefaultBackground();
-        drawCenteredString(fontRenderer, MCA.getLocalizer().localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredString(fontRenderer, MCA.localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
         if (loadingAnimationTicks != -1) {
             drawString(fontRenderer, "Loading" + StringUtils.repeat(".", loadingAnimationTicks % 10), width / 2 - 20, height / 2 - 10, 0xffffff);
@@ -115,13 +115,13 @@ public class GuiWhistle extends GuiScreen {
         net.minecraft.client.gui.inventory.GuiInventory.drawEntityOnScreen(posX, posY, 75, 0, 0, dummyHuman);
     }
 
-    public void setVillagerDataList(@NonNull List<NBTTagCompound> dataList) {
+    public void setVillagerDataList(@NonNull List<CNBT> dataList) {
         this.villagerDataList = dataList;
         this.loadingAnimationTicks = -1;
         this.selectedIndex = 1;
 
         try {
-            NBTTagCompound firstData = dataList.get(0);
+            CNBT firstData = dataList.get(0);
             villagerNameButton.displayString = firstData.getString("name");
             dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().world);
             dummyHuman.readAppearanceFromNBT(firstData);

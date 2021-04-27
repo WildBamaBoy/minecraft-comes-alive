@@ -6,7 +6,7 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import cobalt.minecraft.nbt.CNBT;
 import net.minecraft.nbt.NBTTagList;
 
 import javax.annotation.Nullable;
@@ -104,7 +104,7 @@ public class InventoryMCA extends InventoryBasic {
         }
 
         for (int i = 0; i < tagList.tagCount(); ++i) {
-            NBTTagCompound nbt = tagList.getCompoundTagAt(i);
+            CNBT nbt = tagList.getCompoundTagAt(i);
             int slot = nbt.getByte("Slot") & 255;
 
             if (slot < this.getSizeInventory()) {
@@ -120,7 +120,7 @@ public class InventoryMCA extends InventoryBasic {
             ItemStack itemstack = this.getStackInSlot(i);
 
             if (itemstack != ItemStack.EMPTY) {
-                NBTTagCompound nbt = new NBTTagCompound();
+                CNBT nbt = new CNBT();
                 nbt.setByte("Slot", (byte) i);
                 itemstack.writeToNBT(nbt);
                 tagList.appendTag(nbt);

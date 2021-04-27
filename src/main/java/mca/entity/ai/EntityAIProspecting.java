@@ -8,7 +8,7 @@ import net.minecraft.block.BlockOre;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import cobalt.minecraft.util.math.CPos;
 
 public class EntityAIProspecting extends AbstractEntityAIChore {
     private int ticks;
@@ -22,7 +22,7 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
         if (villager.getHealth() < villager.getMaxHealth()) {
             villager.stopChore();
         }
-        return EnumChore.byId(villager.get(EntityVillagerMCA.ACTIVE_CHORE)) == EnumChore.PROSPECT;
+        return EnumChore.byId(villager.get(EntityVillagerMCA.activeChore)) == EnumChore.PROSPECT;
     }
 
     public void updateTask() {
@@ -39,7 +39,7 @@ public class EntityAIProspecting extends AbstractEntityAIChore {
         float notifyRate = Math.max(600 - efficiency * 50, 100);
 
         if (ticks >= notifyRate) {
-            BlockPos closestOre = Util.getNearestPoint(villager.getPos(), Util.getNearbyBlocks(villager.getPos(), villager.world, BlockOre.class, 4, 3));
+            CPos closestOre = Util.getNearestPoint(villager.getPos(), Util.getNearbyBlocks(villager.getPos(), villager.world, BlockOre.class, 4, 3));
 
             if (closestOre != null) {
                 Block block = villager.world.getBlockState(closestOre).getBlock();

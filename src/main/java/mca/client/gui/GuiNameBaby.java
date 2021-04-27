@@ -4,10 +4,10 @@ import mca.api.API;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.items.ItemBaby;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,16 +15,16 @@ import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 
-@SideOnly(Side.CLIENT)
-public class GuiNameBaby extends GuiScreen {
-    private final EntityPlayer player;
+@OnlyIn(Dist.CLIENT)
+public class GuiNameBaby extends Screen {
+    private final CPlayer player;
 
-    private GuiTextField babyNameTextField;
-    private GuiButton doneButton;
-    private GuiButton randomButton;
+    private TextFieldWidget babyNameTextField;
+    private Button doneButton;
+    private Button randomButton;
     private ItemBaby baby;
 
-    public GuiNameBaby(EntityPlayer player, ItemStack babyStack) {
+    public GuiNameBaby(CPlayer player, ItemStack babyStack) {
         super();
         this.player = player;
 
@@ -46,12 +46,12 @@ public class GuiNameBaby extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
 
         buttonList.clear();
-        buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.getLocalizer().localize("gui.button.done")));
-        buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.getLocalizer().localize("gui.button.random")));
-        babyNameTextField = new GuiTextField(3, fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
+        buttonList.add(doneButton = new Button(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.localize("gui.button.done")));
+        buttonList.add(randomButton = new Button(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.localize("gui.button.random")));
+        babyNameTextField = new TextFieldWidget(3, fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
         babyNameTextField.setMaxStringLength(32);
 
-        if (this.baby == null) this.mc.displayGuiScreen(null);
+        if (this.baby == null) this.mc.displayScreen(null);
     }
 
     @Override
@@ -65,10 +65,10 @@ public class GuiNameBaby extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
+    protected void actionPerformed(Button button) {
         if (button == doneButton) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.BabyName(babyNameTextField.getText().trim()));
-            mc.displayGuiScreen(null);
+            mc.displayScreen(null);
         } else if (button == randomButton) {
             babyNameTextField.setText(API.getRandomName(baby.getGender()));
         }
@@ -88,7 +88,7 @@ public class GuiNameBaby extends GuiScreen {
     @Override
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawDefaultBackground();
-        drawString(fontRenderer, MCA.getLocalizer().localize("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
+        drawString(fontRenderer, MCA.localize("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
         babyNameTextField.drawTextBox();
         super.drawScreen(sizeX, sizeY, offset);
     }

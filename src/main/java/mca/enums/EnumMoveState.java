@@ -20,7 +20,7 @@ public enum EnumMoveState {
     }
 
     public String getFriendlyName() {
-        return MCA.getLocalizer().localize(friendlyName);
+        return MCA.localize(friendlyName);
     }
 }
 

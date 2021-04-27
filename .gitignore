@@ -13,9 +13,6 @@ out
 *.iml
 .idea
 
-# vscode
-.vscode
-
 # gradle
 build
 .gradle
@@ -23,7 +20,9 @@ build
 # other
 eclipse
 run
-classes
+backup
 
+# Files from Forge MDK
+forge*changelog.txt
 /src/main/resources/assets/mca/skins/old
 /mcmodsrepo

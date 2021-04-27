@@ -5,7 +5,6 @@ import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumAgeState;
 import mca.enums.EnumGender;
-import mca.util.ResourceLocationCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,7 +33,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
     @Override
     protected void preRenderCallback(EntityVillagerMCA villager, float partialTickTime) {
         if (villager.isChild()) {
-            float scaleForAge = EnumAgeState.byId(villager.get(EntityVillagerMCA.AGE_STATE)).getScaleForAge();
+            float scaleForAge = EnumAgeState.byId(villager.get(EntityVillagerMCA.ageState)).getScaleForAge();
             GlStateManager.scale(scaleForAge, scaleForAge, scaleForAge);
         }
 
@@ -109,7 +108,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 
     @Override
     protected ResourceLocation getEntityTexture(EntityVillagerMCA villager) {
-        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.gender));
         int skin = (int) Math.min(9, Math.max(0, villager.get(EntityVillagerMCA.GENE_SKIN) * 10));
         String s = String.format("mca:skins/skin/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
         return ResourceLocationCache.getResourceLocationFor(s);

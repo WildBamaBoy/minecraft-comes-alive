@@ -2,19 +2,19 @@ package mca.client.gui;
 
 import mca.api.API;
 import mca.api.types.APIIcon;
-import mca.client.gui.component.GuiButtonEx;
+import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.data.ParentData;
-import mca.entity.data.PlayerHistory;
+import mca.entity.data.ParentPair;
+import mca.entity.data.Memories;
 import mca.enums.EnumAgeState;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMoveState;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -31,12 +31,12 @@ import java.util.Optional;
 
 import static mca.entity.EntityVillagerMCA.AGE_STATE;
 
-@SideOnly(Side.CLIENT)
-public class GuiInteract extends GuiScreen {
+@OnlyIn(Dist.CLIENT)
+public class GuiInteract extends Screen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
     private static boolean displaySuccessChance;
     private final EntityVillagerMCA villager;
-    private final EntityPlayer player;
+    private final CPlayer player;
 
     private boolean inGiftMode;
 
@@ -50,7 +50,7 @@ public class GuiInteract extends GuiScreen {
     // Tracks which page we're on in the GUI for sending button events
     private String activeKey;
 
-    public GuiInteract(EntityVillagerMCA villager, EntityPlayer player) {
+    public GuiInteract(EntityVillagerMCA villager, CPlayer player) {
         super();
         this.villager = villager;
         this.player = player;
@@ -106,7 +106,7 @@ public class GuiInteract extends GuiScreen {
 
         // Right mouse button
         if (inGiftMode && button == 1)
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUUID()));
     }
 
     @Override
@@ -117,7 +117,7 @@ public class GuiInteract extends GuiScreen {
                 inGiftMode = false;
                 enableAllButtons();
             } else {
-                this.mc.displayGuiScreen(null);
+                this.mc.displayScreen(null);
             }
         } else if (keyCode == Keyboard.KEY_LCONTROL) {
             displaySuccessChance = !displaySuccessChance;
@@ -150,16 +150,16 @@ public class GuiInteract extends GuiScreen {
     }
 
     private void drawIcons() {
-        EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
+        EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.marriageState));
         String marriageIcon =
                 marriageState == EnumMarriageState.MARRIED ? "married" :
                         marriageState == EnumMarriageState.ENGAGED ? "engaged" :
                                 "notMarried";
 
-        PlayerHistory history = villager.getPlayerHistoryFor(player.getUniqueID());
+        Memories memory = villager.getMemoriesFor(player.getUUID());
         String heartIcon =
-                history.getHearts() < 0 ? "blackHeart" :
-                        history.getHearts() >= 100 ? "goldHeart" :
+                memory.getHearts() < 0 ? "blackHeart" :
+                        memory.getHearts() >= 100 ? "goldHeart" :
                                 "redHeart";
 
         String emeraldIcon = "neutralEmerald";
@@ -191,7 +191,7 @@ public class GuiInteract extends GuiScreen {
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
-            this.drawHoveringText(MCA.getLocalizer().localize("gui.interact.label.giveGift"), 10, 28);
+            this.drawHoveringText(MCA.localize("gui.interact.label.giveGift"), 10, 28);
         } else {
             drawHoveringText(villager.getName(), 10, 28);
         }
@@ -201,7 +201,7 @@ public class GuiInteract extends GuiScreen {
 
         //mood
         String color = villager.getMoodLevel() < 0 ? Constants.Color.RED : villager.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
-        String mood = MCA.getLocalizer().localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
+        String mood = MCA.localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
         drawHoveringText(color + mood, 10, 30 + h * 2);
 
         //personality
@@ -209,45 +209,45 @@ public class GuiInteract extends GuiScreen {
             drawHoveringText(villager.getPersonality().getLocalizedDescription(), 10, 30 + h * 3);
         } else {
             color = Constants.Color.WHITE; //White as we don't know if a personality is negative
-            String personality = MCA.getLocalizer().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
+            String personality = MCA.localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
             drawHoveringText(color + personality, 10, 30 + h * 3);
         }
 
         //hearts
         if (hoveringOverIcon("redHeart")) {
-            int hearts = villager.getPlayerHistoryFor(player.getUniqueID()).getHearts();
+            int hearts = villager.getMemoriesFor(player.getUUID()).getHearts();
             drawHoveringIconText(hearts + " hearts", "redHeart");
         }
 
         //hearts
         if (hoveringOverIcon("neutralEmerald")) {
-            //int hearts = villager.getPlayerHistoryFor(player.getUniqueID()).getHearts();
+            //int hearts = villager.getMemoriesFor(player.getUUID()).getHearts();
             drawHoveringIconText("Happiness: 5", "neutralEmerald");
         }
 
         //marriage status
-        EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.MARRIAGE_STATE));
+        EnumMarriageState marriageState = EnumMarriageState.byId(villager.get(EntityVillagerMCA.marriageState));
         String marriageInfo;
         if (hoveringOverIcon("married")) {
-            String spouseName = villager.get(EntityVillagerMCA.SPOUSE_NAME);
+            String spouseName = villager.get(EntityVillagerMCA.spouseName);
             if (marriageState == EnumMarriageState.MARRIED)
-                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.married", spouseName);
+                marriageInfo = MCA.localize("gui.interact.label.married", spouseName);
             else if (marriageState == EnumMarriageState.ENGAGED)
-                marriageInfo = MCA.getLocalizer().localize("gui.interact.label.engaged", spouseName);
-            else marriageInfo = MCA.getLocalizer().localize("gui.interact.label.notmarried");
+                marriageInfo = MCA.localize("gui.interact.label.engaged", spouseName);
+            else marriageInfo = MCA.localize("gui.interact.label.notmarried");
 
             drawHoveringIconText(marriageInfo, "married");
         }
 
         //parents
         if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
-            ParentData data = ParentData.fromNBT(villager.get(EntityVillagerMCA.PARENTS));
-            drawHoveringIconText(MCA.getLocalizer().localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), "parents");
+            ParentPair data = ParentPair.fromNBT(villager.get(EntityVillagerMCA.parents));
+            drawHoveringIconText(MCA.localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), "parents");
         }
 
         //gift
         if (canDrawGiftIcon() && hoveringOverIcon("gift"))
-            drawHoveringIconText(MCA.getLocalizer().localize("gui.interact.label.gift"), "gift");
+            drawHoveringIconText(MCA.localize("gui.interact.label.gift"), "gift");
 
         //genes
         if (hoveringOverIcon("genes")) {
@@ -256,7 +256,7 @@ public class GuiInteract extends GuiScreen {
             for (int i = 0; i < EntityVillagerMCA.GENES.length; i++) {
                 String key = EntityVillagerMCA.GENES_NAMES[i].replace("_", ".");
                 int value = (int) (villager.get(EntityVillagerMCA.GENES[i]) * 100);
-                lines.add(String.format("%s: %d%%", MCA.getLocalizer().localize(key), value));
+                lines.add(String.format("%s: %d%%", MCA.localize(key), value));
             }
             drawHoveringIconText(lines, "genes");
         }
@@ -264,7 +264,7 @@ public class GuiInteract extends GuiScreen {
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
             List<String> lines = new LinkedList<>();
-            lines.add(MCA.getLocalizer().localize("gui.interact.label.happiness", 0 + "/" + 10));
+            lines.add(MCA.localize("gui.interact.label.happiness", 0 + "/" + 10));
 
             drawHoveringIconText(lines, "neutralEmerald");
         }
@@ -288,17 +288,17 @@ public class GuiInteract extends GuiScreen {
     }
 
     private boolean canDrawParentsIcon() {
-        ParentData data = ParentData.fromNBT(villager.get(EntityVillagerMCA.PARENTS));
+        ParentPair data = ParentPair.fromNBT(villager.get(EntityVillagerMCA.parents));
         return !data.getParent1UUID().equals(Constants.ZERO_UUID) &&
                 !data.getParent2UUID().equals(Constants.ZERO_UUID);
     }
 
     private boolean canDrawGiftIcon() {
-        return villager.getPlayerHistoryFor(player.getUniqueID()).isGiftPresent();
+        return villager.getMemoriesFor(player.getUUID()).isGiftPresent();
     }
 
-    protected void actionPerformed(GuiButton button) {
-        GuiButtonEx btn = (GuiButtonEx) button;
+    protected void actionPerformed(Button button) {
+        ButtonEx btn = (ButtonEx) button;
         String id = btn.getApiButton().getIdentifier();
 
         if (timeSinceLastClick <= 2) {
@@ -335,7 +335,7 @@ public class GuiInteract extends GuiScreen {
 
         /* Anything that should notify the server is handled here */
         else if (btn.getApiButton().isNotifyServer()) {
-            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, id, villager.getUniqueID()));
+            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, id, villager.getUUID()));
 
             //don't exist
             if (id.contains("gui.button.clothing")) {
@@ -347,14 +347,14 @@ public class GuiInteract extends GuiScreen {
             return;
         }
 
-        this.mc.displayGuiScreen(null);
+        this.mc.displayScreen(null);
     }
 
     private void drawMainButtonMenu() {
         buttonList.clear();
         API.addButtons("main", villager, player, this);
 
-        EnumMoveState moveState = EnumMoveState.byId(villager.get(EntityVillagerMCA.MOVE_STATE));
+        EnumMoveState moveState = EnumMoveState.byId(villager.get(EntityVillagerMCA.moveState));
         if (moveState == EnumMoveState.FOLLOW) disableButton("gui.button.follow");
         else if (moveState == EnumMoveState.STAY) disableButton("gui.button.stay");
         else if (moveState == EnumMoveState.MOVE) disableButton("gui.button.move");
@@ -386,7 +386,7 @@ public class GuiInteract extends GuiScreen {
     }
 
     private void disableButton(String id) {
-        Optional<GuiButtonEx> b = API.getButton(id, this);
+        Optional<ButtonEx> b = API.getButton(id, this);
 
         b.ifPresent(guiButtonEx -> guiButtonEx.enabled = false);
     }

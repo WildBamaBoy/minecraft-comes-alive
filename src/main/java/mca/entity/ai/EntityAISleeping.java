@@ -2,7 +2,7 @@ package mca.entity.ai;
 
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.util.math.BlockPos;
+import cobalt.minecraft.util.math.CPos;
 
 public class EntityAISleeping extends AbstractEntityAIChore {
     private int failed = 0;
@@ -18,7 +18,7 @@ public class EntityAISleeping extends AbstractEntityAIChore {
             return false;
         }
 
-        if (villager.ticksExisted - failed < 1200) {
+        if (villager.tickCount - failed < 1200) {
             //wake up if still sleeping
             if (villager.isSleeping()) {
                 villager.stopSleeping();
@@ -27,7 +27,7 @@ public class EntityAISleeping extends AbstractEntityAIChore {
         }
 
         long time = villager.world.getWorldTime() % 24000L;
-        if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN && time < 16000) { //at tick 18000 villager without bed are allowed to automatically choose one
+        if (villager.get(EntityVillagerMCA.bedPos) == CPos.ORIGIN && time < 16000) { //at tick 18000 villager without bed are allowed to automatically choose one
             //wake up if still sleeping
             if (villager.isSleeping()) {
                 villager.stopSleeping();
@@ -56,32 +56,32 @@ public class EntityAISleeping extends AbstractEntityAIChore {
     }
 
     public boolean shouldContinueExecuting() {
-        return shouldExecute() && (!villager.getNavigator().noPath() || villager.isSleeping());
+        return shouldExecute() && (!villager.getNavigation().noPath() || villager.isSleeping());
     }
 
     public void startExecuting() {
-        if (villager.get(EntityVillagerMCA.BED_POS) == BlockPos.ORIGIN || villager.getDistanceSq(villager.get(EntityVillagerMCA.BED_POS)) < 4.0) {
+        if (villager.get(EntityVillagerMCA.bedPos) == CPos.ORIGIN || villager.getDistanceSq(villager.get(EntityVillagerMCA.bedPos)) < 4.0) {
             //search for the nearest bed, might be a different than before
-            BlockPos pos = villager.searchBed();
+            CPos pos = villager.searchBed();
 
             if (pos == null) {
                 //no bed found, let's forget about the remembered bed
-                if (villager.get(EntityVillagerMCA.BED_POS) != BlockPos.ORIGIN) {
+                if (villager.get(EntityVillagerMCA.bedPos) != CPos.ORIGIN) {
                     //TODO: notify the player?
                     //MCA.getLog().info(villager.getName() + " lost the bed");
-                    villager.set(EntityVillagerMCA.BED_POS, BlockPos.ORIGIN);
+                    villager.set(EntityVillagerMCA.bedPos, CPos.ORIGIN);
                 } else {
                     //MCA.getLog().info(villager.getName() + " has no bed");
                 }
-                failed = villager.ticksExisted;
+                failed = villager.tickCount;
             } else {
                 //MCA.getLog().info(villager.getName() + " sleeps now");
-                villager.set(EntityVillagerMCA.BED_POS, pos);
+                villager.set(EntityVillagerMCA.bedPos, pos);
                 villager.startSleeping();
             }
         } else {
             //MCA.getLog().info(villager.getName() + " is going to bed");
-            villager.moveTowardsBlock(villager.get(EntityVillagerMCA.BED_POS), 0.75);
+            villager.moveTowardsBlock(villager.get(EntityVillagerMCA.bedPos), 0.75);
         }
     }
 

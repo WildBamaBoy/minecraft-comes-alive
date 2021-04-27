@@ -2,26 +2,35 @@ package mca.items;
 
 import java.util.List;
 
+import cobalt.enums.CEnumHand;
+import cobalt.items.CItem;
+import cobalt.minecraft.item.CItemUseContext;
+import cobalt.minecraft.world.CWorld;
 import mca.core.Constants;
 import mca.core.MCA;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.CEnumHand;
 import net.minecraft.world.World;
 
-public class ItemWhistle extends Item {
-    public ItemWhistle() {
-        super();
-        maxStackSize = 1;
+public class ItemWhistle extends CItem {
+    public ItemWhistle(Properties properties) {
+        super(properties);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> handleRightClick(CWorld worldIn, CPlayer playerIn, CEnumHand hand) {
         player.openGui(MCA.getInstance(), Constants.GUI_ID_WHISTLE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
         return super.onItemRightClick(world, player, hand);
+    }
+
+    @Override
+    public ActionResultType handleUseOnBlock(CItemUseContext context) {
+        return null;
     }
 
     @Override

@@ -3,11 +3,11 @@ package mca.client.gui;
 import mca.core.MCA;
 import mca.core.forge.NetMCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import cobalt.minecraft.entity.player.CPlayer;
+import cobalt.minecraft.nbt.CNBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,22 +16,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@SideOnly(Side.CLIENT)
-public class GuiStaffOfLife extends GuiScreen {
-    private Map<String, NBTTagCompound> villagerData;
-    private GuiButton reviveButton;
-    private GuiButton nameButton;
-    private GuiButton backButton;
-    private GuiButton nextButton;
-    private GuiButton closeButton;
+@OnlyIn(Dist.CLIENT)
+public class GuiStaffOfLife extends Screen {
+    private Map<String, CNBT> villagerData;
+    private Button reviveButton;
+    private Button nameButton;
+    private Button backButton;
+    private Button nextButton;
+    private Button closeButton;
     private EntityVillagerMCA dummy;
-    private final EntityPlayer player;
+    private final CPlayer player;
 
     // selection fields
     private int index = 0;
     private final List<String> keys = new ArrayList<>();
 
-    public GuiStaffOfLife(EntityPlayer player) {
+    public GuiStaffOfLife(CPlayer player) {
         super();
         this.player = player;
     }
@@ -41,11 +41,11 @@ public class GuiStaffOfLife extends GuiScreen {
         NetMCA.INSTANCE.sendToServer(new NetMCA.SavedVillagersRequest());
 
         buttonList.clear();
-        buttonList.add(backButton = new GuiButton(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
-        buttonList.add(nextButton = new GuiButton(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
-        buttonList.add(nameButton = new GuiButton(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-        buttonList.add(reviveButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.revive")));
-        buttonList.add(closeButton = new GuiButton(5, width / 2 + 40, height / 2 + 90, 60, 20, MCA.getLocalizer().localize("gui.button.exit")));
+        buttonList.add(backButton = new Button(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
+        buttonList.add(nextButton = new Button(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
+        buttonList.add(nameButton = new Button(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
+        buttonList.add(reviveButton = new Button(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.localize("gui.button.revive")));
+        buttonList.add(closeButton = new Button(5, width / 2 + 40, height / 2 + 90, 60, 20, MCA.localize("gui.button.exit")));
     }
 
     @Override
@@ -54,24 +54,24 @@ public class GuiStaffOfLife extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton guibutton) {
+    protected void actionPerformed(Button guibutton) {
         if (guibutton == reviveButton) {
             NetMCA.INSTANCE.sendToServer(new NetMCA.ReviveVillager(UUID.fromString(keys.get(index))));
-            mc.displayGuiScreen(null);
+            mc.displayScreen(null);
         } else if (guibutton == backButton) selectData(index - 1);
         else if (guibutton == nextButton) selectData(index + 1);
-        else if (guibutton == closeButton) mc.displayGuiScreen(null);
+        else if (guibutton == closeButton) mc.displayScreen(null);
     }
 
     @Override
     public void drawScreen(int sizeX, int sizeY, float offset) {
         drawDefaultBackground();
         drawDummy();
-        drawCenteredString(fontRenderer, MCA.getLocalizer().localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredString(fontRenderer, MCA.localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
         super.drawScreen(sizeX, sizeY, offset);
     }
 
-    public void setVillagerData(Map<String, NBTTagCompound> data) {
+    public void setVillagerData(Map<String, CNBT> data) {
         villagerData = data;
 
         if (data.size() > 0) {
@@ -87,7 +87,7 @@ public class GuiStaffOfLife extends GuiScreen {
         }
     }
 
-    private void updateDummy(NBTTagCompound nbt) {
+    private void updateDummy(CNBT nbt) {
         dummy.readEntityFromNBT(nbt);
         dummy.setHealth(20.0F);
     }

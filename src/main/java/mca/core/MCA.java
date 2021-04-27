@@ -1,125 +1,147 @@
 package mca.core;
 
+import cobalt.items.CItemBasic;
+import cobalt.mod.forge.CobaltForgeMod;
+import lombok.Getter;
 import mca.api.API;
-import mca.command.CommandAdminMCA;
+import mca.client.render.RenderVillagerMCA;
 import mca.command.CommandMCA;
-import mca.core.forge.EventHooks;
-import mca.core.forge.GuiHandler;
-import mca.core.forge.NetMCA;
-import mca.core.forge.ServerProxy;
-import mca.core.minecraft.ItemsMCA;
-import mca.core.minecraft.ProfessionsMCA;
-import mca.core.minecraft.RoseGoldOreGenerator;
-import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
-import mca.util.Util;
-import net.minecraft.creativetab.CreativeTabs;
+import mca.items.ItemBaby;
+import mca.items.ItemSpawnEgg;
+import mca.items.ItemStaffOfLife;
+import mca.items.ItemWhistle;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.village.PointOfInterestType;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
-import java.util.Date;
-import java.util.Random;
-
-@Mod(modid = MCA.MODID, name = MCA.NAME, version = MCA.VERSION, guiFactory = "mca.client.MCAGuiFactory")
-public class MCA {
-    public static final String MODID = "mca";
-    public static final String NAME = "Minecraft Comes Alive";
-    public static final String VERSION = "6.0.2";
-    @SidedProxy(clientSide = "mca.core.forge.ClientProxy", serverSide = "mca.core.forge.ServerProxy")
-    public static ServerProxy proxy;
-    public static CreativeTabs creativeTab;
-    @Mod.Instance
-    private static MCA instance;
-    private static Logger logger;
-    private static Localizer localizer;
+@Mod("mca")
+public class MCA extends CobaltForgeMod {
+    @Getter
+    public static MCA mod;
     private static Config config;
-    private static long startupTimestamp;
-    public static String latestVersion = "";
-    public static boolean updateAvailable = false;
-    public String[] supporters = new String[0];
 
-    public static Logger getLog() {
-        return logger;
-    }
-
-    public static MCA getInstance() {
-        return instance;
-    }
-
-    public static Localizer getLocalizer() {
-        return localizer;
+    public MCA() {
+        super();
+        mod = this;
     }
 
     public static Config getConfig() {
         return config;
     }
 
-    public static long getStartupTimestamp() {
-        return startupTimestamp;
+    public static void log(String message) {
+        mod.logger.info(message);
     }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        startupTimestamp = new Date().getTime();
-        instance = this;
-        logger = event.getModLog();
-        proxy.registerEntityRenderers();
-        localizer = new Localizer();
-        config = new Config(event);
-        creativeTab = new CreativeTabs("MCA") {
-            @Override
-            public ItemStack getTabIconItem() {
-                return new ItemStack(ItemsMCA.ENGAGEMENT_RING);
-            }
-        };
-        MinecraftForge.EVENT_BUS.register(new EventHooks());
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        NetMCA.registerMessages();
-
-        supporters = Util.httpGet("https://minecraftcomesalive.com/api/supporters").split(",");
-        MCA.getLog().info("Loaded " + supporters.length + " supporters.");
+    public static void log(String message, Exception e) {
+        mod.logger.fatal(e);
     }
 
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        GameRegistry.registerWorldGenerator(new RoseGoldOreGenerator(), MCA.getConfig().roseGoldSpawnWeight);
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "EntityVillagerMCA"), EntityVillagerMCA.class, EntityVillagerMCA.class.getSimpleName(), 1120, this, 50, 2, true);
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "GrimReaperMCA"), EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), 1121, this, 50, 2, true);
-        ProfessionsMCA.registerCareers();
-
-        proxy.registerModelMeshers();
-        ItemsMCA.assignCreativeTabs();
+    public static void logAndThrow(String message, Exception e) {
+        mod.logger.fatal(message, e);
+        throw new RuntimeException(e);
     }
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
+    public static String localize(String key, String... vars) {
+        return mod.localizer.localize(key, vars);
+    }
+
+    @Override
+    public void registerContent() {
+        ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(TAB)));
+        ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(TAB)));
+        ITEM_WEDDING_RING = registerItem("wedding_ring", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(2)));
+        ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(TAB)));
+        ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(TAB)));
+        ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_GOLD_DUST = registerItem("gold_dust", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(TAB)));
+        ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_DEATH = registerItem("book_death", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_ROMANCE = registerItem("book_romance", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_FAMILY = registerItem("book_family", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_INFECTION = registerItem("book_infection", new CItemBasic(new Item.Properties().tab(TAB)));
+
+        ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, RenderVillagerMCA::new, EntityClassification.AMBIENT, "villager_mca",
+                1.0F, 1.85F);
+
+        PROFESSION_GUARD = registerProfession("guard", PointOfInterestType.ARMORER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
+        PROFESSION_CHILD = registerProfession("child", PointOfInterestType.HOME, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
+    }
+
+    @Override
+    public void onSetup() {
         API.init();
+        config = new Config(event);
+        this.localizer.registerVarParser(str -> str.replaceAll("%Supporter%", getRandomSupporter()));
     }
 
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandMCA());
-        event.registerServerCommand(new CommandAdminMCA());
+    @Override
+    public void onClientSetup() {
+        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
     }
 
-    public String getRandomSupporter() {
-        if (supporters.length > 0) {
-            return supporters[new Random().nextInt(supporters.length)];
-        } else {
-            return API.getRandomName(EnumGender.getRandom());
+    @Override
+    public void registerCommands(FMLServerStartingEvent event) {
+        CommandMCA.register(event.getCommandDispatcher());
+    }
+
+    public String getModId() {
+        return "mca";
+    }
+
+    private String getRandomSupporter() {
+        return "";
+    }
+
+    public static final ItemGroup TAB = new ItemGroup("mcaTab") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ITEM_ENGAGEMENT_RING.get());
         }
-    }
+    };
+
+    public static RegistryObject<Item> ITEM_MALE_EGG;
+    public static RegistryObject<Item> ITEM_FEMALE_EGG;
+    public static RegistryObject<Item> ITEM_WEDDING_RING;
+    public static RegistryObject<Item> ITEM_WEDDING_RING_RG;
+    public static RegistryObject<Item> ITEM_ENGAGEMENT_RING;
+    public static RegistryObject<Item> ITEM_ENGAGEMENT_RING_RG;
+    public static RegistryObject<Item> ITEM_MATCHMAKERS_RING;
+    public static RegistryObject<Item> ITEM_BABY_BOY;
+    public static RegistryObject<Item> ITEM_BABY_GIRL;
+    public static RegistryObject<Item> ITEM_ROSE_GOLD_INGOT;
+    public static RegistryObject<Item> ITEM_ROSE_GOLD_DUST;
+    public static RegistryObject<Item> ITEM_GOLD_DUST;
+    public static RegistryObject<Item> ITEM_VILLAGER_EDITOR;
+    public static RegistryObject<Item> ITEM_STAFF_OF_LIFE;
+    public static RegistryObject<Item> ITEM_WHISTLE;
+    public static RegistryObject<Item> ITEM_BOOK_DEATH;
+    public static RegistryObject<Item> ITEM_BOOK_ROMANCE;
+    public static RegistryObject<Item> ITEM_BOOK_FAMILY;
+    public static RegistryObject<Item> ITEM_BOOK_ROSE_GOLD;
+    public static RegistryObject<Item> ITEM_BOOK_INFECTION;
+
+    public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
+
+    public static RegistryObject<VillagerProfession> PROFESSION_CHILD;
+    public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
 }

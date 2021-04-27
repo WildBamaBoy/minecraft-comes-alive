@@ -3,12 +3,12 @@ package mca.items;
 import mca.core.Constants;
 import mca.core.MCA;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.CEnumHand;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,9 +26,9 @@ public class ItemStaffOfLife extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, CPlayer playerIn, CEnumHand handIn) {
         if (!MCA.getConfig().enableRevivals)
-            playerIn.sendMessage(new TextComponentString(MCA.getLocalizer().localize("notify.revival.disabled")));
+            playerIn.sendMessage(new StringTextComponent(MCA.localize("notify.revival.disabled")));
 
         playerIn.openGui(MCA.getInstance(), Constants.GUI_ID_STAFFOFLIFE, playerIn.world, 0, 0, 0);
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -44,7 +44,7 @@ public class ItemStaffOfLife extends Item {
         } else tooltip.add("Hold " + Constants.Color.YELLOW + "SHIFT" + Constants.Color.GRAY + " for info.");
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
     public boolean hasEffect(ItemStack itemStack) {
         return true;

@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.data.ParentData;
+import mca.entity.data.ParentPair;
 import mca.enums.EnumGender;
 import mca.util.Util;
 import net.minecraft.entity.Entity;
@@ -21,17 +21,17 @@ public class EntityAIAgeBaby extends EntityAIBase {
     }
 
     public boolean shouldExecute() {
-        return villager.get(EntityVillagerMCA.HAS_BABY);
+        return villager.get(EntityVillagerMCA.hasBaby);
     }
 
     public void updateTask() {
-        if (villager.ticksExisted % 1200 != 0) return;
+        if (villager.tickCount % 1200 != 0) return;
         villager.babyAge += 1;
 
         if (villager.babyAge < MCA.getConfig().babyGrowUpTime) return;
 
-        EntityVillagerMCA child = new EntityVillagerMCA(villager.world, Optional.absent(), Optional.of(villager.get(EntityVillagerMCA.BABY_IS_MALE) ? EnumGender.MALE : EnumGender.FEMALE));
-        child.set(EntityVillagerMCA.PARENTS, ParentData.fromVillager(villager).toNBT());
+        EntityVillagerMCA child = new EntityVillagerMCA(villager.world, Optional.absent(), Optional.of(villager.get(EntityVillagerMCA.isBabyMale) ? EnumGender.MALE : EnumGender.FEMALE));
+        child.set(EntityVillagerMCA.parents, ParentPair.fromVillager(villager).toNBT());
         child.setPosition(villager.posX, villager.posY, villager.posZ);
 
         //inherit genes
@@ -44,6 +44,6 @@ public class EntityAIAgeBaby extends EntityAIBase {
         child.inheritGenes(villager, father);
 
         villager.world.spawnEntity(child);
-        villager.set(EntityVillagerMCA.HAS_BABY, false);
+        villager.set(EntityVillagerMCA.hasBaby, false);
     }
 }

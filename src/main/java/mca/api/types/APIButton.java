@@ -1,17 +1,17 @@
 package mca.api.types;
 
+import cobalt.minecraft.entity.player.CPlayer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
-import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
 /**
  * APIButton is a button defined in assets/mca/api/gui/*
  * <p>
- * These buttons are dynamically attached to a GuiScreen and include additional instruction/constraints for building
+ * These buttons are dynamically attached to a Screen and include additional instruction/constraints for building
  * and processing interactions.
  */
 @AllArgsConstructor
@@ -35,21 +35,21 @@ public class APIButton {
      * Determines if the given villager and player match the constraints for this button, allowing the action to be performed
      *
      * @param villager Instance of the EntityVillagerMCA the button would perform the action on
-     * @param player   Instance of the EntityPlayer performing the action
+     * @param player   Instance of the CPlayer performing the action
      * @return boolean whether the button is valid for a constraint
      */
-    public boolean isValidForConstraint(EntityVillagerMCA villager, EntityPlayer player) {
+    public boolean isValidForConstraint(EntityVillagerMCA villager, CPlayer player) {
         List<EnumConstraint> constraints = getConstraints();
 
         if (constraints.contains(EnumConstraint.ADULTS) && !villager.isChild()) {
             return true;
-        } else if (constraints.contains(EnumConstraint.SPOUSE) && villager.isMarriedTo(player.getUniqueID())) {
+        } else if (constraints.contains(EnumConstraint.SPOUSE) && villager.isMarriedTo(player.getUUID())) {
             return true;
-        } else if (constraints.contains(EnumConstraint.NOT_SPOUSE) && !villager.isMarriedTo(player.getUniqueID())) {
+        } else if (constraints.contains(EnumConstraint.NOT_SPOUSE) && !villager.isMarriedTo(player.getUUID())) {
             return true;
-        } else if (constraints.contains(EnumConstraint.FAMILY) && (villager.playerIsParent(player) || villager.isMarriedTo(player.getUniqueID()))){
+        } else if (constraints.contains(EnumConstraint.FAMILY) && (villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))){
             return true;
-        } else if (constraints.contains(EnumConstraint.NOT_FAMILY) && !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUniqueID()))) {
+        } else if (constraints.contains(EnumConstraint.NOT_FAMILY) && !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))) {
             return true;
         } else if (constraints.isEmpty()) {
             return true;

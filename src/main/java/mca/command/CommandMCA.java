@@ -7,9 +7,9 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Arrays;
 
@@ -36,7 +36,7 @@ public class CommandMCA extends CommandBase {
                 throw new WrongUsageException("");
             }
 
-            final EntityPlayer player = (EntityPlayer) commandSender;
+            final CPlayer player = (CPlayer) commandSender;
             String subcommand = input[0].toLowerCase();
             String[] arguments = Arrays.copyOfRange(input, 1, input.length);
             MCA.getLog().info(player.getName() + " entered command " + Arrays.toString(input));
@@ -46,11 +46,11 @@ public class CommandMCA extends CommandBase {
                     displayHelp(commandSender);
                     break;
                 case "propose":
-                    EntityPlayer target = player.world.getPlayerEntityByName(arguments[0]);
+                    CPlayer target = player.world.getPlayerEntityByName(arguments[0]);
                     if (target != null) {
                         MCAServer.get().sendProposal(player, target);
                     } else {
-                        player.sendMessage(new TextComponentString("Player not found on the server."));
+                        player.sendMessage(new StringTextComponent("Player not found on the server."));
                     }
                     break;
                 case "accept":
@@ -58,7 +58,7 @@ public class CommandMCA extends CommandBase {
                     if (target != null) {
                         MCAServer.get().acceptProposal(player, target);
                     } else {
-                        player.sendMessage(new TextComponentString("Player not found on the server."));
+                        player.sendMessage(new StringTextComponent("Player not found on the server."));
                     }
                     break;
                 case "proposals":
@@ -75,7 +75,7 @@ public class CommandMCA extends CommandBase {
                     if (target != null) {
                         MCAServer.get().rejectProposal(player, target);
                     } else {
-                        player.sendMessage(new TextComponentString("Player not found on the server."));
+                        player.sendMessage(new StringTextComponent("Player not found on the server."));
                     }
                     break;
                 default:
@@ -94,12 +94,12 @@ public class CommandMCA extends CommandBase {
     }
 
     private void sendMessage(ICommandSender commandSender, String message) {
-        commandSender.sendMessage(new TextComponentString(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message));
+        commandSender.sendMessage(new StringTextComponent(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message));
     }
 
     private void sendMessage(ICommandSender commandSender, String message, boolean noPrefix) {
         if (noPrefix) {
-            commandSender.sendMessage(new TextComponentString(message));
+            commandSender.sendMessage(new StringTextComponent(message));
         } else {
             sendMessage(commandSender, message);
         }

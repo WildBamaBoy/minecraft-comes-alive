@@ -14,10 +14,10 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -45,7 +45,7 @@ public class CommandAdminMCA extends CommandBase {
                 throw new WrongUsageException("");
             }
 
-            final EntityPlayer player = (EntityPlayer) commandSender;
+            final CPlayer player = (CPlayer) commandSender;
             String subcommand = input[0].toLowerCase();
             String[] arguments = Arrays.copyOfRange(input, 1, input.length);
             MCA.getLog().info(player.getName() + " entered debug command " + Arrays.toString(input));
@@ -73,17 +73,17 @@ public class CommandAdminMCA extends CommandBase {
         }
     }
 
-    private void forceFullHearts(EntityPlayer player) {
+    private void forceFullHearts(CPlayer player) {
         for (Entity entity : player.world.loadedEntityList) {
             if (entity instanceof EntityVillagerMCA) {
                 EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-                villager.getPlayerHistoryFor(player.getUniqueID()).setHearts(100);
+                villager.getMemoriesFor(player.getUUID()).setHearts(100);
             }
         }
         sendMessage(player, Constants.Color.GREEN + "Forced full hearts on all villagers.");
     }
 
-    private void forceBabyGrow(EntityPlayer player) {
+    private void forceBabyGrow(CPlayer player) {
         for (ItemStack stack : player.inventory.mainInventory) {
             if (stack.getItem() instanceof ItemBaby) {
                 stack.getTagCompound().setInteger("age", MCA.getConfig().babyGrowUpTime);
@@ -92,14 +92,14 @@ public class CommandAdminMCA extends CommandBase {
         sendMessage(player, Constants.Color.GREEN + "Forced any held babies to grow up age.");
     }
 
-    private void forceChildGrow(EntityPlayer player) {
+    private void forceChildGrow(CPlayer player) {
         player.world.loadedEntityList.stream()
                 .filter(e -> e instanceof EntityVillagerMCA && ((EntityVillagerMCA)e).isChild())
                 .forEach(e -> ((EntityVillagerMCA) e).addGrowth(999999));
         sendMessage(player, Constants.Color.GREEN + "Forced any children to grow to adults.");
     }
 
-    private void clearLoadedVillagers(EntityPlayer player) {
+    private void clearLoadedVillagers(CPlayer player) {
         int n = 0;
         for (Entity entity : player.world.loadedEntityList) {
             if (entity instanceof EntityVillagerMCA) {
@@ -110,41 +110,41 @@ public class CommandAdminMCA extends CommandBase {
         sendMessage(player, Constants.Color.GREEN + "Cleared " + n + " villagers from the world.");
     }
 
-    private void incrementHearts(EntityPlayer player) {
+    private void incrementHearts(CPlayer player) {
         for (Entity entity : player.world.loadedEntityList) {
             if (entity instanceof EntityVillagerMCA) {
                 EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-                villager.getPlayerHistoryFor(player.getUniqueID()).changeHearts(10);
+                villager.getMemoriesFor(player.getUUID()).changeHearts(10);
             }
         }
         sendMessage(player, Constants.Color.GREEN + "Increased hearts for all villagers by 10.");
     }
 
-    private void decrementHearts(EntityPlayer player) {
+    private void decrementHearts(CPlayer player) {
         for (Entity entity : player.world.loadedEntityList) {
             if (entity instanceof EntityVillagerMCA) {
                 EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-                villager.getPlayerHistoryFor(player.getUniqueID()).changeHearts(-10);
+                villager.getMemoriesFor(player.getUUID()).changeHearts(-10);
             }
         }
         sendMessage(player, Constants.Color.GREEN + "Decreased hearts for all villagers by 10.");
     }
 
-    private void spawnGrimReaper(EntityPlayer player) {
+    private void spawnGrimReaper(CPlayer player) {
         EntityGrimReaper reaper = new EntityGrimReaper(player.world);
         reaper.setPosition(player.posX, player.posY, player.posZ);
         player.world.spawnEntity(reaper);
     }
 
-    private void killGrimReaper(EntityPlayer player) {
+    private void killGrimReaper(CPlayer player) {
         player.world.loadedEntityList.stream().filter((e) -> e instanceof EntityGrimReaper).forEach((e) -> e.setDead());
     }
 
-    private void dumpPlayerData(EntityPlayer player) {
+    private void dumpPlayerData(CPlayer player) {
         PlayerSaveData.get(player).dump(player);
     }
 
-    private void resetVillagerData(EntityPlayer sender, String[] arguments) {
+    private void resetVillagerData(CPlayer sender, String[] arguments) {
         Optional<EntityVillagerMCA> target = Util.getEntityByUUID(sender.world, UUID.fromString(arguments[0]), EntityVillagerMCA.class);
         if (!target.isPresent()) {
             sendMessage(sender, "Target villager was not found.");
@@ -154,20 +154,20 @@ public class CommandAdminMCA extends CommandBase {
         }
     }
 
-    private void resetPlayerData(EntityPlayer sender, String[] arguments) {
+    private void resetPlayerData(CPlayer sender, String[] arguments) {
         Optional<Entity> target = com.google.common.base.Optional.fromJavaUtil(sender.world.loadedEntityList.stream()
-                .filter(e -> e instanceof EntityPlayer && e.getName().equals(arguments[0]))
+                .filter(e -> e instanceof CPlayer && e.getName().equals(arguments[0]))
                 .findFirst());
         if (!target.isPresent()) {
             sendMessage(sender, "Player not found on the server.");
         } else {
-            PlayerSaveData.get((EntityPlayer)target.get()).reset();
+            PlayerSaveData.get((CPlayer)target.get()).reset();
             sendMessage(sender, "Player data for " + target.get().getName() + " has been reset successfully.");
             sendMessage(target.get(), "Your player data has been reset by " + sender.getName() + ".");
         }
     }
 
-    private void clearVillagerEditors(EntityPlayer sender) {
+    private void clearVillagerEditors(CPlayer sender) {
         ItemStack editorStack = new ItemStack(ItemsMCA.VILLAGER_EDITOR);
         sender.world.playerEntities.stream().filter(p -> p.inventory.hasItemStack(editorStack)).forEach(p -> {
             int i = 0;
@@ -187,12 +187,12 @@ public class CommandAdminMCA extends CommandBase {
     }
 
     private void sendMessage(ICommandSender commandSender, String message) {
-        commandSender.sendMessage(new TextComponentString(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message));
+        commandSender.sendMessage(new StringTextComponent(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message));
     }
 
     private void sendMessage(ICommandSender commandSender, String message, boolean noPrefix) {
         if (noPrefix) {
-            commandSender.sendMessage(new TextComponentString(message));
+            commandSender.sendMessage(new StringTextComponent(message));
         } else {
             sendMessage(commandSender, message);
         }

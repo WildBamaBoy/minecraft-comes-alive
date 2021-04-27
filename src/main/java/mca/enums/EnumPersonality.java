@@ -73,12 +73,12 @@ public enum EnumPersonality {
 
     public String getLocalizedName() {
         String name = "personality." + this.name().toLowerCase();
-        return MCA.getLocalizer().localize(name);
+        return MCA.localize(name);
     }
 
     public String getLocalizedDescription() {
         String name = "personalityDescription." + this.name().toLowerCase();
-        return MCA.getLocalizer().localize(name);
+        return MCA.localize(name);
     }
 
     public int getSuccessModifierForInteraction(EnumInteraction interaction) {

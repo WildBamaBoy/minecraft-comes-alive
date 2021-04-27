@@ -8,14 +8,15 @@ import mca.enums.EnumReaperAttackState;
 import mca.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import cobalt.minecraft.entity.player.CPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -34,12 +35,12 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public class EntityGrimReaper extends EntityMob {
-    private static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.<Integer>createKey(EntityGrimReaper.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> STATE_TRANSITION_COOLDOWN = EntityDataManager.<Integer>createKey(EntityGrimReaper.class, DataSerializers.VARINT);
+public class EntityGrimReaper extends MobEntity {
+    private static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.<Integer>defineId(EntityGrimReaper.class, DataSerializers.INT);
+    private static final DataParameter<Integer> STATE_TRANSITION_COOLDOWN = EntityDataManager.<Integer>defineId(EntityGrimReaper.class, DataSerializers.INT);
 
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
-    private final EntityAINearestAttackableTarget aiNearestAttackableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, true);
+    private final EntityAINearestAttackableTarget aiNearestAttackableTarget = new EntityAINearestAttackableTarget(this, CPlayer.class, true);
     private int healingCooldown;
     private int timesHealed;
 
@@ -52,7 +53,7 @@ public class EntityGrimReaper extends EntityMob {
 
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, CPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(2, aiNearestAttackableTarget);
@@ -75,18 +76,18 @@ public class EntityGrimReaper extends EntityMob {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(ATTACK_STATE, 0);
-        this.dataManager.register(STATE_TRANSITION_COOLDOWN, 0);
+        this.entityData.register(ATTACK_STATE, 0);
+        this.entityData.register(STATE_TRANSITION_COOLDOWN, 0);
     }
 
     public EnumReaperAttackState getAttackState() {
-        return EnumReaperAttackState.fromId(this.dataManager.get(ATTACK_STATE));
+        return EnumReaperAttackState.fromId(this.entityData.get(ATTACK_STATE));
     }
 
     public void setAttackState(EnumReaperAttackState state) {
         // Only update if needed so that sounds only play once.
-        if (this.dataManager.get(ATTACK_STATE) != state.getId()) {
-            this.dataManager.set(ATTACK_STATE, state.getId());
+        if (this.entityData.get(ATTACK_STATE) != state.getId()) {
+            this.entityData.set(ATTACK_STATE, state.getId());
 
             switch (state) {
                 case PRE:
@@ -122,8 +123,8 @@ public class EntityGrimReaper extends EntityMob {
         }
 
         // Ignore damage when blocking, and teleport behind the player when they attempt to block.
-        else if (!world.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getImmediateSource() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) source.getImmediateSource();
+        else if (!world.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getImmediateSource() instanceof CPlayer) {
+            CPlayer player = (CPlayer) source.getImmediateSource();
 
             double deltaX = this.posX - player.posX;
             double deltaZ = this.posZ - player.posZ;
@@ -135,8 +136,8 @@ public class EntityGrimReaper extends EntityMob {
         }
 
         // Randomly portal behind the player who just attacked.
-        else if (!world.isRemote && source.getImmediateSource() instanceof EntityPlayer && rand.nextFloat() >= 0.30F) {
-            EntityPlayer player = (EntityPlayer) source.getImmediateSource();
+        else if (!world.isRemote && source.getImmediateSource() instanceof CPlayer && rand.nextFloat() >= 0.30F) {
+            CPlayer player = (CPlayer) source.getImmediateSource();
 
             double deltaX = this.posX - player.posX;
             double deltaZ = this.posZ - player.posZ;
@@ -148,8 +149,8 @@ public class EntityGrimReaper extends EntityMob {
         else if (source.getImmediateSource() instanceof EntityArrow) {
             EntityArrow arrow = (EntityArrow) source.getImmediateSource();
 
-            if (arrow.shootingEntity instanceof EntityPlayer && getAttackState() != EnumReaperAttackState.REST) {
-                EntityPlayer player = (EntityPlayer) arrow.shootingEntity;
+            if (arrow.shootingEntity instanceof CPlayer && getAttackState() != EnumReaperAttackState.REST) {
+                CPlayer player = (CPlayer) arrow.shootingEntity;
                 double newX = player.posX + rand.nextFloat() >= 0.50F ? 2 : -2;
                 double newZ = player.posZ + rand.nextFloat() >= 0.50F ? 2 : -2;
 
@@ -207,8 +208,8 @@ public class EntityGrimReaper extends EntityMob {
             if (getDistance(entityToAttack) <= 3.5D) {
                 // Check to see if the player's blocking, then teleport behind them.
                 // Also randomly swap their selected item with something else in the hotbar and apply blindness.
-                if (entityToAttack instanceof EntityPlayer) {
-                    EntityPlayer player = (EntityPlayer) entityToAttack;
+                if (entityToAttack instanceof CPlayer) {
+                    CPlayer player = (CPlayer) entityToAttack;
 
                     if (player.isActiveItemStackBlocking()) {
                         double dX = this.posX - player.posX;
@@ -398,11 +399,11 @@ public class EntityGrimReaper extends EntityMob {
     }
 
     public int getStateTransitionCooldown() {
-        return this.dataManager.get(STATE_TRANSITION_COOLDOWN);
+        return this.entityData.get(STATE_TRANSITION_COOLDOWN);
     }
 
     public void setStateTransitionCooldown(int value) {
-        this.dataManager.set(STATE_TRANSITION_COOLDOWN, value);
+        this.entityData.set(STATE_TRANSITION_COOLDOWN, value);
     }
 
     public float getFloatingTicks() {
@@ -427,7 +428,7 @@ public class EntityGrimReaper extends EntityMob {
      * order to view its associated boss bar.
      */
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player) {
+    public void addTrackingPlayer(CPlayer player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
@@ -437,7 +438,7 @@ public class EntityGrimReaper extends EntityMob {
      * more information on tracking.
      */
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player) {
+    public void removeTrackingPlayer(CPlayer player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }

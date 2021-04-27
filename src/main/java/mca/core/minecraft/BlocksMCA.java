@@ -1,6 +1,5 @@
 package mca.core.minecraft;
 
-import mca.blocks.BlockVillagerSpawner;
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
@@ -67,7 +66,7 @@ public final class BlocksMCA {
         block.setUnlocalizedName(block.getRegistryName().toString());
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static void registerModelMeshers() {
         ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 

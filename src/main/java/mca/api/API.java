@@ -1,23 +1,25 @@
 package mca.api;
 
+import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
+import cobalt.minecraft.entity.player.CPlayer;
+import cobalt.minecraft.item.CItemStack;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import mca.api.types.*;
-import mca.client.gui.component.GuiButtonEx;
+import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
 import mca.enums.EnumGender;
 import mca.util.Util;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringUtils;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nonnull;
@@ -87,8 +89,8 @@ public class API {
 
     //returns the clothing group based of gender and profession
     private static Optional<ClothingGroup> getClothingGroup(EntityVillagerMCA villager) {
-        VillagerRegistry.VillagerProfession profession = villager.getProfessionForge();
-        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        VillagerProfession profession = villager.getProfession();
+        EnumGender gender = EnumGender.byId(villager.gender.get());
 
         return clothing.stream()
                 .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
@@ -107,7 +109,7 @@ public class API {
 
         return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
             ClothingGroup randomGroup = null;
-            EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+            EnumGender gender = EnumGender.byId(villager.gender.get());
             while (randomGroup == null || randomGroup.getGender() != gender && gender != EnumGender.UNASSIGNED) {
                 randomGroup = clothing.get(rng.nextInt(clothing.size()));
             }
@@ -142,7 +144,7 @@ public class API {
      * @return String location of the random skin
      */
     public static Hair getRandomHair(EntityVillagerMCA villager) {
-        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        EnumGender gender = EnumGender.byId(villager.gender.get());
         Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
 
         return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElse(new Hair());
@@ -155,7 +157,7 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static Hair getNextHair(EntityVillagerMCA villager, Hair current, int next) {
-        EnumGender gender = EnumGender.byId(villager.get(EntityVillagerMCA.GENDER));
+        EnumGender gender = EnumGender.byId(villager.gender.get());
         Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
 
         return group.map(g -> {
@@ -199,7 +201,7 @@ public class API {
      * @param stack ItemStack containing the gift item
      * @return int value determining the gift value of a stack
      */
-    public static int getGiftValueFromStack(ItemStack stack) {
+    public static int getGiftValueFromStack(CItemStack stack) {
         if (stack.isEmpty()) return 0;
         if (stack.getItem().getRegistryName() == null) return 0;
 
@@ -213,7 +215,7 @@ public class API {
      * @param stack ItemStack containing the gift item
      * @return String value of the appropriate response type
      */
-    public static String getResponseForGift(ItemStack stack) {
+    public static String getResponseForGift(CItemStack stack) {
         int value = getGiftValueFromStack(stack);
         return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
     }
@@ -234,14 +236,14 @@ public class API {
      * Adds API buttons to the GUI screen provided.
      *
      * @param guiKey   String key for the GUI's buttons
-     * @param villager Optional EntityVillagerMCA the GuiScreen has been opened on
-     * @param player   EntityPlayer who has opened the GUI
-     * @param screen   GuiScreen instance the buttons should be added to
+     * @param villager Optional EntityVillagerMCA the Screen has been opened on
+     * @param player   CPlayer who has opened the GUI
+     * @param screen   Screen instance the buttons should be added to
      */
-    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, EntityPlayer player, GuiScreen screen) {
-        List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
+    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, CPlayer player, Screen screen) {
+        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
         for (APIButton b : buttonMap.get(guiKey)) {
-            GuiButtonEx guiButton = new GuiButtonEx(screen, b);
+            ButtonEx guiButton = new ButtonEx(screen, b);
             buttonList.add(guiButton);
 
             // Ensure that if a constraint is attached to the button
@@ -259,17 +261,21 @@ public class API {
     }
 
     /**
-     * Returns an instance of the button linked to the given ID on the provided GuiScreen
+     * Returns an instance of the button linked to the given ID on the provided Screen
      *
      * @param id     String id of the button desired
-     * @param screen GuiScreen containing the button
-     * @return GuiButtonEx matching the provided id
+     * @param screen Screen containing the button
+     * @return ButtonEx matching the provided id
      */
-    public static Optional<GuiButtonEx> getButton(String id, GuiScreen screen) {
-        List<GuiButton> buttonList = ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-        Optional<GuiButton> button = buttonList.stream().filter(
-                (b) -> b instanceof GuiButtonEx && ((GuiButtonEx) b).getApiButton().getIdentifier().equals(id)).findFirst();
+    public static Optional<ButtonEx> getButton(String id, Screen screen) {
+        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
+        Optional<Button> button = buttonList.stream().filter(
+                (b) -> b instanceof ButtonEx && ((ButtonEx) b).getApiButton().getIdentifier().equals(id)).findFirst();
 
-        return button.map(guiButton -> (GuiButtonEx) guiButton);
+        return button.map(guiButton -> (ButtonEx) guiButton);
+    }
+
+    public static CVillagerProfession randomProfession() {
+        return CVillagerProfession.fromMC(MCA.PROFESSION_GUARD.get());
     }
 }

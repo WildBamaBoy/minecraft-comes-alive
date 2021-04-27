@@ -4,17 +4,17 @@ import mca.client.gui.*;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.client.gui.GuiScreenBook;
+import net.minecraft.client.gui.screen.ScreenBook;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
     @Override
-    public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int entityId, int posY, int posZ) {
+    public Object getServerGuiElement(int guiId, CPlayer player, World world, int entityId, int posY, int posZ) {
         switch (guiId) {
             case Constants.GUI_ID_INVENTORY:
                 EntityVillagerMCA villager = (EntityVillagerMCA) world.getEntityByID(entityId);
@@ -26,7 +26,7 @@ public class GuiHandler implements IGuiHandler {
     }
 
     @Override
-    public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int entityId, int unused1, int unused2) {
+    public Object getClientGuiElement(int guiId, CPlayer player, World world, int entityId, int unused1, int unused2) {
         switch (guiId) {
             case Constants.GUI_ID_INVENTORY:
                 Entity entity = world.getEntityByID(entityId);
@@ -41,7 +41,7 @@ public class GuiHandler implements IGuiHandler {
             case Constants.GUI_ID_VILLAGEREDITOR:
                 return new GuiVillagerEditor((EntityVillagerMCA) world.getEntityByID(entityId), player);
             case Constants.GUI_ID_GUIDEBOOK:
-                return new GuiScreenBook(player, player.inventory.getCurrentItem(), false);
+                return new ScreenBook(player, player.inventory.getCurrentItem(), false);
             case Constants.GUI_ID_WHISTLE:
                 return new GuiWhistle();
             default:

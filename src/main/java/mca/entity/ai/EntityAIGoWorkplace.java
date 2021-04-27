@@ -45,7 +45,7 @@ public class EntityAIGoWorkplace extends AbstractEntityAIChore {
     }
 
     public boolean shouldContinueExecuting() {
-        return !villager.getNavigator().noPath();
+        return !villager.getNavigation().noPath();
     }
 
     public void startExecuting() {

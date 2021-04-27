@@ -52,7 +52,7 @@ public enum EnumMood {
 
     public String getLocalizedName() {
         String name = "mood." + this.name().toLowerCase();
-        return MCA.getLocalizer().localize(name);
+        return MCA.localize(name);
     }
 
     public int getSuccessModifierForInteraction(EnumInteraction interaction) {

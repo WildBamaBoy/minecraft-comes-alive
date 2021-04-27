@@ -1,9 +1,12 @@
 package mca.items;
 
+import cobalt.items.CItem;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.item.Item;
 
-public abstract class ItemSpecialCaseGift extends Item {
-    public abstract boolean handle(EntityPlayer player, EntityVillagerMCA villager);
+public abstract class ItemSpecialCaseGift extends CItem {
+    public ItemSpecialCaseGift(Properties properties) {
+        super(properties);
+    }
 }

@@ -1,27 +1,31 @@
 package mca.items;
 
+import cobalt.enums.CEnumHand;
+import cobalt.minecraft.item.CItemUseContext;
+import cobalt.minecraft.world.CWorld;
 import com.google.common.base.Optional;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMarriageState;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EnumParticleTypes;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class ItemMatchmakersRing extends ItemSpecialCaseGift {
-    public boolean handle(EntityPlayer player, EntityVillagerMCA villager) {
+    @Override
+    public ActionResult<ItemStack> handleRightClick(CWorld worldIn, CPlayer player, CEnumHand hand) {
         // ensure two rings are in the inventory
-        if (player.inventory.getStackInSlot(player.inventory.currentItem).getCount() < 2) {
-            villager.say(Optional.of(player), "interaction.matchmaker.fail.needtwo");
-            return false;
+        if (player.getHeldItem(hand).getCount() < 2) {
+            villager.say(player, "interaction.matchmaker.fail.needtwo");
         }
 
         // ensure our target isn't married already
         if (villager.isMarried()) {
-            villager.say(Optional.of(player), "interaction.matchmaker.fail.married");
-            return false;
+            villager.say(player, "interaction.matchmaker.fail.married");
         }
 
         List<EntityVillagerMCA> villagers = villager.world.getEntities(EntityVillagerMCA.class, v -> v != null && !v.isMarried() && !v.isChild() && v.getDistance(villager) < 3.0D && v != villager);
@@ -29,8 +33,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
 
         // ensure we found a nearby villager
         if (!target.isPresent()) {
-            villager.say(Optional.of(player), "interaction.matchmaker.fail.novillagers");
-            return false;
+            villager.say(player, "interaction.matchmaker.fail.novillagers");
         }
 
         // setup the marriage by assigning spouse UUIDs
@@ -44,6 +47,10 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
 
         // remove the rings for survival mode
         if (!player.isCreative()) player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-        return true;
+    }
+
+    @Override
+    public ActionResultType handleUseOnBlock(CItemUseContext context) {
+        return null;
     }
 }

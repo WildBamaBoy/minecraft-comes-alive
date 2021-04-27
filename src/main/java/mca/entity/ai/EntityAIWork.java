@@ -5,10 +5,10 @@ import mca.entity.EntityVillagerMCA;
 import mca.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.CEnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
+import cobalt.minecraft.util.math.CPos;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
@@ -17,11 +17,11 @@ import java.util.*;
 public class EntityAIWork extends EntityAIBase {
     //a found workplace
     private static class WorkPlace {
-        public final BlockPos tool;
-        public final BlockPos pos;
+        public final CPos tool;
+        public final CPos pos;
         public final SoundEvent sound;
 
-        private WorkPlace(BlockPos tool, BlockPos pos, SoundEvent sound) {
+        private WorkPlace(CPos tool, CPos pos, SoundEvent sound) {
             this.tool = tool;
             this.pos = pos;
             this.sound = sound;
@@ -105,7 +105,7 @@ public class EntityAIWork extends EntityAIBase {
     }
 
     public boolean shouldContinueExecuting() {
-        return workingUntil > villager.ticksExisted;
+        return workingUntil > villager.tickCount;
     }
 
     //returns a random workplace and verify it, might return null
@@ -113,7 +113,7 @@ public class EntityAIWork extends EntityAIBase {
         if (workplaces.size() > 0) {
             int index = villager.world.rand.nextInt(workplaces.size());
             WorkPlace place = workplaces.get(index);
-            BlockPos workplace = villager.getWorkplace();
+            CPos workplace = villager.getWorkplace();
             if (place.pos.getDistance(workplace.getX(), workplace.getY(), workplace.getZ()) < 24.0) {
                 return place;
             } else {
@@ -136,15 +136,15 @@ public class EntityAIWork extends EntityAIBase {
 
     public void startExecuting() {
         //scan for a valid work space every 5 minutes
-        if (villager.ticksExisted - lastWorkplaceScan > TICKS_PER_SCAN) {
-            lastWorkplaceScan = villager.ticksExisted;
+        if (villager.tickCount - lastWorkplaceScan > TICKS_PER_SCAN) {
+            lastWorkplaceScan = villager.tickCount;
 
             for (Class b : workingBlocks.getOrDefault(villager.getVanillaCareer(), new Class[]{BlockWorkbench.class})) {
-                List<BlockPos> available = Util.getNearbyBlocks(villager.getWorkplace(), villager.world, b, 16, 4);
+                List<CPos> available = Util.getNearbyBlocks(villager.getWorkplace(), villager.world, b, 16, 4);
                 workplaces.clear();
-                for (BlockPos tool : available) {
+                for (CPos tool : available) {
                     for (int[] n : neighbours) {
-                        BlockPos pos = tool.add(n[0], 0, n[1]);
+                        CPos pos = tool.add(n[0], 0, n[1]);
                         if (villager.world.getBlockState(pos).canEntitySpawn(villager)) {
                             //add new position to work on a block
                             Block block = villager.world.getBlockState(tool).getBlock();
@@ -160,9 +160,9 @@ public class EntityAIWork extends EntityAIBase {
         place = getRandomWorkingBlock();
         if (place != null) {
             double distance = Math.sqrt(villager.getDistanceSq(place.pos));
-            workingUntil = villager.ticksExisted + 200 + (int) distance * 20;
+            workingUntil = villager.tickCount + 200 + (int) distance * 20;
 
-            if (!villager.getNavigator().setPath(villager.getNavigator().getPathToPos(place.pos), 0.5D)) {
+            if (!villager.getNavigation().setPath(villager.getNavigation().getPathToPos(place.pos), 0.5D)) {
                 villager.attemptTeleport(place.pos.getX(), place.pos.getY(), place.pos.getZ());
             }
         }
@@ -175,14 +175,14 @@ public class EntityAIWork extends EntityAIBase {
 
             //work
             if (distance < 1.0D) {
-                villager.swingArm(EnumHand.MAIN_HAND);
-                villager.swingArm(EnumHand.OFF_HAND);
+                villager.swingArm(CEnumHand.MAIN_HAND);
+                villager.swingArm(CEnumHand.OFF_HAND);
                 villager.getLookHelper().setLookPosition(place.pos.getX(), place.pos.getY(), place.pos.getZ(), villager.getHorizontalFaceSpeed(), villager.getVerticalFaceSpeed());
                 //TODO how to tell the client to rotate towards the table?
 
                 //play working sounds
-                if (workingSound < villager.ticksExisted) {
-                    workingSound = villager.ticksExisted + villager.getRNG().nextInt(40) + 20;
+                if (workingSound < villager.tickCount) {
+                    workingSound = villager.tickCount + villager.getRNG().nextInt(40) + 20;
                     villager.playSound(place.sound, 1.0F, 1.0F);
                 }
             }

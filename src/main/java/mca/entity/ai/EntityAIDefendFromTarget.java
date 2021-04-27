@@ -3,7 +3,7 @@ package mca.entity.ai;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.CEnumHand;
 
 public class EntityAIDefendFromTarget extends EntityAIBase {
     private final EntityCreature attacker;
@@ -42,7 +42,7 @@ public class EntityAIDefendFromTarget extends EntityAIBase {
         if (entitylivingbase != null) {
             this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
 
-            this.attacker.swingArm(EnumHand.MAIN_HAND);
+            this.attacker.swingArm(CEnumHand.MAIN_HAND);
             this.attacker.attackEntityAsMob(entitylivingbase);
         }
     }

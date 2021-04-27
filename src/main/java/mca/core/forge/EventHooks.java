@@ -15,13 +15,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import cobalt.minecraft.util.math.CPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
@@ -82,10 +82,10 @@ public class EventHooks {
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!MCA.updateAvailable) return;
-        TextComponentString updateMessage = new TextComponentString(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
+        StringTextComponent updateMessage = new StringTextComponent(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
         String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
 
-        TextComponentString chatComponentUpdate = new TextComponentString(updateURLText);
+        StringTextComponent chatComponentUpdate = new StringTextComponent(updateURLText);
         chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
         chatComponentUpdate.getStyle().setUnderlined(true);
 
@@ -117,8 +117,8 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onEntityInteractSpecific(PlayerInteractEvent.EntityInteractSpecific event) {
-        if (event.getTarget() instanceof EntityVillagerMCA && event.getEntityPlayer() != null) {
-            EntityPlayer player = event.getEntityPlayer();
+        if (event.getTarget() instanceof EntityVillagerMCA && event.getCPlayer() != null) {
+            CPlayer player = event.getCPlayer();
             EntityVillagerMCA villager = (EntityVillagerMCA)event.getTarget();
 
             if (villager.getProfessionForge() == ProfessionsMCA.bandit) {
@@ -167,7 +167,7 @@ public class EventHooks {
         Block placedBlock = event.getPlacedBlock().getBlock();
 
         // summon the grim reaper
-        if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
+        if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new CPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
             int totemsFound = 0;
 
             // Check on +/- X and Z for at least 3 totems on fire.
@@ -180,7 +180,7 @@ public class EventHooks {
 
                 // Scan upwards to ensure it's obsidian, and on fire.
                 for (int j = -1; j < 2; j++) {
-                    Block block = event.getWorld().getBlockState(new BlockPos(x + dX, y + j, z + dZ)).getBlock();
+                    Block block = event.getWorld().getBlockState(new CPos(x + dX, y + j, z + dZ)).getBlock();
                     if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) break;
 
                     // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
@@ -189,9 +189,9 @@ public class EventHooks {
             }
 
             if (totemsFound >= 3 && !event.getWorld().isDaytime()) {
-                MCAServer.get().setReaperSpawnPos(event.getWorld(), new BlockPos(x + 1, y + 10, z + 1));
+                MCAServer.get().setReaperSpawnPos(event.getWorld(), new CPos(x + 1, y + 10, z + 1));
                 MCAServer.get().startSpawnReaper();
-                for (int i = 0; i < 2; i++) event.getWorld().setBlockToAir(new BlockPos(x, y - i, z));
+                for (int i = 0; i < 2; i++) event.getWorld().setBlockToAir(new CPos(x, y - i, z));
             }
         }
     }
@@ -199,19 +199,19 @@ public class EventHooks {
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         // When players respawn check to see if their baby was saved in limbo. Add it back to their inventory.
-        if (limbo.containsKey(event.player.getUniqueID())) {
-            event.player.inventory.addItemStackToInventory(limbo.get(event.player.getUniqueID()));
-            limbo.remove(event.player.getUniqueID());
+        if (limbo.containsKey(event.player.getUUID())) {
+            event.player.inventory.addItemStackToInventory(limbo.get(event.player.getUUID()));
+            limbo.remove(event.player.getUUID());
         }
     }
 
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event) {
         // If a player dies while holding a baby, remember it until they respawn.
-        if (event.getEntityLiving() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer)event.getEntityLiving();
+        if (event.getEntityLiving() instanceof CPlayer) {
+            CPlayer player = (CPlayer)event.getEntityLiving();
             Optional<ItemStack> babyStack = player.inventory.mainInventory.stream().filter(s -> s.getItem() instanceof ItemBaby).findFirst();
-            babyStack.ifPresent(s -> limbo.put(player.getUniqueID(), babyStack.get()));
+            babyStack.ifPresent(s -> limbo.put(player.getUUID(), babyStack.get()));
         }
     }
 
@@ -222,7 +222,7 @@ public class EventHooks {
             EntityMob mob = (EntityMob) event.getEntityLiving();
             EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
 
-            if (target.get(EntityVillagerMCA.IS_INFECTED)) {
+            if (target.get(EntityVillagerMCA.isInfected)) {
                 mob.setAttackTarget(null);
             }
         }

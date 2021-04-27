@@ -1,12 +1,13 @@
 package mca.util;
 
+import cobalt.minecraft.util.math.CPos;
+import cobalt.minecraft.world.CWorld;
 import com.google.common.base.Optional;
 import com.google.gson.Gson;
 import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -65,12 +66,12 @@ public class Util {
         return data;
     }
 
-    public static List<Entity> getEntitiesWithinDistance(World world, BlockPos pos, int radius) {
+    public static List<Entity> getEntitiesWithinDistance(World world, CPos pos, int radius) {
         return getEntitiesWithinDistance(world, pos, radius, Entity.class);
     }
 
-    public static <T extends Entity> List<T> getEntitiesWithinDistance(World world, BlockPos pos, int radius, Class<T> type) {
-        return world.getEntitiesWithinAABB(type, new AxisAlignedBB(
+    public static <T extends Entity> List<T> getEntitiesWithinDistance(CWorld world, CPos pos, int radius, Class<T> type) {
+        return world.getMcWorld().getEntitiesOfClass(type, new AxisAlignedBB(
                 pos.getX() - radius,
                 pos.getY() - radius,
                 pos.getZ() - radius,
@@ -82,30 +83,30 @@ public class Util {
 
     public static Optional<Entity> getEntityByUUID(World world, UUID uuid) {
         for (Entity entity : world.loadedEntityList) {
-            if (entity.getUniqueID().equals(uuid)) {
+            if (entity.getUUID().equals(uuid)) {
                 return Optional.of(entity);
             }
         }
         return Optional.absent();
     }
 
-    public static <T extends Entity> Optional<T> getEntityByUUID(World world, UUID uuid, Class<? extends T> clazz) {
+    public static <T extends Entity> Optional<T> getEntityByUUID(CWorld world, UUID uuid, Class<? extends T> clazz) {
         for (Entity entity : world.loadedEntityList) {
-            if (entity.getClass().isAssignableFrom(clazz) && entity.getUniqueID().equals(uuid)) {
+            if (entity.getClass().isAssignableFrom(clazz) && entity.getUUID().equals(uuid)) {
                 return Optional.of((T) entity);
             }
         }
         return Optional.absent();
     }
 
-    public static List<BlockPos> getNearbyBlocks(BlockPos origin, World world, @Nullable Class filter, int xzDist, int yDist) {
-        final List<BlockPos> pointsList = new ArrayList<>();
+    public static List<CPos> getNearbyBlocks(CPos origin, World world, @Nullable Class filter, int xzDist, int yDist) {
+        final List<CPos> pointsList = new ArrayList<>();
         for (int x = -xzDist; x <= xzDist; x++) {
             for (int y = -yDist; y <= yDist; y++) {
                 for (int z = -xzDist; z <= xzDist; z++) {
                     if (x != 0 || y != 0 || z != 0) {
-                        BlockPos pos = new BlockPos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                        if (filter != null && filter.isAssignableFrom(world.getBlockState(pos).getBlock().getClass())) {
+                        CPos pos = new CPos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
+                        if (filter != null && filter.isAssignableFrom(world.getBlockState(pos.getMcPos()).getBlock().getClass())) {
                             pointsList.add(pos);
                         } else if (filter == null) {
                             pointsList.add(pos);
@@ -117,10 +118,10 @@ public class Util {
         return pointsList;
     }
 
-    public static BlockPos getNearestPoint(BlockPos origin, List<BlockPos> blocks) {
+    public static CPos getNearestPoint(CPos origin, List<CPos> blocks) {
         double closest = 100.0D;
-        BlockPos returnPoint = null;
-        for (BlockPos point : blocks) {
+        CPos returnPoint = null;
+        for (CPos point : blocks) {
             double distance = origin.getDistance(point.getX(), point.getY(), point.getZ());
             if (distance < closest) {
                 closest = distance;

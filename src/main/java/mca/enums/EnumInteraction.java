@@ -1,7 +1,7 @@
 package mca.enums;
 
 import mca.entity.EntityVillagerMCA;
-import mca.entity.data.PlayerHistory;
+import mca.entity.data.Memories;
 
 public enum EnumInteraction {
     CHAT("chat", 70, 4),
@@ -62,17 +62,17 @@ public enum EnumInteraction {
         return returnAmount;
     }
 
-    public int getSuccessChance(EntityVillagerMCA villager, PlayerHistory history) {
+    public int getSuccessChance(EntityVillagerMCA villager, Memories memory) {
         return getBaseChance()
-                - history.getInteractionFatigue() * 5
-                + history.getHearts() / 5
+                - memory.getInteractionFatigue() * 5
+                + memory.getHearts() / 5
                 + villager.getPersonality().getSuccessModifierForInteraction(this)
                 + villager.getMood().getSuccessModifierForInteraction(this)
                 + villager.getMood().getMoodGroup().getSuccessModifierForInteraction(this)
-                + getBonusChanceForCurrentPoints(history.getHearts());
+                + getBonusChanceForCurrentPoints(memory.getHearts());
     }
 
-    public int getHearts(EntityVillagerMCA villager, PlayerHistory history) {
+    public int getHearts(EntityVillagerMCA villager, Memories memory) {
         return getBaseHearts()
                 + villager.getPersonality().getHeartsModifierForInteraction(this)
                 + villager.getMood().getHeartsModifierForInteraction(this)
