@@ -80,9 +80,9 @@ public abstract class CobaltForgeMod extends CobaltMod {
 
         // If we didn't find a previously loaded registry, we create a new deferred register and store it.
         if (returnRegistry == null) {
-            returnRegistry = new DeferredRegister<T>(registryType, getModId());
+            returnRegistry = DeferredRegister.create(registryType, getModId());
             returnRegistry.register(FMLJavaModLoadingContext.get().getModEventBus()); // Make sure Forge actually hits our registry.
-            loadedRegistries.add(new DeferredRegister<T>(registryType, getModId()));
+            loadedRegistries.add(DeferredRegister.create(registryType, getModId()));
         }
 
         return returnRegistry;
@@ -101,9 +101,9 @@ public abstract class CobaltForgeMod extends CobaltMod {
      *          Remember this function uses deferred registers which are fired by Forge when appropriate. You will be able to use the returned
      *          RegistryObject in the setup() method and afterwards.
      */
-    public <T extends LivingEntity> RegistryObject<EntityType<T>> registerEntity(EntityType.IFactory<T> factory, IRenderFactory<? super T> renderFactory, EntityClassification classification, String entityId, float width, float height) {
+    public <T extends LivingEntity> RegistryObject<EntityType<T>> registerEntity(EntityType.IFactory<T> factory, EntityClassification classification, String entityId, float width, float height) {
         return entityRegistry.register(entityId, () ->
-            EntityType.Builder.create(factory, classification).size(width, height).build(new ResourceLocation(getModId(), entityId).toString())
+            EntityType.Builder.of(factory, classification).sized(width, height).build(new ResourceLocation(getModId(), entityId).toString())
         );
     }
 

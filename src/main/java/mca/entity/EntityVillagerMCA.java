@@ -37,6 +37,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,6 +122,10 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
             setProfession(ProfessionsMCA.randomProfession());
         }
+    }
+
+    public EntityVillagerMCA(EntityType<EntityVillagerMCA> entityVillagerMCAEntityType, World world) {
+        this(entityVillagerMCAEntityType, CWorld.fromMC(world));
     }
 
 //    @Override

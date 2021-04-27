@@ -80,7 +80,7 @@ public class MCA extends CobaltForgeMod {
         ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new CItemBasic(new Item.Properties().tab(TAB)));
         ITEM_BOOK_INFECTION = registerItem("book_infection", new CItemBasic(new Item.Properties().tab(TAB)));
 
-        ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, RenderVillagerMCA::new, EntityClassification.AMBIENT, "villager_mca",
+        ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager_mca",
                 1.0F, 1.85F);
 
         PROFESSION_GUARD = registerProfession("guard", PointOfInterestType.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);

@@ -1,13 +1,13 @@
 package mca.core.forge;
 
+import cobalt.minecraft.entity.player.CPlayer;
 import mca.client.gui.*;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.client.gui.screen.ScreenBook;
 import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.client.gui.screen.ScreenBook;
 import net.minecraft.entity.Entity;
-import cobalt.minecraft.entity.player.CPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;

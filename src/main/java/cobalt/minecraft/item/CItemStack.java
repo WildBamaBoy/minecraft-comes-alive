@@ -42,4 +42,8 @@ public class CItemStack {
     public void setTag(CNBT nbt) {
         mcItemStack.setTag(nbt.getMcCompound());
     }
+
+    public int getCount() {
+        return mcItemStack.getCount();
+    }
 }
