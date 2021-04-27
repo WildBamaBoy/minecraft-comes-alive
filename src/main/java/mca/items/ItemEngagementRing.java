@@ -12,12 +12,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemEngagementRing extends ItemWeddingRing {
-    public boolean handle(CPlayer player, EntityVillagerMCA villager) {
-        return super.handle(player, villager);
+    public ItemEngagementRing(Properties properties) {
+        super(properties);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Halves the hearts required to marry someone.");
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+//        tooltip.add("Halves the hearts required to marry someone.");
+//    }
 }

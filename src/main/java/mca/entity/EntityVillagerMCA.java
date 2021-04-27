@@ -330,7 +330,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
             //TODO: childp becomes to child on revive (needs verification)
 
             inventory.dropAllItems();
-            inventory.clearContent(); //fixes issue #1227, dropAllItems() should clear, but it does not work
 
             if (isMarried()) {
                 UUID spouse = spouseUUID.get().orElse(Constants.ZERO_UUID);

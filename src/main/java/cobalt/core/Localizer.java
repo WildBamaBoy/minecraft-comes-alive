@@ -1,20 +1,31 @@
-package mca.core;
-
-import com.google.common.base.Charsets;
-import net.minecraft.util.StringUtils;
-import org.apache.commons.io.IOUtils;
+package cobalt.localizer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+import cobalt.core.Cobalt;
+import org.apache.commons.io.IOUtils;
+
+import com.google.common.base.Charsets;
+
+import net.minecraft.util.StringUtils;
+
 public class Localizer {
-    private final Map<String, String> localizerMap = new HashMap<>();
+    private Map<String, String> localizerMap = new HashMap<>();
+    private final ArrayList<VarParser> registeredVarParsers = new ArrayList<>();
     private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
 
+
     public Localizer() {
-        InputStream inStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/en_us.lang");
+        //TODO
+        InputStream inStream = this.getClass().getResourceAsStream("/assets/mca/lang/en_us.lang");
 
         try {
             List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
@@ -30,8 +41,8 @@ public class Localizer {
 
                 localizerMap.put(key, value);
             }
-        } catch (IOException e) {
-            MCA.getLog().error("Error initializing localizer: " + e);
+        } catch (Exception e) {
+            Cobalt.getLog().error("Error initializing localizer: " + e);
         }
     }
 
@@ -51,9 +62,15 @@ public class Localizer {
         return parseVars(result, vars).replaceAll("\\\\", "");
     }
 
+    public void registerVarParser(VarParser parser) {
+        this.registeredVarParsers.add(parser);
+    }
+
     private String parseVars(String str, ArrayList<String> vars) {
         int index = 1;
-        str = str.replaceAll("%Supporter%", MCA.getInstance().getRandomSupporter());
+        for (VarParser processor : registeredVarParsers) {
+            str = processor.parse(str);
+        }
 
         String varString = "%v" + index + "%";
         while (str.contains("%v") && index < 10) { // signature of a var being present
@@ -61,7 +78,7 @@ public class Localizer {
                 str = str.replaceAll(varString, vars.get(index - 1));
             } catch (IndexOutOfBoundsException e) {
                 str = str.replaceAll(varString, "");
-                MCA.getLog().warn("Failed to replace variable in localized string: " + str);
+                Cobalt.getLog().warn("Failed to replace variable in localized string: " + str);
             } finally {
                 index++;
                 varString = "%v" + index + "%";

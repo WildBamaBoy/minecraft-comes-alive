@@ -11,15 +11,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public enum EnumChore {
     NONE(0, "none", null),
-    PROSPECT(1, "gui.label.prospecting", ItemPickaxe.class),
-    HARVEST(2, "gui.label.harvesting", ItemHoe.class),
-    CHOP(3, "gui.label.chopping", ItemAxe.class),
-    HUNT(4, "gui.label.hunting", ItemSword.class),
-    FISH(5, "gui.label.fishing", ItemFishingRod.class);
+    PROSPECT(1, "gui.label.prospecting", PickaxeItem.class),
+    HARVEST(2, "gui.label.harvesting", HoeItem.class),
+    CHOP(3, "gui.label.chopping", AxeItem.class),
+    HUNT(4, "gui.label.hunting", SwordItem.class),
+    FISH(5, "gui.label.fishing", FishingRodItem.class);
 
-    @Getter int id;
+    @Getter
+    int id;
     String friendlyName;
-    @Getter Class toolType;
+    @Getter
+    Class toolType;
 
     public static EnumChore byId(int id) {
         Optional<EnumChore> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();

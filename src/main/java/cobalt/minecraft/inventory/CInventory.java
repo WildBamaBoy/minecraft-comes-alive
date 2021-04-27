@@ -1,12 +1,6 @@
 package cobalt.minecraft.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import cobalt.minecraft.entity.CEntity;
-import cobalt.minecraft.nbt.CNBT;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ArmorItem;
@@ -14,6 +8,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CInventory extends Inventory {
     private final CEntity entity;
@@ -24,8 +22,8 @@ public class CInventory extends Inventory {
     }
 
     public int getFirstSlotContainingItem(Item item) {
-        for (int i = 0; i < this.getSizeInventory(); i++) {
-            ItemStack stack = this.getStackInSlot(i);
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            ItemStack stack = this.getItem(i);
             if (stack.getItem() != item) continue;
             return i;
         }
@@ -33,8 +31,8 @@ public class CInventory extends Inventory {
     }
 
     public boolean contains(Class clazz) {
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
-            final ItemStack stack = this.getStackInSlot(i);
+        for (int i = 0; i < this.getContainerSize(); ++i) {
+            final ItemStack stack = this.getItem(i);
             final Item item = stack.getItem();
 
             if (item.getClass() == clazz) return true;
@@ -50,18 +48,18 @@ public class CInventory extends Inventory {
      */
     public ItemStack getBestItemOfType(@Nullable Class type) {
         if (type == null) return ItemStack.EMPTY;
-        else return getStackInSlot(getBestItemOfTypeSlot(type));
+        else return getItem(getBestItemOfTypeSlot(type));
     }
 
     public ItemStack getBestArmorOfType(EquipmentSlotType slot) {
         ItemStack returnStack = ItemStack.EMPTY;
 
         List<ItemStack> armors = new ArrayList();
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
-            ItemStack stack = this.getStackInSlot(i);
+        for (int i = 0; i < this.getContainerSize(); ++i) {
+            ItemStack stack = this.getItem(i);
             if (stack.getItem() instanceof ArmorItem) {
                 ArmorItem armor = (ArmorItem) stack.getItem();
-                if (armor.getEquipmentSlot() == slot) armors.add(stack);
+                if (armor.getEquipmentSlot(stack) == slot) armors.add(stack);
             }
         }
 
@@ -79,8 +77,8 @@ public class CInventory extends Inventory {
         int highestMaxDamage = 0;
         int best = -1;
 
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
-            ItemStack stackInInventory = this.getStackInSlot(i);
+        for (int i = 0; i < this.getContainerSize(); ++i) {
+            ItemStack stackInInventory = this.getItem(i);
 
             final String itemClassName = stackInInventory.getItem().getClass().getName();
 
@@ -94,24 +92,24 @@ public class CInventory extends Inventory {
     }
 
     public void dropAllItems() {
-        for (int i = 0; i < this.getSizeInventory(); i++) {
-            ItemStack stack = this.getStackInSlot(i);
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            ItemStack stack = this.getItem(i);
             entity.dropItem(stack, 1.0F);
         }
-        clear();
+        clearContent();
     }
 
     public void load(ListNBT tagList) {
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
-            this.setInventorySlotContents(i, ItemStack.EMPTY);
+        for (int i = 0; i < this.getContainerSize(); ++i) {
+            this.setItem(i, ItemStack.EMPTY);
         }
 
         for (int i = 0; i < tagList.size(); ++i) {
             CompoundNBT nbt = tagList.getCompound(i);
             int slot = nbt.getByte("Slot") & 255;
 
-            if (slot < this.getSizeInventory()) {
-                this.setInventorySlotContents(slot, ItemStack.read(nbt));
+            if (slot < this.getContainerSize()) {
+                this.setItem(slot, ItemStack.of(nbt));
             }
         }
     }
@@ -119,13 +117,13 @@ public class CInventory extends Inventory {
     public ListNBT save() {
         ListNBT tagList = new ListNBT();
 
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
-            ItemStack itemstack = this.getStackInSlot(i);
+        for (int i = 0; i < this.getContainerSize(); ++i) {
+            ItemStack itemstack = this.getItem(i);
 
             if (itemstack != ItemStack.EMPTY) {
                 CompoundNBT nbt = new CompoundNBT();
                 nbt.putByte("Slot", (byte) i);
-                itemstack.write(nbt);
+                itemstack.setTag(nbt);
                 tagList.add(nbt);
             }
         }

@@ -18,13 +18,7 @@ public class Gift {
      * @return True if the item/block exists.
      */
     public boolean exists() {
-        if (getType().equals("block")) {
-            return Block.getBlockFromName(getName()) != null;
-        } else if (getType().equals("item")) {
-            return Item.getByNameOrId(getName()) != null;
-        } else {
-            MCA.getLog().warn("Could not process gift '" + getName() + "'- bad type name of '" + getType() + "'. Must be 'item' or 'block'");
-            return false;
-        }
+        //TODO
+        return true;
     }
 }

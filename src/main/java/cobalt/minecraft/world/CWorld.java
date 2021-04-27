@@ -6,6 +6,7 @@ import cobalt.minecraft.world.storage.CWorldSavedData;
 import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.minecraft.entity.CEntity;
 import lombok.Getter;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -21,10 +22,13 @@ public class CWorld {
     public final boolean isRemote;
     public final Random rand;
 
+    //TODO
+    public Iterable<? extends Entity> loadedEntityList;
+
     private CWorld(World world) {
         this.mcWorld = world;
-        this.isRemote = world.isRemote;
-        this.rand = world.rand;
+        this.isRemote = !world.isClientSide;
+        this.rand = world.random;
     }
 
     public static CWorld fromMC(World world) {
@@ -32,8 +36,8 @@ public class CWorld {
     }
 
     public CWorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataId) {
-        DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getSavedData();
-        return dm.getOrCreate(() -> {
+        DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getDataStorage();
+        return dm.computeIfAbsent(() -> {
             try {
                 return (CWorldSavedData)clazz.getDeclaredConstructor(String.class).newInstance(dataId);
             } catch (Exception e) {
@@ -43,12 +47,12 @@ public class CWorld {
     }
 
     public void setData(String dataId, WorldSavedData data) {
-        DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getSavedData();
+        DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getDataStorage();
         dm.set(data);
     }
 
     public Optional<CPlayer> getPlayerEntityByUUID(UUID uuid) {
-        PlayerEntity player = mcWorld.getPlayerByUuid(uuid);
+        PlayerEntity player = mcWorld.getPlayerByUUID(uuid);
         if (player != null) {
             return Optional.of(CPlayer.fromMC(player));
         } else {
@@ -57,7 +61,7 @@ public class CWorld {
     }
 
     public Optional<CEntity> getEntityByUUID(UUID uuid) {
-        return Optional.of(CEntity.fromMC(((ServerWorld)mcWorld).getEntityByUuid(uuid)));
+        return Optional.of(CEntity.fromMC(((ServerWorld)mcWorld).getEntity(uuid)));
     }
 
     public Biome getBiome(CPos pos) {
@@ -65,6 +69,6 @@ public class CWorld {
     }
 
     public void spawnEntity(CEntity entity) {
-        mcWorld.addEntity(entity.getMcEntity());
+//        mcWorld.addEntity(entity.getMcEntity());
     }
 }

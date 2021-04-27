@@ -18,14 +18,14 @@ public class CItemUseContext {
     }
 
     public CPos getPos() {
-        return CPos.fromMC(mcContext.getPos());
+        return CPos.fromMC(mcContext.getClickedPos());
     }
 
     public Direction getDirection() {
-        return mcContext.getFace();
+        return mcContext.getClickedFace();
     }
 
     public CWorld getWorld() {
-        return CWorld.fromMC(mcContext.getWorld());
+        return CWorld.fromMC(mcContext.getLevel());
     }
 }

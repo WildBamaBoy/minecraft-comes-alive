@@ -1,7 +1,9 @@
 package cobalt.items;
 
 import cobalt.enums.CEnumHand;
+import cobalt.minecraft.entity.CEntity;
 import cobalt.minecraft.entity.player.CPlayer;
+import cobalt.minecraft.item.CItemStack;
 import cobalt.minecraft.item.CItemUseContext;
 import cobalt.minecraft.world.CWorld;
 import net.minecraft.item.Item;
@@ -22,5 +24,10 @@ public class CItemBasic extends CItem {
     @Override
     public ActionResultType handleUseOnBlock(CItemUseContext context) {
         return ActionResultType.PASS;
+    }
+
+    @Override
+    public ActionResultType update(CItemStack itemStack, CWorld world, CEntity entity) {
+        return null;
     }
 }

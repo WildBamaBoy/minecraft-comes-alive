@@ -10,7 +10,8 @@ import net.minecraft.util.DamageSource;
 import java.util.Optional;
 
 public class CDamageSource {
-    @Getter DamageSource mcSource;
+    @Getter
+    DamageSource mcSource;
 
     private CDamageSource(DamageSource source) {
         this.mcSource = source;
@@ -21,18 +22,18 @@ public class CDamageSource {
     }
 
     public String getCauseName(LivingEntity entity) {
-        return mcSource.getDeathMessage(entity).getString();
+        return mcSource.getLocalizedDeathMessage(entity).getString();
     }
 
     public Optional<CPlayer> getPlayer() {
-        if (mcSource.getTrueSource() instanceof PlayerEntity) {
-            return Optional.of(CPlayer.fromMC((PlayerEntity)mcSource.getTrueSource()));
+        if (mcSource.getEntity() instanceof PlayerEntity) {
+            return Optional.of(CPlayer.fromMC((PlayerEntity) mcSource.getEntity()));
         } else {
             return Optional.empty();
         }
     }
 
     public boolean isZombie() {
-        return mcSource.getImmediateSource() instanceof ZombieEntity;
+        return mcSource.getDirectEntity() instanceof ZombieEntity;
     }
 }

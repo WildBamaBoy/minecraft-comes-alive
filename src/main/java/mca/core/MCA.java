@@ -91,7 +91,6 @@ public class MCA extends CobaltForgeMod {
     public void onSetup() {
         API.init();
         config = new Config();
-        this.localizer.registerVarParser(str -> str.replaceAll("%Supporter%", getRandomSupporter()));
     }
 
     @Override
@@ -108,7 +107,7 @@ public class MCA extends CobaltForgeMod {
         return "mca";
     }
 
-    private String getRandomSupporter() {
+    public String getRandomSupporter() {
         return "";
     }
 

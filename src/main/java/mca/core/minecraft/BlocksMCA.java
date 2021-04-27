@@ -10,6 +10,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 
+//TODO
 @net.minecraftforge.registries.ObjectHolder("minecraft")
 public final class BlocksMCA {
     public static final Block ROSE_GOLD_BLOCK = register("rose_gold_block", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));

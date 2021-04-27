@@ -1,8 +1,8 @@
 package cobalt.mod;
 
+import cobalt.localizer.Localizer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import cobalt.localizer.Localizer;
 
 /**
  * Basic Cobalt mod which serves as the outline for a core mod class.
