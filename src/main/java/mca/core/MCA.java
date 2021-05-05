@@ -4,8 +4,6 @@ import cobalt.items.CItemBasic;
 import cobalt.mod.forge.CobaltForgeMod;
 import lombok.Getter;
 import mca.api.API;
-import mca.client.render.RenderVillagerMCA;
-import mca.command.CommandMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.items.ItemBaby;
@@ -21,15 +19,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
-@Mod("mca")
+@Mod(MCA.MOD_ID)
 public class MCA extends CobaltForgeMod {
     @Getter
     public static MCA mod;
     private static Config config;
+
+    public static final String MOD_ID = "mca";
 
     public MCA() {
         super();

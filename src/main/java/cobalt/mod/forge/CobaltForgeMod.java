@@ -44,7 +44,7 @@ public abstract class CobaltForgeMod extends CobaltMod {
         // Add any FML event listeners
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStarting);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStarting);
         MinecraftForge.EVENT_BUS.register(this);
 
         itemRegistry = getRegistry(ForgeRegistries.ITEMS);
@@ -153,7 +153,6 @@ public abstract class CobaltForgeMod extends CobaltMod {
         onClientSetup();
     }
 
-    @SubscribeEvent
     public final void serverStarting(FMLServerStartingEvent event) {
         registerCommands(event);
     }
