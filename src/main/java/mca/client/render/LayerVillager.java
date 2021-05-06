@@ -48,7 +48,7 @@ public abstract class LayerVillager<T extends LivingEntity, M extends BipedModel
     private void renderModel(MatrixStack transform, IRenderTypeBuffer buffer, int p_241738_3_, boolean p_241738_5_, M model, float r, float g, float b, ResourceLocation res) {
         this.getParentModel().copyPropertiesTo(model);
 
-        IVertexBuilder ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderType.entityTranslucent(res) : RenderType.armorCutoutNoCull(res));
+        IVertexBuilder ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderType.entityTranslucent(res) : RenderType.entityCutoutNoCull(res));
         model.renderToBuffer(transform, ivertexbuilder, p_241738_3_, OverlayTexture.NO_OVERLAY, r, g, b, 1.0F);
     }
 

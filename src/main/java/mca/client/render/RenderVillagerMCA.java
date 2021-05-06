@@ -26,15 +26,15 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
     private final EntityRendererManager renderManager;
 
     public RenderVillagerMCA(EntityRendererManager manager) {
-        super(manager, new ModelVillagerMCA<EntityVillagerMCA>(), 0.5F);
+        super(manager, new ModelVillagerMCA<>(), 0.5F);
 
         renderManager = manager;
 
-        this.addLayer(new LayerSkin(this, new ModelVillagerMCA<EntityVillagerMCA>(0.0f, 0.0f, false)));
-        this.addLayer(new LayerClothing(this, new ModelVillagerMCA<EntityVillagerMCA>(0.16666f, 0.0833f, true)));
-        this.addLayer(new LayerHair(this, new ModelVillagerMCA<EntityVillagerMCA>(0.0833f, 0.16666f, false)));
-        this.addLayer(new LayerFace(this, new ModelVillagerMCA<EntityVillagerMCA>(0.0f, 0.0f, false)));
-        this.addLayer(new BipedArmorLayer<>(this, new BipedModel<EntityVillagerMCA>(0.5F), new BipedModel<EntityVillagerMCA>(1.0F)));
+        this.addLayer(new LayerSkin(this, new ModelVillagerMCA<>(0.0f, 0.0f, false)));
+        this.addLayer(new LayerClothing(this, new ModelVillagerMCA<>(0.16666f, 0.0833f, true)));
+        this.addLayer(new LayerHair(this, new ModelVillagerMCA<>(0.0833f, 0.16666f, false)));
+        this.addLayer(new LayerFace(this, new ModelVillagerMCA<>(0.01f, 0.01f, false)));
+        this.addLayer(new BipedArmorLayer<>(this, new BipedModel<>(0.5F), new BipedModel<>(1.0F)));
         this.addLayer(new HeldItemLayer<>(this));
     }
 

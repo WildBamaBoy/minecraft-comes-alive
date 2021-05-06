@@ -33,6 +33,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -61,6 +62,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public CIntegerParameter moveState = data.newInteger("moveState");
     public CStringParameter spouseName = data.newString("spouseName");
     public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
+    public CUUIDParameter playerToFollowUUID = data.newUUID("spouseUUID");
     public CIntegerParameter marriageState = data.newInteger("marriageState");
     public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public CTagParameter parents = data.newTag("parents");
@@ -103,9 +105,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
     private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfession() == ProfessionsMCA.bandit;
 
     public final CInventory inventory;
-    public UUID playerToFollowUUID = Constants.ZERO_UUID;
 
-    private CPos home = CPos.ORIGIN;
     private int startingAge = 0;
     private float swingProgressTicks;
 
@@ -137,6 +137,9 @@ public class EntityVillagerMCA extends VillagerWrapper {
         initializeGenes();
         initializeSkin();
         initializePersonality();
+
+        //TODO random!
+        setProfession(VillagerProfession.ARMORER);
 
         return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
     }
@@ -186,19 +189,11 @@ public class EntityVillagerMCA extends VillagerWrapper {
             initializeSkin();
             initializePersonality();
         }
-
-        // Vanilla Age doesn't apply from the superclass call. Causes children to revert to the starting age on world reload.
-//        setStartingAge(nbt.getInteger("Age"));
-
-        this.home = new CPos(nbt.getDouble("homePositionX"), nbt.getDouble("homePositionY"), nbt.getDouble("homePositionZ"));
-        this.playerToFollowUUID = nbt.getUUID("playerToFollowUUID");
-
-//        applySpecialAI();
     }
 
     @Override
     public void save(CNBT nbt) {
-
+        data.save(nbt);
     }
 
     @Override
@@ -442,14 +437,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
         return hangoutPos.get();
     }
 
-    /**
-     * Forces the villager's home to be set to their position. No checks for safety are made.
-     * This is used on overwriting the original villager.
-     */
-    public void forcePositionAsHome() {
-        this.home = this.getPos();
-    }
-
     private void setHome(CPlayer player) {
         say(player, "interaction.sethome.success");
         bedPos.set(player.getPosition());
@@ -546,14 +533,14 @@ public class EntityVillagerMCA extends VillagerWrapper {
         switch (buttonId) {
             case "gui.button.move":
                 moveState.set(EnumMoveState.MOVE.getId());
-                this.playerToFollowUUID = Constants.ZERO_UUID;
+                this.playerToFollowUUID.set(Constants.ZERO_UUID);
                 break;
             case "gui.button.stay":
                 moveState.set(EnumMoveState.STAY.getId());
                 break;
             case "gui.button.follow":
                 moveState.set(EnumMoveState.FOLLOW.getId());
-                this.playerToFollowUUID = player.getUUID();
+                this.playerToFollowUUID.set(player.getUUID());
                 stopChore();
                 break;
             case "gui.button.ridehorse":

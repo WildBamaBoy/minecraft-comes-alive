@@ -102,7 +102,7 @@ public class CDataManager {
     //save entity from nbt
     public void save(CNBT nbt) {
         for (CDataParameter p : params.values()) {
-            p.load(nbt);
+            p.save(nbt);
         }
     }
 }

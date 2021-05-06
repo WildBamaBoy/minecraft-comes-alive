@@ -3,8 +3,6 @@ package mca.wrappers;
 import cobalt.enums.CEnumHand;
 import cobalt.minecraft.entity.CEntity;
 import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.inventory.CEquipmentSlotType;
-import cobalt.minecraft.item.CItemStack;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.util.CDamageSource;
 import cobalt.minecraft.util.math.CPos;
@@ -13,15 +11,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
@@ -61,18 +56,6 @@ public abstract class VillagerWrapper extends VillagerEntity {
         return afterDamaged(wrappedSource, damageAmount);
     }
 
-//    @Override
-//    public final void swingArm(Hand hand) {
-//        this.setActiveHand(hand);
-//        super.swingArm(hand);
-//        swing(CEnumHand.fromMC(hand));
-//    }
-
-//    @Override
-//    public final boolean attackEntityAsMob(Entity e) {
-//        return this.attack(CEntity.fromMC(e));
-//    }
-
 
     @Override
     public final void readAdditionalSaveData(CompoundNBT nbt) {
@@ -80,15 +63,12 @@ public abstract class VillagerWrapper extends VillagerEntity {
         load(CNBT.fromMC(nbt));
     }
 
-    ;
 
     @Override
     public final void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
         save(CNBT.fromMC(nbt));
     }
-
-    ;
 
     @Override
     protected final SoundEvent getAmbientSound() {
