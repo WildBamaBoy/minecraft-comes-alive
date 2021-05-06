@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerFace extends LayerVillager {
+public class LayerFace extends LayerSkin {
     public LayerFace(IEntityRenderer renderer, BipedModel model) {
         super(renderer, model);
 
@@ -21,19 +21,15 @@ public class LayerFace extends LayerVillager {
     }
 
     @Override
+    boolean isTranslucent() {
+        return true;
+    }
+
+    @Override
     String getTexture(LivingEntity entity) {
         EntityVillagerMCA villager = (EntityVillagerMCA) entity;
         EnumGender gender = EnumGender.byId(villager.gender.get());
         int skin = (int) Math.min(1, Math.max(0, villager.GENE_SKIN.get() * 2));
         return String.format("mca:skins/faces/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
-    }
-
-    @Override
-    float[] getColor(LivingEntity entity) {
-        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-        float e = villager.GENE_EUMELANIN.get();
-        float p = villager.GENE_PHEOMELANIN.get();
-        double[] color = HairColors.getColor(e, p);
-        return new float[]{(float) color[0], (float) color[1], (float) color[2]};
     }
 }

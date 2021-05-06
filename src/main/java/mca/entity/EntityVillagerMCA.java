@@ -29,19 +29,21 @@ import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
 import mca.wrappers.VillagerWrapper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -129,19 +131,15 @@ public class EntityVillagerMCA extends VillagerWrapper {
         this(entityVillagerMCAEntityType, CWorld.fromMC(world));
     }
 
-//    @Override
-//    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData entity) {
-//        //finalizeMobSpawn is a method from the villager, false means it wont overwrite our profession
-//        entity = super.finalizeMobSpawn(difficulty, entity, false);
-//
-//        applySpecialAI();
-//
-//        initializeGenes();
-//        initializeSkin();
-//        initializePersonality();
-//
-//        return entity;
-//    }
+    @Nullable
+    @Override
+    public ILivingEntityData finalizeSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
+        initializeGenes();
+        initializeSkin();
+        initializePersonality();
+
+        return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+    }
 
     @Override
     protected void initialize() {
@@ -151,17 +149,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
     }
-
-//    @Override
-//    protected void applyEntityAttributes() {
-//        super.applyEntityAttributes();
-//        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(MCA.getConfig().villagerMaxHealth);
-//        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
-//
-//        if (this.getHealth() <= MCA.getConfig().villagerMaxHealth) {
-//            this.setHealth(MCA.getConfig().villagerMaxHealth);
-//        }
-//    }
 
     @Override
     public boolean attack(CEntity entityIn) {
@@ -297,11 +284,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
     }
 
     @Override
-    public CItemStack getEquipmentOfType(CEquipmentSlotType type) {
-        return null;
-    }
-
-    @Override
     public void onUpdate() {
         updateSwinging();
         updateSleeping();
@@ -387,12 +369,12 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
     @Override
     public String getNameForDisplay() {
-        return "display name";
+        return villagerName.get();
     }
 
     @Override
     public String getVillagerName() {
-        return "villager name";
+        return villagerName.get();
     }
 
     private void updateSwinging() {

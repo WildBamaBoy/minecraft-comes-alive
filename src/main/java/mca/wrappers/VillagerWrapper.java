@@ -110,15 +110,12 @@ public abstract class VillagerWrapper extends VillagerEntity {
         return getHomePos().getMcPos();
     }
 
-    public final ItemStack getItemStackFromSlot(EquipmentSlotType type) {
-        return getEquipmentOfType(CEquipmentSlotType.fromMC(type)).getMcItemStack();
-    }
-
     @Override
     public final SoundEvent getDeathSound() {
         return SoundEvents.PLAYER_DEATH;
     }
 
+    //TODO
 //    @Override public final void handleDeath(DamageSource source) {
 //        handleDeath(CDamageSource.fromMC(source));
 //    }
@@ -156,8 +153,6 @@ public abstract class VillagerWrapper extends VillagerEntity {
     protected abstract float beforeDamaged(CDamageSource source, float value);
 
     protected abstract boolean afterDamaged(CDamageSource source, float value);
-
-    public abstract CItemStack getEquipmentOfType(CEquipmentSlotType type);
 
     protected abstract void onGrowingAdult();
 

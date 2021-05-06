@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T> {
@@ -19,10 +18,11 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
 
     private final ModelRenderer bipedCape;
 
-    private final ModelRenderer breasts;
-    private final ModelRenderer breastsWear;
+    public final ModelRenderer breasts;
+    public final ModelRenderer breastsWear;
 
     private final boolean cloth;
+    public float breastSize;
 
     public ModelVillagerMCA() {
         this(0.0f, 0.0f, false);
@@ -70,6 +70,7 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
         this.cloth = cloth;
         breasts = newBreasts(modelSize, cloth, 0);
         breastsWear = newBreasts(modelSize + 0.25F, cloth, 16);
+        breastSize = 1.0f;
     }
 
     private ModelRenderer newBreasts(float modelSize, boolean cloth, int oy) {
@@ -87,43 +88,27 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
         return breasts;
     }
 
-    public void renderToBuffer(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
-        super.renderToBuffer(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+    public void renderToBuffer(MatrixStack transform, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+        super.renderToBuffer(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 
-//        GlStateManager.pushMatrix();
-
-//        if (isBaby) {
-//            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-//            GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
-//        } else {
-//            if (entity.isSneaking()) {
-//                GlStateManager.translate(0.0F, 0.2F, 0.0F);
-//            }
-//        }
-
-        bipedLeftLegwear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedRightLegwear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedLeftArmwear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedRightArmwear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedBodyWear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-
-        //renderCape(scale);
+        bipedLeftLegwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        bipedRightLegwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        bipedLeftArmwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        bipedRightArmwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        bipedBodyWear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 
         //breasts
-//        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
-//        if (EnumGender.byId(villager.get(EntityVillagerMCA.GENDER)) == EnumGender.FEMALE && !villager.isBaby() && villager.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == ItemStack.EMPTY) {
-        double sc = 1.0f;//villager.get(EntityVillagerMCA.GENE_BREAST);
-        GL11.glPushMatrix();
-        GL11.glTranslated(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.175, -0.11D);
-        GL11.glScaled(cloth ? 1.166666 : 1.0, 1.0, 0.75 + sc * 0.5);
-        GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
-        GL11.glScaled(sc * 0.3 + 0.85, sc * 0.75 + 0.75, sc * 0.75 + 0.75);
-        breasts.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        breastsWear.render(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        GL11.glPopMatrix();
-//        }
-
-//        GlStateManager.popMatrix();
+        if (breasts.visible) {
+            float sc = breastSize;
+            transform.pushPose();
+            transform.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.1, -0.11D);
+            transform.scale(cloth ? 1.166666f : 1.0f, 1.0f, 0.75f + sc * 0.5f);
+            transform.scale(sc * 0.3f + 0.85f, sc * 0.75f + 0.75f, sc * 0.75f + 0.75f);
+            breasts.xRot = 75F; //TODO yes this will cause distortion because of wrong matrix order
+            breasts.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+            breastsWear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+            transform.popPose();
+        }
     }
 
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
@@ -136,12 +121,6 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
         bipedBodyWear.copyFrom(body);
         breasts.copyFrom(body);
         breastsWear.copyFrom(body);
-
-//        if (entityIn.isSneaking()) {
-//            bipedCape.y = 2.0F;
-//        } else {
-//            bipedCape.y = 0.0F;
-//        }
     }
 
     public void setVisible(boolean visible) {
