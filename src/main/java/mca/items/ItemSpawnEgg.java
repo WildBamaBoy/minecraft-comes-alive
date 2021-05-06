@@ -18,7 +18,7 @@ public class ItemSpawnEgg extends CItemBasic {
 
     @Override
     public ActionResultType handleUseOnBlock(CItemUseContext context) {
-        if (!context.getWorld().isRemote && context.getDirection() == Direction.UP) {
+        if (context.getWorld().isRemote && context.getDirection() == Direction.UP) {
             VillagerFactory.newVillager(context.getWorld())
                     .withGender(gender)
                     .withPosition(context.getPos())

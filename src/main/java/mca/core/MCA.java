@@ -4,6 +4,7 @@ import cobalt.items.CItemBasic;
 import cobalt.mod.forge.CobaltForgeMod;
 import lombok.Getter;
 import mca.api.API;
+import mca.client.render.RenderVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.items.ItemBaby;
@@ -12,6 +13,8 @@ import mca.items.ItemStaffOfLife;
 import mca.items.ItemWhistle;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -19,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
@@ -90,11 +94,14 @@ public class MCA extends CobaltForgeMod {
     public void onSetup() {
         API.init();
         config = new Config();
+
+        // depricated, will change in 1.17
+        GlobalEntityTypeAttributes.put(ENTITYTYPE_VILLAGER.get(), EntityVillagerMCA.createAttributes().build());
     }
 
     @Override
     public void onClientSetup() {
-        //RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
+        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
     }
 
     @Override

@@ -15,8 +15,6 @@ import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
 import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import org.lwjgl.opengl.GL11;
 
 public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVillagerMCA<EntityVillagerMCA>> {
     private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
@@ -24,7 +22,7 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
 
     private final EntityRendererManager renderManager;
 
-    public RenderVillagerMCA(EntityRendererManager manager, boolean p_i46103_2_) {
+    public RenderVillagerMCA(EntityRendererManager manager) {
         super(manager, new ModelVillagerMCA(), 0.5F);
 
         renderManager = manager;
@@ -61,48 +59,6 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
     }
 
     @Override
-    protected void renderNameTag(EntityVillagerMCA villager, ITextComponent p_225629_2_, MatrixStack p_225629_3_, IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
-        super.renderNameTag(villager, p_225629_2_, p_225629_3_, p_225629_4_, p_225629_5_);
-
-        if (shouldShowName(villager)) {
-            if (villager.getHealth() < villager.getMaxHealth()) {
-                renderHealth(villager, villager.getX(), villager.getY(), villager.getZ(), (int) villager.getHealth(), (int) villager.getMaxHealth());
-            }
-        }
-    }
-
-
-    private void renderHealth(EntityVillagerMCA villager, double posX, double posY, double posZ, int currentHealth, int maxHealth) {
-        final int redHeartU = 80;
-        final int darkHeartU = 96;
-        int heartsDrawn = 0;
-
-        float maxHealthF = Math.round((float) maxHealth / 2.0F);
-        float currentHealthF = Math.round((float) currentHealth / 2.0F);
-        int heartsMax = Math.round((maxHealthF / maxHealthF) * 10.0F);
-        int heartsToDraw = Math.round((currentHealthF / maxHealthF) * 10.0F);
-
-        for (int i = 0; i < heartsMax; i++) {
-            int heartU = i < heartsToDraw ? redHeartU : darkHeartU;
-            heartsDrawn++;
-
-            GL11.glPushMatrix();
-            {
-//                GL11.glTranslatef((float) posX + 0.0F, (float) posY + villager.height + 1.0F, (float) posZ);
-//                GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-//                GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-                GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
-                GL11.glDisable(GL11.GL_LIGHTING);
-                GL11.glTranslatef(-2.0F, 2.0F, -2.0F);
-                drawTexturedRectangle(gui, (int) posX + (heartsDrawn * 8) - 45, (int) posY - 4, heartU, 0, 16, 16);
-            }
-            GL11.glPopMatrix();
-            GL11.glDepthMask(true);
-            GL11.glEnable(GL11.GL_LIGHTING);
-        }
-    }
-
-    @Override
     public ResourceLocation getTextureLocation(EntityVillagerMCA villager) {
         EnumGender gender = EnumGender.byId(villager.gender.get());
         int skin = (int) Math.min(9, Math.max(0, villager.GENE_SKIN.get() * 10));
@@ -113,27 +69,8 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
     @Override
     protected boolean shouldShowName(EntityVillagerMCA villager) {
         if (Minecraft.getInstance().player != null) {
-            if (Minecraft.getInstance().player.distanceTo(villager) < 5.0F) {
-                return true;
-            }
+            return Minecraft.getInstance().player.distanceTo(villager) < 5.0F;
         }
         return false;
-    }
-
-    public void drawTexturedRectangle(ResourceLocation texture, int x, int y, int u, int v, int width, int height) {
-        renderManager.textureManager.bind(texture);
-//
-//        float f = 0.00390625F;
-//        float f1 = 0.00390625F;
-//
-//        final Tessellator tessellator = Tessellator.getInstance();
-//        BufferBuilder buffer = tessellator.getBuilder();
-//
-//        buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-//        buffer.vertex(x, y + height, 0.0D).tex((u) * f, ((v + height) * f1)).endVertex();
-//        buffer.vertex(x + width, y + height, 0.0D).tex((u + width) * f, ((v + height) * f1)).endVertex();
-//        buffer.vertex(x + width, y, 0.0D).tex((u + width) * f, ((v) * f1)).endVertex();
-//        buffer.vertex(x, y, 0.0D).tex((u) * f, ((v) * f1)).endVertex();
-//        tessellator.end();
     }
 }

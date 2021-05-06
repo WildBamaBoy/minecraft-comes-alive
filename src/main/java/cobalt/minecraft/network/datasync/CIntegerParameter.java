@@ -6,7 +6,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-public class CIntegerParameter extends CDataParameter {
+public class CIntegerParameter extends CDataParameter<Integer> {
     private final DataParameter<Integer> param;
     private final EntityDataManager data;
     private final int defaultValue;
@@ -14,7 +14,7 @@ public class CIntegerParameter extends CDataParameter {
 
     public CIntegerParameter(String id, Class<? extends Entity> e, EntityDataManager d, int dv) {
         this.id = id;
-        param = EntityDataManager.defineId(e, DataSerializers.INT);
+        param = getDefine(id, e, DataSerializers.INT);
         data = d;
         defaultValue = dv;
     }

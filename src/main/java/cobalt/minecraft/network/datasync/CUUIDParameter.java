@@ -9,7 +9,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CUUIDParameter extends CDataParameter {
+public class CUUIDParameter extends CDataParameter<Optional<UUID>> {
     private final DataParameter<Optional<UUID>> param;
     private final EntityDataManager data;
     private final UUID defaultValue;
@@ -17,7 +17,7 @@ public class CUUIDParameter extends CDataParameter {
 
     public CUUIDParameter(String id, Class<? extends Entity> e, EntityDataManager d, UUID dv) {
         this.id = id;
-        param = EntityDataManager.defineId(e, DataSerializers.OPTIONAL_UUID);
+        param = getDefine(id, e, DataSerializers.OPTIONAL_UUID);
         data = d;
         defaultValue = dv;
     }

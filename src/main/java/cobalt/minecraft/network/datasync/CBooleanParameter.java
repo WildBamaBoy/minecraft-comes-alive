@@ -6,7 +6,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-public class CBooleanParameter extends CDataParameter {
+public class CBooleanParameter extends CDataParameter<Boolean> {
     private final DataParameter<Boolean> param;
     private final EntityDataManager data;
     private final boolean defaultValue;
@@ -14,7 +14,7 @@ public class CBooleanParameter extends CDataParameter {
 
     public CBooleanParameter(String id, Class<? extends Entity> e, EntityDataManager d, boolean dv) {
         this.id = id;
-        param = EntityDataManager.defineId(e, DataSerializers.BOOLEAN);
+        param = getDefine(id, e, DataSerializers.BOOLEAN);
         data = d;
         defaultValue = dv;
     }

@@ -31,7 +31,10 @@ import mca.util.Util;
 import mca.wrappers.VillagerWrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
@@ -45,50 +48,48 @@ import java.util.Collections;
 import java.util.UUID;
 
 public class EntityVillagerMCA extends VillagerWrapper {
-    public static final int VANILLA_CAREER_ID_FIELD_INDEX = 13;
-    public static final int VANILLA_CAREER_LEVEL_FIELD_INDEX = 14;
-
     public final CDataManager data = new CDataManager(this);
 
-    public CStringParameter villagerName = data.newString("");
-    public CStringParameter clothes = data.newString("");
-    public CStringParameter hair = data.newString("");
-    public CStringParameter hairOverlay = data.newString("");
-    public CIntegerParameter gender = data.newInteger("");
-    public CTagParameter memories = data.newTag("");
-    public CIntegerParameter moveState = data.newInteger("");
-    public CStringParameter spouseName = data.newString("");
-    public CUUIDParameter spouseUUID = data.newUUID("");
-    public CIntegerParameter marriageState = data.newInteger("");
-    public CBooleanParameter isProcreating = data.newBoolean("");
-    public CTagParameter parents = data.newTag("");
-    public CBooleanParameter isInfected = data.newBoolean("");
-    public CIntegerParameter ageState = data.newInteger("");
-    public CIntegerParameter activeChore = data.newInteger("");
-    public CBooleanParameter isSwinging = data.newBoolean("");
-    public CBooleanParameter hasBaby = data.newBoolean("");
-    public CBooleanParameter isBabyMale = data.newBoolean("");
-    public CIntegerParameter babyAge = data.newInteger("");
-    public CUUIDParameter choreAssigningPlayer = data.newUUID("");
-    public CPosParameter bedPos = data.newPos("");
-    public CPosParameter workplacePos = data.newPos("");
-    public CPosParameter hangoutPos = data.newPos("");
-    public CBooleanParameter isSleeping = data.newBoolean("");
+    public CStringParameter villagerName = data.newString("villagerName");
+    public CStringParameter clothes = data.newString("clothes");
+    public CStringParameter hair = data.newString("hair");
+    public CStringParameter hairOverlay = data.newString("hairOverlay");
+    public CIntegerParameter gender = data.newInteger("gender");
+    public CTagParameter memories = data.newTag("memories");
+    public CIntegerParameter moveState = data.newInteger("moveState");
+    public CStringParameter spouseName = data.newString("spouseName");
+    public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
+    public CIntegerParameter marriageState = data.newInteger("marriageState");
+    public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
+    public CTagParameter parents = data.newTag("parents");
+    public CBooleanParameter isInfected = data.newBoolean("isInfected");
+    public CIntegerParameter ageState = data.newInteger("ageState");
+    public CIntegerParameter activeChore = data.newInteger("activeChore");
+    public CBooleanParameter isSwinging = data.newBoolean("isSwinging");
+    public CBooleanParameter hasBaby = data.newBoolean("hasBaby");
+    public CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
+    public CIntegerParameter babyAge = data.newInteger("babyAge");
+    public CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
+    public CPosParameter bedPos = data.newPos("bedPos");
+    public CPosParameter workplacePos = data.newPos("workplacePos");
+    public CPosParameter hangoutPos = data.newPos("hangoutPos");
+    public CBooleanParameter isSleeping = data.newBoolean("isSleeping");
 
     // genes
-    public CFloatParameter GENE_SIZE = data.newFloat("");
-    public CFloatParameter GENE_WIDTH = data.newFloat("");
-    public CFloatParameter GENE_BREAST = data.newFloat("");
-    public CFloatParameter GENE_MELANIN = data.newFloat("");
-    public CFloatParameter GENE_HEMOGLOBIN = data.newFloat("");
-    public CFloatParameter GENE_EUMELANIN = data.newFloat("");
-    public CFloatParameter GENE_PHEOMELANIN = data.newFloat("");
-    public CFloatParameter GENE_SKIN = data.newFloat("");
-    public CFloatParameter GENE_FACE = data.newFloat("");
+    // TODO move into own class
+    public CFloatParameter GENE_SIZE = data.newFloat("gene_size");
+    public CFloatParameter GENE_WIDTH = data.newFloat("gene_width");
+    public CFloatParameter GENE_BREAST = data.newFloat("gene_breast");
+    public CFloatParameter GENE_MELANIN = data.newFloat("gene_melanin");
+    public CFloatParameter GENE_HEMOGLOBIN = data.newFloat("gene_hemoglobin");
+    public CFloatParameter GENE_EUMELANIN = data.newFloat("gene_eumelanin");
+    public CFloatParameter GENE_PHEOMELANIN = data.newFloat("gene_pheomelanin");
+    public CFloatParameter GENE_SKIN = data.newFloat("gene_skin");
+    public CFloatParameter GENE_FACE = data.newFloat("gene_face");
 
     //personality and mood
-    public CIntegerParameter PERSONALITY = data.newInteger("");
-    public CIntegerParameter MOOD = data.newInteger("");
+    public CIntegerParameter PERSONALITY = data.newInteger("personality");
+    public CIntegerParameter MOOD = data.newInteger("mood");
 
     // genes list
     public CFloatParameter[] GENES = new CFloatParameter[]{
@@ -106,13 +107,13 @@ public class EntityVillagerMCA extends VillagerWrapper {
     private int startingAge = 0;
     private float swingProgressTicks;
 
-    public float renderOffsetX;
-    public float renderOffsetY;
-    public float renderOffsetZ;
-
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, CWorld world) {
         super(type, world);
         inventory = new CInventory(CEntity.fromMC(this), 27);
+
+        //register has to be here, not in initialize, since the super call is called before the field init
+        // and the data manager required those fields
+        data.register();
 
         if (world.isRemote) {
             EnumGender eGender = EnumGender.getRandom();
@@ -144,8 +145,11 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
     @Override
     protected void initialize() {
-        data.register();
         this.setSilent(true);
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
 //    @Override
@@ -383,12 +387,12 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
     @Override
     public String getNameForDisplay() {
-        return null;
+        return "display name";
     }
 
     @Override
     public String getVillagerName() {
-        return null;
+        return "villager name";
     }
 
     private void updateSwinging() {

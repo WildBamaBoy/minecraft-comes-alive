@@ -9,7 +9,7 @@ public class ResourceLocationCache {
     private ResourceLocationCache(){}
 
     public static ResourceLocation get(String value) {
-        if (cache.containsKey(value)) {
+        if (!cache.containsKey(value)) {
             cache.put(value, new ResourceLocation(value));
         }
         return cache.get(value);

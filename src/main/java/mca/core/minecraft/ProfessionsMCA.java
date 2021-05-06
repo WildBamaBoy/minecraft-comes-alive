@@ -41,12 +41,13 @@ public class ProfessionsMCA {
     }
 
     public static VillagerProfession randomProfession() {
-        ResourceLocation resource = null;
-        while (resource == null || resource.getPath().contains("nitwit") || inForbiddenProfessions(registry.getValue(resource))) {
-            int i = new Random().nextInt(registry.getKeys().size() - 1);
-            resource = (ResourceLocation) registry.getKeys().toArray()[i];
-        }
-        return registry.getValue(resource);
+//        ResourceLocation resource = null;
+//        while (resource == null || resource.getPath().contains("nitwit") || inForbiddenProfessions(registry.getValue(resource))) {
+//            int i = new Random().nextInt(registry.getKeys().size() - 1);
+//            resource = (ResourceLocation) registry.getKeys().toArray()[i];
+//        }
+//        return registry.getValue(resource);
+        return VillagerProfession.ARMORER;
     }
 
 //    @Mod.EventBusSubscriber(Dist.CLIENT)

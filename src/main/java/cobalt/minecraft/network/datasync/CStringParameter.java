@@ -6,7 +6,9 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-public class CStringParameter extends CDataParameter {
+import java.util.HashMap;
+
+public class CStringParameter extends CDataParameter<String> {
     private final DataParameter<String> param;
     private final EntityDataManager data;
     private final String defaultValue;
@@ -14,7 +16,7 @@ public class CStringParameter extends CDataParameter {
 
     public CStringParameter(String id, Class<? extends Entity> e, EntityDataManager d, String dv) {
         this.id = id;
-        param = EntityDataManager.defineId(e, DataSerializers.STRING);
+        param = getDefine(id, e, DataSerializers.STRING);
         data = d;
         defaultValue = dv;
     }

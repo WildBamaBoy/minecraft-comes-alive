@@ -6,7 +6,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-public class CFloatParameter extends CDataParameter {
+public class CFloatParameter extends CDataParameter<Float> {
     private final DataParameter<Float> param;
     private final EntityDataManager data;
     private final float defaultValue;
@@ -14,7 +14,7 @@ public class CFloatParameter extends CDataParameter {
 
     public CFloatParameter(String id, Class<? extends Entity> e, EntityDataManager d, float dv) {
         this.id = id;
-        param = EntityDataManager.defineId(e, DataSerializers.FLOAT);
+        param = getDefine(id, e, DataSerializers.FLOAT);
         data = d;
         defaultValue = dv;
     }

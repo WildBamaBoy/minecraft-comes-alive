@@ -6,7 +6,9 @@ import cobalt.minecraft.world.storage.CWorldSavedData;
 import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.minecraft.entity.CEntity;
 import lombok.Getter;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -15,6 +17,8 @@ import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.*;
+
+import static mca.core.MCA.ENTITYTYPE_VILLAGER;
 
 public class CWorld {
     @Getter private final World mcWorld;
@@ -69,6 +73,7 @@ public class CWorld {
     }
 
     public void spawnEntity(CEntity entity) {
-//        mcWorld.addEntity(entity.getMcEntity());
+        //TODO will skip factory stuff, pass NBT later
+        ENTITYTYPE_VILLAGER.get().spawn((ServerWorld) mcWorld, null, null, entity.getPosition().getMcPos(), SpawnReason.SPAWN_EGG, false, false);
     }
 }
