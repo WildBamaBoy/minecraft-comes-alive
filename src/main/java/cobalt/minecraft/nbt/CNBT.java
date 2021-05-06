@@ -2,6 +2,7 @@ package cobalt.minecraft.nbt;
 
 import cobalt.core.Cobalt;
 import cobalt.minecraft.util.math.CPos;
+import mca.core.Constants;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 
@@ -48,7 +49,11 @@ public class CNBT {
     }
 
     public UUID getUUID(String key) {
-        return mcCompound.getUUID(key);
+        if (mcCompound.hasUUID(key)) {
+            return mcCompound.getUUID(key);
+        } else {
+            return Constants.ZERO_UUID;
+        }
     }
 
     public byte getByte(String key) {

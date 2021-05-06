@@ -2,6 +2,7 @@ package mca.core;
 
 import cobalt.items.CItemBasic;
 import cobalt.mod.forge.CobaltForgeMod;
+import cobalt.network.NetworkHandler;
 import lombok.Getter;
 import mca.api.API;
 import mca.client.render.RenderVillagerMCA;
@@ -11,9 +12,9 @@ import mca.items.ItemBaby;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemStaffOfLife;
 import mca.items.ItemWhistle;
+import mca.network.InteractionVillagerMessage;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
@@ -31,6 +32,10 @@ public class MCA extends CobaltForgeMod {
     @Getter
     public static MCA mod;
     private static Config config;
+
+    static {
+        NetworkHandler.registerMessage(InteractionVillagerMessage.class);
+    }
 
     public static final String MOD_ID = "mca";
 

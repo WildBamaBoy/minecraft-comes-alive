@@ -18,6 +18,7 @@ import com.google.common.base.Predicate;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
+import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
@@ -29,14 +30,22 @@ import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
 import mca.wrappers.VillagerWrapper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ResourceLoadProgressGui;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.MerchantContainer;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
@@ -45,10 +54,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 public class EntityVillagerMCA extends VillagerWrapper {
     public final CDataManager data = new CDataManager(this);
@@ -168,6 +174,13 @@ public class EntityVillagerMCA extends VillagerWrapper {
         if (getPersonality() == EnumPersonality.STRONG) damage *= 1.5;
 
         return false;//entityIn.getMcEntity().attackEntityFrom(DamageSource.causeMobDamage(this), damage);
+    }
+
+     @Override
+    public void onRightClick(CPlayer player, CEnumHand hand) {
+        if (!world.isRemote) {
+            Minecraft.getInstance().setScreen(new GuiInteract(this, player));
+        }
     }
 
     @Override
@@ -338,11 +351,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
             SavedVillagers.get(world).saveVillager(this);
         }
-    }
-
-    @Override
-    public void onRightClick(CPlayer player, CEnumHand hand) {
-
     }
 
     @Override
@@ -522,7 +530,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         say(player, responseId);
     }
 
-    public void handleButtonClick(CPlayer player, String guiKey, String buttonId) {
+    public void handleInteraction(CPlayer player, String guiKey, String buttonId) {
         Memories memory = getMemoriesForPlayer(player);
         java.util.Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {

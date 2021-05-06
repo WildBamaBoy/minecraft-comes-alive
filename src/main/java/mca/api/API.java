@@ -7,11 +7,13 @@ import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import mca.api.types.*;
+import mca.client.gui.GuiInteract;
+import mca.client.gui.component.ButtonEx;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumConstraint;
 import mca.enums.EnumGender;
 import mca.util.Util;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.util.StringUtils;
 import org.apache.commons.io.IOUtils;
@@ -236,40 +238,28 @@ public class API {
      * @param player   CPlayer who has opened the GUI
      * @param screen   Screen instance the buttons should be added to
      */
-    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, CPlayer player, Screen screen) {
-//        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-//        for (APIButton b : buttonMap.get(guiKey)) {
-//            ButtonEx guiButton = new ButtonEx(screen, b);
-//            buttonList.add(guiButton);
-//
-//            // Ensure that if a constraint is attached to the button
-//            if (villager == null && b.getConstraints().size() > 0) {
-//                MCA.getLog().error("No villager provided for list of buttons with constraints! Button ID:" + b.getIdentifier());
-//                continue;
-//            }
-//
-//            // Remove the button if we specify it should not be present on constraint failure
-//            // Otherwise we just mark the button as disabled.
-//            boolean isValid = b.isValidForConstraint(villager, player);
-//            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) buttonList.remove(guiButton);
-//            else if (!isValid) guiButton.enabled = false;
-//        }
+    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, CPlayer player, GuiInteract screen) {
+        for (APIButton b : buttonMap.get(guiKey)) {
+            ButtonEx guiButton = new ButtonEx(screen, b);
+            screen.addExButton(guiButton);
+
+            // Ensure that if a constraint is attached to the button
+            if (villager == null && b.getConstraints().size() > 0) {
+                MCA.log("No villager provided for list of buttons with constraints! Button ID:" + b.getIdentifier());
+                continue;
+            }
+
+            // Remove the button if we specify it should not be present on constraint failure
+            // Otherwise we just mark the button as disabled.
+            boolean isValid = b.isValidForConstraint(villager, player);
+            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) {
+                guiButton.visible = false;
+            } else if (!isValid) {
+                guiButton.active = false;
+            }
+        }
     }
 
-    /**
-     * Returns an instance of the button linked to the given ID on the provided Screen
-     *
-     * @param id     String id of the button desired
-     * @param screen Screen containing the button
-     * @return ButtonEx matching the provided id
-     */
-//    public static Optional<ButtonEx> getButton(String id, Screen screen) {
-//        List<Button> buttonList = ObfuscationReflectionHelper.getPrivateValue(Screen.class, screen, Constants.GUI_SCREEN_BUTTON_LIST_FIELD_INDEX);
-//        Optional<Button> button = buttonList.stream().filter(
-//                (b) -> b instanceof ButtonEx && ((ButtonEx) b).getApiButton().getIdentifier().equals(id)).findFirst();
-//
-//        return button.map(guiButton -> (ButtonEx) guiButton);
-//    }
     public static CVillagerProfession randomProfession() {
         return CVillagerProfession.fromMC(MCA.PROFESSION_GUARD.get());
     }

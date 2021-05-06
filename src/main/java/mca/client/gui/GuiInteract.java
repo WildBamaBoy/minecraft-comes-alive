@@ -1,6 +1,7 @@
 package mca.client.gui;
 
 import cobalt.minecraft.entity.player.CPlayer;
+import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
 import mca.api.types.APIIcon;
@@ -13,9 +14,10 @@ import mca.entity.data.ParentPair;
 import mca.enums.EnumAgeState;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMoveState;
+import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,6 +26,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiInteract extends Screen {
@@ -45,15 +48,28 @@ public class GuiInteract extends Screen {
 
     public GuiInteract(EntityVillagerMCA villager, CPlayer player) {
         super(new StringTextComponent("Interact"));
+
         this.villager = villager;
         this.player = player;
         this.activeKey = "main";
     }
 
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
+    public void onClose() {
+        Objects.requireNonNull(this.minecraft).setScreen(null);
+    }
 
     @Override
     public void init() {
         drawMainButtonMenu();
+    }
+
+    public void addExButton(ButtonEx b) {
+        addButton(b);
     }
 
     @Override
@@ -62,7 +78,6 @@ public class GuiInteract extends Screen {
             timeSinceLastClick++;
         }
     }
-
 
     @Override
     public void render(MatrixStack transform, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
@@ -107,17 +122,7 @@ public class GuiInteract extends Screen {
                 inGiftMode = false;
                 enableAllButtons();
             } else {
-//                this.mc.displayScreen(null);
-            }
-        } else {
-            try {
-                int intInput = Integer.parseInt(String.valueOf(keyChar));
-
-                if (intInput > 0) {
-//                    player.inventory.currentItem = intInput - 1;
-                }
-            } catch (NumberFormatException ignored) {
-                // When a non numeric character is entered.
+                onClose();
             }
         }
         return false;
@@ -125,17 +130,21 @@ public class GuiInteract extends Screen {
 
     private void drawIcon(MatrixStack transform, String key) {
         APIIcon icon = API.getIcon(key);
-//        this.drawTexturedModalRect((float) (icon.getX() / iconScale), (float) (icon.getY() / iconScale), icon.getU(), icon.getV(), 16, 16);
+        this.blit(transform, (int) (icon.getX() / iconScale), (int) (icon.getY() / iconScale), icon.getU(), icon.getV(), 16, 16);
     }
 
-    private void drawHoveringIconText(String text, String key) {
+    private void drawHoveringIconText(MatrixStack transform, String text, String key) {
         APIIcon icon = API.getIcon(key);
-//        this.drawHoveringText(text, icon.getX() + 16, icon.getY() + 20);
+        renderTooltip(transform, text, icon.getX() + 16, icon.getY() + 20);
     }
 
-    private void drawHoveringIconText(List<String> text, String key) {
+    private void renderTooltip(MatrixStack transform, String text, int x, int y) {
+        renderTooltip(transform, new StringTextComponent(text), x, y);
+    }
+
+    private void drawHoveringIconText(MatrixStack transform, List<ITextComponent> text, String key) {
         APIIcon icon = API.getIcon(key);
-//        this.drawTextPopups(text, icon.getX() + 16, icon.getY() + 20);
+        this.renderComponentTooltip(transform, text, icon.getX() + 16, icon.getY() + 20);
     }
 
     private void drawIcons(MatrixStack transform) {
@@ -155,18 +164,17 @@ public class GuiInteract extends Screen {
 
         GL11.glPushMatrix();
         {
-            GL11.glColor3f(255.0F, 255.0F, 255.0F);
             GL11.glScalef(iconScale, iconScale, iconScale);
 
-//            this.mc.getTextureManager().bindTexture(ICON_TEXTURES);
+            this.minecraft.getTextureManager().bind(ICON_TEXTURES);
 
-//            drawIcon(marriageIcon);
-//            drawIcon(heartIcon);
-//            drawIcon(emeraldIcon);
-//            drawIcon("genes");
+            drawIcon(transform, marriageIcon);
+            drawIcon(transform, heartIcon);
+            drawIcon(transform, emeraldIcon);
+            drawIcon(transform, "genes");
 
-//            if (canDrawParentsIcon()) drawIcon("parents");
-//            if (canDrawGiftIcon()) drawIcon("gift");
+            if (canDrawParentsIcon()) drawIcon(transform, "parents");
+            if (canDrawGiftIcon()) drawIcon(transform, "gift");
         }
         GL11.glPopMatrix();
     }
@@ -179,38 +187,37 @@ public class GuiInteract extends Screen {
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
-//            this.drawHoveringText(MCA.localize("gui.interact.label.giveGift"), 10, 28);
+            renderTooltip(transform, MCA.localize("gui.interact.label.giveGift"), 10, 28);
         } else {
-//            drawHoveringText(villager.getName(), 10, 28);
+            renderTooltip(transform, villager.getName(), 10, 28);
         }
 
         //age or profession
-//        drawHoveringText(professionName, 10, 30 + h);
+        renderTooltip(transform, professionName, 10, 30 + h);
 
         //mood
         String color = villager.getMoodLevel() < 0 ? Constants.Color.RED : villager.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
         String mood = MCA.localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
-//        drawHoveringText(color + mood, 10, 30 + h * 2);
+        renderTooltip(transform, color + mood, 10, 30 + h * 2);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {
-//            drawHoveringText(villager.getPersonality().getLocalizedDescription(), 10, 30 + h * 3);
+            renderTooltip(transform, villager.getPersonality().getLocalizedDescription(), 10, 30 + h * 3);
         } else {
             color = Constants.Color.WHITE; //White as we don't know if a personality is negative
             String personality = MCA.localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
-//            drawHoveringText(color + personality, 10, 30 + h * 3);
+            renderTooltip(transform, color + personality, 10, 30 + h * 3);
         }
 
         //hearts
         if (hoveringOverIcon("redHeart")) {
             int hearts = villager.getMemoriesForPlayer(player).getHearts();
-            drawHoveringIconText(hearts + " hearts", "redHeart");
+            drawHoveringIconText(transform, hearts + " hearts", "redHeart");
         }
 
         //hearts
         if (hoveringOverIcon("neutralEmerald")) {
-            //int hearts = villager.getMemoriesFor(player.getUUID()).getHearts();
-            drawHoveringIconText("Happiness: 5", "neutralEmerald");
+            drawHoveringIconText(transform, "Happiness: 5", "neutralEmerald");
         }
 
         //marriage status
@@ -224,37 +231,37 @@ public class GuiInteract extends Screen {
                 marriageInfo = MCA.localize("gui.interact.label.engaged", spouseName);
             else marriageInfo = MCA.localize("gui.interact.label.notmarried");
 
-            drawHoveringIconText(marriageInfo, "married");
+            drawHoveringIconText(transform, marriageInfo, "married");
         }
 
         //parents
         if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
             ParentPair data = ParentPair.fromNBT(villager.parents.get());
-            drawHoveringIconText(MCA.localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), "parents");
+            drawHoveringIconText(transform, MCA.localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), "parents");
         }
 
         //gift
         if (canDrawGiftIcon() && hoveringOverIcon("gift"))
-            drawHoveringIconText(MCA.localize("gui.interact.label.gift"), "gift");
+            drawHoveringIconText(transform, MCA.localize("gui.interact.label.gift"), "gift");
 
         //genes
         if (hoveringOverIcon("genes")) {
-            List<String> lines = new LinkedList<>();
-            lines.add("Genes");
+            List<ITextComponent> lines = new LinkedList<>();
+            lines.add(new StringTextComponent("Genes"));
             for (int i = 0; i < villager.GENES.length; i++) {
                 String key = EntityVillagerMCA.GENES_NAMES[i].replace("_", ".");
                 int value = (int) (villager.GENES[i].get() * 100);
-                lines.add(String.format("%s: %d%%", MCA.localize(key), value));
+                lines.add(new StringTextComponent(String.format("%s: %d%%", MCA.localize(key), value)));
             }
-            drawHoveringIconText(lines, "genes");
+            drawHoveringIconText(transform, lines, "genes");
         }
 
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
-            List<String> lines = new LinkedList<>();
-            lines.add(MCA.localize("gui.interact.label.happiness", 0 + "/" + 10));
+            List<ITextComponent> lines = new LinkedList<>();
+            lines.add(new StringTextComponent(MCA.localize("gui.interact.label.happiness", 0 + "/" + 10)));
 
-            drawHoveringIconText(lines, "neutralEmerald");
+            drawHoveringIconText(transform, lines, "neutralEmerald");
         }
     }
 
@@ -286,9 +293,8 @@ public class GuiInteract extends Screen {
         return false;
     }
 
-    protected void actionPerformed(Button button) {
-        ButtonEx btn = (ButtonEx) button;
-        String id = btn.getApiButton().getIdentifier();
+    public void buttonPressed(ButtonEx button) {
+        String id = button.getApiButton().getIdentifier();
 
         if (timeSinceLastClick <= 2) {
             return; /* Prevents click-throughs on Mojang's button system */
@@ -299,41 +305,32 @@ public class GuiInteract extends Screen {
         if (id.equals("gui.button.interact")) {
             activeKey = "interact";
             drawInteractButtonMenu();
-            return;
         } else if (id.equals("gui.button.command")) {
             activeKey = "command";
             drawCommandButtonMenu();
-            return;
         } else if (id.equals("gui.button.clothing")) {
             activeKey = "clothing";
             drawClothingMenu();
-            return;
         } else if (id.equals("gui.button.work")) {
             activeKey = "work";
             drawWorkButtonMenu();
-            return;
         } else if (id.equals("gui.button.backarrow")) {
             drawMainButtonMenu();
             activeKey = "main";
-            return;
         } else if (id.equals("gui.button.locations")) {
             activeKey = "locations";
             drawLocationsButtonMenu();
-            return;
         }
-
         /* Anything that should notify the server is handled here */
-        else if (btn.getApiButton().isNotifyServer()) {
-//            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, id, villager.getUUID()));
-
-            //don't exist
-            if (id.contains("gui.button.clothing")) {
-                return;
+        else if (button.getApiButton().isNotifyServer()) {
+            if (button.getApiButton().isTargetServer()) {
+                //NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id, villager.getUUID()));
+            } else  {
+                NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUUID()));
             }
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
             disableAllButtons();
-            return;
         }
     }
 
