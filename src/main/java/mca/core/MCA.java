@@ -6,6 +6,7 @@ import cobalt.network.NetworkHandler;
 import lombok.Getter;
 import mca.api.API;
 import mca.client.render.RenderVillagerMCA;
+import mca.core.forge.EventHooks;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.items.ItemBaby;
@@ -22,6 +23,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.village.PointOfInterestType;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -102,6 +104,8 @@ public class MCA extends CobaltForgeMod {
 
         // depricated, will change in 1.17
         GlobalEntityTypeAttributes.put(ENTITYTYPE_VILLAGER.get(), EntityVillagerMCA.createAttributes().build());
+
+        MinecraftForge.EVENT_BUS.register(new EventHooks());
     }
 
     @Override

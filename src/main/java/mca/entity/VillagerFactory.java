@@ -75,7 +75,7 @@ public class VillagerFactory {
 
     public VillagerFactory withPosition(CPos pos) {
         isPositionSet = true;
-        villager.setPos(pos.getX(), pos.getY(), pos.getZ());
+        villager.setPos(pos.getX(), pos.getY() + 1, pos.getZ());
         return this;
     }
 

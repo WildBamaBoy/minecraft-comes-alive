@@ -17,35 +17,35 @@ entity.Villager.child=Child
 ##############################
 # Items & Blocks
 ##############################
-item.mca.mca.wedding_ring.name=Wedding Ring
-item.mca.wedding_ring_rg.name=Rose Gold Wedding Ring
-item.mca.engagement_ring.name=Engagement Ring
-item.mca.engagement_ring_rg.name=Rose Gold Engagement Ring
-item.mca.matchmakers_ring.name=Matchmaker's Ring
-item.mca.baby_boy.name=Baby Boy
-item.mca.baby_girl.name=Baby Girl
-item.mca.egg_male.name=Spawn Male Villager
-item.mca.egg_female.name=Spawn Female Villager
-item.mca.divorce_papers.name=Divorce Papers
-item.mca.rose_gold_ingot.name=Rose Gold Ingot
-item.mca.new_outfit.name=New Outfit
-item.mca.tombstone.name=Tombstone
-item.mca.rose_gold_dust.name=Rose Gold Dust
-item.mca.gold_dust.name=Gold Dust
-item.mca.whistle.name=Whistle
-item.mca.villager_editor.name=Villager Editor
-item.mca.egg_grim_reaper.name=Spawn Grim Reaper
-item.mca.staff_of_life.name=Staff of Life
-item.mca.book_death.name=Death, and How to Cure It!
-item.mca.book_romance.name=Relationships and You
-item.mca.book_family.name=Managing Your Family Vol. XI
-item.mca.book_rose_gold.name=On Rose Gold
-item.mca.book_infection.name=Beware the Infection!
-tile.rose_gold_ore.name=Rose Gold Ore
-tile.rose_gold_block.name=Rose Gold Block
-tile.mca:villager_spawner.name=Villager Spawner
-tile.mca:rose_gold_block.name=Rose Gold Block
-tile.mca:rose_gold_ore.name=Rose Gold Ore
+item.mca.wedding_ring=Wedding Ring
+item.mca.wedding_ring_rg=Rose Gold Wedding Ring
+item.mca.engagement_ring=Engagement Ring
+item.mca.engagement_ring_rg=Rose Gold Engagement Ring
+item.mca.matchmakers_ring=Matchmaker's Ring
+item.mca.baby_boy=Baby Boy
+item.mca.baby_girl=Baby Girl
+item.mca.egg_male=Spawn Male Villager
+item.mca.egg_female=Spawn Female Villager
+item.mca.divorce_papers=Divorce Papers
+item.mca.rose_gold_ingot=Rose Gold Ingot
+item.mca.new_outfit=New Outfit
+item.mca.tombstone=Tombstone
+item.mca.rose_gold_dust=Rose Gold Dust
+item.mca.gold_dust=Gold Dust
+item.mca.whistle=Whistle
+item.mca.villager_editor=Villager Editor
+item.mca.egg_grim_reaper=Spawn Grim Reaper
+item.mca.staff_of_life=Staff of Life
+item.mca.book_death=Death, and How to Cure It!
+item.mca.book_romance=Relationships and You
+item.mca.book_family=Managing Your Family Vol. XI
+item.mca.book_rose_gold=On Rose Gold
+item.mca.book_infection=Beware the Infection!
+tile.rose_gold_ore=Rose Gold Ore
+tile.rose_gold_block=Rose Gold Block
+tile.mca:villager_spawner=Villager Spawner
+tile.mca:rose_gold_block=Rose Gold Block
+tile.mca:rose_gold_ore=Rose Gold Ore
 
 ################################
 # Relations

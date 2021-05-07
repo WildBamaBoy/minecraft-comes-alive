@@ -1,194 +1,187 @@
 package mca.core.forge;
 
+import cobalt.minecraft.entity.CEntity;
+import cobalt.minecraft.world.CWorld;
+import mca.core.Constants;
+import mca.core.MCA;
+import mca.entity.EntityVillagerMCA;
+import mca.items.ItemBaby;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.*;
+
 public class EventHooks {
-//    // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
-//    public Map<UUID, ItemStack> limbo = new HashMap<>();
-//
-//    @SubscribeEvent
-//    public void onRegisterItems(RegistryEvent.Register<Item> event) {
-//        ItemsMCA.register(event);
-//        BlocksMCA.registerItemBlocks(event);
-//
-//        GameRegistry.addSmelting(BlocksMCA.ROSE_GOLD_ORE, new ItemStack(ItemsMCA.ROSE_GOLD_INGOT), 5.0F);
-//    }
-//
-//    @SubscribeEvent
-//    public void onRegisterBlocks(RegistryEvent.Register<Block> event) {
-//        BlocksMCA.register(event);
-//    }
-//
-//    @SubscribeEvent
-//    public void onWorldLoad(WorldEvent.Load event) {
-//        if (event.getWorld().isRemote) event.getWorld().addEventListener(new WorldEventListenerMCA());
-//    }
-//
-//    @SubscribeEvent
-//    public void onClientTick(TickEvent.ClientTickEvent event) {
-//        ClientMessageQueue.processScheduledMessages();
-//    }
-//
-//    @SubscribeEvent
-//    public void onServerTick(TickEvent.ServerTickEvent event) {
-//        MCAServer.get().tick();
-//    }
-//
-//    @SubscribeEvent
-//    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-//        if (!MCA.updateAvailable) return;
-//        StringTextComponent updateMessage = new StringTextComponent(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: v" + MCA.latestVersion);
-//        String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
-//
-//        StringTextComponent chatComponentUpdate = new StringTextComponent(updateURLText);
-//        chatComponentUpdate.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
-//        chatComponentUpdate.getStyle().setUnderlined(true);
-//
-//        event.player.sendMessage(updateMessage);
-//        event.player.sendMessage(chatComponentUpdate);
-//
-//        MCA.updateAvailable = false;
-//    }
-//
-//    @SubscribeEvent
-//    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-//        World world = event.getWorld();
-//        Entity entity = event.getEntity();
-//
-//        if (world.isRemote) return;
-//        if (!MCA.getConfig().overwriteOriginalVillagers) return;
-//
-//        if (entity.getClass().equals(EntityVillager.class)) {
-//            EntityVillager originalVillager = (EntityVillager) entity;
-//            originalVillager.setDead();
-//
-//            EntityVillagerMCA newVillager = new EntityVillagerMCA(world, com.google.common.base.Optional.of(originalVillager.getProfessionForge()), com.google.common.base.Optional.absent());
-//            newVillager.setPosition(originalVillager.posX, originalVillager.posY, originalVillager.posZ);
-//            newVillager.onInitialSpawn(world.getDifficultyForLocation(newVillager.getPos()), null);
-//            newVillager.forcePositionAsHome();
-//            world.spawnEntity(newVillager);
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onEntityInteractSpecific(PlayerInteractEvent.EntityInteractSpecific event) {
-//        if (event.getTarget() instanceof EntityVillagerMCA && event.getCPlayer() != null) {
-//            CPlayer player = event.getCPlayer();
-//            EntityVillagerMCA villager = (EntityVillagerMCA) event.getTarget();
-//
-//            if (villager.getProfessionForge() == ProfessionsMCA.bandit) {
-//                event.setResult(Event.Result.DENY);
-//            } else if (player.getHeldItemMainhand().getItem() == ItemsMCA.VILLAGER_EDITOR) {
-//                player.openGui(MCA.getInstance(), Constants.GUI_ID_VILLAGEREDITOR, player.world, villager.getEntityId(), 0, 0);
-//                event.setResult(Event.Result.ALLOW);
-//            } else {
-//                player.addStat(StatList.TALKED_TO_VILLAGER);
-//                player.openGui(MCA.getInstance(), Constants.GUI_ID_INTERACT, player.world, villager.getEntityId(), 0, 0);
-//                event.setResult(Event.Result.ALLOW);
-//            }
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onEntityDamaged(LivingDamageEvent event) {
-//        if (event.getEntity() instanceof EntityVillagerMCA) {
-//            EntityVillagerMCA villager = (EntityVillagerMCA) event.getEntity();
-//            Entity source = event.getSource() != null ? event.getSource().getTrueSource() : null;
-//
-//            if (source instanceof LivingEntity) {
-//                villager.world.loadedEntityList.stream().filter(e ->
-//                        e instanceof EntityVillagerMCA &&
-//                                e.getDistance(villager) <= 10.0D &&
-//                                ((EntityVillagerMCA) e).getProfessionForge() == ProfessionsMCA.guard)
-//                        .forEach(e -> ((EntityVillagerMCA) e).setAttackTarget((LivingEntity) source));
-//            }
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onItemToss(ItemTossEvent event) {
-//        ItemStack stack = event.getEntityItem().getItem();
-//        if (stack.getItem() instanceof ItemBaby) {
-//            event.getPlayer().addItemStackToInventory(stack);
-//            event.setCanceled(true);
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onPlaceEvent(BlockEvent.PlaceEvent event) {
-//        int x = event.getPos().getX();
-//        int y = event.getPos().getY();
-//        int z = event.getPos().getZ();
-//        Block placedBlock = event.getPlacedBlock().getBlock();
-//
-//        // summon the grim reaper
-//        if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new CPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
-//            int totemsFound = 0;
-//
-//            // Check on +/- X and Z for at least 3 totems on fire.
-//            for (int i = 0; i < 4; i++) {
-//                int dX = 0;
-//                int dZ = 0;
-//
-//                if (i == 0 || i == 2) dX = -3;
-//                else dZ = 3;
-//
-//                // Scan upwards to ensure it's obsidian, and on fire.
-//                for (int j = -1; j < 2; j++) {
-//                    Block block = event.getWorld().getBlockState(new CPos(x + dX, y + j, z + dZ)).getBlock();
-//                    if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) break;
-//
-//                    // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
-//                    if (j == 1 && block == Blocks.FIRE) totemsFound++;
-//                }
-//            }
-//
-//            if (totemsFound >= 3 && !event.getWorld().isDaytime()) {
+    // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
+    public Map<UUID, ItemStack> limbo = new HashMap<>();
+    private final List<VillagerEntity> spawnQueue = new LinkedList<>();
+
+    @SubscribeEvent
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        //TODO here we would have the reaper spawning stuff
+
+        // lazy spawning of our villagers as they can't be spawned while loading
+        if (!spawnQueue.isEmpty()) {
+            VillagerEntity e = spawnQueue.remove(0);
+            if (e.level.isLoaded(e.blockPosition())) {
+                e.remove();
+
+                EntityVillagerMCA newVillager = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), e.level);
+                newVillager.setPos(e.getX(), e.getY(), e.getZ());
+
+                e.level.isLoaded(newVillager.getPos().getMcPos());
+                CWorld.fromMC(e.level).spawnEntity(CEntity.fromMC(newVillager));
+            } else {
+                spawnQueue.add(e);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (true) return;
+
+        StringTextComponent updateMessage = new StringTextComponent(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: vTODO");
+        String updateURLText = Constants.Color.YELLOW + "Click " + Constants.Color.BLUE + Constants.Format.ITALIC + Constants.Format.UNDERLINE + "here" + Constants.Format.RESET + Constants.Color.YELLOW + " to download the update.";
+
+        StringTextComponent chatComponentUpdate = new StringTextComponent(updateURLText);
+        chatComponentUpdate.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://minecraftcomesalive.com/download"));
+        chatComponentUpdate.getStyle().setUnderlined(true);
+
+        event.getPlayer().sendMessage(updateMessage, Constants.ZERO_UUID);
+        event.getPlayer().sendMessage(chatComponentUpdate, Constants.ZERO_UUID);
+    }
+
+    @SubscribeEvent
+    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        World world = event.getWorld();
+        Entity entity;
+        entity = event.getEntity();
+
+        if (world.isClientSide()) return;
+        if (!MCA.getConfig().overwriteOriginalVillagers) return;
+
+        if (entity.getClass().equals(VillagerEntity.class)) {
+            VillagerEntity v = (VillagerEntity) entity;
+            spawnQueue.add(v);
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityDamaged(LivingDamageEvent event) {
+        if (event.getEntity() instanceof EntityVillagerMCA) {
+            EntityVillagerMCA villager = (EntityVillagerMCA) event.getEntity();
+            Entity source = event.getSource() != null ? event.getSource().getDirectEntity() : null;
+
+            if (source instanceof LivingEntity) {
+                villager.world.loadedEntityList.forEach(e -> {
+                    if (e instanceof EntityVillagerMCA) {
+                        EntityVillagerMCA v = (EntityVillagerMCA) e;
+                        if (v.distanceTo(v) <= 10.0D && v.getProfession() == MCA.PROFESSION_GUARD.get()) {
+                            v.setTarget((LivingEntity) source);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onItemToss(ItemTossEvent event) {
+        ItemStack stack = event.getEntityItem().getItem();
+        if (stack.getItem() instanceof ItemBaby) {
+            event.getPlayer().addItem(stack);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlaceEvent(BlockEvent.EntityPlaceEvent event) {
+        int x = event.getPos().getX();
+        int y = event.getPos().getY();
+        int z = event.getPos().getZ();
+        Block placedBlock = event.getPlacedBlock().getBlock();
+
+        // summon the grim reaper
+        if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
+            int totemsFound = 0;
+
+            // Check on +/- X and Z for at least 3 totems on fire.
+            for (int i = 0; i < 4; i++) {
+                int dX = 0;
+                int dZ = 0;
+
+                if (i == 0 || i == 2) dX = -3;
+                else dZ = 3;
+
+                // Scan upwards to ensure it's obsidian, and on fire.
+                for (int j = -1; j < 2; j++) {
+                    Block block = event.getWorld().getBlockState(new BlockPos(x + dX, y + j, z + dZ)).getBlock();
+                    if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) break;
+
+                    // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
+                    if (j == 1 && block == Blocks.FIRE) totemsFound++;
+                }
+            }
+
+            if (totemsFound >= 3 && event.getWorld().dayTime() > 13000 && event.getWorld().dayTime() < 23000) {
 //                MCAServer.get().setReaperSpawnPos(event.getWorld(), new CPos(x + 1, y + 10, z + 1));
 //                MCAServer.get().startSpawnReaper();
-//                for (int i = 0; i < 2; i++) event.getWorld().setBlockToAir(new CPos(x, y - i, z));
-//            }
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-//        // When players respawn check to see if their baby was saved in limbo. Add it back to their inventory.
-//        if (limbo.containsKey(event.player.getUUID())) {
-//            event.player.inventory.addItemStackToInventory(limbo.get(event.player.getUUID()));
-//            limbo.remove(event.player.getUUID());
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onLivingDeath(LivingDeathEvent event) {
-//        // If a player dies while holding a baby, remember it until they respawn.
-//        if (event.getLivingEntity() instanceof CPlayer) {
-//            CPlayer player = (CPlayer) event.getLivingEntity();
-//            Optional<ItemStack> babyStack = player.inventory.mainInventory.stream().filter(s -> s.getItem() instanceof ItemBaby).findFirst();
-//            babyStack.ifPresent(s -> limbo.put(player.getUUID(), babyStack.get()));
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onLivingSetTarget(LivingSetAttackTargetEvent event) {
-//        // Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
-//        if (event.getLivingEntity() instanceof EntityMob && event.getTarget() instanceof EntityVillagerMCA) {
-//            EntityMob mob = (EntityMob) event.getLivingEntity();
-//            EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
-//
-//            if (target.get(EntityVillagerMCA.isInfected)) {
-//                mob.setAttackTarget(null);
-//            }
-//        }
-//    }
-//
-//    @SubscribeEvent
-//    public void onPlaySoundAtEntityEvent(PlaySoundAtEntityEvent event) {
-//        // Cancel all villager sounds. We unfortunately cannot control on a per entity basis as getEntity() always returns null.
-//        if (FMLCommonHandler.instance().getEffectiveSide() != Side.CLIENT) return;
-//        try {
-//            event.setCanceled(event.getSound().getSoundName().toString().contains("villager"));
-//        } catch (NullPointerException e) {
-//            // throw out potential NPEs due to bad event data. some of these have been reported
-//        }
-//    }
+                for (int i = 0; i < 2; i++) {
+                    event.getWorld().setBlock(new BlockPos(x, y - i, z), Blocks.AIR.defaultBlockState(), 3);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        // When players respawn check to see if their baby was saved in limbo. Add it back to their inventory.
+        if (limbo.containsKey(event.getPlayer().getUUID())) {
+            event.getPlayer().inventory.add(limbo.get(event.getPlayer().getUUID()));
+            limbo.remove(event.getPlayer().getUUID());
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingDeath(LivingDeathEvent event) {
+        // If a player dies while holding a baby, remember it until they respawn.
+        if (event.getEntityLiving() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+            Optional<ItemStack> babyStack = player.inventory.items.stream().filter(s -> s.getItem() instanceof ItemBaby).findFirst();
+            babyStack.ifPresent(s -> limbo.put(player.getUUID(), babyStack.get()));
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingSetTarget(LivingSetAttackTargetEvent event) {
+        // Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
+        if (event.getEntityLiving() instanceof MobEntity && event.getTarget() instanceof EntityVillagerMCA) {
+            MobEntity mob = (MobEntity) event.getEntityLiving();
+            EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
+
+            if (target.isInfected.get()) {
+                mob.setTarget(null);
+            }
+        }
+    }
 }
