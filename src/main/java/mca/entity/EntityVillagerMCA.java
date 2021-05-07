@@ -3,7 +3,6 @@ package mca.entity;
 import cobalt.enums.CEnumHand;
 import cobalt.minecraft.entity.CEntity;
 import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.inventory.CEquipmentSlotType;
 import cobalt.minecraft.inventory.CInventory;
 import cobalt.minecraft.item.CItemStack;
 import cobalt.minecraft.nbt.CNBT;
@@ -12,9 +11,7 @@ import cobalt.minecraft.pathfinding.CPathNavigator;
 import cobalt.minecraft.util.CDamageSource;
 import cobalt.minecraft.util.math.CPos;
 import cobalt.minecraft.world.CWorld;
-import cobalt.util.ResourceLocationCache;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
@@ -31,22 +28,21 @@ import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
 import mca.wrappers.VillagerWrapper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ResourceLoadProgressGui;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.MerchantContainer;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ChestContainer;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
@@ -54,9 +50,12 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.UUID;
 
-public class EntityVillagerMCA extends VillagerWrapper {
+public class EntityVillagerMCA extends VillagerWrapper implements INamedContainerProvider {
     public final CDataManager data = new CDataManager(this);
 
     public CStringParameter villagerName = data.newString("villagerName");
@@ -66,6 +65,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public CIntegerParameter gender = data.newInteger("gender");
     public CTagParameter memories = data.newTag("memories");
     public CIntegerParameter moveState = data.newInteger("moveState");
+    public CIntegerParameter ageState = data.newInteger("ageState");
     public CStringParameter spouseName = data.newString("spouseName");
     public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
     public CUUIDParameter playerToFollowUUID = data.newUUID("spouseUUID");
@@ -73,7 +73,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public CTagParameter parents = data.newTag("parents");
     public CBooleanParameter isInfected = data.newBoolean("isInfected");
-    public CIntegerParameter ageState = data.newInteger("ageState");
     public CIntegerParameter activeChore = data.newInteger("activeChore");
     public CBooleanParameter isSwinging = data.newBoolean("isSwinging");
     public CBooleanParameter hasBaby = data.newBoolean("hasBaby");
@@ -109,7 +108,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
     public final CInventory inventory;
 
-    private int startingAge = 0;
     private float swingProgressTicks;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, CWorld world) {
@@ -124,11 +122,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
             EnumGender eGender = EnumGender.getRandom();
             gender.set(eGender.getId());
 
-            ageState.set(EnumAgeState.ADULT.getId());
-
             villagerName.set(API.getRandomName(eGender));
-
-            setProfession(ProfessionsMCA.randomProfession());
         }
     }
 
@@ -139,13 +133,16 @@ public class EntityVillagerMCA extends VillagerWrapper {
     @Nullable
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
+        ILivingEntityData iLivingEntityData = super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+
         initializeGenes();
         initializeSkin();
         initializePersonality();
 
+        //TODO big problem here, the profession changing AI...
         setProfession(ProfessionsMCA.randomProfession());
 
-        return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+        return iLivingEntityData;
     }
 
     @Override
@@ -174,7 +171,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         return false;//entityIn.getMcEntity().attackEntityFrom(DamageSource.causeMobDamage(this), damage);
     }
 
-     @Override
+    @Override
     public void onRightClick(CPlayer player, CEnumHand hand) {
         if (!world.isRemote) {
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
@@ -193,13 +190,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
         ), 0);
         hair.set(h.getTexture());
         hairOverlay.set(h.getOverlay());
-
-        //also supports older versions
-        if (GENE_SIZE.get() == 0) {
-            initializeGenes();
-            initializeSkin();
-            initializePersonality();
-        }
     }
 
     @Override
@@ -279,12 +269,15 @@ public class EntityVillagerMCA extends VillagerWrapper {
     }
 
     public boolean afterDamaged(CDamageSource source, float amount) {
-        source.getPlayer().ifPresent(e -> {
-            e.sendMessage(MCA.localize("villager.hurt"));
-        });
+        if (world.isRemote) {
+            source.getPlayer().ifPresent(e -> {
+                e.sendMessage(MCA.localize("villager.hurt"));
+            });
 
-        if (source.isZombie() && getProfession() != MCA.PROFESSION_GUARD.get() && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
-            isInfected.set(true);
+            if (source.isZombie() && getProfession() != MCA.PROFESSION_GUARD.get() && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
+                isInfected.set(true);
+            }
+            return false;
         }
         return false;
     }
@@ -292,7 +285,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
     @Override
     public void onUpdate() {
         updateSwinging();
-        updateSleeping();
 
         if (world.isRemote) {
             onEachServerUpdate();
@@ -310,7 +302,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public void handleDeath(CDamageSource cause) {
         if (!world.isRemote) {
             if (MCA.getConfig().logVillagerDeaths) {
-                //MCA.getLog().info("Villager death: " + villagerName.get() + ". Caused by: " + cause.getCauseName() + ". UUID: " + this.getUUID().toString());
+                MCA.log("Villager death: " + villagerName.get() + ". Caused by: " + cause.getCauseName(this) + ". UUID: " + this.getUUID().toString());
             }
 
             //The death of a villager negatively modifies the mood of nearby villagers
@@ -333,7 +325,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
                     sp.get().endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
-//                    world.getPlayerEntityByUUID(spouse).ifPresent(player -> player.sendMessage(new StringTextComponent(Constants.Color.RED + MCA.localize("notify.spousedied", villagerName.get(), cause.getCauseName()))));
+                    world.getPlayerEntityByUUID(spouse).ifPresent(player -> player.sendMessage(Constants.Color.RED + MCA.localize("notify.spousedied", villagerName.get(), cause.getCauseName(this))));
                 }
             }
 
@@ -348,23 +340,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
 //                    });
 
             SavedVillagers.get(world).saveVillager(this);
-        }
-    }
-
-    @Override
-    protected void onGrowingAdult() {
-        ageState.set(EnumAgeState.ADULT.getId());
-
-        // Notify player parents of the age up and set correct dialogue type.
-        CEntity[] parents = getParents().getBothParentEntities(this.world);
-        Arrays.stream(parents).forEach(e -> e.asPlayer().ifPresent(p -> {
-            getMemoriesForPlayer(p).setDialogueType(EnumDialogueType.ADULT);
-            p.sendMessage(MCA.localize("notify.child.grownup", this.getVillagerName()));
-        }));
-
-        // Change profession away from child for villager children.
-        if (getProfession() == MCA.PROFESSION_CHILD.get()) {
-            setProfession(API.randomProfession().getMcProfession());
         }
     }
 
@@ -392,7 +367,9 @@ public class EntityVillagerMCA extends VillagerWrapper {
     }
 
     public Memories getMemoriesForPlayer(CPlayer player) {
-        Memories returnMemories = Memories.fromCNBT(this, memories.get().getCompoundTag(player.getUUID().toString()));
+        CNBT cnbt = memories.get();
+        CNBT compoundTag = cnbt.getCompoundTag(player.getUUID().toString());
+        Memories returnMemories = Memories.fromCNBT(this, compoundTag);
         if (returnMemories == null) {
             returnMemories = Memories.getNew(this, player.getUUID());
             memories.set(memories.get().setTag(player.getUUID().toString(), returnMemories.toCNBT()));
@@ -414,13 +391,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
     public int getMoodLevel() {
         return MOOD.get();
-    }
-
-    public void reset() {
-        memories.set(CNBT.createNew());
-        setHealth(20.0F);
-        spouseUUID.set(null);
-        isBabyMale.set(false);
     }
 
     private void goHome(CPlayer player) {
@@ -464,6 +434,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
 
         // Player is always first in params passed to localizer for say().
         paramList.add(0, target.getName());
+        //TODO paramList seems to be unused, replace params provided to sendMessage with this list?
 
         String chatPrefix = MCA.getConfig().villagerChatPrefix + getDisplayName().getString() + ": ";
         if (isInfected.get()) { // Infected villagers do not speak
@@ -524,6 +495,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         memory.modInteractionFatigue(1);
         memory.modHearts(succeeded ? heartsBoost : (heartsBoost * -1));
         modifyMoodLevel(succeeded ? heartsBoost : (heartsBoost * -1));
+
         String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
         say(player, responseId);
     }
@@ -565,37 +537,34 @@ public class EntityVillagerMCA extends VillagerWrapper {
                 setHangout(player);
                 break;
             case "gui.button.trade":
-                if (MCA.getConfig().allowTrading) {
-//                    setCustomer(player);
-//                    player.displayVillagerTradeGui(this);
-                } else {
-                    player.sendMessage(MCA.localize("info.trading.disabled"));
-                }
+                super.mobInteract(player.getMcPlayer(), Hand.MAIN_HAND);
                 break;
             case "gui.button.inventory":
-//                player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, player.world, this.getEntityId(), 0, 0);
+                player.getMcPlayer().openMenu(this);
                 break;
             case "gui.button.gift":
                 CItemStack stack = player.getHeldItem(CEnumHand.MAIN_HAND);
-                int giftValue = API.getGiftValueFromStack(stack);
-                if (!handleSpecialCaseGift(player, stack)) {
-                    if (stack.getItem() == Items.GOLDEN_APPLE) isInfected.set(false);
-                    else {
-                        modifyMoodLevel(giftValue / 4 + 2);
-                        memory.modHearts(giftValue);
-                        say(player, API.getResponseForGift(stack));
+                if (!stack.isEmpty()) {
+                    int giftValue = API.getGiftValueFromStack(stack);
+                    if (!handleSpecialCaseGift(player, stack)) {
+                        if (stack.getItem() == Items.GOLDEN_APPLE) isInfected.set(false);
+                        else {
+                            modifyMoodLevel(giftValue / 4 + 2);
+                            memory.modHearts(giftValue);
+                            say(player, API.getResponseForGift(stack));
+                        }
                     }
-                }
-                if (giftValue > 0) {
-                    player.getHeldItem(CEnumHand.MAIN_HAND).decrStackSize();
+                    if (giftValue > 0) {
+                        player.getHeldItem(CEnumHand.MAIN_HAND).decrStackSize();
+                    }
                 }
                 break;
             case "gui.button.procreate":
-//                if (PlayerSaveData.get(player).isBabyPresent())
-                if (true)
+                if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent())
                     say(player, "interaction.procreate.fail.hasbaby");
                 else if (memory.getHearts() < 100) say(player, "interaction.procreate.fail.lowhearts");
                 else {
+                    //TODO
 //                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
 //                    if (task != null) {
 //                        ((EntityAIProcreate) task.action).procreateTimer = 20 * 3; // 3 seconds
@@ -653,7 +622,8 @@ public class EntityVillagerMCA extends VillagerWrapper {
                 stopChore();
                 break;
             case "gui.button.village":
-//                Village village = VillageHelper.findClosestVillage(world, this.getPos());
+                //Village village = VillageHelper.findClosestVillage(world, this.getPos());
+                //TODO somebody decided to remove villages....
 //                if (village != null) {
 //                    String phrase = MCA.localize("events.village",
 //                            String.valueOf(village.getVillageRadius()),
@@ -662,7 +632,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
 //                    );
 //                    player.sendMessage(phrase);
 //                } else {
-//                    player.sendMessage("I wasn't able to find a village.");
+                player.sendMessage("I wasn't able to find a village.");
 //                }
         }
     }
@@ -681,7 +651,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
                     EntityVillagerMCA progressor = gender.get() == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
                     progressor.hasBaby.set(true);
                     progressor.isBabyMale.set(random.nextBoolean());
-//                    progressor.spawnParticles(EnumParticleTypes.HEART);
+                    addParticlesAroundSelf(ParticleTypes.HEART);
                     say(player, "gift.cake.success");
                 } else {
                     say(player, "gift.cake.fail");
@@ -689,7 +659,8 @@ public class EntityVillagerMCA extends VillagerWrapper {
                 return true;
             }
         } else if (item == Items.GOLDEN_APPLE && this.isBaby()) {
-//            this.addGrowth(((startingAge / 4) / 20 * -1));
+            // increase age by 5 minutes
+            this.ageUp(1200 * 5);
             return true;
         }
 
@@ -721,43 +692,47 @@ public class EntityVillagerMCA extends VillagerWrapper {
             }
         }
 
-        if (isBaby()) {
-            // get older
-//            EnumAgeState current = EnumAgeState.byId(ageState.get());
-//            EnumAgeState target = EnumAgeState.byCurrentAge(startingAge, getGrowingAge());
-//            if (current != target) {
-//                ageState(target.getId());
-//            }
+        //check if another state has been reached
+        EnumAgeState last = EnumAgeState.byId(ageState.get());
+        EnumAgeState next = EnumAgeState.byCurrentAge(getAge());
+        if (last != next) {
+            ageState.set(next.getId());
+
+            if (next == EnumAgeState.ADULT) {
+                // Notify player parents of the age up and set correct dialogue type.
+                CEntity[] parents = getParents().getBothParentEntities(this.world);
+                Arrays.stream(parents).forEach(e -> e.asPlayer().ifPresent(p -> {
+                    getMemoriesForPlayer(p).setDialogueType(EnumDialogueType.ADULT);
+                    p.sendMessage(MCA.localize("notify.child.grownup", this.getVillagerName()));
+                }));
+
+                // Change profession away from child for villager children.
+                if (getProfession() == MCA.PROFESSION_CHILD.get()) {
+                    setProfession(API.randomProfession().getMcProfession());
+                }
+            }
         }
     }
 
     private void onEachServerSecond() {
-//        CNBT mem = memories.get();
-//        mem.getKeySet().forEach((key) -> Memories.fromNBT(this, UUID.fromString(key), mem.getCompoundTag(key)).update());
-//
-//        if (get(hasBaby)) {
-//            babyAge(get(babyAge) + 1);
-//
-//            if (get(babyAge) >= MCA.getConfig().babyGrowUpTime * 60) { // grow up time is in minutes and we measure age in seconds
-//                EntityVillagerMCA child = new EntityVillagerMCA(world, Optional.absent(), Optional.of(get(isBabyMale) ? EnumGender.MALE : EnumGender.FEMALE));
-//                child.ageState(EnumAgeState.BABY.getId());
-//                child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
-//                child.setScaleForAge(true);
-//                child.setPosition(this.posX, this.posY, this.posZ);
-//                child.parents(ParentPair.create(this.getUUID(), this.spouseUUID.get().get(), this.get(villagerName), this.get(spouseName)).toNBT());
-//                world.spawnEntity(child);
-//
-//                hasBaby(false);
-//                babyAge(0);
-//            }
-//        }
-    }
+        CNBT mem = memories.get();
 
-    public ResourceLocation getTextureResourceLocation() {
-        if (isInfected.get()) {
-            return ResourceLocationCache.get(String.format("mca:skins/%s/zombievillager.png", gender.get() == EnumGender.MALE.getId() ? "male" : "female"));
-        } else {
-            return ResourceLocationCache.get(clothes.get());
+        // villager has a baby
+        if (hasBaby.get()) {
+            babyAge.set(babyAge.get() + 1);
+
+            // grow up time is in minutes and we measure age in seconds
+            if (babyAge.get() >= MCA.getConfig().babyGrowUpTime * 60) {
+                EnumGender gender = isBabyMale.get() ? EnumGender.MALE : EnumGender.FEMALE;
+                EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), world);
+                child.gender.set(gender.getId());
+                child.setPos(this.getX(), this.getY(), this.getZ());
+                child.parents.set(ParentPair.create(this.getUUID(), this.spouseUUID.get().get(), villagerName.get(), spouseName.get()).toNBT());
+                world.spawnEntity(CEntity.fromMC(child));
+
+                hasBaby.set(false);
+                babyAge.set(0);
+            }
         }
     }
 
@@ -882,8 +857,18 @@ public class EntityVillagerMCA extends VillagerWrapper {
     }
 
     public void updateMemories(Memories memories) {
-        CNBT nbt = this.memories.get();
+        CNBT nbt = this.memories.get().copy();
         nbt.setTag(memories.getPlayerUUID().toString(), memories.toCNBT());
         this.memories.set(nbt);
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return ChestContainer.threeRows(i, playerInventory, inventory);
+    }
+
+    public EnumAgeState getAgeState() {
+        return EnumAgeState.byId(ageState.get());
     }
 }

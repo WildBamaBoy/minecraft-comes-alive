@@ -27,13 +27,14 @@ public enum EnumAgeState {
         return state.orElse(UNASSIGNED);
     }
 
-    public static EnumAgeState byCurrentAge(int startingAge, int growingAge) {
+    public static EnumAgeState byCurrentAge(int age) {
+        int startingAge = -24000;
         int step = startingAge / 4;
-        if (growingAge >= step) return EnumAgeState.TEEN;
-        else if (growingAge >= step * 2) return EnumAgeState.CHILD;
-        else if (growingAge >= step * 3 && growingAge < step * 2) return EnumAgeState.TODDLER;
-        else if (growingAge >= step * 4 && growingAge < step * 3) return EnumAgeState.BABY;
-        return EnumAgeState.ADULT;
+        if (age >= step) return EnumAgeState.ADULT;
+        else if (age >= step * 2) return EnumAgeState.TEEN;
+        else if (age >= step * 3) return EnumAgeState.CHILD;
+        else if (age >= step * 4) return EnumAgeState.TODDLER;
+        return EnumAgeState.BABY;
     }
 
     public String localizedName() {

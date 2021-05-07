@@ -41,7 +41,7 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
     @Override
     protected void scale(EntityVillagerMCA villager, MatrixStack matrixStackIn, float partialTickTime) {
         if (villager.isBaby()) {
-            float scaleForAge = EnumAgeState.byId(villager.ageState.get()).getScaleForAge();
+            float scaleForAge = villager.getAgeState().getScaleForAge();
             matrixStackIn.scale(scaleForAge, scaleForAge, scaleForAge);
         }
 

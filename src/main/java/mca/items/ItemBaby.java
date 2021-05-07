@@ -70,9 +70,7 @@ public class ItemBaby extends CItem {
                 child.gender.set((this.isMale ? EnumGender.MALE : EnumGender.FEMALE).getId());
                 child.setProfession(MCA.PROFESSION_CHILD.get());
                 child.villagerName.set(getBabyName(stack));
-                child.ageState.set(EnumAgeState.BABY.getId());
-//                    child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);
-//                    child.setScaleForAge(true);
+                child.setBaby(true);
                 child.setPos(posX, posY, posZ);
 
                 PlayerSaveData playerData = PlayerSaveData.get(world, player.getUUID());

@@ -108,7 +108,7 @@ public class GuiInteract extends Screen {
 
         // Right mouse button
         if (inGiftMode && button == 1) {
-//            NetMCA.INSTANCE.sendToServer(new NetMCA.ButtonAction(activeKey, "gui.button.gift", villager.getUUID()));
+            NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, "gui.button.gift", villager.getUUID()));
             return true;
         } else {
             return false;
@@ -183,8 +183,8 @@ public class GuiInteract extends Screen {
 
     private void drawTextPopups(MatrixStack transform) {
         //general information
-        EnumAgeState age = EnumAgeState.byId(villager.ageState.get());
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.Villager." + villager.getProfession().getRegistryType().getSimpleName());
+        EnumAgeState age = villager.getAgeState();
+        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.Villager." + villager.getProfession());
 
         //name or state tip (gifting, ...)
         int h = 17;

@@ -134,8 +134,6 @@ public abstract class VillagerWrapper extends VillagerEntity {
 
     protected abstract boolean afterDamaged(CDamageSource source, float value);
 
-    protected abstract void onGrowingAdult();
-
     public abstract String getNameForDisplay();
 
     public abstract String getVillagerName();
@@ -151,8 +149,4 @@ public abstract class VillagerWrapper extends VillagerEntity {
     public abstract void save(CNBT nbt);
 
     public abstract CPos getHomePos();
-
-    public boolean isBaby() {
-        return false;
-    }
 }

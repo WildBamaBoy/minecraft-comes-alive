@@ -46,7 +46,7 @@ public class Memories {
     }
 
     public static Memories fromCNBT(EntityVillagerMCA villager, CNBT cnbt) {
-        if (cnbt == null) {
+        if (cnbt == null || cnbt.getMcCompound().isEmpty()) {
             return null;
         }
 

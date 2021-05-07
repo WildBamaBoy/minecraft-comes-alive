@@ -96,7 +96,7 @@ public class CommandMCA {
     }
 
     private static int forceChildGrowth(CommandContext<CommandSource> ctx) {
-        getLoadedVillagers(ctx).filter(v -> ((EntityVillagerMCA) v).ageState.get() != EnumAgeState.ADULT.getId()).forEach(v -> ((EntityVillagerMCA) v).ageState.set(EnumAgeState.ADULT.getId()));
+        getLoadedVillagers(ctx).forEach(v -> ((EntityVillagerMCA) v).setAge(0));
         return 0;
     }
 

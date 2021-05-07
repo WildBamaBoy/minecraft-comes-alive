@@ -58,6 +58,10 @@ public class PlayerSaveData extends CWorldSavedData {
         setDirty();
     }
 
+    public boolean isBabyPresent() {
+        return this.babyPresent;
+    }
+
     public void reset() {
         endMarriage();
         setBabyPresent(false);

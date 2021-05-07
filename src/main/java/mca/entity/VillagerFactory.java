@@ -7,7 +7,6 @@ import cobalt.minecraft.world.CWorld;
 import mca.api.API;
 import mca.core.MCA;
 import mca.entity.data.ParentPair;
-import mca.enums.EnumAgeState;
 import mca.enums.EnumGender;
 import net.minecraft.entity.merchant.villager.VillagerData;
 
@@ -80,8 +79,8 @@ public class VillagerFactory {
         return this;
     }
 
-    public VillagerFactory withAge(EnumAgeState age) {
-        villager.ageState.set(age.getId());
+    public VillagerFactory withAge(int age) {
+        villager.setAge(age);
         isAgeSet = true;
         return this;
     }
@@ -115,7 +114,8 @@ public class VillagerFactory {
         }
 
         if (!isAgeSet) {
-            villager.ageState.set(EnumAgeState.ADULT.getId());
+            //give it a random age between baby and adult
+            villager.setAge(villager.getRandom().nextInt(24000 * 2) - 24000);
         }
 
         return villager;
