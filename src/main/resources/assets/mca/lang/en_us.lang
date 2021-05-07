@@ -311,6 +311,17 @@ events.baby=%v1% and %v2% have born a baby!
 events.village=My village is %v1% blocks big and has %v2% villager out of %v3% possible doors.
 
 #########################
+# Messages for hurting villager
+#########################
+villager.hurt1=Ow\! That hurt\!
+villager.hurt2=I'll get you for that\!
+villager.hurt3=Ouch\! Why did you hit me?
+villager.hurt4=That hurts, stop it\!
+villager.hurt5=Agh\! That really hurt\!
+villager.hurt6=Hey\! What do you think you're doing?\!
+villager.hurt7=*Oof*\! That better have been an accident\!
+
+#########################
 # Messages for chores
 #########################
 mining.search.none=There's no %v1% nearby.

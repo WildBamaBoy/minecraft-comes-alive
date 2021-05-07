@@ -471,7 +471,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
             playSound(SoundEvents.ZOMBIE_AMBIENT, this.getSoundVolume(), this.getVoicePitch());
         } else {
             EnumDialogueType dialogueType = getMemoriesForPlayer(target).getDialogueType();
-            target.sendMessage(chatPrefix + MCA.localize(dialogueType + "." + phraseId, params));
+            target.sendMessage(chatPrefix + MCA.localize(dialogueType.getName() + "." + phraseId, params));
         }
     }
 
@@ -875,73 +875,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
         } else {
 //            getNavigation().createPath(target.getX(), target.getY() ,target.getZ(), range);
         }
-    }
-
-    public boolean isSleeping() {
-        return isSleeping.get();
-    }
-
-    private void updateSleeping() {
-        if (isSleeping()) {
-//            CPos bedLocation = get(EntityVillagerMCA.bedPos);
-//
-//            final IBlockState state = this.world.isBlockLoaded(bedLocation) ? this.world.getBlockState(bedLocation) : null;
-//            final boolean isBed = state != null && state.getBlock().isBed(state, this.world, bedLocation, this);
-//
-//            if (isBed) {
-//                final EnumFacing enumfacing = state.getBlock() instanceof BlockHorizontal ? state.getValue(BlockHorizontal.FACING) : null;
-//
-//                if (enumfacing != null) {
-//                    float f1 = 0.5F + (float) enumfacing.getFrontOffsetX() * 0.4F;
-//                    float f = 0.5F + (float) enumfacing.getFrontOffsetZ() * 0.4F;
-//                    this.setRenderOffsetForSleep(enumfacing);
-//                    this.setPosition((float) bedLocation.getX() + f1, (float) bedLocation.getY() + 0.6875F, (float) bedLocation.getZ() + f);
-//                } else {
-//                    this.setPosition((float) bedLocation.getX() + 0.5F, (float) bedLocation.getY() + 0.6875F, (float) bedLocation.getZ() + 0.5F);
-//                }
-//
-//                this.setSize(0.2F, 0.2F);
-//
-//                this.motionX = 0.0D;
-//                this.motionY = 0.0D;
-//                this.motionZ = 0.0D;
-//            } else {
-//                bedPos(CPos.ORIGIN);
-//                stopSleeping();
-//            }
-        } else {
-//            this.setSize(0.6F, 1.8F);
-        }
-    }
-
-    public void startSleeping() {
-        isSleeping.set(true);
-
-//        CPos bedLocation = get(EntityVillagerMCA.bedPos);
-//        IBlockState blockstate = this.world.getBlockState(bedLocation);
-//        if (blockstate.getBlock() == Blocks.BED) {
-//            blockstate.getBlock().setBedOccupied(world, bedLocation, null, true);
-//        }
-    }
-
-    public void stopSleeping() {
-        CPos bedLocation = bedPos.get();
-        if (bedLocation != CPos.ORIGIN) {
-//            IBlockState blockState = this.world.getBlockState(bedLocation);
-//
-//            if (blockState.getBlock().isBed(blockState, world, bedLocation, this)) {
-//                blockState.getBlock().setBedOccupied(world, bedLocation, null, false);
-//                CPos blockpos = blockState.getBlock().getBedSpawnPosition(blockState, world, bedLocation, null);
-//
-//                if (blockpos == null) {
-//                    blockpos = bedLocation.up();
-//                }
-//
-//                this.setPosition((float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.1F, (float) blockpos.getZ() + 0.5F);
-//            }
-        }
-
-        isSleeping.set(false);
     }
 
     public ParentPair getParents() {

@@ -14,6 +14,7 @@ import mca.entity.data.ParentPair;
 import mca.enums.EnumAgeState;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMoveState;
+import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
@@ -117,13 +118,14 @@ public class GuiInteract extends Screen {
     @Override
     public boolean keyPressed(int keyChar, int keyCode, int unknown) {
         // Hotkey to leave gift mode
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyChar == GLFW.GLFW_KEY_ESCAPE) {
             if (inGiftMode) {
                 inGiftMode = false;
                 enableAllButtons();
             } else {
                 onClose();
             }
+            return true;
         }
         return false;
     }
@@ -324,7 +326,7 @@ public class GuiInteract extends Screen {
         /* Anything that should notify the server is handled here */
         else if (button.getApiButton().isNotifyServer()) {
             if (button.getApiButton().isTargetServer()) {
-                //NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id, villager.getUUID()));
+                NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id));
             } else {
                 NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUUID()));
             }
@@ -334,8 +336,13 @@ public class GuiInteract extends Screen {
         }
     }
 
-    private void drawMainButtonMenu() {
+    private void clearButtons() {
         buttons.clear();
+        children.clear();
+    }
+
+    private void drawMainButtonMenu() {
+        clearButtons();
         API.addButtons("main", villager, player, this);
 
         EnumMoveState moveState = EnumMoveState.byId(villager.moveState.get());
@@ -345,41 +352,43 @@ public class GuiInteract extends Screen {
     }
 
     private void drawInteractButtonMenu() {
-        buttons.clear();
+        clearButtons();
         API.addButtons("interact", villager, player, this);
     }
 
     private void drawCommandButtonMenu() {
-        buttons.clear();
+        clearButtons();
         API.addButtons("command", villager, player, this);
     }
 
     private void drawClothingMenu() {
-        buttons.clear();
+        clearButtons();
         API.addButtons("clothing", villager, player, this);
     }
 
     private void drawWorkButtonMenu() {
-        buttons.clear();
+        clearButtons();
         API.addButtons("work", villager, player, this);
     }
 
     private void drawLocationsButtonMenu() {
-        buttons.clear();
+        clearButtons();
         API.addButtons("locations", villager, player, this);
     }
 
     private void disableButton(String id) {
-//        Optional<ButtonEx> b = API.getButton(id, this);
-//
-//        b.ifPresent(guiButtonEx -> guiButtonEx.enabled = false);
+        buttons.forEach(b -> {
+            if (((ButtonEx) b).getApiButton().getIdentifier().equals(id)) {
+                b.active = false;
+            }
+        });
     }
 
     private void enableAllButtons() {
-//        buttonList.forEach((b) -> b.enabled = true);
+        buttons.forEach(b -> b.active = true);
     }
 
     private void disableAllButtons() {
-//        buttonList.forEach((b) -> b.enabled = false);
+        buttons.forEach(b -> b.active = false);
     }
 }

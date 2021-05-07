@@ -13,9 +13,9 @@ public enum EnumDialogueType {
     SPOUSE(3, "spouse");
 
     @Getter
-    private int id;
+    private final int id;
     @Getter
-    private String name;
+    private final String name;
 
     EnumDialogueType(int id, String name) {
         this.id = id;
