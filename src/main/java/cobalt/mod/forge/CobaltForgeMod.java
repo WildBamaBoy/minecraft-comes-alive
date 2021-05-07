@@ -13,9 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
-    Base Cobalt mod supporting Forge. Any mods on Forge wishing to use Cobalt should extend this class.
+ * Base Cobalt mod supporting Forge. Any mods on Forge wishing to use Cobalt should extend this class.
  */
 public abstract class CobaltForgeMod extends CobaltMod {
     private final ArrayList<DeferredRegister<?>> loadedRegistries = new ArrayList<>();
@@ -36,7 +34,7 @@ public abstract class CobaltForgeMod extends CobaltMod {
     private final DeferredRegister<Item> itemRegistry;
     private final DeferredRegister<Block> blockRegistry;
     private final DeferredRegister<EntityType<?>> entityRegistry;
-    private final DeferredRegister<VillagerProfession> villagerProfessionRegistry;
+    public final DeferredRegister<VillagerProfession> villagerProfessionRegistry;
 
     public CobaltForgeMod() {
         super();
@@ -61,8 +59,8 @@ public abstract class CobaltForgeMod extends CobaltMod {
      * You should only call getRegistry() once, in an overridden #loadRegistries() method. Save the returned DeferredRegister somewhere.
      * If you call this more than once, you'll be yelled at with a RuntimeException.
      *
-     * @see net.minecraftforge.registries.ForgeRegistries
      * @param registryType The desired ForgeRegistry to load.
+     * @see net.minecraftforge.registries.ForgeRegistries
      */
     public <T extends IForgeRegistryEntry<T>> DeferredRegister<T> getRegistry(IForgeRegistry<T> registryType) {
         DeferredRegister<T> returnRegistry = null;
@@ -91,28 +89,28 @@ public abstract class CobaltForgeMod extends CobaltMod {
     /**
      * Registers an entity with Forge under this mod's ID.
      *
-     * @param factory           Method reference to your entity's constructor. ex: MyEntity::new
-     * @param renderFactory     Method reference to your entity renderer's constructor. ex: MyEntityRenderer::new
-     * @param classification    Your desired EntityClassification for your entity.
-     * @param entityId          An identifier for your entity. This is used with your mod ID to define the entity's ResourceLocation.
-     * @param width             Your entity's width
-     * @param height            Your entity's height
-     * @return  A RegistryObject containing your registered entity. This <b>CANNOT BE USED IMMEDIATELY</b> as its actual value (.get()) is null.
-     *          Remember this function uses deferred registers which are fired by Forge when appropriate. You will be able to use the returned
-     *          RegistryObject in the setup() method and afterwards.
+     * @param factory        Method reference to your entity's constructor. ex: MyEntity::new
+     * @param renderFactory  Method reference to your entity renderer's constructor. ex: MyEntityRenderer::new
+     * @param classification Your desired EntityClassification for your entity.
+     * @param entityId       An identifier for your entity. This is used with your mod ID to define the entity's ResourceLocation.
+     * @param width          Your entity's width
+     * @param height         Your entity's height
+     * @return A RegistryObject containing your registered entity. This <b>CANNOT BE USED IMMEDIATELY</b> as its actual value (.get()) is null.
+     * Remember this function uses deferred registers which are fired by Forge when appropriate. You will be able to use the returned
+     * RegistryObject in the setup() method and afterwards.
      */
     public <T extends LivingEntity> RegistryObject<EntityType<T>> registerEntity(EntityType.IFactory<T> factory, EntityClassification classification, String entityId, float width, float height) {
         return entityRegistry.register(entityId, () ->
-            EntityType.Builder.of(factory, classification).sized(width, height).build(new ResourceLocation(getModId(), entityId).toString())
+                EntityType.Builder.of(factory, classification).sized(width, height).build(new ResourceLocation(getModId(), entityId).toString())
         );
     }
 
     /**
      * Registers an item with Forge under this mod's ID.
      *
-     * @param itemId    A unique identifier for the item.
-     * @param cItem     Wrapped Cobalt item to register.
-     * @return  A RegistryObject containing your registered item. This <b>CANNOT BE USED IMMEDIATELY.</b> See registerEntity().
+     * @param itemId A unique identifier for the item.
+     * @param cItem  Wrapped Cobalt item to register.
+     * @return A RegistryObject containing your registered item. This <b>CANNOT BE USED IMMEDIATELY.</b> See registerEntity().
      */
     public final RegistryObject<Item> registerItem(String itemId, CItem cItem) {
         return itemRegistry.register(itemId, () -> cItem);
@@ -121,11 +119,11 @@ public abstract class CobaltForgeMod extends CobaltMod {
     /**
      * Registers a profession with Forge.
      *
+     * @param name       A unique name for the profession.
+     * @param poiType    The profession's PointOfInterestType.
+     * @param soundEvent A sound for the profession.
+     * @return The registered profession wrapped by Cobalt.
      * @see CVillagerProfession
-     * @param name          A unique name for the profession.
-     * @param poiType       The profession's PointOfInterestType.
-     * @param soundEvent    A sound for the profession.
-     * @return  The registered profession wrapped by Cobalt.
      */
     public final RegistryObject<VillagerProfession> registerProfession(String name, PointOfInterestType poiType, SoundEvent soundEvent) {
         return villagerProfessionRegistry.register(name, () -> CVillagerProfession.createNew(name, poiType, soundEvent).getMcProfession());
@@ -137,6 +135,7 @@ public abstract class CobaltForgeMod extends CobaltMod {
 
     /**
      * Initializes the mod and passes execution to the subclass implementation of onSetup()
+     *
      * @param event Forge's FMLCommonSetupEvent
      */
     public final void setup(FMLCommonSetupEvent event) {
@@ -147,6 +146,7 @@ public abstract class CobaltForgeMod extends CobaltMod {
 
     /**
      * Initializes the mod client-side and passes execution to the subclass implementation of onClientSetup()
+     *
      * @param event Forge's FMLClientSetupEvent.
      */
     public final void clientSetup(FMLClientSetupEvent event) {
@@ -161,10 +161,12 @@ public abstract class CobaltForgeMod extends CobaltMod {
      * Override and call getRegistry() in this function on any ForgeRegistries your mod uses if Cobalt doesn't provide a register function
      * for your particular object, or if you just want to register it yourself.
      */
-    public void loadRegistries(){}
+    public void loadRegistries() {
+    }
 
     /**
      * Override and register any commands your mod uses here.
      */
-    public void registerCommands(FMLServerStartingEvent event){}
+    public void registerCommands(FMLServerStartingEvent event) {
+    }
 }

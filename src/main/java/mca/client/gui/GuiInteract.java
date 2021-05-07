@@ -87,7 +87,7 @@ public class GuiInteract extends Screen {
         drawTextPopups(transform);
 
         mouseX = (int) (minecraft.mouseHandler.xpos() * width / minecraft.getWindow().getWidth());
-        mouseY = (int) (height - minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getHeight() - 1);
+        mouseY = (int) (minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getHeight());
     }
 
 //    @Override
@@ -325,7 +325,7 @@ public class GuiInteract extends Screen {
         else if (button.getApiButton().isNotifyServer()) {
             if (button.getApiButton().isTargetServer()) {
                 //NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id, villager.getUUID()));
-            } else  {
+            } else {
                 NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUUID()));
             }
         } else if (id.equals("gui.button.gift")) {

@@ -107,9 +107,6 @@ public class EntityVillagerMCA extends VillagerWrapper {
     public static final String[] GENES_NAMES = new String[]{
             "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
 
-    private static final Predicate<EntityVillagerMCA> BANDIT_TARGET_SELECTOR = (v) -> v.getProfession() != ProfessionsMCA.bandit && v.getProfession() != ProfessionsMCA.child;
-    private static final Predicate<EntityVillagerMCA> GUARD_TARGET_SELECTOR = (v) -> v.getProfession() == ProfessionsMCA.bandit;
-
     public final CInventory inventory;
 
     private int startingAge = 0;
@@ -126,6 +123,8 @@ public class EntityVillagerMCA extends VillagerWrapper {
         if (world.isRemote) {
             EnumGender eGender = EnumGender.getRandom();
             gender.set(eGender.getId());
+
+            ageState.set(EnumAgeState.ADULT.getId());
 
             villagerName.set(API.getRandomName(eGender));
 
@@ -144,8 +143,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         initializeSkin();
         initializePersonality();
 
-        //TODO random!
-        setProfession(VillagerProfession.ARMORER);
+        setProfession(ProfessionsMCA.randomProfession());
 
         return super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
     }
@@ -166,7 +164,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
             return false;
         }
 
-        float damage = getProfession() == ProfessionsMCA.guard ? 9.0F : 3.0F;
+        float damage = getProfession() == MCA.PROFESSION_GUARD.get() ? 9.0F : 3.0F;
 
         //personality bonus
         if (getPersonality() == EnumPersonality.WEAK) damage *= 0.75;
@@ -269,7 +267,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
     @Override
     public float beforeDamaged(CDamageSource damageSource, float damageAmount) {
         // Guards take 50% less damage
-        if (getProfession() == ProfessionsMCA.guard) {
+        if (getProfession() == MCA.PROFESSION_GUARD.get()) {
             damageAmount *= 0.5;
         }
 
@@ -285,7 +283,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
             e.sendMessage(MCA.localize("villager.hurt"));
         });
 
-        if (source.isZombie() && getProfession() != ProfessionsMCA.guard && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
+        if (source.isZombie() && getProfession() != MCA.PROFESSION_GUARD.get() && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
             isInfected.set(true);
         }
         return false;
@@ -365,7 +363,7 @@ public class EntityVillagerMCA extends VillagerWrapper {
         }));
 
         // Change profession away from child for villager children.
-        if (getProfession() == ProfessionsMCA.child) {
+        if (getProfession() == MCA.PROFESSION_CHILD.get()) {
             setProfession(API.randomProfession().getMcProfession());
         }
     }

@@ -11,7 +11,6 @@ import cobalt.minecraft.util.math.CPos;
 import cobalt.minecraft.world.CWorld;
 import com.google.common.base.Optional;
 import mca.core.MCA;
-import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentPair;
 import mca.entity.data.PlayerSaveData;
@@ -69,7 +68,7 @@ public class ItemBaby extends CItem {
             if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
                 EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), world);
                 child.gender.set((this.isMale ? EnumGender.MALE : EnumGender.FEMALE).getId());
-                child.setProfession(ProfessionsMCA.child);
+                child.setProfession(MCA.PROFESSION_CHILD.get());
                 child.villagerName.set(getBabyName(stack));
                 child.ageState.set(EnumAgeState.BABY.getId());
 //                    child.setStartingAge(MCA.getConfig().childGrowUpTime * 60 * 20 * -1);

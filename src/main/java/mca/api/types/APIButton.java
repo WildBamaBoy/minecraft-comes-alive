@@ -54,6 +54,7 @@ public class APIButton {
         } else if (constraints.isEmpty()) {
             return true;
         }
+
         return false;
     }
 }
