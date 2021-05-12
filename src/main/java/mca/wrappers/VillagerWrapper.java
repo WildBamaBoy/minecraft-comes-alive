@@ -52,7 +52,7 @@ public abstract class VillagerWrapper extends VillagerEntity {
     public final boolean hurt(DamageSource damageSrc, float damageAmount) {
         CDamageSource wrappedSource = CDamageSource.fromMC(damageSrc);
         damageAmount = beforeDamaged(wrappedSource, damageAmount);
-        super.hurt(damageSrc, damageAmount);
+        //super.hurt(damageSrc, damageAmount);
         return afterDamaged(wrappedSource, damageAmount);
     }
 
@@ -141,8 +141,6 @@ public abstract class VillagerWrapper extends VillagerEntity {
     public abstract void handleDeath(CDamageSource source);
 
     public abstract void onRightClick(CPlayer player, CEnumHand hand);
-
-    public abstract boolean attack(CEntity e);
 
     public abstract void load(CNBT nbt);
 

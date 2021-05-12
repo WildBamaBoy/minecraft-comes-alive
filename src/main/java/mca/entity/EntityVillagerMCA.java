@@ -28,11 +28,11 @@ import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
 import mca.wrappers.VillagerWrapper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ChestContainer;
@@ -42,8 +42,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -154,21 +156,47 @@ public class EntityVillagerMCA extends VillagerWrapper implements INamedContaine
         return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
-    @Override
-    public boolean attack(CEntity entityIn) {
+    public boolean doHurtTarget(Entity target) {
         //villager is peaceful and wont hurt as long as not necessary
         if (getPersonality() == EnumPersonality.PEACEFUL && getHealth() == getMaxHealth()) {
             return false;
         }
 
+        //we don't use attributes
         float damage = getProfession() == MCA.PROFESSION_GUARD.get() ? 9.0F : 3.0F;
+        float knockback = 3.0F;
 
         //personality bonus
         if (getPersonality() == EnumPersonality.WEAK) damage *= 0.75;
         if (getPersonality() == EnumPersonality.CONFIDENT) damage *= 1.25;
         if (getPersonality() == EnumPersonality.STRONG) damage *= 1.5;
 
-        return false;//entityIn.getMcEntity().attackEntityFrom(DamageSource.causeMobDamage(this), damage);
+        //enchantment
+        if (target instanceof LivingEntity) {
+            damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) target).getMobType());
+            knockback += (float) EnchantmentHelper.getKnockbackBonus(this);
+        }
+
+        //fire aspect
+        int i = EnchantmentHelper.getFireAspect(this);
+        if (i > 0) {
+            target.setSecondsOnFire(i * 4);
+        }
+
+        boolean damageDealt = target.hurt(DamageSource.mobAttack(this), damage);
+
+        //knockback and post damage stuff
+        if (damageDealt) {
+            if (knockback > 0.0F && target instanceof LivingEntity) {
+                ((LivingEntity) target).knockback(knockback * 0.5F, (double) MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
+            }
+
+            this.doEnchantDamageEffects(this, target);
+            this.setLastHurtMob(target);
+        }
+
+        return damageDealt;
     }
 
     @Override

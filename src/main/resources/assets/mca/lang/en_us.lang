@@ -4,6 +4,7 @@ itemGroup.mcaTab=Minecraft Comes Alive
 ##############
 # Professions
 ##############################
+entity.Villager.none=Homeless
 entity.Villager.marauder=Marauder
 entity.Villager.outlaw=Outlaw
 entity.Villager.pillager=Pillager
@@ -13,6 +14,8 @@ entity.Villager.warrior=Warrior
 entity.Villager.archer=Archer
 entity.Villager.hero=Hero
 entity.Villager.child=Child
+
+entity.mca.grim_reaper=Grim Reaper
 
 ##############################
 # Items & Blocks

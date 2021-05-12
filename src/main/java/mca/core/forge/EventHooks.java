@@ -4,13 +4,12 @@ import cobalt.minecraft.entity.CEntity;
 import cobalt.minecraft.world.CWorld;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.ReaperSpawner;
 import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -18,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -37,7 +37,7 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
-        //TODO here we would have the reaper spawning stuff
+        ReaperSpawner.update();
 
         // lazy spawning of our villagers as they can't be spawned while loading
         if (!spawnQueue.isEmpty()) {
@@ -116,38 +116,49 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onPlaceEvent(BlockEvent.EntityPlaceEvent event) {
-        int x = event.getPos().getX();
-        int y = event.getPos().getY();
-        int z = event.getPos().getZ();
-        Block placedBlock = event.getPlacedBlock().getBlock();
+        long time = event.getWorld().dayTime();
+        if (time > 13000 && time < 23000) {
+            int x = event.getPos().getX();
+            int y = event.getPos().getY();
+            int z = event.getPos().getZ();
+            Block placedBlock = event.getPlacedBlock().getBlock();
 
-        // summon the grim reaper
-        if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
-            int totemsFound = 0;
+            // summon the grim reaper
+            if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {
+                int totemsFound = 0;
 
-            // Check on +/- X and Z for at least 3 totems on fire.
-            for (int i = 0; i < 4; i++) {
-                int dX = 0;
-                int dZ = 0;
+                // Check on +/- X and Z for at least 3 totems on fire.
+                for (int i = 0; i < 4; i++) {
+                    int dX = 0;
+                    int dZ = 0;
 
-                if (i == 0 || i == 2) dX = -3;
-                else dZ = 3;
+                    if (i == 0) dX = -3;
+                    else if (i == 1) dX = 3;
+                    else if (i == 2) dZ = -3;
+                    else dZ = 3;
 
-                // Scan upwards to ensure it's obsidian, and on fire.
-                for (int j = -1; j < 2; j++) {
-                    Block block = event.getWorld().getBlockState(new BlockPos(x + dX, y + j, z + dZ)).getBlock();
-                    if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) break;
+                    // Scan upwards to ensure it's obsidian, and on fire.
+                    for (int j = -1; j < 2; j++) {
+                        BlockPos pos = new BlockPos(x + dX, y + j, z + dZ);
+                        Block block = event.getWorld().getBlockState(pos).getBlock();
+                        if (block != Blocks.OBSIDIAN && block != Blocks.FIRE) break;
 
-                    // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
-                    if (j == 1 && block == Blocks.FIRE) totemsFound++;
+                        // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
+                        if (j == 1 && block == Blocks.FIRE) {
+                            totemsFound++;
+                        }
+                    }
                 }
-            }
 
-            if (totemsFound >= 3 && event.getWorld().dayTime() > 13000 && event.getWorld().dayTime() < 23000) {
-//                MCAServer.get().setReaperSpawnPos(event.getWorld(), new CPos(x + 1, y + 10, z + 1));
-//                MCAServer.get().startSpawnReaper();
-                for (int i = 0; i < 2; i++) {
-                    event.getWorld().setBlock(new BlockPos(x, y - i, z), Blocks.AIR.defaultBlockState(), 3);
+                if (totemsFound >= 3) {
+                    //spawn
+                    ReaperSpawner.start((ServerWorld) event.getWorld(), new BlockPos(x + 1, y + 10, z + 1));
+
+                    BlockPos pos = new BlockPos(x, y, z);
+                    EntityType.LIGHTNING_BOLT.spawn((ServerWorld) event.getWorld(), null, null, null, pos, SpawnReason.STRUCTURE, false, false);
+
+                    event.getWorld().setBlock(pos, Blocks.SOUL_SOIL.defaultBlockState(), 3);
+                    event.getWorld().setBlock(pos.above(), Blocks.SOUL_FIRE.defaultBlockState(), 3);
                 }
             }
         }
