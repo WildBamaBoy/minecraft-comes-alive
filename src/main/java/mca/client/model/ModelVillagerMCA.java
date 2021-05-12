@@ -1,5 +1,6 @@
 package mca.client.model;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mca.entity.EntityVillagerMCA;
@@ -74,13 +75,13 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
     }
 
     private ModelRenderer newBreasts(float modelSize, boolean cloth, int oy) {
-        ModelRenderer breasts = new ModelRenderer(this, 18, 22 + oy);
+        ModelRenderer breasts = new ModelRenderer(this, 18, 18 + oy);
         if (cloth) {
             breasts.addBox(-3.25F, -1.5F, -1.25F, 6, 3, 3, modelSize);
         } else {
-            breasts.texOffs(17, 22 + oy);
+            breasts.texOffs(17, 18 + oy);
             breasts.addBox(-3.25F, -1.5F, -1.25F, 3, 3, 3, modelSize);
-            breasts.texOffs(22, 22 + oy);
+            breasts.texOffs(22, 18 + oy);
             breasts.addBox(0.25F, -1.5F, -1.25F, 3, 3, 3, modelSize);
         }
         breasts.setPos(0F, 0F, 0F);
@@ -88,14 +89,19 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
         return breasts;
     }
 
+    @Override
+    protected Iterable<ModelRenderer> headParts() {
+        return ImmutableList.of(head, hat);
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> bodyParts() {
+        return ImmutableList.of(body, rightArm, leftArm, rightLeg, leftLeg, hat, bipedBodyWear, bipedLeftLegwear, bipedRightLegwear, bipedLeftArmwear, bipedRightArmwear);
+    }
+
+
     public void renderToBuffer(MatrixStack transform, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
         super.renderToBuffer(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-
-        bipedLeftLegwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedRightLegwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedLeftArmwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedRightArmwear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        bipedBodyWear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 
         //breasts
         if (breasts.visible) {
@@ -125,6 +131,7 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
 
     public void setVisible(boolean visible) {
         super.setAllVisible(visible);
+
         bipedLeftArmwear.visible = visible;
         bipedRightArmwear.visible = visible;
         bipedLeftLegwear.visible = visible;

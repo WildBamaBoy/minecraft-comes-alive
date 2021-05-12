@@ -3,7 +3,6 @@ package mca.client.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumAgeState;
 import mca.enums.EnumGender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -15,20 +14,12 @@ import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 
 public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVillagerMCA<EntityVillagerMCA>> {
-    private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
-    private static final float LABEL_SCALE = 0.027F;
-
-    private final EntityRendererManager renderManager;
-
     public RenderVillagerMCA(EntityRendererManager manager) {
         super(manager, new ModelVillagerMCA<>(), 0.5F);
-
-        renderManager = manager;
 
         this.addLayer(new LayerSkin(this, new ModelVillagerMCA<>(0.0f, 0.0f, false)));
         this.addLayer(new LayerClothing(this, new ModelVillagerMCA<>(0.16666f, 0.0833f, true)));

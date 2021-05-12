@@ -15,6 +15,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 
+import java.util.EnumSet;
+
 public class GrimReaperRest extends Goal {
     private final EntityGrimReaper reaper;
 
@@ -30,7 +32,7 @@ public class GrimReaperRest extends Goal {
 
     @Override
     public boolean canUse() {
-        return reaper.tickCount > lastHeal + COOLDOWN && reaper.getHealth() <= (reaper.getMaxHealth() / (healingCount + 2));
+        return reaper.tickCount > lastHeal + COOLDOWN && reaper.getHealth() <= (reaper.getMaxHealth() / (healingCount + 1.5));
     }
 
     @Override
@@ -45,7 +47,6 @@ public class GrimReaperRest extends Goal {
 
     @Override
     public void start() {
-        reaper.setAttackState(EnumReaperAttackState.REST);
         reaper.teleportTo(reaper.getX(), reaper.getY() + 8, reaper.getZ());
 
         healingTime = 500;
@@ -61,6 +62,7 @@ public class GrimReaperRest extends Goal {
     @Override
     public void tick() {
         healingTime--;
+        reaper.setAttackState(EnumReaperAttackState.REST);
 
         reaper.setDeltaMovement(Vector3d.ZERO);
 

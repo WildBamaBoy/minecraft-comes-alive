@@ -1,61 +1,28 @@
-package cobalt.localizer;
+package cobalt.core;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import cobalt.localizer.VarParser;
+import net.minecraft.util.text.LanguageMap;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
-import cobalt.core.Cobalt;
-import org.apache.commons.io.IOUtils;
-
-import com.google.common.base.Charsets;
-
-import net.minecraft.util.StringUtils;
-
 public class Localizer {
-    private Map<String, String> localizerMap = new HashMap<>();
     private final ArrayList<VarParser> registeredVarParsers = new ArrayList<>();
-    private static final ArrayList<String> EMPTY_LIST = new ArrayList<>();
-
-
-    public Localizer() {
-        //TODO
-        InputStream inStream = this.getClass().getResourceAsStream("/assets/mca/lang/en_us.lang");
-
-        try {
-            List<String> lines = IOUtils.readLines(inStream, Charsets.UTF_8);
-
-            for (String line : lines) {
-                if (line.startsWith("#") || line.isEmpty()) {
-                    continue;
-                }
-
-                String[] split = line.split("\\=");
-                String key = split[0];
-                String value = split[1];
-
-                localizerMap.put(key, value);
-            }
-        } catch (Exception e) {
-            Cobalt.getLog().error("Error initializing localizer: " + e);
-        }
-    }
 
     public String localize(String key, String... vars) {
         ArrayList<String> list = new ArrayList<>();
         Collections.addAll(list, vars);
-        return localize(key, vars != null ? list : EMPTY_LIST);
+        return localize(key, list);
     }
 
     public String localize(String key, ArrayList<String> vars) {
-        String result = localizerMap.getOrDefault(key, key);
+        LanguageMap localizerMap = LanguageMap.getInstance();
+
+        String result = localizerMap.getOrDefault(key);
+
+        //multi-variant text
         if (result.equals(key)) {
-            List<String> responses = localizerMap.entrySet().stream().filter(entry -> entry.getKey().contains(key)).map(Map.Entry::getValue).collect(Collectors.toList());
+            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().contains(key)).map(Map.Entry::getValue).collect(Collectors.toList());
             if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
 

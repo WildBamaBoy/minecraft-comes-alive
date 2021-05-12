@@ -290,10 +290,11 @@ public class ModelGrimReaper<T extends EntityGrimReaper> extends BipedModel<T> {
                 this.chestRest.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
                 this.leftLegRest.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
                 this.cowlRest.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+                this.headRest.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
 
                 transform.pushPose();
                 {
-                    transform.translate(1.0, 0.0, 0.0);
+                    transform.translate(-0.6, 0.0, 0.65);
                     this.scytheHeadRest.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
                     this.scytheHandleRest.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
                 }

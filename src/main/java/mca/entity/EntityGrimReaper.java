@@ -5,7 +5,7 @@ import cobalt.minecraft.network.datasync.CDataManager;
 import cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.core.MCA;
 import mca.core.minecraft.SoundsMCA;
-import mca.entity.ai.GrimReaperCurse;
+import mca.entity.ai.GrimReaperIdle;
 import mca.entity.ai.GrimReaperMelee;
 import mca.entity.ai.GrimReaperRest;
 import mca.entity.ai.GrimReaperTarget;
@@ -18,18 +18,20 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.BossInfo;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 import net.minecraft.world.server.ServerWorld;
@@ -57,16 +59,40 @@ public class EntityGrimReaper extends CreatureEntity {
     @Override
     protected void registerGoals() {
         //TODO seems to be ignored
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new GrimReaperIdle(this, 1.0D));
 
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
 
         this.goalSelector.addGoal(2, new GrimReaperRest(this));
-        this.goalSelector.addGoal(3, new GrimReaperCurse(this));
         this.goalSelector.addGoal(4, new GrimReaperMelee(this));
 
         this.targetSelector.addGoal(2, new GrimReaperTarget(this));
+    }
+
+    @Override
+    public void checkDespawn() {
+        if (this.level.getDifficulty() == Difficulty.PEACEFUL && this.shouldDespawnInPeaceful()) {
+            this.remove();
+        }
+    }
+
+    @Override
+    protected boolean shouldDespawnInPeaceful() {
+        return true;
+    }
+
+    @Override
+    protected PathNavigator createNavigation(World world) {
+        FlyingPathNavigator flyingpathnavigator = new FlyingPathNavigator(this, world) {
+            public boolean isStableDestination(BlockPos p_188555_1_) {
+                return true;
+            }
+        };
+        flyingpathnavigator.setCanOpenDoors(false);
+        flyingpathnavigator.setCanFloat(false);
+        flyingpathnavigator.setCanPassDoors(true);
+        return flyingpathnavigator;
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -203,6 +229,12 @@ public class EntityGrimReaper extends CreatureEntity {
             return;
         }
 
+        // look at the player. Aways.
+        PlayerEntity player = level.getNearestPlayer(this, 10.D);
+        if (player != null) {
+            getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ());
+        }
+
         LivingEntity entityToAttack = this.getTarget();
 
         // See if our entity to attack has died at any point.
@@ -213,20 +245,6 @@ public class EntityGrimReaper extends CreatureEntity {
 
         // Logic for flying.
         fallDistance = 0.0F;
-
-        // Move towards target if we're not resting
-        if (entityToAttack != null) {
-            if (getAttackState() == EnumReaperAttackState.PRE) {
-                Vector3d dir = entityToAttack.position().subtract(position()).normalize().scale(0.1);
-                push(dir.x, dir.y, dir.z);
-            } else if (getAttackState() == EnumReaperAttackState.POST) {
-                Vector3d dir = entityToAttack.position().subtract(position()).normalize().scale(0.05);
-                push(dir.x, dir.y, dir.z);
-            } else if (getAttackState() == EnumReaperAttackState.IDLE) {
-                Vector3d deltaMovement = getDeltaMovement();
-                setDeltaMovement(new Vector3d(deltaMovement.x, -0.1, deltaMovement.z));
-            }
-        }
     }
 
     @Override

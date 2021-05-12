@@ -102,15 +102,18 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomClothing(EntityVillagerMCA villager) {
-        //Default skin behavior
         Optional<ClothingGroup> group = getClothingGroup(villager);
 
         return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
-            ClothingGroup randomGroup = null;
+            List<ClothingGroup> valid = new LinkedList<>();
             EnumGender gender = EnumGender.byId(villager.gender.get());
-            while (randomGroup == null || randomGroup.getGender() != gender && gender != EnumGender.UNASSIGNED) {
-                randomGroup = clothing.get(rng.nextInt(clothing.size()));
+            for (ClothingGroup g : clothing) {
+                if (g.getGender() == gender || gender != EnumGender.UNASSIGNED) {
+                    valid.add(g);
+                }
             }
+
+            ClothingGroup randomGroup = valid.get(rng.nextInt(valid.size()));
             return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
         });
     }

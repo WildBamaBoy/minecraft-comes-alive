@@ -22,9 +22,9 @@ public class GrimReaperTarget extends Goal {
 
     public boolean canUse() {
         if (this.nextScanTick > 0) {
-            --this.nextScanTick;
+            this.nextScanTick--;
         } else {
-            this.nextScanTick = 60;
+            this.nextScanTick = 20;
             List<PlayerEntity> list = mob.level.getNearbyPlayers(this.attackTargeting, mob, mob.getBoundingBox().inflate(48.0D, 64.0D, 48.0D));
             if (!list.isEmpty()) {
                 list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
@@ -42,7 +42,6 @@ public class GrimReaperTarget extends Goal {
     }
 
     public boolean canContinueToUse() {
-        LivingEntity livingentity = mob.getTarget();
-        return livingentity != null;
+        return mob.getTarget() != null;
     }
 }

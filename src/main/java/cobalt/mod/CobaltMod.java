@@ -1,6 +1,6 @@
 package cobalt.mod;
 
-import cobalt.localizer.Localizer;
+import cobalt.core.Localizer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +22,10 @@ public abstract class CobaltMod {
         Abstract events for mods to implement
      */
     public abstract String getModId();
+
     public abstract void onSetup();
+
     public abstract void onClientSetup();
+
     public abstract void registerContent();
 }

@@ -218,6 +218,19 @@ public class EntityVillagerMCA extends VillagerWrapper implements INamedContaine
         ), 0);
         hair.set(h.getTexture());
         hairOverlay.set(h.getOverlay());
+
+        //set speed
+        float speed = 1.0f;
+
+        //personality bonuses
+        if (getPersonality() == EnumPersonality.ATHLETIC) speed *= 1.15;
+        if (getPersonality() == EnumPersonality.SLEEPY) speed *= 0.8;
+
+        //width and size impact
+        speed /= GENE_WIDTH.get();
+        speed *= GENE_SKIN.get();
+
+        setSpeed(speed);
     }
 
     @Override
@@ -305,9 +318,9 @@ public class EntityVillagerMCA extends VillagerWrapper implements INamedContaine
             if (source.isZombie() && getProfession() != MCA.PROFESSION_GUARD.get() && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
                 isInfected.set(true);
             }
-            return false;
+            return true;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -743,8 +756,6 @@ public class EntityVillagerMCA extends VillagerWrapper implements INamedContaine
     }
 
     private void onEachServerSecond() {
-        CNBT mem = memories.get();
-
         // villager has a baby
         if (hasBaby.get()) {
             babyAge.set(babyAge.get() + 1);
@@ -853,31 +864,6 @@ public class EntityVillagerMCA extends VillagerWrapper implements INamedContaine
         }
 
         return null;
-    }
-
-    public void moveTowardsBlock(CPos target) {
-        moveTowardsBlock(target, 0.5D);
-    }
-
-    public void moveTowardsBlock(CPos target, double speed) {
-        int range = 32;
-
-        //personality bonuses
-        if (getPersonality() == EnumPersonality.ATHLETIC) speed *= 1.15;
-        if (getPersonality() == EnumPersonality.SLEEPY) speed *= 0.8;
-
-        //width and size impact
-        speed /= GENE_WIDTH.get();
-        speed *= GENE_SKIN.get();
-
-        if (distanceToSqr(target.getX(), target.getY(), target.getZ()) > Math.pow(range, 2.0)) {
-            Vector3d vec3d = RandomPositionGenerator.getPosTowards(this, range, 8, new Vector3d(target.getX(), target.getY(), target.getZ()));
-//            if (vec3d != null && !getNavigation().setPath(getNavigation().createPath(vec3d.x, vec3d.y, vec3d.z, range), speed)) {
-//                teleportTo(vec3d.x, vec3d.y, vec3d.z);
-//            }
-        } else {
-//            getNavigation().createPath(target.getX(), target.getY() ,target.getZ(), range);
-        }
     }
 
     public ParentPair getParents() {

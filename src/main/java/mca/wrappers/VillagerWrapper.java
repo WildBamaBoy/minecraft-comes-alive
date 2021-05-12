@@ -52,7 +52,7 @@ public abstract class VillagerWrapper extends VillagerEntity {
     public final boolean hurt(DamageSource damageSrc, float damageAmount) {
         CDamageSource wrappedSource = CDamageSource.fromMC(damageSrc);
         damageAmount = beforeDamaged(wrappedSource, damageAmount);
-        //super.hurt(damageSrc, damageAmount);
+        super.hurt(damageSrc, damageAmount);
         return afterDamaged(wrappedSource, damageAmount);
     }
 

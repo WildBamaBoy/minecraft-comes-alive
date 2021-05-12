@@ -13,6 +13,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
@@ -88,17 +89,16 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onEntityDamaged(LivingDamageEvent event) {
-        if (event.getEntity() instanceof EntityVillagerMCA) {
+        if (!event.getEntity().level.isClientSide && event.getEntity() instanceof EntityVillagerMCA) {
             EntityVillagerMCA villager = (EntityVillagerMCA) event.getEntity();
             Entity source = event.getSource() != null ? event.getSource().getDirectEntity() : null;
 
             if (source instanceof LivingEntity) {
-                villager.world.loadedEntityList.forEach(e -> {
-                    if (e instanceof EntityVillagerMCA) {
-                        EntityVillagerMCA v = (EntityVillagerMCA) e;
-                        if (v.distanceTo(v) <= 10.0D && v.getProfession() == MCA.PROFESSION_GUARD.get()) {
-                            v.setTarget((LivingEntity) source);
-                        }
+                double r = 10.0D;
+                AxisAlignedBB axisAlignedBB = new AxisAlignedBB(villager.getX() - r, villager.getY() - r, villager.getZ() - r, villager.getX() + r, villager.getY() + r, villager.getZ() + r);
+                villager.world.getMcWorld().getLoadedEntitiesOfClass(EntityVillagerMCA.class, axisAlignedBB).forEach(v -> {
+                    if (v.distanceTo(v) <= 10.0D && v.getProfession() == MCA.PROFESSION_GUARD.get()) {
+                        v.setTarget((LivingEntity) source);
                     }
                 });
             }
