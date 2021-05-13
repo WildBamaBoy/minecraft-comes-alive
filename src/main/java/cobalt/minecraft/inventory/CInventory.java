@@ -1,6 +1,6 @@
 package cobalt.minecraft.inventory;
 
-import cobalt.minecraft.entity.CEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ArmorItem;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CInventory extends Inventory {
-    private final CEntity entity;
+    private final Entity entity;
 
-    public CInventory(CEntity entity, int slots) {
+    public CInventory(Entity entity, int slots) {
         super(slots);
         this.entity = entity;
     }
@@ -94,7 +94,7 @@ public class CInventory extends Inventory {
     public void dropAllItems() {
         for (int i = 0; i < this.getContainerSize(); i++) {
             ItemStack stack = this.getItem(i);
-            entity.dropItem(stack, 1.0F);
+            entity.spawnAtLocation(stack, 1.0F);
         }
         clearContent();
     }

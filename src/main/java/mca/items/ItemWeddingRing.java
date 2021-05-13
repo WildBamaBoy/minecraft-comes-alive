@@ -1,26 +1,19 @@
 package mca.items;
 
-import cobalt.enums.CEnumHand;
-import cobalt.minecraft.entity.CEntity;
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.item.CItemStack;
-import cobalt.minecraft.item.CItemUseContext;
-import cobalt.minecraft.world.CWorld;
-import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
-import mca.entity.data.Memories;
-import mca.entity.data.PlayerSaveData;
-import mca.enums.EnumDialogueType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 
 public class ItemWeddingRing extends ItemSpecialCaseGift {
-    public ItemWeddingRing(Properties properties) {
+    public ItemWeddingRing(Item.Properties properties) {
         super(properties);
     }
 
-    public ActionResult<ItemStack> handleRightClick(CWorld worldIn, CPlayer playerIn, CEnumHand hand) {
+    @Override
+    public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 //        PlayerSaveData playerData = PlayerSaveData.get(player.getWorld(), player.getUUID());
 //        Memories memory = villager.getMemoriesForPlayer(player);
 //        String response;
@@ -44,16 +37,6 @@ public class ItemWeddingRing extends ItemSpecialCaseGift {
 //        }
 //
 //        villager.say(player, response);
-        return null;
-    }
-
-    @Override
-    public ActionResultType handleUseOnBlock(CItemUseContext context) {
-        return null;
-    }
-
-    @Override
-    public ActionResultType update(CItemStack itemStack, CWorld world, CEntity entity) {
         return null;
     }
 }

@@ -1,6 +1,5 @@
 package mca.network;
 
-import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.network.Message;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -23,7 +22,7 @@ public class InteractionVillagerMessage extends Message {
     public void receive(ServerPlayerEntity player) {
         EntityVillagerMCA villager = (EntityVillagerMCA) ((ServerWorld) player.level).getEntity(villagerUUID);
         if (villager != null) {
-            villager.handleInteraction(CPlayer.fromMC(player), page, id);
+            villager.handleInteraction(player, page, id);
         }
     }
 }

@@ -1,34 +1,20 @@
 package mca.items;
 
-import cobalt.enums.CEnumHand;
-import cobalt.items.CItem;
-import cobalt.minecraft.entity.CEntity;
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.item.CItemStack;
-import cobalt.minecraft.item.CItemUseContext;
-import cobalt.minecraft.world.CWorld;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 
-public class ItemWhistle extends CItem {
+public class ItemWhistle extends Item {
     public ItemWhistle(Properties properties) {
         super(properties);
     }
 
     @Override
-    public ActionResult<ItemStack> handleRightClick(CWorld worldIn, CPlayer playerIn, CEnumHand hand) {
+    public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 //        player.openGui(MCA.getInstance(), Constants.GUI_ID_WHISTLE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
-        return null;
-    }
-
-    @Override
-    public ActionResultType handleUseOnBlock(CItemUseContext context) {
-        return null;
-    }
-
-    @Override
-    public ActionResultType update(CItemStack itemStack, CWorld world, CEntity entity) {
         return null;
     }
 

@@ -1,6 +1,5 @@
 package cobalt.mod.forge;
 
-import cobalt.items.CItem;
 import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
 import cobalt.mod.CobaltMod;
 import net.minecraft.block.Block;
@@ -90,7 +89,7 @@ public abstract class CobaltForgeMod extends CobaltMod {
      * Registers an entity with Forge under this mod's ID.
      *
      * @param factory        Method reference to your entity's constructor. ex: MyEntity::new
-     * @param renderFactory  Method reference to your entity renderer's constructor. ex: MyEntityRenderer::new
+     * @param factory  Method reference to your entity renderer's constructor. ex: MyEntityRenderer::new
      * @param classification Your desired EntityClassification for your entity.
      * @param entityId       An identifier for your entity. This is used with your mod ID to define the entity's ResourceLocation.
      * @param width          Your entity's width
@@ -112,7 +111,7 @@ public abstract class CobaltForgeMod extends CobaltMod {
      * @param cItem  Wrapped Cobalt item to register.
      * @return A RegistryObject containing your registered item. This <b>CANNOT BE USED IMMEDIATELY.</b> See registerEntity().
      */
-    public final RegistryObject<Item> registerItem(String itemId, CItem cItem) {
+    public final RegistryObject<Item> registerItem(String itemId, Item cItem) {
         return itemRegistry.register(itemId, () -> cItem);
     }
 

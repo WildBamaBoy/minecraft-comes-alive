@@ -1,11 +1,10 @@
 package mca.client.gui;
 
-import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.minecraft.nbt.CNBT;
-import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,7 +12,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiStaffOfLife extends Screen {
@@ -24,13 +22,13 @@ public class GuiStaffOfLife extends Screen {
     private Button nextButton;
     private Button closeButton;
     private EntityVillagerMCA dummy;
-    private final CPlayer player;
+    private final PlayerEntity player;
 
     // selection fields
     private int index = 0;
     private final List<String> keys = new ArrayList<>();
 
-    public GuiStaffOfLife(CPlayer player) {
+    public GuiStaffOfLife(PlayerEntity player) {
         super(new StringTextComponent("Staff of Life"));
         this.player = player;
     }

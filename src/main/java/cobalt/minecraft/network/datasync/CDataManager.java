@@ -2,7 +2,7 @@ package cobalt.minecraft.network.datasync;
 
 import cobalt.core.CConstants;
 import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.util.math.CPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
 import org.apache.logging.log4j.core.util.UuidUtil;
 
@@ -59,12 +59,12 @@ public class CDataManager {
         return p;
     }
 
-    public CPosParameter newPos(String id) {
-        return newPos(id, CPos.ORIGIN);
+    public BlockPosParameter newPos(String id) {
+        return newPos(id, BlockPos.ZERO);
     }
 
-    public CPosParameter newPos(String id, CPos defaultValue) {
-        CPosParameter p = new CPosParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+    public BlockPosParameter newPos(String id, BlockPos defaultValue) {
+        BlockPosParameter p = new BlockPosParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
         params.put(id, p);
         return p;
     }

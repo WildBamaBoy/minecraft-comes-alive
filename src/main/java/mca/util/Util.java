@@ -1,6 +1,5 @@
 package mca.util;
 
-import cobalt.minecraft.util.math.CPos;
 import cobalt.minecraft.world.CWorld;
 import com.google.common.base.Optional;
 import com.google.gson.Gson;
@@ -66,11 +65,11 @@ public class Util {
         return data;
     }
 
-    public static List<Entity> getEntitiesWithinDistance(CWorld world, CPos pos, int radius) {
+    public static List<Entity> getEntitiesWithinDistance(CWorld world, BlockPos pos, int radius) {
         return getEntitiesWithinDistance(world, pos, radius, Entity.class);
     }
 
-    public static <T extends Entity> List<T> getEntitiesWithinDistance(CWorld world, CPos pos, int radius, Class<T> type) {
+    public static <T extends Entity> List<T> getEntitiesWithinDistance(CWorld world, BlockPos pos, int radius, Class<T> type) {
         return world.getMcWorld().getEntitiesOfClass(type, new AxisAlignedBB(
                 pos.getX() - radius,
                 pos.getY() - radius,
@@ -99,14 +98,14 @@ public class Util {
         return Optional.absent();
     }
 
-    public static List<CPos> getNearbyBlocks(CPos origin, World world, @Nullable Class filter, int xzDist, int yDist) {
-        final List<CPos> pointsList = new ArrayList<>();
+    public static List<BlockPos> getNearbyBlocks(BlockPos origin, World world, @Nullable Class filter, int xzDist, int yDist) {
+        final List<BlockPos> pointsList = new ArrayList<>();
         for (int x = -xzDist; x <= xzDist; x++) {
             for (int y = -yDist; y <= yDist; y++) {
                 for (int z = -xzDist; z <= xzDist; z++) {
                     if (x != 0 || y != 0 || z != 0) {
-                        CPos pos = new CPos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                        if (filter != null && filter.isAssignableFrom(world.getBlockState(pos.getMcPos()).getBlock().getClass())) {
+                        BlockPos pos = new BlockPos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
+                        if (filter != null && filter.isAssignableFrom(world.getBlockState(pos).getBlock().getClass())) {
                             pointsList.add(pos);
                         } else if (filter == null) {
                             pointsList.add(pos);
@@ -118,11 +117,11 @@ public class Util {
         return pointsList;
     }
 
-    public static CPos getNearestPoint(CPos origin, List<CPos> blocks) {
-        double closest = 100.0D;
-        CPos returnPoint = null;
-        for (CPos point : blocks) {
-            double distance = origin.getDistance(point.getX(), point.getY(), point.getZ());
+    public static BlockPos getNearestPoint(BlockPos origin, List<BlockPos> blocks) {
+        double closest = 10000.0D;
+        BlockPos returnPoint = null;
+        for (BlockPos point : blocks) {
+            double distance = origin.distSqr(point.getX(), point.getY(), point.getZ(), true);
             if (distance < closest) {
                 closest = distance;
                 returnPoint = point;

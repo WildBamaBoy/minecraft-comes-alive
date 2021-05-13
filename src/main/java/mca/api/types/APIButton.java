@@ -1,10 +1,10 @@
 package mca.api.types;
 
-import cobalt.minecraft.entity.player.CPlayer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
@@ -35,10 +35,10 @@ public class APIButton {
      * Determines if the given villager and player match the constraints for this button, allowing the action to be performed
      *
      * @param villager Instance of the EntityVillagerMCA the button would perform the action on
-     * @param player   Instance of the CPlayer performing the action
+     * @param player   Instance of the PlayerEntity performing the action
      * @return boolean whether the button is valid for a constraint
      */
-    public boolean isValidForConstraint(EntityVillagerMCA villager, CPlayer player) {
+    public boolean isValidForConstraint(EntityVillagerMCA villager, PlayerEntity player) {
         List<EnumConstraint> constraints = getConstraints();
 
         if (constraints.contains(EnumConstraint.ADULTS) && !villager.isBaby()) {

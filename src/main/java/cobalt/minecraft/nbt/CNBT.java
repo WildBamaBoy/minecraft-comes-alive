@@ -1,10 +1,10 @@
 package cobalt.minecraft.nbt;
 
 import cobalt.core.Cobalt;
-import cobalt.minecraft.util.math.CPos;
 import mca.core.Constants;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.Set;
 import java.util.UUID;
@@ -25,7 +25,11 @@ public class CNBT {
     }
 
     public static CNBT fromMC(CompoundNBT nbt) {
-        return new CNBT(nbt);
+        if (nbt == null) {
+            return null;
+        } else {
+            return new CNBT(nbt);
+        }
     }
 
     public int getInteger(String key) {
@@ -110,17 +114,17 @@ public class CNBT {
         return mcCompound.getList(key, 9);
     }
 
-    public CPos getCPos(String key) {
+    public BlockPos getBlockPos(String key) {
         int x, y, z;
 
         x = mcCompound.getInt(key + "X");
         y = mcCompound.getInt(key + "Y");
         z = mcCompound.getInt(key + "Z");
 
-        return new CPos(x, y, z);
+        return new BlockPos(x, y, z);
     }
 
-    public void setCPos(String key, CPos pos) {
+    public void setBlockPos(String key, BlockPos pos) {
         this.setInteger(key + "X", pos.getX());
         this.setInteger(key + "Y", pos.getY());
         this.setInteger(key + "Z", pos.getZ());

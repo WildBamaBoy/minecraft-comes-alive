@@ -1,14 +1,10 @@
 package mca.items;
 
-import cobalt.enums.CEnumHand;
-import cobalt.minecraft.entity.CEntity;
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.item.CItemStack;
-import cobalt.minecraft.item.CItemUseContext;
-import cobalt.minecraft.world.CWorld;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 
 public class ItemMatchmakersRing extends ItemSpecialCaseGift {
     public ItemMatchmakersRing(Properties properties) {
@@ -16,7 +12,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
     }
 
     @Override
-    public ActionResult<ItemStack> handleRightClick(CWorld worldIn, CPlayer playerIn, CEnumHand hand) {
+    public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 //        // ensure two rings are in the inventory
 //        if (player.getHeldItem(hand).getCount() < 2) {
 //            villager.say(player, "interaction.matchmaker.fail.needtwo");
@@ -47,16 +43,6 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
 //        // remove the rings for survival mode
 //        if (!player.isCreative())
 //            player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-        return null;
-    }
-
-    @Override
-    public ActionResultType handleUseOnBlock(CItemUseContext context) {
-        return null;
-    }
-
-    @Override
-    public ActionResultType update(CItemStack itemStack, CWorld world, CEntity entity) {
         return null;
     }
 }

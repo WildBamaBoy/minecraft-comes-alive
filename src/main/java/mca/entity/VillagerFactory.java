@@ -1,14 +1,14 @@
 package mca.entity;
 
-import cobalt.minecraft.entity.CEntity;
 import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
-import cobalt.minecraft.util.math.CPos;
 import cobalt.minecraft.world.CWorld;
 import mca.api.API;
 import mca.core.MCA;
 import mca.entity.data.ParentPair;
 import mca.enums.EnumGender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerData;
+import net.minecraft.util.math.BlockPos;
 
 public class VillagerFactory {
     private final CWorld world;
@@ -67,13 +67,13 @@ public class VillagerFactory {
         return this;
     }
 
-    public VillagerFactory withPosition(CEntity entity) {
+    public VillagerFactory withPosition(Entity entity) {
         isPositionSet = true;
-        villager.setPos(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+        villager.setPos(entity.getX(), entity.getY(), entity.getZ());
         return this;
     }
 
-    public VillagerFactory withPosition(CPos pos) {
+    public VillagerFactory withPosition(BlockPos pos) {
         isPositionSet = true;
         villager.setPos(pos.getX(), pos.getY() + 1, pos.getZ());
         return this;
@@ -90,7 +90,7 @@ public class VillagerFactory {
             MCA.log("Attempted to spawn villager without a position being set!");
         }
 
-        world.spawnEntity(CEntity.fromMC(build()));
+        world.spawnEntity(build());
         return this;
     }
 

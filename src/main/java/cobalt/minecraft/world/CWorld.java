@@ -1,15 +1,13 @@
 package cobalt.minecraft.world;
 
 import cobalt.core.Cobalt;
-import cobalt.minecraft.entity.CEntity;
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.util.math.CPos;
 import cobalt.minecraft.world.storage.CWorldSavedData;
 import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -25,7 +23,7 @@ public class CWorld {
     @Getter
     private final World mcWorld;
 
-    public final boolean isRemote;
+    public final boolean isClientSide;
     public final Random rand;
 
     //TODO
@@ -33,7 +31,7 @@ public class CWorld {
 
     private CWorld(World world) {
         this.mcWorld = world;
-        this.isRemote = !world.isClientSide;
+        this.isClientSide = !world.isClientSide;
         this.rand = world.random;
     }
 
@@ -58,25 +56,25 @@ public class CWorld {
         dm.set(data);
     }
 
-    public Optional<CPlayer> getPlayerEntityByUUID(UUID uuid) {
+    public Optional<PlayerEntity> getPlayerEntityByUUID(UUID uuid) {
         PlayerEntity player = mcWorld.getPlayerByUUID(uuid);
         if (player != null) {
-            return Optional.of(CPlayer.fromMC(player));
+            return Optional.of(player);
         } else {
             return Optional.empty();
         }
     }
 
-    public Optional<CEntity> getEntityByUUID(UUID uuid) {
-        return Optional.of(CEntity.fromMC(((ServerWorld) mcWorld).getEntity(uuid)));
+    public Optional<Entity> getEntityByUUID(UUID uuid) {
+        return Optional.ofNullable(((ServerWorld) mcWorld).getEntity(uuid));
     }
 
-    public Biome getBiome(CPos pos) {
-        return mcWorld.getBiome(pos.getMcPos());
+    public Biome getBiome(BlockPos pos) {
+        return mcWorld.getBiome(pos);
     }
 
-    public void spawnEntity(CEntity entity) {
-        ((MobEntity) entity.getMcEntity()).finalizeSpawn((IServerWorld) mcWorld, mcWorld.getCurrentDifficultyAt(entity.getPosition().getMcPos()), SpawnReason.NATURAL, null, null);
-        mcWorld.addFreshEntity(entity.getMcEntity());
+    public void spawnEntity(Entity entity) {
+        ((MobEntity) entity).finalizeSpawn((IServerWorld) mcWorld, mcWorld.getCurrentDifficultyAt(entity.blockPosition()), SpawnReason.NATURAL, null, null);
+        mcWorld.addFreshEntity(entity);
     }
 }

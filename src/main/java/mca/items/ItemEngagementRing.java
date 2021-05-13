@@ -1,18 +1,9 @@
 package mca.items;
 
-import cobalt.minecraft.entity.player.CPlayer;
-import mca.entity.EntityVillagerMCA;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
-import java.util.List;
+import net.minecraft.item.Item;
 
 public class ItemEngagementRing extends ItemWeddingRing {
-    public ItemEngagementRing(Properties properties) {
+    public ItemEngagementRing(Item.Properties properties) {
         super(properties);
     }
 

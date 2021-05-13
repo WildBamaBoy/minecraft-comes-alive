@@ -4,7 +4,7 @@
     "_comment": "#############",
     "_comment": "Professions",
     "_comment": "#############################",
-    "entity.Villager.none": "Homeless",
+    "entity.Villager.none": "Jobless",
     "entity.Villager.marauder": "Marauder",
     "entity.Villager.outlaw": "Outlaw",
     "entity.Villager.pillager": "Pillager",

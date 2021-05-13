@@ -1,6 +1,5 @@
 package mca.core;
 
-import cobalt.items.CItemBasic;
 import cobalt.mod.forge.CobaltForgeMod;
 import cobalt.network.NetworkHandler;
 import lombok.Getter;
@@ -73,24 +72,24 @@ public class MCA extends CobaltForgeMod {
     public void registerContent() {
         ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(TAB)));
         ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(TAB)));
-        ITEM_WEDDING_RING = registerItem("wedding_ring", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new CItemBasic(new Item.Properties().tab(TAB).stacksTo(2)));
+        ITEM_WEDDING_RING = registerItem("wedding_ring", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new Item(new Item.Properties().tab(TAB).stacksTo(2)));
         ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(TAB)));
         ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(TAB)));
-        ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_GOLD_DUST = registerItem("gold_dust", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new Item(new Item.Properties().tab(TAB)));
+        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new Item(new Item.Properties().tab(TAB)));
+        ITEM_GOLD_DUST = registerItem("gold_dust", new Item(new Item.Properties().tab(TAB)));
+        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new Item(new Item.Properties().tab(TAB)));
         ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(TAB)));
         ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_DEATH = registerItem("book_death", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_ROMANCE = registerItem("book_romance", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_FAMILY = registerItem("book_family", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new CItemBasic(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_INFECTION = registerItem("book_infection", new CItemBasic(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_DEATH = registerItem("book_death", new Item(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_ROMANCE = registerItem("book_romance", new Item(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_FAMILY = registerItem("book_family", new Item(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new Item(new Item.Properties().tab(TAB)));
+        ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(TAB)));
 
         ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager",
                 1.0F, 1.85F);

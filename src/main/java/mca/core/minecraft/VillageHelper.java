@@ -1,20 +1,7 @@
 package mca.core.minecraft;
 
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.util.math.CPos;
+import net.minecraft.util.math.BlockPos;
 import cobalt.minecraft.world.CWorld;
-import com.google.common.base.Optional;
-import mca.core.Constants;
-import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
-import mca.util.Util;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class VillageHelper {
 
@@ -26,12 +13,12 @@ public class VillageHelper {
 //        });
     }
 
-//    public static void forceSpawnGuards(CPlayer player) {
+//    public static void forceSpawnGuards(PlayerEntity player) {
 //        Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
 //        spawnGuards(player.world, nearestVillage);
 //    }
 //
-//    public static void forceRaid(CPlayer player) {
+//    public static void forceRaid(PlayerEntity player) {
 //        Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
 //        startRaid(player.world, nearestVillage);
 //    }
@@ -149,25 +136,25 @@ public class VillageHelper {
 //
 //        while (banditsToSpawn > 0) {
 //            EntityVillagerMCA bandit = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.bandit), Optional.absent());
-//            CPos spawnLocation = village.getCenter();
+//            BlockPos spawnLocation = village.getCenter();
 //            bandit.setPosition(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ());
 //            world.spawnEntity(bandit);
 //            banditsToSpawn--;
 //        }
 //    }
 //
-//    private static Vec3d findRandomSpawnPos(World world, Village village, CPos pos, int x, int y, int z) {
+//    private static Vec3d findRandomSpawnPos(World world, Village village, BlockPos pos, int x, int y, int z) {
 //        for (int i = 0; i < 10; ++i) {
-//            CPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
+//            BlockPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
 //
-//            if (village.isCPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new CPos(x, y, z), blockpos))
+//            if (village.isBlockPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new BlockPos(x, y, z), blockpos))
 //                return new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
 //        }
 //
 //        return null;
 //    }
 //
-//    private static boolean isAreaClearAround(World world, CPos blockSize, CPos blockLocation) {
+//    private static boolean isAreaClearAround(World world, BlockPos blockSize, BlockPos blockLocation) {
 //        if (!world.getBlockState(blockLocation.down()).isTopSolid()) return false;
 //        int i = blockLocation.getX() - blockSize.getX() / 2;
 //        int j = blockLocation.getZ() - blockSize.getZ() / 2;
@@ -175,7 +162,7 @@ public class VillageHelper {
 //        for (int k = i; k < i + blockSize.getX(); ++k) {
 //            for (int l = blockLocation.getY(); l < blockLocation.getY() + blockSize.getY(); ++l) {
 //                for (int i1 = j; i1 < j + blockSize.getZ(); ++i1) {
-//                    if (world.getBlockState(new CPos(k, l, i1)).isNormalCube()) {
+//                    if (world.getBlockState(new BlockPos(k, l, i1)).isNormalCube()) {
 //                        return false;
 //                    }
 //                }
@@ -184,7 +171,7 @@ public class VillageHelper {
 //        return true;
 //    }
 //
-//    public static Village findClosestVillage(World world, CPos p) {
+//    public static Village findClosestVillage(World world, BlockPos p) {
 //        Village village = null;
 //        double best = Double.MAX_VALUE;
 //        for (Village v : world.getVillageCollection().getVillageList()) {

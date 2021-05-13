@@ -1,6 +1,6 @@
 package mca.core.forge;
 
-import cobalt.minecraft.entity.CEntity;
+import net.minecraft.entity.Entity;
 import cobalt.minecraft.world.CWorld;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -49,8 +49,8 @@ public class EventHooks {
                 EntityVillagerMCA newVillager = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), e.level);
                 newVillager.setPos(e.getX(), e.getY(), e.getZ());
 
-                e.level.isLoaded(newVillager.getPos().getMcPos());
-                CWorld.fromMC(e.level).spawnEntity(CEntity.fromMC(newVillager));
+                e.level.isLoaded(newVillager.blockPosition());
+                CWorld.fromMC(e.level).spawnEntity(newVillager);
             } else {
                 spawnQueue.add(e);
             }
@@ -59,6 +59,7 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        //TODO update is currently not available
         if (true) return;
 
         StringTextComponent updateMessage = new StringTextComponent(Constants.Color.DARKGREEN + "An update for Minecraft Comes Alive is available: vTODO");

@@ -1,29 +1,25 @@
 package mca.client.gui;
 
-import cobalt.minecraft.entity.player.CPlayer;
-import mca.api.API;
-import mca.core.MCA;
 import mca.items.ItemBaby;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.io.IOException;
-
 @OnlyIn(Dist.CLIENT)
 public class GuiNameBaby extends Screen {
-    private final CPlayer player;
+    private final PlayerEntity player;
 
     private TextFieldWidget babyNameTextField;
     private Button doneButton;
     private Button randomButton;
     private ItemBaby baby;
 
-    public GuiNameBaby(CPlayer player, ItemStack babyStack) {
+    public GuiNameBaby(PlayerEntity player, ItemStack babyStack) {
         super(new StringTextComponent("Name Baby"));
         this.player = player;
 

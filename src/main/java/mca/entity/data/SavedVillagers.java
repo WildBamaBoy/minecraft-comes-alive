@@ -30,7 +30,7 @@ public class SavedVillagers extends CWorldSavedData {
 
     public void saveVillager(EntityVillagerMCA villager) {
         CNBT nbt = CNBT.createNew();
-        villager.save(nbt);
+        villager.save(nbt.getMcCompound());
         villagerData.put(villager.getUUID().toString(), nbt);
         setDirty();
     }

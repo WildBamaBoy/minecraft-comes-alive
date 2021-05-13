@@ -1,30 +1,25 @@
 package mca.items;
 
-import cobalt.enums.CEnumHand;
-import cobalt.items.CItem;
-import cobalt.minecraft.entity.CEntity;
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.item.CItemStack;
-import cobalt.minecraft.item.CItemUseContext;
 import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.util.math.CPos;
 import cobalt.minecraft.world.CWorld;
 import com.google.common.base.Optional;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.ParentPair;
 import mca.entity.data.PlayerSaveData;
-import mca.enums.EnumAgeState;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
 import mca.util.Util;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class ItemBaby extends CItem {
+public class ItemBaby extends Item {
     private final boolean isMale;
 
     public ItemBaby(Item.Properties properties) {
@@ -33,38 +28,40 @@ public class ItemBaby extends CItem {
     }
 
     @Override
-    public ActionResultType update(CItemStack itemStack, CWorld world, CEntity entity) {
-        if (!world.isRemote) {
+    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int pos, boolean selected) {
+        if (!world.isClientSide) {
             if (!itemStack.hasTag()) {
                 CNBT compound = CNBT.createNew();
 
                 compound.setString("name", "");
                 compound.setInteger("age", 0);
                 compound.setUUID("ownerUUID", entity.getUUID());
-                compound.setString("ownerName", entity.getName());
+                compound.setString("ownerName", entity.getName().getString());
                 compound.setBoolean("isInfected", false);
 
-                itemStack.setTag(compound);
+                itemStack.setTag(compound.getMcCompound());
             } else {
                 updateBabyGrowth(itemStack);
             }
         }
-        return null;
     }
 
     @Override
-    public ActionResult<ItemStack> handleRightClick(CWorld world, CPlayer player, CEnumHand hand) {
-        CPos pos = player.getPosition();
-        CItemStack stack = player.getHeldItem(hand);
+    public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        CWorld cworld = CWorld.fromMC(world);
+
+        BlockPos pos = player.blockPosition();
+        ItemStack stack = player.getItemInHand(hand);
         int posX = pos.getX();
         int posY = pos.getY() + 1;
         int posZ = pos.getZ();
 
         // Right-clicking an unnamed baby allows you to name it
-        if (world.isRemote && getBabyName(stack).equals("")) {
+        if (cworld.isClientSide && getBabyName(stack).equals("")) {
 //            player.openGui(MCA.getInstance(), Constants.GUI_ID_NAMEBABY, player.world, player.getEntityId(), 0, 0);
         }
-        if (!world.isRemote) {
+
+        if (!cworld.isClientSide) {
             if (isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
                 EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), world);
                 child.gender.set((this.isMale ? EnumGender.MALE : EnumGender.FEMALE).getId());
@@ -73,21 +70,21 @@ public class ItemBaby extends CItem {
                 child.setBaby(true);
                 child.setPos(posX, posY, posZ);
 
-                PlayerSaveData playerData = PlayerSaveData.get(world, player.getUUID());
+                PlayerSaveData playerData = PlayerSaveData.get(cworld, player.getUUID());
 
                 //assumes your child is from the players current spouse
                 //as the father does not have any genes it just takes the one from the mother
-                Optional<Entity> spouse = Util.getEntityByUUID(player.getWorld(), playerData.getSpouseUUID());
+                Optional<Entity> spouse = Util.getEntityByUUID(CWorld.fromMC(player.level), playerData.getSpouseUUID());
                 if (spouse.isPresent() && spouse.get() instanceof EntityVillagerMCA) {
                     EntityVillagerMCA spouseVillager = (EntityVillagerMCA) spouse.get();
                     child.inheritGenes(spouseVillager, spouseVillager);
                 }
 
-                child.parents.set(ParentPair.create(player.getUUID(), playerData.getSpouseUUID(), player.getName(), playerData.getSpouseName()).toNBT());
+                child.parents.set(ParentPair.create(player.getUUID(), playerData.getSpouseUUID(), player.getName().getString(), playerData.getSpouseName()).toNBT());
 
-                world.spawnEntity(CEntity.fromMC(child));
+                cworld.spawnEntity(child);
 
-                player.getHeldItem(hand).decrStackSize();
+                player.getItemInHand(hand).shrink(1);
                 playerData.setBabyPresent(false);
 
                 // set proper dialogue type
@@ -98,12 +95,7 @@ public class ItemBaby extends CItem {
         return null;
     }
 
-    @Override
-    public ActionResultType handleUseOnBlock(CItemUseContext context) {
-        return null;
-    }
-
-    private String getBabyName(CItemStack stack) {
+    private String getBabyName(ItemStack stack) {
         return stack.getTag().getString("name");
     }
 
@@ -114,7 +106,7 @@ public class ItemBaby extends CItem {
 //        Localizer loc = MCA.getLocalizer();
 //
 //        if (stack.hasTagCompound()) {
-//            CPlayer player = Minecraft.getMinecraft().player;
+//            PlayerEntity player = Minecraft.getMinecraft().player;
 //            CNBT nbt = stack.getTagCompound();
 //            String textColor = ((ItemBaby) stack.getItem()).isMale ? Constants.Color.AQUA : Constants.Color.LIGHTPURPLE;
 //            int ageInMinutes = nbt.getInteger("age");
@@ -135,17 +127,19 @@ public class ItemBaby extends CItem {
 //        }
 //    }
 
-    private void updateBabyGrowth(CItemStack itemStack) {
+    private void updateBabyGrowth(ItemStack itemStack) {
+        CNBT tag = CNBT.fromMC(itemStack.getTag());
         int tick = 1;
-        if (itemStack.hasTag() && tick % 1200 == 0) {
-            int age = itemStack.getTag().getInteger("age");
+        if (tag != null && tick % 1200 == 0) {
+            int age = tag.getInteger("age");
             age++;
-            itemStack.getTag().setInteger("age", age);
+            tag.setInteger("age", age);
         }
     }
 
-    private boolean isReadyToGrowUp(CItemStack itemStack) {
-        return itemStack.getTag().getInteger("age") >= MCA.getConfig().babyGrowUpTime;
+    private boolean isReadyToGrowUp(ItemStack itemStack) {
+        CNBT tag = CNBT.fromMC(itemStack.getTag());
+        return tag != null && tag.getInteger("age") >= MCA.getConfig().babyGrowUpTime;
     }
 
     public EnumGender getGender() {

@@ -1,8 +1,6 @@
 package mca.api;
 
 import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
-import cobalt.minecraft.entity.player.CPlayer;
-import cobalt.minecraft.item.CItemStack;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +13,8 @@ import mca.enums.EnumConstraint;
 import mca.enums.EnumGender;
 import mca.util.Util;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -202,7 +202,7 @@ public class API {
      * @param stack ItemStack containing the gift item
      * @return int value determining the gift value of a stack
      */
-    public static int getGiftValueFromStack(CItemStack stack) {
+    public static int getGiftValueFromStack(ItemStack stack) {
         if (stack.isEmpty()) return 0;
         if (stack.getItem().getRegistryName() == null) return 0;
 
@@ -216,7 +216,7 @@ public class API {
      * @param stack ItemStack containing the gift item
      * @return String value of the appropriate response type
      */
-    public static String getResponseForGift(CItemStack stack) {
+    public static String getResponseForGift(ItemStack stack) {
         int value = getGiftValueFromStack(stack);
         return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
     }
@@ -238,10 +238,10 @@ public class API {
      *
      * @param guiKey   String key for the GUI's buttons
      * @param villager Optional EntityVillagerMCA the Screen has been opened on
-     * @param player   CPlayer who has opened the GUI
+     * @param player   PlayerEntity who has opened the GUI
      * @param screen   Screen instance the buttons should be added to
      */
-    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, CPlayer player, GuiInteract screen) {
+    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, PlayerEntity player, GuiInteract screen) {
         for (APIButton b : buttonMap.get(guiKey)) {
             ButtonEx guiButton = new ButtonEx(screen, b);
             screen.addExButton(guiButton);

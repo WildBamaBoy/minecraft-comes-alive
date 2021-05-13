@@ -1,46 +1,45 @@
 package cobalt.minecraft.network.datasync;
 
 import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.util.math.CPos;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 
-public class CPosParameter extends CDataParameter<BlockPos> {
+public class BlockPosParameter extends CDataParameter<BlockPos> {
     private final DataParameter<BlockPos> param;
     private final EntityDataManager data;
     private final String id;
-    private final CPos defaultValue;
+    private final BlockPos defaultValue;
 
-    public CPosParameter(String id, Class<? extends Entity> e, EntityDataManager d, CPos dv) {
+    public BlockPosParameter(String id, Class<? extends Entity> e, EntityDataManager d, BlockPos dv) {
         this.id = id;
         param = getDefine(id, e, DataSerializers.BLOCK_POS);
         data = d;
         defaultValue = dv;
     }
 
-    public CPos get() {
-        return CPos.fromMC(data.get(param));
+    public BlockPos get() {
+        return data.get(param);
     }
 
-    public void set(CPos v) {
-        data.set(param, v.getMcPos());
+    public void set(BlockPos v) {
+        data.set(param, v);
     }
 
     @Override
     public void register() {
-        data.define(param, defaultValue.getMcPos());
+        data.define(param, defaultValue);
     }
 
     @Override
     public void load(CNBT nbt) {
-        set(nbt.getCPos(id));
+        set(nbt.getBlockPos(id));
     }
 
     @Override
     public void save(CNBT nbt) {
-        nbt.setCPos(id, get());
+        nbt.setBlockPos(id, get());
     }
 }

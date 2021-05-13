@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
@@ -17,6 +16,7 @@ import mca.enums.EnumMoveState;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -33,7 +33,7 @@ import java.util.Objects;
 public class GuiInteract extends Screen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
     private final EntityVillagerMCA villager;
-    private final CPlayer player;
+    private final PlayerEntity player;
 
     private boolean inGiftMode;
 
@@ -47,7 +47,7 @@ public class GuiInteract extends Screen {
     // Tracks which page we're on in the GUI for sending button events
     private String activeKey;
 
-    public GuiInteract(EntityVillagerMCA villager, CPlayer player) {
+    public GuiInteract(EntityVillagerMCA villager, PlayerEntity player) {
         super(new StringTextComponent("Interact"));
 
         this.villager = villager;
@@ -217,11 +217,6 @@ public class GuiInteract extends Screen {
             drawHoveringIconText(transform, hearts + " hearts", "redHeart");
         }
 
-        //hearts
-        if (hoveringOverIcon("neutralEmerald")) {
-            drawHoveringIconText(transform, "Happiness: 5", "neutralEmerald");
-        }
-
         //marriage status
         EnumMarriageState marriageState = EnumMarriageState.byId(villager.marriageState.get());
         String marriageInfo;
@@ -261,7 +256,7 @@ public class GuiInteract extends Screen {
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
             List<ITextComponent> lines = new LinkedList<>();
-            lines.add(new StringTextComponent(MCA.localize("gui.interact.label.happiness", 0 + "/" + 10)));
+            lines.add(new StringTextComponent(MCA.localize("gui.interact.label.happiness", "0/10")));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }

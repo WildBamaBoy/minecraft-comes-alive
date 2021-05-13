@@ -1,6 +1,5 @@
 package mca.command;
 
-import cobalt.minecraft.entity.player.CPlayer;
 import cobalt.minecraft.util.CText;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -10,7 +9,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
-import mca.enums.EnumAgeState;
 import mca.items.ItemBaby;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -78,7 +76,7 @@ public class CommandMCA {
     private static int decrementHearts(CommandContext<CommandSource> ctx) {
         PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
         getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(CPlayer.fromMC(player));
+            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(player);
             memories.setHearts(memories.getHearts() - 10);
             ((EntityVillagerMCA) v).updateMemories(memories);
         });
@@ -88,7 +86,7 @@ public class CommandMCA {
     private static int incrementHearts(CommandContext<CommandSource> ctx) {
         PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
         getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(CPlayer.fromMC(player));
+            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(player);
             memories.setHearts(memories.getHearts() + 10);
             ((EntityVillagerMCA) v).updateMemories(memories);
         });
@@ -113,7 +111,7 @@ public class CommandMCA {
     private static int forceFullHearts(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
         getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(CPlayer.fromMC(player));
+            Memories memories = ((EntityVillagerMCA) v).getMemoriesForPlayer(player);
             memories.setHearts(100);
             ((EntityVillagerMCA) v).updateMemories(memories);
         });
