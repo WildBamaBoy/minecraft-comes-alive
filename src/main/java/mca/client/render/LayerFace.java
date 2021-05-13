@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerFace extends LayerSkin {
+public class LayerFace extends LayerVillager {
     public LayerFace(IEntityRenderer renderer, BipedModel model) {
         super(renderer, model);
 
