@@ -26,3 +26,4 @@ backup
 forge*changelog.txt
 /src/main/resources/assets/mca/skins/old
 /mcmodsrepo
+/local.properties

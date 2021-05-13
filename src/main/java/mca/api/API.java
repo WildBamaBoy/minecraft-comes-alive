@@ -108,7 +108,7 @@ public class API {
             List<ClothingGroup> valid = new LinkedList<>();
             EnumGender gender = EnumGender.byId(villager.gender.get());
             for (ClothingGroup g : clothing) {
-                if (g.getGender() == gender || gender != EnumGender.UNASSIGNED) {
+                if (g.getGender() == gender || gender == EnumGender.UNASSIGNED) {
                     valid.add(g);
                 }
             }

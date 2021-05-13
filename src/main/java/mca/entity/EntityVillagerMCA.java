@@ -36,6 +36,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -334,10 +335,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         updateSwinging();
 
-        if (!world.isClientSide) {
-            onEachServerUpdate();
-        } else {
+        if (world.isClientSide) {
             onEachClientUpdate();
+        } else {
+            onEachServerUpdate();
         }
     }
 
@@ -522,7 +523,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     public void marry(PlayerEntity player) {
         spouseUUID.set(player.getUUID());
-        spouseName.set(player.getName().toString());
+        spouseName.set(player.getName().getContents());
         marriageState.set(EnumMarriageState.MARRIED.getId());
     }
 
@@ -707,8 +708,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         Item item = stack.getItem();
 
         if (item instanceof ItemSpecialCaseGift && !isBaby()) { // special case gifts are rings so far so prevent giving them to children
-//            boolean decStackSize = ((ItemSpecialCaseGift) item).handle(player, this);
-            player.getMainHandItem().shrink(1);
+            if (((ItemSpecialCaseGift) item).handle(player, this)) {
+                player.getMainHandItem().shrink(1);
+            }
             return true;
         } else if (item == Items.CAKE) {
             if (isMarried() && !isBaby()) {
@@ -731,6 +733,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
 
         return false;
+    }
+
+    public void addParticlesAroundSelfPublic(IParticleData p) {
+        addParticlesAroundSelf(p);
     }
 
     private void onEachClientUpdate() {

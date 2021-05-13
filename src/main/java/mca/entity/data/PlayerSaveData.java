@@ -14,7 +14,7 @@ public class PlayerSaveData extends CWorldSavedData {
     private String spouseName = "";
     private boolean babyPresent = false;
 
-    protected PlayerSaveData(String id) {
+    public PlayerSaveData(String id) {
         super(id);
     }
 

@@ -14,6 +14,7 @@
     "entity.Villager.archer": "Archer",
     "entity.Villager.hero": "Hero",
     "entity.Villager.child": "Child",
+    "entity.Villager.fetcher": "Fetcher",
 
     "entity.mca.grim_reaper": "Grim Reaper",
 
@@ -265,6 +266,8 @@
     "gui.label": "Name:",
     "gui.label.unnamed": "Unnamed",
     "gui.label.rightclicktoname": "Right-click to name",
+    "gui.label.name": "Name:",
+    "gui.label.age": "Age:",
     "gui.label.minute": "Minute",
     "gui.label.minutes": "Minutes",
     "gui.label.parent": "Parent:",

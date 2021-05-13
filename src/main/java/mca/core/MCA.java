@@ -10,10 +10,7 @@ import mca.core.forge.EventHooks;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
-import mca.items.ItemBaby;
-import mca.items.ItemSpawnEgg;
-import mca.items.ItemStaffOfLife;
-import mca.items.ItemWhistle;
+import mca.items.*;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -23,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.RegistryObject;
@@ -64,6 +62,10 @@ public class MCA extends CobaltForgeMod {
         throw new RuntimeException(e);
     }
 
+    public static StringTextComponent localizeText(String key, String... vars) {
+        return new StringTextComponent(localize(key, vars));
+    }
+
     public static String localize(String key, String... vars) {
         return mod.localizer.localize(key, vars);
     }
@@ -72,11 +74,11 @@ public class MCA extends CobaltForgeMod {
     public void registerContent() {
         ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(TAB)));
         ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(TAB)));
-        ITEM_WEDDING_RING = registerItem("wedding_ring", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new Item(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new Item(new Item.Properties().tab(TAB).stacksTo(2)));
+        ITEM_WEDDING_RING = registerItem("wedding_ring", new ItemWeddingRing(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRing(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new ItemEngagementRing(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRing(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new ItemMatchmakersRing(new Item.Properties().tab(TAB).stacksTo(2)));
         ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(TAB)));
         ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(TAB)));
         ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new Item(new Item.Properties().tab(TAB)));

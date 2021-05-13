@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -15,6 +16,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -31,12 +33,29 @@ public class CWorld {
 
     private CWorld(World world) {
         this.mcWorld = world;
-        this.isClientSide = !world.isClientSide;
+        this.isClientSide = world.isClientSide;
         this.rand = world.random;
     }
 
     public static CWorld fromMC(World world) {
         return new CWorld(world);
+    }
+
+    //returns all entities
+    public List<Entity> getCloseEntities(Entity e) {
+        return getCloseEntities(e, 256.0D);
+    }
+
+    public List<Entity> getCloseEntities(Entity e, double range) {
+        BlockPos pos = e.blockPosition();
+        return mcWorld.getEntities(e, new AxisAlignedBB(
+                pos.getX() - range,
+                pos.getY() - range,
+                pos.getZ() - range,
+                pos.getX() + range,
+                pos.getY() + range,
+                pos.getZ() + range
+        ));
     }
 
     public CWorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataId) {

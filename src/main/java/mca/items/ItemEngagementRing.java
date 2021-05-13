@@ -1,14 +1,22 @@
 package mca.items;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemEngagementRing extends ItemWeddingRing {
     public ItemEngagementRing(Item.Properties properties) {
         super(properties);
     }
 
-//    @OnlyIn(Dist.CLIENT)
-//    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-//        tooltip.add("Halves the hearts required to marry someone.");
-//    }
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        tooltip.add(new StringTextComponent("Halves the hearts required to marry someone."));
+    }
 }

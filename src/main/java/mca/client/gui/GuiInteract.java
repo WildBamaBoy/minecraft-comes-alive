@@ -91,16 +91,16 @@ public class GuiInteract extends Screen {
         mouseY = (int) (minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getHeight());
     }
 
-//    @Override
-//    public void handleMouseInput() throws IOException {
-//        super.handleMouseInput();
-//
-//        if (Mouse.getEventDWheel() < 0) {
-//            player.inventory.currentItem = player.inventory.currentItem == 8 ? 0 : player.inventory.currentItem + 1;
-//        } else if (Mouse.getEventDWheel() > 0) {
-//            player.inventory.currentItem = player.inventory.currentItem == 0 ? 8 : player.inventory.currentItem - 1;
-//        }
-//    }
+    @Override
+    public boolean mouseScrolled(double x, double y, double d) {
+        if (d < 0) {
+            player.inventory.selected = player.inventory.selected == 8 ? 0 : player.inventory.selected + 1;
+        } else if (d > 0) {
+            player.inventory.selected = player.inventory.selected == 0 ? 8 : player.inventory.selected - 1;
+        }
+
+        return super.mouseScrolled(x, y, d);
+    }
 
     @Override
     public boolean mouseClicked(double posX, double posY, int button) {
@@ -256,7 +256,7 @@ public class GuiInteract extends Screen {
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
             List<ITextComponent> lines = new LinkedList<>();
-            lines.add(new StringTextComponent(MCA.localize("gui.interact.label.happiness", "0/10")));
+            lines.add(MCA.localizeText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }
