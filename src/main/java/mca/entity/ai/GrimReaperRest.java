@@ -20,7 +20,7 @@ import java.util.EnumSet;
 public class GrimReaperRest extends Goal {
     private final EntityGrimReaper reaper;
 
-    private final static int COOLDOWN = 3000;
+    private final static int COOLDOWN = 1000;
 
     private int lastHeal = -COOLDOWN;
     private int healingCount = 0;
@@ -66,11 +66,11 @@ public class GrimReaperRest extends Goal {
 
         reaper.setDeltaMovement(Vector3d.ZERO);
 
-        if (!reaper.level.isClientSide && healingTime % 10 == 0) {
+        if (!reaper.level.isClientSide && healingTime % 10 == 1) {
             reaper.setHealth(reaper.getHealth() + MathHelper.clamp(1.0F / healingCount, 0.5F, 1.0F));
         }
 
-        if (!reaper.level.isClientSide && healingTime % 100 == 0) {
+        if (!reaper.level.isClientSide && healingTime % 100 == 1) {
             // Let's have a light show.
             int dX = reaper.getRandom().nextInt(8) + 4 * reaper.getRandom().nextFloat() >= 0.50F ? 1 : -1;
             int dZ = reaper.getRandom().nextInt(8) + 4 * reaper.getRandom().nextFloat() >= 0.50F ? 1 : -1;

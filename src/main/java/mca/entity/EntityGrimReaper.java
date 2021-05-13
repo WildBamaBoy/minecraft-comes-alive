@@ -10,10 +10,7 @@ import mca.entity.ai.GrimReaperMelee;
 import mca.entity.ai.GrimReaperRest;
 import mca.entity.ai.GrimReaperTarget;
 import mca.enums.EnumReaperAttackState;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -54,6 +51,11 @@ public class EntityGrimReaper extends CreatureEntity {
     @Override
     public boolean isNoGravity() {
         return true;
+    }
+
+    @Override
+    public CreatureAttribute getMobType() {
+        return CreatureAttribute.UNDEAD;
     }
 
     @Override
