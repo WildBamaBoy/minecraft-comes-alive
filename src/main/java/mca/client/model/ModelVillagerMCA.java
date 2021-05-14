@@ -52,7 +52,7 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
         this.bipedLeftArmwear.setPos(5.0F, 2.0F, 0.0F);
         this.bipedRightArmwear = new ModelRenderer(this, 40, 32);
         this.bipedRightArmwear.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        this.bipedRightArmwear.setPos(-5.0F, 2.0F, 10.0F);
+        this.bipedRightArmwear.setPos(-5.0F, 2.0F, 0.0F);
 
         //legs
         leftLeg = new ModelRenderer(this, 16, 48);

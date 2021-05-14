@@ -4,38 +4,33 @@ import mca.client.colors.HairColors;
 import mca.client.model.ModelVillagerMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerHair extends LayerVillager {
-    public LayerHair(IEntityRenderer renderer, BipedModel model) {
+public class LayerHair extends LayerVillager<EntityVillagerMCA, ModelVillagerMCA<EntityVillagerMCA>> {
+    public LayerHair(IEntityRenderer renderer, ModelVillagerMCA<EntityVillagerMCA> model) {
         super(renderer, model);
 
         // LayerViller is only designed for ModelVillagerMCA anyways
-        ((ModelVillagerMCA) this.model).leftLeg.visible = false;
-        ((ModelVillagerMCA) this.model).bipedLeftLegwear.visible = false;
-        ((ModelVillagerMCA) this.model).rightLeg.visible = false;
-        ((ModelVillagerMCA) this.model).bipedRightLegwear.visible = false;
+        this.model.leftLeg.visible = false;
+        this.model.bipedLeftLegwear.visible = false;
+        this.model.rightLeg.visible = false;
+        this.model.bipedRightLegwear.visible = false;
     }
 
     @Override
-    String getTexture(LivingEntity entity) {
-        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+    String getTexture(EntityVillagerMCA villager) {
         return villager.hair.get();
     }
 
     @Override
-    String getOverlayTexture(LivingEntity entity) {
-        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+    String getOverlayTexture(EntityVillagerMCA villager) {
         return villager.hairOverlay.get();
     }
 
     @Override
-    float[] getColor(LivingEntity entity) {
-        EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+    float[] getColor(EntityVillagerMCA villager) {
         float e = villager.GENE_EUMELANIN.get();
         float p = villager.GENE_PHEOMELANIN.get();
         double[] color = HairColors.getColor(e, p);

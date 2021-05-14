@@ -3,15 +3,13 @@ package mca.client.render;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import mca.client.model.ModelVillagerMCA;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class LayerVillager<T extends LivingEntity, M extends BipedModel<T>> extends LayerRenderer<T, M> {
+public abstract class LayerVillager<T extends EntityVillagerMCA, M extends ModelVillagerMCA<T>> extends LayerRenderer<T, M> {
     protected M model;
 
     protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
