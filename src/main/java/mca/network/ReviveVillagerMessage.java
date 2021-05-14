@@ -34,7 +34,8 @@ public class ReviveVillagerMessage extends Message {
             villagers.removeVillager(uuid);
 
             //TODO potential bug if the player switches slot while reviving
-            player.getMainHandItem().hurt(1, player.getRandom(), player);
+            player.getMainHandItem().hurtAndBreak(1, player, (a) -> {
+            });
         }
 
     }
