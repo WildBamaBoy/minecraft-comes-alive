@@ -37,6 +37,5 @@ public class ReviveVillagerMessage extends Message {
             player.getMainHandItem().hurtAndBreak(1, player, (a) -> {
             });
         }
-
     }
 }

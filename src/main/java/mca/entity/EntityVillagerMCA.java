@@ -49,6 +49,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -132,6 +133,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     @Nullable
     @Override
+    @ParametersAreNonnullByDefault
     public ILivingEntityData finalizeSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
         ILivingEntityData iLivingEntityData = super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 
@@ -163,6 +165,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         this.setVillagerData(this.getVillagerData().setProfession(profession));
     }
 
+    @Override
     public boolean doHurtTarget(Entity target) {
         //villager is peaceful and wont hurt as long as not necessary
         if (getPersonality() == EnumPersonality.PEACEFUL && getHealth() == getMaxHealth()) {
@@ -362,7 +365,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
             if (isMarried()) {
                 UUID spouse = spouseUUID.get().orElse(Constants.ZERO_UUID);
-                Entity sp = world.getEntityByUUID(this, spouse);
+                Entity sp = world.getEntityByUUID(spouse);
                 PlayerSaveData playerSaveData = PlayerSaveData.get(world, spouse);
 
                 // Notify spouse of the death
@@ -370,10 +373,11 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     ((EntityVillagerMCA) sp).endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
-                    world.getPlayerEntityByUUID(spouse).ifPresent(player -> {
+                    PlayerEntity player = world.getPlayerEntityByUUID(spouse);
+                    if (player != null) {
                         String msg = cause.getLocalizedDeathMessage(this).getString();
                         sendMessageTo(Constants.Color.RED + msg, player);
-                    });
+                    }
                 }
             }
 
@@ -713,7 +717,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             return true;
         } else if (item == Items.CAKE) {
             if (isMarried() && !isBaby()) {
-                Entity spouse = world.getEntityByUUID(this, spouseUUID.get().orElse(Constants.ZERO_UUID));
+                Entity spouse = world.getEntityByUUID(spouseUUID.get().orElse(Constants.ZERO_UUID));
                 if (spouse instanceof EntityVillagerMCA) {
                     EntityVillagerMCA progressor = gender.get() == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse;
                     progressor.hasBaby.set(true);
@@ -796,6 +800,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), level);
                 child.gender.set(gender.getId());
                 child.setPos(this.getX(), this.getY(), this.getZ());
+                //noinspection OptionalGetWithoutIsPresent
                 child.parents.set(ParentPair.create(this.getUUID(), this.spouseUUID.get().get(), villagerName.get(), spouseName.get()).toNBT());
                 world.spawnEntity(child);
 
@@ -908,6 +913,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     @Nullable
     @Override
+    @ParametersAreNonnullByDefault
     public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
         return ChestContainer.threeRows(i, playerInventory, inventory);
     }

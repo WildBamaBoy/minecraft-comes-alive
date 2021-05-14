@@ -70,15 +70,6 @@ public class CWorld {
         ));
     }
 
-    public Entity getEntityByUUID(Entity searcher, UUID uuid) {
-        for (Entity entity : getCloseEntities(searcher)) {
-            if (entity.getUUID().equals(uuid)) {
-                return entity;
-            }
-        }
-        return null;
-    }
-
     public CWorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataId) {
         DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getDataStorage();
         return dm.computeIfAbsent(() -> {
@@ -96,17 +87,12 @@ public class CWorld {
         dm.set(data);
     }
 
-    public Optional<PlayerEntity> getPlayerEntityByUUID(UUID uuid) {
-        PlayerEntity player = mcWorld.getPlayerByUUID(uuid);
-        if (player != null) {
-            return Optional.of(player);
-        } else {
-            return Optional.empty();
-        }
+    public PlayerEntity getPlayerEntityByUUID(UUID uuid) {
+        return mcWorld.getPlayerByUUID(uuid);
     }
 
-    public Optional<Entity> getEntityByUUID(UUID uuid) {
-        return Optional.ofNullable(((ServerWorld) mcWorld).getEntity(uuid));
+    public Entity getEntityByUUID(UUID uuid) {
+        return (((ServerWorld) mcWorld).getEntity(uuid));
     }
 
     public Biome getBiome(BlockPos pos) {

@@ -1,132 +1,152 @@
 package mca.client.gui;
 
 import cobalt.minecraft.nbt.CNBT;
+import cobalt.network.NetworkHandler;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import lombok.NonNull;
+import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.network.CallToPlayerMessage;
+import mca.network.GetVillagerRequest;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.List;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiWhistle extends Screen {
-    private EntityVillagerMCA dummyHuman;
-    private List<CNBT> villagerDataList;
+    private EntityVillagerMCA dummy;
+    private Map<String, CNBT> villagerData;
 
     private Button selectionLeftButton;
     private Button selectionRightButton;
     private Button villagerNameButton;
     private Button callButton;
-    private Button exitButton;
+
     private int loadingAnimationTicks;
     private int selectedIndex;
+    private final List<String> keys = new ArrayList<>();
 
-    protected GuiWhistle(ITextComponent p_i51108_1_) {
-        super(p_i51108_1_);
+    public GuiWhistle() {
+        super(new StringTextComponent("Whistle"));
     }
 
-//    @Override
-//    public void updateScreen() {
-//        super.updateScreen();
-//
-//        if (loadingAnimationTicks != -1) {
-//            loadingAnimationTicks++;
-//        }
-//
-//        if (loadingAnimationTicks >= 20) {
-//            loadingAnimationTicks = 0;
-//        }
-//    }
-//
-//    @Override
-//    public void initGui() {
-//        buttonList.clear();
-//        buttonList.add(selectionLeftButton = new Button(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
-//        buttonList.add(selectionRightButton = new Button(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
-//        buttonList.add(villagerNameButton = new Button(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-//        buttonList.add(callButton = new Button(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.localize("gui.button.call")));
-//        buttonList.add(exitButton = new Button(6, width / 2 + 40, height / 2 + 90, 60, 20, MCA.localize("gui.button.exit")));
-//        NetMCA.INSTANCE.sendToServer(new NetMCA.GetFamily());
-//    }
-//
-//    @Override
-//    public boolean doesGuiPauseGame() {
-//        return false;
-//    }
-//
-//    @Override
-//    protected void actionPerformed(Button guibutton) {
-//        if (guibutton == exitButton) {
-//            Minecraft.getMinecraft().displayScreen(null);
-//        }
-//
-//        if (villagerDataList != null && villagerDataList.size() > 0) {
-//            CNBT data = villagerDataList.get(selectedIndex - 1);
-//
-//            if (guibutton == selectionLeftButton) {
-//                if (selectedIndex == 1) {
-//                    selectedIndex = villagerDataList.size();
-//                } else {
-//                    selectedIndex--;
-//                }
-//            } else if (guibutton == selectionRightButton) {
-//                if (selectedIndex == villagerDataList.size()) {
-//                    selectedIndex = 1;
-//                } else {
-//                    selectedIndex++;
-//                }
-//            } else if (guibutton == callButton) {
-//                NetMCA.INSTANCE.sendToServer(new NetMCA.CallToPlayer(data.getUUID("uuid")));
-//                Minecraft.getMinecraft().displayScreen(null);
-//            }
-//
-//            villagerNameButton.displayString = data.getString("name");
-//            dummyHuman.readAppearanceFromNBT(data);
-//        }
-//    }
-//
-//    @Override
-//    public void drawScreen(int sizeX, int sizeY, float offset) {
-//        drawDefaultBackground();
-//        drawCenteredString(fontRenderer, MCA.localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
-//
-//        if (loadingAnimationTicks != -1) {
-//            drawString(fontRenderer, "Loading" + StringUtils.repeat(".", loadingAnimationTicks % 10), width / 2 - 20, height / 2 - 10, 0xffffff);
-//        } else {
-//            if (villagerDataList.size() == 0) {
-//                drawCenteredString(fontRenderer, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);
-//            } else {
-//                drawCenteredString(fontRenderer, selectedIndex + " / " + villagerDataList.size(), width / 2, height / 2 + 50, 0xffffff);
-//            }
-//        }
-//
-//        if (dummyHuman != null) {
-//            drawDummyVillager();
-//        }
-//
-//        super.drawScreen(sizeX, sizeY, offset);
-//    }
-//
-//    private void drawDummyVillager() {
-//        final int posX = width / 2;
-//        int posY = height / 2 + 45;
-//        net.minecraft.client.gui.inventory.GuiInventory.drawEntityOnScreen(posX, posY, 75, 0, 0, dummyHuman);
-//    }
-//
-//    public void setVillagerDataList(@NonNull List<CNBT> dataList) {
-//        this.villagerDataList = dataList;
-//        this.loadingAnimationTicks = -1;
-//        this.selectedIndex = 1;
-//
-//        try {
-//            CNBT firstData = dataList.get(0);
-//            villagerNameButton.displayString = firstData.getString("name");
-//            dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().world);
-//            dummyHuman.readAppearanceFromNBT(firstData);
-//        } catch (IndexOutOfBoundsException e) {
-//            callButton.enabled = false;
-//        }
-//    }
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (loadingAnimationTicks != -1) {
+            loadingAnimationTicks++;
+        }
+
+        if (loadingAnimationTicks >= 20) {
+            loadingAnimationTicks = 0;
+        }
+    }
+
+    @Override
+    public void init() {
+        NetworkHandler.sendToServer(new GetVillagerRequest());
+
+        selectionLeftButton = addButton(new Button(width / 2 - 123, height / 2 + 65, 20, 20, new StringTextComponent("<<"), (b) -> {
+            if (selectedIndex == 0) {
+                selectedIndex = keys.size() - 1;
+            } else {
+                selectedIndex--;
+            }
+            setVillagerData(selectedIndex);
+        }));
+
+        selectionRightButton = addButton(new Button(width / 2 + 103, height / 2 + 65, 20, 20, new StringTextComponent(">>"), (b) -> {
+            if (selectedIndex == keys.size() - 1) {
+                selectedIndex = 0;
+            } else {
+                selectedIndex++;
+            }
+            setVillagerData(selectedIndex);
+        }));
+
+        villagerNameButton = addButton(new Button(width / 2 - 100, height / 2 + 65, 200, 20, new StringTextComponent(""), (b) -> {
+        }));
+
+        callButton = addButton(new Button(width / 2 - 100, height / 2 + 90, 60, 20, new StringTextComponent(MCA.localize("gui.button.call")), (b) -> {
+            NetworkHandler.sendToServer(new CallToPlayerMessage(UUID.fromString(keys.get(selectedIndex))));
+            Objects.requireNonNull(this.minecraft).setScreen(null);
+        }));
+
+        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, new StringTextComponent(MCA.localize("gui.button.exit")), (b) -> {
+            Objects.requireNonNull(this.minecraft).setScreen(null);
+        }));
+
+        toggleButtons(false);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
+    public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
+        renderBackground(transform);
+
+        drawCenteredString(transform, font, MCA.localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+
+        if (loadingAnimationTicks != -1) {
+            String loadingMsg = "Loading" + new String(new char[loadingAnimationTicks % 10]).replace("\0", ".");
+            drawString(transform, font, loadingMsg, width / 2 - 20, height / 2 - 10, 0xffffff);
+        } else {
+            if (keys.size() == 0) {
+                drawCenteredString(transform, font, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);
+            } else {
+                drawCenteredString(transform, font, (selectedIndex + 1) + " / " + keys.size(), width / 2, height / 2 + 50, 0xffffff);
+            }
+        }
+
+        drawDummy();
+
+        super.render(transform, sizeX, sizeY, offset);
+    }
+
+    private void drawDummy() {
+        final int posX = width / 2;
+        int posY = height / 2 + 45;
+        if (dummy != null) InventoryScreen.renderEntityInInventory(posX, posY, 60, 0, 0, dummy);
+    }
+
+    public void setVillagerData(@NonNull Map<String, CNBT> data) {
+        villagerData = data;
+        keys.clear();
+        keys.addAll(data.keySet());
+        loadingAnimationTicks = -1;
+        selectedIndex = 0;
+
+        setVillagerData(0);
+    }
+
+    private void setVillagerData(int index) {
+        if (keys.size() > 0) {
+            CNBT firstData = villagerData.get(keys.get(index));
+
+            dummy = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), Minecraft.getInstance().level);
+            dummy.readAdditionalSaveData(firstData.getMcCompound());
+
+            villagerNameButton.setMessage(dummy.getDisplayName());
+
+            toggleButtons(true);
+        } else {
+            toggleButtons(false);
+        }
+    }
+
+    private void toggleButtons(boolean enabled) {
+        selectionLeftButton.active = enabled;
+        selectionRightButton.active = enabled;
+        callButton.active = enabled;
+    }
 }

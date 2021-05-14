@@ -41,6 +41,9 @@ public class MCA extends CobaltForgeMod {
         NetworkHandler.registerMessage(ReviveVillagerMessage.class);
         NetworkHandler.registerMessage(SavedVillagersRequest.class);
         NetworkHandler.registerMessage(SavedVillagersResponse.class);
+        NetworkHandler.registerMessage(GetVillagerRequest.class);
+        NetworkHandler.registerMessage(GetVillagerResponse.class);
+        NetworkHandler.registerMessage(CallToPlayerMessage.class);
     }
 
     public static final String MOD_ID = "mca";

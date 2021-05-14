@@ -80,7 +80,7 @@ public class ItemBaby extends Item {
 
             //assumes your child is from the players current spouse
             //as the father does not have any genes it just takes the one from the mother
-            Entity spouse = CWorld.fromMC(player.level).getEntityByUUID(player, playerData.getSpouseUUID());
+            Entity spouse = CWorld.fromMC(player.level).getEntityByUUID(playerData.getSpouseUUID());
             if (spouse instanceof EntityVillagerMCA) {
                 EntityVillagerMCA spouseVillager = (EntityVillagerMCA) spouse;
                 child.inheritGenes(spouseVillager, spouseVillager);

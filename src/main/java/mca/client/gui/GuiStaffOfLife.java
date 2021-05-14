@@ -11,11 +11,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
@@ -25,7 +25,7 @@ public class GuiStaffOfLife extends Screen {
     private final PlayerEntity player;
 
     // selection fields
-    private int index = 0;
+    private int selectedIndex = 0;
     private final List<String> keys = new ArrayList<>();
 
     private Button nameButton;
@@ -33,7 +33,7 @@ public class GuiStaffOfLife extends Screen {
     private Button nextButton;
     private Button backButton;
 
-    public GuiStaffOfLife(PlayerEntity player, ItemStack baby) {
+    public GuiStaffOfLife(PlayerEntity player) {
         super(new StringTextComponent("Staff of Life"));
 
         this.player = player;
@@ -43,27 +43,24 @@ public class GuiStaffOfLife extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new SavedVillagersRequest());
 
-        backButton = addButton(new Button(width / 2 - 123, height / 2 + 65, 20, 20, new StringTextComponent("<<"), (button) -> {
-            selectData(index - 1);
-        }));
+        backButton = addButton(new Button(width / 2 - 123, height / 2 + 65, 20, 20, new StringTextComponent("<<"),
+                (button) -> selectData(selectedIndex - 1)));
 
-        nextButton = addButton(new Button(width / 2 + 103, height / 2 + 65, 20, 20, new StringTextComponent(">>"), (button) -> {
-            selectData(index + 1);
-            ;
-        }));
+        nextButton = addButton(new Button(width / 2 + 103, height / 2 + 65, 20, 20, new StringTextComponent(">>"),
+                (button) -> selectData(selectedIndex + 1)));
 
-        nameButton = addButton(new Button(width / 2 - 100, height / 2 + 65, 200, 20, new StringTextComponent(""), (button) -> {
+        nameButton = addButton(new Button(width / 2 - 100, height / 2 + 65, 200, 20, new StringTextComponent(""),
+                (button) -> {
+                }));
 
-        }));
+        reviveButton = addButton(new Button(width / 2 - 100, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.revive"),
+                (button) -> {
+                    NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(selectedIndex))));
+                    Objects.requireNonNull(this.minecraft).setScreen(null);
+                }));
 
-        reviveButton = addButton(new Button(width / 2 - 100, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.revive"), (button) -> {
-            NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(index))));
-            Objects.requireNonNull(this.minecraft).setScreen(null);
-        }));
-
-        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.exit"), (button) -> {
-            Objects.requireNonNull(this.minecraft).setScreen(null);
-        }));
+        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.exit"),
+                (button) -> Objects.requireNonNull(this.minecraft).setScreen(null)));
 
         toggleButtons(false);
     }
@@ -74,6 +71,7 @@ public class GuiStaffOfLife extends Screen {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
@@ -114,8 +112,8 @@ public class GuiStaffOfLife extends Screen {
         if (i < 0) i = keys.size() - 1;
         else if (i > keys.size() - 1) i = 0;
 
-        index = i;
-        updateDummy(villagerData.get(keys.get(index)));
+        selectedIndex = i;
+        updateDummy(villagerData.get(keys.get(selectedIndex)));
         nameButton.setMessage(dummy.getDisplayName());
     }
 

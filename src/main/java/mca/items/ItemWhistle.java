@@ -1,5 +1,8 @@
 package mca.items;
 
+import mca.client.gui.GuiStaffOfLife;
+import mca.client.gui.GuiWhistle;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -20,8 +23,11 @@ public class ItemWhistle extends Item {
 
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-//        player.openGui(MCA.getInstance(), Constants.GUI_ID_WHISTLE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
-        return null;
+        ItemStack stack = player.getItemInHand(hand);
+
+        Minecraft.getInstance().setScreen(new GuiWhistle());
+
+        return ActionResult.success(stack);
     }
 
     @Override

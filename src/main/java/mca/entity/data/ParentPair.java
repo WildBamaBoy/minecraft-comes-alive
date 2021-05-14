@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -68,28 +67,17 @@ public class ParentPair {
     }
 
     /**
-     * Returns an optional reference to the parent entity with the given UUID.
-     *
-     * @param world The world containing the parent.
-     * @param uuid  The UUID of the parent
-     * @return Optional Entity
-     */
-    public Optional<Entity> getParentEntity(CWorld world, UUID uuid) {
-        return world.getEntityByUUID(uuid);
-    }
-
-    /**
      * Sends a message to both parent entities.
      *
      * @param world   The world containing the parents.
      * @param message The message to send.
      */
     public void sendMessage(CWorld world, String message) {
-        Optional<Entity> parent1 = world.getEntityByUUID(parent1UUID);
-        Optional<Entity> parent2 = world.getEntityByUUID(parent2UUID);
+        Entity parent1 = world.getEntityByUUID(parent1UUID);
+        Entity parent2 = world.getEntityByUUID(parent2UUID);
 
-        parent1.ifPresent(p -> p.sendMessage(new StringTextComponent(message), p.getUUID()));
-        parent2.ifPresent(p -> p.sendMessage(new StringTextComponent(message), p.getUUID()));
+        if (parent1 != null) parent1.sendMessage(new StringTextComponent(message), parent1.getUUID());
+        if (parent2 != null) parent2.sendMessage(new StringTextComponent(message), parent2.getUUID());
     }
 
     /**
@@ -99,11 +87,9 @@ public class ParentPair {
      * @return Entity[]
      */
     public Entity[] getBothParentEntities(CWorld world) {
-        Optional<Entity> parent1 = getParentEntity(world, getParent1UUID());
-        Optional<Entity> parent2 = getParentEntity(world, getParent2UUID());
-        return new Entity[]{
-                parent1.orElse(null), parent2.orElse(null)
-        };
+        Entity parent1 = world.getEntityByUUID(getParent1UUID());
+        Entity parent2 = world.getEntityByUUID(getParent2UUID());
+        return new Entity[]{parent1, parent2};
     }
 
     /**

@@ -24,12 +24,14 @@ public class ItemStaffOfLife extends Item {
 
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+
         if (!MCA.getConfig().enableRevivals) {
             player.sendMessage(MCA.localizeText("notify.revival.disabled"), player.getUUID());
+            return ActionResult.fail(stack);
         }
 
-        ItemStack stack = player.getItemInHand(hand);
-        Minecraft.getInstance().setScreen(new GuiStaffOfLife(player, stack));
+        Minecraft.getInstance().setScreen(new GuiStaffOfLife(player));
 
         return ActionResult.success(stack);
     }
