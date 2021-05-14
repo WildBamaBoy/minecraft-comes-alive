@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
@@ -28,9 +29,6 @@ public class CWorld {
     public final boolean isClientSide;
     public final Random rand;
 
-    //TODO
-    public Iterable<? extends Entity> loadedEntityList;
-
     private CWorld(World world) {
         this.mcWorld = world;
         this.isClientSide = world.isClientSide;
@@ -41,11 +39,10 @@ public class CWorld {
         return new CWorld(world);
     }
 
-    //returns all entities
+    //returns all entities within a given range around a given position
     public List<Entity> getCloseEntities(Entity e) {
-        return getCloseEntities(e, 256.0D);
+        return getCloseEntities(e, 256.0);
     }
-
     public List<Entity> getCloseEntities(Entity e, double range) {
         BlockPos pos = e.blockPosition();
         return mcWorld.getEntities(e, new AxisAlignedBB(
@@ -56,6 +53,30 @@ public class CWorld {
                 pos.getY() + range,
                 pos.getZ() + range
         ));
+    }
+
+    public <T extends Entity> List<T> getCloseEntities(Entity e, Class<? extends T> c) {
+        return getCloseEntities(e,256.0, c);
+    }
+    public <T extends Entity> List<T> getCloseEntities(Entity e, double range, Class<? extends T> c) {
+        BlockPos pos = e.blockPosition();
+        return mcWorld.getLoadedEntitiesOfClass(c, new AxisAlignedBB(
+                pos.getX() - range,
+                pos.getY() - range,
+                pos.getZ() - range,
+                pos.getX() + range,
+                pos.getY() + range,
+                pos.getZ() + range
+        ));
+    }
+
+    public Entity getEntityByUUID(Entity searcher, UUID uuid) {
+        for (Entity entity : getCloseEntities(searcher)) {
+            if (entity.getUUID().equals(uuid)) {
+                return entity;
+            }
+        }
+        return null;
     }
 
     public CWorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataId) {

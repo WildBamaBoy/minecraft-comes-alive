@@ -1,7 +1,8 @@
 package mca.items;
 
+import mca.client.gui.GuiStaffOfLife;
 import mca.core.MCA;
-import net.java.games.input.Keyboard;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -23,11 +24,14 @@ public class ItemStaffOfLife extends Item {
 
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (!MCA.getConfig().enableRevivals)
+        if (!MCA.getConfig().enableRevivals) {
             player.sendMessage(MCA.localizeText("notify.revival.disabled"), player.getUUID());
+        }
 
-//        playerIn.openGui(MCA.getInstance(), Constants.GUI_ID_STAFFOFLIFE, playerIn.world, 0, 0, 0);
-        return null;
+        ItemStack stack = player.getItemInHand(hand);
+        Minecraft.getInstance().setScreen(new GuiStaffOfLife(player, stack));
+
+        return ActionResult.success(stack);
     }
 
     @Override

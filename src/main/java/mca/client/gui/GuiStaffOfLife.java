@@ -1,26 +1,26 @@
 package mca.client.gui;
 
 import cobalt.minecraft.nbt.CNBT;
+import cobalt.network.NetworkHandler;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.network.ReviveVillagerMessage;
+import mca.network.SavedVillagersRequest;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiStaffOfLife extends Screen {
     private Map<String, CNBT> villagerData;
-    private Button reviveButton;
-    private Button nameButton;
-    private Button backButton;
-    private Button nextButton;
-    private Button closeButton;
     private EntityVillagerMCA dummy;
     private final PlayerEntity player;
 
@@ -28,80 +28,101 @@ public class GuiStaffOfLife extends Screen {
     private int index = 0;
     private final List<String> keys = new ArrayList<>();
 
-    public GuiStaffOfLife(PlayerEntity player) {
+    private Button nameButton;
+    private Button reviveButton;
+    private Button nextButton;
+    private Button backButton;
+
+    public GuiStaffOfLife(PlayerEntity player, ItemStack baby) {
         super(new StringTextComponent("Staff of Life"));
+
         this.player = player;
     }
 
-//    @Override
-//    public void initGui() {
-//        NetMCA.INSTANCE.sendToServer(new NetMCA.SavedVillagersRequest());
-//
-//        buttonList.clear();
-//        buttonList.add(backButton = new Button(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
-//        buttonList.add(nextButton = new Button(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
-//        buttonList.add(nameButton = new Button(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-//        buttonList.add(reviveButton = new Button(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.localize("gui.button.revive")));
-//        buttonList.add(closeButton = new Button(5, width / 2 + 40, height / 2 + 90, 60, 20, MCA.localize("gui.button.exit")));
-//    }
-//
-//    @Override
-//    public boolean doesGuiPauseGame() {
-//        return false;
-//    }
-//
-//    @Override
-//    protected void actionPerformed(Button guibutton) {
-//        if (guibutton == reviveButton) {
-//            NetMCA.INSTANCE.sendToServer(new NetMCA.ReviveVillager(UUID.fromString(keys.get(index))));
-//            mc.displayScreen(null);
-//        } else if (guibutton == backButton) selectData(index - 1);
-//        else if (guibutton == nextButton) selectData(index + 1);
-//        else if (guibutton == closeButton) mc.displayScreen(null);
-//    }
-//
-//    @Override
-//    public void drawScreen(int sizeX, int sizeY, float offset) {
-//        drawDefaultBackground();
-//        drawDummy();
-//        drawCenteredString(fontRenderer, MCA.localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
-//        super.drawScreen(sizeX, sizeY, offset);
-//    }
-//
-//    public void setVillagerData(Map<String, CNBT> data) {
-//        villagerData = data;
-//
-//        if (data.size() > 0) {
-//            dummy = new EntityVillagerMCA(player.world);
-//            keys.addAll(data.keySet());
-//            selectData(0);
-//        } else {
-//            nameButton.displayString = "No villagers found.";
-//            backButton.enabled = false;
-//            nextButton.enabled = false;
-//            nameButton.enabled = false;
-//            reviveButton.enabled = false;
-//        }
-//    }
-//
-//    private void updateDummy(CNBT nbt) {
-//        dummy.readEntityFromNBT(nbt);
-//        dummy.setHealth(20.0F);
-//    }
-//
-//    private void selectData(int i) {
-//        if (i < 0) i = keys.size() - 1;
-//        else if (i > keys.size() - 1) i = 0;
-//
-//        index = i;
-//        updateDummy(villagerData.get(keys.get(index)));
-//        nameButton.displayString = dummy.getDisplayName().getUnformattedText();
-//    }
-//
-//    private void drawDummy() {
-//        int posX = width / 2;
-//        int posY = height / 2 + 45;
-//
-//        if (dummy != null) GuiInventory.drawEntityOnScreen(posX, posY, 60, 0, 0, dummy);
-//    }
+    @Override
+    public void init() {
+        NetworkHandler.sendToServer(new SavedVillagersRequest());
+
+        backButton = addButton(new Button(width / 2 - 123, height / 2 + 65, 20, 20, new StringTextComponent("<<"), (button) -> {
+            selectData(index - 1);
+        }));
+
+        nextButton = addButton(new Button(width / 2 + 103, height / 2 + 65, 20, 20, new StringTextComponent(">>"), (button) -> {
+            selectData(index + 1);
+            ;
+        }));
+
+        nameButton = addButton(new Button(width / 2 - 100, height / 2 + 65, 200, 20, new StringTextComponent(""), (button) -> {
+
+        }));
+
+        reviveButton = addButton(new Button(width / 2 - 100, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.revive"), (button) -> {
+            NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(index))));
+            Objects.requireNonNull(this.minecraft).setScreen(null);
+        }));
+
+        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.exit"), (button) -> {
+            Objects.requireNonNull(this.minecraft).setScreen(null);
+        }));
+
+        toggleButtons(false);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
+    public void render(MatrixStack transform, int w, int h, float scale) {
+        renderBackground(transform);
+
+        drawCenteredString(transform, font, MCA.localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
+
+        super.render(transform, w, h, scale);
+
+        drawDummy();
+    }
+
+    public void setVillagerData(Map<String, CNBT> data) {
+        villagerData = data;
+
+        if (data.size() > 0) {
+            dummy = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), player.level);
+            keys.clear();
+            keys.addAll(data.keySet());
+            selectData(0);
+            toggleButtons(true);
+        } else {
+            nameButton.setMessage(new StringTextComponent("No villagers found."));
+            toggleButtons(false);
+        }
+    }
+
+    private void toggleButtons(boolean enabled) {
+        backButton.active = enabled;
+        nextButton.active = enabled;
+        nameButton.active = enabled;
+        reviveButton.active = enabled;
+    }
+
+    private void updateDummy(CNBT nbt) {
+        dummy.readAdditionalSaveData(nbt.getMcCompound());
+    }
+
+    private void selectData(int i) {
+        if (i < 0) i = keys.size() - 1;
+        else if (i > keys.size() - 1) i = 0;
+
+        index = i;
+        updateDummy(villagerData.get(keys.get(index)));
+        nameButton.setMessage(dummy.getDisplayName());
+    }
+
+    private void drawDummy() {
+        int posX = width / 2;
+        int posY = height / 2 + 45;
+
+        if (dummy != null) InventoryScreen.renderEntityInInventory(posX, posY, 60, 0, 0, dummy);
+    }
 }

@@ -4,7 +4,6 @@ import cobalt.minecraft.inventory.CInventory;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.network.datasync.*;
 import cobalt.minecraft.world.CWorld;
-import com.google.common.base.Optional;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
@@ -352,7 +351,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         if (!world.isClientSide) {
             //The death of a villager negatively modifies the mood of nearby villagers
-            for (EntityVillagerMCA villager : Util.getEntitiesWithinDistance(world, getOnPos(), 24, EntityVillagerMCA.class)) {
+            for (EntityVillagerMCA villager : world.getCloseEntities(this, 32.0D, EntityVillagerMCA.class)) {
                 villager.modifyMoodLevel(-10);
             }
 
@@ -363,16 +362,16 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
             if (isMarried()) {
                 UUID spouse = spouseUUID.get().orElse(Constants.ZERO_UUID);
-                Optional<EntityVillagerMCA> sp = Util.getEntityByUUID(world, spouse, EntityVillagerMCA.class);
+                Entity sp = world.getEntityByUUID(this, spouse);
                 PlayerSaveData playerSaveData = PlayerSaveData.get(world, spouse);
 
                 // Notify spouse of the death
-                if (sp.isPresent()) {
-                    sp.get().endMarriage();
+                if (sp instanceof EntityVillagerMCA) {
+                    ((EntityVillagerMCA) sp).endMarriage();
                 } else if (playerSaveData != null) {
                     playerSaveData.endMarriage();
                     world.getPlayerEntityByUUID(spouse).ifPresent(player -> {
-                        String msg = MCA.localize("notify.spousedied", villagerName.get(), cause.getLocalizedDeathMessage(this).getString());
+                        String msg = cause.getLocalizedDeathMessage(this).getString();
                         sendMessageTo(Constants.Color.RED + msg, player);
                     });
                 }
@@ -384,7 +383,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     .filter(e -> e instanceof PlayerEntity)
                     .forEach(e -> {
                         PlayerEntity player = (PlayerEntity) e;
-                        String msg = MCA.localize("notify.childdied", villagerName.get(), cause.getLocalizedDeathMessage(this).getString());
+                        String msg = cause.getLocalizedDeathMessage(this).getString();
                         sendMessageTo(Constants.Color.RED + msg, player);
                     });
 
@@ -714,9 +713,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             return true;
         } else if (item == Items.CAKE) {
             if (isMarried() && !isBaby()) {
-                Optional<Entity> spouse = Util.getEntityByUUID(world, spouseUUID.get().orElse(Constants.ZERO_UUID));
-                if (spouse.isPresent()) {
-                    EntityVillagerMCA progressor = gender.get() == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse.get();
+                Entity spouse = world.getEntityByUUID(this, spouseUUID.get().orElse(Constants.ZERO_UUID));
+                if (spouse instanceof EntityVillagerMCA) {
+                    EntityVillagerMCA progressor = gender.get() == EnumGender.FEMALE.getId() ? this : (EntityVillagerMCA) spouse;
                     progressor.hasBaby.set(true);
                     progressor.isBabyMale.set(random.nextBoolean());
                     addParticlesAroundSelf(ParticleTypes.HEART);

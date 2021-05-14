@@ -22,7 +22,7 @@ public class Localizer {
 
         //multi-variant text
         if (result.equals(key)) {
-            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().contains(key)).map(Map.Entry::getValue).collect(Collectors.toList());
+            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).map(Map.Entry::getValue).collect(Collectors.toList());
             if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
 

@@ -1,12 +1,10 @@
 package cobalt.network;
 
-import io.netty.buffer.ByteBuf;
 import lombok.SneakyThrows;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 
 import java.io.*;
-import java.util.Base64;
 
 public abstract class Message implements Serializable {
     @SneakyThrows

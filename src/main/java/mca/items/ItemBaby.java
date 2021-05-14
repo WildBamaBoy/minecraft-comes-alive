@@ -2,7 +2,6 @@ package mca.items;
 
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.world.CWorld;
-import com.google.common.base.Optional;
 import mca.client.gui.GuiNameBaby;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -11,7 +10,6 @@ import mca.entity.data.ParentPair;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
-import mca.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -82,9 +80,9 @@ public class ItemBaby extends Item {
 
             //assumes your child is from the players current spouse
             //as the father does not have any genes it just takes the one from the mother
-            Optional<Entity> spouse = Util.getEntityByUUID(CWorld.fromMC(player.level), playerData.getSpouseUUID());
-            if (spouse.isPresent() && spouse.get() instanceof EntityVillagerMCA) {
-                EntityVillagerMCA spouseVillager = (EntityVillagerMCA) spouse.get();
+            Entity spouse = CWorld.fromMC(player.level).getEntityByUUID(player, playerData.getSpouseUUID());
+            if (spouse instanceof EntityVillagerMCA) {
+                EntityVillagerMCA spouseVillager = (EntityVillagerMCA) spouse;
                 child.inheritGenes(spouseVillager, spouseVillager);
             }
 
@@ -97,6 +95,8 @@ public class ItemBaby extends Item {
 
             // set proper dialogue type
             child.getMemoriesForPlayer(player).setDialogueType(EnumDialogueType.CHILDP);
+
+            stack.shrink(1);
 
             return ActionResult.success(stack);
         } else {
@@ -120,7 +120,7 @@ public class ItemBaby extends Item {
 
             String textColor = ((ItemBaby) stack.getItem()).isMale ? Constants.Color.AQUA : Constants.Color.LIGHTPURPLE;
             int ageInMinutes = nbt.getInteger("age");
-            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUUID()) ? MCA.localize("label.you") : nbt.getString("ownerName");
+            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUUID()) ? MCA.localize("gui.label.you") : nbt.getString("ownerName");
 
             if (getBabyName(stack).equals(""))
                 tooltip.add(new StringTextComponent(textColor + MCA.localize("gui.label.name") + " " + Constants.Format.RESET + MCA.localize("label.unnamed")));

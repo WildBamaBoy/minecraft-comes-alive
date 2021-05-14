@@ -1,5 +1,6 @@
 package cobalt.network;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
@@ -38,7 +39,7 @@ public class NetworkHandler {
     }
 
     public static void sendToPlayer(Message m, ServerPlayerEntity e) {
-        INSTANCE.send(PacketDistributor.PLAYER.with((Supplier<ServerPlayerEntity>) e), m);
+        INSTANCE.send(PacketDistributor.PLAYER.with(() -> e), m);
     }
 
     public static void sendToChunk(Message m, Chunk c) {

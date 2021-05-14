@@ -464,8 +464,6 @@
     "spouse.interaction.procreate.fail.lowhearts2": "Hmm...not just yet. I think we need to spend more time together first.",
 
     "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
-    "notify.spousedied": "Your spouse %v1% has died by %v2%",
-    "notify.childdied": "Your child %v1% has died by %v2%",
     "notify.child.grownup": "%v1% has grown into an adult!",
     "notify.revival.disabled": "Revivals have been disabled by the server administrator.",
     "notify.trading.disabled": "Trading is disabled by the server administrator.",

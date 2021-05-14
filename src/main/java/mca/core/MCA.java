@@ -11,7 +11,7 @@ import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.items.*;
-import mca.network.InteractionVillagerMessage;
+import mca.network.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -36,6 +36,11 @@ public class MCA extends CobaltForgeMod {
 
     static {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
+        NetworkHandler.registerMessage(InteractionServerMessage.class);
+        NetworkHandler.registerMessage(BabyNamingVillagerMessage.class);
+        NetworkHandler.registerMessage(ReviveVillagerMessage.class);
+        NetworkHandler.registerMessage(SavedVillagersRequest.class);
+        NetworkHandler.registerMessage(SavedVillagersResponse.class);
     }
 
     public static final String MOD_ID = "mca";
@@ -85,7 +90,7 @@ public class MCA extends CobaltForgeMod {
         ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new Item(new Item.Properties().tab(TAB)));
         ITEM_GOLD_DUST = registerItem("gold_dust", new Item(new Item.Properties().tab(TAB)));
         ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new Item(new Item.Properties().tab(TAB)));
-        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(TAB)));
+        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(TAB).durability(5)));
         ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(TAB)));
         ITEM_BOOK_DEATH = registerItem("book_death", new Item(new Item.Properties().tab(TAB)));
         ITEM_BOOK_ROMANCE = registerItem("book_romance", new Item(new Item.Properties().tab(TAB)));

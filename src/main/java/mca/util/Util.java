@@ -65,39 +65,6 @@ public class Util {
         return data;
     }
 
-    public static List<Entity> getEntitiesWithinDistance(CWorld world, BlockPos pos, int radius) {
-        return getEntitiesWithinDistance(world, pos, radius, Entity.class);
-    }
-
-    public static <T extends Entity> List<T> getEntitiesWithinDistance(CWorld world, BlockPos pos, int radius, Class<T> type) {
-        return world.getMcWorld().getEntitiesOfClass(type, new AxisAlignedBB(
-                pos.getX() - radius,
-                pos.getY() - radius,
-                pos.getZ() - radius,
-                pos.getX() + radius,
-                pos.getY() + radius,
-                pos.getZ() + radius)
-        );
-    }
-
-    public static Optional<Entity> getEntityByUUID(CWorld world, UUID uuid) {
-        for (Entity entity : world.loadedEntityList) {
-            if (entity.getUUID().equals(uuid)) {
-                return Optional.of(entity);
-            }
-        }
-        return Optional.absent();
-    }
-
-    public static <T extends Entity> Optional<T> getEntityByUUID(CWorld world, UUID uuid, Class<? extends T> clazz) {
-        for (Entity entity : world.loadedEntityList) {
-            if (entity.getClass().isAssignableFrom(clazz) && entity.getUUID().equals(uuid)) {
-                return Optional.of((T) entity);
-            }
-        }
-        return Optional.absent();
-    }
-
     public static List<BlockPos> getNearbyBlocks(BlockPos origin, World world, @Nullable Class filter, int xzDist, int yDist) {
         final List<BlockPos> pointsList = new ArrayList<>();
         for (int x = -xzDist; x <= xzDist; x++) {

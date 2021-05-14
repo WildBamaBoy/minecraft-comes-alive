@@ -3,14 +3,17 @@ package cobalt.minecraft.nbt;
 import cobalt.core.Cobalt;
 import mca.core.Constants;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
-public class CNBT {
-    private final CompoundNBT mcCompound;
+public class CNBT implements Serializable {
+    transient private CompoundNBT mcCompound;
 
     private CNBT() {
         mcCompound = new CompoundNBT();
@@ -159,5 +162,13 @@ public class CNBT {
 
     public CompoundNBT getMcCompound() {
         return mcCompound;
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        CompressedStreamTools.write(mcCompound, out);
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        mcCompound = CompressedStreamTools.read(in);
     }
 }
