@@ -70,9 +70,9 @@ public class CWorld {
         ));
     }
 
-    public CWorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataId) {
+    public <T extends WorldSavedData> T loadData(Class<T> clazz, String dataId) {
         DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getDataStorage();
-        return dm.computeIfAbsent(() -> {
+        return (T) dm.computeIfAbsent(() -> {
             try {
                 return (CWorldSavedData) clazz.getDeclaredConstructor(String.class).newInstance(dataId);
             } catch (Exception e) {
@@ -82,7 +82,7 @@ public class CWorld {
         }, dataId);
     }
 
-    public void setData(String dataId, WorldSavedData data) {
+    public void setData(WorldSavedData data) {
         DimensionSavedDataManager dm = ((ServerWorld) mcWorld).getDataStorage();
         dm.set(data);
     }

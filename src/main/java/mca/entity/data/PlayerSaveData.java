@@ -8,8 +8,6 @@ import cobalt.minecraft.world.CWorld;
 import java.util.UUID;
 
 public class PlayerSaveData extends CWorldSavedData {
-    public static final String PREFIX = "MCA-Player-V2-";
-
     private UUID spouseUUID = CConstants.ZERO_UUID;
     private String spouseName = "";
     private boolean babyPresent = false;
@@ -19,7 +17,7 @@ public class PlayerSaveData extends CWorldSavedData {
     }
 
     public static PlayerSaveData get(CWorld world, UUID uuid) {
-        return (PlayerSaveData) CWorldSavedData.get(PREFIX, PlayerSaveData.class, world, uuid);
+        return world.loadData(PlayerSaveData.class, "mca_village_" + uuid.toString());
     }
 
     public boolean isMarried() {
