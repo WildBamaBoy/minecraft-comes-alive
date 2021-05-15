@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SavedVillagers extends CWorldSavedData {
-    private static final String DATA_ID = "MCA-Villagers-V2";
+    private static final String DATA_ID = "MCA-Villagers";
     @Getter
     private final Map<String, CNBT> villagerData = new HashMap<>();
 
@@ -20,12 +20,7 @@ public class SavedVillagers extends CWorldSavedData {
     }
 
     public static SavedVillagers get(CWorld world) {
-        SavedVillagers data = (SavedVillagers) world.loadData(SavedVillagers.class, DATA_ID);
-        if (data == null) {
-            data = new SavedVillagers(DATA_ID);
-            world.setData(DATA_ID, data);
-        }
-        return data;
+        return world.loadData(SavedVillagers.class, DATA_ID);
     }
 
     public void saveVillager(EntityVillagerMCA villager) {
