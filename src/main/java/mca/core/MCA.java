@@ -85,9 +85,9 @@ public class MCA extends CobaltForgeMod {
         ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(TAB)));
         ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(TAB)));
         ITEM_WEDDING_RING = registerItem("wedding_ring", new ItemWeddingRing(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRing(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRingRG(new Item.Properties().tab(TAB).stacksTo(1)));
         ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new ItemEngagementRing(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRing(new Item.Properties().tab(TAB).stacksTo(1)));
+        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRingRG(new Item.Properties().tab(TAB).stacksTo(1)));
         ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new ItemMatchmakersRing(new Item.Properties().tab(TAB).stacksTo(2)));
         ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(TAB)));
         ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(TAB)));

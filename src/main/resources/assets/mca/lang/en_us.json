@@ -335,6 +335,8 @@
     "adult.chore.hunting.nosword": "I lost my sword! Do you have another?",
     "adult.chore.harvesting.nohoe": "I don't have a hoe to harvest with.",
 
+    "child.interaction.marry.fail.isbaby": "You are trying to marry a kid... what?",
+
     "spouse.interaction.marry.fail.marriedtogiver1": "It's a pretty ring, but I am already married to you, silly.",
     "spouse.interaction.marry.fail.marriedtogiver2": "We are already married. Did you forget?",
 
@@ -352,9 +354,14 @@
     "adult.interaction.marry.fail.lowhearts3": "Is that for me? Sorry, I just don't know you enough.",
     "adult.interaction.marry.fail.lowhearts4": "I'm flattered, but I don't really know you.",
 
-    "spouse.interaction.engage.success1": "Yes! I will marry you! I love you!",
-    "spouse.interaction.engage.success2": "Of course I'll marry you!",
-    "spouse.interaction.engage.success3": "About time...just kidding! Love you!",
+    "adult.interaction.marry.fail.isparent1": "Don't keep it in the family please...",
+    "adult.interaction.marry.fail.isparent2": "Pretty sure that's not how this works.",
+    "adult.interaction.marry.fail.isparent3": "According to the Encyclopedia of Life, incest is illegal. So no.",
+    "adult.interaction.marry.fail.isparent4": "We aren't the Sawyers...",
+
+    "spouse.interaction.engage.success1": "Yes\\! I will marry you\\! I love you\\!",
+    "spouse.interaction.engage.success2": "Of course I'll marry you\\!",
+    "spouse.interaction.engage.success3": "About time...just kidding\\! Love you\\!",
     "spouse.interaction.engage.success4": "Is...is this real? I mean, this moment, not the ring. But the ring is real, right?",
 
     "spouse.interaction.marry.success1": "It's a dream come true! I'll love you forever!",

@@ -1,6 +1,5 @@
 package mca.items;
 
-import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;

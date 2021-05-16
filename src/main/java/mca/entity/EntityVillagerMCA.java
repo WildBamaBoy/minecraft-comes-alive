@@ -726,7 +726,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     private boolean handleSpecialCaseGift(PlayerEntity player, ItemStack stack) {
         Item item = stack.getItem();
 
-        if (item instanceof ItemSpecialCaseGift && !isBaby()) { // special case gifts are rings so far so prevent giving them to children
+        if (item instanceof ItemSpecialCaseGift) {
             if (((ItemSpecialCaseGift) item).handle(player, this)) {
                 player.getMainHandItem().shrink(1);
             }
