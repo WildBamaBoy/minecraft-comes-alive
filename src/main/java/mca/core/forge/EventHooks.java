@@ -1,11 +1,12 @@
 package mca.core.forge;
 
-import net.minecraft.entity.Entity;
 import cobalt.minecraft.world.CWorld;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.ReaperSpawner;
+import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.data.VillageManagerData;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -28,6 +29,7 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 
 import java.util.*;
 
@@ -35,6 +37,14 @@ public class EventHooks {
     // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
     public Map<UUID, ItemStack> limbo = new HashMap<>();
     private final List<VillagerEntity> spawnQueue = new LinkedList<>();
+
+    @SubscribeEvent
+    public void onWorldTick(TickEvent.WorldTickEvent event) {
+        //our villager handler
+        if (event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.END) {
+            VillageHelper.tick(CWorld.fromMC(event.world));
+        }
+    }
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
@@ -116,13 +126,25 @@ public class EventHooks {
     }
 
     @SubscribeEvent
+    public void onBreakEvent(BlockEvent.BreakEvent event) {
+        //we can check destroyed buildings here, but it's not worth the performance
+//        if (!event.getWorld().isClientSide()) {
+//            VillageManagerData manager = VillageManagerData.get(CWorld.fromMC((World) event.getWorld()));
+//            if (manager.cache.contains(event.getPos())) {
+//                manager.reportBuilding((World) event.getWorld(), event.getPos());
+//            }
+//        }
+    }
+
+    @SubscribeEvent
     public void onPlaceEvent(BlockEvent.EntityPlaceEvent event) {
+        Block placedBlock = event.getPlacedBlock().getBlock();
+
         long time = event.getWorld().dayTime();
         if (time > 13000 && time < 23000) {
             int x = event.getPos().getX();
             int y = event.getPos().getY();
             int z = event.getPos().getZ();
-            Block placedBlock = event.getPlacedBlock().getBlock();
 
             // summon the grim reaper
             if (placedBlock == Blocks.FIRE && event.getWorld().getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.EMERALD_BLOCK) {

@@ -89,7 +89,6 @@ public abstract class CobaltForgeMod extends CobaltMod {
      * Registers an entity with Forge under this mod's ID.
      *
      * @param factory        Method reference to your entity's constructor. ex: MyEntity::new
-     * @param factory  Method reference to your entity renderer's constructor. ex: MyEntityRenderer::new
      * @param classification Your desired EntityClassification for your entity.
      * @param entityId       An identifier for your entity. This is used with your mod ID to define the entity's ResourceLocation.
      * @param width          Your entity's width
