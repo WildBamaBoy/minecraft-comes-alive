@@ -3,28 +3,33 @@ package mca.entity.data;
 import mca.enums.BuildingType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Building {
-    private BlockPos pos0;
-    private BlockPos pos1;
+public class Building implements Serializable {
+    private int pos0X, pos0Y, pos0Z;
+    private int pos1X, pos1Y, pos1Z;
 
     private BuildingType type;
 
     private Set<UUID> residents;
 
-    private final HashMap<Block, Integer> blocks;
+    transient private final HashMap<Block, Integer> blocks;
 
     private int id;
 
     public Building(BlockPos pos) {
-        pos0 = pos;
-        pos1 = pos;
+        pos0X = pos.getX();
+        pos0Y = pos.getY();
+        pos0Z = pos.getZ();
+
+        pos1X = pos0X;
+        pos1Y = pos0Y;
+        pos1Z = pos0Z;
 
         type = BuildingType.HOUSE;
 
@@ -32,11 +37,19 @@ public class Building {
         blocks = new HashMap<>();
     }
 
+    public BlockPos getPos0() {
+        return new BlockPos(pos0X, pos0Y, pos0Z);
+    }
+
+    public BlockPos getPos1() {
+        return new BlockPos(pos1X, pos1Y, pos1Z);
+    }
+
     public BlockPos getCenter() {
         return new BlockPos(
-                (pos0.getX() + pos1.getX()) / 2,
-                (pos0.getY() + pos1.getY()) / 2,
-                (pos0.getZ() + pos1.getZ()) / 2
+                (pos0X + pos1X) / 2,
+                (pos0Y + pos1Y) / 2,
+                (pos0Z + pos1Z) / 2
         );
     }
 
@@ -106,8 +119,13 @@ public class Building {
             }
 
             //adjust building dimensions
-            pos0 = new BlockPos(sx - 1, sy - 1, sz - 1);
-            pos1 = new BlockPos(ex + 1, ey + 1, ez + 1);
+            pos0X = sx - 1;
+            pos0Y = sy - 1;
+            pos0Z = sz - 1;
+
+            pos1X = ex + 1;
+            pos1Y = ey + 1;
+            pos1Z = ez + 1;
 
             return true;
         } else {
@@ -117,14 +135,6 @@ public class Building {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public BlockPos getPos0() {
-        return pos0;
-    }
-
-    public BlockPos getPos1() {
-        return pos1;
     }
 
     public BuildingType getType() {

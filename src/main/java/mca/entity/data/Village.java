@@ -2,11 +2,13 @@ package mca.entity.data;
 
 import net.minecraft.util.math.BlockPos;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Village {
-    private BlockPos center;
+public class Village implements Serializable {
+    private int centerX, centerY, centerZ;
+
     private final int id;
     private String name;
     private int size;
@@ -34,6 +36,10 @@ public class Village {
     }
 
     private void calculateDimensions() {
+        if (buildings.size() == 0) {
+            return;
+        }
+
         int x = 0;
         int y = 0;
         int z = 0;
@@ -47,12 +53,14 @@ public class Village {
 
         //and average it
         int s = buildings.size();
-        center = new BlockPos(x / s, y / s, z / s);
+        centerX = x / s;
+        centerY = y / s;
+        centerZ = z / s;
 
         //calculate size
         size = 0;
         for (Building building : buildings.values()) {
-            size = Math.max(building.getCenter().distManhattan(center), size);
+            size = (int) Math.max(building.getCenter().distSqr(centerX, centerY, centerZ, true), size);
         }
 
         //extra margin
@@ -60,7 +68,7 @@ public class Village {
     }
 
     public BlockPos getCenter() {
-        return center;
+        return new BlockPos(centerX, centerY, centerZ);
     }
 
     public int getSize() {

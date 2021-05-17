@@ -63,6 +63,11 @@ public class VillageManagerData extends CWorldSavedData {
                 //remove if the building became invalid for whatever reason
                 village.removeBuilding(withinBuilding.getId());
 
+                //village is now empty
+                if (village.getBuildings().size() == 0) {
+                    villages.remove(village.getId());
+                }
+
                 setDirty();
             }
         } else {
