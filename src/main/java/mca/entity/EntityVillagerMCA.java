@@ -4,6 +4,10 @@ import cobalt.minecraft.inventory.CInventory;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.network.datasync.*;
 import cobalt.minecraft.world.CWorld;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Dynamic;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
@@ -11,6 +15,7 @@ import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
+import mca.entity.ai.brain.MCAVillagerTasks;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
 import mca.entity.data.PlayerSaveData;
@@ -23,6 +28,14 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.VillagerTasks;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.monster.ZombieEntity;
@@ -46,6 +59,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -105,6 +119,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     public static final String[] GENES_NAMES = new String[]{
             "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
+    private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, MemoryModuleType.MEETING_POINT, MemoryModuleType.LIVING_ENTITIES, MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.BREED_TARGET, MemoryModuleType.PATH, MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_BED, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE, MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE, MemoryModuleType.HEARD_BELL_TIME, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModuleType.LAST_WOKEN, MemoryModuleType.LAST_WORKED_AT_POI, MemoryModuleType.GOLEM_DETECTED_RECENTLY);
+    private static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.NEAREST_BED, SensorType.HURT_BY, SensorType.VILLAGER_HOSTILES, SensorType.VILLAGER_BABIES, SensorType.SECONDARY_POIS, SensorType.GOLEM_DETECTED);
 
     public final CInventory inventory;
     public final CWorld world;
@@ -129,6 +145,61 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
             villagerName.set(API.getRandomName(eGender));
         }
+    }
+
+    protected Brain.BrainCodec<EntityVillagerMCA> mcaBrainProvider() {
+        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+    }
+
+    @Override
+    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+        Brain<EntityVillagerMCA> brain = this.mcaBrainProvider().makeBrain(dynamic);
+        this.registerBrainGoals(brain);
+        return brain;
+    }
+
+    @Override
+    public void refreshBrain(ServerWorld world) {
+        Brain<EntityVillagerMCA> brain = this.getMCABrain();
+        brain.stopAll(world, this);
+        this.brain = brain.copyWithoutBehaviors();
+        this.registerBrainGoals(this.getMCABrain());
+    }
+
+    public Brain<EntityVillagerMCA> getMCABrain() {
+        //generics amirite
+        return (Brain<EntityVillagerMCA>)this.brain;
+    }
+
+    @Override
+    protected void ageBoundaryReached() {
+
+        //sus method
+        super.ageBoundaryReached();
+    }
+
+    private void registerBrainGoals(Brain<EntityVillagerMCA> brain) {
+        VillagerProfession villagerprofession = this.getVillagerData().getProfession();
+        if (this.isBaby()) {
+            brain.setSchedule(Schedule.VILLAGER_BABY);
+            brain.addActivity(Activity.PLAY, MCAVillagerTasks.getPlayPackage(0.5F));
+        } else {
+            brain.setSchedule(Schedule.VILLAGER_DEFAULT);
+            brain.addActivityWithConditions(Activity.WORK, MCAVillagerTasks.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
+        }
+
+        brain.addActivity(Activity.CORE, MCAVillagerTasks.getCorePackage(villagerprofession, 0.5F));
+        brain.addActivityWithConditions(Activity.MEET, MCAVillagerTasks.getMeetPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
+        brain.addActivity(Activity.REST, MCAVillagerTasks.getRestPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.IDLE, MCAVillagerTasks.getIdlePackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.PANIC, MCAVillagerTasks.getPanicPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.PRE_RAID, MCAVillagerTasks.getPreRaidPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.RAID, MCAVillagerTasks.getRaidPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.HIDE, MCAVillagerTasks.getHidePackage(villagerprofession, 0.5F));
+        brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
+        brain.setDefaultActivity(Activity.IDLE);
+        brain.setActiveActivityIfPossible(Activity.IDLE);
+        brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
     }
 
     @Nullable
