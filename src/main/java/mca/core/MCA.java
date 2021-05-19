@@ -102,7 +102,7 @@ public class MCA extends CobaltForgeMod {
         ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(TAB)));
 
         ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager",
-                1.0F, 1.85F);
+                0.6F, 1.8F);
 
         ENTITYTYPE_GRIM_REAPER = registerEntity(EntityGrimReaper::new, EntityClassification.MONSTER, "grim_reaper",
                 1.0F, 2.6F);
