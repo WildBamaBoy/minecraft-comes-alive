@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.ai.brain.tasks.FollowTask;
+import mca.entity.ai.brain.tasks.StayTask;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class MCAVillagerTasks {
     public static ImmutableList<Pair<Integer, ? extends Task<? super EntityVillagerMCA>>> getCorePackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
+                Pair.of(0, new FollowTask()),
+                Pair.of(0, new StayTask()),
                 Pair.of(0, new SwimTask(0.8F)),
                 Pair.of(0, new InteractWithDoorTask()),
                 Pair.of(0, new LookTask(45, 90)),
@@ -29,7 +33,8 @@ public class MCAVillagerTasks {
                 Pair.of(0, new BeginRaidTask()),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE)),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.POTENTIAL_JOB_SITE)),
-                Pair.of(1, new WalkToTargetTask()), Pair.of(2, new SwitchVillagerJobTask(profession)),
+                Pair.of(1, new WalkToTargetTask()),
+                Pair.of(2, new SwitchVillagerJobTask(profession)),
                 Pair.of(3, new TradeTask(speedModifier)),
                 Pair.of(5, new PickupWantedItemTask<>(speedModifier, false, 4)),
                 Pair.of(6, new GatherPOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),

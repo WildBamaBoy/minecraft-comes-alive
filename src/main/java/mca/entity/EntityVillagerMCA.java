@@ -14,6 +14,7 @@ import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.ai.brain.MCAVillagerTasks;
 import mca.entity.data.Memories;
@@ -35,7 +36,6 @@ import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.VillagerTasks;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.monster.ZombieEntity;
@@ -50,8 +50,10 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -64,59 +66,9 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 public class EntityVillagerMCA extends VillagerEntity implements INamedContainerProvider {
-    public final CDataManager data = new CDataManager(this);
-
-    public CStringParameter villagerName = data.newString("villagerName");
-    public CStringParameter clothes = data.newString("clothes");
-    public CStringParameter hair = data.newString("hair");
-    public CStringParameter hairOverlay = data.newString("hairOverlay");
-    public CIntegerParameter gender = data.newInteger("gender");
-    public CTagParameter memories = data.newTag("memories");
-    public CIntegerParameter moveState = data.newInteger("moveState");
-    public CIntegerParameter ageState = data.newInteger("ageState");
-    public CStringParameter spouseName = data.newString("spouseName");
-    public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
-    public CUUIDParameter playerToFollowUUID = data.newUUID("spouseUUID");
-    public CIntegerParameter marriageState = data.newInteger("marriageState");
-    public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
-    public CTagParameter parents = data.newTag("parents");
-    public CBooleanParameter isInfected = data.newBoolean("isInfected");
-    public CIntegerParameter activeChore = data.newInteger("activeChore");
-    public CBooleanParameter isSwinging = data.newBoolean("isSwinging");
-    public CBooleanParameter hasBaby = data.newBoolean("hasBaby");
-    public CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
-    public CIntegerParameter babyAge = data.newInteger("babyAge");
-    public CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
-    public BlockPosParameter bedPos = data.newPos("bedPos");
-    public BlockPosParameter workplacePos = data.newPos("workplacePos");
-    public BlockPosParameter hangoutPos = data.newPos("hangoutPos");
-    public CBooleanParameter isSleeping = data.newBoolean("isSleeping");
-
-    // genes
-    // TODO move into own class
-    public CFloatParameter GENE_SIZE = data.newFloat("gene_size");
-    public CFloatParameter GENE_WIDTH = data.newFloat("gene_width");
-    public CFloatParameter GENE_BREAST = data.newFloat("gene_breast");
-    public CFloatParameter GENE_MELANIN = data.newFloat("gene_melanin");
-    public CFloatParameter GENE_HEMOGLOBIN = data.newFloat("gene_hemoglobin");
-    public CFloatParameter GENE_EUMELANIN = data.newFloat("gene_eumelanin");
-    public CFloatParameter GENE_PHEOMELANIN = data.newFloat("gene_pheomelanin");
-    public CFloatParameter GENE_SKIN = data.newFloat("gene_skin");
-    public CFloatParameter GENE_FACE = data.newFloat("gene_face");
-
-    //personality and mood
-    public CIntegerParameter PERSONALITY = data.newInteger("personality");
-    public CIntegerParameter MOOD = data.newInteger("mood");
-
-    // genes list
-    public CFloatParameter[] GENES = new CFloatParameter[]{
-            GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     public static final String[] GENES_NAMES = new String[]{
             "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
@@ -147,7 +99,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             MemoryModuleType.LAST_SLEPT,
             MemoryModuleType.LAST_WOKEN,
             MemoryModuleType.LAST_WORKED_AT_POI,
-            MemoryModuleType.GOLEM_DETECTED_RECENTLY
+            MemoryModuleType.GOLEM_DETECTED_RECENTLY,
+            MemoryModuleTypeMCA.PLAYER_FOLLOWING,
+            MemoryModuleTypeMCA.STAYING
     );
     private static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(
             SensorType.NEAREST_LIVING_ENTITIES,
@@ -160,10 +114,48 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             SensorType.SECONDARY_POIS,
             SensorType.GOLEM_DETECTED
     );
-
+    public final CDataManager data = new CDataManager(this);
     public final CInventory inventory;
     public final CWorld world;
-
+    public CStringParameter villagerName = data.newString("villagerName");
+    public CStringParameter clothes = data.newString("clothes");
+    public CStringParameter hair = data.newString("hair");
+    public CStringParameter hairOverlay = data.newString("hairOverlay");
+    public CIntegerParameter gender = data.newInteger("gender");
+    public CTagParameter memories = data.newTag("memories");
+    public CIntegerParameter ageState = data.newInteger("ageState");
+    public CStringParameter spouseName = data.newString("spouseName");
+    public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
+    //public CUUIDParameter playerToFollowUUID = data.newUUID("spouseUUID");
+    public CIntegerParameter marriageState = data.newInteger("marriageState");
+    public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
+    public CTagParameter parents = data.newTag("parents");
+    public CBooleanParameter isInfected = data.newBoolean("isInfected");
+    public CIntegerParameter activeChore = data.newInteger("activeChore");
+    public CBooleanParameter isSwinging = data.newBoolean("isSwinging");
+    public CBooleanParameter hasBaby = data.newBoolean("hasBaby");
+    public CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
+    public CIntegerParameter babyAge = data.newInteger("babyAge");
+    public CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
+    public BlockPosParameter hangoutPos = data.newPos("hangoutPos");
+    public CBooleanParameter isSleeping = data.newBoolean("isSleeping");
+    // genes
+    // TODO move into own class
+    public CFloatParameter GENE_SIZE = data.newFloat("gene_size");
+    public CFloatParameter GENE_WIDTH = data.newFloat("gene_width");
+    public CFloatParameter GENE_BREAST = data.newFloat("gene_breast");
+    public CFloatParameter GENE_MELANIN = data.newFloat("gene_melanin");
+    public CFloatParameter GENE_HEMOGLOBIN = data.newFloat("gene_hemoglobin");
+    public CFloatParameter GENE_EUMELANIN = data.newFloat("gene_eumelanin");
+    public CFloatParameter GENE_PHEOMELANIN = data.newFloat("gene_pheomelanin");
+    public CFloatParameter GENE_SKIN = data.newFloat("gene_skin");
+    public CFloatParameter GENE_FACE = data.newFloat("gene_face");
+    //personality and mood
+    public CIntegerParameter PERSONALITY = data.newInteger("personality");
+    public CIntegerParameter MOOD = data.newInteger("mood");
+    // genes list
+    public CFloatParameter[] GENES = new CFloatParameter[]{
+            GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     private float swingProgressTicks;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
@@ -184,6 +176,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
             villagerName.set(API.getRandomName(eGender));
         }
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
     protected Brain.BrainCodec<EntityVillagerMCA> mcaBrainProvider() {
@@ -207,7 +203,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     public Brain<EntityVillagerMCA> getMCABrain() {
         //generics amirite
-        return (Brain<EntityVillagerMCA>)this.brain;
+        return (Brain<EntityVillagerMCA>) this.brain;
     }
 
     @Override
@@ -262,11 +258,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         super.defineSynchedData();
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
-    }
-
-
     public final VillagerProfession getProfession() {
         return this.getVillagerData().getProfession();
     }
@@ -308,7 +299,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         //knockback and post damage stuff
         if (damageDealt) {
             if (knockback > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).knockback(knockback * 0.5F, (double) MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
+                ((LivingEntity) target).knockback(knockback * 0.5F, MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
             }
 
@@ -583,30 +574,38 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public BlockPos getWorkplace() {
-        return workplacePos.get();
+        Optional<GlobalPos> home = this.brain.getMemory(MemoryModuleType.JOB_SITE);
+        return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
+    }
+
+    public void setWorkplace(PlayerEntity player) {
+        say(player, "interaction.setworkplace.success");
+        this.brain.setMemory(MemoryModuleType.JOB_SITE, GlobalPos.of(player.level.dimension(), player.blockPosition()));
     }
 
     public BlockPos getHangout() {
         return hangoutPos.get();
     }
 
-    public BlockPos getHome() {
-        return bedPos.get();
-    }
-
-    private void setHome(PlayerEntity player) {
-        say(player, "interaction.sethome.success");
-        bedPos.set(player.blockPosition());
-    }
-
-    public void setWorkplace(PlayerEntity player) {
-        say(player, "interaction.setworkplace.success");
-        workplacePos.set(player.blockPosition());
-    }
-
     public void setHangout(PlayerEntity player) {
         say(player, "interaction.sethangout.success");
         hangoutPos.set(player.blockPosition());
+    }
+
+    public BlockPos getHome() {
+        Optional<GlobalPos> home = this.brain.getMemory(MemoryModuleType.HOME);
+        return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
+    }
+
+    private void setHome(PlayerEntity player) {
+        //check if it is a bed
+        if (this.level.getBlockState(player.blockPosition()).is(BlockTags.BEDS)) {
+            say(player, "interaction.sethome.success");
+            this.brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(player.level.dimension(), player.blockPosition()));
+        } else {
+            //THIS MUST TELL THE PLAYER THAT THE PLAYER MUST STAND IN A BED
+            say(player, "interaction.sethome.fail");
+        }
     }
 
     public void say(PlayerEntity target, String phraseId, String... params) {
@@ -690,15 +689,20 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         Hair h;
         switch (buttonId) {
             case "gui.button.move":
-                moveState.set(EnumMoveState.MOVE.getId());
-                this.playerToFollowUUID.set(Constants.ZERO_UUID);
+                //moveState.set(EnumMoveState.MOVE.getId());
+                this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+                this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
+                //this.playerToFollowUUID.set(Constants.ZERO_UUID);
                 break;
             case "gui.button.stay":
-                moveState.set(EnumMoveState.STAY.getId());
+                //moveState.set(EnumMoveState.STAY.getId());
+                this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+                this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
                 break;
             case "gui.button.follow":
-                moveState.set(EnumMoveState.FOLLOW.getId());
-                this.playerToFollowUUID.set(player.getUUID());
+                //moveState.set(EnumMoveState.FOLLOW.getId());
+                this.brain.setMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
+                this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 stopChore();
                 break;
             case "gui.button.ridehorse":
@@ -997,7 +1001,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         return data.getParent1UUID().equals(player.getUUID()) || data.getParent2UUID().equals(player.getUUID());
     }
 
-    public String getCurrentActivity() {
+    /*public String getCurrentActivity() {
         EnumMoveState ms = EnumMoveState.byId(moveState.get());
         if (ms != EnumMoveState.MOVE) {
             return ms.getFriendlyName();
@@ -1009,7 +1013,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
 
         return null;
-    }
+    }*/
+
 
     public ParentPair getParents() {
         return ParentPair.fromNBT(parents.get());

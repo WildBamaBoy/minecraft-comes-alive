@@ -12,7 +12,6 @@ import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
 import mca.enums.EnumAgeState;
 import mca.enums.EnumMarriageState;
-import mca.enums.EnumMoveState;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
@@ -340,10 +339,11 @@ public class GuiInteract extends Screen {
         clearButtons();
         API.addButtons("main", villager, player, this);
 
-        EnumMoveState moveState = EnumMoveState.byId(villager.moveState.get());
+        //TODO Reimplement disable button, this doesn't work anyway
+        /*EnumMoveState moveState = EnumMoveState.byId(villager.moveState.get());
         if (moveState == EnumMoveState.FOLLOW) disableButton("gui.button.follow");
         else if (moveState == EnumMoveState.STAY) disableButton("gui.button.stay");
-        else if (moveState == EnumMoveState.MOVE) disableButton("gui.button.move");
+        else if (moveState == EnumMoveState.MOVE) disableButton("gui.button.move");*/
     }
 
     private void drawInteractButtonMenu() {
