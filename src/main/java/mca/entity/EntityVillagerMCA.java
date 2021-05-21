@@ -49,6 +49,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
@@ -126,7 +127,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CIntegerParameter ageState = data.newInteger("ageState");
     public CStringParameter spouseName = data.newString("spouseName");
     public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
-    //public CUUIDParameter playerToFollowUUID = data.newUUID("spouseUUID");
     public CIntegerParameter marriageState = data.newInteger("marriageState");
     public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public CTagParameter parents = data.newTag("parents");
@@ -157,6 +157,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CFloatParameter[] GENES = new CFloatParameter[]{
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     private float swingProgressTicks;
+    public int procreateTick = -1;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
@@ -197,6 +198,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public void refreshBrain(ServerWorld world) {
         Brain<EntityVillagerMCA> brain = this.getMCABrain();
         brain.stopAll(world, this);
+        //copyWithoutBehaviors will copy the memories of the old brain to the new brain
         this.brain = brain.copyWithoutBehaviors();
         this.registerBrainGoals(this.getMCABrain());
     }
@@ -316,6 +318,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
             return ActionResultType.SUCCESS;
         } else {
+            this.getNavigation().stop();
+            this.getLookControl().setLookAt(player, this.getHeadRotSpeed(), this.getMaxHeadXRot());
             return ActionResultType.PASS;
         }
     }
@@ -605,7 +609,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         } else {
             //THIS MUST TELL THE PLAYER THAT THE PLAYER MUST STAND IN A BED
             say(player, "interaction.sethome.fail");
+
         }
+
     }
 
     public void say(PlayerEntity target, String phraseId, String... params) {
@@ -744,10 +750,15 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 }
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent())
+                if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent()) {
                     say(player, "interaction.procreate.fail.hasbaby");
-                else if (memory.getHearts() < 100) say(player, "interaction.procreate.fail.lowhearts");
-                else {
+
+                } else if (memory.getHearts() < 100) {
+                    say(player, "interaction.procreate.fail.lowhearts");
+                } else {
+                    procreateTick = 60;
+                    isProcreating.set(true);
+
                     //TODO
 //                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
 //                    if (task != null) {
@@ -1035,5 +1046,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     public EnumAgeState getAgeState() {
         return EnumAgeState.byId(ageState.get());
+    }
+
+    @Override
+    public CInventory getInventory() {
+        return this.inventory;
     }
 }

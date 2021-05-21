@@ -41,6 +41,8 @@ public class FollowTask extends Task<EntityVillagerMCA> {
         } else if (distance > 100.0D) {
             //teleportation when flying can kill the villager so we just let them walk on the surface. 
             villager.teleportTo(playerToFollow.xo, world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) playerToFollow.xo, (int) playerToFollow.zo), playerToFollow.zo);
+        } else {
+            villager.getNavigation().stop();
         }
     }
 }

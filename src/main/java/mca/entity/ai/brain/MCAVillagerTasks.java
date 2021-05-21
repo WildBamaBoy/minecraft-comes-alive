@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.ai.brain.tasks.FollowTask;
+import mca.entity.ai.brain.tasks.ProcreateTask;
 import mca.entity.ai.brain.tasks.StayTask;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
@@ -24,6 +25,7 @@ public class MCAVillagerTasks {
         return ImmutableList.of(
                 Pair.of(0, new FollowTask()),
                 Pair.of(0, new StayTask()),
+                Pair.of(0, new ProcreateTask()),
                 Pair.of(0, new SwimTask(0.8F)),
                 Pair.of(0, new InteractWithDoorTask()),
                 Pair.of(0, new LookTask(45, 90)),
