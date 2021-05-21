@@ -4,12 +4,17 @@ import cobalt.minecraft.inventory.CInventory;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.network.datasync.*;
 import cobalt.minecraft.world.CWorld;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Dynamic;
 import mca.api.API;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.data.*;
 import mca.enums.*;
@@ -20,6 +25,13 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.monster.ZombieEntity;
@@ -33,9 +45,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -50,26 +65,66 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
-import java.util.stream.Stream;
+import java.util.*;
 
 public class EntityVillagerMCA extends VillagerEntity implements INamedContainerProvider {
+    public static final String[] GENES_NAMES = new String[]{
+            "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
+    private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
+            MemoryModuleType.HOME, MemoryModuleType.JOB_SITE,
+            MemoryModuleType.POTENTIAL_JOB_SITE,
+            MemoryModuleType.MEETING_POINT,
+            MemoryModuleType.LIVING_ENTITIES,
+            MemoryModuleType.VISIBLE_LIVING_ENTITIES,
+            MemoryModuleType.VISIBLE_VILLAGER_BABIES,
+            MemoryModuleType.NEAREST_PLAYERS,
+            MemoryModuleType.NEAREST_VISIBLE_PLAYER,
+            MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
+            MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.INTERACTION_TARGET,
+            MemoryModuleType.BREED_TARGET,
+            MemoryModuleType.PATH,
+            MemoryModuleType.DOORS_TO_CLOSE,
+            MemoryModuleType.NEAREST_BED,
+            MemoryModuleType.HURT_BY,
+            MemoryModuleType.HURT_BY_ENTITY,
+            MemoryModuleType.NEAREST_HOSTILE,
+            MemoryModuleType.SECONDARY_JOB_SITE,
+            MemoryModuleType.HIDING_PLACE,
+            MemoryModuleType.HEARD_BELL_TIME,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.LAST_SLEPT,
+            MemoryModuleType.LAST_WOKEN,
+            MemoryModuleType.LAST_WORKED_AT_POI,
+            MemoryModuleType.GOLEM_DETECTED_RECENTLY,
+            MemoryModuleTypeMCA.PLAYER_FOLLOWING,
+            MemoryModuleTypeMCA.STAYING
+    );
+    private static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(
+            SensorType.NEAREST_LIVING_ENTITIES,
+            SensorType.NEAREST_PLAYERS,
+            SensorType.NEAREST_ITEMS,
+            SensorType.NEAREST_BED,
+            SensorType.HURT_BY,
+            SensorType.VILLAGER_HOSTILES,
+            SensorType.VILLAGER_BABIES,
+            SensorType.SECONDARY_POIS,
+            SensorType.GOLEM_DETECTED
+    );
     public final CDataManager data = new CDataManager(this);
-
+    public final CInventory inventory;
+    public final CWorld world;
     public CStringParameter villagerName = data.newString("villagerName");
     public CStringParameter clothes = data.newString("clothes");
     public CStringParameter hair = data.newString("hair");
     public CStringParameter hairOverlay = data.newString("hairOverlay");
     public CIntegerParameter gender = data.newInteger("gender");
     public CTagParameter memories = data.newTag("memories");
-    public CIntegerParameter moveState = data.newInteger("moveState");
     public CIntegerParameter ageState = data.newInteger("ageState");
     public CStringParameter spouseName = data.newString("spouseName");
     public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
-    public CUUIDParameter playerToFollowUUID = data.newUUID("spouseUUID");
     public CIntegerParameter marriageState = data.newInteger("marriageState");
     public CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public CTagParameter parents = data.newTag("parents");
@@ -80,11 +135,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
     public CIntegerParameter babyAge = data.newInteger("babyAge");
     public CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
-    public BlockPosParameter bedPos = data.newPos("bedPos");
-    public BlockPosParameter workplacePos = data.newPos("workplacePos");
     public BlockPosParameter hangoutPos = data.newPos("hangoutPos");
     public CBooleanParameter isSleeping = data.newBoolean("isSleeping");
-
     // genes
     // TODO move into own class
     public CFloatParameter GENE_SIZE = data.newFloat("gene_size");
@@ -96,21 +148,14 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CFloatParameter GENE_PHEOMELANIN = data.newFloat("gene_pheomelanin");
     public CFloatParameter GENE_SKIN = data.newFloat("gene_skin");
     public CFloatParameter GENE_FACE = data.newFloat("gene_face");
-
     //personality and mood
     public CIntegerParameter PERSONALITY = data.newInteger("personality");
     public CIntegerParameter MOOD = data.newInteger("mood");
-
     // genes list
     public CFloatParameter[] GENES = new CFloatParameter[]{
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
-    public static final String[] GENES_NAMES = new String[]{
-            "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
-
-    public final CInventory inventory;
-    public final CWorld world;
-
     private float swingProgressTicks;
+    public int procreateTick = -1;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
@@ -130,6 +175,66 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
             villagerName.set(API.getRandomName(eGender));
         }
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
+    }
+
+    protected Brain.BrainCodec<EntityVillagerMCA> mcaBrainProvider() {
+        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+    }
+
+    @Override
+    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+        Brain<EntityVillagerMCA> brain = this.mcaBrainProvider().makeBrain(dynamic);
+        this.registerBrainGoals(brain);
+        return brain;
+    }
+
+    @Override
+    public void refreshBrain(ServerWorld world) {
+        Brain<EntityVillagerMCA> brain = this.getMCABrain();
+        brain.stopAll(world, this);
+        //copyWithoutBehaviors will copy the memories of the old brain to the new brain
+        this.brain = brain.copyWithoutBehaviors();
+        this.registerBrainGoals(this.getMCABrain());
+    }
+
+    public Brain<EntityVillagerMCA> getMCABrain() {
+        //generics amirite
+        return (Brain<EntityVillagerMCA>) this.brain;
+    }
+
+    @Override
+    protected void ageBoundaryReached() {
+
+        //sus method
+        super.ageBoundaryReached();
+    }
+
+    private void registerBrainGoals(Brain<EntityVillagerMCA> brain) {
+        VillagerProfession villagerprofession = this.getVillagerData().getProfession();
+        if (this.isBaby()) {
+            brain.setSchedule(Schedule.VILLAGER_BABY);
+            brain.addActivity(Activity.PLAY, MCAVillagerTasks.getPlayPackage(0.5F));
+        } else {
+            brain.setSchedule(Schedule.VILLAGER_DEFAULT);
+            brain.addActivityWithConditions(Activity.WORK, MCAVillagerTasks.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
+        }
+
+        brain.addActivity(Activity.CORE, MCAVillagerTasks.getCorePackage(villagerprofession, 0.5F));
+        brain.addActivityWithConditions(Activity.MEET, MCAVillagerTasks.getMeetPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
+        brain.addActivity(Activity.REST, MCAVillagerTasks.getRestPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.IDLE, MCAVillagerTasks.getIdlePackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.PANIC, MCAVillagerTasks.getPanicPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.PRE_RAID, MCAVillagerTasks.getPreRaidPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.RAID, MCAVillagerTasks.getRaidPackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.HIDE, MCAVillagerTasks.getHidePackage(villagerprofession, 0.5F));
+        brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
+        brain.setDefaultActivity(Activity.IDLE);
+        brain.setActiveActivityIfPossible(Activity.IDLE);
+        brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
     }
 
     @Nullable
@@ -152,11 +257,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     protected void defineSynchedData() {
         super.defineSynchedData();
     }
-
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
-    }
-
 
     public final VillagerProfession getProfession() {
         return this.getVillagerData().getProfession();
@@ -199,7 +299,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         //knockback and post damage stuff
         if (damageDealt) {
             if (knockback > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).knockback(knockback * 0.5F, (double) MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
+                ((LivingEntity) target).knockback(knockback * 0.5F, MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
             }
 
@@ -216,6 +316,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
             return ActionResultType.SUCCESS;
         } else {
+            this.getNavigation().stop();
+            this.getLookControl().setLookAt(player, this.getHeadRotSpeed(), this.getMaxHeadXRot());
             return ActionResultType.PASS;
         }
     }
@@ -489,30 +591,40 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public BlockPos getWorkplace() {
-        return workplacePos.get();
+        Optional<GlobalPos> home = this.brain.getMemory(MemoryModuleType.JOB_SITE);
+        return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
+    }
+
+    public void setWorkplace(PlayerEntity player) {
+        say(player, "interaction.setworkplace.success");
+        this.brain.setMemory(MemoryModuleType.JOB_SITE, GlobalPos.of(player.level.dimension(), player.blockPosition()));
     }
 
     public BlockPos getHangout() {
         return hangoutPos.get();
     }
 
-    public BlockPos getHome() {
-        return bedPos.get();
-    }
-
-    private void setHome(PlayerEntity player) {
-        say(player, "interaction.sethome.success");
-        bedPos.set(player.blockPosition());
-    }
-
-    public void setWorkplace(PlayerEntity player) {
-        say(player, "interaction.setworkplace.success");
-        workplacePos.set(player.blockPosition());
-    }
-
     public void setHangout(PlayerEntity player) {
         say(player, "interaction.sethangout.success");
         hangoutPos.set(player.blockPosition());
+    }
+
+    public BlockPos getHome() {
+        Optional<GlobalPos> home = this.brain.getMemory(MemoryModuleType.HOME);
+        return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
+    }
+
+    private void setHome(PlayerEntity player) {
+        //check if it is a bed
+        if (this.level.getBlockState(player.blockPosition()).is(BlockTags.BEDS)) {
+            say(player, "interaction.sethome.success");
+            this.brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(player.level.dimension(), player.blockPosition()));
+        } else {
+            //THIS MUST TELL THE PLAYER THAT THE PLAYER MUST STAND IN A BED
+            say(player, "interaction.sethome.fail");
+
+        }
+
     }
 
     public void say(PlayerEntity target, String phraseId, String... params) {
@@ -596,15 +708,20 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         Hair h;
         switch (buttonId) {
             case "gui.button.move":
-                moveState.set(EnumMoveState.MOVE.getId());
-                this.playerToFollowUUID.set(Constants.ZERO_UUID);
+                //moveState.set(EnumMoveState.MOVE.getId());
+                this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+                this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
+                //this.playerToFollowUUID.set(Constants.ZERO_UUID);
                 break;
             case "gui.button.stay":
-                moveState.set(EnumMoveState.STAY.getId());
+                //moveState.set(EnumMoveState.STAY.getId());
+                this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+                this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
                 break;
             case "gui.button.follow":
-                moveState.set(EnumMoveState.FOLLOW.getId());
-                this.playerToFollowUUID.set(player.getUUID());
+                //moveState.set(EnumMoveState.FOLLOW.getId());
+                this.brain.setMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
+                this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 stopChore();
                 break;
             case "gui.button.ridehorse":
@@ -646,10 +763,15 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 }
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent())
+                if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent()) {
                     say(player, "interaction.procreate.fail.hasbaby");
-                else if (memory.getHearts() < 100) say(player, "interaction.procreate.fail.lowhearts");
-                else {
+
+                } else if (memory.getHearts() < 100) {
+                    say(player, "interaction.procreate.fail.lowhearts");
+                } else {
+                    procreateTick = 60;
+                    isProcreating.set(true);
+
                     //TODO
 //                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
 //                    if (task != null) {
@@ -903,7 +1025,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         return data.getParent1UUID().equals(player.getUUID()) || data.getParent2UUID().equals(player.getUUID());
     }
 
-    public String getCurrentActivity() {
+    /*public String getCurrentActivity() {
         EnumMoveState ms = EnumMoveState.byId(moveState.get());
         if (ms != EnumMoveState.MOVE) {
             return ms.getFriendlyName();
@@ -915,7 +1037,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
 
         return null;
-    }
+    }*/
+
 
     public ParentPair getParents() {
         return ParentPair.fromNBT(parents.get());
@@ -936,5 +1059,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     public EnumAgeState getAgeState() {
         return EnumAgeState.byId(ageState.get());
+    }
+
+    @Override
+    public CInventory getInventory() {
+        return this.inventory;
     }
 }
