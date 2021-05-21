@@ -90,7 +90,7 @@ public class Building implements Serializable {
                         blocks.put(block.getBlock(), blocks.getOrDefault(block.getBlock(), 0) + 1);
 
                         //if not solid, continue
-                        if (!block.getMaterial().isSolid()) {
+                        if (block.isAir()) {
                             queue.add(n);
                         }
                     }

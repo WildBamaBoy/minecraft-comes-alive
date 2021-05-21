@@ -6,6 +6,7 @@ import mca.entity.data.Building;
 import mca.entity.data.Village;
 import mca.network.GetVillageRequest;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.math.BlockPos;
@@ -41,8 +42,8 @@ public class GuiBlueprint extends Screen {
     }
 
     private void rectangle(MatrixStack transform, int x0, int y0, int x1, int y1, int color) {
-        hLine(transform, x0, y0, x1, color);
-        hLine(transform, x0, y1, x1, color);
+        hLine(transform, x0, x1, y0, color);
+        hLine(transform, x0, x1, y1, color);
         vLine(transform, x0, y0, y1, color);
         vLine(transform, x1, y0, y1, color);
     }
@@ -53,25 +54,29 @@ public class GuiBlueprint extends Screen {
 
         drawCenteredString(transform, font, village == null ? "loading" : village.getName(), width / 2, height / 2 - 110, 0xffffffff);
 
-        rectangle(transform, 100, 100, 200, 200, 0xffffffff);
-
         if (village != null) {
             transform.pushPose();
 
             double ox = width / 2.0 - village.getCenter().getX();
             double oy = height / 2.0 - village.getCenter().getZ();
+
+            transform.scale(4096.0f / village.getSize(), 4096.0f / village.getSize(), 0.0f);
             transform.translate(ox, oy, 0);
 
-            int mouseX = (int) (minecraft.mouseHandler.xpos() * width / minecraft.getWindow().getWidth() + ox);
-            int mouseY = (int) (minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getHeight() + oy);
+            ClientPlayerEntity player = Minecraft.getInstance().player;
+            if (player != null) {
+                rectangle(transform, (int) player.getX() - 1, (int) player.getZ() - 1, (int) player.getX() + 1, (int) player.getZ() + 1, 0xffff00ff);
+            }
+
+            int mouseX = (int) (minecraft.mouseHandler.xpos() * width / minecraft.getWindow().getWidth() - ox);
+            int mouseY = (int) (minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getHeight() - oy);
 
             for (Building building : village.getBuildings().values()) {
                 BlockPos p0 = building.getPos0();
                 BlockPos p1 = building.getPos1();
-                rectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), 0xffffff);
+                rectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), 0xffffffff);
 
-
-                if (mouseX >= p0.getX() && mouseX <= p0.getX() && mouseY >= p0.getZ() && mouseY <= p0.getZ()) {
+                if (mouseX >= p0.getX() && mouseX <= p1.getX() && mouseY >= p0.getZ() && mouseY <= p1.getZ()) {
                     renderTooltip(transform, new StringTextComponent("Dis is building"), mouseX, mouseY);
                 }
             }

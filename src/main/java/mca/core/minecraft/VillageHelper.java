@@ -24,17 +24,17 @@ public class VillageHelper {
         if (world.isClientSide) {
 
         } else {
-            if (world.getMcWorld().getDayTime() % 100 == 0) {
-                world.getMcWorld().players().forEach((player) -> {
-                    Village village = getNearestVillage(player);
-                    if (village != null) {
-                        player.sendMessage(new StringTextComponent("You are inside a village " + village.getBuildings().size()), player.getUUID());
-                        for (Building building : village.getBuildings().values()) {
-                            player.sendMessage(new StringTextComponent("  Building " + building.getBlocks().size()), player.getUUID());
-                        }
-                    }
-                });
-            }
+//            if (world.getMcWorld().getDayTime() % 100 == 0) {
+//                world.getMcWorld().players().forEach((player) -> {
+//                    Village village = getNearestVillage(player);
+//                    if (village != null) {
+//                        player.sendMessage(new StringTextComponent("You are inside a village " + village.getBuildings().size()), player.getUUID());
+//                        for (Building building : village.getBuildings().values()) {
+//                            player.sendMessage(new StringTextComponent("  Building " + building.getBlocks().size()), player.getUUID());
+//                        }
+//                    }
+//                });
+//            }
 
 //        world.getVillageCollection().getVillageList().forEach(v -> {
 //            spawnGuards(world, v);

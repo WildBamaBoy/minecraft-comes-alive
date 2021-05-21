@@ -339,7 +339,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         updateSwinging();
 
         if (tickCount % 100 == 0 && !world.isClientSide) {
-            reportBuildings();
+            //reportBuildings();
         }
 
         if (world.isClientSide) {
