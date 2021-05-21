@@ -44,6 +44,8 @@ public class MCA extends CobaltForgeMod {
         NetworkHandler.registerMessage(GetVillagerRequest.class);
         NetworkHandler.registerMessage(GetVillagerResponse.class);
         NetworkHandler.registerMessage(CallToPlayerMessage.class);
+        NetworkHandler.registerMessage(GetVillageRequest.class);
+        NetworkHandler.registerMessage(GetVillageResponse.class);
     }
 
     public static final String MOD_ID = "mca";
@@ -100,6 +102,7 @@ public class MCA extends CobaltForgeMod {
         ITEM_BOOK_FAMILY = registerItem("book_family", new Item(new Item.Properties().tab(TAB)));
         ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new Item(new Item.Properties().tab(TAB)));
         ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(TAB)));
+        ITEM_BLUEPRINT = registerItem("blueprint", new ItemBlueprint(new Item.Properties().tab(TAB)));
 
         ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager",
                 0.6F, 1.8F);
@@ -169,6 +172,7 @@ public class MCA extends CobaltForgeMod {
     public static RegistryObject<Item> ITEM_BOOK_FAMILY;
     public static RegistryObject<Item> ITEM_BOOK_ROSE_GOLD;
     public static RegistryObject<Item> ITEM_BOOK_INFECTION;
+    public static RegistryObject<Item> ITEM_BLUEPRINT;
 
     public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
     public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;

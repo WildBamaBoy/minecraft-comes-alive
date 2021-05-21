@@ -26,7 +26,8 @@ public class Cobalt extends CobaltForgeMod {
     }
 
     @Override
-    public void onClientSetup() {}
+    public void onClientSetup() {
+    }
 
     @Override
     public void loadRegistries() {

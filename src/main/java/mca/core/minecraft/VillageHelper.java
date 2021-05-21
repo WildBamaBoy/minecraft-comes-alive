@@ -1,16 +1,52 @@
 package mca.core.minecraft;
 
-import net.minecraft.util.math.BlockPos;
 import cobalt.minecraft.world.CWorld;
+import mca.entity.data.Building;
+import mca.entity.data.Village;
+import mca.entity.data.VillageManagerData;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.text.StringTextComponent;
+
+import java.util.Collection;
 
 public class VillageHelper {
+    public static Village getNearestVillage(Entity entity) {
+        Collection<Village> villages = VillageManagerData.get(CWorld.fromMC(entity.level)).villages.values();
+        for (Village village : villages) {
+            if (village.getCenter().distSqr(entity.blockPosition()) < village.getSize()) {
+                return village;
+            }
+        }
+        return null;
+    }
 
     public static void tick(CWorld world) {
+        if (world.isClientSide) {
+
+        } else {
+//            if (world.getMcWorld().getDayTime() % 100 == 0) {
+//                world.getMcWorld().players().forEach((player) -> {
+//                    Village village = getNearestVillage(player);
+//                    if (village != null) {
+//                        player.sendMessage(new StringTextComponent("You are inside a village " + village.getBuildings().size()), player.getUUID());
+//                        for (Building building : village.getBuildings().values()) {
+//                            player.sendMessage(new StringTextComponent("  Building " + building.getBlocks().size()), player.getUUID());
+//                        }
+//                    }
+//                });
+//            }
+
 //        world.getVillageCollection().getVillageList().forEach(v -> {
 //            spawnGuards(world, v);
 //            procreate(world, v);
 //            marry(world, v);
 //        });
+        }
+
+    }
+
+    private static void manageVillages(CWorld world) {
+        VillageManagerData.get(world);
     }
 
 //    public static void forceSpawnGuards(PlayerEntity player) {

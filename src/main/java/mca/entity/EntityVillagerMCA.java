@@ -16,11 +16,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
-import mca.entity.ai.brain.MCAVillagerTasks;
-import mca.entity.data.Memories;
-import mca.entity.data.ParentPair;
-import mca.entity.data.PlayerSaveData;
-import mca.entity.data.SavedVillagers;
+import mca.entity.data.*;
 import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
@@ -59,6 +55,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -442,11 +440,29 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         updateSwinging();
 
+        if (tickCount % 100 == 0 && !world.isClientSide) {
+            //reportBuildings();
+        }
+
         if (world.isClientSide) {
             onEachClientUpdate();
         } else {
             onEachServerUpdate();
         }
+    }
+
+    //report potential buildings within this villagers reach
+    private void reportBuildings() {
+        VillageManagerData manager = VillageManagerData.get(world);
+
+        Stream<BlockPos> stream = ((ServerWorld) level).getPoiManager().findAll(
+                PointOfInterestType.HOME.getPredicate(),
+                (p) -> !manager.cache.contains(p),
+                getOnPos(),
+                48,
+                PointOfInterestManager.Status.ANY);
+
+        stream.forEach((pos) -> manager.reportBuilding(level, pos));
     }
 
     public void sendMessageTo(String message, Entity receiver) {
@@ -480,8 +496,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     playerSaveData.endMarriage();
                     PlayerEntity player = world.getPlayerEntityByUUID(spouse);
                     if (player != null) {
-                        String msg = cause.getLocalizedDeathMessage(this).getString();
-                        sendMessageTo(Constants.Color.RED + msg, player);
+                        //TODO store message in case player was offline
                     }
                 }
             }
@@ -491,9 +506,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Arrays.stream(parents.getBothParentEntities(world))
                     .filter(e -> e instanceof PlayerEntity)
                     .forEach(e -> {
-                        PlayerEntity player = (PlayerEntity) e;
-                        String msg = cause.getLocalizedDeathMessage(this).getString();
-                        sendMessageTo(Constants.Color.RED + msg, player);
+                        //TODO store message in case player was offline
                     });
 
             SavedVillagers.get(world).saveVillager(this);

@@ -26,7 +26,7 @@ public class Localizer {
             if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
 
-        return parseVars(result, vars).replaceAll("\\\\", "");
+        return parseVars(result, vars);
     }
 
     public void registerVarParser(VarParser parser) {

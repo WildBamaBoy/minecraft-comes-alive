@@ -60,6 +60,9 @@ public class CWorld {
     }
     public <T extends Entity> List<T> getCloseEntities(Entity e, double range, Class<? extends T> c) {
         BlockPos pos = e.blockPosition();
+        return getCloseEntities(pos, range, c);
+    }
+    public <T extends Entity> List<T> getCloseEntities(BlockPos pos, double range, Class<? extends T> c) {
         return mcWorld.getLoadedEntitiesOfClass(c, new AxisAlignedBB(
                 pos.getX() - range,
                 pos.getY() - range,
