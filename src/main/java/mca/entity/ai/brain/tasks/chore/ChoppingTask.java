@@ -7,20 +7,13 @@ import mca.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPosWrapper;
@@ -28,9 +21,8 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-//TODO swing animation and different speeds with different axes. perhaps it would be nice to have the villager break the blocks like a player
+//TODO different speeds based on the tool used, and a way to get through leaves
 public class ChoppingTask extends AbstractChoreTask {
     private int chopTicks;
     private BlockPos targetTree;
@@ -58,11 +50,12 @@ public class ChoppingTask extends AbstractChoreTask {
             villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
             villager.inventory.addItem(stack);
         }
+        villager.swing(Hand.MAIN_HAND);
     }
 
     @Override
     protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
-        if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)){
+        if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
             if (i == -1) {
                 villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
@@ -84,13 +77,13 @@ public class ChoppingTask extends AbstractChoreTask {
         if (!villager.inventory.contains(AxeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
             villager.stopChore();
-        } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)){
+        } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
             ItemStack stack = villager.inventory.getItem(i);
             villager.setItemInHand(Hand.MAIN_HAND, stack);
             villager.inventory.setItem(i, ItemStack.EMPTY);
-
         }
+
         if (targetTree == null) {
             List<BlockPos> nearbyLogs = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), (blockState -> blockState.is(BlockTags.LOGS)), 15, 5);
             List<BlockPos> nearbyTrees = new ArrayList<>();

@@ -3,9 +3,7 @@ package mca.entity.ai.brain.tasks;
 import com.google.common.collect.ImmutableMap;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.server.ServerWorld;
 
 public class StayTask extends Task<EntityVillagerMCA> {
@@ -32,7 +30,6 @@ public class StayTask extends Task<EntityVillagerMCA> {
     @Override
     protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
         villager.getNavigation().stop();
-        
 
 
     }

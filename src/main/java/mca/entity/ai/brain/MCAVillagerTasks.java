@@ -43,8 +43,8 @@ public class MCAVillagerTasks {
                 Pair.of(6, new GatherPOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
                 Pair.of(7, new FindPotentialJobTask(speedModifier)),
                 Pair.of(8, new FindJobTask(speedModifier)),
-                Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))),
-                Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14))),
+                Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))),
+                Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))),
                 Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ChangeJobTask())
         );
     }
@@ -66,7 +66,7 @@ public class MCAVillagerTasks {
                                 Pair.of(new WalkTowardsRandomSecondaryPosTask(MemoryModuleType.SECONDARY_JOB_SITE, speedModifier, 1, 6, MemoryModuleType.JOB_SITE), 5),
                                 Pair.of(new FarmTask(), profession == VillagerProfession.FARMER ? 2 : 5),
                                 Pair.of(new BoneMealCropsTask(), profession == VillagerProfession.FARMER ? 4 : 7))
-                        )),
+                )),
                 Pair.of(10, new ShowWaresTask(400, 1600)),
                 Pair.of(10, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.JOB_SITE, speedModifier, 9, 100, 1200)),
@@ -105,7 +105,7 @@ public class MCAVillagerTasks {
                                 Pair.of(new WalkRandomlyInsideTask(speedModifier), 4),
                                 Pair.of(new WalkToPOITask(speedModifier, 4), 2),
                                 Pair.of(new DummyTask(20, 40), 2))
-                        )),
+                )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new UpdateActivityTask())
         );
@@ -117,7 +117,7 @@ public class MCAVillagerTasks {
                         ImmutableList.of(
                                 Pair.of(new WorkTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
                                 Pair.of(new CongregateTask(), 2))
-                        )),
+                )),
                 Pair.of(10, new ShowWaresTask(400, 1600)),
                 Pair.of(10, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.MEETING_POINT, speedModifier, 6, 100, 200)),
@@ -130,7 +130,7 @@ public class MCAVillagerTasks {
                         MultiTask.RunType.RUN_ONE,
                         ImmutableList.of(
                                 Pair.of(new ShareItemsTask(), 1))
-                        )),
+                )),
                 getFullLookBehavior(),
                 Pair.of(99, new UpdateActivityTask())
         );
@@ -145,7 +145,7 @@ public class MCAVillagerTasks {
                                 Pair.of(InteractWithEntityTask.of(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
                                 Pair.of(new FindWalkTargetTask(speedModifier), 1), Pair.of(new WalkTowardsLookTargetTask(speedModifier, 2), 1),
                                 Pair.of(new JumpOnBedTask(speedModifier), 1), Pair.of(new DummyTask(30, 60), 1))
-                        )),
+                )),
                 Pair.of(3, new GiveHeroGiftsTask(100)),
                 Pair.of(3, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(3, new ShowWaresTask(400, 1600)),
@@ -155,7 +155,7 @@ public class MCAVillagerTasks {
                         MultiTask.Ordering.ORDERED, MultiTask.RunType.RUN_ONE,
                         ImmutableList.of(
                                 Pair.of(new ShareItemsTask(), 1))
-                        )),
+                )),
                 Pair.of(3, new MultiTask<>(
                         ImmutableMap.of(),
                         ImmutableSet.of(MemoryModuleType.BREED_TARGET),
@@ -163,7 +163,7 @@ public class MCAVillagerTasks {
                         MultiTask.RunType.RUN_ONE,
                         ImmutableList.of(
                                 Pair.of(new CreateBabyVillagerTask(), 1))
-                        )),
+                )),
                 getFullLookBehavior(),
                 Pair.of(99, new UpdateActivityTask())
         );
@@ -187,7 +187,7 @@ public class MCAVillagerTasks {
                         ImmutableList.of(
                                 Pair.of(new StayNearPointTask(MemoryModuleType.MEETING_POINT, speedModifier * 1.5F, 2, 150, 200), 6),
                                 Pair.of(new FindWalkTargetTask(speedModifier * 1.5F), 2))
-                        )),
+                )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new ForgetRaidTask())
         );

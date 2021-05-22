@@ -15,13 +15,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.EnumSet;
-
 public class GrimReaperRest extends Goal {
-    private final EntityGrimReaper reaper;
-
     private final static int COOLDOWN = 1000;
-
+    private final EntityGrimReaper reaper;
     private int lastHeal = -COOLDOWN;
     private int healingCount = 0;
     private int healingTime;

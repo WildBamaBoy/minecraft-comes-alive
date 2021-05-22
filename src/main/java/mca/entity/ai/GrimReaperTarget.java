@@ -3,7 +3,6 @@ package mca.entity.ai;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -12,9 +11,8 @@ import java.util.List;
 
 public class GrimReaperTarget extends Goal {
     private final EntityPredicate attackTargeting = (new EntityPredicate()).range(64.0D);
-    private int nextScanTick = 20;
-
     private final CreatureEntity mob;
+    private int nextScanTick = 20;
 
     public GrimReaperTarget(CreatureEntity mob) {
         this.mob = mob;

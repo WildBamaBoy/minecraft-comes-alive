@@ -2,7 +2,6 @@ package mca.entity.ai.brain.tasks.chore;
 
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
@@ -27,6 +26,7 @@ public abstract class AbstractChoreTask extends Task<EntityVillagerMCA> {
             villager.stopChore();
         }
     }
+
     @Override
     protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
         this.villager = villager;
