@@ -125,6 +125,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CStringParameter hairOverlay = data.newString("hairOverlay");
     public CIntegerParameter gender = data.newInteger("gender");
     public CTagParameter memories = data.newTag("memories");
+    public CIntegerParameter moveState = data.newInteger("moveState");
     public CIntegerParameter ageState = data.newInteger("ageState");
     public CStringParameter spouseName = data.newString("spouseName");
     public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
@@ -706,21 +707,21 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         Hair h;
         switch (buttonId) {
             case "gui.button.move":
-                //moveState.set(EnumMoveState.MOVE.getId());
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
-                //this.playerToFollowUUID.set(Constants.ZERO_UUID);
+                updateMoveState();
                 break;
             case "gui.button.stay":
-                //moveState.set(EnumMoveState.STAY.getId());
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
+                updateMoveState();
+
                 break;
             case "gui.button.follow":
-                //moveState.set(EnumMoveState.FOLLOW.getId());
                 this.brain.setMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 stopChore();
+                updateMoveState();
                 break;
             case "gui.button.ridehorse":
 //                toggleMount(player);
@@ -1070,5 +1071,15 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     @Override
     public CInventory getInventory() {
         return this.inventory;
+    }
+
+    public void updateMoveState() {
+        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+            this.moveState.set(EnumMoveState.STAY.getId());
+        } else if (this.brain.getMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+            this.moveState.set(EnumMoveState.FOLLOW.getId());
+        } else {
+            this.moveState.set(EnumMoveState.MOVE.getId());
+        }
     }
 }

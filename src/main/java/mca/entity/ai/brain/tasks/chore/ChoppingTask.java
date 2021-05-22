@@ -74,6 +74,8 @@ public class ChoppingTask extends AbstractChoreTask {
 
     @Override
     protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
+        if (this.villager == null) this.villager = villager;
+
         if (!villager.inventory.contains(AxeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
             villager.stopChore();

@@ -12,7 +12,9 @@ import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
 import mca.enums.EnumAgeState;
+import mca.enums.EnumChore;
 import mca.enums.EnumMarriageState;
+import mca.enums.EnumMoveState;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
@@ -356,12 +358,17 @@ public class GuiInteract extends Screen {
         clearButtons();
         API.addButtons("command", villager, player, this);
 
-        if (villager.getBrain().hasMemoryValue(MemoryModuleTypeMCA.STAYING)) {
-            disableButton("gui.button.stay");
-        } else if (villager.getBrain().hasMemoryValue(MemoryModuleTypeMCA.PLAYER_FOLLOWING)) {
-            disableButton("gui.button.follow");
-        } else {
-            disableButton("gui.button.move");
+        int id = villager.moveState.get();
+        switch (EnumMoveState.byId(id)) {
+            case STAY:
+                disableButton("gui.button.stay");
+                break;
+            case FOLLOW:
+                disableButton("gui.button.follow");
+                break;
+            case MOVE:
+                disableButton("gui.button.move");
+                break;
         }
     }
 

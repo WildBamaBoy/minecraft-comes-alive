@@ -7,12 +7,15 @@ import mca.util.Util;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.*;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPosWrapper;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.Comparator;
@@ -55,10 +58,8 @@ public class FishingTask extends AbstractChoreTask {
             }
         }
 
-        ItemStack stack = villager.getMainHandItem();
         LootTable loottable = world.getServer().getLootTables().get(LootTables.FISHING);
-        LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, villager.position()).withParameter(LootParameters.TOOL, stack).withParameter(LootParameters.THIS_ENTITY, villager).withRandom(this.villager.getRandom()).withLuck(0F);
-        lootcontext$builder.withParameter(LootParameters.KILLER_ENTITY, villager).withParameter(LootParameters.THIS_ENTITY, villager);
+        LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, villager.position()).withParameter(LootParameters.TOOL, new ItemStack(Items.FISHING_ROD)).withParameter(LootParameters.THIS_ENTITY, villager).withRandom(this.villager.getRandom()).withLuck(0F);
         this.list = loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.FISHING));
     }
 
@@ -81,8 +82,10 @@ public class FishingTask extends AbstractChoreTask {
             targetWater = nearbyStaticLiquid.stream()
                     .filter((p) -> villager.world.getMcWorld().getBlockState(p).getBlock() == Blocks.WATER)
                     .min(Comparator.comparingDouble(d -> villager.distanceToSqr(d.getX(), d.getY(), d.getZ()))).orElse(null);
-        } else if (villager.distanceToSqr(targetWater.getX(), targetWater.getY(), targetWater.getZ()) > 5.0D) {
+        } else if (villager.distanceToSqr(targetWater.getX(), targetWater.getY(), targetWater.getZ()) < 5.0D) {
             villager.getNavigation().stop();
+            BlockPosWrapper blockposwrapper = new BlockPosWrapper(targetWater);
+            villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
 
             if (!hasCastRod) {
                 villager.swing(Hand.MAIN_HAND);
@@ -93,7 +96,7 @@ public class FishingTask extends AbstractChoreTask {
 
             if (ticks >= villager.world.rand.nextInt(200) + 200) {
                 if (villager.world.rand.nextFloat() >= 0.35F) {
-                    ItemStack stack = list.get(villager.getRandom().nextInt(list.size() - 1)).copy();
+                    ItemStack stack = list.get(villager.getRandom().nextInt(list.size())).copy();
 
                     villager.swing(Hand.MAIN_HAND);
                     villager.inventory.addItem(stack);
@@ -103,6 +106,22 @@ public class FishingTask extends AbstractChoreTask {
                 }
                 ticks = 0;
             }
+        } else {
+            BlockPosWrapper blockposwrapper = new BlockPosWrapper(targetWater);
+            villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
+            villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
         }
+
     }
+
+    @Override
+    protected void stop(ServerWorld world, EntityVillagerMCA villager, long p_212835_3_) {
+        ItemStack stack = villager.getItemInHand(Hand.MAIN_HAND);
+        if (!stack.isEmpty()) {
+            villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
+            villager.inventory.addItem(stack);
+        }
+        villager.swing(Hand.MAIN_HAND);
+    }
+
 }
