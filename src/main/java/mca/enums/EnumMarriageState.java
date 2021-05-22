@@ -11,7 +11,8 @@ import java.util.Optional;
 public enum EnumMarriageState {
     NOT_MARRIED(0),
     ENGAGED(1),
-    MARRIED(2);
+    MARRIED(2),
+    MARRIED_TO_PLAYER(3);
 
     int id;
 
