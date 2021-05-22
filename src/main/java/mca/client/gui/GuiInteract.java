@@ -7,6 +7,7 @@ import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
@@ -311,8 +312,13 @@ public class GuiInteract extends Screen {
             activeKey = "work";
             drawWorkButtonMenu();
         } else if (id.equals("gui.button.backarrow")) {
-            drawMainButtonMenu();
-            activeKey = "main";
+            if (inGiftMode) {
+                inGiftMode = false;
+                enableAllButtons();
+            } else {
+                drawMainButtonMenu();
+                activeKey = "main";
+            }
         } else if (id.equals("gui.button.locations")) {
             activeKey = "locations";
             drawLocationsButtonMenu();
@@ -338,12 +344,6 @@ public class GuiInteract extends Screen {
     private void drawMainButtonMenu() {
         clearButtons();
         API.addButtons("main", villager, player, this);
-
-        //TODO Reimplement disable button, this doesn't work anyway
-        /*EnumMoveState moveState = EnumMoveState.byId(villager.moveState.get());
-        if (moveState == EnumMoveState.FOLLOW) disableButton("gui.button.follow");
-        else if (moveState == EnumMoveState.STAY) disableButton("gui.button.stay");
-        else if (moveState == EnumMoveState.MOVE) disableButton("gui.button.move");*/
     }
 
     private void drawInteractButtonMenu() {
@@ -354,6 +354,14 @@ public class GuiInteract extends Screen {
     private void drawCommandButtonMenu() {
         clearButtons();
         API.addButtons("command", villager, player, this);
+
+        if (villager.getBrain().hasMemoryValue(MemoryModuleTypeMCA.STAYING)) {
+            disableButton("gui.button.stay");
+        } else if (villager.getBrain().hasMemoryValue(MemoryModuleTypeMCA.PLAYER_FOLLOWING)) {
+            disableButton("gui.button.follow");
+        } else {
+            disableButton("gui.button.move");
+        }
     }
 
     private void drawClothingMenu() {
@@ -384,6 +392,14 @@ public class GuiInteract extends Screen {
     }
 
     private void disableAllButtons() {
-        buttons.forEach(b -> b.active = false);
+        buttons.forEach(b -> {
+            if (b instanceof ButtonEx) {
+                if (!((ButtonEx) b).getApiButton().getIdentifier().equals("gui.button.backarrow")) {
+                    b.active = false;
+                }
+            } else {
+                b.active = false;
+            }
+        });
     }
 }

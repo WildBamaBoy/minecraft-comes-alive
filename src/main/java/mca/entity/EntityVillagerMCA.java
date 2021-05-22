@@ -16,6 +16,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
+import mca.entity.ai.brain.MCAVillagerTasks;
 import mca.entity.data.*;
 import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
@@ -45,7 +46,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
@@ -66,6 +66,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class EntityVillagerMCA extends VillagerEntity implements INamedContainerProvider {
     public static final String[] GENES_NAMES = new String[]{
@@ -130,13 +131,12 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CTagParameter parents = data.newTag("parents");
     public CBooleanParameter isInfected = data.newBoolean("isInfected");
     public CIntegerParameter activeChore = data.newInteger("activeChore");
-    public CBooleanParameter isSwinging = data.newBoolean("isSwinging");
     public CBooleanParameter hasBaby = data.newBoolean("hasBaby");
     public CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
     public CIntegerParameter babyAge = data.newInteger("babyAge");
     public CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     public BlockPosParameter hangoutPos = data.newPos("hangoutPos");
-    public CBooleanParameter isSleeping = data.newBoolean("isSleeping");
+
     // genes
     // TODO move into own class
     public CFloatParameter GENE_SIZE = data.newFloat("gene_size");
@@ -435,10 +435,14 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
+    public void aiStep() {
+        updateSwingTime();
+        super.aiStep();
+    }
+
+    @Override
     public void tick() {
         super.tick();
-
-        updateSwinging();
 
         if (tickCount % 100 == 0 && !world.isClientSide) {
             //reportBuildings();
@@ -536,19 +540,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     @Override
     public final ITextComponent getCustomName() {
         return new StringTextComponent(villagerName.get());
-    }
-
-    private void updateSwinging() {
-        if (isSwinging.get()) {
-            swingProgressTicks++;
-
-            if (swingProgressTicks >= 8) {
-                swingProgressTicks = 0;
-                isSwinging.set(false);
-            }
-        } else {
-            swingProgressTicks = 0;
-        }
     }
 
     public Memories getMemoriesForPlayer(PlayerEntity player) {

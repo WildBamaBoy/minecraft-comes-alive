@@ -123,7 +123,7 @@ public class ItemBaby extends Item {
             String ownerName = nbt.getUUID("ownerUUID").equals(player.getUUID()) ? MCA.localize("gui.label.you") : nbt.getString("ownerName");
 
             if (getBabyName(stack).equals(""))
-                tooltip.add(new StringTextComponent(textColor + MCA.localize("gui.label.name") + " " + Constants.Format.RESET + MCA.localize("label.unnamed")));
+                tooltip.add(new StringTextComponent(textColor + MCA.localize("gui.label.name") + " " + Constants.Format.RESET + MCA.localize("gui.label.unnamed")));
             else
                 tooltip.add(new StringTextComponent(textColor + MCA.localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name")));
 
