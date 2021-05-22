@@ -57,6 +57,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.DifficultyInstance;
@@ -534,7 +535,11 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     @Override
     public final ITextComponent getDisplayName() {
-        return new StringTextComponent(villagerName.get());
+        TextComponent name = new StringTextComponent(villagerName.get());
+        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+            name.append(new StringTextComponent("(Staying)"));
+        }
+        return name;
     }
 
     @Override
@@ -744,7 +749,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 setHangout(player);
                 break;
             case "gui.button.trade":
-                super.mobInteract(player, Hand.MAIN_HAND);
+                this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
+
                 break;
             case "gui.button.inventory":
                 player.openMenu(this);

@@ -32,6 +32,8 @@ public class StayTask extends Task<EntityVillagerMCA> {
     @Override
     protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
         villager.getNavigation().stop();
+        
+
 
     }
 }

@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPosWrapper;
@@ -46,7 +47,6 @@ public class ChoppingTask extends AbstractChoreTask {
 
     @Override
     protected boolean canStillUse(ServerWorld world, EntityVillagerMCA villager, long p_212834_3_) {
-        System.out.println(checkExtraStartConditions(world, villager));
         return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
@@ -54,8 +54,29 @@ public class ChoppingTask extends AbstractChoreTask {
     @Override
     protected void stop(ServerWorld world, EntityVillagerMCA villager, long p_212835_3_) {
         ItemStack stack = villager.getItemInHand(Hand.MAIN_HAND);
-        villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
-        villager.inventory.addItem(stack);
+        if (!stack.isEmpty()) {
+            villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
+            villager.inventory.addItem(stack);
+        }
+    }
+
+    @Override
+    protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
+        if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)){
+            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
+            if (i == -1) {
+                villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
+                villager.stopChore();
+            } else {
+                ItemStack stack = villager.inventory.getItem(i);
+                villager.setItemInHand(Hand.MAIN_HAND, stack);
+                villager.inventory.setItem(i, ItemStack.EMPTY);
+            }
+
+
+        }
+        super.start(world, villager, p_212831_3_);
+
     }
 
     @Override
@@ -64,7 +85,7 @@ public class ChoppingTask extends AbstractChoreTask {
             villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
             villager.stopChore();
         } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)){
-            int i = villager.inventory.getFirstSlotContainingItem(Items.DIAMOND_AXE);
+            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
             ItemStack stack = villager.inventory.getItem(i);
             villager.setItemInHand(Hand.MAIN_HAND, stack);
             villager.inventory.setItem(i, ItemStack.EMPTY);
@@ -100,6 +121,7 @@ public class ChoppingTask extends AbstractChoreTask {
                 destroyTree(world, targetTree, log);
             }
         } else targetTree = null;
+        super.tick(world, villager, p_212833_3_);
     }
 
     private void destroyTree(ServerWorld world, BlockPos origin, Block log) {
