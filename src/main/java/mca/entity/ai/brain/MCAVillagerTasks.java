@@ -8,6 +8,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.entity.ai.brain.tasks.FollowTask;
 import mca.entity.ai.brain.tasks.ProcreateTask;
 import mca.entity.ai.brain.tasks.StayTask;
+import mca.entity.ai.brain.tasks.chore.ChoppingTask;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -211,6 +212,12 @@ public class MCAVillagerTasks {
                 Pair.of(0, new ExpireHidingTask(15, 3)),
                 Pair.of(1, new FindHidingPlaceTask(32, speedModifier * 1.25F, 2)),
                 getMinimalLookBehavior()
+        );
+    }
+
+    public static ImmutableList<Pair<Integer, ? extends Task<? super EntityVillagerMCA>>> getChorePackage(VillagerProfession profession, float speedModifier) {
+        return ImmutableList.of(
+                Pair.of(0, new ChoppingTask())
         );
     }
 

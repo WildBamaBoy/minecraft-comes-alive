@@ -14,8 +14,10 @@ import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.ActivityMCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
+import mca.entity.ai.brain.MCAVillagerTasks;
 import mca.entity.data.*;
 import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
@@ -66,6 +68,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class EntityVillagerMCA extends VillagerEntity implements INamedContainerProvider {
     public static final String[] GENES_NAMES = new String[]{
@@ -231,10 +234,12 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         brain.addActivity(Activity.PRE_RAID, MCAVillagerTasks.getPreRaidPackage(villagerprofession, 0.5F));
         brain.addActivity(Activity.RAID, MCAVillagerTasks.getRaidPackage(villagerprofession, 0.5F));
         brain.addActivity(Activity.HIDE, MCAVillagerTasks.getHidePackage(villagerprofession, 0.5F));
+        brain.addActivity(ActivityMCA.CHORE, MCAVillagerTasks.getChorePackage(villagerprofession, 0.5F));
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);
         brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
+
     }
 
     @Nullable
@@ -316,8 +321,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
             return ActionResultType.SUCCESS;
         } else {
-            this.getNavigation().stop();
-            this.getLookControl().setLookAt(player, this.getHeadRotSpeed(), this.getMaxHeadXRot());
+            this.setTradingPlayer(player);
             return ActionResultType.PASS;
         }
     }
@@ -946,6 +950,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 babyAge.set(0);
             }
         }
+
+        //chore
+
     }
 
 //    @Override
@@ -1011,13 +1018,17 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 //    }
 
     public void stopChore() {
+        this.brain.setActiveActivityIfPossible(Activity.IDLE);
         activeChore.set(EnumChore.NONE.getId());
         choreAssigningPlayer.set(Constants.ZERO_UUID);
     }
 
     public void startChore(EnumChore chore, PlayerEntity player) {
+        this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
         activeChore.set(chore.getId());
         choreAssigningPlayer.set(player.getUUID());
+        this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+        this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
     }
 
     public boolean playerIsParent(PlayerEntity player) {

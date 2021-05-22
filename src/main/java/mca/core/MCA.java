@@ -7,6 +7,8 @@ import mca.api.API;
 import mca.client.render.RenderGrimReaper;
 import mca.client.render.RenderVillagerMCA;
 import mca.core.forge.EventHooks;
+import mca.core.minecraft.ActivityMCA;
+import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
@@ -15,6 +17,8 @@ import mca.network.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -112,6 +116,9 @@ public class MCA extends CobaltForgeMod {
 
         PROFESSION_GUARD = registerProfession("guard", PointOfInterestType.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);
         PROFESSION_CHILD = registerProfession("child", PointOfInterestType.HOME, SoundEvents.VILLAGER_WORK_FARMER);
+
+        MemoryModuleTypeMCA.init();
+        ActivityMCA.init();
     }
 
     @Override
