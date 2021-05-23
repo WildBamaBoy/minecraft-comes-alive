@@ -382,8 +382,26 @@ public class GuiInteract extends Screen {
         clearButtons();
         API.addButtons("work", villager, player, this);
 
-        //Prospecting will need some more work, and it will probably have to be thought out better too.
-        disableButton("gui.button.prospecting");
+        int id = villager.moveState.get();
+        switch (EnumChore.byId(id)) {
+            case NONE:
+                disableButton("gui.button.stopworking");
+                break;
+            case CHOP:
+                disableButton("gui.button.chopping");
+                break;
+            case FISH:
+                disableButton("gui.button.fishing");
+                break;
+            case HUNT:
+                disableButton("gui.button.hunting");
+                break;
+            case HARVEST:
+                disableButton("gui.button.harvesting");
+                break;
+            case PROSPECT:
+                break;
+        }
     }
 
     private void drawLocationsButtonMenu() {
