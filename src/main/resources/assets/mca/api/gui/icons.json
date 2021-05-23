@@ -56,11 +56,17 @@
     "x": 20,
     "y": 130
   },
-  "notMarried": {
+  "marriedToPlayer": {
     "u": 16,
     "v": 0,
     "x": 20,
     "y": 130
+  },
+  "notMarried": {
+    "u": 0,
+    "v": 16,
+    "x": 45,
+    "y": 155
   },
 
   "parents": {

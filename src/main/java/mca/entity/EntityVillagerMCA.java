@@ -654,7 +654,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public void marry(PlayerEntity player) {
         spouseUUID.set(player.getUUID());
         spouseName.set(player.getName().getContents());
-        marriageState.set(EnumMarriageState.MARRIED.getId());
+        marriageState.set(EnumMarriageState.MARRIED_TO_PLAYER.getId());
     }
 
     public void marry(EntityVillagerMCA spouse) {

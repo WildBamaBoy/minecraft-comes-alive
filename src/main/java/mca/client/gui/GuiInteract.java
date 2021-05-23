@@ -157,7 +157,8 @@ public class GuiInteract extends Screen {
         String marriageIcon =
                 marriageState == EnumMarriageState.MARRIED ? "married" :
                         marriageState == EnumMarriageState.ENGAGED ? "engaged" :
-                                "notMarried";
+                                marriageState == EnumMarriageState.MARRIED_TO_PLAYER ? "marriedToPlayer" :
+                                        "notMarried";
 
         Memories memory = villager.getMemoriesForPlayer(player);
         String heartIcon =
