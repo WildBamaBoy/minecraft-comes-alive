@@ -10,6 +10,7 @@ import mca.entity.ai.brain.tasks.ProcreateTask;
 import mca.entity.ai.brain.tasks.StayTask;
 import mca.entity.ai.brain.tasks.chore.ChoppingTask;
 import mca.entity.ai.brain.tasks.chore.FishingTask;
+import mca.entity.ai.brain.tasks.chore.HarvestingTask;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -219,7 +220,9 @@ public class MCAVillagerTasks {
     public static ImmutableList<Pair<Integer, ? extends Task<? super EntityVillagerMCA>>> getChorePackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
                 Pair.of(0, new ChoppingTask()),
-                Pair.of(0, new FishingTask())
+                Pair.of(0, new FishingTask()),
+                Pair.of(0, new HarvestingTask()
+                )
         );
     }
 
