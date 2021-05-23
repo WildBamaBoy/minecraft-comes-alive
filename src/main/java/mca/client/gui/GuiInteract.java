@@ -381,6 +381,9 @@ public class GuiInteract extends Screen {
     private void drawWorkButtonMenu() {
         clearButtons();
         API.addButtons("work", villager, player, this);
+
+        //Prospecting will need some more work, and it will probably have to be thought out better too.
+        disableButton("gui.button.prospecting");
     }
 
     private void drawLocationsButtonMenu() {

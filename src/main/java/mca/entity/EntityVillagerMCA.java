@@ -30,6 +30,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
@@ -51,6 +52,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPosWrapper;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -1081,5 +1083,16 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         } else {
             this.moveState.set(EnumMoveState.MOVE.getId());
         }
+    }
+    public void moveTo(BlockPos pos) {
+        BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
+        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+        this.lookAt(pos);
+    }
+
+    public void lookAt(BlockPos pos) {
+        BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
+        this.brain.setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
+
     }
 }

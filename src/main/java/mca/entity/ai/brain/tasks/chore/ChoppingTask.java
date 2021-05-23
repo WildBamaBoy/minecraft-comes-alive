@@ -9,14 +9,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
@@ -55,6 +53,8 @@ public class ChoppingTask extends AbstractChoreTask {
 
     @Override
     protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
+        super.start(world, villager, p_212831_3_);
+
         if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
             if (i == -1) {
@@ -68,7 +68,6 @@ public class ChoppingTask extends AbstractChoreTask {
 
 
         }
-        super.start(world, villager, p_212831_3_);
 
     }
 
@@ -101,9 +100,9 @@ public class ChoppingTask extends AbstractChoreTask {
             targetTree = Util.getNearestPoint(villager.blockPosition(), nearbyTrees);
             return;
         }
-        BlockPosWrapper blockposwrapper = new BlockPosWrapper(targetTree);
-        villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
-        villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+
+        villager.moveTo(targetTree);
+
         BlockState state = villager.world.getMcWorld().getBlockState(targetTree);
         if (state.is(BlockTags.LOGS)) {
             Block log = state.getBlock();
@@ -127,9 +126,7 @@ public class ChoppingTask extends AbstractChoreTask {
             world.destroyBlock(pos, false, villager);
             pos = pos.offset(0, 1, 0);
             villager.inventory.addItem(new ItemStack(log, 1));
-            stack.hurtAndBreak(1, villager, (p_220038_0_) -> {
-                p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
-            });
+            stack.hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
         }
     }
 }

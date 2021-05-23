@@ -7,7 +7,6 @@ import mca.util.Util;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,6 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.*;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.Comparator;
@@ -84,8 +82,7 @@ public class FishingTask extends AbstractChoreTask {
                     .min(Comparator.comparingDouble(d -> villager.distanceToSqr(d.getX(), d.getY(), d.getZ()))).orElse(null);
         } else if (villager.distanceToSqr(targetWater.getX(), targetWater.getY(), targetWater.getZ()) < 5.0D) {
             villager.getNavigation().stop();
-            BlockPosWrapper blockposwrapper = new BlockPosWrapper(targetWater);
-            villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
+            villager.lookAt(targetWater);
 
             if (!hasCastRod) {
                 villager.swing(Hand.MAIN_HAND);
@@ -100,16 +97,12 @@ public class FishingTask extends AbstractChoreTask {
 
                     villager.swing(Hand.MAIN_HAND);
                     villager.inventory.addItem(stack);
-                    villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> {
-                        p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
-                    });
+                    villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
                 }
                 ticks = 0;
             }
         } else {
-            BlockPosWrapper blockposwrapper = new BlockPosWrapper(targetWater);
-            villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
-            villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+            villager.moveTo(targetWater);
         }
 
     }

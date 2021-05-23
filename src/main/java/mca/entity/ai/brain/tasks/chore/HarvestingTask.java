@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
@@ -18,7 +17,6 @@ import net.minecraft.loot.LootParameters;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
@@ -134,9 +132,7 @@ public class HarvestingTask extends AbstractChoreTask {
             blockWork = villager.tickCount + 100 + villager.getRandom().nextInt(100); // move from inside //coments//
         } else {
             //harvest if next to it, else try to reach it
-            BlockPosWrapper blockposwrapper = new BlockPosWrapper(target);
-            villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
-            villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+            villager.moveTo(target);
 
             BlockState state = world.getBlockState(target);
             if (state.getBlock() instanceof CropsBlock) {
@@ -149,9 +145,7 @@ public class HarvestingTask extends AbstractChoreTask {
                     }
 
                     villager.swing(Hand.MAIN_HAND);
-                    villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> {
-                        p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
-                    });
+                    villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
 
                     try {
                         world.setBlock(target, state.setValue(CropsBlock.AGE, 0), 3);
