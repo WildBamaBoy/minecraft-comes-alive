@@ -4,6 +4,7 @@ package mca.entity;
 import cobalt.minecraft.network.datasync.CDataManager;
 import cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.core.MCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;
 import mca.entity.ai.GrimReaperIdle;
 import mca.entity.ai.GrimReaperMelee;
@@ -107,7 +108,7 @@ public class EntityGrimReaper extends CreatureEntity {
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingLvl, boolean hitByPlayer) {
         super.dropCustomDeathLoot(source, lootingLvl, hitByPlayer);
-        ItemEntity itementity = spawnAtLocation(MCA.ITEM_STAFF_OF_LIFE.get());
+        ItemEntity itementity = spawnAtLocation(ItemsMCA.ITEM_STAFF_OF_LIFE.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }
