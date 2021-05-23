@@ -1,0 +1,7 @@
+ {
+	"variants": {
+		"": {
+			"model": "mca:block/villager_spawner"
+		}
+	}
+}
