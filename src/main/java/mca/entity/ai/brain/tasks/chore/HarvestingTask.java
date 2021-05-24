@@ -5,28 +5,37 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import mca.util.Util;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
+import net.minecraft.block.FarmlandBlock;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.IPlantable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//old ai, needs bonemeal & planting?
+//TODO Fix small stops that harvesting ones have
 public class HarvestingTask extends AbstractChoreTask {
-
-    private int blockWork = 0;
     private int lastCropScan = 0;
+    private int lastActionTicks = 0;
+    private final List<BlockPos> harvestable = new ArrayList<>();
+
 
     public HarvestingTask() {
         super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryModuleStatus.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT));
@@ -34,7 +43,7 @@ public class HarvestingTask extends AbstractChoreTask {
 
     @Override
     protected boolean checkExtraStartConditions(ServerWorld world, EntityVillagerMCA villager) {
-        return villager.activeChore.get() == EnumChore.HARVEST.getId() && (blockWork - villager.tickCount) < 0;
+        return villager.activeChore.get() == EnumChore.HARVEST.getId();// && (blockWork - villager.tickCount) < 0;
     }
 
     @Override
@@ -49,7 +58,7 @@ public class HarvestingTask extends AbstractChoreTask {
             villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
             villager.inventory.addItem(stack);
         }
-        villager.swing(Hand.MAIN_HAND);
+
     }
 
     @Override
@@ -72,21 +81,42 @@ public class HarvestingTask extends AbstractChoreTask {
 
     }
 
-    private BlockPos searchCrop(int rangeX, int rangeY) {
+    private BlockPos searchCrop(int rangeX, int rangeY, boolean harvestableOnly) {
         List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(BlockTags.CROPS), rangeX, rangeY);
-        List<BlockPos> harvestable = new ArrayList<>();
-        for (BlockPos pos : nearbyCrops) {
-            BlockState state = villager.world.getMcWorld().getBlockState(pos);
-            if (state.getBlock() instanceof CropsBlock) {
-                CropsBlock crop = (CropsBlock) state.getBlock();
+        harvestable.clear();
 
-                if (crop.isMaxAge(state)) {
-                    harvestable.add(pos);
+        if (harvestableOnly) {
+            for (BlockPos pos : nearbyCrops) {
+                BlockState state = villager.world.getMcWorld().getBlockState(pos);
+                if (state.getBlock() instanceof CropsBlock) {
+                    CropsBlock crop = (CropsBlock) state.getBlock();
+
+                    if (crop.isMaxAge(state)) {
+                        harvestable.add(pos);
+                    }
                 }
             }
         }
 
-        return Util.getNearestPoint(villager.blockPosition(), harvestable);
+        return Util.getNearestPoint(villager.blockPosition(), harvestable.isEmpty() ? nearbyCrops : harvestable);
+
+    }
+    private BlockPos searchUnusedFarmLand(int rangeX, int rangeY) {
+        List<BlockPos> nearbyFarmLand = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(Blocks.FARMLAND), rangeX, rangeY);
+        List<BlockPos> fertileLand = new ArrayList<>();
+        for (BlockPos pos : nearbyFarmLand) {
+            BlockState state = villager.world.getMcWorld().getBlockState(pos);
+            BlockState possibleCrop = villager.world.getMcWorld().getBlockState(pos.above());
+            if (state.getBlock() instanceof FarmlandBlock) {
+                FarmlandBlock farmlandBlock = (FarmlandBlock) state.getBlock();
+
+                if (farmlandBlock.isFertile(state, villager.world.getMcWorld(), pos) && !possibleCrop.is(BlockTags.CROPS)) {
+                    fertileLand.add(pos);
+                }
+            }
+        }
+
+        return Util.getNearestPoint(villager.blockPosition(), fertileLand);
     }
 
     @Override
@@ -94,7 +124,8 @@ public class HarvestingTask extends AbstractChoreTask {
         if (this.villager == null) this.villager = villager;
 
         if (!villager.inventory.contains(HoeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
+            System.out.println("No Hoe");
+            villager.say(this.getAssigningPlayer().get(), "chore.harvesting.nohoe");
             villager.stopChore();
         } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof HoeItem);
@@ -103,64 +134,130 @@ public class HarvestingTask extends AbstractChoreTask {
             villager.inventory.setItem(i, ItemStack.EMPTY);
         }
 
-        //search crop
-        BlockPos target = searchCrop(16, 3);
-
-        //no crop next to villager -> long range scan
-        //limited to once a minute to reduce CPU usage
-        if (target == null && villager.tickCount - lastCropScan > 1200) {
-            //MCA.getLog().info(villager.getName() + " scans for crops");
+        BlockPos fertileFarmLand = searchUnusedFarmLand(16, 3);
+        if (fertileFarmLand == null && villager.tickCount - lastCropScan > 1200) {
             lastCropScan = villager.tickCount;
-            target = searchCrop(32, 16);
+            fertileFarmLand = searchUnusedFarmLand(32, 16);
         }
 
-        if (target == null) {
-            /* If No Crops Are Present it should literally just idle, yes
-            BlockPos workplace = villager.getWorkplace();
-            if (villager.getWorkplace().getY() > 0 && villager.distanceToSqr(workplace.getX(), workplace.getY(), workplace.getZ()) > 256.0D) {
-                //go to their workplace (if set and more than 16 blocks away)
-                //MCA.getLog().info(villager.getName() + " goes to workplace");
-                BlockPosWrapper blockposwrapper = new BlockPosWrapper(targetTree);
-                villager.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
-                villager.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
-            } else {
-                //failed (no crop on range), allows now other, lower priority tasks to interrupt
-                //MCA.getLog().info(villager.getName() + " idles");
-                blockWork = villager.ticksExisted + 100 + villager.getRandom().nextInt(100);
+        if (fertileFarmLand != null) {
+            villager.moveTo(fertileFarmLand);
+            double distanceToSqr = villager.distanceToSqr(fertileFarmLand.getX(), fertileFarmLand.getY(), fertileFarmLand.getZ());
+            if (distanceToSqr <= 4.5D) {
+                if (!this.tryPlantSeed(world, villager, fertileFarmLand.above())) lastActionTicks++;
             }
-             */
-            blockWork = villager.tickCount + 100 + villager.getRandom().nextInt(100); // move from inside //coments//
-        } else {
+            return;
+        }
+
+
+        BlockPos target = searchCrop(16, 3, true);
+
+        if (target == null && villager.tickCount - lastCropScan > 1200) {
+            target = searchCrop(32, 16, true);
+        }
+
+        if (target != null) {
             //harvest if next to it, else try to reach it
+
+            if (harvestable.isEmpty()) {
+                target = searchCrop(16, 3, false);
+            }
             villager.moveTo(target);
 
             BlockState state = world.getBlockState(target);
-            if (state.getBlock() instanceof CropsBlock) {
-                CropsBlock crop = (CropsBlock) state.getBlock();
-                if (crop.isMaxAge(state)) {
-                    LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, villager.position()).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withParameter(LootParameters.THIS_ENTITY, villager).withParameter(LootParameters.BLOCK_STATE, state).withRandom(this.villager.getRandom()).withLuck(0F);
-                    List<ItemStack> drops = world.getServer().getLootTables().get(crop.getLootTable()).getRandomItems(lootcontext$builder.create(LootParameterSets.BLOCK));
-                    for (ItemStack stack : drops) {
-                        villager.inventory.addItem(stack);
-                    }
 
-                    villager.swing(Hand.MAIN_HAND);
-                    villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+            double distanceToSqr = villager.distanceToSqr(target.getX(), target.getY(), target.getZ());
+            if (distanceToSqr <= 4.5D) {
+                if (state.getBlock() instanceof CropsBlock) {
+                    CropsBlock crop = (CropsBlock) state.getBlock();
+                    if (crop.isMaxAge(state)) {
+                        LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, villager.position()).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withParameter(LootParameters.THIS_ENTITY, villager).withParameter(LootParameters.BLOCK_STATE, state).withRandom(this.villager.getRandom()).withLuck(0F);
+                        List<ItemStack> drops = world.getServer().getLootTables().get(crop.getLootTable()).getRandomItems(lootcontext$builder.create(LootParameterSets.BLOCK));
+                        for (ItemStack stack : drops) {
+                            villager.inventory.addItem(stack);
+                        }
 
-                    try {
-                        world.setBlock(target, state.setValue(CropsBlock.AGE, 0), 3);
-                        //TODO consume a seed, look at villager
-                    } catch (Exception e) { // age property may have some issues on certain mods, if it errors just set to air
-                        //MCA.getLog().warn("Error resetting crop age at " + target.toString() + "! Setting to air.");
                         world.destroyBlock(target, false, villager);
+
+                        if (!this.tryPlantSeed(world, villager, target)) lastActionTicks++;
+                    } else {
+                        if (!this.tryBonemealCrop(world, villager, state, target)) lastActionTicks++;
+                    }
+                }
+            }
+        }
+    }
+
+
+    public boolean tryPlantSeed(ServerWorld world, EntityVillagerMCA villager, BlockPos target) {
+        if (lastActionTicks < 15) {
+            return false;
+        }
+
+
+        Inventory inventory = villager.getInventory();
+
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack itemstack = inventory.getItem(i);
+            boolean flag = false;
+            if (!itemstack.isEmpty()) {
+                if (itemstack.getItem() == Items.WHEAT_SEEDS) {
+                    world.setBlock(target, Blocks.WHEAT.defaultBlockState(), 3);
+                    flag = true;
+                } else if (itemstack.getItem() == Items.POTATO) {
+                    world.setBlock(target, Blocks.POTATOES.defaultBlockState(), 3);
+                    flag = true;
+                } else if (itemstack.getItem() == Items.CARROT) {
+                    world.setBlock(target, Blocks.CARROTS.defaultBlockState(), 3);
+                    flag = true;
+                } else if (itemstack.getItem() == Items.BEETROOT_SEEDS) {
+                    world.setBlock(target, Blocks.BEETROOTS.defaultBlockState(), 3);
+                    flag = true;
+                } else if (itemstack.getItem() instanceof IPlantable) {
+                    if (((IPlantable) itemstack.getItem()).getPlantType(world, target) == net.minecraftforge.common.PlantType.CROP) {
+                        world.setBlock(target, ((IPlantable) itemstack.getItem()).getPlant(world, target), 3);
+                        flag = true;
                     }
                 }
             }
 
-            //wait before harvesting next crop
-            ItemStack hoeStack = villager.getMainHandItem();
-            float efficiency = hoeStack == ItemStack.EMPTY ? 0.0f : hoeStack.getDestroySpeed(state);
-            blockWork = villager.tickCount + (int) Math.max(2.0f, 60.0f - efficiency * 5.0f);
+            if (flag) {
+                world.playSound(null, target.getX(), target.getY(), target.getZ(), SoundEvents.CROP_PLANTED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                itemstack.shrink(1);
+                if (itemstack.isEmpty()) {
+                    inventory.setItem(i, ItemStack.EMPTY);
+                }
+                villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+                lastActionTicks = 0;
+                villager.swing(Hand.MAIN_HAND);
+                return true;
+            } else {
+                //TODO make the villager say that it needs seeds. ALSO NEEDS COOLDOWN OR IT WILL SPAM IT
+                //villager.say(getAssigningPlayer().get(), "chore.harvesting.noseed");
+            }
+
+
         }
+
+        return false;
+    }
+
+    public boolean tryBonemealCrop(ServerWorld world, EntityVillagerMCA villager, BlockState state, BlockPos pos) {
+        if (lastActionTicks < 15) {
+            return false;
+        }
+
+        int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof BoneMealItem);
+        if (i > -1) {
+            ItemStack stack = villager.inventory.getItem(i);
+            stack.shrink(1);
+            ((CropsBlock) state.getBlock()).performBonemeal(world, villager.getRandom(), pos, state);
+            villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+            lastActionTicks = 0;
+            villager.swing(Hand.MAIN_HAND);
+            return true;
+        }
+
+        return false;
     }
 }

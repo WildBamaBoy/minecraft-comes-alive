@@ -39,7 +39,7 @@ public class MCAVillagerTasks {
                 Pair.of(0, new BeginRaidTask()),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE)),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.POTENTIAL_JOB_SITE)),
-                Pair.of(1, new WalkToTargetTask()),
+                Pair.of(1, new WalkToTargetTask()), //Needs replacing into a "WalkOrTeleportToTarget" with it teleporting if the target is over 25 blocks away (or should it be more)? -Frqnny
                 Pair.of(2, new SwitchVillagerJobTask(profession)),
                 Pair.of(3, new TradeTask(speedModifier)),
                 Pair.of(5, new PickupWantedItemTask<>(speedModifier, false, 4)),

@@ -773,13 +773,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 } else {
                     procreateTick = 60;
                     isProcreating.set(true);
-
-                    //TODO
-//                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
-//                    if (task != null) {
-//                        ((EntityAIProcreate) task.action).procreateTimer = 20 * 3; // 3 seconds
-//                        isProcreating.set(true);
-//                    }
                 }
                 break;
             case "gui.button.infected":
@@ -953,68 +946,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     }
 
-//    @Override
-//    protected void initializeAI() {
-//        super.initEntityAI();
-//
-//        this.tasks.addTask(0, new EntityAIProspecting(this));
-//        this.tasks.addTask(0, new EntityAIHunting(this));
-//        this.tasks.addTask(0, new EntityAIChopping(this));
-//        this.tasks.addTask(0, new EntityAIHarvesting(this));
-//        this.tasks.addTask(0, new EntityAIFishing(this));
-//        this.tasks.addTask(0, new EntityAIMoveState(this));
-//        this.tasks.addTask(0, new EntityAIAgeBaby(this));
-//        this.tasks.addTask(0, new EntityAIProcreate(this));
-//        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
-//        this.tasks.addTask(6, new EntityAIWork(this));
-//        this.tasks.addTask(5, new EntityAIGoHangout(this));
-//        this.tasks.addTask(1, new EntityAISleeping(this));
-//        this.tasks.addTask(10, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-//        this.tasks.addTask(10, new EntityAILookIdle(this));
-//    }
-
-//    private void applySpecialAI() {
-//        if (getProfession() == ProfessionsMCA.bandit) {
-//            this.tasks.taskEntries.clear();
-//            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
-//            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-//
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
-//            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
-//        } else if (getProfession() == ProfessionsMCA.guard) {
-//            removeCertainTasks(EntityAIAvoidEntity.class);
-//
-//            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
-//            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-//
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVex.class, 100, false, false, null));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVindicator.class, 100, false, false, null));
-//        } else {
-//            //every other villager is allowed to defend itself from zombies while fleeing
-//            this.tasks.addTask(0, new EntityAIDefendFromTarget(this));
-//
-//            this.targetTasks.taskEntries.clear();
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
-//        }
-//    }
-
-    //guards should not run away from zombies
-    //TODO: should only avoid zombies when low on health
-//    private void removeCertainTasks(Class typ) {
-//        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
-//
-//        while (iterator.hasNext()) {
-//            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
-//            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
-//
-//            if (entityaibase.getClass().equals(typ)) {
-//                iterator.remove();
-//            }
-//        }
-//    }
-
     public void stopChore() {
         this.brain.setActiveActivityIfPossible(Activity.IDLE);
         activeChore.set(EnumChore.NONE.getId());
@@ -1033,21 +964,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         ParentPair data = ParentPair.fromNBT(parents.get());
         return data.getParent1UUID().equals(player.getUUID()) || data.getParent2UUID().equals(player.getUUID());
     }
-
-    /*public String getCurrentActivity() {
-        EnumMoveState ms = EnumMoveState.byId(moveState.get());
-        if (ms != EnumMoveState.MOVE) {
-            return ms.getFriendlyName();
-        }
-
-        EnumChore chore = EnumChore.byId(activeChore.get());
-        if (chore != EnumChore.NONE) {
-            return chore.getFriendlyName();
-        }
-
-        return null;
-    }*/
-
 
     public ParentPair getParents() {
         return ParentPair.fromNBT(parents.get());

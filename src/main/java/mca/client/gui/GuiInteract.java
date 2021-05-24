@@ -382,7 +382,7 @@ public class GuiInteract extends Screen {
         clearButtons();
         API.addButtons("work", villager, player, this);
 
-        int id = villager.moveState.get();
+        int id = villager.activeChore.get();
         switch (EnumChore.byId(id)) {
             case NONE:
                 disableButton("gui.button.stopworking");
