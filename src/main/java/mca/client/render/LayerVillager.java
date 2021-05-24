@@ -8,8 +8,8 @@ import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,9 +18,8 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class LayerVillager<T extends EntityVillagerMCA, M extends ModelVillagerMCA<T>> extends LayerRenderer<T, M> {
-    protected M model;
-
     protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
+    protected M model;
 
     public LayerVillager(IEntityRenderer<T, M> renderer, M model) {
         super(renderer);
@@ -43,11 +42,11 @@ public abstract class LayerVillager<T extends EntityVillagerMCA, M extends Model
         return false;
     }
 
-    private void renderModel(MatrixStack transform, IRenderTypeBuffer buffer, int p_241738_3_, boolean p_241738_5_, M model, float r, float g, float b, ResourceLocation res) {
+    private void renderModel(MatrixStack transform, IRenderTypeBuffer buffer, int p_241738_3_, boolean p_241738_5_, M model, float r, float g, float b, ResourceLocation res, int overlay) {
         this.getParentModel().copyPropertiesTo(model);
 
         IVertexBuilder ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderType.entityTranslucent(res) : RenderType.entityCutoutNoCull(res));
-        model.renderToBuffer(transform, ivertexbuilder, p_241738_3_, OverlayTexture.NO_OVERLAY, r, g, b, 1.0F);
+        model.renderToBuffer(transform, ivertexbuilder, p_241738_3_, overlay, r, g, b, 1.0F);
     }
 
     @Override
@@ -61,14 +60,14 @@ public abstract class LayerVillager<T extends EntityVillagerMCA, M extends Model
             float[] color = getColor(entity);
 
             ResourceLocation res = getClothingResource(p);
-            this.renderModel(transform, buffer, p_225628_3_, false, model, color[0], color[1], color[2], res);
+            this.renderModel(transform, buffer, p_225628_3_, false, model, color[0], color[1], color[2], res, LivingRenderer.getOverlayCoords(entity, 0.0F));
         }
 
         //overlay
         p = getOverlayTexture(entity);
         if (p != null && p.length() > 0) {
             ResourceLocation res = getClothingResource(p);
-            this.renderModel(transform, buffer, p_225628_3_, false, model, 1.0f, 1.0f, 1.0f, res);
+            this.renderModel(transform, buffer, p_225628_3_, false, model, 1.0f, 1.0f, 1.0f, res, LivingRenderer.getOverlayCoords(entity, 0.0F));
         }
     }
 

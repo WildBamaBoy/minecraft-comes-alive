@@ -1,0 +1,26 @@
+{
+    "display": {
+        "title": {
+            "text": "A New Beginning!"
+        },
+        "description": {
+            "text": "Your new social journey awaits!"
+        },
+        "icon": {
+            "item": "minecraft:cake"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false,
+        "background": "minecraft:textures/block/oak_log.png"
+    },
+    "criteria": {
+        "beginning_village": {
+            "trigger": "minecraft:location",
+            "conditions": {
+                "feature": "village"
+            }
+        }
+    }
+}

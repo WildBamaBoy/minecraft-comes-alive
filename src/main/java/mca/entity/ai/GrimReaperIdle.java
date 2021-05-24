@@ -10,10 +10,10 @@ import java.util.EnumSet;
 
 public class GrimReaperIdle extends Goal {
     protected final EntityGrimReaper reaper;
+    protected final double speedModifier;
     protected double wantedX;
     protected double wantedY;
     protected double wantedZ;
-    protected final double speedModifier;
     protected int interval;
 
     public GrimReaperIdle(EntityGrimReaper reaper, double speed) {

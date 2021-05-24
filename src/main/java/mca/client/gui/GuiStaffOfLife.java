@@ -20,14 +20,12 @@ import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiStaffOfLife extends Screen {
+    private final PlayerEntity player;
+    private final List<String> keys = new ArrayList<>();
     private Map<String, CNBT> villagerData;
     private EntityVillagerMCA dummy;
-    private final PlayerEntity player;
-
     // selection fields
     private int selectedIndex = 0;
-    private final List<String> keys = new ArrayList<>();
-
     private Button nameButton;
     private Button reviveButton;
     private Button nextButton;

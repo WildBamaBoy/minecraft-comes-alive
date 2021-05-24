@@ -12,6 +12,7 @@ import net.minecraft.nbt.ListNBT;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class CInventory extends Inventory {
     private final Entity entity;
@@ -21,10 +22,10 @@ public class CInventory extends Inventory {
         this.entity = entity;
     }
 
-    public int getFirstSlotContainingItem(Item item) {
+    public int getFirstSlotContainingItem(Predicate<ItemStack> predicate) {
         for (int i = 0; i < this.getContainerSize(); i++) {
             ItemStack stack = this.getItem(i);
-            if (stack.getItem() != item) continue;
+            if (!predicate.test(stack)) continue;
             return i;
         }
         return -1;
@@ -129,5 +130,13 @@ public class CInventory extends Inventory {
         }
 
         return tagList;
+    }
+
+    public void saveToNBT(CompoundNBT nbt) {
+        nbt.put("Inventory", this.createTag());
+    }
+
+    public void readFromNBT(CompoundNBT nbt) {
+        this.fromTag(nbt.getList("Inventory", 10));
     }
 }

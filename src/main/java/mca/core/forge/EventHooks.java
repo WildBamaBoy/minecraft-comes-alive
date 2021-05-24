@@ -1,15 +1,19 @@
 package mca.core.forge;
 
 import cobalt.minecraft.world.CWorld;
+import com.mojang.brigadier.CommandDispatcher;
+import mca.command.CommandMCA;
+import mca.command.CommandMCAAdmin;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.ReaperSpawner;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.data.VillageManagerData;
 import mca.items.ItemBaby;
+import mca.server.ReaperSpawner;
+import mca.server.ServerInteractionManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.*;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,6 +24,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -30,13 +35,24 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = MCA.MOD_ID)
 public class EventHooks {
+    private final List<VillagerEntity> spawnQueue = new LinkedList<>();
     // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
     public Map<UUID, ItemStack> limbo = new HashMap<>();
-    private final List<VillagerEntity> spawnQueue = new LinkedList<>();
+
+    @SubscribeEvent
+    public static void onCommandRegister(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+
+        System.out.println("help");
+        CommandMCAAdmin.register(dispatcher);
+        CommandMCA.register(dispatcher);
+    }
 
     @SubscribeEvent
     public void onWorldTick(TickEvent.WorldTickEvent event) {
@@ -48,7 +64,8 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
-        ReaperSpawner.update();
+        ReaperSpawner.tick();
+        ServerInteractionManager.getInstance().tick();
 
         MCA.tick++;
 

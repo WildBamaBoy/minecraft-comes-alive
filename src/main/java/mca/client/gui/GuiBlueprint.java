@@ -36,9 +36,7 @@ public class GuiBlueprint extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new GetVillageRequest());
 
-        addButton(new Button(width / 2 - 32, height / 2 + 96, 64, 20, new StringTextComponent("Exit"), (b) -> {
-            Minecraft.getInstance().setScreen(null);
-        }));
+        addButton(new Button(width / 2 - 32, height / 2 + 96, 64, 20, new StringTextComponent("Exit"), (b) -> Minecraft.getInstance().setScreen(null)));
     }
 
     @Override

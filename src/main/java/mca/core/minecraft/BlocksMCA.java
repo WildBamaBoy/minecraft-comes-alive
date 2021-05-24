@@ -6,19 +6,39 @@ import net.minecraft.block.OreBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.RegistryObject;
 
-import java.util.ArrayList;
+import java.util.function.Supplier;
 
 //TODO
-@net.minecraftforge.registries.ObjectHolder("minecraft")
 public final class BlocksMCA {
-    public static final Block ROSE_GOLD_BLOCK = register("rose_gold_block", new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));
-    public static final Block ROSE_GOLD_ORE = register("rose_gold_ore", new OreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> ROSE_GOLD_BLOCK = register("rose_gold_block", () ->
+            new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));
 
-    private static Block register(String p_222382_0_, Block p_222382_1_) {
-        return Registry.register(Registry.BLOCK, p_222382_0_, p_222382_1_);
+    public static final RegistryObject<Block> ROSE_GOLD_ORE = register("rose_gold_ore", () ->
+            new OreBlock(AbstractBlock.Properties.of(Material.STONE).requiresCorrectToolForDrops().harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3.0F, 3.0F).sound(SoundType.STONE)));
+
+//    public static final RegistryObject<Block> VILLAGER_SPAWNER = register("villager_spawner",() ->
+//            new SpawnerBlock(AbstractBlock.Properties.of(Material.METAL).speedFactor(VillagerData.getMinXpPerLevel(7)).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+//    public static final RegistryObject<Block> TOMBSTONE = register("tombstone",() ->
+//            new Block(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE)));
+
+
+    static void register() {
     }
 
-    private static final ArrayList<Block> BLOCKS = new ArrayList<>();
+
+    private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block) {
+        return Registration.BLOCKS.register(name, block);
+    }
+
+    protected static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
+        RegistryObject<T> ret = registerNoItem(name, block);
+        Registration.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(ItemGroupMCA.MCA)));
+        return ret;
+    }
 }

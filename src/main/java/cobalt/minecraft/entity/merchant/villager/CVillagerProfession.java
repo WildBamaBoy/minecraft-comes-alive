@@ -6,12 +6,13 @@ import lombok.Getter;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.village.PointOfInterestType;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Constructor;
 
 public class CVillagerProfession {
-    @Getter private final VillagerProfession mcProfession;
+    @Getter
+    private final VillagerProfession mcProfession;
+
     private CVillagerProfession(VillagerProfession profession) {
         this.mcProfession = profession;
     }

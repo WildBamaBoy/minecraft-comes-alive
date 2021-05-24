@@ -45,17 +45,6 @@
     },
     {
       "id": 5,
-      "identifier": "gui.button.prospecting",
-      "x": 140,
-      "y": -27,
-      "width": 65,
-      "height": 20,
-      "notifyServer": true,
-      "targetServer": false,
-      "constraints": ""
-    },
-    {
-      "id": 5,
       "identifier": "gui.button.chopping",
       "x": 140,
       "y": -5,

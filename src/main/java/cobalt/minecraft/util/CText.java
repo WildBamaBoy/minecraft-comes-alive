@@ -2,7 +2,9 @@ package cobalt.minecraft.util;
 
 public class CText {
     private static final String SECTION_SIGN = "\u00a7";
-    private CText(){}
+
+    private CText() {
+    }
 
     public static final class Color {
         public static final String BLACK = SECTION_SIGN + "0";

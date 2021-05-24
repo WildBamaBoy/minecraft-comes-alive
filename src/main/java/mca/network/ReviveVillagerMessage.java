@@ -6,7 +6,6 @@ import cobalt.network.Message;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.SavedVillagers;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
 import java.util.UUID;

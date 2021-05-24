@@ -6,6 +6,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumMarriageState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -47,7 +48,7 @@ public class ItemEngagementRing extends ItemSpecialCaseGift {
             response = "interaction.marry.fail.lowhearts";
         else {
             response = "interaction.marry.success";
-            playerData.marry(villager.getUUID(), villager.villagerName.get());
+            playerData.marry(villager.getUUID(), villager.villagerName.get(), EnumMarriageState.MARRIED);
             villager.getMemoriesForPlayer(player).setDialogueType(EnumDialogueType.SPOUSE);
             villager.marry(player);
             villager.modifyMoodLevel(15);

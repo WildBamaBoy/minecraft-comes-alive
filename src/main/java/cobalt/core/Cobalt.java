@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Cobalt extends CobaltForgeMod {
-    private static Logger logger = LogManager.getLogger("Cobalt");
+    private static final Logger logger = LogManager.getLogger("Cobalt");
 
     public static Logger getLog() {
         return logger;

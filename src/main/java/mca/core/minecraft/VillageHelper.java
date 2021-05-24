@@ -1,11 +1,9 @@
 package mca.core.minecraft;
 
 import cobalt.minecraft.world.CWorld;
-import mca.entity.data.Building;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Collection;
 

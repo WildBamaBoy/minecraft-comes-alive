@@ -7,16 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Village implements Serializable {
-    private int centerX, centerY, centerZ;
-
     private final int id;
-    private String name;
+    private final Map<Integer, Building> buildings;
+    private final String name;
+    private int centerX, centerY, centerZ;
     private int size;
     private int development;
     private int taxes;
     private float populationThreshold;
     private float marriageThreshold;
-    private final Map<Integer, Building> buildings;
 
     public Village(int id) {
         this.id = id;

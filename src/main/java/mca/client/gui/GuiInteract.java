@@ -7,12 +7,13 @@ import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
 import mca.enums.EnumAgeState;
+import mca.enums.EnumChore;
 import mca.enums.EnumMarriageState;
+import mca.enums.EnumMoveState;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
@@ -34,13 +35,9 @@ public class GuiInteract extends Screen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
     private final EntityVillagerMCA villager;
     private final PlayerEntity player;
-
-    private boolean inGiftMode;
-
-    private int timeSinceLastClick;
-
     private final float iconScale = 1.5f;
-
+    private boolean inGiftMode;
+    private int timeSinceLastClick;
     private int mouseX;
     private int mouseY;
 
@@ -62,6 +59,7 @@ public class GuiInteract extends Screen {
     @Override
     public void onClose() {
         Objects.requireNonNull(this.minecraft).setScreen(null);
+        villager.setInteractingPlayer(null);
     }
 
     @Override
@@ -185,7 +183,7 @@ public class GuiInteract extends Screen {
     private void drawTextPopups(MatrixStack transform) {
         //general information
         EnumAgeState age = villager.getAgeState();
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.Villager." + villager.getProfession());
+        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.minecraft.villager." + villager.getProfession());
 
         //name or state tip (gifting, ...)
         int h = 17;
@@ -356,12 +354,17 @@ public class GuiInteract extends Screen {
         clearButtons();
         API.addButtons("command", villager, player, this);
 
-        if (villager.getBrain().hasMemoryValue(MemoryModuleTypeMCA.STAYING)) {
-            disableButton("gui.button.stay");
-        } else if (villager.getBrain().hasMemoryValue(MemoryModuleTypeMCA.PLAYER_FOLLOWING)) {
-            disableButton("gui.button.follow");
-        } else {
-            disableButton("gui.button.move");
+        int id = villager.moveState.get();
+        switch (EnumMoveState.byId(id)) {
+            case STAY:
+                disableButton("gui.button.stay");
+                break;
+            case FOLLOW:
+                disableButton("gui.button.follow");
+                break;
+            case MOVE:
+                disableButton("gui.button.move");
+                break;
         }
     }
 
@@ -373,6 +376,27 @@ public class GuiInteract extends Screen {
     private void drawWorkButtonMenu() {
         clearButtons();
         API.addButtons("work", villager, player, this);
+
+        int id = villager.activeChore.get();
+        switch (EnumChore.byId(id)) {
+            case NONE:
+                disableButton("gui.button.stopworking");
+                break;
+            case CHOP:
+                disableButton("gui.button.chopping");
+                break;
+            case FISH:
+                disableButton("gui.button.fishing");
+                break;
+            case HUNT:
+                disableButton("gui.button.hunting");
+                break;
+            case HARVEST:
+                disableButton("gui.button.harvesting");
+                break;
+            case PROSPECT:
+                break;
+        }
     }
 
     private void drawLocationsButtonMenu() {

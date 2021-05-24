@@ -4,6 +4,7 @@ package mca.entity;
 import cobalt.minecraft.network.datasync.CDataManager;
 import cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.core.MCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;
 import mca.entity.ai.GrimReaperIdle;
 import mca.entity.ai.GrimReaperMelee;
@@ -46,6 +47,13 @@ public class EntityGrimReaper extends CreatureEntity {
         this.xpReward = 100;
 
         data.register();
+    }
+
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MonsterEntity.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 225.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.30F)
+                .add(Attributes.FOLLOW_RANGE, 40.0D);
     }
 
     @Override
@@ -97,17 +105,10 @@ public class EntityGrimReaper extends CreatureEntity {
         return flyingpathnavigator;
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 225.0F)
-                .add(Attributes.MOVEMENT_SPEED, 0.30F)
-                .add(Attributes.FOLLOW_RANGE, 40.0D);
-    }
-
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingLvl, boolean hitByPlayer) {
         super.dropCustomDeathLoot(source, lootingLvl, hitByPlayer);
-        ItemEntity itementity = spawnAtLocation(MCA.ITEM_STAFF_OF_LIFE.get());
+        ItemEntity itementity = spawnAtLocation(ItemsMCA.ITEM_STAFF_OF_LIFE.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }

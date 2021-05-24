@@ -16,16 +16,25 @@ import java.util.List;
  */
 @AllArgsConstructor
 public class APIButton {
-    @Getter private final int id;             // numeric id
-    @Getter private final String identifier;  // string identifier for the button in the .lang file
-    @Getter private final int x;              // x position
-    @Getter private final int y;              // y position
-    @Getter private final int width;          // button width
-    @Getter private final int height;         // button height
-    @Getter private final boolean notifyServer;   // whether the button press is sent to the server for processing
-    @Getter private final boolean targetServer;   // whether the button is processed by the villager or the server itself
+    @Getter
+    private final int id;             // numeric id
+    @Getter
+    private final String identifier;  // string identifier for the button in the .lang file
+    @Getter
+    private final int x;              // x position
+    @Getter
+    private final int y;              // y position
+    @Getter
+    private final int width;          // button width
+    @Getter
+    private final int height;         // button height
+    @Getter
+    private final boolean notifyServer;   // whether the button press is sent to the server for processing
+    @Getter
+    private final boolean targetServer;   // whether the button is processed by the villager or the server itself
     private final String constraints;     // list of EnumConstraints separated by a pipe character |
-    @Getter private final boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
+    @Getter
+    private final boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
 
     public List<EnumConstraint> getConstraints() {
         return EnumConstraint.fromStringList(constraints);
@@ -47,14 +56,10 @@ public class APIButton {
             return true;
         } else if (constraints.contains(EnumConstraint.NOT_SPOUSE) && !villager.isMarriedTo(player.getUUID())) {
             return true;
-        } else if (constraints.contains(EnumConstraint.FAMILY) && (villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))){
+        } else if (constraints.contains(EnumConstraint.FAMILY) && (villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))) {
             return true;
         } else if (constraints.contains(EnumConstraint.NOT_FAMILY) && !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))) {
             return true;
-        } else if (constraints.isEmpty()) {
-            return true;
-        }
-
-        return false;
+        } else return constraints.isEmpty();
     }
 }

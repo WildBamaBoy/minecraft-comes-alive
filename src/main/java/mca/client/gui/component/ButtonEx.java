@@ -17,9 +17,7 @@ public class ButtonEx extends Button {
                 apiButton.getWidth(),
                 apiButton.getHeight(),
                 MCA.localizeText(apiButton.getIdentifier()),
-                (a) -> {
-                    gui.buttonPressed((ButtonEx) a);
-                });
+                (a) -> gui.buttonPressed((ButtonEx) a));
         this.apiButton = apiButton;
     }
 }
