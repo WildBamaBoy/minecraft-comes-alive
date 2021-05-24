@@ -11,22 +11,19 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Building implements Serializable {
-    transient private final HashMap<Block, Integer> blocks;
-    private final Direction[] directions = {
-            Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
-    };
     private final BuildingType type;
     private final Set<UUID> residents;
+
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
-  
-    private BuildingType type;
-
-    private Set<UUID> residents;
 
     private final HashMap<String, Integer> blocks;
 
     private int id;
+
+    private final Direction[] directions = {
+            Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
+    };
 
     public Building(BlockPos pos) {
         pos0X = pos.getX();
