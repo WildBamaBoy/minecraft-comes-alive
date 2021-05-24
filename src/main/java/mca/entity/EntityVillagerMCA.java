@@ -697,6 +697,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
         say(player, responseId);
+        closeGUIIfOpen();
     }
 
     public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
@@ -712,11 +713,13 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 updateMoveState();
+                closeGUIIfOpen();
                 break;
             case "gui.button.stay":
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
                 updateMoveState();
+                closeGUIIfOpen();
 
                 break;
             case "gui.button.follow":
@@ -724,21 +727,27 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 stopChore();
                 updateMoveState();
+                closeGUIIfOpen();
                 break;
             case "gui.button.ridehorse":
 //                toggleMount(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.sethome":
                 setHome(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.gohome":
                 goHome(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.setworkplace":
                 setWorkplace(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.sethangout":
                 setHangout(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.trade":
                 this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
@@ -763,6 +772,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                         player.getMainHandItem().shrink(1);
                     }
                 }
+                closeGUIIfOpen();
                 break;
             case "gui.button.procreate":
                 if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent()) {
@@ -774,6 +784,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     procreateTick = 60;
                     isProcreating.set(true);
                 }
+                closeGUIIfOpen();
                 break;
             case "gui.button.infected":
                 isInfected.set(!isInfected.get());
@@ -808,20 +819,26 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 break;
             case "gui.button.prospecting":
                 startChore(EnumChore.PROSPECT, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.hunting":
                 startChore(EnumChore.HUNT, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.fishing":
                 startChore(EnumChore.FISH, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.chopping":
                 startChore(EnumChore.CHOP, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.harvesting":
                 startChore(EnumChore.HARVEST, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.stopworking":
+                closeGUIIfOpen();
                 stopChore();
                 break;
             case "gui.button.village":
@@ -1010,5 +1027,12 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
         this.brain.setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
 
+    }
+
+    public void closeGUIIfOpen() {
+        PlayerEntity entity = this.getTradingPlayer();
+        if (entity != null) {
+            entity.closeContainer();
+        }
     }
 }
