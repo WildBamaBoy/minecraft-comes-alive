@@ -1,8 +1,6 @@
 package mca.items;
 
-import mca.client.gui.GuiStaffOfLife;
 import mca.core.MCA;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -31,7 +29,7 @@ public class ItemStaffOfLife extends Item {
             return ActionResult.fail(stack);
         }
 
-        Minecraft.getInstance().setScreen(new GuiStaffOfLife(player));
+        //Minecraft.getInstance().setScreen(new GuiStaffOfLife(player));
 
         return ActionResult.success(stack);
     }

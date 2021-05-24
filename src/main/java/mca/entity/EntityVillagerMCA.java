@@ -61,6 +61,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -310,10 +312,16 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         return damageDealt;
     }
 
+
+    @OnlyIn(Dist.CLIENT)
+    private void openScreen(PlayerEntity player) {
+        Minecraft.getInstance().setScreen(new GuiInteract(this, player));
+    }
+
     @Override
     public final ActionResultType interactAt(PlayerEntity player, Vector3d pos, @Nonnull Hand hand) {
         if (world.isClientSide) {
-            Minecraft.getInstance().setScreen(new GuiInteract(this, player));
+            openScreen(player);
             return ActionResultType.SUCCESS;
         } else {
             this.getNavigation().stop();
@@ -445,7 +453,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         super.tick();
 
         if (tickCount % 100 == 0 && !world.isClientSide) {
-            //reportBuildings();
+            reportBuildings();
         }
 
         if (world.isClientSide) {
@@ -459,13 +467,15 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     private void reportBuildings() {
         VillageManagerData manager = VillageManagerData.get(world);
 
+        //fetch all near POIs
         Stream<BlockPos> stream = ((ServerWorld) level).getPoiManager().findAll(
-                PointOfInterestType.HOME.getPredicate(),
+                PointOfInterestType.ALL,
                 (p) -> !manager.cache.contains(p),
                 getOnPos(),
                 48,
                 PointOfInterestManager.Status.ANY);
 
+        //check if it is a building
         stream.forEach((pos) -> manager.reportBuilding(level, pos));
     }
 

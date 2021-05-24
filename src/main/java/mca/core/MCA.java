@@ -34,6 +34,8 @@ public class MCA extends CobaltForgeMod {
     public static MCA mod;
     private static Config config;
 
+    public static int tick = 0;
+
     static {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
         NetworkHandler.registerMessage(InteractionServerMessage.class);

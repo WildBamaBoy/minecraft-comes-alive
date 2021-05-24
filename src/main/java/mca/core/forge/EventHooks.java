@@ -50,6 +50,8 @@ public class EventHooks {
     public void onServerTick(TickEvent.ServerTickEvent event) {
         ReaperSpawner.update();
 
+        MCA.tick++;
+
         // lazy spawning of our villagers as they can't be spawned while loading
         if (!spawnQueue.isEmpty()) {
             VillagerEntity e = spawnQueue.remove(0);

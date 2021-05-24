@@ -11,6 +11,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,16 +22,22 @@ public class ItemWhistle extends Item {
         super(properties);
     }
 
+    @OnlyIn(Dist.CLIENT)
+    private void openScreen() {
+        Minecraft.getInstance().setScreen(new GuiWhistle());
+    }
+
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        Minecraft.getInstance().setScreen(new GuiWhistle());
+        openScreen();
 
         return ActionResult.success(stack);
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         tooltip.add(new StringTextComponent("Allows you to call your family to your current location."));
     }
