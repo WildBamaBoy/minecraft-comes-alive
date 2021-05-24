@@ -13,14 +13,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.vector.Vector3d;
 
 public class GrimReaperMelee extends Goal {
+    private final static int COOLDOWN = 200;
     private final EntityGrimReaper reaper;
-
     private int blockDuration;
     private int attackDuration;
     private int retreatDuration;
-
     private int lastAttack = 0;
-    private final static int COOLDOWN = 200;
 
     public GrimReaperMelee(EntityGrimReaper reaper) {
         this.reaper = reaper;

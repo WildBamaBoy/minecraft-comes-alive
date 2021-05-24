@@ -4,14 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.Map;
 import java.util.Random;
 
 public class ProcreateTask extends Task<EntityVillagerMCA> {

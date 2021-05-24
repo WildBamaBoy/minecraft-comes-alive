@@ -14,6 +14,7 @@ import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.ActivityMCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.ai.brain.MCAVillagerTasks;
@@ -29,6 +30,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
@@ -50,11 +52,13 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPosWrapper;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.DifficultyInstance;
@@ -123,6 +127,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CStringParameter hairOverlay = data.newString("hairOverlay");
     public CIntegerParameter gender = data.newInteger("gender");
     public CTagParameter memories = data.newTag("memories");
+    public CIntegerParameter moveState = data.newInteger("moveState");
     public CIntegerParameter ageState = data.newInteger("ageState");
     public CStringParameter spouseName = data.newString("spouseName");
     public CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
@@ -231,10 +236,12 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         brain.addActivity(Activity.PRE_RAID, MCAVillagerTasks.getPreRaidPackage(villagerprofession, 0.5F));
         brain.addActivity(Activity.RAID, MCAVillagerTasks.getRaidPackage(villagerprofession, 0.5F));
         brain.addActivity(Activity.HIDE, MCAVillagerTasks.getHidePackage(villagerprofession, 0.5F));
+        brain.addActivity(ActivityMCA.CHORE, MCAVillagerTasks.getChorePackage(villagerprofession, 0.5F));
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);
         brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
+
     }
 
     @Nullable
@@ -316,8 +323,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
             return ActionResultType.SUCCESS;
         } else {
-            this.getNavigation().stop();
-            this.getLookControl().setLookAt(player, this.getHeadRotSpeed(), this.getMaxHeadXRot());
+            this.setTradingPlayer(player);
             return ActionResultType.PASS;
         }
     }
@@ -534,7 +540,11 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     @Override
     public final ITextComponent getDisplayName() {
-        return new StringTextComponent(villagerName.get());
+        TextComponent name = new StringTextComponent(villagerName.get());
+        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+            name.append(new StringTextComponent("(Staying)"));
+        }
+        return name;
     }
 
     @Override
@@ -699,21 +709,21 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         Hair h;
         switch (buttonId) {
             case "gui.button.move":
-                //moveState.set(EnumMoveState.MOVE.getId());
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
-                //this.playerToFollowUUID.set(Constants.ZERO_UUID);
+                updateMoveState();
                 break;
             case "gui.button.stay":
-                //moveState.set(EnumMoveState.STAY.getId());
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
+                updateMoveState();
+
                 break;
             case "gui.button.follow":
-                //moveState.set(EnumMoveState.FOLLOW.getId());
                 this.brain.setMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 stopChore();
+                updateMoveState();
                 break;
             case "gui.button.ridehorse":
 //                toggleMount(player);
@@ -731,7 +741,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 setHangout(player);
                 break;
             case "gui.button.trade":
-                super.mobInteract(player, Hand.MAIN_HAND);
+                this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
+
                 break;
             case "gui.button.inventory":
                 player.openMenu(this);
@@ -762,13 +773,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 } else {
                     procreateTick = 60;
                     isProcreating.set(true);
-
-                    //TODO
-//                    EntityAITasks.EntityAITaskEntry task = tasks.taskEntries.stream().filter((ai) -> ai.action instanceof EntityAIProcreate).findFirst().orElse(null);
-//                    if (task != null) {
-//                        ((EntityAIProcreate) task.action).procreateTimer = 20 * 3; // 3 seconds
-//                        isProcreating.set(true);
-//                    }
                 }
                 break;
             case "gui.button.infected":
@@ -937,99 +941,29 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 babyAge.set(0);
             }
         }
+
+        //chore
+
     }
 
-//    @Override
-//    protected void initializeAI() {
-//        super.initEntityAI();
-//
-//        this.tasks.addTask(0, new EntityAIProspecting(this));
-//        this.tasks.addTask(0, new EntityAIHunting(this));
-//        this.tasks.addTask(0, new EntityAIChopping(this));
-//        this.tasks.addTask(0, new EntityAIHarvesting(this));
-//        this.tasks.addTask(0, new EntityAIFishing(this));
-//        this.tasks.addTask(0, new EntityAIMoveState(this));
-//        this.tasks.addTask(0, new EntityAIAgeBaby(this));
-//        this.tasks.addTask(0, new EntityAIProcreate(this));
-//        this.tasks.addTask(5, new EntityAIGoWorkplace(this));
-//        this.tasks.addTask(6, new EntityAIWork(this));
-//        this.tasks.addTask(5, new EntityAIGoHangout(this));
-//        this.tasks.addTask(1, new EntityAISleeping(this));
-//        this.tasks.addTask(10, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-//        this.tasks.addTask(10, new EntityAILookIdle(this));
-//    }
-
-//    private void applySpecialAI() {
-//        if (getProfession() == ProfessionsMCA.bandit) {
-//            this.tasks.taskEntries.clear();
-//            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
-//            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-//
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, BANDIT_TARGET_SELECTOR));
-//            this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
-//        } else if (getProfession() == ProfessionsMCA.guard) {
-//            removeCertainTasks(EntityAIAvoidEntity.class);
-//
-//            this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.8D, false));
-//            this.tasks.addTask(2, new EntityAIMoveThroughVillage(this, 0.6D, false));
-//
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVillagerMCA.class, 100, false, false, GUARD_TARGET_SELECTOR));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVex.class, 100, false, false, null));
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityVindicator.class, 100, false, false, null));
-//        } else {
-//            //every other villager is allowed to defend itself from zombies while fleeing
-//            this.tasks.addTask(0, new EntityAIDefendFromTarget(this));
-//
-//            this.targetTasks.taskEntries.clear();
-//            this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityZombie.class, 100, false, false, null));
-//        }
-//    }
-
-    //guards should not run away from zombies
-    //TODO: should only avoid zombies when low on health
-//    private void removeCertainTasks(Class typ) {
-//        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.tasks.taskEntries.iterator();
-//
-//        while (iterator.hasNext()) {
-//            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
-//            EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
-//
-//            if (entityaibase.getClass().equals(typ)) {
-//                iterator.remove();
-//            }
-//        }
-//    }
-
     public void stopChore() {
+        this.brain.setActiveActivityIfPossible(Activity.IDLE);
         activeChore.set(EnumChore.NONE.getId());
         choreAssigningPlayer.set(Constants.ZERO_UUID);
     }
 
     public void startChore(EnumChore chore, PlayerEntity player) {
+        this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
         activeChore.set(chore.getId());
         choreAssigningPlayer.set(player.getUUID());
+        this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+        this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
     }
 
     public boolean playerIsParent(PlayerEntity player) {
         ParentPair data = ParentPair.fromNBT(parents.get());
         return data.getParent1UUID().equals(player.getUUID()) || data.getParent2UUID().equals(player.getUUID());
     }
-
-    /*public String getCurrentActivity() {
-        EnumMoveState ms = EnumMoveState.byId(moveState.get());
-        if (ms != EnumMoveState.MOVE) {
-            return ms.getFriendlyName();
-        }
-
-        EnumChore chore = EnumChore.byId(activeChore.get());
-        if (chore != EnumChore.NONE) {
-            return chore.getFriendlyName();
-        }
-
-        return null;
-    }*/
-
 
     public ParentPair getParents() {
         return ParentPair.fromNBT(parents.get());
@@ -1055,5 +989,26 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     @Override
     public CInventory getInventory() {
         return this.inventory;
+    }
+
+    public void updateMoveState() {
+        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+            this.moveState.set(EnumMoveState.STAY.getId());
+        } else if (this.brain.getMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+            this.moveState.set(EnumMoveState.FOLLOW.getId());
+        } else {
+            this.moveState.set(EnumMoveState.MOVE.getId());
+        }
+    }
+    public void moveTo(BlockPos pos) {
+        BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
+        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+        this.lookAt(pos);
+    }
+
+    public void lookAt(BlockPos pos) {
+        BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
+        this.brain.setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
+
     }
 }

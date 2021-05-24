@@ -8,6 +8,10 @@ import mca.entity.EntityVillagerMCA;
 import mca.entity.ai.brain.tasks.FollowTask;
 import mca.entity.ai.brain.tasks.ProcreateTask;
 import mca.entity.ai.brain.tasks.StayTask;
+import mca.entity.ai.brain.tasks.chore.ChoppingTask;
+import mca.entity.ai.brain.tasks.chore.FishingTask;
+import mca.entity.ai.brain.tasks.chore.HarvestingTask;
+import mca.entity.ai.brain.tasks.chore.HuntingTask;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -35,15 +39,15 @@ public class MCAVillagerTasks {
                 Pair.of(0, new BeginRaidTask()),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE)),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.POTENTIAL_JOB_SITE)),
-                Pair.of(1, new WalkToTargetTask()),
+                Pair.of(1, new WalkToTargetTask()), //Needs replacing into a "WalkOrTeleportToTarget" with it teleporting if the target is over 25 blocks away (or should it be more)? -Frqnny
                 Pair.of(2, new SwitchVillagerJobTask(profession)),
                 Pair.of(3, new TradeTask(speedModifier)),
                 Pair.of(5, new PickupWantedItemTask<>(speedModifier, false, 4)),
                 Pair.of(6, new GatherPOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
                 Pair.of(7, new FindPotentialJobTask(speedModifier)),
                 Pair.of(8, new FindJobTask(speedModifier)),
-                Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))),
-                Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14))),
+                Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))),
+                Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))),
                 Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ChangeJobTask())
         );
     }
@@ -65,7 +69,7 @@ public class MCAVillagerTasks {
                                 Pair.of(new WalkTowardsRandomSecondaryPosTask(MemoryModuleType.SECONDARY_JOB_SITE, speedModifier, 1, 6, MemoryModuleType.JOB_SITE), 5),
                                 Pair.of(new FarmTask(), profession == VillagerProfession.FARMER ? 2 : 5),
                                 Pair.of(new BoneMealCropsTask(), profession == VillagerProfession.FARMER ? 4 : 7))
-                        )),
+                )),
                 Pair.of(10, new ShowWaresTask(400, 1600)),
                 Pair.of(10, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.JOB_SITE, speedModifier, 9, 100, 1200)),
@@ -104,7 +108,7 @@ public class MCAVillagerTasks {
                                 Pair.of(new WalkRandomlyInsideTask(speedModifier), 4),
                                 Pair.of(new WalkToPOITask(speedModifier, 4), 2),
                                 Pair.of(new DummyTask(20, 40), 2))
-                        )),
+                )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new UpdateActivityTask())
         );
@@ -116,7 +120,7 @@ public class MCAVillagerTasks {
                         ImmutableList.of(
                                 Pair.of(new WorkTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
                                 Pair.of(new CongregateTask(), 2))
-                        )),
+                )),
                 Pair.of(10, new ShowWaresTask(400, 1600)),
                 Pair.of(10, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.MEETING_POINT, speedModifier, 6, 100, 200)),
@@ -129,7 +133,7 @@ public class MCAVillagerTasks {
                         MultiTask.RunType.RUN_ONE,
                         ImmutableList.of(
                                 Pair.of(new ShareItemsTask(), 1))
-                        )),
+                )),
                 getFullLookBehavior(),
                 Pair.of(99, new UpdateActivityTask())
         );
@@ -144,7 +148,7 @@ public class MCAVillagerTasks {
                                 Pair.of(InteractWithEntityTask.of(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
                                 Pair.of(new FindWalkTargetTask(speedModifier), 1), Pair.of(new WalkTowardsLookTargetTask(speedModifier, 2), 1),
                                 Pair.of(new JumpOnBedTask(speedModifier), 1), Pair.of(new DummyTask(30, 60), 1))
-                        )),
+                )),
                 Pair.of(3, new GiveHeroGiftsTask(100)),
                 Pair.of(3, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(3, new ShowWaresTask(400, 1600)),
@@ -154,7 +158,7 @@ public class MCAVillagerTasks {
                         MultiTask.Ordering.ORDERED, MultiTask.RunType.RUN_ONE,
                         ImmutableList.of(
                                 Pair.of(new ShareItemsTask(), 1))
-                        )),
+                )),
                 Pair.of(3, new MultiTask<>(
                         ImmutableMap.of(),
                         ImmutableSet.of(MemoryModuleType.BREED_TARGET),
@@ -162,7 +166,7 @@ public class MCAVillagerTasks {
                         MultiTask.RunType.RUN_ONE,
                         ImmutableList.of(
                                 Pair.of(new CreateBabyVillagerTask(), 1))
-                        )),
+                )),
                 getFullLookBehavior(),
                 Pair.of(99, new UpdateActivityTask())
         );
@@ -186,7 +190,7 @@ public class MCAVillagerTasks {
                         ImmutableList.of(
                                 Pair.of(new StayNearPointTask(MemoryModuleType.MEETING_POINT, speedModifier * 1.5F, 2, 150, 200), 6),
                                 Pair.of(new FindWalkTargetTask(speedModifier * 1.5F), 2))
-                        )),
+                )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new ForgetRaidTask())
         );
@@ -211,6 +215,15 @@ public class MCAVillagerTasks {
                 Pair.of(0, new ExpireHidingTask(15, 3)),
                 Pair.of(1, new FindHidingPlaceTask(32, speedModifier * 1.25F, 2)),
                 getMinimalLookBehavior()
+        );
+    }
+
+    public static ImmutableList<Pair<Integer, ? extends Task<? super EntityVillagerMCA>>> getChorePackage(VillagerProfession profession, float speedModifier) {
+        return ImmutableList.of(
+                Pair.of(0, new ChoppingTask()),
+                Pair.of(0, new FishingTask()),
+                Pair.of(0, new HarvestingTask()),
+                Pair.of(0, new HuntingTask())
         );
     }
 
