@@ -20,7 +20,8 @@ public class Village implements Serializable {
 
     public Village(int id) {
         this.id = id;
-        name = "New Village";
+        name = "Unnamed Village";
+        size = 32;
 
         buildings = new HashMap<>();
     }

@@ -1,8 +1,8 @@
 package mca.entity.data;
 
 import mca.enums.BuildingType;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,7 +18,7 @@ public class Building implements Serializable {
 
     private Set<UUID> residents;
 
-    transient private final HashMap<Block, Integer> blocks;
+    private final HashMap<String, Integer> blocks;
 
     private int id;
 
@@ -59,13 +59,14 @@ public class Building implements Serializable {
 
     public boolean validateBuilding(World world) {
         Set<BlockPos> done = new HashSet<>();
-        Queue<BlockPos> queue = new LinkedList<>();
+        LinkedList<BlockPos> queue = new LinkedList<>();
 
         blocks.clear();
 
         //start point
         BlockPos center = getCenter();
         queue.add(center);
+        done.add(center);
 
         //const
         final int maxSize = 1024;
@@ -74,24 +75,26 @@ public class Building implements Serializable {
         //fill the building
         int size = 0;
         while (!queue.isEmpty() && size < maxSize) {
-            BlockPos p = queue.poll();
+            BlockPos p = queue.removeLast();
 
             //as long the max radius is not reached
             if (p.distManhattan(center) < maxRadius) {
                 for (Direction d : directions) {
                     BlockPos n = p.relative(d);
 
-                    //and the block is not alreaedy checked
+                    //and the block is not already checked
                     if (!done.contains(n)) {
                         BlockState block = world.getBlockState(n);
 
                         //mark it
                         done.add(n);
-                        blocks.put(block.getBlock(), blocks.getOrDefault(block.getBlock(), 0) + 1);
 
                         //if not solid, continue
                         if (block.isAir()) {
                             queue.add(n);
+                        } else if (block.getBlock().getBlock() instanceof DoorBlock) {
+                            //skip door and start a new room
+                            //queue.add(n.relative(d));
                         }
                     }
                 }
@@ -100,7 +103,7 @@ public class Building implements Serializable {
             size++;
         }
 
-        if (queue.isEmpty()) {
+        if (queue.isEmpty() && done.size() > 10) {
             //dimensions
             int sx = center.getX();
             int sy = center.getY();
@@ -116,6 +119,11 @@ public class Building implements Serializable {
                 ex = Math.max(sx, pos.getX());
                 ey = Math.max(sy, pos.getY());
                 ez = Math.max(sz, pos.getZ());
+
+                //count blocks types
+                BlockState block = world.getBlockState(pos);
+                String name = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
+                blocks.put(name, blocks.getOrDefault(name, 0) + 1);
             }
 
             //adjust building dimensions
@@ -145,7 +153,7 @@ public class Building implements Serializable {
         return residents;
     }
 
-    public HashMap<Block, Integer> getBlocks() {
+    public HashMap<String, Integer> getBlocks() {
         return blocks;
     }
 
