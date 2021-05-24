@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "mca:rose_gold_ingot"
+    }
+  },
+  "result": {
+    "item": "mca:rose_gold_block"
+  }
+}

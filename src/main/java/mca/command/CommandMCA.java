@@ -7,6 +7,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mca.core.MCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
 import mca.items.ItemBaby;
@@ -46,7 +47,7 @@ public class CommandMCA {
         PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
         for (int i = 0; i < player.inventory.getContainerSize(); i++) {
             ItemStack stack = player.inventory.getItem(i);
-            if (stack.getItem() == MCA.ITEM_VILLAGER_EDITOR.get()) {
+            if (stack.getItem() == ItemsMCA.ITEM_VILLAGER_EDITOR.get()) {
                 player.inventory.removeItem(stack);
             }
         }

@@ -2,6 +2,7 @@ package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
 import mca.core.MCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ public class ProcreateTask extends Task<EntityVillagerMCA> {
 
             world.broadcastEntityEvent(villager, (byte) 12);
         } else {
-            ItemStack stack = new ItemStack(random.nextBoolean() ? MCA.ITEM_BABY_BOY.get() : MCA.ITEM_BABY_GIRL.get());
+            ItemStack stack = new ItemStack(random.nextBoolean()? ItemsMCA.ITEM_BABY_BOY.get() : ItemsMCA.ITEM_BABY_GIRL.get());
             villager.getInventory().addItem(stack);
             villager.isProcreating.set(false);
         }
