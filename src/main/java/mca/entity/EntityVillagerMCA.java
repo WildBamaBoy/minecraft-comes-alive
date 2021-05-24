@@ -23,6 +23,7 @@ import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -40,15 +41,19 @@ import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -161,6 +166,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     public int procreateTick = -1;
     private float swingProgressTicks;
+    @Nullable
+    private PlayerEntity interactingPlayer;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
@@ -323,7 +330,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
             return ActionResultType.SUCCESS;
         } else {
-            this.setTradingPlayer(player);
+            this.setInteractingPlayer(player);
             return ActionResultType.PASS;
         }
     }
@@ -586,9 +593,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             say(player, "interaction.gohome.fail");
         } else {
             BlockPos home = getHome();
-            if (!this.getNavigation().moveTo(home.getX(), home.getY(), home.getZ(), getSpeed())) {
-                teleportTo(home.getX(), home.getY(), home.getZ());
-            }
+            this.moveTowards(home);
             say(player, "interaction.gohome.success");
         }
     }
@@ -753,6 +758,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 break;
             case "gui.button.trade":
                 this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
+                this.updateSpecialPrices(player);
+                this.setTradingPlayer(player);
 
                 break;
             case "gui.button.inventory":
@@ -1042,9 +1049,42 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public void closeGUIIfOpen() {
-        PlayerEntity entity = this.getTradingPlayer();
-        if (entity != null) {
-            entity.closeContainer();
+        if (!this.world.isClientSide) {
+            ServerPlayerEntity entity = (ServerPlayerEntity) this.getInteractingPlayer();
+            if (entity != null) {
+                entity.closeContainer();
+            }
+            this.setInteractingPlayer(null);
         }
+
+    }
+
+    public void setInteractingPlayer(PlayerEntity player) {
+        this.interactingPlayer = player;
+    }
+
+    public PlayerEntity getInteractingPlayer() {
+        return this.interactingPlayer;
+    }
+
+    private void updateSpecialPrices(PlayerEntity p_213762_1_) {
+        int i = this.getPlayerReputation(p_213762_1_);
+        if (i != 0) {
+            for(MerchantOffer merchantoffer : this.getOffers()) {
+                merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float)i * merchantoffer.getPriceMultiplier()));
+            }
+        }
+
+        if (p_213762_1_.hasEffect(Effects.HERO_OF_THE_VILLAGE)) {
+            EffectInstance effectinstance = p_213762_1_.getEffect(Effects.HERO_OF_THE_VILLAGE);
+            int k = effectinstance.getAmplifier();
+
+            for(MerchantOffer merchantoffer1 : this.getOffers()) {
+                double d0 = 0.3D + 0.0625D * (double)k;
+                int j = (int)Math.floor(d0 * (double)merchantoffer1.getBaseCostA().getCount());
+                merchantoffer1.addToSpecialPriceDiff(-Math.max(j, 1));
+            }
+        }
+
     }
 }

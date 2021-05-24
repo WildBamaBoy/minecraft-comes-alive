@@ -59,7 +59,7 @@ public class GuiInteract extends Screen {
     @Override
     public void onClose() {
         Objects.requireNonNull(this.minecraft).setScreen(null);
-        villager.setTradingPlayer(null);
+        villager.setInteractingPlayer(null);
     }
 
     @Override
