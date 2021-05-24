@@ -355,12 +355,14 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         speed *= GENE_SKIN.get();
 
         setSpeed(speed);
+        inventory.readFromNBT(nbt);
     }
 
     @Override
     public final void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
         data.save(CNBT.fromMC(nbt));
+        inventory.saveToNBT(nbt);
     }
 
     private void initializeSkin() {
@@ -936,6 +938,12 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     setProfession(API.randomProfession().getMcProfession());
                 }
             }
+        }
+
+        //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
+        Optional<Activity> possiblyChore = this.brain.getActiveNonCoreActivity();
+        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE)) {
+            this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
         }
     }
 

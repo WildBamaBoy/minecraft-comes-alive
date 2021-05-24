@@ -3,6 +3,7 @@ package cobalt.minecraft.inventory;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -130,5 +131,13 @@ public class CInventory extends Inventory {
         }
 
         return tagList;
+    }
+
+    public void saveToNBT(CompoundNBT nbt) {
+        nbt.put("Inventory", this.createTag());
+    }
+
+    public void readFromNBT(CompoundNBT nbt) {
+        this.fromTag(nbt.getList("Inventory", 10));
     }
 }

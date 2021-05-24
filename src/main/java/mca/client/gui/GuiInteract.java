@@ -183,7 +183,7 @@ public class GuiInteract extends Screen {
     private void drawTextPopups(MatrixStack transform) {
         //general information
         EnumAgeState age = villager.getAgeState();
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.Villager." + villager.getProfession());
+        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.minecraft.villager." + villager.getProfession());
 
         //name or state tip (gifting, ...)
         int h = 17;

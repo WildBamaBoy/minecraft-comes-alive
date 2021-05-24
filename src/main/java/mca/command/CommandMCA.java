@@ -25,7 +25,7 @@ public class CommandMCA {
     private static final ArrayList<EntityVillagerMCA> prevVillagersRemoved = new ArrayList<>();
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        dispatcher.register(Commands.literal("mca")
+        dispatcher.register(Commands.literal("mca-admin")
                 .then(register("clv", CommandMCA::clearLoadedVillagers))
                 .then(register("rcv", CommandMCA::restoreClearedVillagers))
                 .then(register("ffh", CommandMCA::forceFullHearts))
