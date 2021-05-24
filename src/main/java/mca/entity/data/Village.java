@@ -9,8 +9,8 @@ import java.util.Map;
 public class Village implements Serializable {
     private final int id;
     private final Map<Integer, Building> buildings;
-    private int centerX, centerY, centerZ;
     private final String name;
+    private int centerX, centerY, centerZ;
     private int size;
     private int development;
     private int taxes;

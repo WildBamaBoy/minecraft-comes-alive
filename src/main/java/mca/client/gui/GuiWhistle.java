@@ -77,9 +77,7 @@ public class GuiWhistle extends Screen {
             Objects.requireNonNull(this.minecraft).setScreen(null);
         }));
 
-        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, new StringTextComponent(MCA.localize("gui.button.exit")), (b) -> {
-            Objects.requireNonNull(this.minecraft).setScreen(null);
-        }));
+        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, new StringTextComponent(MCA.localize("gui.button.exit")), (b) -> Objects.requireNonNull(this.minecraft).setScreen(null)));
 
         toggleButtons(false);
     }

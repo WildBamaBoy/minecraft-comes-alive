@@ -43,9 +43,7 @@ public class GuiNameBaby extends Screen {
             NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.inventory.selected, babyNameTextField.getValue().trim()));
             Objects.requireNonNull(this.minecraft).setScreen(null);
         }));
-        addButton(new Button(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> {
-            babyNameTextField.setValue(API.getRandomName(((ItemBaby) baby.getItem()).getGender()));
-        }));
+        addButton(new Button(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> babyNameTextField.setValue(API.getRandomName(((ItemBaby) baby.getItem()).getGender()))));
 
         babyNameTextField = new TextFieldWidget(this.font, width / 2 - 100, height / 2 - 60, 200, 20, new TranslationTextComponent("structure_block.structure_name"));
         babyNameTextField.setMaxLength(32);

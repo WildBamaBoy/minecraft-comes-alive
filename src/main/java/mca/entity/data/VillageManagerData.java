@@ -13,6 +13,7 @@ public class VillageManagerData extends CWorldSavedData {
     public Map<Integer, Village> villages;
     private int lastBuildingId;
     private int lastVillageId;
+
     public VillageManagerData(String id) {
         super(id);
 
