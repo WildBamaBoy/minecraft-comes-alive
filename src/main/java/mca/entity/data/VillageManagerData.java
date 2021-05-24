@@ -11,16 +11,14 @@ import java.util.*;
 public class VillageManagerData extends CWorldSavedData {
     public Set<BlockPos> cache;
     public Map<Integer, Village> villages;
-
+    private int lastBuildingId;
+    private int lastVillageId;
     public VillageManagerData(String id) {
         super(id);
 
         cache = new HashSet<>();
         villages = new HashMap<>();
     }
-
-    private int lastBuildingId;
-    private int lastVillageId;
 
     public static VillageManagerData get(CWorld world) {
         return world.loadData(VillageManagerData.class, "mca_villages");

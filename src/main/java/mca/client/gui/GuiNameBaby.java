@@ -20,9 +20,9 @@ import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiNameBaby extends Screen {
-    private TextFieldWidget babyNameTextField;
     private final ItemStack baby;
     private final PlayerEntity player;
+    private TextFieldWidget babyNameTextField;
 
     public GuiNameBaby(PlayerEntity player, ItemStack baby) {
         super(new StringTextComponent("Name Baby"));

@@ -159,8 +159,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     // genes list
     public CFloatParameter[] GENES = new CFloatParameter[]{
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
-    private float swingProgressTicks;
     public int procreateTick = -1;
+    private float swingProgressTicks;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
@@ -1017,6 +1017,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             this.moveState.set(EnumMoveState.MOVE.getId());
         }
     }
+
     public void moveTo(BlockPos pos) {
         BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
         this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));

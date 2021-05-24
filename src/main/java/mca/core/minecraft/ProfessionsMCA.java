@@ -2,7 +2,6 @@ package mca.core.minecraft;
 
 import mca.core.MCA;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.*;

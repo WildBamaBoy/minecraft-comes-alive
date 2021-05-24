@@ -30,9 +30,6 @@ public enum EnumPersonality {
     FRAGILE(46, EnumMoodGroup.GENERAL),       //Less defence
     WEAK(47, EnumMoodGroup.GENERAL);          //Less damage
 
-    private final int id;
-    private final EnumMoodGroup moodGroup;
-
     //Since we store the personality as id we need frequent id to enum conversions
     private static final Map<Integer, EnumPersonality> map = new HashMap<>();
 
@@ -42,17 +39,12 @@ public enum EnumPersonality {
         }
     }
 
+    private final int id;
+    private final EnumMoodGroup moodGroup;
+
     EnumPersonality(int id, EnumMoodGroup moodGroup) {
         this.id = id;
         this.moodGroup = moodGroup;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public EnumMoodGroup getMoodGroup() {
-        return this.moodGroup;
     }
 
     public static EnumPersonality getById(int id) {
@@ -69,6 +61,14 @@ public enum EnumPersonality {
         }
 
         return validList.get(new Random().nextInt(validList.size()));
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public EnumMoodGroup getMoodGroup() {
+        return this.moodGroup;
     }
 
     public String getLocalizedName() {

@@ -32,9 +32,9 @@ import java.util.List;
 
 //TODO Fix small stops that harvesting ones have
 public class HarvestingTask extends AbstractChoreTask {
+    private final List<BlockPos> harvestable = new ArrayList<>();
     private int lastCropScan = 0;
     private int lastActionTicks = 0;
-    private final List<BlockPos> harvestable = new ArrayList<>();
 
 
     public HarvestingTask() {
@@ -101,6 +101,7 @@ public class HarvestingTask extends AbstractChoreTask {
         return Util.getNearestPoint(villager.blockPosition(), harvestable.isEmpty() ? nearbyCrops : harvestable);
 
     }
+
     private BlockPos searchUnusedFarmLand(int rangeX, int rangeY) {
         List<BlockPos> nearbyFarmLand = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(Blocks.FARMLAND), rangeX, rangeY);
         List<BlockPos> fertileLand = new ArrayList<>();

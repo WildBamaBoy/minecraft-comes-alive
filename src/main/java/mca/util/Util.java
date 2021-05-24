@@ -1,14 +1,10 @@
 package mca.util;
 
-import cobalt.minecraft.world.CWorld;
-import com.google.common.base.Optional;
 import com.google.gson.Gson;
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.io.IOUtils;
@@ -21,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import static org.apache.http.protocol.HTTP.USER_AGENT;
@@ -74,7 +69,7 @@ public class Util {
                 for (int z = -xzDist; z <= xzDist; z++) {
                     if (x != 0 || y != 0 || z != 0) {
                         BlockPos pos = new BlockPos(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                         if (filter != null && filter.test(world.getBlockState(pos))) {
+                        if (filter != null && filter.test(world.getBlockState(pos))) {
                             pointsList.add(pos);
                         } else if (filter == null) {
                             pointsList.add(pos);

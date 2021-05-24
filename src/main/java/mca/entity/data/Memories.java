@@ -36,15 +36,6 @@ public class Memories {
         return memory;
     }
 
-    public CNBT toCNBT() {
-        CNBT nbt = CNBT.createNew();
-        nbt.setUUID("playerUUID", playerUUID);
-        nbt.setInteger("hearts", hearts);
-        nbt.setInteger("interactionFatigue", interactionFatigue);
-        nbt.setInteger("dialogueType", dialogueType);
-        return nbt;
-    }
-
     public static Memories fromCNBT(EntityVillagerMCA villager, CNBT cnbt) {
         if (cnbt == null || cnbt.getMcCompound().isEmpty()) {
             return null;
@@ -57,6 +48,15 @@ public class Memories {
         memories.dialogueType = cnbt.getInteger("dialogueType");
 
         return memories;
+    }
+
+    public CNBT toCNBT() {
+        CNBT nbt = CNBT.createNew();
+        nbt.setUUID("playerUUID", playerUUID);
+        nbt.setInteger("hearts", hearts);
+        nbt.setInteger("interactionFatigue", interactionFatigue);
+        nbt.setInteger("dialogueType", dialogueType);
+        return nbt;
     }
 
     public void setHearts(int value) {

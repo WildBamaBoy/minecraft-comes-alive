@@ -1,9 +1,9 @@
 package mca.entity.data;
 
 import cobalt.core.CConstants;
-import cobalt.minecraft.world.storage.CWorldSavedData;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.world.CWorld;
+import cobalt.minecraft.world.storage.CWorldSavedData;
 
 import java.util.UUID;
 
@@ -51,13 +51,13 @@ public class PlayerSaveData extends CWorldSavedData {
         setDirty();
     }
 
+    public boolean isBabyPresent() {
+        return this.babyPresent;
+    }
+
     public void setBabyPresent(boolean value) {
         this.babyPresent = value;
         setDirty();
-    }
-
-    public boolean isBabyPresent() {
-        return this.babyPresent;
     }
 
     public void reset() {

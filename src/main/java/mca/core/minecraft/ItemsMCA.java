@@ -1,6 +1,5 @@
 package mca.core.minecraft;
 
-import cobalt.minecraft.network.datasync.BlockPosParameter;
 import mca.enums.EnumGender;
 import mca.items.*;
 import net.minecraft.item.Item;
@@ -34,7 +33,8 @@ public final class ItemsMCA {//TODO move items back here
     public static final RegistryObject<Item> ROSE_GOLD_INGOT = Registration.ITEMS.register("rose_gold_ingot", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
 
 
-    static void register() {}
+    static void register() {
+    }
 
     private static Item.Properties baseProps() {
         return new Item.Properties().tab(ItemGroupMCA.MCA);

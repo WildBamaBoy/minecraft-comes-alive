@@ -18,9 +18,8 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class LayerVillager<T extends EntityVillagerMCA, M extends ModelVillagerMCA<T>> extends LayerRenderer<T, M> {
-    protected M model;
-
     protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
+    protected M model;
 
     public LayerVillager(IEntityRenderer<T, M> renderer, M model) {
         super(renderer);

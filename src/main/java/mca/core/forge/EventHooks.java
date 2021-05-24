@@ -6,7 +6,6 @@ import mca.core.MCA;
 import mca.core.ReaperSpawner;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.data.VillageManagerData;
 import mca.items.ItemBaby;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -34,9 +33,9 @@ import net.minecraftforge.fml.LogicalSide;
 import java.util.*;
 
 public class EventHooks {
+    private final List<VillagerEntity> spawnQueue = new LinkedList<>();
     // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
     public Map<UUID, ItemStack> limbo = new HashMap<>();
-    private final List<VillagerEntity> spawnQueue = new LinkedList<>();
 
     @SubscribeEvent
     public void onWorldTick(TickEvent.WorldTickEvent event) {

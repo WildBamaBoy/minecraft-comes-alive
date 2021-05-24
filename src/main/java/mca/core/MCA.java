@@ -12,18 +12,11 @@ import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.Registration;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
-import mca.items.*;
 import mca.network.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.village.PointOfInterestType;
@@ -35,8 +28,13 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod(MCA.MOD_ID)
 public class MCA extends CobaltForgeMod {
+    public static final String MOD_ID = "mca";
     @Getter
     public static MCA mod;
+    public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
+    public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;
+    public static RegistryObject<VillagerProfession> PROFESSION_CHILD;
+    public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
     private static Config config;
 
     static {
@@ -52,8 +50,6 @@ public class MCA extends CobaltForgeMod {
         NetworkHandler.registerMessage(GetVillageRequest.class);
         NetworkHandler.registerMessage(GetVillageResponse.class);
     }
-
-    public static final String MOD_ID = "mca";
 
     public MCA() {
         super();
@@ -137,25 +133,6 @@ public class MCA extends CobaltForgeMod {
         MinecraftForge.EVENT_BUS.register(new EventHooks());
     }
 
-    @Override
-    public void onClientSetup() {
-        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
-        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_GRIM_REAPER.get(), RenderGrimReaper::new);
-    }
-
-    @Override
-    public void registerCommands(FMLServerStartingEvent event) {
-
-    }
-
-    public String getModId() {
-        return "mca";
-    }
-
-    public String getRandomSupporter() {
-        return "";
-    }
-
     /*public static final ItemGroup TAB = new ItemGroup("mcaTab") {
         @Override
         public ItemStack makeIcon() {
@@ -185,9 +162,22 @@ public class MCA extends CobaltForgeMod {
     public static RegistryObject<Item> ITEM_BOOK_INFECTION;
     public static RegistryObject<Item> ITEM_BLUEPRINT;*/
 
-    public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
-    public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;
+    @Override
+    public void onClientSetup() {
+        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
+        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_GRIM_REAPER.get(), RenderGrimReaper::new);
+    }
 
-    public static RegistryObject<VillagerProfession> PROFESSION_CHILD;
-    public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
+    @Override
+    public void registerCommands(FMLServerStartingEvent event) {
+
+    }
+
+    public String getModId() {
+        return "mca";
+    }
+
+    public String getRandomSupporter() {
+        return "";
+    }
 }

@@ -20,17 +20,15 @@ import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiWhistle extends Screen {
+    private final List<String> keys = new ArrayList<>();
     private EntityVillagerMCA dummy;
     private Map<String, CNBT> villagerData;
-
     private Button selectionLeftButton;
     private Button selectionRightButton;
     private Button villagerNameButton;
     private Button callButton;
-
     private int loadingAnimationTicks;
     private int selectedIndex;
-    private final List<String> keys = new ArrayList<>();
 
     public GuiWhistle() {
         super(new StringTextComponent("Whistle"));

@@ -26,16 +26,19 @@ public enum EnumMood {
     TALKATIVE(2, EnumMoodGroup.SERIOUS),
     PLEASED(3, EnumMoodGroup.SERIOUS);
 
-    private final int level;
-    private final EnumMoodGroup moodGroup;
-
     public final static int minLevel = -3;
     public final static int maxLevel = 3;
     public final static int levelsPerMood = 5;
+    private final int level;
+    private final EnumMoodGroup moodGroup;
 
     EnumMood(int level, EnumMoodGroup moodGroup) {
         this.level = level;
         this.moodGroup = moodGroup;
+    }
+
+    public static int getLevel(int mood) {
+        return Math.min(maxLevel, Math.max(minLevel, Math.round((float) mood / levelsPerMood)));
     }
 
     public EnumMoodGroup getMoodGroup() {
@@ -44,10 +47,6 @@ public enum EnumMood {
 
     public int getLevel() {
         return this.level;
-    }
-
-    public static int getLevel(int mood) {
-        return Math.min(maxLevel, Math.max(minLevel, Math.round((float) mood / levelsPerMood)));
     }
 
     public String getLocalizedName() {

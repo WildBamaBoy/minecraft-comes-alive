@@ -10,7 +10,8 @@ import java.util.function.Supplier;
 public class TileEntityTypesMCA {
 
 
-    static void register() {}
+    static void register() {
+    }
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, RegistryObject<? extends Block> block) {
         return Registration.TILE_ENTITIES.register(name, () -> {

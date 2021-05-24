@@ -4,9 +4,7 @@ import lombok.Getter;
 import mca.api.types.APIButton;
 import mca.client.gui.GuiInteract;
 import mca.core.MCA;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
 
 public class ButtonEx extends Button {
     @Getter

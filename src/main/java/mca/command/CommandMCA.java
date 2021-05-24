@@ -6,7 +6,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;

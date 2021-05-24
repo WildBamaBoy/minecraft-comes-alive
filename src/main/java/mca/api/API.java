@@ -24,8 +24,6 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.*;
 
-;
-
 /**
  * Class API handles interaction with MCA's configurable options via JSON in the resources folder
  */
@@ -71,7 +69,8 @@ public class API {
         buttonMap.put("clothing", Util.readResourceAsJSON("api/gui/clothing.json", APIButton[].class));
 
         // Icons
-        Type mapType = new TypeToken<Map<String, APIIcon>>() {}.getType();
+        Type mapType = new TypeToken<Map<String, APIIcon>>() {
+        }.getType();
         iconMap.putAll((new Gson()).fromJson(Util.readResource("api/gui/icons.json"), mapType));
 
         // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues

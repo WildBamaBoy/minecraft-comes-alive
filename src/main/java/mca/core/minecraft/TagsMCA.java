@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TagsMCA {
     public static final class Blocks {
-        public static final ITag.INamedTag<Block> ORES_ROSE_GOLD= forge("ores/rose_gold");
+        public static final ITag.INamedTag<Block> ORES_ROSE_GOLD = forge("ores/rose_gold");
         public static final ITag.INamedTag<Block> STORAGE_BLOCKS_ROSE_GOLD = forge("storage_blocks/rose_gold");
         public static final ITag.INamedTag<Block> STORAGE_BLOCKS_VILLAGER_SPAWNER = forge("storage_blocks/villager_spawner");
         public static final ITag.INamedTag<Block> TOMBSTONE = forge("storage_blocks/tombstone");

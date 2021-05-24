@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemWeddingRingRG extends ItemWeddingRing{
+public class ItemWeddingRingRG extends ItemWeddingRing {
     public ItemWeddingRingRG(Item.Properties properties) {
         super(properties);
     }

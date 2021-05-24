@@ -12,7 +12,8 @@ public enum EnumMoveState {
     STAY(1, "gui.label.staying"),
     FOLLOW(2, "gui.label.following");
 
-    @Getter int id;
+    @Getter
+    int id;
     String friendlyName;
 
     public static EnumMoveState byId(int id) {

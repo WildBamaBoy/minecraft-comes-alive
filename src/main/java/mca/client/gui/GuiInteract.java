@@ -7,7 +7,6 @@ import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
@@ -36,13 +35,9 @@ public class GuiInteract extends Screen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
     private final EntityVillagerMCA villager;
     private final PlayerEntity player;
-
-    private boolean inGiftMode;
-
-    private int timeSinceLastClick;
-
     private final float iconScale = 1.5f;
-
+    private boolean inGiftMode;
+    private int timeSinceLastClick;
     private int mouseX;
     private int mouseY;
 
