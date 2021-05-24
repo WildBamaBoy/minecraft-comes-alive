@@ -1,12 +1,9 @@
 package cobalt.minecraft.world.storage;
 
 import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.storage.WorldSavedData;
-
-import java.util.UUID;
 
 @Getter
 public abstract class CWorldSavedData extends WorldSavedData {

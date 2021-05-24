@@ -2,9 +2,8 @@ package cobalt.minecraft.network.datasync;
 
 import cobalt.core.CConstants;
 import cobalt.minecraft.nbt.CNBT;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
-import org.apache.logging.log4j.core.util.UuidUtil;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -86,30 +86,12 @@ public class MCA extends CobaltForgeMod {
 
     @Override
     public void registerContent() {
-/*        ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
-        //ITEM_WEDDING_RING = registerItem("wedding_ring", new ItemWeddingRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRingRG(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new ItemEngagementRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRingRG(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new ItemMatchmakersRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(2)));
-        ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        //ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_GOLD_DUST = registerItem("gold_dust", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(ItemGroupMCA.MCA).durability(5)));
-        ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_DEATH = registerItem("book_death", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_ROMANCE = registerItem("book_romance", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_FAMILY = registerItem("book_family", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        //ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BLUEPRINT = registerItem("blueprint", new ItemBlueprint(new Item.Properties().tab(ItemGroupMCA.MCA)));
-*/
-        ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager",
-                0.6F, 1.8F);
+
+        ENTITYTYPE_VILLAGER = registerEntity
+                (EntityVillagerMCA::new,
+                        EntityClassification.AMBIENT,
+                        "villager",
+                        0.6F, 1.8F);
 
         ENTITYTYPE_GRIM_REAPER = registerEntity(EntityGrimReaper::new, EntityClassification.MONSTER, "grim_reaper",
                 1.0F, 2.6F);

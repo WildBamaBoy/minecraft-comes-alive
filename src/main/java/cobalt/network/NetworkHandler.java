@@ -1,6 +1,5 @@
 package cobalt.network;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
@@ -12,14 +11,13 @@ import java.util.function.Supplier;
 
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
-    private static int id = 0;
-
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation("mca", "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
     );
+    private static int id = 0;
 
     public static <T extends Message> void registerMessage(Class<T> msg) {
         INSTANCE.registerMessage(id++, msg,

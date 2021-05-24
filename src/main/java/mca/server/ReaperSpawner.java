@@ -1,5 +1,6 @@
-package mca.core;
+package mca.server;
 
+import mca.core.MCA;
 import mca.core.minecraft.SoundsMCA;
 import mca.entity.EntityGrimReaper;
 import net.minecraft.entity.EntityType;
@@ -20,7 +21,7 @@ public class ReaperSpawner {
         }
     }
 
-    public static void update() {
+    public static void tick() {
         if (ticks > 0) {
             ticks--;
             if (ticks % 20 == 0) {

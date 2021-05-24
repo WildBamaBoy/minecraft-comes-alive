@@ -23,7 +23,6 @@ import mca.enums.*;
 import mca.items.ItemSpecialCaseGift;
 import mca.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -949,7 +948,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
         Optional<Activity> possiblyChore = this.brain.getActiveNonCoreActivity();
-        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE)) {
+        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE) && activeChore.get() != EnumChore.NONE.getId()) {
             this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
         }
     }
@@ -1038,6 +1037,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
         this.lookAt(pos);
     }
+
     public void moveTowards(BlockPos pos) {
         this.moveTowards(pos, 0.5F, 1);
     }
@@ -1059,19 +1059,19 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     }
 
-    public void setInteractingPlayer(PlayerEntity player) {
-        this.interactingPlayer = player;
-    }
-
     public PlayerEntity getInteractingPlayer() {
         return this.interactingPlayer;
+    }
+
+    public void setInteractingPlayer(PlayerEntity player) {
+        this.interactingPlayer = player;
     }
 
     private void updateSpecialPrices(PlayerEntity p_213762_1_) {
         int i = this.getPlayerReputation(p_213762_1_);
         if (i != 0) {
-            for(MerchantOffer merchantoffer : this.getOffers()) {
-                merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float)i * merchantoffer.getPriceMultiplier()));
+            for (MerchantOffer merchantoffer : this.getOffers()) {
+                merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
             }
         }
 
@@ -1079,9 +1079,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             EffectInstance effectinstance = p_213762_1_.getEffect(Effects.HERO_OF_THE_VILLAGE);
             int k = effectinstance.getAmplifier();
 
-            for(MerchantOffer merchantoffer1 : this.getOffers()) {
-                double d0 = 0.3D + 0.0625D * (double)k;
-                int j = (int)Math.floor(d0 * (double)merchantoffer1.getBaseCostA().getCount());
+            for (MerchantOffer merchantoffer1 : this.getOffers()) {
+                double d0 = 0.3D + 0.0625D * (double) k;
+                int j = (int) Math.floor(d0 * (double) merchantoffer1.getBaseCostA().getCount());
                 merchantoffer1.addToSpecialPriceDiff(-Math.max(j, 1));
             }
         }
