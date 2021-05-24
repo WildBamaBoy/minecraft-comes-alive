@@ -22,6 +22,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -53,6 +55,14 @@ public class ItemBaby extends Item {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    private void openScreen(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (world.isClientSide && getBabyName(stack).equals("")) {
+            Minecraft.getInstance().setScreen(new GuiNameBaby(player, stack));
+        }
+    }
+
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         CWorld cworld = CWorld.fromMC(world);
@@ -64,9 +74,7 @@ public class ItemBaby extends Item {
         int posZ = pos.getZ();
 
         // Right-clicking an unnamed baby allows you to name it
-        if (cworld.isClientSide && getBabyName(stack).equals("")) {
-            Minecraft.getInstance().setScreen(new GuiNameBaby(player, stack));
-        }
+        openScreen(world, player, hand);
 
         if (!cworld.isClientSide && isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
             EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), world);
@@ -113,6 +121,7 @@ public class ItemBaby extends Item {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         if (stack.hasTag()) {
             PlayerEntity player = Minecraft.getInstance().player;
@@ -144,8 +153,7 @@ public class ItemBaby extends Item {
 
     private void updateBabyGrowth(ItemStack itemStack) {
         CNBT tag = CNBT.fromMC(itemStack.getTag());
-        World level = Minecraft.getInstance().level;
-        if (tag != null && level != null && level.getGameTime() % 1200 == 0) {
+        if (tag != null && MCA.tick % 1200 == 0) {
             int age = tag.getInteger("age");
             tag.setInteger("age", age + 1);
         }

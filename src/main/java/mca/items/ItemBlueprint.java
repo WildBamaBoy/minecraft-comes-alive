@@ -1,6 +1,6 @@
 package mca.items;
 
-import mca.client.gui.GuiBlueprint;
+import mca.client.gui.GuiWhistle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,16 +23,22 @@ public class ItemBlueprint extends AbstractMapItem {
         super(properties);
     }
 
+    @OnlyIn(Dist.CLIENT)
+    private void openScreen() {
+        Minecraft.getInstance().setScreen(new GuiWhistle());
+    }
+
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        Minecraft.getInstance().setScreen(new GuiBlueprint());
+        openScreen();
 
         return ActionResult.success(stack);
     }
 
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag iTooltipFlag) {
         tooltip.add(new StringTextComponent("manage the village you are currently in"));

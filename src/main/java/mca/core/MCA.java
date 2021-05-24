@@ -37,6 +37,8 @@ public class MCA extends CobaltForgeMod {
     public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
     private static Config config;
 
+    public static int tick = 0;
+
     static {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
         NetworkHandler.registerMessage(InteractionServerMessage.class);
