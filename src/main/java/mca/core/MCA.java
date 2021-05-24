@@ -73,11 +73,6 @@ public class MCA extends CobaltForgeMod {
         mod.logger.fatal(e);
     }
 
-    public static void logAndThrow(String message, Exception e) {
-        mod.logger.fatal(message, e);
-        throw new RuntimeException(e);
-    }
-
     public static StringTextComponent localizeText(String key, String... vars) {
         return new StringTextComponent(localize(key, vars));
     }
@@ -116,35 +111,6 @@ public class MCA extends CobaltForgeMod {
 
         MinecraftForge.EVENT_BUS.register(new EventHooks());
     }
-
-    /*public static final ItemGroup TAB = new ItemGroup("mcaTab") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(ITEM_ENGAGEMENT_RING.get());
-        }
-    };*/
-
-    /*public static RegistryObject<Item> ITEM_MALE_EGG;
-    public static RegistryObject<Item> ITEM_FEMALE_EGG;
-    //public static RegistryObject<Item> ITEM_WEDDING_RING;
-    //public static RegistryObject<Item> ITEM_WEDDING_RING_RG;
-    //public static RegistryObject<Item> ITEM_ENGAGEMENT_RING;
-    //public static RegistryObject<Item> ITEM_ENGAGEMENT_RING_RG;
-    //public static RegistryObject<Item> ITEM_MATCHMAKERS_RING;
-    public static RegistryObject<Item> ITEM_BABY_BOY;
-    public static RegistryObject<Item> ITEM_BABY_GIRL;
-    //public static RegistryObject<Item> ITEM_ROSE_GOLD_INGOT;
-    public static RegistryObject<Item> ITEM_ROSE_GOLD_DUST;
-    public static RegistryObject<Item> ITEM_GOLD_DUST;
-    public static RegistryObject<Item> ITEM_VILLAGER_EDITOR;
-    public static RegistryObject<Item> ITEM_STAFF_OF_LIFE;
-    public static RegistryObject<Item> ITEM_WHISTLE;
-    public static RegistryObject<Item> ITEM_BOOK_DEATH;
-    public static RegistryObject<Item> ITEM_BOOK_ROMANCE;
-    public static RegistryObject<Item> ITEM_BOOK_FAMILY;
-    //public static RegistryObject<Item> ITEM_BOOK_ROSE_GOLD;
-    public static RegistryObject<Item> ITEM_BOOK_INFECTION;
-    public static RegistryObject<Item> ITEM_BLUEPRINT;*/
 
     @Override
     public void onClientSetup() {

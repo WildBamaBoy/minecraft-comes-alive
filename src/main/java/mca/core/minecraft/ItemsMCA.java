@@ -5,7 +5,7 @@ import mca.items.*;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 
-public final class ItemsMCA {//TODO move items back here
+public final class ItemsMCA {
     public static final RegistryObject<Item> ITEM_MALE_EGG = Registration.ITEMS.register("egg_male", () -> new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
     public static final RegistryObject<Item> ITEM_FEMALE_EGG = Registration.ITEMS.register("egg_female", () -> new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
     public static final RegistryObject<Item> ITEM_BABY_BOY = Registration.ITEMS.register("baby_boy", () -> new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
