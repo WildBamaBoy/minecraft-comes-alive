@@ -12,18 +12,11 @@ import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.Registration;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
-import mca.items.*;
 import mca.network.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.village.PointOfInterestType;
@@ -35,8 +28,13 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod(MCA.MOD_ID)
 public class MCA extends CobaltForgeMod {
+    public static final String MOD_ID = "mca";
     @Getter
     public static MCA mod;
+    public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
+    public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;
+    public static RegistryObject<VillagerProfession> PROFESSION_CHILD;
+    public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
     private static Config config;
 
     static {
@@ -52,8 +50,6 @@ public class MCA extends CobaltForgeMod {
         NetworkHandler.registerMessage(GetVillageRequest.class);
         NetworkHandler.registerMessage(GetVillageResponse.class);
     }
-
-    public static final String MOD_ID = "mca";
 
     public MCA() {
         super();
@@ -90,30 +86,12 @@ public class MCA extends CobaltForgeMod {
 
     @Override
     public void registerContent() {
-/*        ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
-        //ITEM_WEDDING_RING = registerItem("wedding_ring", new ItemWeddingRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRingRG(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new ItemEngagementRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRingRG(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-        //ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new ItemMatchmakersRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(2)));
-        ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        //ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_GOLD_DUST = registerItem("gold_dust", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(ItemGroupMCA.MCA).durability(5)));
-        ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_DEATH = registerItem("book_death", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_ROMANCE = registerItem("book_romance", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_FAMILY = registerItem("book_family", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        //ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-        ITEM_BLUEPRINT = registerItem("blueprint", new ItemBlueprint(new Item.Properties().tab(ItemGroupMCA.MCA)));
-*/
-        ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager",
-                0.6F, 1.8F);
+
+        ENTITYTYPE_VILLAGER = registerEntity
+                (EntityVillagerMCA::new,
+                        EntityClassification.AMBIENT,
+                        "villager",
+                        0.6F, 1.8F);
 
         ENTITYTYPE_GRIM_REAPER = registerEntity(EntityGrimReaper::new, EntityClassification.MONSTER, "grim_reaper",
                 1.0F, 2.6F);
@@ -135,25 +113,6 @@ public class MCA extends CobaltForgeMod {
         GlobalEntityTypeAttributes.put(ENTITYTYPE_GRIM_REAPER.get(), EntityGrimReaper.createAttributes().build());
 
         MinecraftForge.EVENT_BUS.register(new EventHooks());
-    }
-
-    @Override
-    public void onClientSetup() {
-        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
-        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_GRIM_REAPER.get(), RenderGrimReaper::new);
-    }
-
-    @Override
-    public void registerCommands(FMLServerStartingEvent event) {
-
-    }
-
-    public String getModId() {
-        return "mca";
-    }
-
-    public String getRandomSupporter() {
-        return "";
     }
 
     /*public static final ItemGroup TAB = new ItemGroup("mcaTab") {
@@ -185,9 +144,22 @@ public class MCA extends CobaltForgeMod {
     public static RegistryObject<Item> ITEM_BOOK_INFECTION;
     public static RegistryObject<Item> ITEM_BLUEPRINT;*/
 
-    public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
-    public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;
+    @Override
+    public void onClientSetup() {
+        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
+        RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_GRIM_REAPER.get(), RenderGrimReaper::new);
+    }
 
-    public static RegistryObject<VillagerProfession> PROFESSION_CHILD;
-    public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
+    @Override
+    public void registerCommands(FMLServerStartingEvent event) {
+
+    }
+
+    public String getModId() {
+        return "mca";
+    }
+
+    public String getRandomSupporter() {
+        return "";
+    }
 }

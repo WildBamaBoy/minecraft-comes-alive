@@ -1,16 +1,6 @@
 package mca.client.colors;
 
 public class SkinColors {
-    private static int clampFloor(double v, int max) {
-        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
-    }
-
-    public static double[] getColor(double melanin, double hemoglobin) {
-        int m = clampFloor(melanin, colors.length);
-        int h = clampFloor(hemoglobin, colors[0].length);
-        return colors[m][h];
-    }
-
     private static final double[][][] colors = {
             {
                     {0.94509803921569, 0.89411764705882, 0.78823529411765},
@@ -453,4 +443,14 @@ public class SkinColors {
                     {0.12941176470588, 0.082352941176471, 0.054901960784314},
             }
     };
+
+    private static int clampFloor(double v, int max) {
+        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
+    }
+
+    public static double[] getColor(double melanin, double hemoglobin) {
+        int m = clampFloor(melanin, colors.length);
+        int h = clampFloor(hemoglobin, colors[0].length);
+        return colors[m][h];
+    }
 }

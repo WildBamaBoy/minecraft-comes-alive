@@ -49,6 +49,13 @@ public class EntityGrimReaper extends CreatureEntity {
         data.register();
     }
 
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MonsterEntity.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 225.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.30F)
+                .add(Attributes.FOLLOW_RANGE, 40.0D);
+    }
+
     @Override
     public boolean isNoGravity() {
         return true;
@@ -96,13 +103,6 @@ public class EntityGrimReaper extends CreatureEntity {
         flyingpathnavigator.setCanFloat(false);
         flyingpathnavigator.setCanPassDoors(true);
         return flyingpathnavigator;
-    }
-
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 225.0F)
-                .add(Attributes.MOVEMENT_SPEED, 0.30F)
-                .add(Attributes.FOLLOW_RANGE, 40.0D);
     }
 
     @Override

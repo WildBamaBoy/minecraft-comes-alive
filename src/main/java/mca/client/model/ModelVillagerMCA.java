@@ -11,18 +11,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T> {
+    public final ModelRenderer breasts;
+    public final ModelRenderer breastsWear;
+    private final ModelRenderer bipedCape;
+    private final boolean cloth;
     public ModelRenderer bipedLeftArmwear;
     public ModelRenderer bipedRightArmwear;
     public ModelRenderer bipedLeftLegwear;
     public ModelRenderer bipedRightLegwear;
     public ModelRenderer bipedBodyWear;
-
-    private final ModelRenderer bipedCape;
-
-    public final ModelRenderer breasts;
-    public final ModelRenderer breastsWear;
-
-    private final boolean cloth;
     public float breastSize;
 
     public ModelVillagerMCA() {

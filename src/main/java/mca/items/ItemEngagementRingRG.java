@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemEngagementRingRG extends ItemEngagementRing{
+public class ItemEngagementRingRG extends ItemEngagementRing {
     public ItemEngagementRingRG(Item.Properties properties) {
         super(properties);
     }

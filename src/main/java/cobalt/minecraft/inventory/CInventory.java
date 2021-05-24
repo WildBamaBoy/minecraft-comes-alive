@@ -131,4 +131,12 @@ public class CInventory extends Inventory {
 
         return tagList;
     }
+
+    public void saveToNBT(CompoundNBT nbt) {
+        nbt.put("Inventory", this.createTag());
+    }
+
+    public void readFromNBT(CompoundNBT nbt) {
+        this.fromTag(nbt.getList("Inventory", 10));
+    }
 }

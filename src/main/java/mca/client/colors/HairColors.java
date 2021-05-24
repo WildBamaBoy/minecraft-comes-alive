@@ -1,16 +1,6 @@
 package mca.client.colors;
 
 public class HairColors {
-    private static int clampFloor(double v, int max) {
-        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
-    }
-
-    public static double[] getColor(double f1, double f2) {
-        int m = clampFloor(f1, colors.length);
-        int h = clampFloor(f2, colors[0].length);
-        return colors[m][h];
-    }
-
     private static final double[][][] colors = {
             {
                     {0.83529411764706, 0.67450980392157, 0.49411764705882},
@@ -133,4 +123,14 @@ public class HairColors {
                     {0.33333333333333, 0.15686274509804, 0.082352941176471},
             },
     };
+
+    private static int clampFloor(double v, int max) {
+        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
+    }
+
+    public static double[] getColor(double f1, double f2) {
+        int m = clampFloor(f1, colors.length);
+        int h = clampFloor(f2, colors[0].length);
+        return colors[m][h];
+    }
 }

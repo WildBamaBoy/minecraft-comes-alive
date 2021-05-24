@@ -1,9 +1,10 @@
 package mca.entity.data;
 
 import cobalt.core.CConstants;
-import cobalt.minecraft.world.storage.CWorldSavedData;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.world.CWorld;
+import cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.enums.EnumMarriageState;
 
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ public class PlayerSaveData extends CWorldSavedData {
     private UUID spouseUUID = CConstants.ZERO_UUID;
     private String spouseName = "";
     private boolean babyPresent = false;
+    private EnumMarriageState marriageState;
 
     public PlayerSaveData(String id) {
         super(id);
@@ -21,7 +23,7 @@ public class PlayerSaveData extends CWorldSavedData {
     }
 
     public boolean isMarried() {
-        return !spouseUUID.equals(CConstants.ZERO_UUID);
+        return !spouseUUID.equals(CConstants.ZERO_UUID) && marriageState != EnumMarriageState.NOT_MARRIED;
     }
 
     @Override
@@ -39,9 +41,10 @@ public class PlayerSaveData extends CWorldSavedData {
         babyPresent = nbt.getBoolean("babyPresent");
     }
 
-    public void marry(UUID uuid, String name) {
-        spouseUUID = uuid;
-        spouseName = name;
+    public void marry(UUID uuid, String name, EnumMarriageState marriageState) {
+        this.spouseUUID = uuid;
+        this.spouseName = name;
+        this.marriageState = marriageState;
         setDirty();
     }
 
@@ -51,13 +54,13 @@ public class PlayerSaveData extends CWorldSavedData {
         setDirty();
     }
 
+    public boolean isBabyPresent() {
+        return this.babyPresent;
+    }
+
     public void setBabyPresent(boolean value) {
         this.babyPresent = value;
         setDirty();
-    }
-
-    public boolean isBabyPresent() {
-        return this.babyPresent;
     }
 
     public void reset() {
@@ -65,6 +68,11 @@ public class PlayerSaveData extends CWorldSavedData {
         setBabyPresent(false);
         setDirty();
     }
+
+    public EnumMarriageState getMarriageState() {
+        return this.marriageState;
+    }
+
 
     public UUID getSpouseUUID() {
         return spouseUUID;

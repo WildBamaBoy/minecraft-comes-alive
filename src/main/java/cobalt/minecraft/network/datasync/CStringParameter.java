@@ -6,8 +6,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
-import java.util.HashMap;
-
 public class CStringParameter extends CDataParameter<String> {
     private final DataParameter<String> param;
     private final EntityDataManager data;

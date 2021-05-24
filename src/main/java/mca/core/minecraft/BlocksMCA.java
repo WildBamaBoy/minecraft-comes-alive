@@ -1,6 +1,9 @@
 package mca.core.minecraft;
 
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.OreBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
@@ -25,16 +28,17 @@ public final class BlocksMCA {
 //            new Block(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE)));
 
 
-    static void register() {}
+    static void register() {
+    }
 
 
     private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block) {
-        return Registration.BLOCKS.register(name,block);
+        return Registration.BLOCKS.register(name, block);
     }
 
     protected static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
         RegistryObject<T> ret = registerNoItem(name, block);
-        Registration.ITEMS.register(name,() -> new BlockItem(ret.get(), new Item.Properties().tab(ItemGroupMCA.MCA)));
+        Registration.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(ItemGroupMCA.MCA)));
         return ret;
     }
 }

@@ -40,15 +40,19 @@ import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -159,8 +163,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     // genes list
     public CFloatParameter[] GENES = new CFloatParameter[]{
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
-    private float swingProgressTicks;
     public int procreateTick = -1;
+    private float swingProgressTicks;
+    @Nullable
+    private PlayerEntity interactingPlayer;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
@@ -323,7 +329,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             Minecraft.getInstance().setScreen(new GuiInteract(this, player));
             return ActionResultType.SUCCESS;
         } else {
-            this.setTradingPlayer(player);
+            this.setInteractingPlayer(player);
             return ActionResultType.PASS;
         }
     }
@@ -355,12 +361,14 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         speed *= GENE_SKIN.get();
 
         setSpeed(speed);
+        inventory.readFromNBT(nbt);
     }
 
     @Override
     public final void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
         data.save(CNBT.fromMC(nbt));
+        inventory.saveToNBT(nbt);
     }
 
     private void initializeSkin() {
@@ -584,9 +592,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             say(player, "interaction.gohome.fail");
         } else {
             BlockPos home = getHome();
-            if (!this.getNavigation().moveTo(home.getX(), home.getY(), home.getZ(), getSpeed())) {
-                teleportTo(home.getX(), home.getY(), home.getZ());
-            }
+            this.moveTowards(home);
             say(player, "interaction.gohome.success");
         }
     }
@@ -697,6 +703,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
         say(player, responseId);
+        closeGUIIfOpen();
     }
 
     public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
@@ -712,11 +719,13 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 updateMoveState();
+                closeGUIIfOpen();
                 break;
             case "gui.button.stay":
                 this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
                 this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
                 updateMoveState();
+                closeGUIIfOpen();
 
                 break;
             case "gui.button.follow":
@@ -724,24 +733,32 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
                 stopChore();
                 updateMoveState();
+                closeGUIIfOpen();
                 break;
             case "gui.button.ridehorse":
 //                toggleMount(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.sethome":
                 setHome(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.gohome":
                 goHome(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.setworkplace":
                 setWorkplace(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.sethangout":
                 setHangout(player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.trade":
                 this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
+                this.updateSpecialPrices(player);
+                this.setTradingPlayer(player);
 
                 break;
             case "gui.button.inventory":
@@ -763,6 +780,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                         player.getMainHandItem().shrink(1);
                     }
                 }
+                closeGUIIfOpen();
                 break;
             case "gui.button.procreate":
                 if (PlayerSaveData.get(world, player.getUUID()).isBabyPresent()) {
@@ -774,6 +792,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     procreateTick = 60;
                     isProcreating.set(true);
                 }
+                closeGUIIfOpen();
                 break;
             case "gui.button.infected":
                 isInfected.set(!isInfected.get());
@@ -808,20 +827,26 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 break;
             case "gui.button.prospecting":
                 startChore(EnumChore.PROSPECT, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.hunting":
                 startChore(EnumChore.HUNT, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.fishing":
                 startChore(EnumChore.FISH, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.chopping":
                 startChore(EnumChore.CHOP, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.harvesting":
                 startChore(EnumChore.HARVEST, player);
+                closeGUIIfOpen();
                 break;
             case "gui.button.stopworking":
+                closeGUIIfOpen();
                 stopChore();
                 break;
             case "gui.button.village":
@@ -920,6 +945,12 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 }
             }
         }
+
+        //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
+        Optional<Activity> possiblyChore = this.brain.getActiveNonCoreActivity();
+        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE) && activeChore.get() != EnumChore.NONE.getId()) {
+            this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
+        }
     }
 
     private void onEachServerSecond() {
@@ -1000,15 +1031,60 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             this.moveState.set(EnumMoveState.MOVE.getId());
         }
     }
-    public void moveTo(BlockPos pos) {
+
+    public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
         BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
-        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
         this.lookAt(pos);
+    }
+
+    public void moveTowards(BlockPos pos) {
+        this.moveTowards(pos, 0.5F, 1);
     }
 
     public void lookAt(BlockPos pos) {
         BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
         this.brain.setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
+
+    }
+
+    public void closeGUIIfOpen() {
+        if (!this.world.isClientSide) {
+            ServerPlayerEntity entity = (ServerPlayerEntity) this.getInteractingPlayer();
+            if (entity != null) {
+                entity.closeContainer();
+            }
+            this.setInteractingPlayer(null);
+        }
+
+    }
+
+    public PlayerEntity getInteractingPlayer() {
+        return this.interactingPlayer;
+    }
+
+    public void setInteractingPlayer(PlayerEntity player) {
+        this.interactingPlayer = player;
+    }
+
+    private void updateSpecialPrices(PlayerEntity p_213762_1_) {
+        int i = this.getPlayerReputation(p_213762_1_);
+        if (i != 0) {
+            for (MerchantOffer merchantoffer : this.getOffers()) {
+                merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
+            }
+        }
+
+        if (p_213762_1_.hasEffect(Effects.HERO_OF_THE_VILLAGE)) {
+            EffectInstance effectinstance = p_213762_1_.getEffect(Effects.HERO_OF_THE_VILLAGE);
+            int k = effectinstance.getAmplifier();
+
+            for (MerchantOffer merchantoffer1 : this.getOffers()) {
+                double d0 = 0.3D + 0.0625D * (double) k;
+                int j = (int) Math.floor(d0 * (double) merchantoffer1.getBaseCostA().getCount());
+                merchantoffer1.addToSpecialPriceDiff(-Math.max(j, 1));
+            }
+        }
 
     }
 }

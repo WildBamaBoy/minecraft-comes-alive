@@ -71,7 +71,7 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
     @Override
     protected boolean shouldShowName(EntityVillagerMCA villager) {
         if (Minecraft.getInstance().player != null) {
-            return Minecraft.getInstance().player.distanceTo(villager) < 5.0F;
+            return Minecraft.getInstance().player.distanceToSqr(villager) < 25.0F;
         }
         return false;
     }

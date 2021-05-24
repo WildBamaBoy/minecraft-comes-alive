@@ -14,6 +14,10 @@ public class RecipeProviderMCA extends RecipeProvider {
         super(generatorIn);
     }
 
+    private static ResourceLocation modId(String path) {
+        return new ResourceLocation(MCA.MOD_ID, path);
+    }
+
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapeless(ItemsMCA.ROSE_GOLD_INGOT.get(), 9)
@@ -35,9 +39,5 @@ public class RecipeProviderMCA extends RecipeProvider {
         CookingRecipeBuilder.blasting(Ingredient.of(BlocksMCA.ROSE_GOLD_ORE.get()), ItemsMCA.ROSE_GOLD_INGOT.get(), 0.7f, 100)
                 .unlockedBy("has_item", has(BlocksMCA.ROSE_GOLD_ORE.get()))
                 .save(consumer, modId("rose_gold_ingot_blasting"));
-    }
-
-    private static ResourceLocation modId(String path) {
-        return new ResourceLocation(MCA.MOD_ID, path);
     }
 }

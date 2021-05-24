@@ -32,9 +32,9 @@ import java.util.List;
 
 //TODO Fix small stops that harvesting ones have
 public class HarvestingTask extends AbstractChoreTask {
+    private final List<BlockPos> harvestable = new ArrayList<>();
     private int lastCropScan = 0;
     private int lastActionTicks = 0;
-    private final List<BlockPos> harvestable = new ArrayList<>();
 
 
     public HarvestingTask() {
@@ -101,6 +101,7 @@ public class HarvestingTask extends AbstractChoreTask {
         return Util.getNearestPoint(villager.blockPosition(), harvestable.isEmpty() ? nearbyCrops : harvestable);
 
     }
+
     private BlockPos searchUnusedFarmLand(int rangeX, int rangeY) {
         List<BlockPos> nearbyFarmLand = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(Blocks.FARMLAND), rangeX, rangeY);
         List<BlockPos> fertileLand = new ArrayList<>();
@@ -141,9 +142,9 @@ public class HarvestingTask extends AbstractChoreTask {
         }
 
         if (fertileFarmLand != null) {
-            villager.moveTo(fertileFarmLand);
+            villager.moveTowards(fertileFarmLand);
             double distanceToSqr = villager.distanceToSqr(fertileFarmLand.getX(), fertileFarmLand.getY(), fertileFarmLand.getZ());
-            if (distanceToSqr <= 4.5D) {
+            if (distanceToSqr <= 6.0D) {
                 if (!this.tryPlantSeed(world, villager, fertileFarmLand.above())) lastActionTicks++;
             }
             return;
@@ -162,7 +163,7 @@ public class HarvestingTask extends AbstractChoreTask {
             if (harvestable.isEmpty()) {
                 target = searchCrop(16, 3, false);
             }
-            villager.moveTo(target);
+            villager.moveTowards(target);
 
             BlockState state = world.getBlockState(target);
 

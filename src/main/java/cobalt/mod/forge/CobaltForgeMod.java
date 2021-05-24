@@ -28,12 +28,11 @@ import java.util.Date;
  * Base Cobalt mod supporting Forge. Any mods on Forge wishing to use Cobalt should extend this class.
  */
 public abstract class CobaltForgeMod extends CobaltMod {
+    public final DeferredRegister<VillagerProfession> villagerProfessionRegistry;
     private final ArrayList<DeferredRegister<?>> loadedRegistries = new ArrayList<>();
-
     private final DeferredRegister<Item> itemRegistry;
     private final DeferredRegister<Block> blockRegistry;
     private final DeferredRegister<EntityType<?>> entityRegistry;
-    public final DeferredRegister<VillagerProfession> villagerProfessionRegistry;
 
     public CobaltForgeMod() {
         super();

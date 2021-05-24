@@ -12,22 +12,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
 public class CWorld {
-    @Getter
-    private final World mcWorld;
-
     public final boolean isClientSide;
     public final Random rand;
+    @Getter
+    private final World mcWorld;
 
     private CWorld(World world) {
         this.mcWorld = world;
@@ -43,6 +40,7 @@ public class CWorld {
     public List<Entity> getCloseEntities(Entity e) {
         return getCloseEntities(e, 256.0);
     }
+
     public List<Entity> getCloseEntities(Entity e, double range) {
         BlockPos pos = e.blockPosition();
         return mcWorld.getEntities(e, new AxisAlignedBB(
@@ -56,12 +54,14 @@ public class CWorld {
     }
 
     public <T extends Entity> List<T> getCloseEntities(Entity e, Class<? extends T> c) {
-        return getCloseEntities(e,256.0, c);
+        return getCloseEntities(e, 256.0, c);
     }
+
     public <T extends Entity> List<T> getCloseEntities(Entity e, double range, Class<? extends T> c) {
         BlockPos pos = e.blockPosition();
         return getCloseEntities(pos, range, c);
     }
+
     public <T extends Entity> List<T> getCloseEntities(BlockPos pos, double range, Class<? extends T> c) {
         return mcWorld.getLoadedEntitiesOfClass(c, new AxisAlignedBB(
                 pos.getX() - range,

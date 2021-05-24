@@ -23,7 +23,6 @@ public class ItemTagsProviderMCA extends ItemTagsProvider {
         copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
 
 
-
         tag(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ITEM_ENGAGEMENT_RING.get());
         tag(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ROSE_GOLD_INGOT.get());
         tag(Tags.Items.INGOTS).addTag(TagsMCA.Items.INGOTS_ROSE_GOLD);
