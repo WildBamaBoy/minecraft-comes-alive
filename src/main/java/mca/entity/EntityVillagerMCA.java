@@ -1026,10 +1026,13 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
     }
 
-    public void moveTo(BlockPos pos) {
+    public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
         BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
-        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, 0.5F, 1));
+        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
         this.lookAt(pos);
+    }
+    public void moveTowards(BlockPos pos) {
+        this.moveTowards(pos, 0.5F, 1);
     }
 
     public void lookAt(BlockPos pos) {

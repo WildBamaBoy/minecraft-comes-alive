@@ -142,7 +142,7 @@ public class HarvestingTask extends AbstractChoreTask {
         }
 
         if (fertileFarmLand != null) {
-            villager.moveTo(fertileFarmLand);
+            villager.moveTowards(fertileFarmLand);
             double distanceToSqr = villager.distanceToSqr(fertileFarmLand.getX(), fertileFarmLand.getY(), fertileFarmLand.getZ());
             if (distanceToSqr <= 6.0D) {
                 if (!this.tryPlantSeed(world, villager, fertileFarmLand.above())) lastActionTicks++;
@@ -163,7 +163,7 @@ public class HarvestingTask extends AbstractChoreTask {
             if (harvestable.isEmpty()) {
                 target = searchCrop(16, 3, false);
             }
-            villager.moveTo(target);
+            villager.moveTowards(target);
 
             BlockState state = world.getBlockState(target);
 

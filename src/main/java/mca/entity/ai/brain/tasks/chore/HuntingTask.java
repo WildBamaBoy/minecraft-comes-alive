@@ -94,14 +94,14 @@ public class HuntingTask extends AbstractChoreTask {
 
                     if (animal.isPresent()) {
                         target = animal.get();
-                        villager.moveTo(target.blockPosition());
+                        villager.moveTowards(target.blockPosition());
                     }
                 }
 
                 nextAction = 50;
             }
         } else {
-            villager.moveTo(target.blockPosition());
+            villager.moveTowards(target.blockPosition());
 
             if (target.isDeadOrDying()) {
                 // search for EntityItems around the target and grab them
@@ -112,7 +112,7 @@ public class HuntingTask extends AbstractChoreTask {
                         });
                 target = null;
             } else if (villager.distanceToSqr(target) <= 12.25F) {
-                villager.moveTo(target.blockPosition());
+                villager.moveTowards(target.blockPosition());
                 villager.swing(Hand.MAIN_HAND);
                 target.hurt(DamageSource.mobAttack(villager), 6.0F);
                 villager.getMainHandItem().hurtAndBreak(1, villager, (p_220038_0_) -> p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND));

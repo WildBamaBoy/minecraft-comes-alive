@@ -101,7 +101,7 @@ public class ChoppingTask extends AbstractChoreTask {
             return;
         }
 
-        villager.moveTo(targetTree);
+        villager.moveTowards(targetTree);
 
         BlockState state = villager.world.getMcWorld().getBlockState(targetTree);
         if (state.is(BlockTags.LOGS)) {

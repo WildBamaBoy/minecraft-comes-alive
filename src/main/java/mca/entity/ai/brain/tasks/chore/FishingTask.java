@@ -102,7 +102,7 @@ public class FishingTask extends AbstractChoreTask {
                 ticks = 0;
             }
         } else {
-            villager.moveTo(targetWater);
+            villager.moveTowards(targetWater);
         }
 
     }
