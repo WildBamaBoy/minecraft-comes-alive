@@ -11,7 +11,7 @@ public class RenderGrimReaper extends BipedRenderer<EntityGrimReaper, ModelGrimR
     private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/entity/grimreaper.png");
 
     public RenderGrimReaper(EntityRendererManager manager) {
-        super(manager, new ModelGrimReaper(), 0.5F);
+        super(manager, new ModelGrimReaper<>(), 0.5F);
     }
 
 
