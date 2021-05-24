@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "mca:rose_gold_ore"
+  },
+  "result": "mca:rose_gold_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}

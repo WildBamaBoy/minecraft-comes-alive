@@ -7,6 +7,8 @@ import mca.api.API;
 import mca.client.render.RenderGrimReaper;
 import mca.client.render.RenderVillagerMCA;
 import mca.core.forge.EventHooks;
+import mca.core.minecraft.ItemGroupMCA;
+import mca.core.minecraft.Registration;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
@@ -53,6 +55,9 @@ public class MCA extends CobaltForgeMod {
     public MCA() {
         super();
         mod = this;
+
+        //Register class. Registering mod components in the Forge registry (such as items, blocks, sounds, etc.)
+        Registration.register();
     }
 
     public static Config getConfig() {
@@ -82,28 +87,28 @@ public class MCA extends CobaltForgeMod {
 
     @Override
     public void registerContent() {
-        ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(TAB)));
-        ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(TAB)));
-        ITEM_WEDDING_RING = registerItem("wedding_ring", new ItemWeddingRing(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRingRG(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new ItemEngagementRing(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRingRG(new Item.Properties().tab(TAB).stacksTo(1)));
-        ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new ItemMatchmakersRing(new Item.Properties().tab(TAB).stacksTo(2)));
-        ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(TAB)));
-        ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(TAB)));
-        ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new Item(new Item.Properties().tab(TAB)));
-        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new Item(new Item.Properties().tab(TAB)));
-        ITEM_GOLD_DUST = registerItem("gold_dust", new Item(new Item.Properties().tab(TAB)));
-        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new Item(new Item.Properties().tab(TAB)));
-        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(TAB).durability(5)));
-        ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_DEATH = registerItem("book_death", new Item(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_ROMANCE = registerItem("book_romance", new Item(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_FAMILY = registerItem("book_family", new Item(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new Item(new Item.Properties().tab(TAB)));
-        ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(TAB)));
-        ITEM_BLUEPRINT = registerItem("blueprint", new ItemBlueprint(new Item.Properties().tab(TAB)));
-
+/*        ITEM_MALE_EGG = registerItem("egg_male", new ItemSpawnEgg(EnumGender.MALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_FEMALE_EGG = registerItem("egg_female", new ItemSpawnEgg(EnumGender.FEMALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
+        //ITEM_WEDDING_RING = registerItem("wedding_ring", new ItemWeddingRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
+        //ITEM_WEDDING_RING_RG = registerItem("wedding_ring_rg", new ItemWeddingRingRG(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
+        //ITEM_ENGAGEMENT_RING = registerItem("engagement_ring", new ItemEngagementRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
+        //ITEM_ENGAGEMENT_RING_RG = registerItem("engagement_ring_rg", new ItemEngagementRingRG(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
+        //ITEM_MATCHMAKERS_RING = registerItem("matchmakers_ring", new ItemMatchmakersRing(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(2)));
+        ITEM_BABY_BOY = registerItem("baby_boy", new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_BABY_GIRL = registerItem("baby_girl", new ItemBaby(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        //ITEM_ROSE_GOLD_INGOT = registerItem("rose_gold_ingot", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_ROSE_GOLD_DUST = registerItem("rose_gold_dust", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_GOLD_DUST = registerItem("gold_dust", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_VILLAGER_EDITOR = registerItem("villager_editor", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_STAFF_OF_LIFE = registerItem("staff_of_life", new ItemStaffOfLife(new Item.Properties().tab(ItemGroupMCA.MCA).durability(5)));
+        ITEM_WHISTLE = registerItem("whistle", new ItemWhistle(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_BOOK_DEATH = registerItem("book_death", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_BOOK_ROMANCE = registerItem("book_romance", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_BOOK_FAMILY = registerItem("book_family", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        //ITEM_BOOK_ROSE_GOLD = registerItem("book_rose_gold", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_BOOK_INFECTION = registerItem("book_infection", new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+        ITEM_BLUEPRINT = registerItem("blueprint", new ItemBlueprint(new Item.Properties().tab(ItemGroupMCA.MCA)));
+*/
         ENTITYTYPE_VILLAGER = registerEntity(EntityVillagerMCA::new, EntityClassification.AMBIENT, "villager",
                 0.6F, 1.8F);
 
@@ -145,23 +150,23 @@ public class MCA extends CobaltForgeMod {
         return "";
     }
 
-    public static final ItemGroup TAB = new ItemGroup("mcaTab") {
+    /*public static final ItemGroup TAB = new ItemGroup("mcaTab") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(ITEM_ENGAGEMENT_RING.get());
         }
-    };
+    };*/
 
-    public static RegistryObject<Item> ITEM_MALE_EGG;
+    /*public static RegistryObject<Item> ITEM_MALE_EGG;
     public static RegistryObject<Item> ITEM_FEMALE_EGG;
-    public static RegistryObject<Item> ITEM_WEDDING_RING;
-    public static RegistryObject<Item> ITEM_WEDDING_RING_RG;
-    public static RegistryObject<Item> ITEM_ENGAGEMENT_RING;
-    public static RegistryObject<Item> ITEM_ENGAGEMENT_RING_RG;
-    public static RegistryObject<Item> ITEM_MATCHMAKERS_RING;
+    //public static RegistryObject<Item> ITEM_WEDDING_RING;
+    //public static RegistryObject<Item> ITEM_WEDDING_RING_RG;
+    //public static RegistryObject<Item> ITEM_ENGAGEMENT_RING;
+    //public static RegistryObject<Item> ITEM_ENGAGEMENT_RING_RG;
+    //public static RegistryObject<Item> ITEM_MATCHMAKERS_RING;
     public static RegistryObject<Item> ITEM_BABY_BOY;
     public static RegistryObject<Item> ITEM_BABY_GIRL;
-    public static RegistryObject<Item> ITEM_ROSE_GOLD_INGOT;
+    //public static RegistryObject<Item> ITEM_ROSE_GOLD_INGOT;
     public static RegistryObject<Item> ITEM_ROSE_GOLD_DUST;
     public static RegistryObject<Item> ITEM_GOLD_DUST;
     public static RegistryObject<Item> ITEM_VILLAGER_EDITOR;
@@ -170,9 +175,9 @@ public class MCA extends CobaltForgeMod {
     public static RegistryObject<Item> ITEM_BOOK_DEATH;
     public static RegistryObject<Item> ITEM_BOOK_ROMANCE;
     public static RegistryObject<Item> ITEM_BOOK_FAMILY;
-    public static RegistryObject<Item> ITEM_BOOK_ROSE_GOLD;
+    //public static RegistryObject<Item> ITEM_BOOK_ROSE_GOLD;
     public static RegistryObject<Item> ITEM_BOOK_INFECTION;
-    public static RegistryObject<Item> ITEM_BLUEPRINT;
+    public static RegistryObject<Item> ITEM_BLUEPRINT;*/
 
     public static RegistryObject<EntityType<EntityVillagerMCA>> ENTITYTYPE_VILLAGER;
     public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;
