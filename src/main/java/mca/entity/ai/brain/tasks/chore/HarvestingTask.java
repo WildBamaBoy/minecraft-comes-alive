@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumChore;
 import mca.util.Util;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.block.FarmlandBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -82,7 +79,7 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     private BlockPos searchCrop(int rangeX, int rangeY, boolean harvestableOnly) {
-        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(BlockTags.CROPS), rangeX, rangeY);
+        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(BlockTags.CROPS) || blockState.getBlock() instanceof StemGrownBlock, rangeX, rangeY);
         harvestable.clear();
 
         if (harvestableOnly) {
@@ -94,6 +91,8 @@ public class HarvestingTask extends AbstractChoreTask {
                     if (crop.isMaxAge(state)) {
                         harvestable.add(pos);
                     }
+                } else if (state.getBlock() instanceof StemGrownBlock) {
+                    harvestable.add(pos);
                 }
             }
         }
@@ -111,7 +110,7 @@ public class HarvestingTask extends AbstractChoreTask {
             if (state.getBlock() instanceof FarmlandBlock) {
                 FarmlandBlock farmlandBlock = (FarmlandBlock) state.getBlock();
 
-                if (farmlandBlock.isFertile(state, villager.world.getMcWorld(), pos) && !possibleCrop.is(BlockTags.CROPS)) {
+                if (farmlandBlock.isFertile(state, villager.world.getMcWorld(), pos) && possibleCrop.isAir()) {
                     fertileLand.add(pos);
                 }
             }
@@ -184,9 +183,31 @@ public class HarvestingTask extends AbstractChoreTask {
                     } else {
                         if (!this.tryBonemealCrop(world, villager, state, target)) lastActionTicks++;
                     }
+                } else if (state.getBlock() instanceof StemGrownBlock) {
+                    if (!this.tryBreakStemGrownBlock(world, villager, target)) lastActionTicks++;
+                    //No planting seed or bonemeal, since none can be made at this point.
                 }
             }
         }
+    }
+
+    public boolean tryBreakStemGrownBlock(ServerWorld world, EntityVillagerMCA villager, BlockPos target) {
+        if (lastActionTicks < 15) {
+            return false;
+        }
+
+        BlockState state = world.getBlockState(target);
+
+        StemGrownBlock block = (StemGrownBlock) state.getBlock();
+        LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).withParameter(LootParameters.ORIGIN, villager.position()).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withParameter(LootParameters.THIS_ENTITY, villager).withParameter(LootParameters.BLOCK_STATE, state).withRandom(this.villager.getRandom()).withLuck(0F);
+        List<ItemStack> drops = world.getServer().getLootTables().get(block.getLootTable()).getRandomItems(lootcontext$builder.create(LootParameterSets.BLOCK));
+        for (ItemStack stack : drops) {
+            villager.inventory.addItem(stack);
+        }
+
+        world.destroyBlock(target, false, villager);
+        lastActionTicks = 0;
+        return true;
     }
 
 
