@@ -1,6 +1,6 @@
 package mca.items;
 
-import mca.client.gui.GuiWhistle;
+import mca.client.gui.GuiBlueprint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,7 +25,7 @@ public class ItemBlueprint extends AbstractMapItem {
 
     @OnlyIn(Dist.CLIENT)
     private void openScreen() {
-        Minecraft.getInstance().setScreen(new GuiWhistle());
+        Minecraft.getInstance().setScreen(new GuiBlueprint());
     }
 
     @Override

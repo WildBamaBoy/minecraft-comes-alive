@@ -47,13 +47,7 @@ public class VillageManagerData extends CWorldSavedData {
             village = closestVillage.get();
 
             //look for existing building
-            withinBuilding = village.getBuildings().values().stream().filter((building) -> {
-                BlockPos p0 = building.getPos0();
-                BlockPos p1 = building.getPos1();
-                return pos.getX() >= p0.getX() && pos.getX() <= p1.getX()
-                        && pos.getY() >= p0.getY() && pos.getY() <= p1.getY()
-                        && pos.getZ() >= p0.getZ() && pos.getZ() <= p1.getZ();
-            }).findAny().orElse(null);
+            withinBuilding = village.getBuildings().values().stream().filter((building) -> building.containsPos(pos)).findAny().orElse(null);
         }
 
         if (withinBuilding != null) {
@@ -75,17 +69,34 @@ public class VillageManagerData extends CWorldSavedData {
 
             //check its boundaries, count the blocks, etc
             if (building.validateBuilding(world)) {
-                //TODO check for overlap, merge is this is the case
-
                 //create new village
                 if (village == null) {
                     village = new Village(lastVillageId++);
                     villages.put(village.getId(), village);
                 }
 
+                //the building is valid, but might overlap with an existing one
+                for (Building b : village.getBuildings().values()) {
+                    if (b.overlaps(building)) {
+                        //a overlap is usually an outdated building so let's check first
+                        if (b.validateBuilding(world)) {
+                            //it's not, check if the boundaries are the same
+                            if (b.isIdentical(building)) {
+                                //it is, so we are talking about the same building, let's drop the new one
+                                building = null;
+                                break;
+                            }
+                        } else {
+                            village.removeBuilding(b.getId());
+                        }
+                    }
+                }
+
                 //add to building list
-                building.setId(lastBuildingId++);
-                village.addBuilding(building);
+                if (building != null) {
+                    building.setId(lastBuildingId++);
+                    village.addBuilding(building);
+                }
 
                 setDirty();
             }

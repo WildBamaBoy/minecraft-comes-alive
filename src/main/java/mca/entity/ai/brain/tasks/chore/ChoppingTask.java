@@ -58,7 +58,9 @@ public class ChoppingTask extends AbstractChoreTask {
         if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
             if (i == -1) {
-                villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
+                if (this.getAssigningPlayer().isPresent()) {
+                    villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
+                }
                 villager.stopChore();
             } else {
                 ItemStack stack = villager.inventory.getItem(i);

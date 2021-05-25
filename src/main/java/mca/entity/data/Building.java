@@ -126,13 +126,13 @@ public class Building implements Serializable {
             }
 
             //adjust building dimensions
-            pos0X = sx - 1;
-            pos0Y = sy - 1;
-            pos0Z = sz - 1;
+            pos0X = sx;
+            pos0Y = sy;
+            pos0Z = sz;
 
-            pos1X = ex + 1;
-            pos1Y = ey + 1;
-            pos1Z = ez + 1;
+            pos1X = ex;
+            pos1Y = ey;
+            pos1Z = ez;
 
             return true;
         } else {
@@ -158,5 +158,19 @@ public class Building implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean overlaps(Building b) {
+        return pos1X > b.pos0X && pos0X < b.pos1X && pos1Y > b.pos0Y && pos0Y < b.pos1Y && pos1Z > b.pos0Z && pos0Z < b.pos1Z;
+    }
+
+    public boolean containsPos(BlockPos pos) {
+        return pos.getX() >= pos0X && pos.getX() <= pos1X
+                && pos.getY() >= pos0Y && pos.getY() <= pos1Y
+                && pos.getZ() >= pos0Z && pos.getZ() <= pos1Z;
+    }
+
+    public boolean isIdentical(Building b) {
+        return pos0X == b.pos0X && pos1X == b.pos1X && pos0Y == b.pos0Y && pos1Y == b.pos1Y && pos0Z == b.pos0Z && pos1Z == b.pos1Z;
     }
 }

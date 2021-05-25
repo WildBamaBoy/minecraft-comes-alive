@@ -1,38 +1,59 @@
 package mca.core.minecraft;
 
 import cobalt.minecraft.world.CWorld;
+import mca.core.MCA;
+import mca.entity.data.Building;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class VillageHelper {
+    private static boolean isWithinVillage(Village village, Entity entity) {
+        return village.getCenter().distSqr(entity.blockPosition()) < village.getSize();
+    }
+
     public static Village getNearestVillage(Entity entity) {
         Collection<Village> villages = VillageManagerData.get(CWorld.fromMC(entity.level)).villages.values();
         for (Village village : villages) {
-            if (village.getCenter().distSqr(entity.blockPosition()) < village.getSize()) {
+            if (isWithinVillage(village, entity)) {
                 return village;
             }
         }
         return null;
     }
 
+    private static final Map<UUID, Integer> playerVillagePositions = new HashMap<>();
+
     public static void tick(CWorld world) {
         if (world.isClientSide) {
 
         } else {
-//            if (world.getMcWorld().getDayTime() % 100 == 0) {
-//                world.getMcWorld().players().forEach((player) -> {
-//                    Village village = getNearestVillage(player);
-//                    if (village != null) {
-//                        player.sendMessage(new StringTextComponent("You are inside a village " + village.getBuildings().size()), player.getUUID());
-//                        for (Building building : village.getBuildings().values()) {
-//                            player.sendMessage(new StringTextComponent("  Building " + building.getBlocks().size()), player.getUUID());
-//                        }
-//                    }
-//                });
-//            }
+            //keep track on where player are currently in
+            if (world.getMcWorld().getDayTime() % 100 == 0) {
+                world.getMcWorld().players().forEach((player) -> {
+                    //check if still in village
+                    if (playerVillagePositions.containsKey(player.getUUID())) {
+                        int id = playerVillagePositions.get(player.getUUID());
+                        Village village = VillageManagerData.get(world).villages.get(id);
+                        if (!isWithinVillage(village, player)) {
+                            player.sendMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUUID());
+                            playerVillagePositions.remove(player.getUUID());
+                        }
+                    } else {
+                        Village village = getNearestVillage(player);
+                        if (village != null) {
+                            player.sendMessage(MCA.localizeText("gui.village.welcome", village.getName()), player.getUUID());
+                            playerVillagePositions.put(player.getUUID(), village.getId());
+                        }
+                    }
+                });
+            }
 
 //        world.getVillageCollection().getVillageList().forEach(v -> {
 //            spawnGuards(world, v);

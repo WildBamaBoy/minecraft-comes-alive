@@ -14,7 +14,8 @@ public class GetVillageRequest extends Message {
     @Override
     public void receive(ServerPlayerEntity player) {
         Village village = VillageHelper.getNearestVillage(player);
+        int reputation = village.getReputation(player);
 
-        NetworkHandler.sendToPlayer(new GetVillageResponse(village), player);
+        NetworkHandler.sendToPlayer(new GetVillageResponse(village, reputation), player);
     }
 }

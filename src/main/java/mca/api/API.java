@@ -35,6 +35,7 @@ public class API {
     private static final List<String> femaleNames = new ArrayList<>();
     private static final List<ClothingGroup> clothing = new ArrayList<>();
     private static final List<HairGroup> hair = new ArrayList<>();
+    private static final Map<String, NameSet> nameSets = new HashMap<>();
     private static Random rng;
 
     /**
@@ -46,6 +47,8 @@ public class API {
         // Load skins
         Collections.addAll(clothing, Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class));
         Collections.addAll(hair, Util.readResourceAsJSON("api/hair.json", HairGroup[].class));
+
+        nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
 
         // Load names
         InputStream namesStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
@@ -264,5 +267,18 @@ public class API {
 
     public static CVillagerProfession randomProfession() {
         return CVillagerProfession.fromMC(MCA.PROFESSION_GUARD.get());
+    }
+
+    //returns a random generated name for a given name set
+    public static String getRandomVillageName(String from) {
+        if (nameSets.containsKey(from)) {
+            NameSet set = API.nameSets.get(from);
+            String first = set.getFirst()[rng.nextInt(set.getFirst().length)];
+            String second = set.getSecond()[rng.nextInt(set.getSecond().length)];
+            return first.substring(0, 1).toUpperCase() + first.substring(1) + set.getSeparator() + second;
+
+        } else {
+            return "unknown names";
+        }
     }
 }

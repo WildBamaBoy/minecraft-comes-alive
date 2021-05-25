@@ -1,10 +1,16 @@
 package mca.entity.data;
 
+import cobalt.minecraft.world.CWorld;
+import mca.api.API;
+import mca.entity.EntityVillagerMCA;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class Village implements Serializable {
     private final int id;
@@ -12,15 +18,17 @@ public class Village implements Serializable {
     private final String name;
     private int centerX, centerY, centerZ;
     private int size;
-    private int development;
     private int taxes;
-    private float populationThreshold;
-    private float marriageThreshold;
+    private int populationThreshold;
+    private int marriageThreshold;
 
     public Village(int id) {
         this.id = id;
-        name = "Unnamed Village";
+        name = API.getRandomVillageName("village");
         size = 32;
+
+        populationThreshold = 50;
+        marriageThreshold = 50;
 
         buildings = new HashMap<>();
     }
@@ -75,19 +83,15 @@ public class Village implements Serializable {
         return size;
     }
 
-    public int getDevelopment() {
-        return development;
-    }
-
     public int getTaxes() {
         return taxes;
     }
 
-    public float getPopulationThreshold() {
+    public int getPopulationThreshold() {
         return populationThreshold;
     }
 
-    public float getMarriageThreshold() {
+    public int getMarriageThreshold() {
         return marriageThreshold;
     }
 
@@ -101,5 +105,55 @@ public class Village implements Serializable {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setTaxes(int taxes) {
+        this.taxes = taxes;
+    }
+
+    public void setPopulationThreshold(int populationThreshold) {
+        this.populationThreshold = populationThreshold;
+    }
+
+    public void setMarriageThreshold(int marriageThreshold) {
+        this.marriageThreshold = marriageThreshold;
+    }
+
+    public int getReputation(PlayerEntity player) {
+        int sum = 0;
+        int residents = 5; //we slightly favor bigger villages
+        for (Building b : buildings.values()) {
+            for (UUID v : b.getResidents()) {
+                Entity villager = CWorld.fromMC(player.level).getEntityByUUID(v);
+                if (villager instanceof EntityVillagerMCA) {
+                    EntityVillagerMCA resident = (EntityVillagerMCA) villager;
+                    sum += resident.getMemoriesForPlayer(player).getHearts();
+                    residents++;
+                }
+            }
+        }
+        return sum / residents;
+    }
+
+    public int getRank(int reputation) {
+        //TODO we don't have any buildings yet, so we directly use reputation
+        int rank = reputation / 20 + 5;
+        return Math.min(6, Math.max(0, rank));
+    }
+
+    public int getPopulation() {
+        int residents = 0;
+        for (Building b : buildings.values()) {
+            residents += b.getResidents().size();
+        }
+        return residents;
+    }
+
+    public int getMaxPopulation() {
+        int residents = 0;
+        for (Building b : buildings.values()) {
+            residents += b.getBlocks().getOrDefault("minecraft:bed", 1);
+        }
+        return residents;
     }
 }
