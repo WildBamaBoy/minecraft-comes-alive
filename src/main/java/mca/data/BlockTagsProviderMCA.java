@@ -1,8 +1,8 @@
 package mca.data;
 
 import mca.core.MCA;
+import mca.core.forge.TagsMCA;
 import mca.core.minecraft.BlocksMCA;
-import mca.core.minecraft.TagsMCA;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.Tags;

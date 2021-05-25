@@ -1,6 +1,7 @@
 package mca.core.minecraft;
 
 import com.mojang.serialization.Codec;
+import mca.core.forge.Registration;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 

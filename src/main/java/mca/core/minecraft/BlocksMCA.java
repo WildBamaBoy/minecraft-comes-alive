@@ -4,6 +4,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.SoundType;
+import mca.core.forge.Registration;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.RegistryObject;
 
 import java.util.function.Supplier;
 
-//TODO
+
 public final class BlocksMCA {
     public static final RegistryObject<Block> ROSE_GOLD_BLOCK = register("rose_gold_block", () ->
             new Block(AbstractBlock.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)));
@@ -27,9 +28,12 @@ public final class BlocksMCA {
 //    public static final RegistryObject<Block> TOMBSTONE = register("tombstone",() ->
 //            new Block(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE)));
 
+//TODO <Block> JEWELER_WORKBENCH -> profession of a jeweler
+//    public static final RegistryObject<Block> JEWELER_WORKBENCH = register("jeweler_workbench",() ->
+//            new Block(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE)));
 
-    static void register() {
-    }
+
+    public static void register() {}
 
 
     private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block) {

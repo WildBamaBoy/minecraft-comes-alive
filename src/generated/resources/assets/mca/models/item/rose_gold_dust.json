@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "mca:items/villager_editor"
+    "layer0": "mca:items/rose_gold_dust"
   }
 }

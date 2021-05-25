@@ -21,6 +21,6 @@ public class MessagesMCA {
         NetworkHandler.registerMessage(SaveVillageMessage.class);
     }
 
-    static void register() {
+    public static void register() {
     }
 }

@@ -13,9 +13,11 @@ public class BlockStateProviderMCA extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(BlocksMCA.ROSE_GOLD_ORE.get());
-        simpleBlock(BlocksMCA.ROSE_GOLD_BLOCK.get());
+        //simpleBlock(BlocksMCA.ROSE_GOLD_ORE.get());
+        //simpleBlock(BlocksMCA.ROSE_GOLD_BLOCK.get());
         //simpleBlock(BlocksMCA.VILLAGER_SPAWNER.get());
+        //simpleBlock(BlocksMCA.TOMBSTONE.grt());
+        //simpleBlock(BlocksMCA.JEWELER_WORKBENCH.grt());
 
     }
 }

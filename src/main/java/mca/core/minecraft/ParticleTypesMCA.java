@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import mca.core.forge.Registration;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraftforge.fml.RegistryObject;
 

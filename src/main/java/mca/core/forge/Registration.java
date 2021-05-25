@@ -1,10 +1,12 @@
-package mca.core.minecraft;
+package mca.core.forge;
 
 import mca.core.MCA;
+import mca.core.minecraft.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -27,6 +29,7 @@ public class Registration {
     public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = create(ForgeRegistries.MEMORY_MODULE_TYPES);
     public static final DeferredRegister<Activity> ACTIVITIES = create(ForgeRegistries.ACTIVITIES);
     public static final DeferredRegister<Schedule> SCHEDULES = create(ForgeRegistries.SCHEDULES);
+    public static final DeferredRegister<VillagerProfession> PROFESSIONS = create(ForgeRegistries.PROFESSIONS);
 
     public static void register() {
         BlocksMCA.register();
@@ -39,7 +42,9 @@ public class Registration {
         ParticleTypesMCA.init();
         SchedulesMCA.init();
         MessagesMCA.register();
-        //SoundsMCA.register(); //TODO SoundsMCA.register()
+        //TODO (ProfessionsMCA, SoundsMCA) register()
+        //ProfessionsMCA.register();
+        //SoundsMCA.register();
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(modEventBus);
@@ -47,6 +52,7 @@ public class Registration {
         ITEMS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
+        PROFESSIONS.register(modEventBus);
         PARTICLE_TYPES.register(modEventBus);
         MEMORY_MODULE_TYPES.register(modEventBus);
         ACTIVITIES.register(modEventBus);

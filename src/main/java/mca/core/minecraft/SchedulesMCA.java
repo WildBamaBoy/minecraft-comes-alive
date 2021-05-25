@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import mca.core.forge.Registration;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.ai.brain.schedule.ScheduleBuilder;
