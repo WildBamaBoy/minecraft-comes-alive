@@ -1,5 +1,6 @@
-package mca.core.minecraft;
+package mca.core.forge;
 
+import mca.core.forge.Registration;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;

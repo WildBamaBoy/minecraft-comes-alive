@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import mca.core.forge.Registration;
 import mca.enums.EnumGender;
 import mca.items.*;
 import net.minecraft.item.Item;
@@ -33,8 +34,7 @@ public final class ItemsMCA {
     public static final RegistryObject<Item> ROSE_GOLD_INGOT = Registration.ITEMS.register("rose_gold_ingot", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
 
 
-    static void register() {
-    }
+    public static void register() {}
 
     private static Item.Properties baseProps() {
         return new Item.Properties().tab(ItemGroupMCA.MCA);

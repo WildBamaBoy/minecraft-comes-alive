@@ -2,8 +2,8 @@ package mca.data;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
+import mca.core.forge.Registration;
 import mca.core.minecraft.BlocksMCA;
-import mca.core.minecraft.Registration;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
