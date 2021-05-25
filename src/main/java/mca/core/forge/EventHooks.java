@@ -139,20 +139,9 @@ public class EventHooks {
     public void onItemToss(ItemTossEvent event) {
         ItemStack stack = event.getEntityItem().getItem();
         if (stack.getItem() instanceof ItemBaby) {
-            event.getPlayer().addItem(stack);
+            event.getPlayer().inventory.add(stack);
             event.setCanceled(true);
         }
-    }
-
-    @SubscribeEvent
-    public void onBreakEvent(BlockEvent.BreakEvent event) {
-        //we can check destroyed buildings here, but it's not worth the performance
-//        if (!event.getWorld().isClientSide()) {
-//            VillageManagerData manager = VillageManagerData.get(CWorld.fromMC((World) event.getWorld()));
-//            if (manager.cache.contains(event.getPos())) {
-//                manager.reportBuilding((World) event.getWorld(), event.getPos());
-//            }
-//        }
     }
 
     @SubscribeEvent
