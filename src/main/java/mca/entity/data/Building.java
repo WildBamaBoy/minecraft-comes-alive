@@ -27,6 +27,9 @@ public class Building implements Serializable {
     private final Direction[] directions = {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
+    private int pos0X, pos0Y, pos0Z;
+    private int pos1X, pos1Y, pos1Z;
+    private int id;
 
     public Building(BlockPos pos) {
         pos0X = pos.getX();

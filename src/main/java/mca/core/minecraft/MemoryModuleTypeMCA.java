@@ -1,11 +1,8 @@
 package mca.core.minecraft;
 
 import com.mojang.serialization.Codec;
-import mca.core.MCA;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
 
@@ -15,9 +12,7 @@ public class MemoryModuleTypeMCA {
     public static final MemoryModuleType<Boolean> STAYING = new MemoryModuleType<>(Optional.of(Codec.BOOL));
 
     public static void init() {
-        PLAYER_FOLLOWING.setRegistryName(new ResourceLocation(MCA.MOD_ID + "player_following_memory"));
-        ForgeRegistries.MEMORY_MODULE_TYPES.register(PLAYER_FOLLOWING);
-        STAYING.setRegistryName(new ResourceLocation(MCA.MOD_ID + "staying_memory"));
-        ForgeRegistries.MEMORY_MODULE_TYPES.register(STAYING);
+        Registration.MEMORY_MODULE_TYPES.register("player_following_memory", () -> PLAYER_FOLLOWING);
+        Registration.MEMORY_MODULE_TYPES.register("staying_memory", () -> STAYING);
     }
 }

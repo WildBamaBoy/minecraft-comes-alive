@@ -2,7 +2,6 @@ package mca.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -22,12 +21,12 @@ public class CommandMCA {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(Commands.literal("mca")
                 .then(register("help", CommandMCA::displayHelp))
-                .then(register("propose").then(Commands.argument("target", EntityArgument.player())).executes(CommandMCA::propose))
-                .then(register("accept").then(Commands.argument("target", EntityArgument.player())).executes(CommandMCA::accept))
+                .then(register("propose").then(Commands.argument("target", EntityArgument.player()).executes(CommandMCA::propose)))
+                .then(register("accept").then(Commands.argument("target", EntityArgument.player()).executes(CommandMCA::accept)))
                 .then(register("proposals", CommandMCA::displayProposal))
                 .then(register("procreate", CommandMCA::procreate))
                 .then(register("separate", CommandMCA::seperate))
-                .then(register("reject", CommandMCA::reject))
+                .then(register("reject").then(Commands.argument("target", EntityArgument.player()).executes(CommandMCA::reject)))
         );
     }
 
@@ -45,7 +44,6 @@ public class CommandMCA {
     }
 
     private static int propose(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
-        sendMessage(ctx.getSource().getEntity(), "UHM LETS SEE");
         ServerPlayerEntity target = EntityArgument.getPlayer(ctx, "target");
         ServerInteractionManager.getInstance().sendProposal(ctx.getSource().getPlayerOrException(), target);
 

@@ -130,7 +130,7 @@ public class CommandMCAAdmin {
     }
 
     private static ArgumentBuilder<CommandSource, ?> register(String name, Command<CommandSource> cmd) {
-        return Commands.literal(name).requires(cs -> cs.hasPermission(0)).executes(cmd);
+        return Commands.literal(name).requires(cs -> cs.hasPermission(2)).executes(cmd);
     }
 
     private static int clearLoadedVillagers(final CommandContext<CommandSource> ctx) {

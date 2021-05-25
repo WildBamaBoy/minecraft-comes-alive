@@ -31,7 +31,7 @@ public class CInventory extends Inventory {
         return -1;
     }
 
-    public boolean contains(Class clazz) {
+    public boolean contains(Class<?> clazz) {
         for (int i = 0; i < this.getContainerSize(); ++i) {
             final ItemStack stack = this.getItem(i);
             final Item item = stack.getItem();
@@ -47,7 +47,7 @@ public class CInventory extends Inventory {
      * @param type The class of item that will be returned.
      * @return The item stack containing the item of the specified type with the highest max damage.
      */
-    public ItemStack getBestItemOfType(@Nullable Class type) {
+    public ItemStack getBestItemOfType(@Nullable Class<?> type) {
         if (type == null) return ItemStack.EMPTY;
         else return getItem(getBestItemOfTypeSlot(type));
     }
@@ -55,12 +55,15 @@ public class CInventory extends Inventory {
     public ItemStack getBestArmorOfType(EquipmentSlotType slot) {
         ItemStack returnStack = ItemStack.EMPTY;
 
-        List<ItemStack> armors = new ArrayList();
+        List<ItemStack> armors = new ArrayList<>();
         for (int i = 0; i < this.getContainerSize(); ++i) {
             ItemStack stack = this.getItem(i);
             if (stack.getItem() instanceof ArmorItem) {
                 ArmorItem armor = (ArmorItem) stack.getItem();
-                if (armor.getEquipmentSlot(stack) == slot) armors.add(stack);
+                EquipmentSlotType slotOfArmor = armor.getSlot();
+                if (slotOfArmor == slot) {
+                    armors.add(stack);
+                }
             }
         }
 
@@ -74,7 +77,7 @@ public class CInventory extends Inventory {
         return returnStack;
     }
 
-    public int getBestItemOfTypeSlot(Class type) {
+    public int getBestItemOfTypeSlot(Class<?> type) {
         int highestMaxDamage = 0;
         int best = -1;
 

@@ -2,7 +2,6 @@ package mca.items;
 
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
 
 import java.util.Comparator;
 
@@ -44,7 +43,7 @@ public class ItemMatchmakersRing extends ItemSpecialCaseGift {
         spouse.marry(villager);
 
         // show a reaction
-        villager.addParticlesAroundSelfPublic(ParticleTypes.HEART);
+        player.level.broadcastEntityEvent(villager, (byte) 12);
 
         // remove the rings for survival mode
         if (!player.isCreative())

@@ -46,10 +46,9 @@ public class EventHooks {
     public Map<UUID, ItemStack> limbo = new HashMap<>();
 
     @SubscribeEvent
-    public static void onCommandRegister(RegisterCommandsEvent event) {
+    public void onCommandRegister(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
 
-        System.out.println("help");
         CommandMCAAdmin.register(dispatcher);
         CommandMCA.register(dispatcher);
     }
@@ -226,4 +225,5 @@ public class EventHooks {
             }
         }
     }
+
 }

@@ -6,8 +6,6 @@ import mca.api.API;
 import mca.client.render.RenderGrimReaper;
 import mca.client.render.RenderVillagerMCA;
 import mca.core.forge.EventHooks;
-import mca.core.minecraft.ActivityMCA;
-import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.Registration;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
@@ -33,9 +31,8 @@ public class MCA extends CobaltForgeMod {
     public static RegistryObject<EntityType<EntityGrimReaper>> ENTITYTYPE_GRIM_REAPER;
     public static RegistryObject<VillagerProfession> PROFESSION_CHILD;
     public static RegistryObject<VillagerProfession> PROFESSION_GUARD;
-    private static Config config;
-
     public static int tick = 0;
+    private static Config config;
 
     public MCA() {
         super();
@@ -77,8 +74,7 @@ public class MCA extends CobaltForgeMod {
         PROFESSION_GUARD = registerProfession("guard", PointOfInterestType.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);
         PROFESSION_CHILD = registerProfession("child", PointOfInterestType.HOME, SoundEvents.VILLAGER_WORK_FARMER);
 
-        MemoryModuleTypeMCA.init();
-        ActivityMCA.init();
+
     }
 
     @Override
@@ -91,12 +87,14 @@ public class MCA extends CobaltForgeMod {
         GlobalEntityTypeAttributes.put(ENTITYTYPE_GRIM_REAPER.get(), EntityGrimReaper.createAttributes().build());
 
         MinecraftForge.EVENT_BUS.register(new EventHooks());
+
     }
 
     @Override
     public void onClientSetup() {
         RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_VILLAGER.get(), RenderVillagerMCA::new);
         RenderingRegistry.registerEntityRenderingHandler(MCA.ENTITYTYPE_GRIM_REAPER.get(), RenderGrimReaper::new);
+        //FMLJavaModLoadingContext.get().getModEventBus().register(new ClientEventHooks());
     }
 
     @Override

@@ -5,9 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.ai.brain.tasks.FollowTask;
-import mca.entity.ai.brain.tasks.ProcreateTask;
-import mca.entity.ai.brain.tasks.StayTask;
+import mca.entity.ai.brain.tasks.*;
 import mca.entity.ai.brain.tasks.chore.ChoppingTask;
 import mca.entity.ai.brain.tasks.chore.FishingTask;
 import mca.entity.ai.brain.tasks.chore.HarvestingTask;
@@ -39,8 +37,9 @@ public class MCAVillagerTasks {
                 Pair.of(0, new BeginRaidTask()),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE)),
                 Pair.of(0, new ExpirePOITask(profession.getJobPoiType(), MemoryModuleType.POTENTIAL_JOB_SITE)),
-                Pair.of(1, new WalkToTargetTask()), //Needs replacing into a "WalkOrTeleportToTarget" with it teleporting if the target is over 25 blocks away (or should it be more)? -Frqnny
+                Pair.of(1, new WalkOrTeleportToTargetTask()),
                 Pair.of(2, new SwitchVillagerJobTask(profession)),
+                Pair.of(3, new InteractTask(speedModifier)),
                 Pair.of(3, new TradeTask(speedModifier)),
                 Pair.of(5, new PickupWantedItemTask<>(speedModifier, false, 4)),
                 Pair.of(6, new GatherPOITask(profession.getJobPoiType(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
