@@ -1,6 +1,8 @@
 package mca.entity.data;
 
 import mca.enums.BuildingType;
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.util.Direction;
@@ -9,6 +11,7 @@ import net.minecraft.world.World;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Building implements Serializable {
     private final BuildingType type;
@@ -17,7 +20,7 @@ public class Building implements Serializable {
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
 
-    private final HashMap<String, Integer> blocks;
+    private final Map<String, Integer> blocks;
 
     private int id;
 
@@ -36,8 +39,8 @@ public class Building implements Serializable {
 
         type = BuildingType.HOUSE;
 
-        residents = new HashSet<>();
-        blocks = new HashMap<>();
+        residents = ConcurrentHashMap.newKeySet();
+        blocks = new ConcurrentHashMap<>();
     }
 
     public BlockPos getPos0() {
@@ -115,14 +118,15 @@ public class Building implements Serializable {
                 sx = Math.min(sx, pos.getX());
                 sy = Math.min(sy, pos.getY());
                 sz = Math.min(sz, pos.getZ());
-                ex = Math.max(sx, pos.getX());
-                ey = Math.max(sy, pos.getY());
-                ez = Math.max(sz, pos.getZ());
+                ex = Math.max(ex, pos.getX());
+                ey = Math.max(ey, pos.getY());
+                ez = Math.max(ez, pos.getZ());
 
                 //count blocks types
-                BlockState block = world.getBlockState(pos);
-                String name = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
-                blocks.put(name, blocks.getOrDefault(name, 0) + 1);
+                Block block = world.getBlockState(pos).getBlock();
+                if (block instanceof BedBlock) {
+                    blocks.put("bed", blocks.getOrDefault("bed", 0) + 1);
+                }
             }
 
             //adjust building dimensions
@@ -148,7 +152,7 @@ public class Building implements Serializable {
         return residents;
     }
 
-    public HashMap<String, Integer> getBlocks() {
+    public Map<String, Integer> getBlocks() {
         return blocks;
     }
 

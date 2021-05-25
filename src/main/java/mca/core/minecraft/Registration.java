@@ -33,6 +33,7 @@ public class Registration {
         ItemsMCA.register();
         RecipeSerializersMCA.register();
         TileEntityTypesMCA.register();
+        MessagesMCA.register();
         //SoundsMCA.register(); //TODO SoundsMCA.register()
     }
 

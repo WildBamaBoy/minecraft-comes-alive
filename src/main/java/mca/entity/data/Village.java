@@ -72,7 +72,7 @@ public class Village implements Serializable {
         }
 
         //extra margin
-        size += 32;
+        size = (int) (Math.sqrt(size) + 32);
     }
 
     public BlockPos getCenter() {
@@ -137,7 +137,7 @@ public class Village implements Serializable {
 
     public int getRank(int reputation) {
         //TODO we don't have any buildings yet, so we directly use reputation
-        int rank = reputation / 20 + 5;
+        int rank = (reputation + 5) / 20;
         return Math.min(6, Math.max(0, rank));
     }
 
@@ -152,7 +152,7 @@ public class Village implements Serializable {
     public int getMaxPopulation() {
         int residents = 0;
         for (Building b : buildings.values()) {
-            residents += b.getBlocks().getOrDefault("minecraft:bed", 1);
+            residents += b.getBlocks().getOrDefault("bed", 1);
         }
         return residents;
     }

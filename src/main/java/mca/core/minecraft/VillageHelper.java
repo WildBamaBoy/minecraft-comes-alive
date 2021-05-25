@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class VillageHelper {
     private static boolean isWithinVillage(Village village, Entity entity) {
-        return village.getCenter().distSqr(entity.blockPosition()) < village.getSize();
+        return village.getCenter().distSqr(entity.blockPosition()) < Math.pow(village.getSize(), 2.0);
     }
 
     public static Village getNearestVillage(Entity entity) {

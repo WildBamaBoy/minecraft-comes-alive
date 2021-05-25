@@ -6,7 +6,10 @@ import cobalt.minecraft.world.storage.CWorldSavedData;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VillageManagerData extends CWorldSavedData {
     public Set<BlockPos> cache;
@@ -17,8 +20,8 @@ public class VillageManagerData extends CWorldSavedData {
     public VillageManagerData(String id) {
         super(id);
 
-        cache = new HashSet<>();
-        villages = new HashMap<>();
+        cache = ConcurrentHashMap.newKeySet();
+        villages = new ConcurrentHashMap<>();
     }
 
     public static VillageManagerData get(CWorld world) {
