@@ -94,7 +94,7 @@ public class ServerInteractionManager {
         proposals.forEach((uuid -> {
             PlayerEntity player = sender.getCommandSenderWorld().getPlayerByUUID(uuid);
             if (player != null) {
-                infoMessage(sender, "- " + player.getName());
+                infoMessage(sender, "- " + player.getScoreboardName());
             }
         }));
     }
@@ -120,11 +120,11 @@ public class ServerInteractionManager {
 
         // Ensure the receiver hasn't already been proposed to by this player.
         if (hasProposalFrom(sender, receiver)) {
-            failMessage(sender, "You have already sent a proposal to " + receiver.getName());
+            failMessage(sender, "You have already sent a proposal to " + receiver.getScoreboardName());
         } else {
             // Send the proposal messages.
-            successMessage(sender, "Your proposal to " + receiver.getName() + " has been sent!");
-            infoMessage(receiver, sender.getName() + " has proposed marriage. To accept, type /mca accept " + sender.getName());
+            successMessage(sender, "Your proposal to " + receiver.getScoreboardName() + " has been sent!");
+            infoMessage(receiver, sender.getScoreboardName() + " has proposed marriage. To accept, type /mca accept " + sender.getScoreboardName());
 
             // Add the proposal to the receiver's proposal list.
             List<UUID> list = getProposalsFor(receiver);
@@ -142,11 +142,11 @@ public class ServerInteractionManager {
     public void rejectProposal(PlayerEntity sender, PlayerEntity receiver) {
         // Ensure a proposal existed.
         if (!hasProposalFrom(receiver, sender)) {
-            failMessage(sender, receiver.getName() + " hasn't proposed to you.");
+            failMessage(sender, receiver.getDisplayName() + " hasn't proposed to you.");
         } else {
             // Notify of the proposal failure and remove it.
             successMessage(sender, "Your rejection has been sent.");
-            failMessage(receiver, sender.getName() + " rejected your proposal.");
+            failMessage(receiver, sender.getScoreboardName() + " rejected your proposal.");
             removeProposalFor(sender, receiver);
         }
     }
@@ -160,20 +160,20 @@ public class ServerInteractionManager {
     public void acceptProposal(PlayerEntity sender, PlayerEntity receiver) {
         // Ensure a proposal is active.
         if (!hasProposalFrom(receiver, sender)) {
-            failMessage(sender, receiver.getName() + " hasn't proposed to you.");
+            failMessage(sender, receiver.getScoreboardName() + " hasn't proposed to you.");
         } else {
             // Notify of acceptance.
-            successMessage(receiver, sender.getName() + " has accepted your proposal!");
+            successMessage(receiver, sender.getScoreboardName() + " has accepted your proposal!");
 
             // Set both player datas as married.
             PlayerSaveData senderData = PlayerSaveData.get(CWorld.fromMC(sender.level), sender.getUUID());
             PlayerSaveData receiverData = PlayerSaveData.get(CWorld.fromMC(receiver.level), receiver.getUUID());
-            senderData.marry(receiver.getUUID(), receiver.getName().getString(), EnumMarriageState.MARRIED_TO_PLAYER);
-            receiverData.marry(sender.getUUID(), sender.getName().getString(), EnumMarriageState.MARRIED_TO_PLAYER);
+            senderData.marry(receiver.getUUID(), receiver.getScoreboardName(), EnumMarriageState.MARRIED_TO_PLAYER);
+            receiverData.marry(sender.getUUID(), sender.getScoreboardName(), EnumMarriageState.MARRIED_TO_PLAYER);
 
             // Send success messages.
-            successMessage(sender, "You and " + receiver.getName() + " are now married.");
-            successMessage(receiver, "You and " + sender.getName() + " are now married.");
+            successMessage(sender, "You and " + receiver.getScoreboardName() + " are now married.");
+            successMessage(receiver, "You and " + sender.getScoreboardName() + " are now married.");
 
             // Remove the proposal.
             removeProposalFor(sender, receiver);
@@ -207,7 +207,7 @@ public class ServerInteractionManager {
         // Notify the sender of the success and end both marriages.
         successMessage(sender, "Your marriage to " + senderData.getSpouseName() + " has ended.");
         PlayerEntity spouse = sender.level.getPlayerByUUID(senderData.getSpouseUUID());
-        failMessage(spouse, sender.getName() + " has ended their marriage with you.");
+        failMessage(spouse, sender.getScoreboardName() + " has ended their marriage with you.");
 
         senderData.endMarriage();
         receiverData.endMarriage();
@@ -234,6 +234,10 @@ public class ServerInteractionManager {
             return;
         }
 
+        if (senderData.getMarriageState() != EnumMarriageState.MARRIED_TO_PLAYER) {
+            failMessage(sender, "You cannot use this command when married to a villager.");
+            return;
+        }
         // Ensure the spouse is online.
         PlayerEntity spouse = sender.level.getPlayerByUUID(senderData.getSpouseUUID());
         if (spouse != null) {
@@ -241,7 +245,7 @@ public class ServerInteractionManager {
             // Otherwise we notify the spouse that they must also enter the command.
             if (!procreateMap.containsKey(spouse.getUUID())) {
                 procreateMap.put(sender.getUUID(), System.currentTimeMillis() + 10000);
-                infoMessage(spouse, sender.getName() + " has requested procreation. To accept, type /mca procreate within 10 seconds.");
+                infoMessage(spouse, sender.getScoreboardName() + " has requested procreation. To accept, type /mca procreate within 10 seconds.");
             } else {
                 // On success, add a randomly generated baby to the original requester.
                 successMessage(sender, "Procreation successful!");

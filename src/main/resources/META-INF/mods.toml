@@ -44,7 +44,7 @@ authors="WildBamaBoy, SheWolfDeadly" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Replaces villagers with humans, adds marriage, children, and more!
+No more squidward-villagers! Interact with male and female human villagers and raise a family.
 '''
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
