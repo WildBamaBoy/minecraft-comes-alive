@@ -17,6 +17,7 @@ import mca.core.MCA;
 import mca.core.minecraft.ActivityMCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.core.minecraft.ProfessionsMCA;
+import mca.core.minecraft.VillageHelper;
 import mca.entity.ai.brain.MCAVillagerTasks;
 import mca.entity.data.*;
 import mca.enums.*;
@@ -166,6 +167,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     //personality and mood
     public CIntegerParameter personality = data.newInteger("personality");
     public CIntegerParameter mood = data.newInteger("mood");
+
+    public CIntegerParameter village = data.newInteger("village", -1);
+    public CIntegerParameter building = data.newInteger("buildings", -1);
 
     @Nullable
     private PlayerEntity interactingPlayer;
@@ -467,10 +471,32 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public void tick() {
         super.tick();
 
+        //extremely high scan rate, this is debug, don't worry
         if (tickCount % 100 == 0 && !world.isClientSide) {
             reportBuildings();
 
+            //poor villager has no home
+            if (village.get() == -1) {
+                Village v = VillageHelper.getNearestVillage(this);
+                if (v != null) {
+                    village.set(v.getId());
+                }
+            }
 
+            if (village.get() >= 0 && building.get() == -1) {
+                Village v = VillageManagerData.get(world).villages.get(this.village.get());
+                if (v == null) {
+                    village.set(-1);
+                } else {
+                    for (Building b : v.getBuildings().values()) {
+                        if (b.getResidents().size() == 0) {
+                            building.set(b.getId());
+                            b.getResidents().add(getUUID());
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         if (world.isClientSide) {
