@@ -1,8 +1,11 @@
 package mca.items;
 
+import cobalt.network.NetworkHandler;
 import mca.core.MCA;
+import mca.network.OpenGuiRequest;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -29,7 +32,9 @@ public class ItemStaffOfLife extends Item {
             return ActionResult.fail(stack);
         }
 
-        //Minecraft.getInstance().setScreen(new GuiStaffOfLife(player));
+        if (player instanceof ServerPlayerEntity) {
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.STAFF_OF_LIFE), (ServerPlayerEntity) player);
+        }
 
         return ActionResult.success(stack);
     }

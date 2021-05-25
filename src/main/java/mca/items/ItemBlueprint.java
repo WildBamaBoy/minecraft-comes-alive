@@ -1,9 +1,10 @@
 package mca.items;
 
-import mca.client.gui.GuiBlueprint;
-import net.minecraft.client.Minecraft;
+import cobalt.network.NetworkHandler;
+import mca.network.OpenGuiRequest;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.AbstractMapItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,16 +24,13 @@ public class ItemBlueprint extends AbstractMapItem {
         super(properties);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private void openScreen() {
-        Minecraft.getInstance().setScreen(new GuiBlueprint());
-    }
-
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        openScreen();
+        if (player instanceof ServerPlayerEntity) {
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.BLUEPRINT), (ServerPlayerEntity) player);
+        }
 
         return ActionResult.success(stack);
     }

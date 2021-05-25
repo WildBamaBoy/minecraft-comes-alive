@@ -7,6 +7,7 @@ import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.network.ReviveVillagerMessage;
 import mca.network.SavedVillagersRequest;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -20,7 +21,6 @@ import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiStaffOfLife extends Screen {
-    private final PlayerEntity player;
     private final List<String> keys = new ArrayList<>();
     private Map<String, CNBT> villagerData;
     private EntityVillagerMCA dummy;
@@ -31,10 +31,8 @@ public class GuiStaffOfLife extends Screen {
     private Button nextButton;
     private Button backButton;
 
-    public GuiStaffOfLife(PlayerEntity player) {
+    public GuiStaffOfLife() {
         super(new StringTextComponent("Staff of Life"));
-
-        this.player = player;
     }
 
     @Override
@@ -84,7 +82,7 @@ public class GuiStaffOfLife extends Screen {
         villagerData = data;
 
         if (data.size() > 0) {
-            dummy = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), player.level);
+            dummy = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), Minecraft.getInstance().level);
             keys.clear();
             keys.addAll(data.keySet());
             selectData(0);
