@@ -14,9 +14,7 @@ import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ActivityMCA;
-import mca.core.minecraft.MemoryModuleTypeMCA;
-import mca.core.minecraft.ProfessionsMCA;
+import mca.core.minecraft.*;
 import mca.entity.ai.brain.MCAVillagerTasks;
 import mca.entity.data.*;
 import mca.enums.*;
@@ -41,6 +39,8 @@ import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -49,7 +49,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -173,6 +172,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
         inventory = new CInventory(this, 27);
+        inventory.addListener(this::onInvChange);
 
         world = CWorld.fromMC(w);
 
@@ -232,7 +232,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             brain.setSchedule(Schedule.VILLAGER_BABY);
             brain.addActivity(Activity.PLAY, MCAVillagerTasks.getPlayPackage(0.5F));
         } else {
-            brain.setSchedule(Schedule.VILLAGER_DEFAULT);
+            brain.setSchedule(this.random.nextBoolean() ? Schedule.VILLAGER_DEFAULT : SchedulesMCA.VILLAGER_DEFAULT_FLIPPED);
             brain.addActivityWithConditions(Activity.WORK, MCAVillagerTasks.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
         }
 
@@ -702,9 +702,16 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
         boolean succeeded = random.nextFloat() < successChance;
 
-        //sensitive people doubles the loss
-        if (!succeeded && getPersonality() == EnumPersonality.SENSITIVE) {
-            heartsBoost *= 2;
+        //spawn particles
+        if (succeeded) {
+            this.level.broadcastEntityEvent(this, (byte) 16);
+        } else {
+            this.level.broadcastEntityEvent(this, (byte) 15);
+
+            //sensitive people doubles the loss
+            if (getPersonality() == EnumPersonality.SENSITIVE) {
+                heartsBoost *= 2;
+            }
         }
 
         memory.modInteractionFatigue(1);
@@ -788,6 +795,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     }
                     if (giftValue > 0) {
                         player.getMainHandItem().shrink(1);
+                        this.level.broadcastEntityEvent(this, (byte) 16);
+                    } else {
+                        this.level.broadcastEntityEvent(this, (byte) 15);
                     }
                 }
                 closeGUIIfOpen();
@@ -906,10 +916,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         return false;
     }
 
-    public void addParticlesAroundSelfPublic(IParticleData p) {
-        addParticlesAroundSelf(p);
-    }
-
     private void onEachClientUpdate() {
         if (isProcreating.get()) {
             this.yHeadRot += 50.0F;
@@ -921,7 +927,25 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     private void onEachClientSecond() {
+        if (random.nextBoolean()) {
+            if (getMoodLevel() <= -3) {
+                switch (getPersonality().getMoodGroup()) {
+                    case GENERAL:
+                        this.addParticlesAroundSelf(ParticleTypes.SPLASH);
 
+                        break;
+                    case PLAYFUL:
+                        //TODO come up with a particle
+
+                        break;
+                    case SERIOUS:
+                        this.addParticlesAroundSelf(ParticleTypes.ANGRY_VILLAGER);
+
+                        break;
+                }
+
+            }
+        }
     }
 
     private void onEachServerUpdate() {
@@ -983,7 +1007,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             }
         }
 
-        //chore
+        //this.setItemSlot(EquipmentSlotType.CHEST, stack-from-the-inventory);
+
 
     }
 
@@ -1096,5 +1121,29 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             }
         }
 
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 15) {
+            this.level.addAlwaysVisibleParticle(ParticleTypesMCA.NEG_INTERACTION.get(), true, this.getX(), this.getY() + 2.1, this.getZ(), 0, 0, 0);
+        } else if (id == 16) {
+            this.level.addAlwaysVisibleParticle(ParticleTypesMCA.POS_INTERACTION.get(), true, this.getX(), this.getY() + 2.1, this.getZ(), 0, 0, 0);
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
+    public void onInvChange(IInventory inventoryFromListener) {
+        CInventory inv = this.getInventory();
+
+        for (EquipmentSlotType type : EquipmentSlotType.values()) {
+            if (type.getType() == EquipmentSlotType.Group.ARMOR) {
+                ItemStack stack = inv.getBestArmorOfType(type);
+                if (!stack.isEmpty()) {
+                    this.setItemSlot(type, stack);
+                }
+            }
+        }
     }
 }
