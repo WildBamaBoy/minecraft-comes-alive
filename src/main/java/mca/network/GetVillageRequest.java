@@ -16,7 +16,6 @@ public class GetVillageRequest extends Message {
         Village village = VillageHelper.getNearestVillage(player);
         if (village != null) {
             int reputation = village.getReputation(player);
-
             NetworkHandler.sendToPlayer(new GetVillageResponse(village, reputation), player);
         }
     }

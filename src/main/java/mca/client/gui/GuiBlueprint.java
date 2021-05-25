@@ -94,6 +94,7 @@ public class GuiBlueprint extends Screen {
         addButton(new Button(width / 2 - 66, height / 2 + 80, 64, 20, new StringTextComponent("Exit"), (b) -> Minecraft.getInstance().setScreen(null)));
         addButton(new Button(width / 2 + 2, height / 2 + 80, 64, 20, new StringTextComponent("Add Building"), (b) -> {
             NetworkHandler.sendToServer(new ReportBuildingMessage());
+            NetworkHandler.sendToServer(new GetVillageRequest());
         }));
 
         //taxes

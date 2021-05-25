@@ -36,6 +36,7 @@ public class API {
     private static final List<ClothingGroup> clothing = new ArrayList<>();
     private static final List<HairGroup> hair = new ArrayList<>();
     private static final Map<String, NameSet> nameSets = new HashMap<>();
+    private static String[] supporters;
     private static Random rng;
 
     /**
@@ -49,16 +50,16 @@ public class API {
         Collections.addAll(hair, Util.readResourceAsJSON("api/hair.json", HairGroup[].class));
 
         nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
+        supporters = Util.readResourceAsJSON("api/supporters.json", String[].class);
 
         // Load names
         InputStream namesStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
         try {
             // read in all names and process into the correct list
             List<String> lines = IOUtils.readLines(namesStream, Charsets.UTF_8);
-            lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("\\=")[1]));
-            lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("\\=")[1]));
+            lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("=")[1]));
+            lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("=")[1]));
         } catch (Exception e) {
-            MCA.log("crash", e);
             throw new RuntimeException("Failed to load all NPC names from file", e);
         }
 
@@ -280,5 +281,9 @@ public class API {
         } else {
             return "unknown names";
         }
+    }
+
+    public static String getRandomSupporter() {
+        return supporters[rng.nextInt(supporters.length)];
     }
 }

@@ -17,6 +17,7 @@ public class MessagesMCA {
         NetworkHandler.registerMessage(GetVillageRequest.class);
         NetworkHandler.registerMessage(GetVillageResponse.class);
         NetworkHandler.registerMessage(OpenGuiRequest.class);
+        NetworkHandler.registerMessage(ReportBuildingMessage.class);
     }
 
     static void register() {
