@@ -935,7 +935,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
                         break;
                     case PLAYFUL:
-                        //TODO come up with a particle
+                        this.addParticlesAroundSelf(ParticleTypes.SMOKE);
 
                         break;
                     case SERIOUS:
@@ -944,6 +944,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                         break;
                 }
 
+            } else if (getMoodLevel() >= 3) {
+                this.addParticlesAroundSelf(ParticleTypes.HAPPY_VILLAGER);
             }
         }
     }
