@@ -131,6 +131,25 @@
     "reaction.drawnweapon6": "I don't want to die! Stay away!",
     "reaction.drawnweapon7": "Mother Notch, please help me!",
 
+    "gui.village.left": "You left %v1%.",
+    "gui.village.welcome": "Welcome to %v1%!",
+
+    "gui.village.taxes": "Taxes",
+    "gui.village.birth": "Birth limit",
+    "gui.village.marriage": "Marriage limit",
+    "gui.village.guards": "Guards",
+    "gui.village.rankTooLow": "You need a higher rank.",
+    "gui.village.rank": "Rank: %v1%",
+    "gui.village.reputation": "Reputation: %v1%",
+
+    "gui.village.rank.0": "Outlaw",
+    "gui.village.rank.1": "Peasant",
+    "gui.village.rank.2": "Merchant",
+    "gui.village.rank.3": "Noble",
+    "gui.village.rank.4": "Mayor",
+    "gui.village.rank.5": "King",
+    "gui.village.rank.6": "High King",
+
     "gui.button.debug.startraid": "Start Raid",
     "gui.button.debug.spawnguards": "Spawn Guards",
     "gui.button.debug.selectnearestvillager": "Get Nearest Villager",

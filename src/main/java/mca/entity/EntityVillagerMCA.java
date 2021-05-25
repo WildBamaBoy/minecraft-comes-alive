@@ -148,25 +148,30 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public BlockPosParameter hangoutPos = data.newPos("hangoutPos");
 
     // genes
-    // TODO move into own class
-    public CFloatParameter GENE_SIZE = data.newFloat("gene_size");
-    public CFloatParameter GENE_WIDTH = data.newFloat("gene_width");
-    public CFloatParameter GENE_BREAST = data.newFloat("gene_breast");
-    public CFloatParameter GENE_MELANIN = data.newFloat("gene_melanin");
-    public CFloatParameter GENE_HEMOGLOBIN = data.newFloat("gene_hemoglobin");
-    public CFloatParameter GENE_EUMELANIN = data.newFloat("gene_eumelanin");
-    public CFloatParameter GENE_PHEOMELANIN = data.newFloat("gene_pheomelanin");
-    public CFloatParameter GENE_SKIN = data.newFloat("gene_skin");
-    public CFloatParameter GENE_FACE = data.newFloat("gene_face");
-    //personality and mood
-    public CIntegerParameter PERSONALITY = data.newInteger("personality");
-    public CIntegerParameter MOOD = data.newInteger("mood");
+    public CFloatParameter gene_size = data.newFloat("gene_size");
+    public CFloatParameter gene_width = data.newFloat("gene_width");
+    public CFloatParameter gene_breast = data.newFloat("gene_breast");
+    public CFloatParameter gene_melanin = data.newFloat("gene_melanin");
+    public CFloatParameter gene_hemoglobin = data.newFloat("gene_hemoglobin");
+    public CFloatParameter gene_eumelanin = data.newFloat("gene_eumelanin");
+    public CFloatParameter gene_pheomelanin = data.newFloat("gene_pheomelanin");
+    public CFloatParameter gene_skin = data.newFloat("gene_skin");
+    public CFloatParameter gene_face = data.newFloat("gene_face");
+
     // genes list
     public CFloatParameter[] GENES = new CFloatParameter[]{
-            GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
-    public int procreateTick = -1;
+            gene_size, gene_width, gene_breast, gene_melanin, gene_hemoglobin, gene_eumelanin, gene_pheomelanin, gene_skin, gene_face};
+
+    //personality and mood
+    public CIntegerParameter personality = data.newInteger("personality");
+    public CIntegerParameter mood = data.newInteger("mood");
+
+    public CIntegerParameter village = data.newInteger("village", -1);
+    public CIntegerParameter building = data.newInteger("buildings", -1);
+  
     @Nullable
     private PlayerEntity interactingPlayer;
+    public int procreateTick = -1;
 
     public EntityVillagerMCA(EntityType<? extends EntityVillagerMCA> type, World w) {
         super(type, w);
@@ -364,8 +369,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         if (getPersonality() == EnumPersonality.SLEEPY) speed *= 0.8;
 
         //width and size impact
-        speed /= GENE_WIDTH.get();
-        speed *= GENE_SKIN.get();
+        speed /= gene_width.get();
+        speed *= gene_skin.get();
 
         setSpeed(speed);
         inventory.readFromNBT(nbt);
@@ -387,8 +392,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     private void initializePersonality() {
-        PERSONALITY.set(EnumPersonality.getRandom().getId());
-        MOOD.set(random.nextInt((EnumMood.maxLevel - EnumMood.minLevel) * EnumMood.levelsPerMood + 1) + EnumMood.minLevel * EnumMood.levelsPerMood);
+        personality.set(EnumPersonality.getRandom().getId());
+        mood.set(random.nextInt((EnumMood.maxLevel - EnumMood.minLevel) * EnumMood.levelsPerMood + 1) + EnumMood.minLevel * EnumMood.levelsPerMood);
     }
 
     //returns a float between 0 and 1, weighted at 0.5
@@ -403,19 +408,19 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
 
         // size is more centered
-        GENE_SIZE.set(centeredRandom());
-        GENE_WIDTH.set(centeredRandom());
+        gene_size.set(centeredRandom());
+        gene_width.set(centeredRandom());
 
         //temperature
         float temp = world.getBiome(getOnPos()).getBaseTemperature();
 
         // melanin
-        GENE_MELANIN.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
-        GENE_HEMOGLOBIN.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
+        gene_melanin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
+        gene_hemoglobin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
 
         // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
-        GENE_EUMELANIN.set(random.nextFloat());
-        GENE_PHEOMELANIN.set(random.nextFloat());
+        gene_eumelanin.set(random.nextFloat());
+        gene_pheomelanin.set(random.nextFloat());
     }
 
     //interpolates and mutates the genes from two parent villager
@@ -465,8 +470,32 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public void tick() {
         super.tick();
 
+        //extremely high scan rate, this is debug, don't worry
         if (tickCount % 100 == 0 && !world.isClientSide) {
             reportBuildings();
+
+            //poor villager has no home
+            if (village.get() == -1) {
+                Village v = VillageHelper.getNearestVillage(this);
+                if (v != null) {
+                    village.set(v.getId());
+                }
+            }
+
+            if (village.get() >= 0 && building.get() == -1) {
+                Village v = VillageManagerData.get(world).villages.get(this.village.get());
+                if (v == null) {
+                    village.set(-1);
+                } else {
+                    for (Building b : v.getBuildings().values()) {
+                        if (b.getResidents().size() == 0) {
+                            building.set(b.getId());
+                            b.getResidents().add(getUUID());
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         if (world.isClientSide) {
@@ -581,19 +610,19 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public EnumPersonality getPersonality() {
-        return EnumPersonality.getById(PERSONALITY.get());
+        return EnumPersonality.getById(personality.get());
     }
 
     public EnumMood getMood() {
-        return getPersonality().getMoodGroup().getMood(MOOD.get());
+        return getPersonality().getMoodGroup().getMood(mood.get());
     }
 
     public void modifyMoodLevel(int mood) {
-        MOOD.set(MOOD.get() + mood);
+        this.mood.set(this.mood.get() + mood);
     }
 
     public int getMoodLevel() {
-        return MOOD.get();
+        return mood.get();
     }
 
     private void goHome(PlayerEntity player) {

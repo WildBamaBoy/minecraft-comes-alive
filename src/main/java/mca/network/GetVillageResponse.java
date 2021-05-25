@@ -11,9 +11,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class GetVillageResponse extends Message {
     private final Village data;
+    private final int reputation;
 
-    public GetVillageResponse(Village data) {
+    public GetVillageResponse(Village data, int reputation) {
         this.data = data;
+        this.reputation = reputation;
     }
 
     @Override
@@ -23,6 +25,7 @@ public class GetVillageResponse extends Message {
         if (screen instanceof GuiBlueprint) {
             GuiBlueprint gui = (GuiBlueprint) screen;
             gui.setVillage(data);
+            gui.setReputation(reputation);
         }
     }
 }

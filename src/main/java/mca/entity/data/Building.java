@@ -1,6 +1,8 @@
 package mca.entity.data;
 
 import mca.enums.BuildingType;
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.util.Direction;
@@ -9,11 +11,19 @@ import net.minecraft.world.World;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Building implements Serializable {
     private final BuildingType type;
     private final Set<UUID> residents;
-    private final HashMap<String, Integer> blocks;
+
+    private int pos0X, pos0Y, pos0Z;
+    private int pos1X, pos1Y, pos1Z;
+
+    private final Map<String, Integer> blocks;
+
+    private int id;
+
     private final Direction[] directions = {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
@@ -32,8 +42,8 @@ public class Building implements Serializable {
 
         type = BuildingType.HOUSE;
 
-        residents = new HashSet<>();
-        blocks = new HashMap<>();
+        residents = ConcurrentHashMap.newKeySet();
+        blocks = new ConcurrentHashMap<>();
     }
 
     public BlockPos getPos0() {
@@ -111,24 +121,25 @@ public class Building implements Serializable {
                 sx = Math.min(sx, pos.getX());
                 sy = Math.min(sy, pos.getY());
                 sz = Math.min(sz, pos.getZ());
-                ex = Math.max(sx, pos.getX());
-                ey = Math.max(sy, pos.getY());
-                ez = Math.max(sz, pos.getZ());
+                ex = Math.max(ex, pos.getX());
+                ey = Math.max(ey, pos.getY());
+                ez = Math.max(ez, pos.getZ());
 
                 //count blocks types
-                BlockState block = world.getBlockState(pos);
-                String name = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
-                blocks.put(name, blocks.getOrDefault(name, 0) + 1);
+                Block block = world.getBlockState(pos).getBlock();
+                if (block instanceof BedBlock) {
+                    blocks.put("bed", blocks.getOrDefault("bed", 0) + 1);
+                }
             }
 
             //adjust building dimensions
-            pos0X = sx - 1;
-            pos0Y = sy - 1;
-            pos0Z = sz - 1;
+            pos0X = sx;
+            pos0Y = sy;
+            pos0Z = sz;
 
-            pos1X = ex + 1;
-            pos1Y = ey + 1;
-            pos1Z = ez + 1;
+            pos1X = ex;
+            pos1Y = ey;
+            pos1Z = ez;
 
             return true;
         } else {
@@ -144,7 +155,7 @@ public class Building implements Serializable {
         return residents;
     }
 
-    public HashMap<String, Integer> getBlocks() {
+    public Map<String, Integer> getBlocks() {
         return blocks;
     }
 
@@ -154,5 +165,19 @@ public class Building implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean overlaps(Building b) {
+        return pos1X > b.pos0X && pos0X < b.pos1X && pos1Y > b.pos0Y && pos0Y < b.pos1Y && pos1Z > b.pos0Z && pos0Z < b.pos1Z;
+    }
+
+    public boolean containsPos(BlockPos pos) {
+        return pos.getX() >= pos0X && pos.getX() <= pos1X
+                && pos.getY() >= pos0Y && pos.getY() <= pos1Y
+                && pos.getZ() >= pos0Z && pos.getZ() <= pos1Z;
+    }
+
+    public boolean isIdentical(Building b) {
+        return pos0X == b.pos0X && pos1X == b.pos1X && pos0Y == b.pos0Y && pos1Y == b.pos1Y && pos0Z == b.pos0Z && pos1Z == b.pos1Z;
     }
 }

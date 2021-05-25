@@ -37,8 +37,8 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
         }
 
         //dimensions
-        float height = villager.GENE_SIZE.get() * 0.5f + 0.75f;
-        float width = villager.GENE_WIDTH.get() * 0.5f + 0.75f;
+        float height = villager.gene_size.get() * 0.5f + 0.75f;
+        float width = villager.gene_width.get() * 0.5f + 0.75f;
         matrixStackIn.scale(width, height, width);
     }
 
@@ -53,7 +53,7 @@ public class RenderVillagerMCA extends BipedRenderer<EntityVillagerMCA, ModelVil
     @Override
     public void render(EntityVillagerMCA villager, float p_225623_2_, float p_225623_3_, MatrixStack p_225623_4_, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
         this.model.breasts.visible = EnumGender.byId(villager.gender.get()) == EnumGender.FEMALE && !villager.isBaby() && villager.getItemBySlot(EquipmentSlotType.CHEST).isEmpty();
-        this.model.breastSize = villager.GENE_BREAST.get();
+        this.model.breastSize = villager.gene_breast.get();
 
         //also apply this to the layers
         for (LayerRenderer<EntityVillagerMCA, ModelVillagerMCA<EntityVillagerMCA>> l : layers) {

@@ -1,7 +1,6 @@
 package mca.core;
 
 import cobalt.mod.forge.CobaltForgeMod;
-import cobalt.network.NetworkHandler;
 import lombok.Getter;
 import mca.api.API;
 import mca.client.render.RenderGrimReaper;
@@ -10,7 +9,6 @@ import mca.core.forge.EventHooks;
 import mca.core.minecraft.Registration;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
-import mca.network.*;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -36,20 +34,6 @@ public class MCA extends CobaltForgeMod {
     public static int tick = 0;
     private static Config config;
 
-    static {
-        NetworkHandler.registerMessage(InteractionVillagerMessage.class);
-        NetworkHandler.registerMessage(InteractionServerMessage.class);
-        NetworkHandler.registerMessage(BabyNamingVillagerMessage.class);
-        NetworkHandler.registerMessage(ReviveVillagerMessage.class);
-        NetworkHandler.registerMessage(SavedVillagersRequest.class);
-        NetworkHandler.registerMessage(SavedVillagersResponse.class);
-        NetworkHandler.registerMessage(GetVillagerRequest.class);
-        NetworkHandler.registerMessage(GetVillagerResponse.class);
-        NetworkHandler.registerMessage(CallToPlayerMessage.class);
-        NetworkHandler.registerMessage(GetVillageRequest.class);
-        NetworkHandler.registerMessage(GetVillageResponse.class);
-    }
-
     public MCA() {
         super();
         mod = this;
@@ -57,6 +41,7 @@ public class MCA extends CobaltForgeMod {
         //Register class. Registering mod components in the Forge registry (such as items, blocks, sounds, etc.)
         Registration.register();
 
+        localizer.registerVarParser((v) -> v.replaceAll("%Supporter%", API.getRandomSupporter()));
     }
 
     public static Config getConfig() {
@@ -65,10 +50,6 @@ public class MCA extends CobaltForgeMod {
 
     public static void log(String message) {
         mod.logger.info(message);
-    }
-
-    public static void log(String message, Exception e) {
-        mod.logger.fatal(e);
     }
 
     public static StringTextComponent localizeText(String key, String... vars) {
@@ -81,8 +62,6 @@ public class MCA extends CobaltForgeMod {
 
     @Override
     public void registerContent() {
-
-
         ENTITYTYPE_VILLAGER = registerEntity
                 (EntityVillagerMCA::new,
                         EntityClassification.AMBIENT,

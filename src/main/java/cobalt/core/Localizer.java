@@ -36,7 +36,11 @@ public class Localizer {
     private String parseVars(String str, ArrayList<String> vars) {
         int index = 1;
         for (VarParser processor : registeredVarParsers) {
-            str = processor.parse(str);
+            try {
+                str = processor.parse(str);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         String varString = "%v" + index + "%";

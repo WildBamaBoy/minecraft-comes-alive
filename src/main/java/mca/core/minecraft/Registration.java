@@ -38,6 +38,7 @@ public class Registration {
         ActivityMCA.init();
         ParticleTypesMCA.init();
         SchedulesMCA.init();
+        MessagesMCA.register();
         //SoundsMCA.register(); //TODO SoundsMCA.register()
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -50,7 +51,6 @@ public class Registration {
         MEMORY_MODULE_TYPES.register(modEventBus);
         ACTIVITIES.register(modEventBus);
         SCHEDULES.register(modEventBus);
-
     }
 
     private static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {

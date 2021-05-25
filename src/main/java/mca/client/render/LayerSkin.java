@@ -17,14 +17,14 @@ public class LayerSkin extends LayerVillager<EntityVillagerMCA, ModelVillagerMCA
     @Override
     String getTexture(EntityVillagerMCA villager) {
         EnumGender gender = EnumGender.byId(villager.gender.get());
-        int skin = (int) Math.min(9, Math.max(0, villager.GENE_SKIN.get() * 10));
+        int skin = (int) Math.min(9, Math.max(0, villager.gene_skin.get() * 10));
         return String.format("mca:skins/skin/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
     }
 
     @Override
     float[] getColor(EntityVillagerMCA villager) {
-        float melanin = villager.GENE_MELANIN.get();
-        float hemoglobin = villager.GENE_HEMOGLOBIN.get();
+        float melanin = villager.gene_melanin.get();
+        float hemoglobin = villager.gene_hemoglobin.get();
         double[] color = SkinColors.getColor(melanin, hemoglobin);
         return new float[]{(float) color[0], (float) color[1], (float) color[2]};
     }

@@ -2,7 +2,7 @@ package mca.items;
 
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.world.CWorld;
-import mca.client.gui.GuiNameBaby;
+import cobalt.network.NetworkHandler;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
@@ -10,10 +10,12 @@ import mca.entity.data.ParentPair;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
+import mca.network.OpenGuiRequest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -55,14 +57,6 @@ public class ItemBaby extends Item {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private void openScreen(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-        if (world.isClientSide && getBabyName(stack).equals("")) {
-            Minecraft.getInstance().setScreen(new GuiNameBaby(player, stack));
-        }
-    }
-
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         CWorld cworld = CWorld.fromMC(world);
@@ -74,7 +68,11 @@ public class ItemBaby extends Item {
         int posZ = pos.getZ();
 
         // Right-clicking an unnamed baby allows you to name it
-        openScreen(world, player, hand);
+        if (getBabyName(stack).equals("")) {
+            if (player instanceof ServerPlayerEntity) {
+                NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.BABY_NAME), (ServerPlayerEntity) player);
+            }
+        }
 
         if (!cworld.isClientSide && isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
             EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), world);
