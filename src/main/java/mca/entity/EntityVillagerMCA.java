@@ -165,7 +165,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CFloatParameter[] GENES = new CFloatParameter[]{
             GENE_SIZE, GENE_WIDTH, GENE_BREAST, GENE_MELANIN, GENE_HEMOGLOBIN, GENE_EUMELANIN, GENE_PHEOMELANIN, GENE_SKIN, GENE_FACE};
     public int procreateTick = -1;
-    private float swingProgressTicks;
     @Nullable
     private PlayerEntity interactingPlayer;
 
@@ -928,7 +927,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     private void onEachClientSecond() {
         if (random.nextBoolean()) {
-            if (getMoodLevel() <= -3) {
+            if (getMoodLevel() <= -10) {
                 switch (getPersonality().getMoodGroup()) {
                     case GENERAL:
                         this.addParticlesAroundSelf(ParticleTypes.SPLASH);
@@ -944,7 +943,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                         break;
                 }
 
-            } else if (getMoodLevel() >= 3) {
+            } else if (getMoodLevel() >= 10) {
                 this.addParticlesAroundSelf(ParticleTypes.HAPPY_VILLAGER);
             }
         }
