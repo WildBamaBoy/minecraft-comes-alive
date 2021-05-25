@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:ingots/rose_gold",
+    "#forge:ingots/gold"
+  ]
+}

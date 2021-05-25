@@ -16,9 +16,9 @@ public class ItemModelProviderMCA extends ItemModelProvider {
     protected void registerModels() {
         withExistingParent("rose_gold_block", modLoc("block/rose_gold_block"));
         withExistingParent("rose_gold_ore", modLoc("block/rose_gold_ore"));
-        withExistingParent("villager_spawner", modLoc("block/villager_spawner"));
-        withExistingParent("tombstone", modLoc("block/tombstone"));
-        withExistingParent("jeweler_workbench", modLoc("block/jeweler_workbench"));
+        //withExistingParent("villager_spawner", modLoc("block/villager_spawner"));
+        //withExistingParent("tombstone", modLoc("block/tombstone"));
+        //withExistingParent("jeweler_workbench", modLoc("block/jeweler_workbench"));
 
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
 
