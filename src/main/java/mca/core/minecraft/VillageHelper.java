@@ -2,11 +2,9 @@ package mca.core.minecraft;
 
 import cobalt.minecraft.world.CWorld;
 import mca.core.MCA;
-import mca.entity.data.Building;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,9 +29,7 @@ public class VillageHelper {
     private static final Map<UUID, Integer> playerVillagePositions = new HashMap<>();
 
     public static void tick(CWorld world) {
-        if (world.isClientSide) {
-
-        } else {
+        if (!world.isClientSide) {
             //keep track on where player are currently in
             if (world.getMcWorld().getDayTime() % 100 == 0) {
                 world.getMcWorld().players().forEach((player) -> {
@@ -41,9 +37,14 @@ public class VillageHelper {
                     if (playerVillagePositions.containsKey(player.getUUID())) {
                         int id = playerVillagePositions.get(player.getUUID());
                         Village village = VillageManagerData.get(world).villages.get(id);
-                        if (!isWithinVillage(village, player)) {
-                            player.sendMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUUID());
+                        if (village == null) {
+                            //TODO world switch may trigger left village notification
                             playerVillagePositions.remove(player.getUUID());
+                        } else {
+                            if (!isWithinVillage(village, player)) {
+                                player.sendMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUUID());
+                                playerVillagePositions.remove(player.getUUID());
+                            }
                         }
                     } else {
                         Village village = getNearestVillage(player);
@@ -62,10 +63,6 @@ public class VillageHelper {
 //        });
         }
 
-    }
-
-    private static void manageVillages(CWorld world) {
-        VillageManagerData.get(world);
     }
 
 //    public static void forceSpawnGuards(PlayerEntity player) {

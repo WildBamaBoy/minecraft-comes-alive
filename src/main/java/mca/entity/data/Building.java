@@ -1,10 +1,9 @@
 package mca.entity.data;
 
 import mca.enums.BuildingType;
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
+import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.state.properties.BedPart;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,15 +11,18 @@ import net.minecraft.world.World;
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Building implements Serializable {
     private final BuildingType type;
+    private int size;
     private final Set<UUID> residents;
+    private final Queue<String> residentNames;
 
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
 
-    private final Map<String, Integer> blocks;
+    private final Map<String, List<Long>> blocks;
 
     private int id;
 
@@ -40,7 +42,15 @@ public class Building implements Serializable {
         type = BuildingType.HOUSE;
 
         residents = ConcurrentHashMap.newKeySet();
+        residentNames = new LinkedBlockingQueue<>();
         blocks = new ConcurrentHashMap<>();
+    }
+
+    public void addResident(Entity e) {
+        if (!residents.contains(e.getUUID())) {
+            residents.add(e.getUUID());
+            residentNames.add(e.getName().getString());
+        }
     }
 
     public BlockPos getPos0() {
@@ -123,9 +133,15 @@ public class Building implements Serializable {
                 ez = Math.max(ez, pos.getZ());
 
                 //count blocks types
-                Block block = world.getBlockState(pos).getBlock();
-                if (block instanceof BedBlock) {
-                    blocks.put("bed", blocks.getOrDefault("bed", 0) + 1);
+                BlockState blockState = world.getBlockState(pos);
+                Block block = blockState.getBlock();
+                if (block.getBlock() instanceof CraftingTableBlock) {
+                    String str = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
+                    blocks.computeIfAbsent(str, (a) -> new ArrayList<>()).add(pos.asLong());
+                } else if (block instanceof BedBlock) {
+                    if (blockState.getValue(BedBlock.PART) == BedPart.HEAD) {
+                        blocks.computeIfAbsent("bed", (a) -> new ArrayList<>()).add(pos.asLong());
+                    }
                 }
             }
 
@@ -137,6 +153,8 @@ public class Building implements Serializable {
             pos1X = ex;
             pos1Y = ey;
             pos1Z = ez;
+
+            size = done.size();
 
             return true;
         } else {
@@ -152,7 +170,7 @@ public class Building implements Serializable {
         return residents;
     }
 
-    public Map<String, Integer> getBlocks() {
+    public Map<String, List<Long>> getBlocks() {
         return blocks;
     }
 
@@ -176,5 +194,17 @@ public class Building implements Serializable {
 
     public boolean isIdentical(Building b) {
         return pos0X == b.pos0X && pos1X == b.pos1X && pos0Y == b.pos0Y && pos1Y == b.pos1Y && pos0Z == b.pos0Z && pos1Z == b.pos1Z;
+    }
+
+    public int getBeds() {
+        if (blocks.containsKey("bed")) {
+            return blocks.get("bed").size();
+        } else {
+            return 0;
+        }
+    }
+
+    public Queue<String> getResidentNames() {
+        return residentNames;
     }
 }

@@ -228,9 +228,14 @@ public class GuiBlueprint extends Screen {
                 //name
                 lines.add(new StringTextComponent(hoverBuilding.getType().name()));
 
+                //residents
+                for (String name : hoverBuilding.getResidentNames()) {
+                    lines.add(new StringTextComponent(name));
+                }
+
                 //debug
-                for (Map.Entry<String, Integer> block : hoverBuilding.getBlocks().entrySet()) {
-                    lines.add(new StringTextComponent(block.getKey() + ": " + block.getValue() + "x"));
+                for (Map.Entry<String, List<Long>> block : hoverBuilding.getBlocks().entrySet()) {
+                    lines.add(new StringTextComponent(block.getKey() + ": " + block.getValue().size() + "x"));
                 }
 
                 //render

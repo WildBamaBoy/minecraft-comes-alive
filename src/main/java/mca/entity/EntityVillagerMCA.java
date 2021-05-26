@@ -112,6 +112,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             MemoryModuleTypeMCA.PLAYER_FOLLOWING,
             MemoryModuleTypeMCA.STAYING
     );
+
     private static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(
             SensorType.NEAREST_LIVING_ENTITIES,
             SensorType.NEAREST_PLAYERS,
@@ -123,6 +124,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             SensorType.SECONDARY_POIS,
             SensorType.GOLEM_DETECTED
     );
+
     public final CDataManager data = new CDataManager(this);
     public final CInventory inventory;
     public final CWorld world;
@@ -168,7 +170,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     public CIntegerParameter village = data.newInteger("village", -1);
     public CIntegerParameter building = data.newInteger("buildings", -1);
-  
+
     @Nullable
     private PlayerEntity interactingPlayer;
     public int procreateTick = -1;
@@ -470,34 +472,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public void tick() {
         super.tick();
 
-        //extremely high scan rate, this is debug, don't worry
-        if (tickCount % 100 == 0 && !world.isClientSide) {
-            reportBuildings();
-
-            //poor villager has no home
-            if (village.get() == -1) {
-                Village v = VillageHelper.getNearestVillage(this);
-                if (v != null) {
-                    village.set(v.getId());
-                }
-            }
-
-            if (village.get() >= 0 && building.get() == -1) {
-                Village v = VillageManagerData.get(world).villages.get(this.village.get());
-                if (v == null) {
-                    village.set(-1);
-                } else {
-                    for (Building b : v.getBuildings().values()) {
-                        if (b.getResidents().size() == 0) {
-                            building.set(b.getId());
-                            b.getResidents().add(getUUID());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
         if (world.isClientSide) {
             onEachClientUpdate();
         } else {
@@ -659,17 +633,23 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
     }
 
+    private boolean setHome(BlockPos pos, World world) {
+        //check if it is a bed
+        if (this.level.getBlockState(pos).is(BlockTags.BEDS)) {
+            this.brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(world.dimension(), pos));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void setHome(PlayerEntity player) {
         //check if it is a bed
-        if (this.level.getBlockState(player.blockPosition()).is(BlockTags.BEDS)) {
+        if (setHome(player.blockPosition(), player.level)) {
             say(player, "interaction.sethome.success");
-            this.brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(player.level.dimension(), player.blockPosition()));
         } else {
-            //THIS MUST TELL THE PLAYER THAT THE PLAYER MUST STAND IN A BED
             say(player, "interaction.sethome.fail");
-
         }
-
     }
 
     public void say(PlayerEntity target, String phraseId, String... params) {
@@ -978,10 +958,64 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
     }
 
+    private void updateVillage() {
+        //extremely high scan rate, this is debug, don't worry
+        if (tickCount % 100 == 0) {
+            reportBuildings();
+
+            //poor villager has no home
+            if (village.get() == -1) {
+                Village v = VillageHelper.getNearestVillage(this);
+                if (v != null) {
+                    village.set(v.getId());
+                }
+            }
+
+            //and no house
+            if (village.get() >= 0 && building.get() == -1) {
+                Village v = VillageManagerData.get(world).villages.get(this.village.get());
+                if (v == null) {
+                    village.set(-1);
+                } else {
+                    //choose the first building available
+                    for (Building b : v.getBuildings().values()) {
+                        if (b.getBeds() > b.getResidents().size()) {
+                            //get a bed
+                            //TODO this completely ignores the old bed assignment system and might assign to a already used bed
+                            Long bed = b.getBlocks().get("bed").get(b.getResidents().size());
+                            setHome(BlockPos.of(bed), level);
+
+                            //add to residents
+                            building.set(b.getId());
+                            b.addResident(this);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (tickCount % 1000 == 0) {
+            //check if village still exists
+            Village v = VillageManagerData.get(world).villages.get(this.village.get());
+            if (v == null) {
+                village.set(-1);
+                building.set(-1);
+            } else {
+                //check if building still exists
+                if (!v.getBuildings().containsKey(building.get())) {
+                    building.set(-1);
+                }
+            }
+        }
+    }
+
     private void onEachServerUpdate() {
         if (this.tickCount % 20 == 0) { // Every second
             onEachServerSecond();
         }
+
+        updateVillage();
 
         if (this.tickCount % 200 == 0 && this.getHealth() > 0.0F) { // Every 10 seconds and when we're not already dead
             if (this.getHealth() < this.getMaxHealth()) {

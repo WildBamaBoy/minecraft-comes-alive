@@ -152,7 +152,9 @@ public class Village implements Serializable {
     public int getMaxPopulation() {
         int residents = 0;
         for (Building b : buildings.values()) {
-            residents += b.getBlocks().getOrDefault("bed", 1);
+            if (b.getBlocks().containsKey("bed")) {
+                residents += b.getBlocks().get("bed").size();
+            }
         }
         return residents;
     }

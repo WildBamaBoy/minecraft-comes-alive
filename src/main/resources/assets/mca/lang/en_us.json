@@ -388,9 +388,9 @@
     "childp.interaction.sethome.success3": "Okay, but I want the biggest room!",
     "child.interaction.sethome.success1": "This is cool I guess.",
 
-    "adult.interaction.sethome.fail1": "This doesn't look like a safe home point for me. There's some %v1% in the way.",
-    "adult.interaction.sethome.fail2": "Is there another place nearby? There's some %v1% in the way.",
-    "adult.interaction.sethome.fail3": "I can't have my home point here. There's some %v1% in the way.",
+    "adult.interaction.sethome.fail1": "This doesn't look like a safe home point for me.",
+    "adult.interaction.sethome.fail2": "Is there another place nearby?",
+    "adult.interaction.sethome.fail3": "I can't have my home point here.",
 
     "adult.interaction.setworkplace.success1": "Sure thing, %v1%.",
     "spouse.interaction.setworkplace.success1": "I really like this place.",
