@@ -34,6 +34,7 @@ public class API {
     private static final List<String> maleNames = new ArrayList<>();
     private static final List<String> femaleNames = new ArrayList<>();
     private static final List<ClothingGroup> clothing = new ArrayList<>();
+    private static final Map<String, BuildingType> buildingTypes = new HashMap<>();
     private static final List<HairGroup> hair = new ArrayList<>();
     private static final Map<String, NameSet> nameSets = new HashMap<>();
     private static String[] supporters;
@@ -48,6 +49,11 @@ public class API {
         // Load skins
         Collections.addAll(clothing, Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class));
         Collections.addAll(hair, Util.readResourceAsJSON("api/hair.json", HairGroup[].class));
+
+        BuildingType[] bts = Util.readResourceAsJSON("api/buildingTypes.json", BuildingType[].class);
+        for (BuildingType bt : bts) {
+            buildingTypes.put(bt.getName(), bt);
+        }
 
         nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
         supporters = Util.readResourceAsJSON("api/supporters.json", String[].class);
@@ -285,5 +291,13 @@ public class API {
 
     public static String getRandomSupporter() {
         return supporters[rng.nextInt(supporters.length)];
+    }
+
+    public static Map<String, BuildingType> getBuildingTypes() {
+        return buildingTypes;
+    }
+
+    public static BuildingType getBuildingType(String type) {
+        return buildingTypes.containsKey(type) ? buildingTypes.get(type) : new BuildingType();
     }
 }

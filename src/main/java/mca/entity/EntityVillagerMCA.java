@@ -62,6 +62,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextComponent;
+import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.DifficultyInstance;
@@ -479,22 +480,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
     }
 
-    //report potential buildings within this villagers reach
-    private void reportBuildings() {
-        VillageManagerData manager = VillageManagerData.get(world);
-
-        //fetch all near POIs
-        Stream<BlockPos> stream = ((ServerWorld) level).getPoiManager().findAll(
-                PointOfInterestType.ALL,
-                (p) -> !manager.cache.contains(p),
-                getOnPos(),
-                48,
-                PointOfInterestManager.Status.ANY);
-
-        //check if it is a building
-        stream.forEach((pos) -> manager.reportBuilding(level, pos));
-    }
-
     public void sendMessageTo(String message, Entity receiver) {
         receiver.sendMessage(new StringTextComponent(message), receiver.getUUID());
     }
@@ -634,9 +619,17 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     private boolean setHome(BlockPos pos, World world) {
+        ServerWorld serverWorld = ((ServerWorld) level);
+        PointOfInterestManager poiManager = serverWorld.getPoiManager();
+        Optional<GlobalPos> bed = this.brain.getMemory(MemoryModuleType.HOME);
+        bed.ifPresent(globalPos -> poiManager.release(globalPos.pos()));
+
         //check if it is a bed
-        if (this.level.getBlockState(pos).is(BlockTags.BEDS)) {
-            this.brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(world.dimension(), pos));
+        if (level.getBlockState(pos).is(BlockTags.BEDS)) {
+            brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(world.dimension(), pos));
+            poiManager.take(PointOfInterestType.HOME.getPredicate(), (p) -> p.equals(pos), pos, 1);
+            serverWorld.broadcastEntityEvent(this, (byte) 14);
+
             return true;
         } else {
             return false;
@@ -958,12 +951,28 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
     }
 
+    //report potential buildings within this villagers reach
+    private void reportBuildings() {
+        VillageManagerData manager = VillageManagerData.get(world);
+
+        //fetch all near POIs
+        Stream<BlockPos> stream = ((ServerWorld) level).getPoiManager().findAll(
+                PointOfInterestType.ALL,
+                (p) -> !manager.cache.contains(p),
+                getOnPos(),
+                48,
+                PointOfInterestManager.Status.ANY);
+
+        //check if it is a building
+        stream.forEach((pos) -> manager.reportBuilding(level, pos));
+    }
+
     private void updateVillage() {
         //extremely high scan rate, this is debug, don't worry
         if (tickCount % 100 == 0) {
             reportBuildings();
 
-            //poor villager has no home
+            //poor villager has no village
             if (village.get() == -1) {
                 Village v = VillageHelper.getNearestVillage(this);
                 if (v != null) {
@@ -977,18 +986,28 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 if (v == null) {
                     village.set(-1);
                 } else {
-                    //choose the first building available
-                    for (Building b : v.getBuildings().values()) {
+                    //choose the first building available, shuffled
+                    ArrayList<Building> buildings = new ArrayList<>(v.getBuildings().values());
+                    Collections.shuffle(buildings);
+                    for (Building b : buildings) {
                         if (b.getBeds() > b.getResidents().size()) {
-                            //get a bed
-                            //TODO this completely ignores the old bed assignment system and might assign to a already used bed
-                            Long bed = b.getBlocks().get("bed").get(b.getResidents().size());
-                            setHome(BlockPos.of(bed), level);
+                            //find a free bed within the building
+                            Optional<PointOfInterest> bed = ((ServerWorld) level).getPoiManager().getInSquare(
+                                    PointOfInterestType.HOME.getPredicate(),
+                                    b.getCenter(),
+                                    b.getPos0().distManhattan(b.getPos1()),
+                                    PointOfInterestManager.Status.HAS_SPACE).filter((poi) -> b.containsPos(poi.getPos())).findAny();
 
-                            //add to residents
-                            building.set(b.getId());
-                            b.addResident(this);
-                            break;
+                            //sometimes the bed is blocked by someone
+                            if (bed.isPresent()) {
+                                //get a bed
+                                setHome(bed.get().getPos(), level);
+
+                                //add to residents
+                                building.set(b.getId());
+                                b.addResident(this);
+                                break;
+                            }
                         }
                     }
                 }

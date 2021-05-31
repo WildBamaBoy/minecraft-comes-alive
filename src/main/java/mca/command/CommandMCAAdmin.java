@@ -8,6 +8,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mca.core.Constants;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;
@@ -24,8 +25,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class CommandMCAAdmin {

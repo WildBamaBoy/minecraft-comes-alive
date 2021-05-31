@@ -1,6 +1,7 @@
 package mca.entity.data;
 
-import mca.enums.BuildingType;
+import mca.api.API;
+import mca.api.types.BuildingType;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.properties.BedPart;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Building implements Serializable {
-    private final BuildingType type;
+    private String type;
     private int size;
     private final Set<UUID> residents;
     private final Queue<String> residentNames;
@@ -39,7 +40,7 @@ public class Building implements Serializable {
         pos1Y = pos0Y;
         pos1Z = pos0Z;
 
-        type = BuildingType.HOUSE;
+        type = "house";
 
         residents = ConcurrentHashMap.newKeySet();
         residentNames = new LinkedBlockingQueue<>();
@@ -102,11 +103,11 @@ public class Building implements Serializable {
                         done.add(n);
 
                         //if not solid, continue
-                        if (block.isAir()) {
+                        if (block.isAir() && !world.canSeeSky(n)) {
                             queue.add(n);
                         } else if (block.getBlock().getBlock() instanceof DoorBlock) {
                             //skip door and start a new room
-                            //queue.add(n.relative(d));
+                            queue.add(n.relative(d));
                         }
                     }
                 }
@@ -156,13 +157,32 @@ public class Building implements Serializable {
 
             size = done.size();
 
+            //determine type
+            int bestPriority = -1;
+            for (BuildingType bt : API.getBuildingTypes().values()) {
+                if (bt.getPriority() > bestPriority && size >= bt.getSize()) {
+                    boolean valid = true;
+                    for (Map.Entry<String, Integer> block : bt.getBlocks().entrySet()) {
+                        if (blocks.containsKey(block.getKey()) && blocks.get(block.getKey()).size() < block.getValue()) {
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    if (valid) {
+                        bestPriority = bt.getPriority();
+                        type = bt.getName();
+                    }
+                }
+            }
+
             return true;
         } else {
             return false;
         }
     }
 
-    public BuildingType getType() {
+    public String getType() {
         return type;
     }
 

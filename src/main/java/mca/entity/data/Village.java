@@ -1,11 +1,12 @@
 package mca.entity.data;
 
-import cobalt.minecraft.world.CWorld;
 import mca.api.API;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumRank;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -22,6 +23,10 @@ public class Village implements Serializable {
     private int populationThreshold;
     private int marriageThreshold;
 
+    //todo move tasks to own class
+    private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "grimReaper"};
+    private boolean[] tasks;
+
     public Village(int id) {
         this.id = id;
         name = API.getRandomVillageName("village");
@@ -36,11 +41,22 @@ public class Village implements Serializable {
     public void addBuilding(Building building) {
         buildings.put(building.getId(), building);
         calculateDimensions();
+        checkTasks();
     }
 
     public void removeBuilding(int id) {
         buildings.remove(id);
         calculateDimensions();
+        checkTasks();
+    }
+
+    private void checkTasks() {
+        tasks = new boolean[8];
+
+        //big house
+        tasks[0] = buildings.values().stream().anyMatch((b) -> b.getType().equals("bigHouse"));
+        tasks[1] = buildings.values().stream().anyMatch((b) -> b.getType().equals("storage"));
+        tasks[2] = buildings.values().stream().anyMatch((b) -> b.getType().equals("inn"));
     }
 
     private void calculateDimensions() {
@@ -119,15 +135,23 @@ public class Village implements Serializable {
         this.marriageThreshold = marriageThreshold;
     }
 
+    public static String[] getTaskNames() {
+        return taskNames;
+    }
+
+    public boolean[] getTasks() {
+        return tasks;
+    }
+
     public int getReputation(PlayerEntity player) {
         int sum = 0;
         int residents = 5; //we slightly favor bigger villages
         for (Building b : buildings.values()) {
             for (UUID v : b.getResidents()) {
-                Entity villager = CWorld.fromMC(player.level).getEntityByUUID(v);
-                if (villager instanceof EntityVillagerMCA) {
-                    EntityVillagerMCA resident = (EntityVillagerMCA) villager;
-                    sum += resident.getMemoriesForPlayer(player).getHearts();
+                Entity entity = ((ServerWorld) player.level).getEntity(v);
+                if (entity instanceof EntityVillagerMCA) {
+                    EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+                    sum += villager.getMemoriesForPlayer(player).getHearts();
                     residents++;
                 }
             }
@@ -135,10 +159,25 @@ public class Village implements Serializable {
         return sum / residents;
     }
 
-    public int getRank(int reputation) {
-        //TODO we don't have any buildings yet, so we directly use reputation
-        int rank = (reputation + 5) / 20;
-        return Math.min(6, Math.max(0, rank));
+    public int tasksCompleted() {
+        for (int i = 0; i < tasks.length; i++) {
+            if (!tasks[i]) {
+                return i + 1;
+            }
+        }
+        return tasks.length;
+    }
+
+    public EnumRank getRank(int reputation) {
+        EnumRank rank = EnumRank.fromReputation(reputation);
+        int t = tasksCompleted();
+        for (int i = 0; i <= rank.getId(); i++) {
+            EnumRank r = EnumRank.fromRank(i);
+            if (t < r.getTasks()) {
+                return r;
+            }
+        }
+        return rank;
     }
 
     public int getPopulation() {

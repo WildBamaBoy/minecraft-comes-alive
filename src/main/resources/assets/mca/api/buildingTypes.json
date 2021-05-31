@@ -1,0 +1,29 @@
+[
+  {
+    "name": "house",
+    "size": 0,
+    "color": "ffffffff",
+    "priority": 0,
+    "blocks": {
+      "bed": 1
+    }
+  },
+  {
+    "name": "bigHouse",
+    "size": 8,
+    "color": "ffffffff",
+    "priority": 0,
+    "blocks": {
+      "bed": 3
+    }
+  },
+  {
+    "name": "fletcher",
+    "size": 0,
+    "color": "ffff0000",
+    "priority": 1,
+    "blocks": {
+      "minecraft:fletching_table": 1
+    }
+  }
+]

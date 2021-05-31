@@ -2,9 +2,12 @@ package mca.client.gui;
 
 import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mca.api.API;
+import mca.api.types.BuildingType;
 import mca.core.MCA;
 import mca.entity.data.Building;
 import mca.entity.data.Village;
+import mca.enums.EnumRank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
@@ -27,6 +30,8 @@ import java.util.function.Consumer;
 public class GuiBlueprint extends Screen {
     private Village village;
     private int reputation;
+
+    private boolean showCatalog;
 
     //gui element Y positions
     private final int positionTaxes = -60;
@@ -91,11 +96,14 @@ public class GuiBlueprint extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new GetVillageRequest());
 
+        showCatalog = false;
+
         addButton(new Button(width / 2 - 66, height / 2 + 80, 64, 20, new StringTextComponent("Exit"), (b) -> Minecraft.getInstance().setScreen(null)));
         addButton(new Button(width / 2 + 2, height / 2 + 80, 64, 20, new StringTextComponent("Add Building"), (b) -> {
             NetworkHandler.sendToServer(new ReportBuildingMessage());
             NetworkHandler.sendToServer(new GetVillageRequest());
         }));
+        addButton(new Button(width / 2 - fromCenter - 32, height / 2 + 80, 64, 20, new StringTextComponent("Catalog"), (b) -> showCatalog = !showCatalog));
 
         //taxes
         buttonTaxes = createValueChanger(width / 2 + fromCenter, height / 2 + positionTaxes + 10, 80, 20, (b) -> changeTaxes(b ? 10 : -10));
@@ -126,7 +134,44 @@ public class GuiBlueprint extends Screen {
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
-        if (village != null) {
+        if (showCatalog) {
+            //title
+            transform.pushPose();
+            transform.scale(2.0f, 2.0f, 2.0f);
+            drawCenteredString(transform, font, "Building Catalog", width / 4, height / 4 - 55, 0xffffffff);
+            transform.popPose();
+
+            //explanation
+            drawCenteredString(transform, font, "Available buildings", width / 2, height / 2 - 90, 0xffffffff);
+            drawCenteredString(transform, font, "Hover on a building on a map to see what's missing", width / 2, height / 2 - 80, 0xffffffff);
+
+            //buildings
+            int row = 0;
+            int col = 0;
+            int width = 128;
+            int height = 64;
+            int spacing = 8;
+            for (BuildingType bt : API.getBuildingTypes().values()) {
+                int x = width / 2 - fromCenter * (col - 1);
+                int y = row * (height + spacing) + 128;
+                rectangle(transform, x - width / 2, y - height / 2, x + width / 2, y + height / 2, 0x88ffffff);
+                drawCenteredString(transform, font, MCA.localize("buildingType." + bt.getName()), x, y, bt.getColor());
+                drawCenteredString(transform, font, MCA.localize("gui.building.size", String.valueOf(bt.getSize())), x, y + 16, bt.getColor());
+
+                //required blocks
+                int i = 0;
+                for (Map.Entry<String, Integer> b : bt.getBlocks().entrySet()) {
+                    i++;
+                    drawCenteredString(transform, font, b.getValue() + "x" + b.getKey(), x, y + 16 + 12 * i, bt.getColor());
+                }
+
+                col++;
+                if (col == 3) {
+                    col = 0;
+                    row++;
+                }
+            }
+        } else if (village != null && minecraft != null) {
             //name
             transform.pushPose();
             transform.scale(2.0f, 2.0f, 2.0f);
@@ -143,23 +188,23 @@ public class GuiBlueprint extends Screen {
             buttonMarriage[0].setMessage(new StringTextComponent(village.getMarriageThreshold() + "%"));
 
             //rank
-            int rank = village.getRank(reputation) + 2;
+            EnumRank rank = village.getRank(reputation);
             String rankStr = MCA.localize("gui.village.rank." + rank);
-            int rankColor = rank == 0 ? 0xffff0000 : 0xffffff00;
+            int rankColor = rank.getId() == 0 ? 0xffff0000 : 0xffffff00;
             drawCenteredString(transform, font, MCA.localize("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
-            drawCenteredString(transform, font, MCA.localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank == 0 ? 0xffff0000 : 0xffffffff);
+            drawCenteredString(transform, font, MCA.localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.getId() == 0 ? 0xffff0000 : 0xffffffff);
 
             //tasks
-            int lineHeight = 12;
-            drawCenteredString(transform, font, MCA.localize("Next rank progress:"), width / 2 - fromCenter, height / 2 - 22, 0xffffffff);
-            drawCenteredString(transform, font, MCA.localize("Reach 50 reputation"), width / 2 - fromCenter, height / 2 - 20 + lineHeight, 0xff00ff00);
-            drawCenteredString(transform, font, MCA.localize("Build stuff"), width / 2 - fromCenter, height / 2 - 20 + lineHeight * 2, 0xffffffff);
-            drawCenteredString(transform, font, MCA.localize("Build more stuff"), width / 2 - fromCenter, height / 2 - 20 + lineHeight * 3, 0xffffffff);
-            drawCenteredString(transform, font, MCA.localize("Find Bama"), width / 2 - fromCenter, height / 2 - 20 + lineHeight * 4, 0xffffffff);
+            String str = MCA.localize("task.reputation", String.valueOf(rank.getReputation()));
+            drawCenteredString(transform, font, str, width / 2 - fromCenter, height / 2 - 22, reputation >= rank.getReputation() ? 0xff00ff00 : 0xffff0000);
+            for (int i = 0; i < Village.getTaskNames().length; i++) {
+                String task = Village.getTaskNames()[i];
+                drawCenteredString(transform, font, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks()[i] ? 0xff00ff00 : 0xffff0000);
+            }
 
             //taxes
             drawCenteredString(transform, font, MCA.localize("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
-            if (rank < rankTaxes) {
+            if (rank.getId() < rankTaxes) {
                 drawCenteredString(transform, font, MCA.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
                 toggleButtons(buttonTaxes, false);
             } else {
@@ -167,7 +212,7 @@ public class GuiBlueprint extends Screen {
             }
 
             drawCenteredString(transform, font, MCA.localize("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
-            if (rank < rankBirth) {
+            if (rank.getId() < rankBirth) {
                 drawCenteredString(transform, font, MCA.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
                 toggleButtons(buttonBirths, false);
             } else {
@@ -175,19 +220,18 @@ public class GuiBlueprint extends Screen {
             }
 
             drawCenteredString(transform, font, MCA.localize("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
-            if (rank < rankMarriage) {
+            if (rank.getId() < rankMarriage) {
                 drawCenteredString(transform, font, MCA.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
                 toggleButtons(buttonMarriage, false);
             } else {
                 toggleButtons(buttonMarriage, true);
             }
-        }
 
-        //map
-        int mapSize = 70;
-        rectangle(transform, width / 2 - mapSize, height / 2 - mapSize, width / 2 + mapSize, height / 2 + mapSize, 0xffffff88);
 
-        if (village != null && minecraft != null) {
+            //map
+            int mapSize = 70;
+            rectangle(transform, width / 2 - mapSize, height / 2 - mapSize, width / 2 + mapSize, height / 2 + mapSize, 0xffffff88);
+
             transform.pushPose();
 
             //center and scale the map
@@ -207,11 +251,13 @@ public class GuiBlueprint extends Screen {
             int mouseX = (int) ((mouseRawX - width / 2.0) / sc + village.getCenter().getX());
             int mouseY = (int) ((mouseRawY - height / 2.0) / sc + village.getCenter().getZ());
 
+            //buildings
             Building hoverBuilding = null;
             for (Building building : village.getBuildings().values()) {
                 BlockPos p0 = building.getPos0();
                 BlockPos p1 = building.getPos1();
-                rectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), 0xffffffff);
+                BuildingType bt = API.getBuildingType(building.getType());
+                rectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
 
                 //tooltip
                 int margin = 2;
@@ -226,7 +272,8 @@ public class GuiBlueprint extends Screen {
                 List<ITextComponent> lines = new LinkedList<>();
 
                 //name
-                lines.add(new StringTextComponent(hoverBuilding.getType().name()));
+                BuildingType bt = API.getBuildingType(hoverBuilding.getType());
+                lines.add(MCA.localizeText("buildingType." + bt.getName()));
 
                 //residents
                 for (String name : hoverBuilding.getResidentNames()) {

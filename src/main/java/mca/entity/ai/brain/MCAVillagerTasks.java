@@ -99,7 +99,6 @@ public class MCAVillagerTasks {
     public static ImmutableList<Pair<Integer, ? extends Task<? super EntityVillagerMCA>>> getRestPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.HOME, speedModifier, 1, 150, 1200)),
-                Pair.of(3, new ExpirePOITask(PointOfInterestType.HOME, MemoryModuleType.HOME)),
                 Pair.of(3, new SleepAtHomeTask()),
                 Pair.of(5, new FirstShuffledTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleStatus.VALUE_ABSENT),
                         ImmutableList.of(
