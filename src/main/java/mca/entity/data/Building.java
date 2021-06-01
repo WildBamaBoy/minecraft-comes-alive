@@ -40,7 +40,7 @@ public class Building implements Serializable {
         pos1Y = pos0Y;
         pos1Z = pos0Z;
 
-        type = "house";
+        type = "building";
 
         residents = ConcurrentHashMap.newKeySet();
         residentNames = new LinkedBlockingQueue<>();
@@ -116,7 +116,8 @@ public class Building implements Serializable {
             size++;
         }
 
-        if (queue.isEmpty() && done.size() > 10) {
+        // min size is 32, which equals a 8 block big cube with 6 times 4 sides
+        if (queue.isEmpty() && done.size() > 32) {
             //dimensions
             int sx = center.getX();
             int sy = center.getY();
@@ -163,7 +164,7 @@ public class Building implements Serializable {
                 if (bt.getPriority() > bestPriority && size >= bt.getSize()) {
                     boolean valid = true;
                     for (Map.Entry<String, Integer> block : bt.getBlocks().entrySet()) {
-                        if (blocks.containsKey(block.getKey()) && blocks.get(block.getKey()).size() < block.getValue()) {
+                        if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()).size() < block.getValue()) {
                             valid = false;
                             break;
                         }

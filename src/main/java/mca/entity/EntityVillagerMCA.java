@@ -1022,7 +1022,13 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 building.set(-1);
             } else {
                 //check if building still exists
-                if (!v.getBuildings().containsKey(building.get())) {
+                if (v.getBuildings().containsKey(building.get())) {
+                    //check if still resident
+                    //this is a rare case and is in most cases a save corruptionption
+                    if (v.getBuildings().get(building.get()).getResidents().stream().noneMatch((uuid) -> uuid.equals(this.uuid))) {
+                        building.set(-1);
+                    }
+                } else {
                     building.set(-1);
                 }
             }

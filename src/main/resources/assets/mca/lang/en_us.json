@@ -142,7 +142,13 @@
     "gui.village.rank": "Rank: %v1%",
     "gui.village.reputation": "Reputation: %v1%",
 
-    "gui.building.size": "%v1%+ blocks",
+    "gui.building.size": "size: %v1% blocks",
+    "gui.building.anySize": "size: any",
+
+    "buildingType.building": "Building",
+    "buildingType.house": "House",
+    "buildingType.bigHouse": "Big House",
+    "buildingType.fletcher": "Fletcher",
 
     "gui.village.rank.0": "Outlaw",
     "gui.village.rank.1": "Peasant",
@@ -153,9 +159,9 @@
 
     "task.reputation": "Reach %v1% total hearts",
     "task.buildBigHouse": "Build a bigger house",
-    "task.buildStorage": "Build a storage to collect your taxes",
-    "task.buildInn": "Build an inn to attract special guests",
-    "task.grimReaper": "Kill the Grim Reaper to prove yourself worthy",
+    "task.buildStorage": "Build a storage",
+    "task.buildInn": "Build an inn",
+    "task.grimReaper": "Kill the Grim Reaper",
 
     "gui.button.debug.startraid": "Start Raid",
     "gui.button.debug.spawnguards": "Spawn Guards",
