@@ -5,6 +5,7 @@ import mca.api.types.BuildingType;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.properties.BedPart;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -137,13 +138,19 @@ public class Building implements Serializable {
                 //count blocks types
                 BlockState blockState = world.getBlockState(pos);
                 Block block = blockState.getBlock();
+                String key = null;
                 if (block.getBlock() instanceof CraftingTableBlock) {
-                    String str = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
-                    blocks.computeIfAbsent(str, (a) -> new ArrayList<>()).add(pos.asLong());
+                    key = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
+                } else if (block.is(BlockTags.ANVIL)) {
+                    key = "anvil";
                 } else if (block instanceof BedBlock) {
                     if (blockState.getValue(BedBlock.PART) == BedPart.HEAD) {
-                        blocks.computeIfAbsent("bed", (a) -> new ArrayList<>()).add(pos.asLong());
+                        key = "bed";
                     }
+                }
+
+                if (key != null) {
+                    blocks.computeIfAbsent(key, (a) -> new ArrayList<>()).add(pos.asLong());
                 }
             }
 

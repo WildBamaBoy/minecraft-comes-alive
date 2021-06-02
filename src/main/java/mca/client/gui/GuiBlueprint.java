@@ -15,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -158,26 +157,28 @@ public class GuiBlueprint extends Screen {
             int h = 55;
             int spacing = 8;
             for (BuildingType bt : API.getBuildingTypes().values()) {
-                int x = width / 2 + fromCenter * (col - 1);
-                int y = row * (h + spacing) + 105;
-                rectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
-                drawCenteredString(transform, font, MCA.localize("buildingType." + bt.getName()), x, y - 24, bt.getColor());
+                if (bt.isVisible()) {
+                    int x = width / 2 + fromCenter * (col - 1);
+                    int y = row * (h + spacing) + 105;
+                    rectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
+                    drawCenteredString(transform, font, MCA.localize("buildingType." + bt.getName()), x, y - 24, bt.getColor());
 
-                //size
-                String size = bt.getSize() == 0 ? MCA.localize("gui.building.anySize") : MCA.localize("gui.building.size", String.valueOf(bt.getSize()));
-                drawCenteredString(transform, font, size, x, y - 12, 0xffdddddd);
+                    //size
+                    String size = bt.getSize() == 0 ? MCA.localize("gui.building.anySize") : MCA.localize("gui.building.size", String.valueOf(bt.getSize()));
+                    drawCenteredString(transform, font, size, x, y - 12, 0xffdddddd);
 
-                //required blocks
-                int i = 0;
-                for (Map.Entry<String, Integer> b : bt.getBlocks().entrySet()) {
-                    i++;
-                    drawCenteredString(transform, font, b.getValue() + " x " + getBlockName(b.getKey()), x, y - 12 + 12 * i, 0xffffffff);
-                }
+                    //required blocks
+                    int i = 0;
+                    for (Map.Entry<String, Integer> b : bt.getBlocks().entrySet()) {
+                        i++;
+                        drawCenteredString(transform, font, b.getValue() + " x " + getBlockName(b.getKey()), x, y - 12 + 12 * i, 0xffffffff);
+                    }
 
-                col++;
-                if (col == 3) {
-                    col = 0;
-                    row++;
+                    col++;
+                    if (col == 3) {
+                        col = 0;
+                        row++;
+                    }
                 }
             }
         } else if (village != null && minecraft != null) {
@@ -283,6 +284,7 @@ public class GuiBlueprint extends Screen {
                 //name
                 BuildingType bt = API.getBuildingType(hoverBuilding.getType());
                 lines.add(MCA.localizeText("buildingType." + bt.getName()));
+                lines.add(MCA.localizeText("gui.building.size", String.valueOf(bt.getSize())));
 
                 //residents
                 for (String name : hoverBuilding.getResidentNames()) {

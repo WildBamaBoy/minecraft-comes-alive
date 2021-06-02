@@ -12,6 +12,7 @@ public class BuildingType {
     final int size;
     final String color;
     final int priority;
+    final boolean visible;
 
     final Map<String, Integer> blocks;
 
@@ -21,6 +22,7 @@ public class BuildingType {
         color = "ffffffff";
         priority = 0;
         blocks = new HashMap<>();
+        visible = true;
     }
 
     public String getName() {
@@ -41,5 +43,9 @@ public class BuildingType {
 
     public Map<String, Integer> getBlocks() {
         return blocks;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 }

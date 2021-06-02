@@ -3,15 +3,20 @@ package mca.entity.data;
 import mca.api.API;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumRank;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Village implements Serializable {
     private final int id;
@@ -22,6 +27,8 @@ public class Village implements Serializable {
     private int taxes;
     private int populationThreshold;
     private int marriageThreshold;
+
+    public List<ItemStack> storageBuffer;
 
     //todo move tasks to own class
     private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "grimReaper"};
@@ -36,6 +43,7 @@ public class Village implements Serializable {
         marriageThreshold = 50;
 
         buildings = new HashMap<>();
+        storageBuffer = new LinkedList<>();
     }
 
     public void addBuilding(Building building) {
@@ -196,5 +204,51 @@ public class Village implements Serializable {
             }
         }
         return residents;
+    }
+
+    public void deliverTaxes(ServerWorld world) {
+        if (storageBuffer.size() > 0) {
+            buildings.values().stream().filter((b) -> b.getType().equals("inn")).filter((b) -> world.isLoaded(b.getCenter())).forEach((b) -> {
+                if (b.getBlocks().containsKey("minecraft:chest")) {
+                    b.getBlocks().get("minecraft:chest").forEach((pos) -> {
+                        IInventory inventory = getInventoryAt(world, BlockPos.of(pos));
+
+                        //TODO is there really no prebuilt add method?
+                        if (inventory != null) {
+                            while (storageBuffer.size() > 0) {
+                                for (int i = 0; i < inventory.getContainerSize(); i++) {
+                                    if (inventory.getItem(i).isEmpty()) {
+                                        inventory.setItem(i, storageBuffer.remove(0));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    //dafuq, revalidate building?
+                }
+
+                if (b.getBlocks().containsKey("minecraft:lecters")) {
+                    //update the tax report
+                }
+            });
+        }
+    }
+
+    //returns an inventory at given position
+    private IInventory getInventoryAt(ServerWorld world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        Block block = blockState.getBlock();
+        if (blockState.hasTileEntity() && block instanceof ChestBlock) {
+            TileEntity tileentity = world.getBlockEntity(pos);
+            if (tileentity instanceof IInventory) {
+                IInventory inventory = (IInventory) tileentity;
+                if (inventory instanceof ChestTileEntity) {
+                    return ChestBlock.getContainer((ChestBlock) block, blockState, world, pos, true);
+                }
+            }
+        }
+        return null;
     }
 }

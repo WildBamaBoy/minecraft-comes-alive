@@ -1,17 +1,27 @@
 [
   {
+    "name": "blocked",
+    "size": 0,
+    "color": "00000000",
+    "visible": false,
+    "priority": 0,
+    "blocks": {
+    }
+  },
+  {
     "name": "building",
     "size": 0,
     "color": "ffdddddd",
+    "visible": false,
     "priority": 0,
     "blocks": {
-
     }
   },
   {
     "name": "house",
     "size": 0,
     "color": "ffffffff",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "bed": 1
@@ -20,19 +30,34 @@
   {
     "name": "bigHouse",
     "size": 8,
-    "color": "ffffffff",
+    "color": "ff03fca1",
+    "visible": true,
     "priority": 3,
     "blocks": {
       "bed": 3
     }
   },
   {
-    "name": "fletcher",
-    "size": 0,
+    "name": "blacksmith",
+    "size": 24,
     "color": "ffff0000",
-    "priority": 2,
+    "visible": true,
+    "priority": 4,
     "blocks": {
-      "minecraft:fletching_table": 1
+      "minecraft:grindstone": 1,
+      "minecraft:blast_furnace": 2,
+      "anvil": 1
+    }
+  },
+  {
+    "name": "storage",
+    "size": 16,
+    "color": "ffff00ff",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:lectern": 1,
+      "minecraft:chest": 4
     }
   }
 ]

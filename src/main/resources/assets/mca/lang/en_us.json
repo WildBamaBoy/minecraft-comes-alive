@@ -133,6 +133,7 @@
 
     "gui.village.left": "You left %v1%.",
     "gui.village.welcome": "Welcome to %v1%!",
+    "gui.village.taxes": "%v1% paid their taxes!",
 
     "gui.village.taxes": "Taxes",
     "gui.village.birth": "Birth limit",

@@ -5,6 +5,9 @@ import mca.core.MCA;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -51,9 +54,16 @@ public class VillageHelper {
                         if (village != null) {
                             player.sendMessage(MCA.localizeText("gui.village.welcome", village.getName()), player.getUUID());
                             playerVillagePositions.put(player.getUUID(), village.getId());
+                            village.deliverTaxes((ServerWorld) world.getMcWorld());
                         }
                     }
                 });
+            }
+
+            //taxes time
+            long time = world.getMcWorld().getGameTime();
+            if (time % 24000 == 0) {
+                updateTaxes(world);
             }
 
 //        world.getVillageCollection().getVillageList().forEach(v -> {
@@ -63,6 +73,20 @@ public class VillageHelper {
 //        });
         }
 
+    }
+
+    private static void updateTaxes(CWorld world) {
+        Collection<Village> villages = VillageManagerData.get(world).villages.values();
+        for (Village village : villages) {
+            int taxes = village.getPopulation() * village.getTaxes() + world.rand.nextInt(100);
+            int emeraldValue = 100;
+            int emeraldCount = taxes / emeraldValue;
+
+            village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
+            village.deliverTaxes((ServerWorld) world.getMcWorld());
+
+            world.getMcWorld().players().forEach((player) -> player.sendMessage(MCA.localizeText("gui.village.taxes", village.getName()), player.getUUID()));
+        }
     }
 
 //    public static void forceSpawnGuards(PlayerEntity player) {
