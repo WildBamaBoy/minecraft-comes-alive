@@ -618,11 +618,19 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
     }
 
-    private boolean setHome(BlockPos pos, World world) {
+
+    private void clearHome() {
         ServerWorld serverWorld = ((ServerWorld) level);
         PointOfInterestManager poiManager = serverWorld.getPoiManager();
         Optional<GlobalPos> bed = this.brain.getMemory(MemoryModuleType.HOME);
         bed.ifPresent(globalPos -> poiManager.release(globalPos.pos()));
+    }
+
+    private boolean setHome(BlockPos pos, World world) {
+        clearHome();
+
+        ServerWorld serverWorld = ((ServerWorld) level);
+        PointOfInterestManager poiManager = serverWorld.getPoiManager();
 
         //check if it is a bed
         if (level.getBlockState(pos).is(BlockTags.BEDS)) {
@@ -969,7 +977,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     private void updateVillage() {
         //extremely high scan rate, this is debug, don't worry
-        if (tickCount % 100 == 0) {
+        if (tickCount % 600 == 0) {
             reportBuildings();
 
             //poor villager has no village
@@ -1014,22 +1022,25 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             }
         }
 
-        if (tickCount % 1000 == 0) {
+        if (tickCount % 6000 == 0) {
             //check if village still exists
             Village v = VillageManagerData.get(world).villages.get(this.village.get());
             if (v == null) {
                 village.set(-1);
                 building.set(-1);
+                clearHome();
             } else {
                 //check if building still exists
                 if (v.getBuildings().containsKey(building.get())) {
                     //check if still resident
                     //this is a rare case and is in most cases a save corruptionption
-                    if (v.getBuildings().get(building.get()).getResidents().stream().noneMatch((uuid) -> uuid.equals(this.uuid))) {
+                    if (v.getBuildings().get(building.get()).getResidents().keySet().stream().noneMatch((uuid) -> uuid.equals(this.uuid))) {
                         building.set(-1);
+                        clearHome();
                     }
                 } else {
                     building.set(-1);
+                    clearHome();
                 }
             }
         }

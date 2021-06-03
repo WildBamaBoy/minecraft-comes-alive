@@ -76,6 +76,11 @@ public class VillageHelper {
     }
 
     private static void updateTaxes(CWorld world) {
+        if (true) {
+            //WIP
+            return;
+        }
+
         Collection<Village> villages = VillageManagerData.get(world).villages.values();
         for (Village village : villages) {
             int taxes = village.getPopulation() * village.getTaxes() + world.rand.nextInt(100);

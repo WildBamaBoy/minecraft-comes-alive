@@ -38,9 +38,9 @@ public class GuiBlueprint extends Screen {
     private final int positionBirth = -10;
     private final int positionMarriage = 40;
 
-    private final int rankTaxes = 1;
-    private final int rankBirth = 2;
-    private final int rankMarriage = 3;
+    private final int rankTaxes = 100;
+    private final int rankBirth = 1;
+    private final int rankMarriage = 1;
 
     private final int fromCenter = 150;
 
@@ -148,7 +148,7 @@ public class GuiBlueprint extends Screen {
 
             //explanation
             drawCenteredString(transform, font, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
-            drawCenteredString(transform, font, "Hover on a building on the map to see what's missing", width / 2, height / 2 - 80, 0xffffffff);
+            drawCenteredString(transform, font, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
 
             //buildings
             int row = 0;
@@ -215,7 +215,7 @@ public class GuiBlueprint extends Screen {
             //taxes
             drawCenteredString(transform, font, MCA.localize("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
             if (rank.getId() < rankTaxes) {
-                drawCenteredString(transform, font, MCA.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
+                drawCenteredString(transform, font, MCA.localize("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
                 toggleButtons(buttonTaxes, false);
             } else {
                 toggleButtons(buttonTaxes, true);
@@ -284,16 +284,16 @@ public class GuiBlueprint extends Screen {
                 //name
                 BuildingType bt = API.getBuildingType(hoverBuilding.getType());
                 lines.add(MCA.localizeText("buildingType." + bt.getName()));
-                lines.add(MCA.localizeText("gui.building.size", String.valueOf(bt.getSize())));
+                lines.add(MCA.localizeText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
 
                 //residents
-                for (String name : hoverBuilding.getResidentNames()) {
+                for (String name : hoverBuilding.getResidents().values()) {
                     lines.add(new StringTextComponent(name));
                 }
 
                 //present blocks
-                for (Map.Entry<String, List<Long>> block : hoverBuilding.getBlocks().entrySet()) {
-                    lines.add(new StringTextComponent(block.getValue().size() + " x " + getBlockName(block.getKey())));
+                for (Map.Entry<String, Integer> block : hoverBuilding.getBlocks().entrySet()) {
+                    lines.add(new StringTextComponent(block.getValue() + " x " + getBlockName(block.getKey())));
                 }
 
                 //render

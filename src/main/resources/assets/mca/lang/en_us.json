@@ -38,6 +38,7 @@
     "item.mca.book_family": "Managing Your Family Vol. XI",
     "item.mca.book_rose_gold": "On Rose Gold",
     "item.mca.book_infection": "Beware the Infection!",
+    "item.mca.blueprint": "blueprint",
     "block.mca.villager_spawner": "Villager Spawner",
     "block.mca.rose_gold_block": "Rose Gold Block",
     "block.mca.rose_gold_ore": "Rose Gold Ore",
@@ -134,6 +135,7 @@
     "gui.village.left": "You left %v1%.",
     "gui.village.welcome": "Welcome to %v1%!",
     "gui.village.taxes": "%v1% paid their taxes!",
+    "gui.village.taxesNotImplemented": "WIP feature, please be patient!",
 
     "gui.village.taxes": "Taxes",
     "gui.village.birth": "Birth limit",
@@ -149,7 +151,8 @@
     "buildingType.building": "Building",
     "buildingType.house": "House",
     "buildingType.bigHouse": "Big House",
-    "buildingType.fletcher": "Fletcher",
+    "buildingType.blacksmith": "blacksmith",
+    "buildingType.storage": "storage",
 
     "gui.village.rank.0": "Outlaw",
     "gui.village.rank.1": "Peasant",
@@ -163,6 +166,7 @@
     "task.buildStorage": "Build a storage",
     "task.buildInn": "Build an inn",
     "task.grimReaper": "Kill the Grim Reaper",
+    "task.bePatient": "Work in progress - be patient!",
 
     "gui.button.debug.startraid": "Start Raid",
     "gui.button.debug.spawnguards": "Spawn Guards",

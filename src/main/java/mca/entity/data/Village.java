@@ -1,5 +1,6 @@
 package mca.entity.data;
 
+import cobalt.minecraft.nbt.CNBT;
 import mca.api.API;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumRank;
@@ -10,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -19,9 +22,9 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Village implements Serializable {
-    private final int id;
+    private int id;
     private final Map<Integer, Building> buildings;
-    private final String name;
+    private String name;
     private int centerX, centerY, centerZ;
     private int size;
     private int taxes;
@@ -31,11 +34,10 @@ public class Village implements Serializable {
     public List<ItemStack> storageBuffer;
 
     //todo move tasks to own class
-    private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "grimReaper"};
+    private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "bePatient"};
     private boolean[] tasks;
 
-    public Village(int id) {
-        this.id = id;
+    public Village() {
         name = API.getRandomVillageName("village");
         size = 32;
 
@@ -44,6 +46,13 @@ public class Village implements Serializable {
 
         buildings = new HashMap<>();
         storageBuffer = new LinkedList<>();
+
+        checkTasks();
+    }
+
+    public Village(int id) {
+        this();
+        this.id = id;
     }
 
     public void addBuilding(Building building) {
@@ -155,7 +164,7 @@ public class Village implements Serializable {
         int sum = 0;
         int residents = 5; //we slightly favor bigger villages
         for (Building b : buildings.values()) {
-            for (UUID v : b.getResidents()) {
+            for (UUID v : b.getResidents().keySet()) {
                 Entity entity = ((ServerWorld) player.level).getEntity(v);
                 if (entity instanceof EntityVillagerMCA) {
                     EntityVillagerMCA villager = (EntityVillagerMCA) entity;
@@ -200,7 +209,7 @@ public class Village implements Serializable {
         int residents = 0;
         for (Building b : buildings.values()) {
             if (b.getBlocks().containsKey("bed")) {
-                residents += b.getBlocks().get("bed").size();
+                residents += b.getBlocks().get("bed");
             }
         }
         return residents;
@@ -209,29 +218,19 @@ public class Village implements Serializable {
     public void deliverTaxes(ServerWorld world) {
         if (storageBuffer.size() > 0) {
             buildings.values().stream().filter((b) -> b.getType().equals("inn")).filter((b) -> world.isLoaded(b.getCenter())).forEach((b) -> {
-                if (b.getBlocks().containsKey("minecraft:chest")) {
-                    b.getBlocks().get("minecraft:chest").forEach((pos) -> {
-                        IInventory inventory = getInventoryAt(world, BlockPos.of(pos));
-
-                        //TODO is there really no prebuilt add method?
-                        if (inventory != null) {
-                            while (storageBuffer.size() > 0) {
-                                for (int i = 0; i < inventory.getContainerSize(); i++) {
-                                    if (inventory.getItem(i).isEmpty()) {
-                                        inventory.setItem(i, storageBuffer.remove(0));
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    //dafuq, revalidate building?
-                }
-
-                if (b.getBlocks().containsKey("minecraft:lecters")) {
-                    //update the tax report
-                }
+//                IInventory inventory = getInventoryAt(world, BlockPos.of(pos));
+//
+//                //TODO is there really no prebuilt add method?
+//                if (inventory != null) {
+//                    while (storageBuffer.size() > 0) {
+//                        for (int i = 0; i < inventory.getContainerSize(); i++) {
+//                            if (inventory.getItem(i).isEmpty()) {
+//                                inventory.setItem(i, storageBuffer.remove(0));
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
             });
         }
     }
@@ -250,5 +249,47 @@ public class Village implements Serializable {
             }
         }
         return null;
+    }
+
+    public CNBT save() {
+        CNBT v = CNBT.createNew();
+
+        v.setInteger("id", id);
+        v.setString("name", name);
+        v.setInteger("centerX", centerX);
+        v.setInteger("centerY", centerY);
+        v.setInteger("centerZ", centerZ);
+        v.setInteger("size", size);
+        v.setInteger("taxes", taxes);
+        v.setInteger("populationThreshold", populationThreshold);
+        v.setInteger("marriageThreshold", marriageThreshold);
+
+        ListNBT buildingsList = new ListNBT();
+        for (Building building : buildings.values()) {
+            buildingsList.add(building.save().getMcCompound());
+        }
+        v.setList("buildings", buildingsList);
+
+        return v;
+    }
+
+    public void load(CNBT v) {
+        id = v.getInteger("id");
+        name = v.getString("name");
+        centerX = v.getInteger("centerX");
+        centerY = v.getInteger("centerY");
+        centerZ = v.getInteger("centerZ");
+        size = v.getInteger("size");
+        taxes = v.getInteger("taxes");
+        populationThreshold = v.getInteger("populationThreshold");
+        marriageThreshold = v.getInteger("marriageThreshold");
+
+        ListNBT b = v.getCompoundList("buildings");
+        for (int i = 0; i < b.size(); i++) {
+            CompoundNBT c = b.getCompound(i);
+            Building building = new Building();
+            building.load(CNBT.fromMC(c));
+            buildings.put(building.getId(), building);
+        }
     }
 }

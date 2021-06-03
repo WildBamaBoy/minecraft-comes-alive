@@ -117,6 +117,10 @@ public class CNBT implements Serializable {
         return mcCompound.getList(key, 9);
     }
 
+    public ListNBT getCompoundList(String key) {
+        return mcCompound.getList(key, 10);
+    }
+
     public BlockPos getBlockPos(String key) {
         int x, y, z;
 

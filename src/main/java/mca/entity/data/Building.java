@@ -1,9 +1,12 @@
 package mca.entity.data;
 
+import cobalt.minecraft.nbt.CNBT;
 import mca.api.API;
 import mca.api.types.BuildingType;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BedPart;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
@@ -13,18 +16,16 @@ import net.minecraft.world.World;
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Building implements Serializable {
     private String type;
     private int size;
-    private final Set<UUID> residents;
-    private final Queue<String> residentNames;
+    private final Map<UUID, String> residents;
 
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
 
-    private final Map<String, List<Long>> blocks;
+    private final Map<String, Integer> blocks;
 
     private int id;
 
@@ -32,7 +33,16 @@ public class Building implements Serializable {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
 
+    public Building() {
+        type = "building";
+
+        residents = new ConcurrentHashMap<>();
+        blocks = new ConcurrentHashMap<>();
+    }
+
     public Building(BlockPos pos) {
+        this();
+
         pos0X = pos.getX();
         pos0Y = pos.getY();
         pos0Z = pos.getZ();
@@ -40,18 +50,11 @@ public class Building implements Serializable {
         pos1X = pos0X;
         pos1Y = pos0Y;
         pos1Z = pos0Z;
-
-        type = "building";
-
-        residents = ConcurrentHashMap.newKeySet();
-        residentNames = new LinkedBlockingQueue<>();
-        blocks = new ConcurrentHashMap<>();
     }
 
     public void addResident(Entity e) {
-        if (!residents.contains(e.getUUID())) {
-            residents.add(e.getUUID());
-            residentNames.add(e.getName().getString());
+        if (!residents.containsKey(e.getUUID())) {
+            residents.put(e.getUUID(), e.getName().getString());
         }
     }
 
@@ -150,7 +153,7 @@ public class Building implements Serializable {
                 }
 
                 if (key != null) {
-                    blocks.computeIfAbsent(key, (a) -> new ArrayList<>()).add(pos.asLong());
+                    blocks.put(key, blocks.getOrDefault(key, 0) + 1);
                 }
             }
 
@@ -171,7 +174,7 @@ public class Building implements Serializable {
                 if (bt.getPriority() > bestPriority && size >= bt.getSize()) {
                     boolean valid = true;
                     for (Map.Entry<String, Integer> block : bt.getBlocks().entrySet()) {
-                        if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()).size() < block.getValue()) {
+                        if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()) < block.getValue()) {
                             valid = false;
                             break;
                         }
@@ -194,11 +197,11 @@ public class Building implements Serializable {
         return type;
     }
 
-    public Set<UUID> getResidents() {
+    public Map<UUID, String> getResidents() {
         return residents;
     }
 
-    public Map<String, List<Long>> getBlocks() {
+    public Map<String, Integer> getBlocks() {
         return blocks;
     }
 
@@ -225,14 +228,68 @@ public class Building implements Serializable {
     }
 
     public int getBeds() {
-        if (blocks.containsKey("bed")) {
-            return blocks.get("bed").size();
-        } else {
-            return 0;
-        }
+        return blocks.getOrDefault("bed", 0);
     }
 
-    public Queue<String> getResidentNames() {
-        return residentNames;
+    public int getSize() {
+        return size;
+    }
+
+    public CNBT save() {
+        CNBT v = CNBT.createNew();
+
+        v.setInteger("id", id);
+        v.setInteger("size", size);
+        v.setInteger("pos0X", pos0X);
+        v.setInteger("pos0Y", pos0Y);
+        v.setInteger("pos1Z", pos0Z);
+        v.setInteger("pos1X", pos1X);
+        v.setInteger("pos1Y", pos1Y);
+        v.setInteger("pos1Z", pos1Z);
+        v.setString("type", type);
+
+        ListNBT residentsList = new ListNBT();
+        for (Map.Entry<UUID, String> resident : residents.entrySet()) {
+            CNBT entry = CNBT.createNew();
+            entry.setUUID("uuid", resident.getKey());
+            entry.setString("name", resident.getValue());
+            residentsList.add(entry.getMcCompound());
+        }
+        v.setList("residents", residentsList);
+
+        ListNBT blockList = new ListNBT();
+        for (Map.Entry<String, Integer> block : blocks.entrySet()) {
+            CNBT entry = CNBT.createNew();
+            entry.setString("name", block.getKey());
+            entry.setInteger("count", block.getValue());
+            blockList.add(entry.getMcCompound());
+        }
+        v.setList("blocks", blockList);
+
+        return v;
+    }
+
+    public void load(CNBT v) {
+        id = v.getInteger("id");
+        size = v.getInteger("size");
+        pos0X = v.getInteger("pos0X");
+        pos0Y = v.getInteger("pos0Y");
+        pos0Z = v.getInteger("pos0Z");
+        pos1X = v.getInteger("pos1X");
+        pos1Y = v.getInteger("pos1Y");
+        pos1Z = v.getInteger("pos1Z");
+        type = v.getString("type");
+
+        ListNBT res = v.getCompoundList("residents");
+        for (int i = 0; i < res.size(); i++) {
+            CompoundNBT c = res.getCompound(i);
+            residents.put(c.getUUID("uuid"), c.getString("name"));
+        }
+
+        ListNBT bl = v.getCompoundList("blocks");
+        for (int i = 0; i < bl.size(); i++) {
+            CompoundNBT c = bl.getCompound(i);
+            blocks.put(c.getString("name"), c.getInt("count"));
+        }
     }
 }
