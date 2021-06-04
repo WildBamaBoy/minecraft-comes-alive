@@ -135,7 +135,7 @@
     "gui.village.left": "You left %v1%.",
     "gui.village.welcome": "Welcome to %v1%!",
     "gui.village.taxes": "%v1% paid their taxes!",
-    "gui.village.taxesNotImplemented": "WIP feature, please be patient!",
+    "gui.village.taxesNotImplemented": "WIP, please be patient!",
 
     "gui.village.taxes": "Taxes",
     "gui.village.birth": "Birth limit",
@@ -308,7 +308,6 @@
 
     "events.marry": "%v1% and %v2% are now married!",
     "events.baby": "%v1% and %v2% have born a baby!",
-    "events.village": "My village is %v1% blocks big and has %v2% villager out of %v3% possible doors.",
 
     "villager.hurt1": "Ow! That hurt!",
     "villager.hurt2": "I'll get you for that!",

@@ -269,7 +269,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         initializeSkin();
         initializePersonality();
 
-        //TODO big problem here, the profession changing AI...
         setProfession(ProfessionsMCA.randomProfession());
 
         return iLivingEntityData;
@@ -285,7 +284,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public final void setProfession(VillagerProfession profession) {
-        this.setVillagerData(this.getVillagerData().setProfession(profession));
+        //this.setVillagerData(this.getVillagerData().setProfession(profession));
+        refreshBrain((ServerWorld) level);
+        clothes.set(API.getRandomClothing(this));
+        //TODO a way to optionally lock automatic profession search
     }
 
     @Override
@@ -354,15 +356,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         super.readAdditionalSaveData(nbt);
 
         data.load(CNBT.fromMC(nbt));
-
-        //verify clothes and hair
-        clothes.set(API.getNextClothing(this, nbt.getString("clothes"), 0));
-        Hair h = API.getNextHair(this, new Hair(
-                hair.get(),
-                hairOverlay.get()
-        ), 0);
-        hair.set(h.getTexture());
-        hairOverlay.set(h.getOverlay());
 
         //set speed
         float speed = 1.0f;
@@ -852,7 +845,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());
-//                applySpecialAI();
                 break;
             case "gui.button.prospecting":
                 startChore(EnumChore.PROSPECT, player);
@@ -878,19 +870,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 closeGUIIfOpen();
                 stopChore();
                 break;
-            case "gui.button.village":
-                //Village village = VillageHelper.findClosestVillage(world, this.getPos());
-                //TODO somebody decided to remove villages....
-//                if (village != null) {
-//                    String phrase = MCA.localize("events.village",
-//                            String.valueOf(village.getVillageRadius()),
-//                            String.valueOf(village.getNumVillagers()),
-//                            String.valueOf(village.getNumVillageDoors())
-//                    );
-//                    player.sendMessage(phrase);
-//                } else {
-                sendMessageTo("I wasn't able to find a village.", player);
-//                }
         }
     }
 
@@ -976,7 +955,6 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     private void updateVillage() {
-        //extremely high scan rate, this is debug, don't worry
         if (tickCount % 600 == 0) {
             reportBuildings();
 
@@ -1014,6 +992,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                                 //add to residents
                                 building.set(b.getId());
                                 b.addResident(this);
+                                v.lastMoveIn = world.getMcWorld().getGameTime();
                                 break;
                             }
                         }
@@ -1047,13 +1026,15 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     private void onEachServerUpdate() {
-        if (this.tickCount % 20 == 0) { // Every second
+        // Every second
+        if (this.tickCount % 20 == 0) {
             onEachServerSecond();
         }
 
         updateVillage();
 
-        if (this.tickCount % 200 == 0 && this.getHealth() > 0.0F) { // Every 10 seconds and when we're not already dead
+        // Every 10 seconds and when we're not already dead
+        if (this.tickCount % 200 == 0 && this.getHealth() > 0.0F) {
             if (this.getHealth() < this.getMaxHealth()) {
                 this.setHealth(this.getHealth() + 1.0F); // heal
             }
@@ -1098,8 +1079,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                 EntityVillagerMCA child = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), level);
                 child.gender.set(gender.getId());
                 child.setPos(this.getX(), this.getY(), this.getZ());
-                //noinspection OptionalGetWithoutIsPresent
-                child.parents.set(ParentPair.create(this.getUUID(), this.spouseUUID.get().get(), villagerName.get(), spouseName.get()).toNBT());
+                child.parents.set(ParentPair.create(this.getUUID(), spouseUUID.get().orElse(Constants.ZERO_UUID), villagerName.get(), spouseName.get()).toNBT());
                 world.spawnEntity(child);
 
                 hasBaby.set(false);
@@ -1202,22 +1182,24 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         this.interactingPlayer = player;
     }
 
-    private void updateSpecialPrices(PlayerEntity p_213762_1_) {
-        int i = this.getPlayerReputation(p_213762_1_);
+    private void updateSpecialPrices(PlayerEntity player) {
+        int i = this.getPlayerReputation(player);
         if (i != 0) {
             for (MerchantOffer merchantoffer : this.getOffers()) {
                 merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
             }
         }
 
-        if (p_213762_1_.hasEffect(Effects.HERO_OF_THE_VILLAGE)) {
-            EffectInstance effectinstance = p_213762_1_.getEffect(Effects.HERO_OF_THE_VILLAGE);
-            int k = effectinstance.getAmplifier();
+        if (player.hasEffect(Effects.HERO_OF_THE_VILLAGE)) {
+            EffectInstance effectinstance = player.getEffect(Effects.HERO_OF_THE_VILLAGE);
+            if (effectinstance != null) {
+                int k = effectinstance.getAmplifier();
 
-            for (MerchantOffer merchantoffer1 : this.getOffers()) {
-                double d0 = 0.3D + 0.0625D * (double) k;
-                int j = (int) Math.floor(d0 * (double) merchantoffer1.getBaseCostA().getCount());
-                merchantoffer1.addToSpecialPriceDiff(-Math.max(j, 1));
+                for (MerchantOffer merchantOffer : this.getOffers()) {
+                    double d0 = 0.3D + 0.0625D * (double) k;
+                    int j = (int) Math.floor(d0 * (double) merchantOffer.getBaseCostA().getCount());
+                    merchantOffer.addToSpecialPriceDiff(-Math.max(j, 1));
+                }
             }
         }
 

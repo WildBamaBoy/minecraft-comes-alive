@@ -8,7 +8,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mca.core.Constants;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityVillagerMCA;

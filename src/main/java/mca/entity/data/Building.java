@@ -3,7 +3,10 @@ package mca.entity.data;
 import cobalt.minecraft.nbt.CNBT;
 import mca.api.API;
 import mca.api.types.BuildingType;
-import net.minecraft.block.*;
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -86,12 +89,12 @@ public class Building implements Serializable {
         done.add(center);
 
         //const
-        final int maxSize = 1024;
+        final int maxSize = 1024 * 8;
         final int maxRadius = 16;
 
         //fill the building
-        int size = 0;
-        while (!queue.isEmpty() && size < maxSize) {
+        int scanSize = 0;
+        while (!queue.isEmpty() && scanSize < maxSize) {
             BlockPos p = queue.removeLast();
 
             //as long the max radius is not reached
@@ -117,11 +120,16 @@ public class Building implements Serializable {
                 }
             }
 
-            size++;
+            scanSize++;
         }
 
         // min size is 32, which equals a 8 block big cube with 6 times 4 sides
         if (queue.isEmpty() && done.size() > 32) {
+            //fetch all interesting block types
+            Set<String> blockTypes = new HashSet<>();
+            for (BuildingType bt : API.getBuildingTypes().values()) {
+                blockTypes.addAll(bt.getBlocks().keySet());
+            }
             //dimensions
             int sx = center.getX();
             int sy = center.getY();
@@ -142,17 +150,18 @@ public class Building implements Serializable {
                 BlockState blockState = world.getBlockState(pos);
                 Block block = blockState.getBlock();
                 String key = null;
-                if (block.getBlock() instanceof CraftingTableBlock) {
-                    key = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
-                } else if (block.is(BlockTags.ANVIL)) {
+                if (block.is(BlockTags.ANVIL)) {
                     key = "anvil";
                 } else if (block instanceof BedBlock) {
                     if (blockState.getValue(BedBlock.PART) == BedPart.HEAD) {
                         key = "bed";
                     }
+                } else {
+                    //TODO exclude stone blocks, at least in the gui
+                    key = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
                 }
 
-                if (key != null) {
+                if (blockTypes.contains(key)) {
                     blocks.put(key, blocks.getOrDefault(key, 0) + 1);
                 }
             }
@@ -171,7 +180,7 @@ public class Building implements Serializable {
             //determine type
             int bestPriority = -1;
             for (BuildingType bt : API.getBuildingTypes().values()) {
-                if (bt.getPriority() > bestPriority && size >= bt.getSize()) {
+                if (bt.getPriority() > bestPriority && sz >= bt.getSize()) {
                     boolean valid = true;
                     for (Map.Entry<String, Integer> block : bt.getBlocks().entrySet()) {
                         if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()) < block.getValue()) {
@@ -242,7 +251,7 @@ public class Building implements Serializable {
         v.setInteger("size", size);
         v.setInteger("pos0X", pos0X);
         v.setInteger("pos0Y", pos0Y);
-        v.setInteger("pos1Z", pos0Z);
+        v.setInteger("pos0Z", pos0Z);
         v.setInteger("pos1X", pos1X);
         v.setInteger("pos1Y", pos1Y);
         v.setInteger("pos1Z", pos1Z);

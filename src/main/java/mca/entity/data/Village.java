@@ -1,6 +1,7 @@
 package mca.entity.data;
 
 import cobalt.minecraft.nbt.CNBT;
+import cobalt.minecraft.world.CWorld;
 import mca.api.API;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumRank;
@@ -30,6 +31,7 @@ public class Village implements Serializable {
     private int taxes;
     private int populationThreshold;
     private int marriageThreshold;
+    public long lastMoveIn;
 
     public List<ItemStack> storageBuffer;
 
@@ -201,6 +203,19 @@ public class Village implements Serializable {
         int residents = 0;
         for (Building b : buildings.values()) {
             residents += b.getResidents().size();
+        }
+        return residents;
+    }
+
+    public List<EntityVillagerMCA> getResidents(CWorld world) {
+        List<EntityVillagerMCA> residents = new LinkedList<>();
+        for (Building b : buildings.values()) {
+            for (UUID uuid : b.getResidents().keySet()) {
+                Entity v = world.getEntityByUUID(uuid);
+                if (v instanceof EntityVillagerMCA) {
+                    residents.add((EntityVillagerMCA) v);
+                }
+            }
         }
         return residents;
     }
