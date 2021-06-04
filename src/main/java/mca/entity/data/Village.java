@@ -307,4 +307,10 @@ public class Village implements Serializable {
             buildings.put(building.getId(), building);
         }
     }
+
+    public void addResident(EntityVillagerMCA villager, int building) {
+        lastMoveIn = villager.level.getGameTime();
+        buildings.get(building).addResident(villager);
+        VillageManagerData.get(villager.world).setDirty();
+    }
 }

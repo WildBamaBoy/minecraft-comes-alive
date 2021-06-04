@@ -71,7 +71,7 @@ public class VillageHelper {
             if (time % 6000 == 0) {
                 Collection<Village> villages = VillageManagerData.get(world).villages.values();
                 for (Village v : villages) {
-                    if (v.lastMoveIn + moveInCooldown < world.getMcWorld().getGameTime()) {
+                    if (v.lastMoveIn + moveInCooldown < time) {
                         spawnGuards(world, v);
                         procreate(world, v);
                         marry(world, v);
@@ -102,7 +102,7 @@ public class VillageHelper {
 
     // if the population is low, find a couple and let them have a child
     private static void procreate(CWorld world, Village village) {
-        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 1.0f) {
+        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 100.0f) {
             int population = village.getPopulation();
             int maxPopulation = village.getMaxPopulation();
             if (population < maxPopulation * MCA.getConfig().childrenLimit / 100.0f) {
@@ -129,7 +129,7 @@ public class VillageHelper {
 
     // if the amount of couples is low, let them marry
     private static void marry(CWorld world, Village village) {
-        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 1.0f) {
+        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 100.0f) {
             //list all and lonely villagers
             List<EntityVillagerMCA> villagers = new LinkedList<>();
             List<EntityVillagerMCA> allVillagers = village.getResidents(world);

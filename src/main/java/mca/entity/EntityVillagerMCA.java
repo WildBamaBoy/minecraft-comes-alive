@@ -149,6 +149,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     public CIntegerParameter babyAge = data.newInteger("babyAge");
     public CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     public BlockPosParameter hangoutPos = data.newPos("hangoutPos");
+    public CBooleanParameter importantProfession = data.newBoolean("importantProfession", false);
 
     // genes
     public CFloatParameter gene_size = data.newFloat("gene_size");
@@ -284,10 +285,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public final void setProfession(VillagerProfession profession) {
-        //this.setVillagerData(this.getVillagerData().setProfession(profession));
+        this.setVillagerData(this.getVillagerData().setProfession(profession));
         refreshBrain((ServerWorld) level);
         clothes.set(API.getRandomClothing(this));
-        //TODO a way to optionally lock automatic profession search
+        importantProfession.set(true);
     }
 
     @Override
@@ -991,8 +992,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
                                 //add to residents
                                 building.set(b.getId());
-                                b.addResident(this);
-                                v.lastMoveIn = world.getMcWorld().getGameTime();
+                                v.addResident(this, b.getId());
                                 break;
                             }
                         }

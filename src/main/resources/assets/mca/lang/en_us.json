@@ -7,6 +7,7 @@
     "entity.minecraft.villager.pillager": "Pillager",
     "entity.minecraft.villager.miner": "Miner",
     "entity.minecraft.villager.baker": "Baker",
+    "entity.minecraft.villager.guard": "Guard",
     "entity.minecraft.villager.warrior": "Warrior",
     "entity.minecraft.villager.archer": "Archer",
     "entity.minecraft.villager.hero": "Hero",

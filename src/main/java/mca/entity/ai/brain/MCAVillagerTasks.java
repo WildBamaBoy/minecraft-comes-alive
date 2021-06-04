@@ -47,7 +47,7 @@ public class MCAVillagerTasks {
                 Pair.of(8, new FindJobTask(speedModifier)),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))),
-                Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ChangeJobTask())
+                Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ExtendedChangeJobTask())
         );
     }
 
