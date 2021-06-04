@@ -6,13 +6,13 @@ import mca.enums.EnumGender;
 @AllArgsConstructor
 public class HairGroup {
     private final String gender;
-    private final Hair[] paths;
+    private final int count;
 
     public EnumGender getGender() {
         return EnumGender.byName(gender);
     }
 
-    public Hair[] getPaths() {
-        return paths;
+    public int getCount() {
+        return count;
     }
 }

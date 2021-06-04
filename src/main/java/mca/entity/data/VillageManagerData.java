@@ -3,25 +3,28 @@ package mca.entity.data;
 import cobalt.minecraft.nbt.CNBT;
 import cobalt.minecraft.world.CWorld;
 import cobalt.minecraft.world.storage.CWorldSavedData;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class VillageManagerData extends CWorldSavedData {
-    public Set<BlockPos> cache;
     public Map<Integer, Village> villages;
     private int lastBuildingId;
     private int lastVillageId;
+
+    public Set<BlockPos> cache;
+    private final List<BlockPos> buildingQueue;
 
     public VillageManagerData(String id) {
         super(id);
 
         cache = ConcurrentHashMap.newKeySet();
         villages = new ConcurrentHashMap<>();
+        buildingQueue = new LinkedList<>();
     }
 
     public static VillageManagerData get(CWorld world) {
@@ -30,16 +33,48 @@ public class VillageManagerData extends CWorldSavedData {
 
     @Override
     public CNBT save(CNBT nbt) {
-        //TODO
+        nbt.setInteger("lastBuildingId", lastBuildingId);
+        nbt.setInteger("lastVillageId", lastVillageId);
+        ListNBT villageList = new ListNBT();
+        for (Village village : villages.values()) {
+            villageList.add(village.save().getMcCompound());
+        }
+        nbt.setList("villages", villageList);
         return nbt;
     }
 
     @Override
     public void load(CNBT nbt) {
-        //TODO
+        lastBuildingId = nbt.getInteger("lastBuildingId");
+        lastVillageId = nbt.getInteger("lastVillageId");
+
+        ListNBT v = nbt.getCompoundList("villages");
+        for (int i = 0; i < v.size(); i++) {
+            CompoundNBT c = v.getCompound(i);
+            Village village = new Village();
+            village.load(CNBT.fromMC(c));
+            villages.put(village.getId(), village);
+        }
     }
 
+    //adds a potential block to the processing queue
     public void reportBuilding(World world, BlockPos pos) {
+        //mark in cache
+        cache.add(pos);
+
+        buildingQueue.add(pos);
+    }
+
+    //process a single building
+    public void processNextBuildings(World world) {
+        if (!buildingQueue.isEmpty()) {
+            BlockPos pos = buildingQueue.remove(0);
+            processBuilding(world, pos);
+        }
+    }
+
+    //processed a building at given position
+    public void processBuilding(World world, BlockPos pos) {
         Village village = null;
         Building withinBuilding = null;
 
@@ -104,8 +139,5 @@ public class VillageManagerData extends CWorldSavedData {
                 setDirty();
             }
         }
-
-        //mark in cache
-        cache.add(pos);
     }
 }

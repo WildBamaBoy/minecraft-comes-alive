@@ -47,7 +47,7 @@ public class MCAVillagerTasks {
                 Pair.of(8, new FindJobTask(speedModifier)),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))),
                 Pair.of(10, new GatherPOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))),
-                Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ChangeJobTask())
+                Pair.of(10, new AssignProfessionTask()), Pair.of(10, new ExtendedChangeJobTask())
         );
     }
 
@@ -99,7 +99,6 @@ public class MCAVillagerTasks {
     public static ImmutableList<Pair<Integer, ? extends Task<? super EntityVillagerMCA>>> getRestPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
                 Pair.of(2, new StayNearPointTask(MemoryModuleType.HOME, speedModifier, 1, 150, 1200)),
-                Pair.of(3, new ExpirePOITask(PointOfInterestType.HOME, MemoryModuleType.HOME)),
                 Pair.of(3, new SleepAtHomeTask()),
                 Pair.of(5, new FirstShuffledTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleStatus.VALUE_ABSENT),
                         ImmutableList.of(

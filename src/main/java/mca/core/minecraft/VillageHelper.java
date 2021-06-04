@@ -1,17 +1,18 @@
 package mca.core.minecraft;
 
 import cobalt.minecraft.world.CWorld;
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.entity.data.Building;
+import mca.entity.EntityVillagerMCA;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.server.ServerWorld;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class VillageHelper {
     private static boolean isWithinVillage(Village village, Entity entity) {
@@ -31,9 +32,7 @@ public class VillageHelper {
     private static final Map<UUID, Integer> playerVillagePositions = new HashMap<>();
 
     public static void tick(CWorld world) {
-        if (world.isClientSide) {
-
-        } else {
+        if (!world.isClientSide) {
             //keep track on where player are currently in
             if (world.getMcWorld().getDayTime() % 100 == 0) {
                 world.getMcWorld().players().forEach((player) -> {
@@ -41,201 +40,139 @@ public class VillageHelper {
                     if (playerVillagePositions.containsKey(player.getUUID())) {
                         int id = playerVillagePositions.get(player.getUUID());
                         Village village = VillageManagerData.get(world).villages.get(id);
-                        if (!isWithinVillage(village, player)) {
-                            player.sendMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUUID());
+                        if (village == null) {
+                            //TODO world switch may trigger left village notification
                             playerVillagePositions.remove(player.getUUID());
+                        } else {
+                            if (!isWithinVillage(village, player)) {
+                                player.sendMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUUID());
+                                playerVillagePositions.remove(player.getUUID());
+                            }
                         }
                     } else {
                         Village village = getNearestVillage(player);
                         if (village != null) {
                             player.sendMessage(MCA.localizeText("gui.village.welcome", village.getName()), player.getUUID());
                             playerVillagePositions.put(player.getUUID(), village.getId());
+                            village.deliverTaxes((ServerWorld) world.getMcWorld());
                         }
                     }
                 });
             }
 
-//        world.getVillageCollection().getVillageList().forEach(v -> {
-//            spawnGuards(world, v);
-//            procreate(world, v);
-//            marry(world, v);
-//        });
+            //taxes time
+            long time = world.getMcWorld().getGameTime();
+            if (time % 24000 == 0) {
+                updateTaxes(world);
+            }
+
+            //update village overall mechanics
+            int moveInCooldown = 6000;
+            if (time % 6000 == 0) {
+                Collection<Village> villages = VillageManagerData.get(world).villages.values();
+                for (Village v : villages) {
+                    if (v.lastMoveIn + moveInCooldown < time) {
+                        spawnGuards(world, v);
+                        procreate(world, v);
+                        marry(world, v);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void updateTaxes(CWorld world) {
+        if (true) {
+            //WIP and nobody can stop me implementing them hehe
+            return;
         }
 
+        Collection<Village> villages = VillageManagerData.get(world).villages.values();
+        for (Village village : villages) {
+            int taxes = village.getPopulation() * village.getTaxes() + world.rand.nextInt(100);
+            int emeraldValue = 100;
+            int emeraldCount = taxes / emeraldValue;
+
+            village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
+            village.deliverTaxes((ServerWorld) world.getMcWorld());
+
+            world.getMcWorld().players().forEach((player) -> player.sendMessage(MCA.localizeText("gui.village.taxes", village.getName()), player.getUUID()));
+        }
     }
 
-    private static void manageVillages(CWorld world) {
-        VillageManagerData.get(world);
+    // if the population is low, find a couple and let them have a child
+    private static void procreate(CWorld world, Village village) {
+        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 100.0f) {
+            int population = village.getPopulation();
+            int maxPopulation = village.getMaxPopulation();
+            if (population < maxPopulation * MCA.getConfig().childrenLimit / 100.0f) {
+                // look for married women without baby
+                List<EntityVillagerMCA> villagers = village.getResidents(world);
+
+                if (villagers.size() > 0) {
+                    // choose a random
+                    EntityVillagerMCA villager = villagers.remove(world.rand.nextInt(villagers.size()));
+
+                    Entity spouse = world.getEntityByUUID(villager.spouseUUID.get().orElse(Constants.ZERO_UUID));
+                    if (spouse != null) {
+                        villager.hasBaby.set(true);
+                        villager.isBabyMale.set(world.rand.nextBoolean());
+
+                        // notify all players
+                        StringTextComponent phrase = MCA.localizeText("events.baby", villager.getName().getContents(), spouse.getName().getContents());
+                        world.getMcWorld().players().forEach((player) -> player.sendMessage(phrase, player.getUUID()));
+                    }
+                }
+            }
+        }
     }
 
-//    public static void forceSpawnGuards(PlayerEntity player) {
-//        Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
-//        spawnGuards(player.world, nearestVillage);
-//    }
-//
-//    public static void forceRaid(PlayerEntity player) {
-//        Village nearestVillage = player.world.getVillageCollection().getNearestVillage(player.getPosition(), 100);
-//        startRaid(player.world, nearestVillage);
-//    }
-//
-//    // if the population is low, find a couple and let them have a child
-//    private static void procreate(CWorld world, Village village) {
-//        if (world.rand.nextFloat() < MCA.getConfig().childrenChance / 1000.0f) {
-//            List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
-//            if (allVillagers.size() < village.getNumVillageDoors() * MCA.getConfig().childrenLimit / 100.0f) {
-//                // look for married women without baby
-//                List<EntityVillagerMCA> villagers = new ArrayList<>();
-//                for (EntityVillagerMCA v : allVillagers) {
-//                    if (v.isMarried() && !v.get(EntityVillagerMCA.hasBaby) && v.get(GENDER) == EnumGender.FEMALE.getId()) {
-//                        villagers.add(v);
-//                    }
-//                }
-//
-//                if (villagers.size() > 0) {
-//                    // choose a random
-//                    EntityVillagerMCA villager = villagers.remove(world.rand.nextInt(villagers.size()));
-//
-//                    Optional<Entity> spouse = Util.getEntityByUUID(world, villager.get(SPOUSE_UUID).or(Constants.ZERO_UUID));
-//                    if (spouse.isPresent()) {
-//                        villager.set(HAS_BABY, true);
-//                        villager.set(BABY_IS_MALE, world.rand.nextBoolean());
-//                        villager.spawnParticles(EnumParticleTypes.HEART);
-//
-//                        // notify all players
-//                        // TODO create generic send all
-//                        String phrase = MCA.localize("events.baby", villager.getName(), spouse.get().getName());
-//                        StringTextComponent text = new StringTextComponent(phrase);
-//                        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(text);
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    // if the amount of couples is low, let them marry
-//    private static void marry(CWorld world, Village village) {
-//        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 1000.0f) {
-//            List<EntityVillagerMCA> villagers = new ArrayList<>();
-//            List<EntityVillagerMCA> allVillagers = getVillagers(world, village);
-//            for (EntityVillagerMCA v : allVillagers) {
-//                if (!v.isMarried() && !v.isBaby()) {
-//                    villagers.add(v);
-//                }
-//            }
-//
-//            if (villagers.size() > allVillagers.size() * MCA.getConfig().marriageLimit / 100.0f) {
-//                // choose a random villager
-//                EntityVillagerMCA villager = villagers.remove(world.rand.nextInt(villagers.size()));
-//
-//                // look for best partner
-//                float best = Float.MAX_VALUE;
-//                EntityVillagerMCA spouse = null;
-//                for (EntityVillagerMCA v : villagers) {
-//                    float diff = 1.0f; //TODO here we will need proper scoring for the genetics update
-//                    if (diff < best) {
-//                        best = diff;
-//                        spouse = v;
-//                    }
-//                }
-//
-//                if (spouse != null) {
-//                    // notify all players
-//                    String phrase = MCA.localize("events.marry", villager.getName(), spouse.getName());
-//                    StringTextComponent text = new StringTextComponent(phrase);
-//                    FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(text);
-//
-//                    // marry
-//                    spouse.marry(villager);
-//                    villager.marry(spouse);
-//                }
-//            }
-//        }
-//    }
-//
-//    //returns all villagers of a given village
-//    private static List<EntityVillagerMCA> getVillagers(CWorld world, Village village) {
-//        int radius = village.getVillageRadius();
-//        return Util.getEntitiesWithinDistance(world, village.getCenter(), radius, EntityVillagerMCA.class);
-//    }
-//
-//    private static void spawnGuards(World world, Village village) {
-//        int guardCapacity = village.getNumVillagers() / MCA.getConfig().guardSpawnRate;
-//        int guards = 0;
-//
-//        // Grab all villagers in the area
-//        List<EntityVillagerMCA> list = getVillagers(world, village);
-//
-//        // Count up the guards
-//        for (EntityVillagerMCA villager : list) {
-//            if (villager.getProfessionForge().getRegistryName().equals(ProfessionsMCA.guard.getRegistryName())) {
-//                guards++;
-//            }
-//        }
-//
-//        // Spawn a new guard if we don't have enough, up to 10
-//        // TODO magic number 10 should be in the config
-//        if (guards < guardCapacity && guards < 10) {
-//            Vec3d spawnPos = findRandomSpawnPos(world, village, village.getCenter(), 2, 4, 2);
-//
-//            if (spawnPos != null) {
-//                EntityVillagerMCA guard = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.guard), Optional.absent());
-//                guard.setPosition(spawnPos.x + 0.5D, spawnPos.y + 1.0D, spawnPos.z + 0.5D);
-//                guard.onInitialSpawn(world.getDifficultyForLocation(guard.getPos()), null);
-//                world.spawnEntity(guard);
-//            }
-//        }
-//    }
-//
-//    private static void startRaid(World world, Village village) {
-//        int banditsToSpawn = world.rand.nextInt(5) + 1;
-//
-//        while (banditsToSpawn > 0) {
-//            EntityVillagerMCA bandit = new EntityVillagerMCA(world, Optional.of(ProfessionsMCA.bandit), Optional.absent());
-//            BlockPos spawnLocation = village.getCenter();
-//            bandit.setPosition(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ());
-//            world.spawnEntity(bandit);
-//            banditsToSpawn--;
-//        }
-//    }
-//
-//    private static Vec3d findRandomSpawnPos(World world, Village village, BlockPos pos, int x, int y, int z) {
-//        for (int i = 0; i < 10; ++i) {
-//            BlockPos blockpos = pos.add(world.rand.nextInt(16) - 8, world.rand.nextInt(6) - 3, world.rand.nextInt(16) - 8);
-//
-//            if (village.isBlockPosWithinSqVillageRadius(blockpos) && isAreaClearAround(world, new BlockPos(x, y, z), blockpos))
-//                return new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ());
-//        }
-//
-//        return null;
-//    }
-//
-//    private static boolean isAreaClearAround(World world, BlockPos blockSize, BlockPos blockLocation) {
-//        if (!world.getBlockState(blockLocation.down()).isTopSolid()) return false;
-//        int i = blockLocation.getX() - blockSize.getX() / 2;
-//        int j = blockLocation.getZ() - blockSize.getZ() / 2;
-//
-//        for (int k = i; k < i + blockSize.getX(); ++k) {
-//            for (int l = blockLocation.getY(); l < blockLocation.getY() + blockSize.getY(); ++l) {
-//                for (int i1 = j; i1 < j + blockSize.getZ(); ++i1) {
-//                    if (world.getBlockState(new BlockPos(k, l, i1)).isNormalCube()) {
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-//        return true;
-//    }
-//
-//    public static Village findClosestVillage(World world, BlockPos p) {
-//        Village village = null;
-//        double best = Double.MAX_VALUE;
-//        for (Village v : world.getVillageCollection().getVillageList()) {
-//            double dist = v.getCenter().getDistance(p.getX(), p.getY(), p.getZ());
-//            if (dist < best) {
-//                best = dist;
-//                village = v;
-//            }
-//        }
-//        return village;
-//    }
+    // if the amount of couples is low, let them marry
+    private static void marry(CWorld world, Village village) {
+        if (world.rand.nextFloat() < MCA.getConfig().marriageChance / 100.0f) {
+            //list all and lonely villagers
+            List<EntityVillagerMCA> villagers = new LinkedList<>();
+            List<EntityVillagerMCA> allVillagers = village.getResidents(world);
+            for (EntityVillagerMCA v : allVillagers) {
+                if (!v.isMarried() && !v.isBaby()) {
+                    villagers.add(v);
+                }
+            }
+
+            if (villagers.size() >= 2 && villagers.size() > allVillagers.size() * MCA.getConfig().marriageLimit / 100.0f) {
+                // choose a random villager
+                EntityVillagerMCA villager = villagers.remove(world.rand.nextInt(villagers.size()));
+                EntityVillagerMCA spouse = villagers.remove(world.rand.nextInt(villagers.size()));
+
+                // notify all players
+                StringTextComponent phrase = MCA.localizeText("events.marry", villager.getName().getContents(), spouse.getName().getContents());
+                world.getMcWorld().players().forEach((player) -> player.sendMessage(phrase, player.getUUID()));
+
+                // marry
+                spouse.marry(villager);
+                villager.marry(spouse);
+            }
+        }
+    }
+
+    private static void spawnGuards(CWorld world, Village village) {
+        int guardCapacity = village.getPopulation() / MCA.getConfig().guardSpawnRate;
+
+        // Count up the guards
+        int guards = 0;
+        List<EntityVillagerMCA> villagers = village.getResidents(world);
+        for (EntityVillagerMCA villager : villagers) {
+            if (villager.getProfession() == MCA.PROFESSION_GUARD.get()) {
+                guards++;
+            }
+        }
+
+        // Spawn a new guard if we don't have enough
+        if (villagers.size() > 0 && guards < guardCapacity) {
+            EntityVillagerMCA villager = villagers.get(world.rand.nextInt(villagers.size()));
+            if (!villager.isBaby()) {
+                villager.setProfession(MCA.PROFESSION_GUARD.get());
+            }
+        }
+    }
 }

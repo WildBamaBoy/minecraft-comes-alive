@@ -7,6 +7,7 @@
     "entity.minecraft.villager.pillager": "Pillager",
     "entity.minecraft.villager.miner": "Miner",
     "entity.minecraft.villager.baker": "Baker",
+    "entity.minecraft.villager.guard": "Guard",
     "entity.minecraft.villager.warrior": "Warrior",
     "entity.minecraft.villager.archer": "Archer",
     "entity.minecraft.villager.hero": "Hero",
@@ -38,6 +39,7 @@
     "item.mca.book_family": "Managing Your Family Vol. XI",
     "item.mca.book_rose_gold": "On Rose Gold",
     "item.mca.book_infection": "Beware the Infection!",
+    "item.mca.blueprint": "blueprint",
     "block.mca.villager_spawner": "Villager Spawner",
     "block.mca.rose_gold_block": "Rose Gold Block",
     "block.mca.rose_gold_ore": "Rose Gold Ore",
@@ -133,6 +135,8 @@
 
     "gui.village.left": "You left %v1%.",
     "gui.village.welcome": "Welcome to %v1%!",
+    "gui.village.taxes": "%v1% paid their taxes!",
+    "gui.village.taxesNotImplemented": "WIP, please be patient!",
 
     "gui.village.taxes": "Taxes",
     "gui.village.birth": "Birth limit",
@@ -142,13 +146,28 @@
     "gui.village.rank": "Rank: %v1%",
     "gui.village.reputation": "Reputation: %v1%",
 
+    "gui.building.size": "size: %v1% blocks",
+    "gui.building.anySize": "size: any",
+
+    "buildingType.building": "Building",
+    "buildingType.house": "House",
+    "buildingType.bigHouse": "Big House",
+    "buildingType.blacksmith": "blacksmith",
+    "buildingType.storage": "storage",
+
     "gui.village.rank.0": "Outlaw",
     "gui.village.rank.1": "Peasant",
     "gui.village.rank.2": "Merchant",
     "gui.village.rank.3": "Noble",
     "gui.village.rank.4": "Mayor",
     "gui.village.rank.5": "King",
-    "gui.village.rank.6": "High King",
+
+    "task.reputation": "Reach %v1% total hearts",
+    "task.buildBigHouse": "Build a bigger house",
+    "task.buildStorage": "Build a storage",
+    "task.buildInn": "Build an inn",
+    "task.grimReaper": "Kill the Grim Reaper",
+    "task.bePatient": "Work in progress - be patient!",
 
     "gui.button.debug.startraid": "Start Raid",
     "gui.button.debug.spawnguards": "Spawn Guards",
@@ -290,7 +309,6 @@
 
     "events.marry": "%v1% and %v2% are now married!",
     "events.baby": "%v1% and %v2% have born a baby!",
-    "events.village": "My village is %v1% blocks big and has %v2% villager out of %v3% possible doors.",
 
     "villager.hurt1": "Ow! That hurt!",
     "villager.hurt2": "I'll get you for that!",
@@ -388,9 +406,9 @@
     "childp.interaction.sethome.success3": "Okay, but I want the biggest room!",
     "child.interaction.sethome.success1": "This is cool I guess.",
 
-    "adult.interaction.sethome.fail1": "This doesn't look like a safe home point for me. There's some %v1% in the way.",
-    "adult.interaction.sethome.fail2": "Is there another place nearby? There's some %v1% in the way.",
-    "adult.interaction.sethome.fail3": "I can't have my home point here. There's some %v1% in the way.",
+    "adult.interaction.sethome.fail1": "This doesn't look like a safe home point for me.",
+    "adult.interaction.sethome.fail2": "Is there another place nearby?",
+    "adult.interaction.sethome.fail3": "I can't have my home point here.",
 
     "adult.interaction.setworkplace.success1": "Sure thing, %v1%.",
     "spouse.interaction.setworkplace.success1": "I really like this place.",
@@ -636,7 +654,7 @@
     "childp.tellstory.fail5": "Someone said you were a bad person, and I believe them!",
     "childp.hug.success1": "*Kisses* You're the best ever!",
     "childp.hug.success2": "I'm going to be as strong as you are one day!",
-    "childp.hug.success3": "hug anymore?",
+    "childp.hug.success3": "Thanks!",
     "childp.hug.success4": "I love hugs! You're soft and warm!",
     "childp.hug.fail1": "I'm too old for hugs!",
     "childp.hug.fail2": "Stop it! I don't want people to see!",

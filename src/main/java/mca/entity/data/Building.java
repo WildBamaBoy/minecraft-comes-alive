@@ -1,10 +1,17 @@
 package mca.entity.data;
 
-import mca.enums.BuildingType;
+import cobalt.minecraft.nbt.CNBT;
+import mca.api.API;
+import mca.api.types.BuildingType;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.state.properties.BedPart;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -14,8 +21,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Building implements Serializable {
-    private final BuildingType type;
-    private final Set<UUID> residents;
+    private String type;
+    private int size;
+    private final Map<UUID, String> residents;
 
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
@@ -28,7 +36,16 @@ public class Building implements Serializable {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
 
+    public Building() {
+        type = "building";
+
+        residents = new ConcurrentHashMap<>();
+        blocks = new ConcurrentHashMap<>();
+    }
+
     public Building(BlockPos pos) {
+        this();
+
         pos0X = pos.getX();
         pos0Y = pos.getY();
         pos0Z = pos.getZ();
@@ -36,11 +53,12 @@ public class Building implements Serializable {
         pos1X = pos0X;
         pos1Y = pos0Y;
         pos1Z = pos0Z;
+    }
 
-        type = BuildingType.HOUSE;
-
-        residents = ConcurrentHashMap.newKeySet();
-        blocks = new ConcurrentHashMap<>();
+    public void addResident(Entity e) {
+        if (!residents.containsKey(e.getUUID())) {
+            residents.put(e.getUUID(), e.getName().getString());
+        }
     }
 
     public BlockPos getPos0() {
@@ -71,12 +89,12 @@ public class Building implements Serializable {
         done.add(center);
 
         //const
-        final int maxSize = 1024;
+        final int maxSize = 1024 * 8;
         final int maxRadius = 16;
 
         //fill the building
-        int size = 0;
-        while (!queue.isEmpty() && size < maxSize) {
+        int scanSize = 0;
+        while (!queue.isEmpty() && scanSize < maxSize) {
             BlockPos p = queue.removeLast();
 
             //as long the max radius is not reached
@@ -92,20 +110,26 @@ public class Building implements Serializable {
                         done.add(n);
 
                         //if not solid, continue
-                        if (block.isAir()) {
+                        if (block.isAir() && !world.canSeeSky(n)) {
                             queue.add(n);
                         } else if (block.getBlock().getBlock() instanceof DoorBlock) {
                             //skip door and start a new room
-                            //queue.add(n.relative(d));
+                            queue.add(n.relative(d));
                         }
                     }
                 }
             }
 
-            size++;
+            scanSize++;
         }
 
-        if (queue.isEmpty() && done.size() > 10) {
+        // min size is 32, which equals a 8 block big cube with 6 times 4 sides
+        if (queue.isEmpty() && done.size() > 32) {
+            //fetch all interesting block types
+            Set<String> blockTypes = new HashSet<>();
+            for (BuildingType bt : API.getBuildingTypes().values()) {
+                blockTypes.addAll(bt.getBlocks().keySet());
+            }
             //dimensions
             int sx = center.getX();
             int sy = center.getY();
@@ -123,9 +147,22 @@ public class Building implements Serializable {
                 ez = Math.max(ez, pos.getZ());
 
                 //count blocks types
-                Block block = world.getBlockState(pos).getBlock();
-                if (block instanceof BedBlock) {
-                    blocks.put("bed", blocks.getOrDefault("bed", 0) + 1);
+                BlockState blockState = world.getBlockState(pos);
+                Block block = blockState.getBlock();
+                String key = null;
+                if (block.is(BlockTags.ANVIL)) {
+                    key = "anvil";
+                } else if (block instanceof BedBlock) {
+                    if (blockState.getValue(BedBlock.PART) == BedPart.HEAD) {
+                        key = "bed";
+                    }
+                } else {
+                    //TODO exclude stone blocks, at least in the gui
+                    key = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
+                }
+
+                if (blockTypes.contains(key)) {
+                    blocks.put(key, blocks.getOrDefault(key, 0) + 1);
                 }
             }
 
@@ -138,17 +175,38 @@ public class Building implements Serializable {
             pos1Y = ey;
             pos1Z = ez;
 
+            size = done.size();
+
+            //determine type
+            int bestPriority = -1;
+            for (BuildingType bt : API.getBuildingTypes().values()) {
+                if (bt.getPriority() > bestPriority && sz >= bt.getSize()) {
+                    boolean valid = true;
+                    for (Map.Entry<String, Integer> block : bt.getBlocks().entrySet()) {
+                        if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()) < block.getValue()) {
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    if (valid) {
+                        bestPriority = bt.getPriority();
+                        type = bt.getName();
+                    }
+                }
+            }
+
             return true;
         } else {
             return false;
         }
     }
 
-    public BuildingType getType() {
+    public String getType() {
         return type;
     }
 
-    public Set<UUID> getResidents() {
+    public Map<UUID, String> getResidents() {
         return residents;
     }
 
@@ -176,5 +234,71 @@ public class Building implements Serializable {
 
     public boolean isIdentical(Building b) {
         return pos0X == b.pos0X && pos1X == b.pos1X && pos0Y == b.pos0Y && pos1Y == b.pos1Y && pos0Z == b.pos0Z && pos1Z == b.pos1Z;
+    }
+
+    public int getBeds() {
+        return blocks.getOrDefault("bed", 0);
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public CNBT save() {
+        CNBT v = CNBT.createNew();
+
+        v.setInteger("id", id);
+        v.setInteger("size", size);
+        v.setInteger("pos0X", pos0X);
+        v.setInteger("pos0Y", pos0Y);
+        v.setInteger("pos0Z", pos0Z);
+        v.setInteger("pos1X", pos1X);
+        v.setInteger("pos1Y", pos1Y);
+        v.setInteger("pos1Z", pos1Z);
+        v.setString("type", type);
+
+        ListNBT residentsList = new ListNBT();
+        for (Map.Entry<UUID, String> resident : residents.entrySet()) {
+            CNBT entry = CNBT.createNew();
+            entry.setUUID("uuid", resident.getKey());
+            entry.setString("name", resident.getValue());
+            residentsList.add(entry.getMcCompound());
+        }
+        v.setList("residents", residentsList);
+
+        ListNBT blockList = new ListNBT();
+        for (Map.Entry<String, Integer> block : blocks.entrySet()) {
+            CNBT entry = CNBT.createNew();
+            entry.setString("name", block.getKey());
+            entry.setInteger("count", block.getValue());
+            blockList.add(entry.getMcCompound());
+        }
+        v.setList("blocks", blockList);
+
+        return v;
+    }
+
+    public void load(CNBT v) {
+        id = v.getInteger("id");
+        size = v.getInteger("size");
+        pos0X = v.getInteger("pos0X");
+        pos0Y = v.getInteger("pos0Y");
+        pos0Z = v.getInteger("pos0Z");
+        pos1X = v.getInteger("pos1X");
+        pos1Y = v.getInteger("pos1Y");
+        pos1Z = v.getInteger("pos1Z");
+        type = v.getString("type");
+
+        ListNBT res = v.getCompoundList("residents");
+        for (int i = 0; i < res.size(); i++) {
+            CompoundNBT c = res.getCompound(i);
+            residents.put(c.getUUID("uuid"), c.getString("name"));
+        }
+
+        ListNBT bl = v.getCompoundList("blocks");
+        for (int i = 0; i < bl.size(); i++) {
+            CompoundNBT c = bl.getCompound(i);
+            blocks.put(c.getString("name"), c.getInt("count"));
+        }
     }
 }

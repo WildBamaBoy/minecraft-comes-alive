@@ -8,6 +8,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.data.VillageManagerData;
 import mca.items.ItemBaby;
 import mca.server.ReaperSpawner;
 import mca.server.ServerInteractionManager;
@@ -58,6 +59,12 @@ public class EventHooks {
         //our villager handler
         if (event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.END) {
             VillageHelper.tick(CWorld.fromMC(event.world));
+        }
+
+        //update buildings
+        if (event.world.getGameTime() % 21 == 0) {
+            VillageManagerData manager = VillageManagerData.get(CWorld.fromMC(event.world));
+            manager.processNextBuildings(event.world);
         }
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.ResourceLocationException;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -59,22 +60,26 @@ public abstract class LayerVillager<T extends EntityVillagerMCA, M extends Model
             //color
             float[] color = getColor(entity);
 
-            ResourceLocation res = getClothingResource(p);
+            ResourceLocation res = getResource(p);
             this.renderModel(transform, buffer, p_225628_3_, false, model, color[0], color[1], color[2], res, LivingRenderer.getOverlayCoords(entity, 0.0F));
         }
 
         //overlay
         p = getOverlayTexture(entity);
         if (p != null && p.length() > 0) {
-            ResourceLocation res = getClothingResource(p);
+            ResourceLocation res = getResource(p);
             this.renderModel(transform, buffer, p_225628_3_, false, model, 1.0f, 1.0f, 1.0f, res, LivingRenderer.getOverlayCoords(entity, 0.0F));
         }
     }
 
-    private ResourceLocation getClothingResource(String s) {
+    private ResourceLocation getResource(String s) {
         ResourceLocation resourcelocation = textureRes.get(s);
         if (resourcelocation == null) {
-            resourcelocation = new ResourceLocation(s);
+            try {
+                resourcelocation = new ResourceLocation(s);
+            } catch (ResourceLocationException ignored) {
+                resourcelocation = new ResourceLocation("");
+            }
             textureRes.put(s, resourcelocation);
         }
         return resourcelocation;

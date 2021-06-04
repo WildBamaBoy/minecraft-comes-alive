@@ -12,9 +12,11 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumConstraint;
 import mca.enums.EnumGender;
 import mca.util.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -34,6 +36,7 @@ public class API {
     private static final List<String> maleNames = new ArrayList<>();
     private static final List<String> femaleNames = new ArrayList<>();
     private static final List<ClothingGroup> clothing = new ArrayList<>();
+    private static final Map<String, BuildingType> buildingTypes = new HashMap<>();
     private static final List<HairGroup> hair = new ArrayList<>();
     private static final Map<String, NameSet> nameSets = new HashMap<>();
     private static String[] supporters;
@@ -48,6 +51,11 @@ public class API {
         // Load skins
         Collections.addAll(clothing, Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class));
         Collections.addAll(hair, Util.readResourceAsJSON("api/hair.json", HairGroup[].class));
+
+        BuildingType[] bts = Util.readResourceAsJSON("api/buildingTypes.json", BuildingType[].class);
+        for (BuildingType bt : bts) {
+            buildingTypes.put(bt.getName(), bt);
+        }
 
         nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
         supporters = Util.readResourceAsJSON("api/supporters.json", String[].class);
@@ -88,14 +96,21 @@ public class API {
         }
     }
 
-    //returns the clothing group based of gender and profession
-    private static Optional<ClothingGroup> getClothingGroup(EntityVillagerMCA villager) {
+    //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
+    private static ClothingGroup getClothingGroup(EntityVillagerMCA villager) {
         VillagerProfession profession = villager.getProfession();
         EnumGender gender = EnumGender.byId(villager.gender.get());
 
         return clothing.stream()
                 .filter(g -> g.getGender() == gender && profession.getRegistryName() != null && g.getProfession().equals(profession.getRegistryName().toString()))
-                .findFirst();
+                .findFirst().orElse(clothing.get(rng.nextInt(clothing.size())));
+    }
+
+    private static String getClothingPath(ClothingGroup group, int i) {
+        return String.format("mca:skins/clothing/%s/%s/%d.png",
+                group.getGender().getStrName(),
+                group.getProfession().split(":")[1],
+                i);
     }
 
     /**
@@ -105,20 +120,8 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomClothing(EntityVillagerMCA villager) {
-        Optional<ClothingGroup> group = getClothingGroup(villager);
-
-        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElseGet(() -> {
-            List<ClothingGroup> valid = new LinkedList<>();
-            EnumGender gender = EnumGender.byId(villager.gender.get());
-            for (ClothingGroup g : clothing) {
-                if (g.getGender() == gender || gender == EnumGender.UNASSIGNED) {
-                    valid.add(g);
-                }
-            }
-
-            ClothingGroup randomGroup = valid.get(rng.nextInt(valid.size()));
-            return randomGroup.getPaths()[rng.nextInt(randomGroup.getPaths().length)];
-        });
+        ClothingGroup group = getClothingGroup(villager);
+        return getClothingPath(group, rng.nextInt(group.getCount()));
     }
 
     //returns the next clothing
@@ -128,17 +131,26 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static String getNextClothing(EntityVillagerMCA villager, String current, int next) {
-        Optional<ClothingGroup> group = getClothingGroup(villager);
+        ClothingGroup group = getClothingGroup(villager);
 
-        return group.map(g -> {
-            String[] arr = g.getPaths();
-            for (int i = 0; i < arr.length; i++) {
-                if (arr[i].equals(current)) {
-                    return arr[Math.floorMod(i + next, arr.length)];
-                }
+        //look for the current one
+        for (int i = 0; i < group.getCount(); i++) {
+            if (getClothingPath(group, i).equals(current)) {
+                return getClothingPath(group, Math.floorMod(i + next, group.getCount()));
             }
-            return null;
-        }).orElse(getRandomClothing(villager));
+        }
+
+        //fallback
+        return getRandomClothing(villager);
+    }
+
+    private static Hair getHair(HairGroup g, int i) {
+        String overlay = String.format("mca:skins/hair/%s/%d_overlay.png", g.getGender().getStrName(), i);
+        boolean hasOverlay = Minecraft.getInstance().getResourceManager().hasResource(new ResourceLocation(overlay));
+        return new Hair(
+                String.format("mca:skins/hair/%s/%d.png", g.getGender().getStrName(), i),
+                hasOverlay ? overlay : ""
+        );
     }
 
     /**
@@ -151,7 +163,7 @@ public class API {
         EnumGender gender = EnumGender.byId(villager.gender.get());
         Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
 
-        return group.map(g -> g.getPaths()[rng.nextInt(g.getPaths().length)]).orElse(new Hair());
+        return group.map(hairGroup -> getHair(hairGroup, rng.nextInt(hairGroup.getCount()))).orElseGet(Hair::new);
     }
 
     //returns the next clothing
@@ -164,15 +176,17 @@ public class API {
         EnumGender gender = EnumGender.byId(villager.gender.get());
         Optional<HairGroup> group = hair.stream().filter(g -> g.getGender() == gender).findFirst();
 
-        return group.map(g -> {
-            Hair[] arr = g.getPaths();
-            for (int i = 0; i < arr.length; i++) {
-                if (arr[i].equals(current)) {
-                    return arr[Math.floorMod(i + next, arr.length)];
+        //look for the current one
+        if (group.isPresent()) {
+            for (int i = 0; i < group.get().getCount(); i++) {
+                if (getHair(group.get(), i).getTexture().equals(current.getTexture())) {
+                    return getHair(group.get(), Math.floorMod(i + next, group.get().getCount()));
                 }
             }
-            return null;
-        }).orElse(getRandomHair(villager));
+        }
+
+        //fallback
+        return getRandomHair(villager);
     }
 
     /**
@@ -285,5 +299,13 @@ public class API {
 
     public static String getRandomSupporter() {
         return supporters[rng.nextInt(supporters.length)];
+    }
+
+    public static Map<String, BuildingType> getBuildingTypes() {
+        return buildingTypes;
+    }
+
+    public static BuildingType getBuildingType(String type) {
+        return buildingTypes.containsKey(type) ? buildingTypes.get(type) : new BuildingType();
     }
 }

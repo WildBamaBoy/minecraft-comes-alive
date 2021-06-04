@@ -1,160 +1,178 @@
 [
   {
-    "gender": "male",
-    "profession": "minecraft:farmer",
-    "paths": [
-      "mca:skins/clothing/male/farmer/0.png",
-      "mca:skins/clothing/male/farmer/1.png",
-      "mca:skins/clothing/male/farmer/2.png"
-    ]
+    "gender": "female",
+    "profession": "minecraft:archer",
+    "count": 5
   },
   {
     "gender": "female",
-    "profession": "minecraft:farmer",
-    "paths": [
-      "mca:skins/clothing/female/farmer/0.png",
-      "mca:skins/clothing/female/farmer/1.png",
-      "mca:skins/clothing/female/farmer/2.png"
-    ]
-  },
-  {
-    "gender": "male",
-    "profession": "minecraft:librarian",
-    "paths": [
-      "mca:skins/clothing/male/librarian/0.png",
-      "mca:skins/clothing/male/librarian/1.png",
-      "mca:skins/clothing/male/librarian/2.png"
-    ]
-  },
-  {
-    "gender": "female",
-    "profession": "minecraft:librarian",
-    "paths": [
-      "mca:skins/clothing/female/librarian/0.png",
-      "mca:skins/clothing/female/librarian/1.png",
-      "mca:skins/clothing/female/librarian/2.png"
-    ]
-  },
-  {
-    "gender": "male",
-    "profession": "minecraft:priest",
-    "paths": [
-      "mca:skins/clothing/male/priest/0.png",
-      "mca:skins/clothing/male/priest/1.png",
-      "mca:skins/clothing/male/priest/2.png"
-    ]
-  },
-  {
-    "gender": "female",
-    "profession": "minecraft:priest",
-    "paths": [
-      "mca:skins/clothing/female/priest/0.png",
-      "mca:skins/clothing/female/priest/1.png",
-      "mca:skins/clothing/female/priest/2.png"
-    ]
-  },
-  {
-    "gender": "male",
-    "profession": "minecraft:smith",
-    "paths": [
-      "mca:skins/clothing/male/smith/0.png",
-      "mca:skins/clothing/male/smith/1.png",
-      "mca:skins/clothing/male/smith/2.png"
-    ]
-  },
-  {
-    "gender": "female",
-    "profession": "minecraft:smith",
-    "paths": [
-      "mca:skins/clothing/female/smith/0.png",
-      "mca:skins/clothing/female/smith/1.png",
-      "mca:skins/clothing/female/smith/2.png"
-    ]
-  },
-  {
-    "gender": "male",
-    "profession": "minecraft:butcher",
-    "paths": [
-      "mca:skins/clothing/male/butcher/0.png",
-      "mca:skins/clothing/male/butcher/1.png",
-      "mca:skins/clothing/male/butcher/2.png"
-    ]
+    "profession": "minecraft:baker",
+    "count": 5
   },
   {
     "gender": "female",
     "profession": "minecraft:butcher",
-    "paths": [
-      "mca:skins/clothing/female/butcher/0.png",
-      "mca:skins/clothing/female/butcher/1.png",
-      "mca:skins/clothing/female/butcher/2.png"
-    ]
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:child",
+    "count": 10
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:cleric",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:farmer",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:fisherman",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:guard",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:none",
+    "count": 1
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:librarian",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:miner",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:nitwit",
+    "count": 1
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:shepherd",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:toolsmith",
+    "count": 5
+  },
+  {
+    "gender": "female",
+    "profession": "minecraft:weaponsmith",
+    "count": 5
+  },
+
+  {
+    "gender": "male",
+    "profession": "minecraft:archer",
+    "count": 5
   },
   {
     "gender": "male",
-    "profession": "mca:baker",
-    "paths": [
-      "mca:skins/clothing/male/baker/0.png",
-      "mca:skins/clothing/male/baker/1.png",
-      "mca:skins/clothing/male/baker/2.png"
-    ]
-  },
-  {
-    "gender": "female",
-    "profession": "mca:baker",
-    "paths": [
-      "mca:skins/clothing/female/baker/0.png",
-      "mca:skins/clothing/female/baker/1.png",
-      "mca:skins/clothing/female/baker/2.png"
-    ]
-  },
-  {
-  "gender": "male",
-  "profession": "mca:miner",
-  "paths": [
-    "mca:skins/clothing/male/miner/0.png",
-    "mca:skins/clothing/male/miner/1.png",
-    "mca:skins/clothing/male/miner/2.png"
-  ]
-  },
-  {
-    "gender": "female",
-    "profession": "mca:miner",
-    "paths": [
-      "mca:skins/clothing/female/miner/0.png",
-      "mca:skins/clothing/female/miner/1.png"
-    ]
+    "profession": "minecraft:armorer",
+    "count": 5
   },
   {
     "gender": "male",
-    "profession": "mca:guard",
-    "paths": [
-      "mca:skins/clothing/male/guard/0.png"
-    ]
-  },
-  {
-    "gender": "female",
-    "profession": "mca:guard",
-    "paths": [
-      "mca:skins/clothing/female/guard/0.png"
-    ]
+    "profession": "minecraft:baker",
+    "count": 5
   },
   {
     "gender": "male",
-    "profession": "mca:child",
-    "paths": [
-      "mca:skins/clothing/male/child/0.png",
-      "mca:skins/clothing/male/child/1.png",
-      "mca:skins/clothing/male/child/2.png",
-      "mca:skins/clothing/male/child/3.png"
-    ]
+    "profession": "minecraft:butcher",
+    "count": 5
   },
   {
-    "gender": "female",
-    "profession": "mca:child",
-    "paths": [
-      "mca:skins/clothing/female/child/0.png",
-      "mca:skins/clothing/female/child/1.png",
-      "mca:skins/clothing/female/child/2.png"
-    ]
+    "gender": "male",
+    "profession": "minecraft:cartographer",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:child",
+    "count": 10
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:cleric",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:farmer",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:fisherman",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:fletcher",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:guard",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:none",
+    "count": 1
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:leatherworker",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:librarian",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:mason",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:miner",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:nitwit",
+    "count": 1
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:shepherd",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:toolsmith",
+    "count": 5
+  },
+  {
+    "gender": "male",
+    "profession": "minecraft:weaponsmith",
+    "count": 5
   }
 ]

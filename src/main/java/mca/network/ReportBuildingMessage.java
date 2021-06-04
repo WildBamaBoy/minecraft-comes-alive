@@ -9,6 +9,6 @@ public class ReportBuildingMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity e) {
-        VillageManagerData.get(CWorld.fromMC(e.level)).reportBuilding(e.level, e.blockPosition());
+        VillageManagerData.get(CWorld.fromMC(e.level)).processBuilding(e.level, e.blockPosition());
     }
 }
