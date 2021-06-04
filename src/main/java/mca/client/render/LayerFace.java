@@ -25,7 +25,9 @@ public class LayerFace extends LayerVillager<EntityVillagerMCA, ModelVillagerMCA
     @Override
     String getTexture(EntityVillagerMCA villager) {
         EnumGender gender = EnumGender.byId(villager.gender.get());
-        int skin = (int) Math.min(1, Math.max(0, villager.gene_skin.get() * 2));
-        return String.format("mca:skins/faces/%s/%d.png", gender == EnumGender.FEMALE ? "female" : "male", skin);
+        int totalFaces = 11;
+        int skin = (int) Math.min(totalFaces-1, Math.max(0, villager.gene_skin.get() * totalFaces));
+        boolean blink = (villager.tickCount / 2) % 50 == 0 || (villager.tickCount / 2) % 57 == 0 || villager.isSleeping() || villager.isDeadOrDying();
+        return String.format("mca:skins/faces/%s/%d%s.png", gender == EnumGender.FEMALE ? "female" : "male", skin, blink ? "_blink" : "");
     }
 }

@@ -1,18 +1,10 @@
 [
   {
     "gender": "female",
-    "paths": [
-      {"texture": "", "overlay":  "mca:skins/hair/female/band.png"},
-      {"texture": "mca:skins/hair/female/0.png"},
-      {"texture": "mca:skins/hair/female/1.png"},
-      {"texture": "mca:skins/hair/female/2.png"}
-    ]
+    "count": 5
   },
   {
     "gender": "male",
-    "paths": [
-      {"texture": "mca:skins/hair/male/0.png"},
-      {"texture": "mca:skins/hair/male/1.png"}
-    ]
+    "count": 5
   }
 ]

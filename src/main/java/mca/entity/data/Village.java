@@ -83,22 +83,29 @@ public class Village implements Serializable {
             return;
         }
 
-        int x = 0;
-        int y = 0;
-        int z = 0;
+        int sx = Integer.MAX_VALUE;
+        int sy = Integer.MAX_VALUE;
+        int sz = Integer.MAX_VALUE;
+        int ex = Integer.MIN_VALUE;
+        int ey = Integer.MIN_VALUE;
+        int ez = Integer.MIN_VALUE;
 
         //sum up positions
         for (Building building : buildings.values()) {
-            x += building.getCenter().getX();
-            y += building.getCenter().getY();
-            z += building.getCenter().getZ();
+            ex = Math.max(building.getCenter().getX(), ex);
+            sx = Math.min(building.getCenter().getX(), sx);
+
+            ey = Math.max(building.getCenter().getY(), ey);
+            sy = Math.min(building.getCenter().getY(), sy);
+
+            ez = Math.max(building.getCenter().getZ(), ez);
+            sz = Math.min(building.getCenter().getZ(), sz);
         }
 
         //and average it
-        int s = buildings.size();
-        centerX = x / s;
-        centerY = y / s;
-        centerZ = z / s;
+        centerX = (ex + sx) / 2;
+        centerY = (ey + sy) / 2;
+        centerZ = (ez + sz) / 2;
 
         //calculate size
         size = 0;
