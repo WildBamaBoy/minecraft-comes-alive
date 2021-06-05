@@ -13,7 +13,7 @@ public enum EnumMoodGroup {
             return EnumMood.PASSIVE;
         } else {
             for (EnumMood mood : EnumMood.values()) {
-                if (mood.getMoodGroup() == this && mood.getLevel() == level) {
+                if (mood.getMoodGroup() == this && mood.isInRange(level)) {
                     return mood;
                 }
             }

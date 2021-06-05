@@ -355,4 +355,8 @@ public class API {
     public static BuildingType getBuildingType(String type) {
         return buildingTypes.containsKey(type) ? buildingTypes.get(type) : new BuildingType();
     }
+
+    public static Random getRng() {
+        return rng;
+    }
 }

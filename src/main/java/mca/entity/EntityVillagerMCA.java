@@ -344,9 +344,9 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     @Override
     public final ActionResultType interactAt(PlayerEntity player, Vector3d pos, @Nonnull Hand hand) {
         if (player.getMainHandItem().getItem().equals(Items.BEDROCK)) {
-            return ActionResultType.PASS;
+            System.out.println("Mood Level: " + this.getMoodLevel());
+            return ActionResultType.FAIL;
         }
-
         if (world.isClientSide) {
             openScreen(player);
             return ActionResultType.SUCCESS;
