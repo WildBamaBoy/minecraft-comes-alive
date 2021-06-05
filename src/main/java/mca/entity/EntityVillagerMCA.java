@@ -343,6 +343,10 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     @Override
     public final ActionResultType interactAt(PlayerEntity player, Vector3d pos, @Nonnull Hand hand) {
+        if (player.getMainHandItem().getItem().equals(Items.BEDROCK)) {
+            return ActionResultType.PASS;
+        }
+
         if (world.isClientSide) {
             openScreen(player);
             return ActionResultType.SUCCESS;
@@ -571,7 +575,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
     }
 
     public void modifyMoodLevel(int mood) {
-        this.mood.set(this.mood.get() + mood);
+        this.mood.set(EnumMood.getLevel(this.getMoodLevel() + mood));
     }
 
     public int getMoodLevel() {
@@ -718,8 +722,8 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         }
 
         memory.modInteractionFatigue(1);
-        memory.modHearts(succeeded ? heartsBoost : (heartsBoost * -1));
-        modifyMoodLevel(succeeded ? heartsBoost : (heartsBoost * -1));
+        memory.modHearts(succeeded ? heartsBoost : -heartsBoost);
+        modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
 
         String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
         say(player, responseId);
@@ -791,7 +795,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     if (!handleSpecialCaseGift(player, stack)) {
                         if (stack.getItem() == Items.GOLDEN_APPLE) isInfected.set(false);
                         else {
-                            modifyMoodLevel(giftValue / 4 + 2);
+                            modifyMoodLevel(giftValue/2 + 2 * MathHelper.sign(giftValue));
                             memory.modHearts(giftValue);
                             say(player, API.getResponseForGift(stack));
                         }
@@ -917,7 +921,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     private void onEachClientSecond() {
         if (random.nextBoolean()) {
-            if (getMoodLevel() <= -10) {
+            if (getMoodLevel() <= -15) {
                 switch (getPersonality().getMoodGroup()) {
                     case GENERAL:
                         this.addParticlesAroundSelf(ParticleTypes.SPLASH);
@@ -933,7 +937,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                         break;
                 }
 
-            } else if (getMoodLevel() >= 10) {
+            } else if (getMoodLevel() >= 15) {
                 this.addParticlesAroundSelf(ParticleTypes.HAPPY_VILLAGER);
             }
         }

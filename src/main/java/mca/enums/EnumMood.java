@@ -1,33 +1,33 @@
 package mca.enums;
 
 import mca.core.MCA;
+import net.minecraft.util.math.MathHelper;
 
-@SuppressWarnings({"DuplicateBranchesInSwitch", "DuplicateExpressions"})
 public enum EnumMood {
-    DEPRESSED(-3, EnumMoodGroup.GENERAL),
-    SAD(-2, EnumMoodGroup.GENERAL),
-    UNHAPPY(-1, EnumMoodGroup.GENERAL),
+    DEPRESSED(-15, EnumMoodGroup.GENERAL),
+    SAD(-10, EnumMoodGroup.GENERAL),
+    UNHAPPY(-5, EnumMoodGroup.GENERAL),
     PASSIVE(0, EnumMoodGroup.UNASSIGNED),
-    FINE(1, EnumMoodGroup.GENERAL),
-    HAPPY(2, EnumMoodGroup.GENERAL),
-    OVERJOYED(3, EnumMoodGroup.GENERAL),
+    FINE(5, EnumMoodGroup.GENERAL),
+    HAPPY(10, EnumMoodGroup.GENERAL),
+    OVERJOYED(15, EnumMoodGroup.GENERAL),
 
-    BORED_TO_TEARS(-3, EnumMoodGroup.PLAYFUL),
-    BORED(-2, EnumMoodGroup.PLAYFUL),
-    UNINTERESTED(-1, EnumMoodGroup.PLAYFUL),
-    SILLY(1, EnumMoodGroup.PLAYFUL),
-    GIGGLY(2, EnumMoodGroup.PLAYFUL),
-    ENTERTAINED(3, EnumMoodGroup.PLAYFUL),
+    BORED_TO_TEARS(-15, EnumMoodGroup.PLAYFUL),
+    BORED(-10, EnumMoodGroup.PLAYFUL),
+    UNINTERESTED(-5, EnumMoodGroup.PLAYFUL),
+    SILLY(5, EnumMoodGroup.PLAYFUL),
+    GIGGLY(10, EnumMoodGroup.PLAYFUL),
+    ENTERTAINED(15, EnumMoodGroup.PLAYFUL),
 
-    INFURIATED(-3, EnumMoodGroup.SERIOUS),
-    ANGRY(-2, EnumMoodGroup.SERIOUS),
-    ANNOYED(-1, EnumMoodGroup.SERIOUS),
-    INTERESTED(1, EnumMoodGroup.SERIOUS),
-    TALKATIVE(2, EnumMoodGroup.SERIOUS),
-    PLEASED(3, EnumMoodGroup.SERIOUS);
+    INFURIATED(-5, EnumMoodGroup.SERIOUS),
+    ANGRY(-10, EnumMoodGroup.SERIOUS),
+    ANNOYED(-15, EnumMoodGroup.SERIOUS),
+    INTERESTED(5, EnumMoodGroup.SERIOUS),
+    TALKATIVE(10, EnumMoodGroup.SERIOUS),
+    PLEASED(15, EnumMoodGroup.SERIOUS);
 
-    public final static int minLevel = -3;
-    public final static int maxLevel = 3;
+    public final static int minLevel = -100;
+    public final static int maxLevel = 15;
     public final static int levelsPerMood = 5;
     private final int level;
     private final EnumMoodGroup moodGroup;
@@ -38,7 +38,7 @@ public enum EnumMood {
     }
 
     public static int getLevel(int mood) {
-        return Math.min(maxLevel, Math.max(minLevel, Math.round((float) mood / levelsPerMood)));
+        return MathHelper.clamp(mood, minLevel, maxLevel);
     }
 
     public EnumMoodGroup getMoodGroup() {
@@ -62,17 +62,12 @@ public enum EnumMood {
     public int getHeartsModifierForInteraction(EnumInteraction interaction) {
         switch (interaction) {
             case CHAT:
-                return level;
             case JOKE:
-                return level;
-            case SHAKE_HAND:
-                return -level;
             case TELL_STORY:
-                return level;
-            case FLIRT:
-                return -level;
             case HUG:
                 return level;
+            case SHAKE_HAND:
+            case FLIRT:
             case KISS:
                 return -level;
             default:
