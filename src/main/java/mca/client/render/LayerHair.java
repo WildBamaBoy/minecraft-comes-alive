@@ -14,9 +14,9 @@ public class LayerHair extends LayerVillager<EntityVillagerMCA, ModelVillagerMCA
 
         // LayerViller is only designed for ModelVillagerMCA anyways
         this.model.leftLeg.visible = false;
-        this.model.bipedLeftLegwear.visible = false;
+        this.model.leftLegwear.visible = false;
         this.model.rightLeg.visible = false;
-        this.model.bipedRightLegwear.visible = false;
+        this.model.rightLegwear.visible = false;
     }
 
     @Override

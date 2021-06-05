@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PBP",
+    "PPP"
+  ],
+  "key": {
+    "P": [
+      {
+        "item": "minecraft:paper"
+      }
+    ],
+    "B": [
+      {
+        "item": "minecraft:dye"
+      }
+    ]
+  },
+  "result": {
+    "item": "mca:wedding_ring_rg",
+    "count": 1
+  }
+}

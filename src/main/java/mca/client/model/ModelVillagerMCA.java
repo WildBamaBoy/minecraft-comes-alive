@@ -15,11 +15,11 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
     public final ModelRenderer breastsWear;
     private final ModelRenderer bipedCape;
     private final boolean cloth;
-    public ModelRenderer bipedLeftArmwear;
-    public ModelRenderer bipedRightArmwear;
-    public ModelRenderer bipedLeftLegwear;
-    public ModelRenderer bipedRightLegwear;
-    public ModelRenderer bipedBodyWear;
+    public ModelRenderer leftArmwear;
+    public ModelRenderer rightArmwear;
+    public ModelRenderer leftLegwear;
+    public ModelRenderer rightLegwear;
+    public ModelRenderer bodyWear;
     public float breastSize;
 
     public ModelVillagerMCA() {
@@ -44,26 +44,26 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
         this.leftArm = new ModelRenderer(this, 32, 48);
         this.leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize);
         this.leftArm.setPos(5.0F, 2.0F, 0.0F);
-        this.bipedLeftArmwear = new ModelRenderer(this, 48, 48);
-        this.bipedLeftArmwear.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        this.bipedLeftArmwear.setPos(5.0F, 2.0F, 0.0F);
-        this.bipedRightArmwear = new ModelRenderer(this, 40, 32);
-        this.bipedRightArmwear.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        this.bipedRightArmwear.setPos(-5.0F, 2.0F, 0.0F);
+        this.leftArmwear = new ModelRenderer(this, 48, 48);
+        this.leftArmwear.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
+        this.leftArmwear.setPos(5.0F, 2.0F, 0.0F);
+        this.rightArmwear = new ModelRenderer(this, 40, 32);
+        this.rightArmwear.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
+        this.rightArmwear.setPos(-5.0F, 2.0F, 0.0F);
 
         //legs
         leftLeg = new ModelRenderer(this, 16, 48);
         leftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize);
         leftLeg.setPos(1.9F, 12.0F, 0.0F);
-        bipedLeftLegwear = new ModelRenderer(this, 0, 48);
-        bipedLeftLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        bipedLeftLegwear.setPos(1.9F, 12.0F, 0.0F);
-        bipedRightLegwear = new ModelRenderer(this, 0, 32);
-        bipedRightLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        bipedRightLegwear.setPos(-1.9F, 12.0F, 0.0F);
-        bipedBodyWear = new ModelRenderer(this, 16, 32);
-        bipedBodyWear.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, modelSize + 0.25F);
-        bipedBodyWear.setPos(0.0F, 0.0F, 0.0F);
+        leftLegwear = new ModelRenderer(this, 0, 48);
+        leftLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
+        leftLegwear.setPos(1.9F, 12.0F, 0.0F);
+        rightLegwear = new ModelRenderer(this, 0, 32);
+        rightLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
+        rightLegwear.setPos(-1.9F, 12.0F, 0.0F);
+        bodyWear = new ModelRenderer(this, 16, 32);
+        bodyWear.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, modelSize + 0.25F);
+        bodyWear.setPos(0.0F, 0.0F, 0.0F);
 
         this.cloth = cloth;
         breasts = newBreasts(modelSize, cloth, 0);
@@ -72,14 +72,14 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
     }
 
     private ModelRenderer newBreasts(float modelSize, boolean cloth, int oy) {
-        ModelRenderer breasts = new ModelRenderer(this, 18, 18 + oy);
+        ModelRenderer breasts = new ModelRenderer(this, 18, 20 + oy);
         if (cloth) {
-            breasts.addBox(-3.25F, -1.5F, -1.25F, 6, 3, 3, modelSize);
+            breasts.addBox(-3.25F, -1.25F, -1.5F, 6, 3, 3, modelSize);
         } else {
-            breasts.texOffs(17, 18 + oy);
-            breasts.addBox(-3.25F, -1.5F, -1.25F, 3, 3, 3, modelSize);
-            breasts.texOffs(22, 18 + oy);
-            breasts.addBox(0.25F, -1.5F, -1.25F, 3, 3, 3, modelSize);
+            breasts.texOffs(17, 20 + oy);
+            breasts.addBox(-3.25F, -1.25F, -1.5F, 3, 3, 3, modelSize);
+            breasts.texOffs(22, 20 + oy);
+            breasts.addBox(0.25F, -1.25F, -1.5F, 3, 3, 3, modelSize);
         }
         breasts.setPos(0F, 0F, 0F);
         breasts.mirror = true;
@@ -93,7 +93,7 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
 
     @Override
     protected Iterable<ModelRenderer> bodyParts() {
-        return ImmutableList.of(body, rightArm, leftArm, rightLeg, leftLeg, hat, bipedBodyWear, bipedLeftLegwear, bipedRightLegwear, bipedLeftArmwear, bipedRightArmwear);
+        return ImmutableList.of(body, rightArm, leftArm, rightLeg, leftLeg, hat, bodyWear, leftLegwear, rightLegwear, leftArmwear, rightArmwear);
     }
 
 
@@ -107,8 +107,9 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
             transform.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + sc * 0.1, -0.11D);
             transform.scale(cloth ? 1.166666f : 1.0f, 1.0f, 0.75f + sc * 0.5f);
             transform.scale(sc * 0.3f + 0.85f, sc * 0.75f + 0.75f, sc * 0.75f + 0.75f);
-            breasts.xRot = 75F; //TODO yes this will cause distortion because of wrong matrix order
+            breasts.xRot = (float) Math.PI * 0.3f; //TODO yes this will cause distortion because of wrong matrix order
             breasts.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+            breastsWear.copyFrom(breasts);
             breastsWear.render(transform, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
             transform.popPose();
         }
@@ -117,11 +118,11 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
 
-        bipedLeftLegwear.copyFrom(leftLeg);
-        bipedRightLegwear.copyFrom(rightLeg);
-        bipedLeftArmwear.copyFrom(leftArm);
-        bipedRightArmwear.copyFrom(rightArm);
-        bipedBodyWear.copyFrom(body);
+        leftLegwear.copyFrom(leftLeg);
+        rightLegwear.copyFrom(rightLeg);
+        leftArmwear.copyFrom(leftArm);
+        rightArmwear.copyFrom(rightArm);
+        bodyWear.copyFrom(body);
         breasts.copyFrom(body);
         breastsWear.copyFrom(body);
     }
@@ -129,11 +130,23 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
     public void setVisible(boolean visible) {
         super.setAllVisible(visible);
 
-        bipedLeftArmwear.visible = visible;
-        bipedRightArmwear.visible = visible;
-        bipedLeftLegwear.visible = visible;
-        bipedRightLegwear.visible = visible;
-        bipedBodyWear.visible = visible;
+        leftArmwear.visible = visible;
+        rightArmwear.visible = visible;
+        leftLegwear.visible = visible;
+        rightLegwear.visible = visible;
+        bodyWear.visible = visible;
         bipedCape.visible = visible;
+    }
+
+    public void copyPropertiesTo(ModelVillagerMCA<T> target) {
+        super.copyPropertiesTo(target);
+
+        target.leftLegwear.copyFrom(leftLegwear);
+        target.rightLegwear.copyFrom(rightLegwear);
+        target.leftArmwear.copyFrom(leftArmwear);
+        target.rightArmwear.copyFrom(rightArmwear);
+        target.bodyWear.copyFrom(bodyWear);
+        target.breasts.copyFrom(breasts);
+        target.breastsWear.copyFrom(breastsWear);
     }
 }

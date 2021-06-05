@@ -54,6 +54,9 @@ public abstract class LayerVillager<T extends EntityVillagerMCA, M extends Model
     public void render(MatrixStack transform, IRenderTypeBuffer buffer, int p_225628_3_, T entity, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
         String p;
 
+        //copy the animation to this layers model
+        getParentModel().copyPropertiesTo(model);
+
         //texture
         p = getTexture(entity);
         if (p != null && p.length() > 0) {
