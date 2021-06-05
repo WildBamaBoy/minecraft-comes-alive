@@ -270,7 +270,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         initializeSkin();
         initializePersonality();
 
-        setProfession(ProfessionsMCA.randomProfession());
+        //setProfession(ProfessionsMCA.randomProfession());
 
         return iLivingEntityData;
     }

@@ -25,15 +25,15 @@ public class RecipeProviderMCA extends RecipeProvider {
                 .unlockedBy("has_item", has(ItemsMCA.ROSE_GOLD_INGOT.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ItemsMCA.ITEM_ROSE_GOLD_DUST.get(),1)
+        ShapelessRecipeBuilder.shapeless(ItemsMCA.ROSE_GOLD_DUST.get(),1)
                 .requires(ItemsMCA.ROSE_GOLD_INGOT.get())
-                .unlockedBy("has_item", has(ItemsMCA.ITEM_ROSE_GOLD_DUST.get()))
+                .unlockedBy("has_item", has(ItemsMCA.ROSE_GOLD_DUST.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ItemsMCA.ITEM_GOLD_DUST.get(),6)
-                .requires(ItemsMCA.ITEM_ROSE_GOLD_DUST.get())
+        ShapelessRecipeBuilder.shapeless(ItemsMCA.GOLD_DUST.get(),6)
+                .requires(ItemsMCA.ROSE_GOLD_DUST.get())
                 .requires(Items.WATER_BUCKET)
-                .unlockedBy("has_item", has(ItemsMCA.ITEM_GOLD_DUST.get()))
+                .unlockedBy("has_item", has(ItemsMCA.GOLD_DUST.get()))
                 .save(consumer);
 
         ShapedRecipeBuilder.shaped(BlocksMCA.ROSE_GOLD_BLOCK.get())

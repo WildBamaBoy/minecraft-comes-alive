@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:storage_blocks/rose_gold"
+    "#forge:storage_blocks/rose_gold",
+    "#mca:storage_blocks/jeweler_workbench"
   ]
 }

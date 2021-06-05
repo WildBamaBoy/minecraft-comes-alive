@@ -80,7 +80,7 @@ public class CommandMCAAdmin {
         PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
         for (int i = 0; i < player.inventory.getContainerSize(); i++) {
             ItemStack stack = player.inventory.getItem(i);
-            if (stack.getItem() == ItemsMCA.ITEM_VILLAGER_EDITOR.get()) {
+            if (stack.getItem() == ItemsMCA.VILLAGER_EDITOR.get()) {
                 player.inventory.removeItem(stack);
             }
         }

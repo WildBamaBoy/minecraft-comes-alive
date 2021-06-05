@@ -1,7 +1,11 @@
 package mca.core.minecraft;
 
+import com.google.common.collect.ImmutableSet;
 import mca.core.MCA;
+import mca.core.forge.PointOfInterestTypeMCA;
+import mca.core.forge.Registration;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.*;
@@ -37,6 +41,7 @@ public class ProfessionsMCA {
                 VillagerProfession.LIBRARIAN,
                 VillagerProfession.MASON,
                 VillagerProfession.NITWIT
+                //ProfessionsMCA.JEWELER.get()
         ));
     }
 
@@ -44,6 +49,40 @@ public class ProfessionsMCA {
         Random r = new Random();
         return PROFESSIONS.get(r.nextInt(PROFESSIONS.size()));
     }
+
+//TODO BlocksMCA.JEWELER_WORKBENCH
+//    public static final RegistryObject<VillagerProfession> JEWELER = Registration.PROFESSIONS.register("jeweler", ()->
+//            new VillagerProfession("jeweler", PointOfInterestTypeMCA.JEWELER.get(), ImmutableSet.of(), ImmutableSet.of(BlocksMCA.JEWELER_WORKBENCH.get()), SoundEvents.VILLAGER_WORK_TOOLSMITH));
+
+
+    public static void register() { }
+
+
+
+    /*private static <E> RegistryObject<VillagerProfession> register(String name,  TileEntityTypesMCA jProfessionType, ImmutableSet immutable_1_, ImmutableSet immutable_2_, SoundEvent sound) {
+        return Registration.POI_TYPES.register( name, ()->{
+            return new VillagerProfession(name, jProfessionType, immutable_1_, immutable_2_, sound); });
+    }*/
+
+    /*
+    static VillagerProfession register(String name, PointOfInterestType type, @Nullable SoundEvent sound) {
+        return register(name, type,  ImmutableSet.of(), ImmutableSet.of(), sound);
+    }
+
+    public static ProfessionsMCA createNew(String name, PointOfInterestType poiType, SoundEvent sound) {
+        // Creating a new villager profession is private to VillagerProfession. Don't know whose bright idea that
+        // was, either Mojang or Forge. Either way, doesn't matter to us, we'll crack it open by reflection.
+        try {
+            Constructor<VillagerProfession> constructor = VillagerProfession.class.getDeclaredConstructor(String.class, PointOfInterestType.class, ImmutableSet.class, ImmutableSet.class, SoundEvent.class);
+            constructor.setAccessible(true);
+            return fromMC(constructor.newInstance(name, poiType, ImmutableSet.of(), ImmutableSet.of(), sound));
+        } catch (Exception e) {
+            Cobalt.getLog().fatal("Unable to create new profession!", e);
+            return null;
+        }
+    }*/
+    //public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MCA.MOD_ID);
+
 
 //    public static class BakerTradesLvl1 implements EntityVillager.ITradeList {
 //

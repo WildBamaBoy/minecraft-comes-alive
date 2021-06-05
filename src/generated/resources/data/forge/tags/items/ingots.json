@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "#forge:ingots/rose_gold"
+    "#mca:ingots/rose_gold",
+    "mca:engagement_ring",
+    "mca:wedding_ring",
+    "mca:matchmakers_ring",
+    "mca:engagement_ring_rg",
+    "mca:wedding_ring_rg"
   ]
 }

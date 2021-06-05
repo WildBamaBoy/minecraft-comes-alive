@@ -108,7 +108,7 @@ public class EntityGrimReaper extends CreatureEntity {
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingLvl, boolean hitByPlayer) {
         super.dropCustomDeathLoot(source, lootingLvl, hitByPlayer);
-        ItemEntity itementity = spawnAtLocation(ItemsMCA.ITEM_STAFF_OF_LIFE.get());
+        ItemEntity itementity = spawnAtLocation(ItemsMCA.STAFF_OF_LIFE.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }

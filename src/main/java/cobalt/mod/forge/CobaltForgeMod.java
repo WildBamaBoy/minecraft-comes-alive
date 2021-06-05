@@ -1,7 +1,7 @@
 package cobalt.mod.forge;
 
+import cobalt.core.Localizer;
 import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
-import cobalt.mod.CobaltMod;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -20,6 +20,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.*;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,15 +28,21 @@ import java.util.Date;
 /**
  * Base Cobalt mod supporting Forge. Any mods on Forge wishing to use Cobalt should extend this class.
  */
-public abstract class CobaltForgeMod extends CobaltMod {
+public abstract class CobaltForgeMod {
     public final DeferredRegister<VillagerProfession> villagerProfessionRegistry;
     private final ArrayList<DeferredRegister<?>> loadedRegistries = new ArrayList<>();
     private final DeferredRegister<Item> itemRegistry;
     private final DeferredRegister<Block> blockRegistry;
     private final DeferredRegister<EntityType<?>> entityRegistry;
+    protected Logger logger;
+    protected Localizer localizer;
+
+    protected long startupTimestamp;
 
     public CobaltForgeMod() {
         super();
+        logger = LogManager.getLogger();
+        localizer = new Localizer();
 
         // Add any FML event listeners
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -82,6 +89,10 @@ public abstract class CobaltForgeMod extends CobaltMod {
         }
 
         return returnRegistry;
+    }
+
+    protected String getModId() {
+        return "cobalt";
     }
 
     /**
@@ -141,6 +152,10 @@ public abstract class CobaltForgeMod extends CobaltMod {
         onSetup();
     }
 
+    public void onSetup() {
+        logger.info("Hello from Cobalt!");
+    }
+
     /**
      * Initializes the mod client-side and passes execution to the subclass implementation of onClientSetup()
      *
@@ -149,6 +164,8 @@ public abstract class CobaltForgeMod extends CobaltMod {
     public final void clientSetup(FMLClientSetupEvent event) {
         onClientSetup();
     }
+
+    protected abstract void onClientSetup();
 
     public final void serverStarting(FMLServerStartingEvent event) {
         registerCommands(event);
@@ -166,4 +183,6 @@ public abstract class CobaltForgeMod extends CobaltMod {
      */
     public void registerCommands(FMLServerStartingEvent event) {
     }
+
+    public abstract void registerContent();
 }

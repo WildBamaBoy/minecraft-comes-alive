@@ -9,7 +9,7 @@ public class ItemGroupMCA extends ItemGroup {
     public static final ItemGroup MCA = new ItemGroup(getGroupCountSafe(), "mcaTab") {
         @OnlyIn(Dist.CLIENT)
         public ItemStack makeIcon() {
-            return new ItemStack(ItemsMCA.ITEM_ENGAGEMENT_RING.get());
+            return new ItemStack(ItemsMCA.ENGAGEMENT_RING.get());
         }
     };
 

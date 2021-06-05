@@ -39,6 +39,6 @@ public class ItemBlueprint extends AbstractMapItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag iTooltipFlag) {
-        tooltip.add(new StringTextComponent("manage the village you are currently in"));
+        tooltip.add(new StringTextComponent("Manage the village you are currently in"));
     }
 }

@@ -41,6 +41,7 @@ public class LootTableProviderMCA extends LootTableProvider {
         protected void addTables() {
             dropSelf(BlocksMCA.ROSE_GOLD_BLOCK.get());
             dropSelf(BlocksMCA.ROSE_GOLD_ORE.get());
+            //dropSelf(BlocksMCA.JEWELER_WORKBENCH.get()); //TODO BlocksMCA.JEWELER_WORKBENCH
         }
 
         @Override

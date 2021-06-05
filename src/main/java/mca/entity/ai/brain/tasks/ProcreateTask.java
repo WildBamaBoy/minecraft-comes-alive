@@ -32,7 +32,7 @@ public class ProcreateTask extends Task<EntityVillagerMCA> {
 
             world.broadcastEntityEvent(villager, (byte) 12);
         } else {
-            ItemStack stack = new ItemStack(random.nextBoolean() ? ItemsMCA.ITEM_BABY_BOY.get() : ItemsMCA.ITEM_BABY_GIRL.get());
+            ItemStack stack = new ItemStack(random.nextBoolean() ? ItemsMCA.BABY_BOY.get() : ItemsMCA.BABY_GIRL.get());
             villager.getInventory().addItem(stack);
             villager.isProcreating.set(false);
         }
