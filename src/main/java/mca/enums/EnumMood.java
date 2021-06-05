@@ -31,7 +31,6 @@ public enum EnumMood {
 
     public final static int minLevel = -100;
     public final static int maxLevel = 15;
-    public final static int levelsPerMood = 5;
     private final RangedInteger level;
     private final EnumMoodGroup moodGroup;
 
@@ -63,6 +62,8 @@ public enum EnumMood {
     }
 
     public int getHeartsModifierForInteraction(EnumInteraction interaction) {
+        //sad people need a hug
+        // TODO adapt values
         switch (interaction) {
             case CHAT:
             case JOKE:

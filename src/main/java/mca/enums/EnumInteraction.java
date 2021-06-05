@@ -72,7 +72,7 @@ public enum EnumInteraction {
                 + getBonusChanceForCurrentPoints(memory.getHearts());
     }
 
-    public int getHearts(EntityVillagerMCA villager, Memories memory) {
+    public int getHearts(EntityVillagerMCA villager) {
         return getBaseHearts()
                 + villager.getPersonality().getHeartsModifierForInteraction(this)
                 + villager.getMood().getHeartsModifierForInteraction(this)

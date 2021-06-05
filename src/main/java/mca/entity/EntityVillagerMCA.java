@@ -394,7 +394,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
 
     private void initializePersonality() {
         personality.set(EnumPersonality.getRandom().getId());
-        mood.set(random.nextInt((EnumMood.maxLevel - EnumMood.minLevel) * EnumMood.levelsPerMood + 1) + EnumMood.minLevel * EnumMood.levelsPerMood);
+        mood.set(random.nextInt(EnumMood.maxLevel - EnumMood.minLevel + 1) + EnumMood.minLevel);
     }
 
     //returns a float between 0 and 1, weighted at 0.5
@@ -703,7 +703,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
         float successChance = 0.85F;
         int heartsBoost = 5;
         if (interaction != null) {
-            heartsBoost = interaction.getHearts(this, memory);
+            heartsBoost = interaction.getHearts(this);
             successChance = interaction.getSuccessChance(this, memory) / 100.0f;
         }
 
@@ -795,7 +795,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
                     if (!handleSpecialCaseGift(player, stack)) {
                         if (stack.getItem() == Items.GOLDEN_APPLE) isInfected.set(false);
                         else {
-                            modifyMoodLevel(giftValue/2 + 2 * MathHelper.sign(giftValue));
+                            modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
                             memory.modHearts(giftValue);
                             say(player, API.getResponseForGift(stack));
                         }
