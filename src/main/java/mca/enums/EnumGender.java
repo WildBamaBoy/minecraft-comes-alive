@@ -12,7 +12,8 @@ import java.util.Random;
 public enum EnumGender {
     UNASSIGNED(0, "unassigned"),
     MALE(1, "male"),
-    FEMALE(2, "female");
+    FEMALE(2, "female"),
+    NEUTRAL(3, "neutral");
 
     int id;
     String strName;

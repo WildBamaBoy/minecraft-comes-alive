@@ -72,13 +72,13 @@ public class ModelVillagerMCA<T extends EntityVillagerMCA> extends BipedModel<T>
     }
 
     private ModelRenderer newBreasts(float modelSize, boolean cloth, int oy) {
-        ModelRenderer breasts = new ModelRenderer(this, 18, 20 + oy);
+        ModelRenderer breasts = new ModelRenderer(this, 18, 21 + oy);
         if (cloth) {
             breasts.addBox(-3.25F, -1.25F, -1.5F, 6, 3, 3, modelSize);
         } else {
-            breasts.texOffs(17, 20 + oy);
+            breasts.texOffs(17, 21 + oy);
             breasts.addBox(-3.25F, -1.25F, -1.5F, 3, 3, 3, modelSize);
-            breasts.texOffs(22, 20 + oy);
+            breasts.texOffs(22, 21 + oy);
             breasts.addBox(0.25F, -1.25F, -1.5F, 3, 3, 3, modelSize);
         }
         breasts.setPos(0F, 0F, 0F);
