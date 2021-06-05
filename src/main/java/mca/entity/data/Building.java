@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static net.minecraft.tags.BlockTags.LEAVES;
+
 public class Building implements Serializable {
     private String type;
     private int size;
@@ -94,6 +96,8 @@ public class Building implements Serializable {
 
         //fill the building
         int scanSize = 0;
+        boolean hasDoor = false;
+        Map<BlockPos, Boolean> roofCache = new HashMap<>();
         while (!queue.isEmpty() && scanSize < maxSize) {
             BlockPos p = queue.removeLast();
 
@@ -111,10 +115,34 @@ public class Building implements Serializable {
 
                         //if not solid, continue
                         if (block.isAir() && !world.canSeeSky(n)) {
-                            queue.add(n);
+                            //special conditions
+                            if (!roofCache.containsKey(n)) {
+                                BlockPos n2 = n;
+                                int maxScanHeight = 12;
+                                for (int i = 0; i < maxScanHeight; i++) {
+                                    roofCache.put(n2, false);
+                                    n2 = n2.above();
+
+                                    //found valid block
+                                    BlockState b = world.getBlockState(n2);
+                                    if (!b.isAir() || roofCache.containsKey(n2)) {
+                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !b.is(LEAVES)) {
+                                            for (int i2 = i; i2 >= 0; i2--) {
+                                                n2 = n2.below();
+                                                roofCache.put(n2, true);
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            if (roofCache.get(n)) {
+                                queue.add(n);
+                            }
                         } else if (block.getBlock().getBlock() instanceof DoorBlock) {
                             //skip door and start a new room
                             queue.add(n.relative(d));
+                            hasDoor = true;
                         }
                     }
                 }
@@ -124,7 +152,7 @@ public class Building implements Serializable {
         }
 
         // min size is 32, which equals a 8 block big cube with 6 times 4 sides
-        if (queue.isEmpty() && done.size() > 32) {
+        if (hasDoor && queue.isEmpty() && done.size() > 32) {
             //fetch all interesting block types
             Set<String> blockTypes = new HashSet<>();
             for (BuildingType bt : API.getBuildingTypes().values()) {
