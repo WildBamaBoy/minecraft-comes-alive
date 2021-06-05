@@ -13,12 +13,12 @@
     ],
     "B": [
       {
-        "item": "minecraft:dye"
+        "item": "minecraft:blue_dye"
       }
     ]
   },
   "result": {
-    "item": "mca:wedding_ring_rg",
+    "item": "mca:blueprint",
     "count": 1
   }
 }
