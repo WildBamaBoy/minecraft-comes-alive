@@ -2,6 +2,7 @@ package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumChore;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -21,7 +22,7 @@ public class InteractTask extends Task<EntityVillagerMCA> {
 
     protected boolean checkExtraStartConditions(ServerWorld world, EntityVillagerMCA villager) {
         PlayerEntity playerentity = villager.getInteractingPlayer();
-        return villager.isAlive() && playerentity != null && !villager.isInWater() && !villager.hurtMarked && villager.distanceToSqr(playerentity) <= 16.0D && playerentity.containerMenu != null;
+        return villager.isAlive() && playerentity != null && !villager.isInWater() && !villager.hurtMarked && villager.distanceToSqr(playerentity) <= 16.0D && playerentity.containerMenu != null && EnumChore.byId(villager.activeChore.get()) == EnumChore.NONE;
     }
 
     protected boolean canStillUse(ServerWorld world, EntityVillagerMCA villager, long p_212834_3_) {

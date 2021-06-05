@@ -1,52 +1,55 @@
 package mca.enums;
 
+import mca.api.API;
 import mca.core.MCA;
+import net.minecraft.util.RangedInteger;
+import net.minecraft.util.math.MathHelper;
 
-@SuppressWarnings({"DuplicateBranchesInSwitch", "DuplicateExpressions"})
 public enum EnumMood {
-    DEPRESSED(-3, EnumMoodGroup.GENERAL),
-    SAD(-2, EnumMoodGroup.GENERAL),
-    UNHAPPY(-1, EnumMoodGroup.GENERAL),
-    PASSIVE(0, EnumMoodGroup.UNASSIGNED),
-    FINE(1, EnumMoodGroup.GENERAL),
-    HAPPY(2, EnumMoodGroup.GENERAL),
-    OVERJOYED(3, EnumMoodGroup.GENERAL),
 
-    BORED_TO_TEARS(-3, EnumMoodGroup.PLAYFUL),
-    BORED(-2, EnumMoodGroup.PLAYFUL),
-    UNINTERESTED(-1, EnumMoodGroup.PLAYFUL),
-    SILLY(1, EnumMoodGroup.PLAYFUL),
-    GIGGLY(2, EnumMoodGroup.PLAYFUL),
-    ENTERTAINED(3, EnumMoodGroup.PLAYFUL),
+    DEPRESSED(RangedInteger.of(-100, -15), EnumMoodGroup.GENERAL),
+    SAD(RangedInteger.of(-14, -7), EnumMoodGroup.GENERAL),
+    UNHAPPY(RangedInteger.of(-6, -1), EnumMoodGroup.GENERAL),
+    PASSIVE(RangedInteger.of(0, 0), EnumMoodGroup.UNASSIGNED),
+    FINE(RangedInteger.of(1, 6), EnumMoodGroup.GENERAL),
+    HAPPY(RangedInteger.of(7, 14), EnumMoodGroup.GENERAL),
+    OVERJOYED(RangedInteger.of(15, 15), EnumMoodGroup.GENERAL),
 
-    INFURIATED(-3, EnumMoodGroup.SERIOUS),
-    ANGRY(-2, EnumMoodGroup.SERIOUS),
-    ANNOYED(-1, EnumMoodGroup.SERIOUS),
-    INTERESTED(1, EnumMoodGroup.SERIOUS),
-    TALKATIVE(2, EnumMoodGroup.SERIOUS),
-    PLEASED(3, EnumMoodGroup.SERIOUS);
+    BORED_TO_TEARS(RangedInteger.of(-100, -15), EnumMoodGroup.PLAYFUL),
+    BORED(RangedInteger.of(-14, -7), EnumMoodGroup.PLAYFUL),
+    UNINTERESTED(RangedInteger.of(-6, -1), EnumMoodGroup.PLAYFUL),
+    SILLY(RangedInteger.of(1, 6), EnumMoodGroup.PLAYFUL),
+    GIGGLY(RangedInteger.of(7, 14), EnumMoodGroup.PLAYFUL),
+    ENTERTAINED(RangedInteger.of(15, 15), EnumMoodGroup.PLAYFUL),
 
-    public final static int minLevel = -3;
-    public final static int maxLevel = 3;
+    INFURIATED(RangedInteger.of(-100, -15), EnumMoodGroup.SERIOUS),
+    ANGRY(RangedInteger.of(-14, -7), EnumMoodGroup.SERIOUS),
+    ANNOYED(RangedInteger.of(-6, -1), EnumMoodGroup.SERIOUS),
+    INTERESTED(RangedInteger.of(1, 6), EnumMoodGroup.SERIOUS),
+    TALKATIVE(RangedInteger.of(7, 14), EnumMoodGroup.SERIOUS),
+    PLEASED(RangedInteger.of(15, 15), EnumMoodGroup.SERIOUS);
+
+    public final static int minLevel = -100;
+    public final static int maxLevel = 15;
     public final static int levelsPerMood = 5;
-    private final int level;
+    private final RangedInteger level;
     private final EnumMoodGroup moodGroup;
 
-    EnumMood(int level, EnumMoodGroup moodGroup) {
+    EnumMood(RangedInteger level, EnumMoodGroup moodGroup) {
         this.level = level;
         this.moodGroup = moodGroup;
     }
 
     public static int getLevel(int mood) {
-        return Math.min(maxLevel, Math.max(minLevel, Math.round((float) mood / levelsPerMood)));
+        return MathHelper.clamp(mood, minLevel, maxLevel);
     }
 
     public EnumMoodGroup getMoodGroup() {
         return this.moodGroup;
     }
 
-    public int getLevel() {
-        return this.level;
+    public boolean isInRange(int level) {
+        return this.level.getMaxInclusive() >= level && this.level.getMinInclusive() <= level;
     }
 
     public String getLocalizedName() {
@@ -62,19 +65,14 @@ public enum EnumMood {
     public int getHeartsModifierForInteraction(EnumInteraction interaction) {
         switch (interaction) {
             case CHAT:
-                return level;
             case JOKE:
-                return level;
-            case SHAKE_HAND:
-                return -level;
             case TELL_STORY:
-                return level;
-            case FLIRT:
-                return -level;
             case HUG:
-                return level;
+                return level.randomValue(API.getRng());
+            case SHAKE_HAND:
+            case FLIRT:
             case KISS:
-                return -level;
+                return -level.randomValue(API.getRng());
             default:
                 return 0;
         }
