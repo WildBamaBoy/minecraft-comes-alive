@@ -240,7 +240,7 @@ public class EntityVillagerMCA extends VillagerEntity implements INamedContainer
             brain.setSchedule(Schedule.VILLAGER_BABY);
             brain.addActivity(Activity.PLAY, MCAVillagerTasks.getPlayPackage(0.5F));
         } else {
-            brain.setSchedule(this.random.nextBoolean() ? Schedule.VILLAGER_DEFAULT : SchedulesMCA.VILLAGER_DEFAULT_FLIPPED);
+            brain.setSchedule(Schedule.VILLAGER_DEFAULT);
             brain.addActivityWithConditions(Activity.WORK, MCAVillagerTasks.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
         }
 
