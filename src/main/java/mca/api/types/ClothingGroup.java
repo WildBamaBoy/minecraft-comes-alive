@@ -7,7 +7,7 @@ public class ClothingGroup {
     private final String gender;
     private final String profession;
     private final int count;
-    private float chance;
+    private final float chance;
 
     public ClothingGroup() {
         gender = "";
