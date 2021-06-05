@@ -145,7 +145,7 @@ public class API {
         if (clothing.get(gender).containsKey(profession)) {
             return clothing.get(gender).get(profession);
         } else {
-            return clothing.get(gender).get("none");
+            return clothing.get(gender).get("minecraft:none");
         }
     }
 
