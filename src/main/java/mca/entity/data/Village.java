@@ -1,10 +1,9 @@
 package mca.entity.data;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
 import mca.api.API;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumRank;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.Rank;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
@@ -17,26 +16,25 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import java.io.Serializable;
 import java.util.*;
 
 public class Village implements Serializable {
-    private int id;
+    //todo move tasks to own class
+    private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "bePatient"};
+    public final List<ItemStack> storageBuffer;
     private final Map<Integer, Building> buildings;
+    public long lastMoveIn;
+    private int id;
     private String name;
     private int centerX, centerY, centerZ;
     private int size;
     private int taxes;
     private int populationThreshold;
     private int marriageThreshold;
-    public long lastMoveIn;
-
-    public List<ItemStack> storageBuffer;
-
-    //todo move tasks to own class
-    private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "bePatient"};
     private boolean[] tasks;
 
     public Village() {
@@ -55,6 +53,10 @@ public class Village implements Serializable {
     public Village(int id) {
         this();
         this.id = id;
+    }
+
+    public static String[] getTaskNames() {
+        return taskNames;
     }
 
     public void addBuilding(Building building) {
@@ -129,12 +131,24 @@ public class Village implements Serializable {
         return taxes;
     }
 
+    public void setTaxes(int taxes) {
+        this.taxes = taxes;
+    }
+
     public int getPopulationThreshold() {
         return populationThreshold;
     }
 
+    public void setPopulationThreshold(int populationThreshold) {
+        this.populationThreshold = populationThreshold;
+    }
+
     public int getMarriageThreshold() {
         return marriageThreshold;
+    }
+
+    public void setMarriageThreshold(int marriageThreshold) {
+        this.marriageThreshold = marriageThreshold;
     }
 
     public String getName() {
@@ -149,22 +163,6 @@ public class Village implements Serializable {
         return id;
     }
 
-    public void setTaxes(int taxes) {
-        this.taxes = taxes;
-    }
-
-    public void setPopulationThreshold(int populationThreshold) {
-        this.populationThreshold = populationThreshold;
-    }
-
-    public void setMarriageThreshold(int marriageThreshold) {
-        this.marriageThreshold = marriageThreshold;
-    }
-
-    public static String[] getTaskNames() {
-        return taskNames;
-    }
-
     public boolean[] getTasks() {
         return tasks;
     }
@@ -175,8 +173,8 @@ public class Village implements Serializable {
         for (Building b : buildings.values()) {
             for (UUID v : b.getResidents().keySet()) {
                 Entity entity = ((ServerWorld) player.level).getEntity(v);
-                if (entity instanceof EntityVillagerMCA) {
-                    EntityVillagerMCA villager = (EntityVillagerMCA) entity;
+                if (entity instanceof VillagerEntityMCA) {
+                    VillagerEntityMCA villager = (VillagerEntityMCA) entity;
                     sum += villager.getMemoriesForPlayer(player).getHearts();
                     residents++;
                 }
@@ -194,11 +192,11 @@ public class Village implements Serializable {
         return tasks.length;
     }
 
-    public EnumRank getRank(int reputation) {
-        EnumRank rank = EnumRank.fromReputation(reputation);
+    public Rank getRank(int reputation) {
+        Rank rank = Rank.fromReputation(reputation);
         int t = tasksCompleted();
         for (int i = 0; i <= rank.getId(); i++) {
-            EnumRank r = EnumRank.fromRank(i);
+            Rank r = Rank.fromRank(i);
             if (t < r.getTasks()) {
                 return r;
             }
@@ -214,13 +212,13 @@ public class Village implements Serializable {
         return residents;
     }
 
-    public List<EntityVillagerMCA> getResidents(CWorld world) {
-        List<EntityVillagerMCA> residents = new LinkedList<>();
+    public List<VillagerEntityMCA> getResidents(World world) {
+        List<VillagerEntityMCA> residents = new LinkedList<>();
         for (Building b : buildings.values()) {
             for (UUID uuid : b.getResidents().keySet()) {
-                Entity v = world.getEntityByUUID(uuid);
-                if (v instanceof EntityVillagerMCA) {
-                    residents.add((EntityVillagerMCA) v);
+                Entity v = ((ServerWorld) world).getEntity(uuid);
+                if (v instanceof VillagerEntityMCA) {
+                    residents.add((VillagerEntityMCA) v);
                 }
             }
         }
@@ -240,19 +238,6 @@ public class Village implements Serializable {
     public void deliverTaxes(ServerWorld world) {
         if (storageBuffer.size() > 0) {
             buildings.values().stream().filter((b) -> b.getType().equals("inn")).filter((b) -> world.isLoaded(b.getCenter())).forEach((b) -> {
-//                IInventory inventory = getInventoryAt(world, BlockPos.of(pos));
-//
-//                //TODO is there really no prebuilt add method?
-//                if (inventory != null) {
-//                    while (storageBuffer.size() > 0) {
-//                        for (int i = 0; i < inventory.getContainerSize(); i++) {
-//                            if (inventory.getItem(i).isEmpty()) {
-//                                inventory.setItem(i, storageBuffer.remove(0));
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
             });
         }
     }
@@ -315,9 +300,9 @@ public class Village implements Serializable {
         }
     }
 
-    public void addResident(EntityVillagerMCA villager, int building) {
+    public void addResident(VillagerEntityMCA villager, int building) {
         lastMoveIn = villager.level.getGameTime();
         buildings.get(building).addResident(villager);
-        VillageManagerData.get(villager.world).setDirty();
+        VillageManagerData.get(villager.level).setDirty();
     }
 }

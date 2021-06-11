@@ -1,10 +1,10 @@
 package mca.entity.data;
 
-import cobalt.core.CConstants;
-import cobalt.minecraft.nbt.CNBT;
 import lombok.Getter;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumDialogueType;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.core.Constants;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.DialogueType;
 
 import java.util.UUID;
 
@@ -18,25 +18,25 @@ public class Memories {
 
     private int dialogueType;
 
-    private EntityVillagerMCA villager;
+    private VillagerEntityMCA villager;
 
     private Memories() {
         hearts = 0;
-        playerUUID = CConstants.ZERO_UUID;
+        playerUUID = Constants.ZERO_UUID;
         interactionFatigue = 0;
-        dialogueType = EnumDialogueType.UNASSIGNED.getId();
+        dialogueType = DialogueType.UNASSIGNED.getId();
     }
 
-    public static Memories getNew(EntityVillagerMCA villager, UUID uuid) {
+    public static Memories getNew(VillagerEntityMCA villager, UUID uuid) {
         Memories memory = new Memories();
         memory.villager = villager;
         memory.playerUUID = uuid;
         memory.interactionFatigue = 0;
-        memory.dialogueType = EnumDialogueType.ADULT.getId();
+        memory.dialogueType = DialogueType.ADULT.getId();
         return memory;
     }
 
-    public static Memories fromCNBT(EntityVillagerMCA villager, CNBT cnbt) {
+    public static Memories fromCNBT(VillagerEntityMCA villager, CNBT cnbt) {
         if (cnbt == null || cnbt.getMcCompound().isEmpty()) {
             return null;
         }
@@ -79,11 +79,11 @@ public class Memories {
         villager.updateMemories(this);
     }
 
-    public EnumDialogueType getDialogueType() {
-        return EnumDialogueType.byId(this.dialogueType);
+    public DialogueType getDialogueType() {
+        return DialogueType.byId(this.dialogueType);
     }
 
-    public void setDialogueType(EnumDialogueType value) {
+    public void setDialogueType(DialogueType value) {
         this.dialogueType = value.getId();
         villager.updateMemories(this);
     }

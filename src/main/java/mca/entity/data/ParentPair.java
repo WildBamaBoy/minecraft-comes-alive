@@ -1,21 +1,21 @@
 package mca.entity.data;
 
-import cobalt.core.CConstants;
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
 import lombok.Getter;
-import mca.entity.EntityVillagerMCA;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.core.Constants;
+import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
 public class ParentPair {
-    private UUID parent1UUID = CConstants.ZERO_UUID;
-    private UUID parent2UUID = CConstants.ZERO_UUID;
+    private UUID parent1UUID = Constants.ZERO_UUID;
+    private UUID parent2UUID = Constants.ZERO_UUID;
     private String parent1Name = "";
     private String parent2Name = "";
 
@@ -40,12 +40,12 @@ public class ParentPair {
     /*
      * Creates new parent data containing this villager and their spouse.
      */
-    public static ParentPair fromVillager(EntityVillagerMCA villager) {
+    public static ParentPair fromVillager(VillagerEntityMCA villager) {
         ParentPair data = new ParentPair();
         data.parent1Name = villager.getName().getString();
         data.parent1UUID = villager.getUUID();
         data.parent2Name = villager.spouseName.get();
-        data.parent2UUID = villager.spouseUUID.get().orElse(CConstants.ZERO_UUID);
+        data.parent2UUID = villager.spouseUUID.get().orElse(Constants.ZERO_UUID);
         return data;
     }
 
@@ -72,9 +72,9 @@ public class ParentPair {
      * @param world   The world containing the parents.
      * @param message The message to send.
      */
-    public void sendMessage(CWorld world, String message) {
-        Entity parent1 = world.getEntityByUUID(parent1UUID);
-        Entity parent2 = world.getEntityByUUID(parent2UUID);
+    public void sendMessage(ServerWorld world, String message) {
+        Entity parent1 = world.getEntity(parent1UUID);
+        Entity parent2 = world.getEntity(parent2UUID);
 
         if (parent1 != null) parent1.sendMessage(new StringTextComponent(message), parent1.getUUID());
         if (parent2 != null) parent2.sendMessage(new StringTextComponent(message), parent2.getUUID());
@@ -86,9 +86,9 @@ public class ParentPair {
      * @param world World which contains the parents
      * @return Entity[]
      */
-    public Entity[] getBothParentEntities(CWorld world) {
-        Entity parent1 = world.getEntityByUUID(getParent1UUID());
-        Entity parent2 = world.getEntityByUUID(getParent2UUID());
+    public Entity[] getBothParentEntities(ServerWorld world) {
+        Entity parent1 = world.getEntity(getParent1UUID());
+        Entity parent2 = world.getEntity(getParent2UUID());
         return new Entity[]{parent1, parent2};
     }
 
@@ -107,7 +107,7 @@ public class ParentPair {
      *
      * @return bool
      */
-    public boolean hasPlayerParent(CWorld world) {
+    public boolean hasPlayerParent(ServerWorld world) {
         return Arrays.stream(getBothParentEntities(world)).anyMatch(e -> e instanceof PlayerEntity);
     }
 }

@@ -1,18 +1,19 @@
 package mca.entity;
 
-import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
-import cobalt.minecraft.world.CWorld;
 import mca.api.API;
 import mca.core.MCA;
 import mca.entity.data.ParentPair;
-import mca.enums.EnumGender;
+import mca.enums.Gender;
+import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerData;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class VillagerFactory {
-    private final CWorld world;
-    private final EntityVillagerMCA villager;
+    private final World world;
+    private final VillagerEntityMCA villager;
     private boolean isNameSet;
     private boolean isProfessionSet;
     private boolean isGenderSet;
@@ -20,31 +21,31 @@ public class VillagerFactory {
     private boolean isAgeSet;
     private boolean isLevelSet;
 
-    private VillagerFactory(CWorld world) {
+    private VillagerFactory(World world) {
         this.world = world;
-        this.villager = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), world.getMcWorld());
+        this.villager = new VillagerEntityMCA(world);
     }
 
-    public static VillagerFactory newVillager(CWorld world) {
+    public static VillagerFactory newVillager(World world) {
         return new VillagerFactory(world);
     }
 
-    public VillagerFactory withGender(EnumGender gender) {
+    public VillagerFactory withGender(Gender gender) {
         villager.gender.set(gender.getId());
         isGenderSet = true;
         return this;
     }
 
-    public VillagerFactory withProfession(CVillagerProfession prof) {
+    public VillagerFactory withProfession(VillagerProfession prof) {
         VillagerData data = villager.getVillagerData();
-        villager.setVillagerData(new VillagerData(data.getType(), prof.getMcProfession(), 0));
+        villager.setVillagerData(new VillagerData(data.getType(), prof, 0));
         isProfessionSet = true;
         return this;
     }
 
-    public VillagerFactory withProfession(CVillagerProfession prof, int level) {
+    public VillagerFactory withProfession(VillagerProfession prof, int level) {
         VillagerData data = villager.getVillagerData();
-        villager.setVillagerData(new VillagerData(data.getType(), prof.getMcProfession(), level));
+        villager.setVillagerData(new VillagerData(data.getType(), prof, level));
         isProfessionSet = true;
         isLevelSet = true;
         return this;
@@ -90,22 +91,22 @@ public class VillagerFactory {
             MCA.log("Attempted to spawn villager without a position being set!");
         }
 
-        world.spawnEntity(build());
+        WorldUtils.spawnEntity(world, villager);
         return this;
     }
 
-    public EntityVillagerMCA build() {
+    public VillagerEntityMCA build() {
         if (!isGenderSet) {
-            villager.gender.set(EnumGender.getRandom().getId());
+            villager.gender.set(Gender.getRandom().getId());
         }
 
         if (!isNameSet) {
-            villager.villagerName.set(API.getRandomName(EnumGender.byId(villager.gender.get())));
+            villager.villagerName.set(API.getRandomName(Gender.byId(villager.gender.get())));
         }
 
         if (!isProfessionSet) {
             VillagerData data = villager.getVillagerData();
-            villager.setVillagerData(new VillagerData(data.getType(), API.randomProfession().getMcProfession(), data.getLevel()));
+            villager.setVillagerData(new VillagerData(data.getType(), API.randomProfession(), data.getLevel()));
         }
 
         if (!isLevelSet) {

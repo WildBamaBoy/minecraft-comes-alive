@@ -1,7 +1,7 @@
 package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
-import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 //TODO make them teleport
-public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
+public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
     private int remainingCooldown;
     @Nullable
     private Path path;
@@ -34,7 +34,7 @@ public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
         super(ImmutableMap.of(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleStatus.REGISTERED, MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleStatus.VALUE_PRESENT), minDuration, maxDuration);
     }
 
-    protected boolean checkExtraStartConditions(ServerWorld world, EntityVillagerMCA villager) {
+    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
         if (this.remainingCooldown > 0) {
             --this.remainingCooldown;
             return false;
@@ -56,7 +56,7 @@ public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
         }
     }
 
-    protected boolean canStillUse(ServerWorld world, EntityVillagerMCA villager, long gameTime) {
+    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long gameTime) {
         if (this.path != null && this.lastTargetPos != null) {
             Optional<WalkTarget> optional = villager.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
             PathNavigator pathnavigator = villager.getNavigation();
@@ -66,7 +66,7 @@ public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
         }
     }
 
-    protected void stop(ServerWorld world, EntityVillagerMCA villager, long gameTime) {
+    protected void stop(ServerWorld world, VillagerEntityMCA villager, long gameTime) {
         if (villager.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET) && !this.reachedTarget(villager, villager.getBrain().getMemory(MemoryModuleType.WALK_TARGET).get()) && villager.getNavigation().isStuck()) {
             this.remainingCooldown = world.getRandom().nextInt(40);
         }
@@ -77,12 +77,12 @@ public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
         this.path = null;
     }
 
-    protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
+    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
         villager.getBrain().setMemory(MemoryModuleType.PATH, this.path);
         villager.getNavigation().moveTo(this.path, this.speedModifier);
     }
 
-    protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
+    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
         Path path = villager.getNavigation().getPath();
         Brain<?> brain = villager.getBrain();
         if (this.path != path) {
@@ -100,7 +100,7 @@ public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
         }
     }
 
-    private boolean tryComputePath(EntityVillagerMCA villager, WalkTarget walkTarget, long p_220487_3_) {
+    private boolean tryComputePath(VillagerEntityMCA villager, WalkTarget walkTarget, long p_220487_3_) {
         BlockPos blockpos = walkTarget.getTarget().currentBlockPosition();
         this.path = villager.getNavigation().createPath(blockpos, 0);
         this.speedModifier = walkTarget.getSpeedModifier();
@@ -130,7 +130,7 @@ public class WalkOrTeleportToTargetTask extends Task<EntityVillagerMCA> {
         return false;
     }
 
-    private boolean reachedTarget(EntityVillagerMCA villager, WalkTarget walkTarget) {
+    private boolean reachedTarget(VillagerEntityMCA villager, WalkTarget walkTarget) {
         return walkTarget.getTarget().currentBlockPosition().distManhattan(villager.blockPosition()) <= walkTarget.getCloseEnoughDist();
     }
 }

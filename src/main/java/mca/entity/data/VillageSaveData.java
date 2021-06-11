@@ -1,16 +1,17 @@
 package mca.entity.data;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
-import cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.util.WorldUtils;
+import net.minecraft.world.World;
 
 public class VillageSaveData extends CWorldSavedData {
     public VillageSaveData(String id) {
         super(id);
     }
 
-    public static VillageSaveData get(CWorld world) {
-        return world.loadData(VillageSaveData.class, "mca_village");
+    public static VillageSaveData get(World world) {
+        return WorldUtils.loadData(world, VillageSaveData.class, "mca_village");
     }
 
     @Override

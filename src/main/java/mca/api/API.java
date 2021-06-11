@@ -1,6 +1,5 @@
 package mca.api;
 
-import cobalt.minecraft.entity.merchant.villager.CVillagerProfession;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -8,11 +7,13 @@ import mca.api.types.*;
 import mca.client.gui.GuiInteract;
 import mca.client.gui.component.ButtonEx;
 import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumConstraint;
-import mca.enums.EnumGender;
+import mca.core.minecraft.ProfessionsMCA;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.Constraint;
+import mca.enums.Gender;
 import mca.util.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -29,23 +30,13 @@ import java.util.*;
  * Class API handles interaction with MCAs configurable options via JSON in the resources folder
  */
 public class API {
-    private static class WeightedEntry {
-        String value;
-        float weight;
-
-        public WeightedEntry(String value, float weight) {
-            this.value = value;
-            this.weight = weight;
-        }
-    }
-
     private static final Map<String, Gift> giftMap = new HashMap<>();
     private static final Map<String, APIButton[]> buttonMap = new HashMap<>();
     private static final Map<String, APIIcon> iconMap = new HashMap<>();
     private static final List<String> maleNames = new ArrayList<>();
     private static final List<String> femaleNames = new ArrayList<>();
-    private static final Map<EnumGender, Map<String, List<WeightedEntry>>> clothing = new HashMap<>();
-    private static final Map<EnumGender, List<Hair>> hair = new HashMap<>();
+    private static final Map<Gender, Map<String, List<WeightedEntry>>> clothing = new HashMap<>();
+    private static final Map<Gender, List<Hair>> hair = new HashMap<>();
     private static final Map<String, BuildingType> buildingTypes = new HashMap<>();
     private static final Map<String, NameSet> nameSets = new HashMap<>();
     private static String[] supporters;
@@ -59,13 +50,13 @@ public class API {
 
         // Load skins
         // Skins are stored in a <Gender, <Profession, List of paths>> map, which is generic enough to allow custom skins etc
-        for (EnumGender g : EnumGender.values()) {
+        for (Gender g : Gender.values()) {
             clothing.put(g, new HashMap<>());
         }
         ClothingGroup[] clothingGroups = Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class);
         for (ClothingGroup gp : clothingGroups) {
-            for (EnumGender g : EnumGender.values()) {
-                if (gp.getGender() == EnumGender.NEUTRAL || gp.getGender() == g) {
+            for (Gender g : Gender.values()) {
+                if (gp.getGender() == Gender.NEUTRAL || gp.getGender() == g) {
                     if (!clothing.get(g).containsKey(gp.getProfession())) {
                         clothing.get(g).put(gp.getProfession(), new LinkedList<>());
                     }
@@ -78,13 +69,13 @@ public class API {
         }
 
         // Load hair
-        for (EnumGender g : EnumGender.values()) {
+        for (Gender g : Gender.values()) {
             hair.put(g, new ArrayList<>());
         }
         HairGroup[] hairGroups = Util.readResourceAsJSON("api/hair.json", HairGroup[].class);
         for (HairGroup hg : hairGroups) {
-            for (EnumGender g : EnumGender.values()) {
-                if (hg.getGender() == EnumGender.NEUTRAL || hg.getGender() == g) {
+            for (Gender g : Gender.values()) {
+                if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
                     for (int i = 0; i < hg.getCount(); i++) {
                         Hair path = getHair(hg, i);
                         hair.get(g).add(path);
@@ -138,9 +129,9 @@ public class API {
     }
 
     //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
-    private static List<WeightedEntry> getClothing(EntityVillagerMCA villager) {
+    private static List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
         String profession = Objects.requireNonNull(villager.getProfession().getRegistryName()).toString();
-        EnumGender gender = EnumGender.byId(villager.gender.get());
+        Gender gender = Gender.byId(villager.gender.get());
 
         if (clothing.get(gender).containsKey(profession)) {
             return clothing.get(gender).get(profession);
@@ -162,7 +153,7 @@ public class API {
      * @param villager The villager who will be assigned the random skin.
      * @return String location of the random skin
      */
-    public static String getRandomClothing(EntityVillagerMCA villager) {
+    public static String getRandomClothing(VillagerEntityMCA villager) {
         List<WeightedEntry> group = getClothing(villager);
         double totalChance = group.stream().mapToDouble(a -> a.weight).sum() * rng.nextDouble();
         for (WeightedEntry e : group) {
@@ -175,12 +166,12 @@ public class API {
     }
 
     //returns the next clothing
-    public static String getNextClothing(EntityVillagerMCA villager, String current) {
+    public static String getNextClothing(VillagerEntityMCA villager, String current) {
         return getNextClothing(villager, current, 1);
     }
 
     //returns the next clothing with given offset to current
-    public static String getNextClothing(EntityVillagerMCA villager, String current, int next) {
+    public static String getNextClothing(VillagerEntityMCA villager, String current, int next) {
         List<WeightedEntry> group = getClothing(villager);
 
         //look for the current one
@@ -209,20 +200,20 @@ public class API {
      * @param villager The villager who will be assigned the hair.
      * @return String location of the random skin
      */
-    public static Hair getRandomHair(EntityVillagerMCA villager) {
-        EnumGender gender = EnumGender.byId(villager.gender.get());
+    public static Hair getRandomHair(VillagerEntityMCA villager) {
+        Gender gender = Gender.byId(villager.gender.get());
         List<Hair> hairs = hair.get(gender);
         return hairs.get(rng.nextInt(hairs.size()));
     }
 
     //returns the next clothing
-    public static Hair getNextHair(EntityVillagerMCA villager, Hair current) {
+    public static Hair getNextHair(VillagerEntityMCA villager, Hair current) {
         return getNextHair(villager, current, 1);
     }
 
     //returns the next clothing with given offset to current
-    public static Hair getNextHair(EntityVillagerMCA villager, Hair current, int next) {
-        EnumGender gender = EnumGender.byId(villager.gender.get());
+    public static Hair getNextHair(VillagerEntityMCA villager, Hair current, int next) {
+        Gender gender = Gender.byId(villager.gender.get());
         List<Hair> hairs = hair.get(gender);
 
         //look for the current one
@@ -291,9 +282,9 @@ public class API {
      * @param gender The gender the name should be appropriate for.
      * @return A gender appropriate name based on the provided gender.
      */
-    public static String getRandomName(@Nonnull EnumGender gender) {
-        if (gender == EnumGender.MALE) return maleNames.get(rng.nextInt(maleNames.size()));
-        else if (gender == EnumGender.FEMALE) return femaleNames.get(rng.nextInt(femaleNames.size()));
+    public static String getRandomName(@Nonnull Gender gender) {
+        if (gender == Gender.MALE) return maleNames.get(rng.nextInt(maleNames.size()));
+        else if (gender == Gender.FEMALE) return femaleNames.get(rng.nextInt(femaleNames.size()));
         return "";
     }
 
@@ -305,7 +296,7 @@ public class API {
      * @param player   PlayerEntity who has opened the GUI
      * @param screen   Screen instance the buttons should be added to
      */
-    public static void addButtons(String guiKey, @Nullable EntityVillagerMCA villager, PlayerEntity player, GuiInteract screen) {
+    public static void addButtons(String guiKey, @Nullable VillagerEntityMCA villager, PlayerEntity player, GuiInteract screen) {
         for (APIButton b : buttonMap.get(guiKey)) {
             ButtonEx guiButton = new ButtonEx(screen, b);
             screen.addExButton(guiButton);
@@ -319,7 +310,7 @@ public class API {
             // Remove the button if we specify it should not be present on constraint failure
             // Otherwise we just mark the button as disabled.
             boolean isValid = b.isValidForConstraint(villager, player);
-            if (!isValid && b.getConstraints().contains(EnumConstraint.HIDE_ON_FAIL)) {
+            if (!isValid && b.getConstraints().contains(Constraint.HIDE_ON_FAIL)) {
                 guiButton.visible = false;
             } else if (!isValid) {
                 guiButton.active = false;
@@ -327,8 +318,8 @@ public class API {
         }
     }
 
-    public static CVillagerProfession randomProfession() {
-        return CVillagerProfession.fromMC(MCA.PROFESSION_GUARD.get());
+    public static VillagerProfession randomProfession() {
+        return ProfessionsMCA.randomProfession();
     }
 
     //returns a random generated name for a given name set
@@ -358,5 +349,15 @@ public class API {
 
     public static Random getRng() {
         return rng;
+    }
+
+    private static class WeightedEntry {
+        final String value;
+        final float weight;
+
+        public WeightedEntry(String value, float weight) {
+            this.value = value;
+            this.weight = weight;
+        }
     }
 }

@@ -1,8 +1,8 @@
 package mca.server;
 
-import mca.core.MCA;
+import mca.core.minecraft.EntitiesMCA;
 import mca.core.minecraft.SoundsMCA;
-import mca.entity.EntityGrimReaper;
+import mca.entity.GrimReaperEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
@@ -29,7 +29,7 @@ public class ReaperSpawner {
             }
 
             if (ticks == 0) {
-                EntityGrimReaper reaper = MCA.ENTITYTYPE_GRIM_REAPER.get().spawn(world, null, null, null, position, SpawnReason.STRUCTURE, false, false);
+                GrimReaperEntity reaper = EntitiesMCA.GRIM_REAPER.spawn(world, null, null, null, position, SpawnReason.STRUCTURE, false, false);
                 if (reaper != null) {
                     reaper.playSound(SoundsMCA.reaper_summon, 1.0F, 1.0F);
                 }

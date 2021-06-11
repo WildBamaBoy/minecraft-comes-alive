@@ -1,10 +1,10 @@
 package mca.network;
 
-import cobalt.minecraft.world.CWorld;
-import cobalt.network.Message;
-import mca.entity.EntityVillagerMCA;
+import mca.api.cobalt.network.Message;
+import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.UUID;
 
@@ -17,10 +17,9 @@ public class CallToPlayerMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        CWorld world = CWorld.fromMC(player.level);
-        Entity e = world.getEntityByUUID(uuid);
-        if (e instanceof EntityVillagerMCA) {
-            EntityVillagerMCA v = (EntityVillagerMCA) e;
+        Entity e = ((ServerWorld) player.level).getEntity(uuid);
+        if (e instanceof VillagerEntityMCA) {
+            VillagerEntityMCA v = (VillagerEntityMCA) e;
             v.setPos(player.getX(), player.getY(), player.getZ());
         }
     }

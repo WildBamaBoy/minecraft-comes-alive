@@ -1,29 +1,30 @@
 package mca.entity.data;
 
-import cobalt.core.CConstants;
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
-import cobalt.minecraft.world.storage.CWorldSavedData;
-import mca.enums.EnumMarriageState;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.core.Constants;
+import mca.enums.MarriageState;
+import mca.util.WorldUtils;
+import net.minecraft.world.World;
 
 import java.util.UUID;
 
 public class PlayerSaveData extends CWorldSavedData {
-    private UUID spouseUUID = CConstants.ZERO_UUID;
+    private UUID spouseUUID = Constants.ZERO_UUID;
     private String spouseName = "";
     private boolean babyPresent = false;
-    private EnumMarriageState marriageState;
+    private MarriageState marriageState;
 
     public PlayerSaveData(String id) {
         super(id);
     }
 
-    public static PlayerSaveData get(CWorld world, UUID uuid) {
-        return world.loadData(PlayerSaveData.class, "mca_village_" + uuid.toString());
+    public static PlayerSaveData get(World world, UUID uuid) {
+        return WorldUtils.loadData(world, PlayerSaveData.class, "mca_village_" + uuid.toString());
     }
 
     public boolean isMarried() {
-        return !spouseUUID.equals(CConstants.ZERO_UUID) && marriageState != EnumMarriageState.NOT_MARRIED;
+        return !spouseUUID.equals(Constants.ZERO_UUID) && marriageState != MarriageState.NOT_MARRIED;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class PlayerSaveData extends CWorldSavedData {
         babyPresent = nbt.getBoolean("babyPresent");
     }
 
-    public void marry(UUID uuid, String name, EnumMarriageState marriageState) {
+    public void marry(UUID uuid, String name, MarriageState marriageState) {
         this.spouseUUID = uuid;
         this.spouseName = name;
         this.marriageState = marriageState;
@@ -49,7 +50,7 @@ public class PlayerSaveData extends CWorldSavedData {
     }
 
     public void endMarriage() {
-        spouseUUID = CConstants.ZERO_UUID;
+        spouseUUID = Constants.ZERO_UUID;
         spouseName = "";
         setDirty();
     }
@@ -69,7 +70,7 @@ public class PlayerSaveData extends CWorldSavedData {
         setDirty();
     }
 
-    public EnumMarriageState getMarriageState() {
+    public MarriageState getMarriageState() {
         return this.marriageState;
     }
 

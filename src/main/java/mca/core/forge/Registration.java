@@ -1,9 +1,9 @@
 package mca.core.forge;
 
-import mca.blocks.JewelerWorkbench;
 import mca.core.MCA;
 import mca.core.minecraft.*;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
@@ -16,15 +16,11 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class Registration {
     public static final DeferredRegister<Block> BLOCKS = create(ForgeRegistries.BLOCKS);
@@ -39,9 +35,10 @@ public class Registration {
     public static final DeferredRegister<PointOfInterestType> POI_TYPES = create(ForgeRegistries.POI_TYPES);
     public static final DeferredRegister<VillagerProfession> PROFESSIONS = create(ForgeRegistries.PROFESSIONS);
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = create(ForgeRegistries.SOUND_EVENTS);
-    //public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MCA.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = create(ForgeRegistries.ENTITIES);
 
     public static void register() {
+        EntitiesMCA.init();
         BlocksMCA.register();
         ContainerTypesMCA.register();
         ItemsMCA.register();
@@ -52,19 +49,20 @@ public class Registration {
         ParticleTypesMCA.init();
         SchedulesMCA.init();
         MessagesMCA.register();
-        //TODO (ProfessionsMCA, PointOfInterestTypeMCA, SoundsMCA) register()
+        ProfessionsMCA.register();
+        //TODO (PointOfInterestTypeMCA, SoundsMCA) register()
         PointOfInterestTypeMCA.register();
-        //ProfessionsMCA.register();
         SoundsMCA.register();
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ENTITY_TYPES.register(modEventBus);
+        PROFESSIONS.register(modEventBus);
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
         ITEMS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
         POI_TYPES.register(modEventBus);
-        PROFESSIONS.register(modEventBus);
         PARTICLE_TYPES.register(modEventBus);
         MEMORY_MODULE_TYPES.register(modEventBus);
         ACTIVITIES.register(modEventBus);

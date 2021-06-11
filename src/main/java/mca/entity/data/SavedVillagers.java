@@ -1,10 +1,11 @@
 package mca.entity.data;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
-import cobalt.minecraft.world.storage.CWorldSavedData;
 import lombok.Getter;
-import mca.entity.EntityVillagerMCA;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.entity.VillagerEntityMCA;
+import mca.util.WorldUtils;
+import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,11 +20,11 @@ public class SavedVillagers extends CWorldSavedData {
         super(id);
     }
 
-    public static SavedVillagers get(CWorld world) {
-        return world.loadData(SavedVillagers.class, DATA_ID);
+    public static SavedVillagers get(World world) {
+        return WorldUtils.loadData(world, SavedVillagers.class, DATA_ID);
     }
 
-    public void saveVillager(EntityVillagerMCA villager) {
+    public void saveVillager(VillagerEntityMCA villager) {
         CNBT nbt = CNBT.createNew();
         villager.save(nbt.getMcCompound());
         villagerData.put(villager.getUUID().toString(), nbt);

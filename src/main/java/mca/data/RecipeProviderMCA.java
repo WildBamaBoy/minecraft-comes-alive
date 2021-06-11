@@ -15,8 +15,10 @@ public class RecipeProviderMCA extends RecipeProvider {
         super(generatorIn);
     }
 
+    private static ResourceLocation modId(String path) {
+        return new ResourceLocation(MCA.MOD_ID, path);
+    }
 
-    @SuppressWarnings("OverlyLongMethod")
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
 
@@ -25,12 +27,12 @@ public class RecipeProviderMCA extends RecipeProvider {
                 .unlockedBy("has_item", has(ItemsMCA.ROSE_GOLD_INGOT.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ItemsMCA.ROSE_GOLD_DUST.get(),1)
+        ShapelessRecipeBuilder.shapeless(ItemsMCA.ROSE_GOLD_DUST.get(), 1)
                 .requires(ItemsMCA.ROSE_GOLD_INGOT.get())
                 .unlockedBy("has_item", has(ItemsMCA.ROSE_GOLD_DUST.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ItemsMCA.GOLD_DUST.get(),6)
+        ShapelessRecipeBuilder.shapeless(ItemsMCA.GOLD_DUST.get(), 6)
                 .requires(ItemsMCA.ROSE_GOLD_DUST.get())
                 .requires(Items.WATER_BUCKET)
                 .unlockedBy("has_item", has(ItemsMCA.GOLD_DUST.get()))
@@ -50,11 +52,5 @@ public class RecipeProviderMCA extends RecipeProvider {
         CookingRecipeBuilder.blasting(Ingredient.of(BlocksMCA.ROSE_GOLD_ORE.get()), ItemsMCA.ROSE_GOLD_INGOT.get(), 0.7f, 100)
                 .unlockedBy("has_item", has(BlocksMCA.ROSE_GOLD_ORE.get()))
                 .save(consumer, modId("rose_gold_ingot_blasting"));
-    }
-
-
-
-    private static ResourceLocation modId(String path) {
-        return new ResourceLocation(MCA.MOD_ID, path);
     }
 }

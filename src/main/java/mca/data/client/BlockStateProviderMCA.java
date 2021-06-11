@@ -1,7 +1,6 @@
 package mca.data.client;
 
 import mca.core.MCA;
-import mca.core.minecraft.BlocksMCA;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -13,11 +12,6 @@ public class BlockStateProviderMCA extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        //simpleBlock(BlocksMCA.ROSE_GOLD_ORE.get());
-        //simpleBlock(BlocksMCA.ROSE_GOLD_BLOCK.get());
-        //simpleBlock(BlocksMCA.VILLAGER_SPAWNER.get());
-        //simpleBlock(BlocksMCA.TOMBSTONE.get());
-        //simpleBlock(BlocksMCA.JEWELER_WORKBENCH.get());
 
     }
 }

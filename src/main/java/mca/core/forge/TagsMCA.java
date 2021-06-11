@@ -1,30 +1,24 @@
 package mca.core.forge;
 
 import mca.core.MCA;
-import mca.items.ItemBaby;
-import mca.items.ItemBlueprint;
-import mca.items.ItemSpawnEgg;
-import mca.items.ItemWhistle;
 import net.minecraft.block.Block;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.fml.RegistryObject;
 
 public class TagsMCA {
     public static final class Blocks {
-        public static final ITag.INamedTag<Block> ORES_ROSE_GOLD= forge("ores/rose_gold");
+        public static final ITag.INamedTag<Block> ORES_ROSE_GOLD = forge("ores/rose_gold");
 
         public static final ITag.INamedTag<Block> STORAGE_BLOCKS_ROSE_GOLD = forge("storage_blocks/rose_gold");
         public static final ITag.INamedTag<Block> STORAGE_BLOCKS_VILLAGER_SPAWNER = mca("storage_blocks/villager_spawner");
         public static final ITag.INamedTag<Block> STORAGE_BLOCKS_TOMBSTONE = mca("storage_blocks/tombstone");
         public static final ITag.INamedTag<Block> STORAGE_BLOCKS_JEWELER_WORKBENCH = mca("storage_blocks/jeweler_workbench");
 
-        private Blocks() {}
+        private Blocks() {
+        }
 
         private static ITag.INamedTag<Block> forge(String path) {
             return BlockTags.bind(new ResourceLocation("forge", path).toString());
@@ -68,7 +62,8 @@ public class TagsMCA {
 
         //public static final Tags.IOptionalNamedTag<Item> DYES_ROSE_GOLD = DyeColor.ROSE_GOLD.getTag();
 
-        private Items() {}
+        private Items() {
+        }
 
         private static ITag.INamedTag<Item> forge(String path) {
             return ItemTags.bind(new ResourceLocation("forge", path).toString());

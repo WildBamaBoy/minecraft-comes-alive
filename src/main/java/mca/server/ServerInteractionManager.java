@@ -1,11 +1,10 @@
 package mca.server;
 
-import cobalt.minecraft.world.CWorld;
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 import mca.core.Constants;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.data.PlayerSaveData;
-import mca.enums.EnumMarriageState;
+import mca.enums.MarriageState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
@@ -107,7 +106,7 @@ public class ServerInteractionManager {
      */
     public void sendProposal(PlayerEntity sender, PlayerEntity receiver) {
         // Ensure the sender isn't already married.
-        if (PlayerSaveData.get(CWorld.fromMC(sender.level), sender.getUUID()).isMarried()) {
+        if (PlayerSaveData.get(sender.level, sender.getUUID()).isMarried()) {
             failMessage(sender, "You cannot send a proposal since you are already married or engaged.");
             return;
         }
@@ -166,10 +165,10 @@ public class ServerInteractionManager {
             successMessage(receiver, sender.getScoreboardName() + " has accepted your proposal!");
 
             // Set both player datas as married.
-            PlayerSaveData senderData = PlayerSaveData.get(CWorld.fromMC(sender.level), sender.getUUID());
-            PlayerSaveData receiverData = PlayerSaveData.get(CWorld.fromMC(receiver.level), receiver.getUUID());
-            senderData.marry(receiver.getUUID(), receiver.getScoreboardName(), EnumMarriageState.MARRIED_TO_PLAYER);
-            receiverData.marry(sender.getUUID(), sender.getScoreboardName(), EnumMarriageState.MARRIED_TO_PLAYER);
+            PlayerSaveData senderData = PlayerSaveData.get(sender.level, sender.getUUID());
+            PlayerSaveData receiverData = PlayerSaveData.get(receiver.level, receiver.getUUID());
+            senderData.marry(receiver.getUUID(), receiver.getScoreboardName(), MarriageState.MARRIED_TO_PLAYER);
+            receiverData.marry(sender.getUUID(), sender.getScoreboardName(), MarriageState.MARRIED_TO_PLAYER);
 
             // Send success messages.
             successMessage(sender, "You and " + receiver.getScoreboardName() + " are now married.");
@@ -187,7 +186,7 @@ public class ServerInteractionManager {
      */
     public void endMarriage(PlayerEntity sender) {
         // Retrieve all data instances and an instance of the ex-spouse if they are present.
-        PlayerSaveData senderData = PlayerSaveData.get(CWorld.fromMC(sender.level), sender.getUUID());
+        PlayerSaveData senderData = PlayerSaveData.get(sender.level, sender.getUUID());
 
         // Ensure the sender is married
         if (!senderData.isMarried()) {
@@ -197,12 +196,12 @@ public class ServerInteractionManager {
 
         // Lookup the spouse, if it's a villager, we can't continue
 
-        if (senderData.getMarriageState() != EnumMarriageState.MARRIED_TO_PLAYER) {
+        if (senderData.getMarriageState() != MarriageState.MARRIED_TO_PLAYER) {
             failMessage(sender, "You cannot use this command when married to a villager.");
             return;
         }
 
-        PlayerSaveData receiverData = PlayerSaveData.get(CWorld.fromMC(sender.level), senderData.getSpouseUUID());
+        PlayerSaveData receiverData = PlayerSaveData.get(sender.level, senderData.getSpouseUUID());
 
         // Notify the sender of the success and end both marriages.
         successMessage(sender, "Your marriage to " + senderData.getSpouseName() + " has ended.");
@@ -222,7 +221,7 @@ public class ServerInteractionManager {
      */
     public void procreate(PlayerEntity sender) {
         // Ensure the sender is married.
-        PlayerSaveData senderData = PlayerSaveData.get(CWorld.fromMC(sender.level), sender.getUUID());
+        PlayerSaveData senderData = PlayerSaveData.get(sender.level, sender.getUUID());
         if (!senderData.isMarried()) {
             failMessage(sender, "You cannot procreate if you are not married.");
             return;
@@ -234,7 +233,7 @@ public class ServerInteractionManager {
             return;
         }
 
-        if (senderData.getMarriageState() != EnumMarriageState.MARRIED_TO_PLAYER) {
+        if (senderData.getMarriageState() != MarriageState.MARRIED_TO_PLAYER) {
             failMessage(sender, "You cannot use this command when married to a villager.");
             return;
         }
@@ -252,7 +251,7 @@ public class ServerInteractionManager {
                 successMessage(spouse, "Procreation successful!");
                 spouse.addItem(new ItemStack(sender.level.getRandom().nextBoolean() ? ItemsMCA.BABY_BOY.get() : ItemsMCA.BABY_GIRL.get()));
 
-                PlayerSaveData spouseData = PlayerSaveData.get(CWorld.fromMC(spouse.level), spouse.getUUID());
+                PlayerSaveData spouseData = PlayerSaveData.get(spouse.level, spouse.getUUID());
                 spouseData.setBabyPresent(true);
                 senderData.setBabyPresent(true);
             }

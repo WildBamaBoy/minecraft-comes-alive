@@ -1,11 +1,11 @@
 package mca.network;
 
-import cobalt.network.Message;
+import mca.api.cobalt.network.Message;
 import mca.client.gui.GuiBlueprint;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
-import mca.items.ItemBaby;
+import mca.items.BabyItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -16,13 +16,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class OpenGuiRequest extends Message {
     private final gui gui;
-
-    public enum gui {
-        BABY_NAME,
-        WHISTLE,
-        STAFF_OF_LIFE,
-        BLUEPRINT,
-    }
 
     public OpenGuiRequest(OpenGuiRequest.gui gui) {
         this.gui = gui;
@@ -45,11 +38,18 @@ public class OpenGuiRequest extends Message {
                 PlayerEntity player = Minecraft.getInstance().player;
                 if (player != null) {
                     ItemStack item = player.getItemInHand(Hand.MAIN_HAND);
-                    if (item.getItem() instanceof ItemBaby) {
+                    if (item.getItem() instanceof BabyItem) {
                         Minecraft.getInstance().setScreen(new GuiNameBaby(player, item));
                     }
                 }
                 break;
         }
+    }
+
+    public enum gui {
+        BABY_NAME,
+        WHISTLE,
+        STAFF_OF_LIFE,
+        BLUEPRINT,
     }
 }

@@ -58,8 +58,7 @@ public class Util {
 
     public static <T> T readResourceAsJSON(String path, Class<T> type) {
         Gson gson = new Gson();
-        T data = gson.fromJson(Util.readResource(path), type);
-        return data;
+        return gson.fromJson(Util.readResource(path), type);
     }
 
     public static List<BlockPos> getNearbyBlocks(BlockPos origin, World world, @Nullable Predicate<BlockState> filter, int xzDist, int yDist) {
@@ -104,7 +103,7 @@ public class Util {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);

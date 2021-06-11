@@ -1,7 +1,6 @@
 package mca.network;
 
-import cobalt.minecraft.world.CWorld;
-import cobalt.network.Message;
+import mca.api.cobalt.network.Message;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -21,7 +20,7 @@ public class SaveVillageMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity e) {
-        Village village = VillageManagerData.get(CWorld.fromMC(e.level)).villages.get(id);
+        Village village = VillageManagerData.get(e.level).villages.get(id);
         if (village != null) {
             village.setTaxes(taxes);
             village.setPopulationThreshold(populationThreshold);

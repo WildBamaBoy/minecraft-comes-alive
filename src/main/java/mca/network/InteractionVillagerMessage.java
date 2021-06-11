@@ -1,7 +1,7 @@
 package mca.network;
 
-import cobalt.network.Message;
-import mca.entity.EntityVillagerMCA;
+import mca.api.cobalt.network.Message;
+import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.server.ServerWorld;
 
@@ -20,7 +20,7 @@ public class InteractionVillagerMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        EntityVillagerMCA villager = (EntityVillagerMCA) ((ServerWorld) player.level).getEntity(villagerUUID);
+        VillagerEntityMCA villager = (VillagerEntityMCA) ((ServerWorld) player.level).getEntity(villagerUUID);
         if (villager != null) {
             villager.handleInteraction(player, page, id);
         }

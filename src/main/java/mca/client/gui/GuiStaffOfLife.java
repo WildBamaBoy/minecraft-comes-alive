@@ -1,17 +1,16 @@
 package mca.client.gui;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.network.NetworkHandler;
 import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerEntityMCA;
 import mca.network.ReviveVillagerMessage;
 import mca.network.SavedVillagersRequest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,7 +22,7 @@ import java.util.*;
 public class GuiStaffOfLife extends Screen {
     private final List<String> keys = new ArrayList<>();
     private Map<String, CNBT> villagerData;
-    private EntityVillagerMCA dummy;
+    private VillagerEntityMCA dummy;
     // selection fields
     private int selectedIndex = 0;
     private Button nameButton;
@@ -82,7 +81,7 @@ public class GuiStaffOfLife extends Screen {
         villagerData = data;
 
         if (data.size() > 0) {
-            dummy = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), Minecraft.getInstance().level);
+            dummy = new VillagerEntityMCA(Minecraft.getInstance().level);
             keys.clear();
             keys.addAll(data.keySet());
             selectData(0);

@@ -1,10 +1,10 @@
 package mca.client.gui;
 
-import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
+import mca.api.cobalt.network.NetworkHandler;
 import mca.core.MCA;
-import mca.items.ItemBaby;
+import mca.items.BabyItem;
 import mca.network.BabyNamingVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -43,7 +43,7 @@ public class GuiNameBaby extends Screen {
             NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.inventory.selected, babyNameTextField.getValue().trim()));
             Objects.requireNonNull(this.minecraft).setScreen(null);
         }));
-        addButton(new Button(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> babyNameTextField.setValue(API.getRandomName(((ItemBaby) baby.getItem()).getGender()))));
+        addButton(new Button(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> babyNameTextField.setValue(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
 
         babyNameTextField = new TextFieldWidget(this.font, width / 2 - 100, height / 2 - 60, 200, 20, new TranslationTextComponent("structure_block.structure_name"));
         babyNameTextField.setMaxLength(32);

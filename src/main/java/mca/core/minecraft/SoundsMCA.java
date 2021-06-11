@@ -12,7 +12,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = "mca")
 public final class SoundsMCA {
-    static List<SoundEvent> soundList = new LinkedList<>();
+    static final List<SoundEvent> soundList = new LinkedList<>();
 
     public static final SoundEvent reaper_scythe_out = newSound("reaper.scythe_out");
     public static final SoundEvent reaper_scythe_swing = newSound("reaper.scythe_swing");
@@ -34,7 +34,8 @@ public final class SoundsMCA {
         return event;
     }
 
-    public static void register(){}
+    public static void register() {
+    }
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<SoundEvent> event) {

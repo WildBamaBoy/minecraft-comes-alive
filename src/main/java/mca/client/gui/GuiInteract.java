@@ -1,22 +1,24 @@
 package mca.client.gui;
 
-import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
+import mca.api.cobalt.network.NetworkHandler;
 import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
+import mca.core.minecraft.ProfessionsMCA;
+import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.ParentPair;
-import mca.enums.EnumAgeState;
-import mca.enums.EnumChore;
-import mca.enums.EnumMarriageState;
-import mca.enums.EnumMoveState;
+import mca.enums.AgeState;
+import mca.enums.Chore;
+import mca.enums.MarriageState;
+import mca.enums.MoveState;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -33,7 +35,7 @@ import java.util.Objects;
 @OnlyIn(Dist.CLIENT)
 public class GuiInteract extends Screen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
-    private final EntityVillagerMCA villager;
+    private final VillagerEntityMCA villager;
     private final PlayerEntity player;
     private final float iconScale = 1.5f;
     private boolean inGiftMode;
@@ -44,7 +46,7 @@ public class GuiInteract extends Screen {
     // Tracks which page we're on in the GUI for sending button events
     private String activeKey;
 
-    public GuiInteract(EntityVillagerMCA villager, PlayerEntity player) {
+    public GuiInteract(VillagerEntityMCA villager, PlayerEntity player) {
         super(new StringTextComponent("Interact"));
 
         this.villager = villager;
@@ -148,11 +150,11 @@ public class GuiInteract extends Screen {
     }
 
     private void drawIcons(MatrixStack transform) {
-        EnumMarriageState marriageState = EnumMarriageState.byId(villager.marriageState.get());
+        MarriageState marriageState = MarriageState.byId(villager.marriageState.get());
         String marriageIcon =
-                marriageState == EnumMarriageState.MARRIED ? "married" :
-                        marriageState == EnumMarriageState.ENGAGED ? "engaged" :
-                                marriageState == EnumMarriageState.MARRIED_TO_PLAYER ? "marriedToPlayer" :
+                marriageState == MarriageState.MARRIED ? "married" :
+                        marriageState == MarriageState.ENGAGED ? "engaged" :
+                                marriageState == MarriageState.MARRIED_TO_PLAYER ? "marriedToPlayer" :
                                         "notMarried";
 
         Memories memory = villager.getMemoriesForPlayer(player);
@@ -182,8 +184,8 @@ public class GuiInteract extends Screen {
 
     private void drawTextPopups(MatrixStack transform) {
         //general information
-        EnumAgeState age = villager.getAgeState();
-        String professionName = age != EnumAgeState.ADULT ? age.localizedName() : MCA.localize("entity.minecraft.villager." + villager.getProfession());
+        VillagerProfession profession = villager.getProfession();
+        String professionName = profession == ProfessionsMCA.CHILD ? villager.getAgeState().localizedName() : MCA.localize("entity.minecraft.villager." + profession);
 
         //name or state tip (gifting, ...)
         int h = 17;
@@ -217,13 +219,13 @@ public class GuiInteract extends Screen {
         }
 
         //marriage status
-        EnumMarriageState marriageState = EnumMarriageState.byId(villager.marriageState.get());
+        MarriageState marriageState = MarriageState.byId(villager.marriageState.get());
         String marriageInfo;
         if (hoveringOverIcon("married")) {
             String spouseName = villager.spouseName.get();
-            if (marriageState == EnumMarriageState.MARRIED)
+            if (marriageState == MarriageState.MARRIED || marriageState == MarriageState.MARRIED_TO_PLAYER)
                 marriageInfo = MCA.localize("gui.interact.label.married", spouseName);
-            else if (marriageState == EnumMarriageState.ENGAGED)
+            else if (marriageState == MarriageState.ENGAGED)
                 marriageInfo = MCA.localize("gui.interact.label.engaged", spouseName);
             else marriageInfo = MCA.localize("gui.interact.label.notmarried");
 
@@ -245,7 +247,7 @@ public class GuiInteract extends Screen {
             List<ITextComponent> lines = new LinkedList<>();
             lines.add(new StringTextComponent("Genes"));
             for (int i = 0; i < villager.GENES.length; i++) {
-                String key = EntityVillagerMCA.GENES_NAMES[i].replace("_", ".");
+                String key = VillagerEntityMCA.GENES_NAMES[i].replace("_", ".");
                 int value = (int) (villager.GENES[i].get() * 100);
                 lines.add(new StringTextComponent(String.format("%s: %d%%", MCA.localize(key), value)));
             }
@@ -355,7 +357,7 @@ public class GuiInteract extends Screen {
         API.addButtons("command", villager, player, this);
 
         int id = villager.moveState.get();
-        switch (EnumMoveState.byId(id)) {
+        switch (MoveState.byId(id)) {
             case STAY:
                 disableButton("gui.button.stay");
                 break;
@@ -378,7 +380,7 @@ public class GuiInteract extends Screen {
         API.addButtons("work", villager, player, this);
 
         int id = villager.activeChore.get();
-        switch (EnumChore.byId(id)) {
+        switch (Chore.byId(id)) {
             case NONE:
                 disableButton("gui.button.stopworking");
                 break;

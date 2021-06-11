@@ -6,11 +6,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -31,14 +29,13 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class JewelerWorkbench extends Block{
-    protected static final VoxelShape SHAPE = Block.box(1.0D, 0.1D, 1.0D, 15.0D, 24.0D, 15.0D);
+public class JewelerWorkbench extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
+    protected static final VoxelShape SHAPE = Block.box(1.0D, 0.1D, 1.0D, 15.0D, 24.0D, 15.0D);
 
     public JewelerWorkbench(Properties properties) {
         super(properties);
@@ -67,10 +64,6 @@ public class JewelerWorkbench extends Block{
 
     private void interactWith(World world, BlockPos pos, PlayerEntity player) {
         TileEntity tileEntity = world.getBlockEntity(pos);
-        //if (tileEntity instanceof JewelerWorkbenchTileEntity && player instanceof ServerPlayerEntity) {
-        //    JewelerWorkbenchTileEntity te = (JewelerWorkbenchTileEntity) tileEntity;
-        //    NetworkHooks.openGui((ServerPlayerEntity) player, te, te::encodeExtraData);
-        //}
     }
 
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
@@ -123,23 +116,4 @@ public class JewelerWorkbench extends Block{
             super.onRemove(state, world, pos, newState, isMoving);
         }
     }
-    /*
-    //private static final VoxelShape SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
-
-    private static final VoxelShape SHAPE_PILLAR = Block.box(5, 2, 5, 11, 14, 11);
-    private static final VoxelShape SHAPE_BOTTOM1 = Block.box(1, 0, 1, 15, 1, 15);
-    private static final VoxelShape SHAPE_BOTTOM2 = Block.box(3, 1, 3, 13, 2, 13);
-    private static final VoxelShape SHAPE_TOP1 = Block.box(1, 15, 1, 15, 16, 15);
-    private static final VoxelShape SHAPE_TOP2 = Block.box(3, 14, 3, 13, 15, 13);
-    private static final VoxelShape SHAPE = createShape(SHAPE_PILLAR, SHAPE_BOTTOM1, SHAPE_BOTTOM2, SHAPE_TOP1, SHAPE_TOP2);
-
-
-    private static VoxelShape createShape(VoxelShape... shapes) {
-        VoxelShape shape = shapes[0];
-        for (int i = 1; i < shapes.length; ++i) {
-            shape = VoxelShapes.or(shape, shapes[i]);
-        }
-        return shape;
-    }
-*/
 }

@@ -1,15 +1,15 @@
 package mca.api.types;
 
 import lombok.AllArgsConstructor;
-import mca.enums.EnumGender;
+import mca.enums.Gender;
 
 @AllArgsConstructor
 public class HairGroup {
     private final String gender;
     private final int count;
 
-    public EnumGender getGender() {
-        return EnumGender.byName(gender);
+    public Gender getGender() {
+        return Gender.byName(gender);
     }
 
     public int getCount() {

@@ -1,13 +1,13 @@
 package mca.client.gui;
 
-import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
+import mca.api.cobalt.network.NetworkHandler;
 import mca.api.types.BuildingType;
 import mca.core.MCA;
 import mca.entity.data.Building;
 import mca.entity.data.Village;
-import mca.enums.EnumRank;
+import mca.enums.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
@@ -28,22 +28,17 @@ import java.util.function.Consumer;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiBlueprint extends Screen {
-    private Village village;
-    private int reputation;
-
-    private boolean showCatalog;
-
     //gui element Y positions
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
     private final int positionMarriage = 40;
-
     private final int rankTaxes = 100;
     private final int rankBirth = 1;
     private final int rankMarriage = 1;
-
     private final int fromCenter = 150;
-
+    private Village village;
+    private int reputation;
+    private boolean showCatalog;
     private Button[] buttonTaxes;
     private Button[] buttonBirths;
     private Button[] buttonMarriage;
@@ -198,7 +193,7 @@ public class GuiBlueprint extends Screen {
             buttonMarriage[0].setMessage(new StringTextComponent(village.getMarriageThreshold() + "%"));
 
             //rank
-            EnumRank rank = village.getRank(reputation);
+            Rank rank = village.getRank(reputation);
             String rankStr = MCA.localize("gui.village.rank." + rank.getId());
             int rankColor = rank.getId() == 0 ? 0xffff0000 : 0xffffff00;
             drawCenteredString(transform, font, MCA.localize("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);

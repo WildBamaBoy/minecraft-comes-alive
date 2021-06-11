@@ -17,7 +17,7 @@ public class Constants {
     /**
      * All possible font colors
      */
-    public final class Color {
+    public static final class Color {
         public static final String BLACK = SECTION_SIGN + "0";
         public static final String DARKBLUE = SECTION_SIGN + "1";
         public static final String DARKGREEN = SECTION_SIGN + "2";
@@ -39,7 +39,7 @@ public class Constants {
     /**
      * All possible font formats.
      */
-    public final class Format {
+    public static final class Format {
         public static final String OBFUSCATED = SECTION_SIGN + "k";
         public static final String BOLD = SECTION_SIGN + "l";
         public static final String STRIKE = SECTION_SIGN + "m";

@@ -1,8 +1,9 @@
 package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumChore;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.Chore;
+import mca.util.InventoryUtils;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.item.ItemEntity;
@@ -28,39 +29,37 @@ public class HuntingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, EntityVillagerMCA villager) {
-        return villager.activeChore.get() == EnumChore.HUNT.getId();
+    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+        return villager.activeChore.get() == Chore.HUNT.getId();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, EntityVillagerMCA villager, long p_212834_3_) {
+    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
         return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
 
     @Override
-    protected void stop(ServerWorld world, EntityVillagerMCA villager, long p_212835_3_) {
+    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
         ItemStack stack = villager.getItemInHand(Hand.MAIN_HAND);
         if (!stack.isEmpty()) {
             villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
-            villager.inventory.addItem(stack);
         }
         villager.swing(Hand.MAIN_HAND);
     }
 
     @Override
-    protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
+    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
         super.start(world, villager, p_212831_3_);
 
         if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof SwordItem);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof SwordItem);
             if (i == -1) {
                 villager.say(this.getAssigningPlayer().get(), "chore.hunting.nosword");
                 villager.stopChore();
             } else {
                 ItemStack stack = villager.inventory.getItem(i);
                 villager.setItemInHand(Hand.MAIN_HAND, stack);
-                villager.inventory.setItem(i, ItemStack.EMPTY);
             }
 
 
@@ -69,17 +68,16 @@ public class HuntingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
+    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
         super.tick(world, villager, p_212833_3_);
 
-        if (!villager.inventory.contains(SwordItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
+        if (!InventoryUtils.contains(villager.getInventory(), SwordItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
             villager.stopChore();
         } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof SwordItem);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof SwordItem);
             ItemStack stack = villager.inventory.getItem(i);
             villager.setItemInHand(Hand.MAIN_HAND, stack);
-            villager.inventory.setItem(i, ItemStack.EMPTY);
         }
 
         if (target == null) {
@@ -87,8 +85,8 @@ public class HuntingTask extends AbstractChoreTask {
 
             if (ticks >= nextAction) {
                 ticks = 0;
-                if (villager.world.rand.nextFloat() >= 0.0D) {
-                    Optional<AnimalEntity> animal = villager.world.getMcWorld().getLoadedEntitiesOfClass(AnimalEntity.class, villager.getBoundingBox().inflate(15.0D, 3.0D, 15.0D)).stream()
+                if (villager.level.random.nextFloat() >= 0.0D) {
+                    Optional<AnimalEntity> animal = villager.level.getLoadedEntitiesOfClass(AnimalEntity.class, villager.getBoundingBox().inflate(15.0D, 3.0D, 15.0D)).stream()
                             .filter((a) -> !(a instanceof TameableEntity))
                             .min(Comparator.comparingDouble(d -> villager.distanceToSqr(d.getX(), d.getY(), d.getZ())));
 
@@ -105,7 +103,7 @@ public class HuntingTask extends AbstractChoreTask {
 
             if (target.isDeadOrDying()) {
                 // search for EntityItems around the target and grab them
-                villager.world.getMcWorld().getLoadedEntitiesOfClass(ItemEntity.class, villager.getBoundingBox().inflate(15.0D, 3.0D, 15.0D))
+                villager.level.getLoadedEntitiesOfClass(ItemEntity.class, villager.getBoundingBox().inflate(15.0D, 3.0D, 15.0D))
                         .forEach((item) -> {
                             villager.inventory.addItem(item.getItem());
                             item.remove();

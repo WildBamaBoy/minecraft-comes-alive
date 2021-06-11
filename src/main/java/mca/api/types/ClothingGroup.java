@@ -1,7 +1,6 @@
 package mca.api.types;
 
-import mca.enums.EnumGender;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
+import mca.enums.Gender;
 
 public class ClothingGroup {
     private final String gender;
@@ -16,8 +15,8 @@ public class ClothingGroup {
         chance = 1.0f;
     }
 
-    public EnumGender getGender() {
-        return EnumGender.byName(gender);
+    public Gender getGender() {
+        return Gender.byName(gender);
     }
 
     public String getProfession() {

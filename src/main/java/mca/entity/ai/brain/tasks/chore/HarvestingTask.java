@@ -1,8 +1,9 @@
 package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumChore;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.Chore;
+import mca.util.InventoryUtils;
 import mca.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
@@ -39,37 +40,35 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, EntityVillagerMCA villager) {
-        return villager.activeChore.get() == EnumChore.HARVEST.getId();// && (blockWork - villager.tickCount) < 0;
+    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+        return villager.activeChore.get() == Chore.HARVEST.getId();// && (blockWork - villager.tickCount) < 0;
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, EntityVillagerMCA villager, long p_212834_3_) {
+    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
         return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
     @Override
-    protected void stop(ServerWorld world, EntityVillagerMCA villager, long p_212835_3_) {
+    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
         ItemStack stack = villager.getItemInHand(Hand.MAIN_HAND);
         if (!stack.isEmpty()) {
             villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
-            villager.inventory.addItem(stack);
         }
 
     }
 
     @Override
-    protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
+    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
         super.start(world, villager, p_212831_3_);
         if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof HoeItem);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             if (i == -1) {
                 villager.say(getAssigningPlayer().get(), "chore.harvesting.nohoe");
                 villager.stopChore();
             } else {
                 ItemStack stack = villager.inventory.getItem(i);
                 villager.setItemInHand(Hand.MAIN_HAND, stack);
-                villager.inventory.setItem(i, ItemStack.EMPTY);
             }
 
 
@@ -79,12 +78,12 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     private BlockPos searchCrop(int rangeX, int rangeY, boolean harvestableOnly) {
-        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(BlockTags.CROPS) || blockState.getBlock() instanceof StemGrownBlock, rangeX, rangeY);
+        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.blockPosition(), villager.level, blockState -> blockState.is(BlockTags.CROPS) || blockState.getBlock() instanceof StemGrownBlock, rangeX, rangeY);
         harvestable.clear();
 
         if (harvestableOnly) {
             for (BlockPos pos : nearbyCrops) {
-                BlockState state = villager.world.getMcWorld().getBlockState(pos);
+                BlockState state = villager.level.getBlockState(pos);
                 if (state.getBlock() instanceof CropsBlock) {
                     CropsBlock crop = (CropsBlock) state.getBlock();
 
@@ -102,15 +101,15 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     private BlockPos searchUnusedFarmLand(int rangeX, int rangeY) {
-        List<BlockPos> nearbyFarmLand = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), blockState -> blockState.is(Blocks.FARMLAND), rangeX, rangeY);
+        List<BlockPos> nearbyFarmLand = Util.getNearbyBlocks(villager.blockPosition(), villager.level, blockState -> blockState.is(Blocks.FARMLAND), rangeX, rangeY);
         List<BlockPos> fertileLand = new ArrayList<>();
         for (BlockPos pos : nearbyFarmLand) {
-            BlockState state = villager.world.getMcWorld().getBlockState(pos);
-            BlockState possibleCrop = villager.world.getMcWorld().getBlockState(pos.above());
+            BlockState state = villager.level.getBlockState(pos);
+            BlockState possibleCrop = villager.level.getBlockState(pos.above());
             if (state.getBlock() instanceof FarmlandBlock) {
                 FarmlandBlock farmlandBlock = (FarmlandBlock) state.getBlock();
 
-                if (farmlandBlock.isFertile(state, villager.world.getMcWorld(), pos) && possibleCrop.isAir()) {
+                if (farmlandBlock.isFertile(state, villager.level, pos) && possibleCrop.isAir()) {
                     fertileLand.add(pos);
                 }
             }
@@ -120,18 +119,16 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
+    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
         if (this.villager == null) this.villager = villager;
 
-        if (!villager.inventory.contains(HoeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            System.out.println("No Hoe");
+        if (!InventoryUtils.contains(villager.getInventory(), HoeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.harvesting.nohoe");
             villager.stopChore();
         } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof HoeItem);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             ItemStack stack = villager.inventory.getItem(i);
             villager.setItemInHand(Hand.MAIN_HAND, stack);
-            villager.inventory.setItem(i, ItemStack.EMPTY);
         }
 
         BlockPos fertileFarmLand = searchUnusedFarmLand(16, 3);
@@ -140,7 +137,7 @@ public class HarvestingTask extends AbstractChoreTask {
             fertileFarmLand = searchUnusedFarmLand(32, 16);
         }
 
-        if (fertileFarmLand != null) {
+        if (fertileFarmLand != null && villager.hasFarmSeeds()) {
             villager.moveTowards(fertileFarmLand);
             double distanceToSqr = villager.distanceToSqr(fertileFarmLand.getX(), fertileFarmLand.getY(), fertileFarmLand.getZ());
             if (distanceToSqr <= 6.0D) {
@@ -191,7 +188,7 @@ public class HarvestingTask extends AbstractChoreTask {
         }
     }
 
-    public boolean tryBreakStemGrownBlock(ServerWorld world, EntityVillagerMCA villager, BlockPos target) {
+    public boolean tryBreakStemGrownBlock(ServerWorld world, VillagerEntityMCA villager, BlockPos target) {
         if (lastActionTicks < 15) {
             return false;
         }
@@ -211,7 +208,7 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
 
-    public boolean tryPlantSeed(ServerWorld world, EntityVillagerMCA villager, BlockPos target) {
+    public boolean tryPlantSeed(ServerWorld world, VillagerEntityMCA villager, BlockPos target) {
         if (lastActionTicks < 15) {
             return false;
         }
@@ -264,12 +261,12 @@ public class HarvestingTask extends AbstractChoreTask {
         return false;
     }
 
-    public boolean tryBonemealCrop(ServerWorld world, EntityVillagerMCA villager, BlockState state, BlockPos pos) {
+    public boolean tryBonemealCrop(ServerWorld world, VillagerEntityMCA villager, BlockState state, BlockPos pos) {
         if (lastActionTicks < 15) {
             return false;
         }
 
-        int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof BoneMealItem);
+        int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof BoneMealItem);
         if (i > -1) {
             ItemStack stack = villager.inventory.getItem(i);
             stack.shrink(1);

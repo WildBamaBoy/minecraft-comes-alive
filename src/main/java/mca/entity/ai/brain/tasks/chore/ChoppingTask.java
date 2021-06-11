@@ -1,8 +1,9 @@
 package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumChore;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.Chore;
+import mca.util.InventoryUtils;
 import mca.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,41 +32,38 @@ public class ChoppingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, EntityVillagerMCA villager) {
-        return villager.activeChore.get() == EnumChore.CHOP.getId();
+    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+        return villager.activeChore.get() == Chore.CHOP.getId();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, EntityVillagerMCA villager, long p_212834_3_) {
+    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
         return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
 
     @Override
-    protected void stop(ServerWorld world, EntityVillagerMCA villager, long p_212835_3_) {
+    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
         ItemStack stack = villager.getItemInHand(Hand.MAIN_HAND);
         if (!stack.isEmpty()) {
             villager.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
-            villager.inventory.addItem(stack);
         }
         villager.swing(Hand.MAIN_HAND);
     }
 
     @Override
-    protected void start(ServerWorld world, EntityVillagerMCA villager, long p_212831_3_) {
+    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
         super.start(world, villager, p_212831_3_);
 
         if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof AxeItem);
             if (i == -1) {
                 if (this.getAssigningPlayer().isPresent()) {
                     villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
                 }
                 villager.stopChore();
             } else {
-                ItemStack stack = villager.inventory.getItem(i);
-                villager.setItemInHand(Hand.MAIN_HAND, stack);
-                villager.inventory.setItem(i, ItemStack.EMPTY);
+                villager.setItemInHand(Hand.MAIN_HAND, villager.inventory.getItem(i));
             }
 
 
@@ -74,28 +72,27 @@ public class ChoppingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void tick(ServerWorld world, EntityVillagerMCA villager, long p_212833_3_) {
+    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
         if (this.villager == null) this.villager = villager;
 
-        if (!villager.inventory.contains(AxeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
+        if (!InventoryUtils.contains(villager.inventory, AxeItem.class) && !villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
             villager.stopChore();
         } else if (!villager.hasItemInSlot(EquipmentSlotType.MAINHAND)) {
-            int i = villager.inventory.getFirstSlotContainingItem(stack -> stack.getItem() instanceof AxeItem);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.inventory, stack -> stack.getItem() instanceof AxeItem);
             ItemStack stack = villager.inventory.getItem(i);
             villager.setItemInHand(Hand.MAIN_HAND, stack);
-            villager.inventory.setItem(i, ItemStack.EMPTY);
         }
 
         if (targetTree == null) {
-            List<BlockPos> nearbyLogs = Util.getNearbyBlocks(villager.blockPosition(), villager.world.getMcWorld(), (blockState -> blockState.is(BlockTags.LOGS)), 15, 5);
+            List<BlockPos> nearbyLogs = Util.getNearbyBlocks(villager.blockPosition(), world, (blockState -> blockState.is(BlockTags.LOGS)), 15, 5);
             List<BlockPos> nearbyTrees = new ArrayList<>();
 
             // valid "trees" are logs on the ground with leaves around them
             nearbyLogs.stream()
                     .filter(log -> {
-                        BlockState down = villager.world.getMcWorld().getBlockState(log.below());
-                        List<BlockPos> leaves = Util.getNearbyBlocks(log, villager.world.getMcWorld(), (blockState -> blockState.is(BlockTags.LEAVES)), 1, 5);
+                        BlockState down = world.getBlockState(log.below());
+                        List<BlockPos> leaves = Util.getNearbyBlocks(log, world, (blockState -> blockState.is(BlockTags.LEAVES)), 1, 5);
                         return leaves.size() > 0 && (down.getBlock() == Blocks.GRASS_BLOCK || down.getBlock() == Blocks.DIRT);
                     })
                     .forEach(nearbyTrees::add);
@@ -105,7 +102,7 @@ public class ChoppingTask extends AbstractChoreTask {
 
         villager.moveTowards(targetTree);
 
-        BlockState state = villager.world.getMcWorld().getBlockState(targetTree);
+        BlockState state = world.getBlockState(targetTree);
         if (state.is(BlockTags.LOGS)) {
             Block log = state.getBlock();
 

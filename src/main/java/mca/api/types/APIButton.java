@@ -2,8 +2,8 @@ package mca.api.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumConstraint;
+import mca.entity.VillagerEntityMCA;
+import mca.enums.Constraint;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
@@ -36,8 +36,8 @@ public class APIButton {
     @Getter
     private final boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
 
-    public List<EnumConstraint> getConstraints() {
-        return EnumConstraint.fromStringList(constraints);
+    public List<Constraint> getConstraints() {
+        return Constraint.fromStringList(constraints);
     }
 
     /**
@@ -47,19 +47,14 @@ public class APIButton {
      * @param player   Instance of the PlayerEntity performing the action
      * @return boolean whether the button is valid for a constraint
      */
-    public boolean isValidForConstraint(EntityVillagerMCA villager, PlayerEntity player) {
-        List<EnumConstraint> constraints = getConstraints();
+    public boolean isValidForConstraint(VillagerEntityMCA villager, PlayerEntity player) {
+        List<Constraint> constraints = getConstraints();
 
-        if (constraints.contains(EnumConstraint.ADULTS) && !villager.isBaby()) {
-            return true;
-        } else if (constraints.contains(EnumConstraint.SPOUSE) && villager.isMarriedTo(player.getUUID())) {
-            return true;
-        } else if (constraints.contains(EnumConstraint.NOT_SPOUSE) && !villager.isMarriedTo(player.getUUID())) {
-            return true;
-        } else if (constraints.contains(EnumConstraint.FAMILY) && (villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))) {
-            return true;
-        } else if (constraints.contains(EnumConstraint.NOT_FAMILY) && !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))) {
-            return true;
-        } else return constraints.isEmpty();
+        for (Constraint constraint : constraints) {
+            if (constraint.getCheck().test(villager, player)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

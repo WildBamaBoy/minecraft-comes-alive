@@ -1,11 +1,10 @@
 package mca.network;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
-import cobalt.network.Message;
-import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.network.Message;
+import mca.entity.VillagerEntityMCA;
 import mca.entity.data.SavedVillagers;
+import mca.util.WorldUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
 import java.util.UUID;
@@ -19,16 +18,15 @@ public class ReviveVillagerMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        CWorld world = CWorld.fromMC(player.level);
-        SavedVillagers villagers = SavedVillagers.get(world);
-        CNBT nbt = SavedVillagers.get(world).getVillagerByUUID(uuid);
+        SavedVillagers villagers = SavedVillagers.get(player.level);
+        CNBT nbt = SavedVillagers.get(player.level).getVillagerByUUID(uuid);
         if (nbt != null) {
-            EntityVillagerMCA villager = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), player.level);
+            VillagerEntityMCA villager = new VillagerEntityMCA(player.level);
             villager.setPos(player.getX(), player.getY(), player.getZ());
 
             villager.readAdditionalSaveData(nbt.getMcCompound());
 
-            world.spawnEntity(villager);
+            WorldUtils.spawnEntity(player.level, villager);
 
             villagers.removeVillager(uuid);
 

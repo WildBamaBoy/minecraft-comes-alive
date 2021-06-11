@@ -1,11 +1,11 @@
 package mca.client.gui;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.network.NetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import lombok.NonNull;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.network.NetworkHandler;
 import mca.core.MCA;
-import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerEntityMCA;
 import mca.network.CallToPlayerMessage;
 import mca.network.GetVillagerRequest;
 import net.minecraft.client.Minecraft;
@@ -21,7 +21,7 @@ import java.util.*;
 @OnlyIn(Dist.CLIENT)
 public class GuiWhistle extends Screen {
     private final List<String> keys = new ArrayList<>();
-    private EntityVillagerMCA dummy;
+    private VillagerEntityMCA dummy;
     private Map<String, CNBT> villagerData;
     private Button selectionLeftButton;
     private Button selectionRightButton;
@@ -129,7 +129,7 @@ public class GuiWhistle extends Screen {
         if (keys.size() > 0) {
             CNBT firstData = villagerData.get(keys.get(index));
 
-            dummy = new EntityVillagerMCA(MCA.ENTITYTYPE_VILLAGER.get(), Minecraft.getInstance().level);
+            dummy = new VillagerEntityMCA(Minecraft.getInstance().level);
             dummy.readAdditionalSaveData(firstData.getMcCompound());
 
             villagerNameButton.setMessage(dummy.getDisplayName());

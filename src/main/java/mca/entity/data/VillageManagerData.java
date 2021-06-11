@@ -1,8 +1,8 @@
 package mca.entity.data;
 
-import cobalt.minecraft.nbt.CNBT;
-import cobalt.minecraft.world.CWorld;
-import cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.api.cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.util.WorldUtils;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
@@ -12,12 +12,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class VillageManagerData extends CWorldSavedData {
-    public Map<Integer, Village> villages;
+    public final Map<Integer, Village> villages;
+    public final Set<BlockPos> cache;
+    private final List<BlockPos> buildingQueue;
     private int lastBuildingId;
     private int lastVillageId;
-
-    public Set<BlockPos> cache;
-    private final List<BlockPos> buildingQueue;
 
     public VillageManagerData(String id) {
         super(id);
@@ -27,8 +26,8 @@ public class VillageManagerData extends CWorldSavedData {
         buildingQueue = new LinkedList<>();
     }
 
-    public static VillageManagerData get(CWorld world) {
-        return world.loadData(VillageManagerData.class, "mca_villages");
+    public static VillageManagerData get(World world) {
+        return WorldUtils.loadData(world, VillageManagerData.class, "mca_villages");
     }
 
     @Override
@@ -58,7 +57,7 @@ public class VillageManagerData extends CWorldSavedData {
     }
 
     //adds a potential block to the processing queue
-    public void reportBuilding(World world, BlockPos pos) {
+    public void reportBuilding(BlockPos pos) {
         //mark in cache
         cache.add(pos);
 

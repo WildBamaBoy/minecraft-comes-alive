@@ -1,7 +1,7 @@
 package mca.entity.data;
 
-import cobalt.minecraft.nbt.CNBT;
 import mca.api.API;
+import mca.api.cobalt.minecraft.nbt.CNBT;
 import mca.api.types.BuildingType;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
@@ -23,20 +23,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import static net.minecraft.tags.BlockTags.LEAVES;
 
 public class Building implements Serializable {
-    private String type;
-    private int size;
     private final Map<UUID, String> residents;
-
-    private int pos0X, pos0Y, pos0Z;
-    private int pos1X, pos1Y, pos1Z;
-
     private final Map<String, Integer> blocks;
-
-    private int id;
-
     private final Direction[] directions = {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
+    private String type;
+    private int size;
+    private int pos0X, pos0Y, pos0Z;
+    private int pos1X, pos1Y, pos1Z;
+    private int id;
 
     public Building() {
         type = "building";
@@ -108,13 +104,13 @@ public class Building implements Serializable {
 
                     //and the block is not already checked
                     if (!done.contains(n)) {
-                        BlockState block = world.getBlockState(n);
+                        BlockState state = world.getBlockState(n);
 
                         //mark it
                         done.add(n);
 
                         //if not solid, continue
-                        if (block.isAir() && !world.canSeeSky(n)) {
+                        if (state.isAir() && !world.canSeeSky(n)) {
                             //special conditions
                             if (!roofCache.containsKey(n)) {
                                 BlockPos n2 = n;
@@ -139,7 +135,7 @@ public class Building implements Serializable {
                             if (roofCache.get(n)) {
                                 queue.add(n);
                             }
-                        } else if (block.getBlock().getBlock() instanceof DoorBlock) {
+                        } else if (state.getBlock().getBlock() instanceof DoorBlock) {
                             //skip door and start a new room
                             queue.add(n.relative(d));
                             hasDoor = true;
