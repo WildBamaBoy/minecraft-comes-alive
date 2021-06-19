@@ -18,13 +18,17 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class WeddingRingItem extends Item implements SpecialCaseGift {
+    protected int getHeartsRequired() {
+        return MCA.getConfig().marriageHeartsRequirement;
+    }
+
     public WeddingRingItem(Item.Properties properties) {
         super(properties);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-        tooltip.add(new StringTextComponent("Marry someone with this if you meet the heart requirements."));
+        tooltip.add(new StringTextComponent("Halves the hearts required to marry someone."));
     }
 
     public boolean handle(PlayerEntity player, VillagerEntityMCA villager) {
@@ -35,7 +39,7 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
 
         if (villager.isBaby())
             response = "interaction.marry.fail.isbaby";
-        else if (villager.playerIsParent(player))
+        else if (villager.getFamilyTree().isParent(villager.getUUID(), player.getUUID()))
             response = "interaction.marry.fail.isparent";
         else if (villager.isMarriedTo(player.getUUID()))
             response = "interaction.marry.fail.marriedtogiver";
@@ -43,7 +47,7 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
             response = "interaction.marry.fail.marriedtoother";
         else if (playerData.isMarried())
             response = "interaction.marry.fail.playermarried";
-        else if (memory.getHearts() < MCA.getConfig().marriageHeartsRequirement)
+        else if (memory.getHearts() < getHeartsRequired())
             response = "interaction.marry.fail.lowhearts";
         else {
             response = "interaction.marry.success";

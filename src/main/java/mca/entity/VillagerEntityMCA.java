@@ -146,7 +146,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     public final CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
     public final CIntegerParameter marriageState = data.newInteger("marriageState");
     public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
-    public final CTagParameter parents = data.newTag("parents");
     public final CBooleanParameter isInfected = data.newBoolean("isInfected");
     public final CIntegerParameter activeChore = data.newInteger("activeChore");
     public final CBooleanParameter hasBaby = data.newBoolean("hasBaby");
@@ -186,9 +185,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     public VillagerEntityMCA(World w) {
         super(EntitiesMCA.VILLAGER, w);
+
         inventory = new Inventory(27);
         inventory.addListener(this::onInvChange);
-
 
         //register has to be here, not in initialize, since the super call is called before the field init
         // and the data manager required those fields
@@ -507,9 +506,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                 villager.modifyMoodLevel(-10);
             }
 
-            //TODO: player memory gets lost on revive
-            //TODO: childp becomes to child on revive (needs verification)
-
             InventoryUtils.dropAllItems(this, inventory);
 
             if (isMarried()) {
@@ -520,22 +516,14 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                 // Notify spouse of the death
                 if (sp instanceof VillagerEntityMCA) {
                     ((VillagerEntityMCA) sp).endMarriage();
-                } else if (playerSaveData != null) {
+                } else {
                     playerSaveData.endMarriage();
-                    PlayerEntity player = level.getPlayerByUUID(spouse);
-                    if (player != null) {
-                        //TODO store message in case player was offline
-                    }
                 }
             }
 
             // Notify all parents of the death
-            ParentPair parents = getParents();
-            Arrays.stream(parents.getBothParentEntities((ServerWorld) level))
-                    .filter(e -> e instanceof PlayerEntity)
-                    .forEach(e -> {
-                        //TODO store message in case player was offline
-                    });
+            // Entity[] parents = getBothParentEntities();
+            //TODO, optionally affect parents behavior
 
             SavedVillagers.get(level).saveVillager(this);
         }
@@ -1070,7 +1058,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
             if (next == AgeState.ADULT) {
                 // Notify player parents of the age up and set correct dialogue type.
-                Entity[] parents = getParents().getBothParentEntities((ServerWorld) level);
+                Entity[] parents = getBothParentEntities();
                 Arrays.stream(parents).filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
                     getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
                     sendMessageTo(MCA.localize("notify.child.grownup", villagerName.get()), p);
@@ -1092,11 +1080,32 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
             // grow up time is in minutes and we measure age in seconds
             if (babyAge.get() >= MCA.getConfig().babyGrowUpTime * 60) {
+                //get the father
+                UUID fatherUUID = spouseUUID.get().orElse(Constants.ZERO_UUID);
+                Entity fatherEntity = ((ServerWorld) level).getEntity(fatherUUID);
+                VillagerEntityMCA father;
+                if (fatherEntity instanceof VillagerEntityMCA) {
+                    father = (VillagerEntityMCA) fatherEntity;
+                } else {
+                    //the father died, is out of range, etc
+                    //fallback to mother-gene only
+                    father = this;
+                }
+
+                //create child
                 Gender gender = isBabyMale.get() ? Gender.MALE : Gender.FEMALE;
                 VillagerEntityMCA child = new VillagerEntityMCA(level);
                 child.gender.set(gender.getId());
                 child.setPos(this.getX(), this.getY(), this.getZ());
-                child.parents.set(ParentPair.create(this.getUUID(), spouseUUID.get().orElse(Constants.ZERO_UUID), villagerName.get(), spouseName.get()).toNBT());
+                child.inheritGenes(father, this);
+
+                //add all 3 to the family tree
+                FamilyTree tree = getFamilyTree();
+                tree.addEntry(father);
+                tree.addEntry(this);
+                tree.addEntry(child, fatherUUID, getUUID());
+
+                //and yeet it into the world
                 WorldUtils.spawnEntity(level, child);
 
                 hasBaby.set(false);
@@ -1128,15 +1137,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         choreAssigningPlayer.set(player.getUUID());
         this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
         this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
-    }
-
-    public boolean playerIsParent(PlayerEntity player) {
-        ParentPair data = ParentPair.fromNBT(parents.get());
-        return data.getParent1UUID().equals(player.getUUID()) || data.getParent2UUID().equals(player.getUUID());
-    }
-
-    public ParentPair getParents() {
-        return ParentPair.fromNBT(parents.get());
     }
 
     public void updateMemories(Memories memories) {
@@ -1283,6 +1283,23 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         }
     }
 
+    public FamilyTree getFamilyTree() {
+        return FamilyTree.get(level);
+    }
+
+    public FamilyTreeEntry getFamilyTreeEntry() {
+        return getFamilyTree().getEntry(this);
+    }
+
+    public Entity[] getBothParentEntities() {
+        ServerWorld serverWorld = (ServerWorld) level;
+        FamilyTreeEntry entry = getFamilyTreeEntry();
+        return new Entity[]{
+                serverWorld.getEntity(entry.getFather()),
+                serverWorld.getEntity(entry.getMother())
+        };
+    }
+
     @Override
     public void onReputationEventFrom(IReputationType p_213739_1_, Entity p_213739_2_) {
         super.onReputationEventFrom(p_213739_1_, p_213739_2_);
@@ -1294,5 +1311,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     public void setGossips(INBT p_223716_1_) {
         this.gossips.update(new Dynamic<>(NBTDynamicOps.INSTANCE, p_223716_1_));
+    }
+
+    public Gender getGender() {
+        return Gender.byId(gender.get());
     }
 }

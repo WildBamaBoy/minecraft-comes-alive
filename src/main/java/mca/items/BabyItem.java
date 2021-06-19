@@ -4,12 +4,10 @@ import mca.api.cobalt.minecraft.nbt.CNBT;
 import mca.api.cobalt.network.NetworkHandler;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.forge.TagsMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
-import mca.data.ItemTagsProviderMCA;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.data.ParentPair;
+import mca.entity.data.FamilyTreeEntry;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.DialogueType;
 import mca.enums.Gender;
@@ -55,20 +53,15 @@ public class BabyItem extends Item {
                 compound.setBoolean("isInfected", false);
 
                 itemStack.setTag(compound.getMcCompound());
-
-
             } else {
                 updateBabyGrowth(itemStack);
             }
             tick++;
-
         }
-
     }
 
     @Override
     public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-
         BlockPos pos = player.blockPosition();
         ItemStack stack = player.getItemInHand(hand);
         int posX = pos.getX();
@@ -100,7 +93,13 @@ public class BabyItem extends Item {
                 child.inheritGenes(spouseVillager, spouseVillager);
             }
 
-            child.parents.set(ParentPair.create(player.getUUID(), playerData.getSpouseUUID(), player.getName().getString(), playerData.getSpouseName()).toNBT());
+            //add the child to the family tree
+            FamilyTreeEntry spouseEntry = child.getFamilyTree().getEntry(playerData.getSpouseUUID());
+            if (spouseEntry != null && spouseEntry.getGender() == Gender.FEMALE) {
+                child.getFamilyTree().addEntry(child, player.getUUID(), playerData.getSpouseUUID());
+            } else {
+                child.getFamilyTree().addEntry(child, playerData.getSpouseUUID(), player.getUUID());
+            }
 
             WorldUtils.spawnEntity(world, child);
 

@@ -2,7 +2,6 @@ package mca.entity;
 
 import mca.api.API;
 import mca.core.MCA;
-import mca.entity.data.ParentPair;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
@@ -54,11 +53,6 @@ public class VillagerFactory {
     public VillagerFactory withName(String name) {
         villager.villagerName.set(name);
         isNameSet = true;
-        return this;
-    }
-
-    public VillagerFactory withParents(ParentPair parents) {
-        villager.parents.set(parents.toNBT());
         return this;
     }
 

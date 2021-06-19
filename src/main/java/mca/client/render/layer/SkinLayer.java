@@ -16,7 +16,7 @@ public class SkinLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
 
     @Override
     String getTexture(VillagerEntityMCA villager) {
-        Gender gender = Gender.byId(villager.gender.get());
+        Gender gender = villager.getGender();
         int skin = (int) Math.min(4, Math.max(0, villager.gene_skin.get() * 5));
         return String.format("mca:skins/skin/%s/%d.png", gender == Gender.FEMALE ? "female" : "male", skin);
     }

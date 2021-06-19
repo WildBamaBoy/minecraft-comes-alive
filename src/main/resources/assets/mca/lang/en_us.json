@@ -273,6 +273,7 @@
     "gui.label.minute": "Minute",
     "gui.label.minutes": "Minutes",
     "gui.label.parent": "Parent:",
+    "gui.label.parentUnknown": "unknown",
     "gui.label.male": "Male",
     "gui.label.female": "Female",
     "gui.label.prospecting": "Prospecting",

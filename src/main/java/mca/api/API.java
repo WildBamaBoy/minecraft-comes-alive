@@ -131,7 +131,7 @@ public class API {
     //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
     private static List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
         String profession = Objects.requireNonNull(villager.getProfession().getRegistryName()).toString();
-        Gender gender = Gender.byId(villager.gender.get());
+        Gender gender = villager.getGender();
 
         if (clothing.get(gender).containsKey(profession)) {
             return clothing.get(gender).get(profession);
@@ -201,7 +201,7 @@ public class API {
      * @return String location of the random skin
      */
     public static Hair getRandomHair(VillagerEntityMCA villager) {
-        Gender gender = Gender.byId(villager.gender.get());
+        Gender gender = villager.getGender();
         List<Hair> hairs = hair.get(gender);
         return hairs.get(rng.nextInt(hairs.size()));
     }
@@ -213,7 +213,7 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static Hair getNextHair(VillagerEntityMCA villager, Hair current, int next) {
-        Gender gender = Gender.byId(villager.gender.get());
+        Gender gender = villager.getGender();
         List<Hair> hairs = hair.get(gender);
 
         //look for the current one

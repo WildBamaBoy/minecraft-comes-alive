@@ -14,13 +14,13 @@ import java.util.function.BiPredicate;
 @AllArgsConstructor
 @Getter
 public enum Constraint {
-    NOT_FAMILY("notfamily", (villager, player) -> villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID())),
-    FAMILY("family", (villager, player) -> !(villager.playerIsParent(player) || villager.isMarriedTo(player.getUUID()))),
+    NOT_FAMILY("notfamily", (villager, player) -> villager.getFamilyTree().isRelative(villager.getUUID(), player.getUUID()) || villager.isMarriedTo(player.getUUID())),
+    FAMILY("family", (villager, player) -> !(villager.getFamilyTree().isRelative(villager.getUUID(), player.getUUID()) || villager.isMarriedTo(player.getUUID()))),
     ADULTS("adults", (villager, player) -> villager.isBaby()),
     SPOUSE("spouse", (villager, player) -> !villager.isMarriedTo(player.getUUID())),
     NOT_SPOUSE("notspouse", (villager, player) -> villager.isMarriedTo(player.getUUID())),
-    HIDE_ON_FAIL("hideonfail", (villager, player) -> false),//internal
-    NOT_YOUR_KIDS("notyourkids", VillagerEntityMCA::playerIsParent);
+    HIDE_ON_FAIL("hideonfail", (villager, player) -> false), //internal
+    NOT_YOUR_KIDS("notyourkids", (villager, player) -> villager.getFamilyTree().isParent(villager.getUUID(), player.getUUID()));
 
     String id;
     //* Returns true if it should not show the button

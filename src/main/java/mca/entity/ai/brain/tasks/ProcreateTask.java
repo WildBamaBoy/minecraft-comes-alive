@@ -33,6 +33,9 @@ public class ProcreateTask extends Task<VillagerEntityMCA> {
             villager.getNavigation().stop();
             world.broadcastEntityEvent(villager, (byte) 12);
         } else {
+            //make sure this village is registered in the family tree
+            villager.getFamilyTree().addEntry(villager);
+
             ItemStack stack = new ItemStack(random.nextBoolean() ? ItemsMCA.BABY_BOY.get() : ItemsMCA.BABY_GIRL.get());
             PlayerEntity player = villager.level.getPlayerByUUID(villager.spouseUUID.get().get());
             if (player != null) {

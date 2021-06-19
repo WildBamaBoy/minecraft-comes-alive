@@ -9,9 +9,8 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.data.FamilyTreeEntry;
 import mca.entity.data.Memories;
-import mca.entity.data.ParentPair;
-import mca.enums.AgeState;
 import mca.enums.Chore;
 import mca.enums.MarriageState;
 import mca.enums.MoveState;
@@ -234,8 +233,13 @@ public class GuiInteract extends Screen {
 
         //parents
         if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
-            ParentPair data = ParentPair.fromNBT(villager.parents.get());
-            drawHoveringIconText(transform, MCA.localize("gui.interact.label.parents", data.getParent1Name(), data.getParent2Name()), "parents");
+            FamilyTreeEntry familyTreeEntry = villager.getFamilyTreeEntry();
+            FamilyTreeEntry father = villager.getFamilyTree().getEntry(familyTreeEntry.getFather());
+            FamilyTreeEntry mother = villager.getFamilyTree().getEntry(familyTreeEntry.getMother());
+            drawHoveringIconText(transform, MCA.localize("gui.interact.label.parents",
+                    father == null ? MCA.localize("gui.interact.label.parentUnknown") : father.getName(),
+                    mother == null ? MCA.localize("gui.interact.label.parentUnknown") : mother.getName()
+            ), "parents");
         }
 
         //gift
@@ -281,9 +285,9 @@ public class GuiInteract extends Screen {
     }
 
     private boolean canDrawParentsIcon() {
-        ParentPair data = ParentPair.fromNBT(villager.parents.get());
-        return !data.getParent1UUID().equals(Constants.ZERO_UUID) &&
-                !data.getParent2UUID().equals(Constants.ZERO_UUID);
+        FamilyTreeEntry familyTreeEntry = villager.getFamilyTreeEntry();
+        return !familyTreeEntry.getFather().equals(Constants.ZERO_UUID) ||
+                !familyTreeEntry.getMother().equals(Constants.ZERO_UUID);
     }
 
     private boolean canDrawGiftIcon() {

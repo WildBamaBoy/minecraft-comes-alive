@@ -24,7 +24,7 @@ public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
 
     @Override
     String getTexture(VillagerEntityMCA villager) {
-        Gender gender = Gender.byId(villager.gender.get());
+        Gender gender = villager.getGender();
         int totalFaces = 11;
         int skin = (int) Math.min(totalFaces - 1, Math.max(0, villager.gene_skin.get() * totalFaces));
         int time = villager.tickCount / 2 + (int) (villager.gene_hemoglobin.get() * 65536);
