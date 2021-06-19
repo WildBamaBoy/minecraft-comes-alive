@@ -1,6 +1,6 @@
-package mca.api.cobalt.minecraft.network.datasync;
+package mca.cobalt.minecraft.network.datasync;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.nbt.CNBT;
 import mca.core.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;

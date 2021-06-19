@@ -1,8 +1,8 @@
 package mca.entity.data;
 
 import lombok.Getter;
-import mca.api.cobalt.minecraft.nbt.CNBT;
-import mca.api.cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.entity.VillagerEntityMCA;
 import mca.util.WorldUtils;
 import net.minecraft.world.World;

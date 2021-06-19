@@ -1,7 +1,7 @@
 package mca.items;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.network.NetworkHandler;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;

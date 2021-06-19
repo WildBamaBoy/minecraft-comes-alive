@@ -1,7 +1,7 @@
 package mca.network;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
-import mca.api.cobalt.network.Message;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.network.Message;
 import mca.client.gui.GuiWhistle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;

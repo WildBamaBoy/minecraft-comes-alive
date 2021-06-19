@@ -1,30 +1,29 @@
-package mca.api.cobalt.minecraft.network.datasync;
+package mca.cobalt.minecraft.network.datasync;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
 
-public class BlockPosParameter extends CDataParameter<BlockPos> {
-    private final DataParameter<BlockPos> param;
+public class CFloatParameter extends CDataParameter<Float> {
+    private final DataParameter<Float> param;
     private final EntityDataManager data;
+    private final float defaultValue;
     private final String id;
-    private final BlockPos defaultValue;
 
-    public BlockPosParameter(String id, Class<? extends Entity> e, EntityDataManager d, BlockPos dv) {
+    public CFloatParameter(String id, Class<? extends Entity> e, EntityDataManager d, float dv) {
         this.id = id;
-        param = getDefine(id, e, DataSerializers.BLOCK_POS);
+        param = getDefine(id, e, DataSerializers.FLOAT);
         data = d;
         defaultValue = dv;
     }
 
-    public BlockPos get() {
+    public float get() {
         return data.get(param);
     }
 
-    public void set(BlockPos v) {
+    public void set(float v) {
         data.set(param, v);
     }
 
@@ -35,11 +34,11 @@ public class BlockPosParameter extends CDataParameter<BlockPos> {
 
     @Override
     public void load(CNBT nbt) {
-        set(nbt.getBlockPos(id));
+        set(nbt.getFloat(id));
     }
 
     @Override
     public void save(CNBT nbt) {
-        nbt.setBlockPos(id, get());
+        nbt.setFloat(id, get());
     }
 }

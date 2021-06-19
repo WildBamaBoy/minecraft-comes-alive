@@ -1,8 +1,8 @@
 package mca.network;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
-import mca.api.cobalt.network.Message;
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.network.Message;
+import mca.cobalt.network.NetworkHandler;
 import mca.entity.data.SavedVillagers;
 import net.minecraft.entity.player.ServerPlayerEntity;
 

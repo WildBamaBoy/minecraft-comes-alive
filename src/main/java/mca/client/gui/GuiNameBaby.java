@@ -2,7 +2,7 @@ package mca.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.items.BabyItem;
 import mca.network.BabyNamingVillagerMessage;

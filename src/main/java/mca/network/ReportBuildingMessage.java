@@ -1,6 +1,6 @@
 package mca.network;
 
-import mca.api.cobalt.network.Message;
+import mca.cobalt.network.Message;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.player.ServerPlayerEntity;
 

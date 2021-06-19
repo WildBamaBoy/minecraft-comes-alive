@@ -1,8 +1,8 @@
 package mca.entity;
 
 
-import mca.api.cobalt.minecraft.network.datasync.CDataManager;
-import mca.api.cobalt.minecraft.network.datasync.CIntegerParameter;
+import mca.cobalt.minecraft.network.datasync.CDataManager;
+import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;

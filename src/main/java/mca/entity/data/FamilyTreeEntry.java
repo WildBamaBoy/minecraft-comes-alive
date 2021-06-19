@@ -1,6 +1,6 @@
 package mca.entity.data;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.nbt.CNBT;
 import mca.enums.Gender;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;

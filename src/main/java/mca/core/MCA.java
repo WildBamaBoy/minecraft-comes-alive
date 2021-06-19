@@ -2,7 +2,7 @@ package mca.core;
 
 import lombok.Getter;
 import mca.api.API;
-import mca.api.cobalt.localizer.Localizer;
+import mca.cobalt.localizer.Localizer;
 import mca.client.render.GrimReaperRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
 import mca.core.forge.EventHooks;

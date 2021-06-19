@@ -1,7 +1,7 @@
-package mca.api.cobalt.minecraft.world.storage;
+package mca.cobalt.minecraft.world.storage;
 
 import lombok.Getter;
-import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.storage.WorldSavedData;
 

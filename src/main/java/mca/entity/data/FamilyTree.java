@@ -1,7 +1,7 @@
 package mca.entity.data;
 
-import mca.api.cobalt.minecraft.nbt.CNBT;
-import mca.api.cobalt.minecraft.world.storage.CWorldSavedData;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
 import mca.util.WorldUtils;

@@ -1,7 +1,7 @@
 package mca.entity.data;
 
 import lombok.Getter;
-import mca.api.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.nbt.CNBT;
 import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.DialogueType;

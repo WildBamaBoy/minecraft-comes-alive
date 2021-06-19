@@ -1,4 +1,4 @@
-package mca.api.cobalt.localizer;
+package mca.cobalt.localizer;
 
 import net.minecraft.util.text.LanguageMap;
 

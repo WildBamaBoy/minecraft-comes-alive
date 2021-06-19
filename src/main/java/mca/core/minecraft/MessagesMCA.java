@@ -1,6 +1,6 @@
 package mca.core.minecraft;
 
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.network.NetworkHandler;
 import mca.network.*;
 
 public class MessagesMCA {

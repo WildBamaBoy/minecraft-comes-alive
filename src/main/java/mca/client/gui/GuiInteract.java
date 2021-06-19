@@ -2,7 +2,7 @@ package mca.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.network.NetworkHandler;
 import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
 import mca.core.Constants;

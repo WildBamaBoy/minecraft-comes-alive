@@ -1,6 +1,6 @@
 package mca.network;
 
-import mca.api.cobalt.network.Message;
+import mca.cobalt.network.Message;
 import mca.client.gui.GuiBlueprint;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiStaffOfLife;

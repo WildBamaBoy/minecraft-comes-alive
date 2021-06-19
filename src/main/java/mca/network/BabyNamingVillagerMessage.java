@@ -1,6 +1,6 @@
 package mca.network;
 
-import mca.api.cobalt.network.Message;
+import mca.cobalt.network.Message;
 import mca.items.BabyItem;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,6 @@
 package mca.items;
 
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.network.OpenGuiRequest;
 import net.minecraft.client.util.ITooltipFlag;

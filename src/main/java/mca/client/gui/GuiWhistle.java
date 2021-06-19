@@ -2,8 +2,8 @@ package mca.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import lombok.NonNull;
-import mca.api.cobalt.minecraft.nbt.CNBT;
-import mca.api.cobalt.network.NetworkHandler;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.CallToPlayerMessage;

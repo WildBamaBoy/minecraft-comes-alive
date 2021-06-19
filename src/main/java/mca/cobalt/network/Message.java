@@ -1,4 +1,4 @@
-package mca.api.cobalt.network;
+package mca.cobalt.network;
 
 import lombok.SneakyThrows;
 import net.minecraft.entity.player.ServerPlayerEntity;

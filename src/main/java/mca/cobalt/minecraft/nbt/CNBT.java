@@ -1,4 +1,4 @@
-package mca.api.cobalt.minecraft.nbt;
+package mca.cobalt.minecraft.nbt;
 
 import mca.core.Constants;
 import mca.core.MCA;
