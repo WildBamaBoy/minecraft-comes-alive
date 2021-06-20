@@ -8,13 +8,10 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
 public class CTagParameter extends CDataParameter<CompoundNBT> {
-    private final DataParameter<CompoundNBT> param;
     private final EntityDataManager data;
-    private final String id;
 
     public CTagParameter(String id, Class<? extends Entity> e, EntityDataManager d) {
-        this.id = id;
-        param = getDefine(id, e, DataSerializers.COMPOUND_TAG);
+        super(id, e, DataSerializers.COMPOUND_TAG);
         data = d;
     }
 

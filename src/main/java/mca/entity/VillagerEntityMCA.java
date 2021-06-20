@@ -5,11 +5,11 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import mca.api.API;
-import mca.cobalt.minecraft.nbt.CNBT;
-import mca.cobalt.minecraft.network.datasync.*;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
+import mca.cobalt.minecraft.nbt.CNBT;
+import mca.cobalt.minecraft.network.datasync.*;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.*;
@@ -54,6 +54,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -382,7 +383,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         this.lastGossipDecayTime = nbt.getLong("LastGossipDecay");
 
         this.gossips.update(new Dynamic<>(NBTDynamicOps.INSTANCE, listnbt));
-
     }
 
     @Override
@@ -1054,6 +1054,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         AgeState next = AgeState.byCurrentAge(getAge());
         if (last != next) {
             ageState.set(next.getId());
+            refreshDimensions();
 
             if (next == AgeState.ADULT) {
                 // Notify player parents of the age up and set correct dialogue type.
@@ -1151,6 +1152,37 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     public AgeState getAgeState() {
         return AgeState.byId(ageState.get());
+    }
+
+    @Override
+    public float getScale() {
+        if (gene_size == null) {
+            return super.getScale();
+        } else {
+            float height = gene_size.get() * 0.5f + 0.75f;
+            return height * getAgeState().getHeight();
+        }
+    }
+
+    @Override
+    protected float getStandingEyeHeight(Pose pose, EntitySize size) {
+        if (gene_size == null) {
+            return super.getStandingEyeHeight(pose, size);
+        } else {
+            float height = gene_size.get() * 0.5f + 0.75f;
+            return height * getAgeState().getHeight() * 1.6f;
+        }
+    }
+
+    @Override
+    public void onSyncedDataUpdated(DataParameter<?> par) {
+        if (ageState != null && ageState.getParam().equals(par)) {
+            refreshDimensions();
+        } else if (gene_size != null && gene_size.getParam().equals(par)) {
+            refreshDimensions();
+        }
+
+        super.onSyncedDataUpdated(par);
     }
 
     @Override
@@ -1252,7 +1284,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     @Override
     public void setBaby(boolean p_82227_1_) {
-        this.setAge(p_82227_1_ ? -192000 : 0);
+        this.setAge(p_82227_1_ ? -AgeState.startingAge : 0);
     }
 
     //TODO

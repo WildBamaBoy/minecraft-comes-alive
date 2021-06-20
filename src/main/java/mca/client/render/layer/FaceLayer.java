@@ -12,7 +12,6 @@ public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     public FaceLayer(IEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
         super(renderer, model);
 
-        // LayerViller is only designed for ModelVillagerMCA anyways
         this.model.setVisible(false);
         this.model.head.visible = true;
     }

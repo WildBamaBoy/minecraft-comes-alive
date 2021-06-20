@@ -8,14 +8,11 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 
 public class BlockPosParameter extends CDataParameter<BlockPos> {
-    private final DataParameter<BlockPos> param;
     private final EntityDataManager data;
-    private final String id;
     private final BlockPos defaultValue;
 
     public BlockPosParameter(String id, Class<? extends Entity> e, EntityDataManager d, BlockPos dv) {
-        this.id = id;
-        param = getDefine(id, e, DataSerializers.BLOCK_POS);
+        super(id, e, DataSerializers.BLOCK_POS);
         data = d;
         defaultValue = dv;
     }

@@ -190,7 +190,7 @@ public class GuiInteract extends Screen {
     private void drawTextPopups(MatrixStack transform) {
         //general information
         VillagerProfession profession = villager.getProfession();
-        String professionName = profession == ProfessionsMCA.CHILD ? villager.getAgeState().localizedName() : MCA.localize("entity.minecraft.villager." + profession);
+        String professionName = villager.isBaby() ? villager.getAgeState().localizedName() : MCA.localize("entity.minecraft.villager." + profession);
 
         //name or state tip (gifting, ...)
         int h = 17;

@@ -10,17 +10,20 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 public enum AgeState {
-    UNASSIGNED(-1, 0.8f, 2.0f, 1.5f),
-    BABY(0, 0.3f, 0.5f, 0.4f),
-    TODDLER(1, 0.3f, 0.6f, 0.5f),
-    CHILD(2, 0.5f, 1.1f, 1f),
-    TEEN(3, 0.6f, 1.6f, 1.35f),
-    ADULT(4, 0.8f, 2f, 1.5f);
+    UNASSIGNED(-1, 0.8f, 1.0f, 1.0f, 1.0f),
+    BABY(0, 1.2f, 0.25f, 0.0f, 1.5f),
+    TODDLER(1, 1.1f, 0.3f, 0.0f, 1.3f),
+    CHILD(2, 1.0f, 0.5f, 0.0f, 1.1f),
+    TEEN(3, 0.85f, 0.8f, 0.5f, 1.0f),
+    ADULT(4, 1.0f, 0.9f, 1.0f, 1.0f);
+
+    public static int startingAge = 192_000;
 
     int id;
     float width;
     float height;
-    float scaleForAge;
+    float breasts;
+    float head;
 
     public static AgeState byId(int id) {
         Optional<AgeState> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
@@ -28,8 +31,7 @@ public enum AgeState {
     }
 
     public static AgeState byCurrentAge(int age) {
-        int startingAge = -192000;
-        int step = startingAge / 4;
+        int step = -startingAge / 4;
         if (age >= step) {
             return AgeState.ADULT;
         } else if (age >= step * 2) {

@@ -12,7 +12,6 @@ public class HairLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     public HairLayer(IEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
         super(renderer, model);
 
-        // LayerViller is only designed for ModelVillagerMCA anyways
         this.model.leftLeg.visible = false;
         this.model.leftLegwear.visible = false;
         this.model.rightLeg.visible = false;

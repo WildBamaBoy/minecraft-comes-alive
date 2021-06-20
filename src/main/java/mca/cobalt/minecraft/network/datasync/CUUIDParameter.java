@@ -10,14 +10,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CUUIDParameter extends CDataParameter<Optional<UUID>> {
-    private final DataParameter<Optional<UUID>> param;
     private final EntityDataManager data;
     private final UUID defaultValue;
-    private final String id;
 
     public CUUIDParameter(String id, Class<? extends Entity> e, EntityDataManager d, UUID dv) {
-        this.id = id;
-        param = getDefine(id, e, DataSerializers.OPTIONAL_UUID);
+        super(id, e, DataSerializers.OPTIONAL_UUID);
         data = d;
         defaultValue = dv;
     }

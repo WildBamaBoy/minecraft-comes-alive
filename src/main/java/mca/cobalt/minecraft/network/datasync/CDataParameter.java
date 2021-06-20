@@ -11,8 +11,12 @@ import java.util.Map;
 
 abstract public class CDataParameter<T> {
     private final static Map<Class<? extends Entity>, Map<String, Object>> params = new HashMap<>();
+    protected final String id;
+    protected final DataParameter<T> param;
 
-    protected DataParameter<T> getDefine(String id, Class<? extends Entity> e, IDataSerializer<T> s) {
+    protected CDataParameter(String id, Class<? extends Entity> e, IDataSerializer<T> s) {
+        this.id = id;
+
         if (!params.containsKey(e)) {
             params.put(e, new HashMap<>());
         }
@@ -22,7 +26,7 @@ abstract public class CDataParameter<T> {
             m.put(id, EntityDataManager.defineId(e, s));
         }
 
-        return (DataParameter<T>) m.get(id);
+        param = (DataParameter<T>) m.get(id);
     }
 
     public abstract void register();
@@ -30,4 +34,8 @@ abstract public class CDataParameter<T> {
     public abstract void load(CNBT nbt);
 
     public abstract void save(CNBT nbt);
+
+    public DataParameter<T> getParam() {
+        return param;
+    }
 }
