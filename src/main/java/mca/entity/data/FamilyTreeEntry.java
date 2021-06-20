@@ -5,11 +5,12 @@ import mca.enums.Gender;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class FamilyTreeEntry {
+public class FamilyTreeEntry implements Serializable {
     private final String name;
     private final boolean isPlayer;
     private final Gender gender;

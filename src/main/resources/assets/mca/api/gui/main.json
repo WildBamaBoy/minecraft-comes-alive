@@ -86,5 +86,16 @@
       "notifyServer": true,
       "targetServer": false,
       "constraints": "spouse|hideonfail"
+    },
+    {
+      "id": 7,
+      "identifier": "gui.button.familyTree",
+      "x": 140,
+      "y": 39,
+      "width": 65,
+      "height": 20,
+      "notifyServer": false,
+      "targetServer": false,
+      "constraints": ""
     }
 ]

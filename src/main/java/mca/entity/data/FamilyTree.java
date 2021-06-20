@@ -4,7 +4,9 @@ import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
+import mca.enums.Gender;
 import mca.util.WorldUtils;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -29,11 +31,40 @@ public class FamilyTree extends CWorldSavedData {
         }
     }
 
+    private void addChildToParent(UUID child, UUID parent) {
+        FamilyTreeEntry entry = getEntry(parent);
+        if (entry != null) {
+            entry.getChildren().add(child);
+        }
+    }
+
     public void addEntry(VillagerEntityMCA villager, UUID father, UUID mother) {
+        addChildToParent(villager.getUUID(), father);
+        addChildToParent(villager.getUUID(), mother);
+
         entries.put(villager.getUUID(), new FamilyTreeEntry(
                 villager.villagerName.get(),
                 false,
                 villager.getGender(),
+                father,
+                mother
+        ));
+    }
+
+    public void addEntry(PlayerEntity player) {
+        if (!entries.containsKey(player.getUUID())) {
+            addEntry(player, Constants.ZERO_UUID, Constants.ZERO_UUID);
+        }
+    }
+
+    public void addEntry(PlayerEntity player, UUID father, UUID mother) {
+        addChildToParent(player.getUUID(), father);
+        addChildToParent(player.getUUID(), mother);
+
+        entries.put(player.getUUID(), new FamilyTreeEntry(
+                player.getName().getContents(),
+                true,
+                Gender.MALE, //TODO
                 father,
                 mother
         ));

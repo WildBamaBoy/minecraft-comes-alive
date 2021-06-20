@@ -1064,8 +1064,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                     sendMessageTo(MCA.localize("notify.child.grownup", villagerName.get()), p);
                 });
             }
-
-
         }
 
         if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {

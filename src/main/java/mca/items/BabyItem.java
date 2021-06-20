@@ -7,6 +7,7 @@ import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.data.FamilyTree;
 import mca.entity.data.FamilyTreeEntry;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.DialogueType;
@@ -85,20 +86,25 @@ public class BabyItem extends Item {
 
             PlayerSaveData playerData = PlayerSaveData.get(world, player.getUUID());
 
+            //make sure both parents are registered in the family tree
+            FamilyTree familyTree = child.getFamilyTree();
+            familyTree.addEntry(player);
+
             //assumes your child is from the players current spouse
             //as the father does not have any genes it just takes the one from the mother
             Entity spouse = ((ServerWorld) world).getEntity(playerData.getSpouseUUID());
             if (spouse instanceof VillagerEntityMCA) {
                 VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
+                familyTree.addEntry(spouseVillager);
                 child.inheritGenes(spouseVillager, spouseVillager);
             }
 
             //add the child to the family tree
-            FamilyTreeEntry spouseEntry = child.getFamilyTree().getEntry(playerData.getSpouseUUID());
+            FamilyTreeEntry spouseEntry = familyTree.getEntry(playerData.getSpouseUUID());
             if (spouseEntry != null && spouseEntry.getGender() == Gender.FEMALE) {
-                child.getFamilyTree().addEntry(child, player.getUUID(), playerData.getSpouseUUID());
+                familyTree.addEntry(child, player.getUUID(), playerData.getSpouseUUID());
             } else {
-                child.getFamilyTree().addEntry(child, playerData.getSpouseUUID(), player.getUUID());
+                familyTree.addEntry(child, playerData.getSpouseUUID(), player.getUUID());
             }
 
             WorldUtils.spawnEntity(world, child);

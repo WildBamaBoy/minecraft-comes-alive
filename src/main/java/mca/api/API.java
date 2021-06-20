@@ -292,24 +292,16 @@ public class API {
      * Adds API buttons to the GUI screen provided.
      *
      * @param guiKey   String key for the GUI's buttons
-     * @param villager Optional EntityVillagerMCA the Screen has been opened on
-     * @param player   PlayerEntity who has opened the GUI
      * @param screen   Screen instance the buttons should be added to
      */
-    public static void addButtons(String guiKey, @Nullable VillagerEntityMCA villager, PlayerEntity player, GuiInteract screen) {
+    public static void addButtons(String guiKey, GuiInteract screen) {
         for (APIButton b : buttonMap.get(guiKey)) {
             ButtonEx guiButton = new ButtonEx(screen, b);
             screen.addExButton(guiButton);
 
-            // Ensure that if a constraint is attached to the button
-            if (villager == null && b.getConstraints().size() > 0) {
-                MCA.log("No villager provided for list of buttons with constraints! Button ID:" + b.getIdentifier());
-                continue;
-            }
-
             // Remove the button if we specify it should not be present on constraint failure
             // Otherwise we just mark the button as disabled.
-            boolean isValid = b.isValidForConstraint(villager, player);
+            boolean isValid = b.isValidForConstraint(screen.getConstraints());
             if (!isValid && b.getConstraints().contains(Constraint.HIDE_ON_FAIL)) {
                 guiButton.visible = false;
             } else if (!isValid) {

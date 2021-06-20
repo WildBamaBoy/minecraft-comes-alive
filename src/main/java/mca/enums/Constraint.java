@@ -47,6 +47,5 @@ public enum Constraint {
         Optional<Constraint> state = Arrays.stream(values()).filter((e) -> e.id.equals(value)).findFirst();
         return state.orElse(null);
     }
-
 }
 

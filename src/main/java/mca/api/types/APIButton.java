@@ -2,11 +2,10 @@ package mca.api.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import mca.entity.VillagerEntityMCA;
 import mca.enums.Constraint;
-import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * APIButton is a button defined in assets/mca/api/gui/*
@@ -40,18 +39,11 @@ public class APIButton {
         return Constraint.fromStringList(constraints);
     }
 
-    /**
-     * Determines if the given villager and player match the constraints for this button, allowing the action to be performed
-     *
-     * @param villager Instance of the EntityVillagerMCA the button would perform the action on
-     * @param player   Instance of the PlayerEntity performing the action
-     * @return boolean whether the button is valid for a constraint
-     */
-    public boolean isValidForConstraint(VillagerEntityMCA villager, PlayerEntity player) {
+    //checks if a map of given evaluated constraints apply to this button
+    public boolean isValidForConstraint(Map<String, Boolean> checkedConstraints) {
         List<Constraint> constraints = getConstraints();
-
         for (Constraint constraint : constraints) {
-            if (constraint.getCheck().test(villager, player)) {
+            if (checkedConstraints.get(constraint.getId())) {
                 return false;
             }
         }

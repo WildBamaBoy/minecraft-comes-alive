@@ -19,6 +19,10 @@ public class MessagesMCA {
         NetworkHandler.registerMessage(OpenGuiRequest.class);
         NetworkHandler.registerMessage(ReportBuildingMessage.class);
         NetworkHandler.registerMessage(SaveVillageMessage.class);
+        NetworkHandler.registerMessage(GetFamilyTreeRequest.class);
+        NetworkHandler.registerMessage(GetFamilyTreeResponse.class);
+        NetworkHandler.registerMessage(GetInteractDataRequest.class);
+        NetworkHandler.registerMessage(GetInteractDataResponse.class);
     }
 
     public static void register() {
