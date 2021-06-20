@@ -291,7 +291,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         this.setVillagerData(this.getVillagerData().setProfession(profession));
         refreshBrain((ServerWorld) level);
         clothes.set(API.getRandomClothing(this));
-        importantProfession.set(true);
     }
 
     @Override
