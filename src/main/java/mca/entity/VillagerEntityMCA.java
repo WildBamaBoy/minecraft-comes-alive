@@ -50,10 +50,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.nbt.*;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -183,6 +180,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     private final GossipManager gossips = new GossipManager();
     private long lastGossipTime;
     private long lastGossipDecayTime;
+
+    //gift desaturation queue
+    private final List<String> giftDesaturation = new LinkedList<>();
 
     public VillagerEntityMCA(World w) {
         super(EntitiesMCA.VILLAGER, w);
@@ -365,6 +365,13 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
         data.load(CNBT.fromMC(nbt));
 
+        //load gift desaturation queue
+        ListNBT res = nbt.getList("giftDesaturation", 8);
+        for (int i = 0; i < res.size(); i++) {
+            String c = res.getString(i);
+            giftDesaturation.add(c);
+        }
+
         //set speed
         float speed = 1.0f;
 
@@ -388,8 +395,18 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     @Override
     public final void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
+
         data.save(CNBT.fromMC(nbt));
+
         InventoryUtils.saveToNBT(inventory, nbt);
+
+        //save gift desaturation queue
+        ListNBT giftDesaturationQueue = new ListNBT();
+        for (int i = 0; i < giftDesaturation.size(); i++) {
+            giftDesaturationQueue.addTag(i, StringNBT.valueOf(giftDesaturation.get(i)));
+        }
+        nbt.put("giftDesaturation", giftDesaturationQueue);
+
         nbt.put("Gossips", this.gossips.store(NBTDynamicOps.INSTANCE).getValue());
         nbt.putLong("LastGossipDecay", this.lastGossipDecayTime);
     }
@@ -798,13 +815,34 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                 if (!stack.isEmpty()) {
                     int giftValue = API.getGiftValueFromStack(stack);
                     if (!handleSpecialCaseGift(player, stack)) {
-                        if (stack.getItem() == Items.GOLDEN_APPLE) isInfected.set(false);
-                        else {
+                        if (stack.getItem() == Items.GOLDEN_APPLE) {
+                            //TODO special
+                            isInfected.set(false);
+                        } else {
+                            String id = stack.getDescriptionId();
+                            long occurrences = giftDesaturation.stream().filter(e -> e.equals(id)).count();
+
+                            //check if desaturation fail happen
+                            if (random.nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
+                                giftValue = -giftValue / 2;
+                                say(player, API.getResponseForSaturatedGift(stack));
+                            } else {
+                                say(player, API.getResponseForGift(stack));
+                            }
+
+                            //modify mood and hearts
                             modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
                             memory.modHearts(giftValue);
-                            say(player, API.getResponseForGift(stack));
                         }
                     }
+
+                    //add to desaturation queue
+                    giftDesaturation.add(stack.getDescriptionId());
+                    while (giftDesaturation.size() > MCA.getConfig().giftDesaturationQueueLength) {
+                        giftDesaturation.remove(0);
+                    }
+
+                    //particles
                     if (giftValue > 0) {
                         player.getMainHandItem().shrink(1);
                         this.level.broadcastEntityEvent(this, (byte) 16);

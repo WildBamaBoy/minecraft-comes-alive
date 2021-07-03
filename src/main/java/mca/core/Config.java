@@ -26,6 +26,8 @@ public final class Config implements Serializable {
     public int marriageLimit = 50;
     public int childrenChance = 5;
     public int childrenLimit = 50;
+    public int giftDesaturationQueueLength = 16;
+    public int giftDesaturationPenalty = 25;
 
     public Config() {
     }

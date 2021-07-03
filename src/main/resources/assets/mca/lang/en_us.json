@@ -452,6 +452,11 @@
     "notify.revival.disabled": "Revivals have been disabled by the server administrator.",
     "notify.trading.disabled": "Trading is disabled by the server administrator.",
 
+    "adult.saturatedGift1": "Not another one of these!",
+    "child.saturatedGift1": "I already have enough of these!",
+    "childp.saturatedGift1": "I already have enough of these!",
+    "spouse.saturatedGift1": "Darling, we have enough of that!",
+
     "adult.gift.fail1": "This isn't a good gift...",
     "adult.gift.fail2": "What made you think that I would like this?",
     "adult.gift.fail3": "No thanks.",
@@ -747,7 +752,7 @@
     "spouse.hug.fail2": "No thanks.",
     "spouse.hug.fail3": "Man, you stink.",
     "spouse.hug.fail4": "What do you want?",
-    "spouse.hug.fail5": "Huge someone else.",
+    "spouse.hug.fail5": "Hug someone else.",
     "spouse.kiss.success1": "I fall in love all over again when our lips meet!",
     "spouse.kiss.success2": "Time stops ticking when I'm with you.",
     "spouse.kiss.success3": "Sweet as cake!",

@@ -262,7 +262,7 @@ public class API {
         if (stack.getItem().getRegistryName() == null) return 0;
 
         String name = stack.getItem().getRegistryName().toString();
-        return giftMap.containsKey(name) ? giftMap.get(name).getValue() : -5;
+        return giftMap.containsKey(name) ? giftMap.get(name).getValue() : 0;
     }
 
     /**
@@ -274,6 +274,9 @@ public class API {
     public static String getResponseForGift(ItemStack stack) {
         int value = getGiftValueFromStack(stack);
         return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
+    }
+    public static String getResponseForSaturatedGift(ItemStack stack) {
+        return "saturatedGift";
     }
 
     /**
