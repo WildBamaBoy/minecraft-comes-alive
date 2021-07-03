@@ -61,6 +61,9 @@ public class MCA {
         return mod.localizer.localize(key, vars);
     }
 
+    public static Localizer getLocalizer() {
+        return mod.localizer;
+    }
 
     public final void setup(FMLCommonSetupEvent event) {
         logger = LogManager.getLogger();

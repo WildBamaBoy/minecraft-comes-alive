@@ -457,6 +457,13 @@
     "childp.saturatedGift1": "I already have enough of these!",
     "spouse.saturatedGift1": "Darling, we have enough of that!",
 
+    "adult.welcome1": "Welcome back, %v1%!",
+    "child.welcome1": "Hi %v1%!",
+    "childp.welcome1": "Hi %v1%!",
+    "spouse.welcome1": "Welcome home Darling!",
+
+    "generic.welcomeFoe1": "Not you again!",
+
     "adult.gift.fail1": "This isn't a good gift...",
     "adult.gift.fail2": "What made you think that I would like this?",
     "adult.gift.fail3": "No thanks.",

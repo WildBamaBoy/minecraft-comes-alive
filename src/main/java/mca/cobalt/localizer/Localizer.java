@@ -9,23 +9,35 @@ public class Localizer {
     private final ArrayList<VarParser> registeredVarParsers = new ArrayList<>();
 
     public String localize(String key, String... vars) {
-        ArrayList<String> list = new ArrayList<>();
-        Collections.addAll(list, vars);
-        return localize(key, list);
+        return localize(key, null, vars);
     }
 
-    public String localize(String key, ArrayList<String> vars) {
+    public String localize(String key, String keyFallback, String... vars) {
+        ArrayList<String> list = new ArrayList<>();
+        Collections.addAll(list, vars);
+        return localize(key, keyFallback, list);
+    }
+
+    public String localize(String key, String keyFallback, ArrayList<String> vars) {
         LanguageMap localizerMap = LanguageMap.getInstance();
 
         String result = localizerMap.getOrDefault(key);
 
         //multi-variant text
-        if (result.equals(key)) {
-            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).map(Map.Entry::getValue).collect(Collectors.toList());
-            if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
-        }
+        result = getLocalizedString(key, key, localizerMap, result);
+
+        //multi-variant fallback text
+        result = getLocalizedString(key, keyFallback, localizerMap, result);
 
         return parseVars(result, vars);
+    }
+
+    private String getLocalizedString(String key, String keyFallback, LanguageMap localizerMap, String result) {
+        if (result.equals(key)) {
+            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(keyFallback)).map(Map.Entry::getValue).collect(Collectors.toList());
+            if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
+        }
+        return result;
     }
 
     public void registerVarParser(VarParser parser) {

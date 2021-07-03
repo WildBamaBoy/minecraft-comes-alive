@@ -20,6 +20,8 @@ public class Memories {
 
     private VillagerEntityMCA villager;
 
+    private int lastSeen;
+
     private Memories() {
         hearts = 0;
         playerUUID = Constants.ZERO_UUID;
@@ -29,10 +31,13 @@ public class Memories {
 
     public static Memories getNew(VillagerEntityMCA villager, UUID uuid) {
         Memories memory = new Memories();
+
         memory.villager = villager;
         memory.playerUUID = uuid;
         memory.interactionFatigue = 0;
         memory.dialogueType = DialogueType.ADULT.getId();
+        memory.lastSeen = (int) (villager.level.getGameTime() % 24000);
+
         return memory;
     }
 
@@ -46,16 +51,20 @@ public class Memories {
         memories.hearts = cnbt.getInteger("hearts");
         memories.interactionFatigue = cnbt.getInteger("interactionFatigue");
         memories.dialogueType = cnbt.getInteger("dialogueType");
+        memories.lastSeen = cnbt.getInteger("lastSeen");
 
         return memories;
     }
 
     public CNBT toCNBT() {
         CNBT nbt = CNBT.createNew();
+
         nbt.setUUID("playerUUID", playerUUID);
         nbt.setInteger("hearts", hearts);
         nbt.setInteger("interactionFatigue", interactionFatigue);
         nbt.setInteger("dialogueType", dialogueType);
+        nbt.setInteger("lastSeen", lastSeen);
+
         return nbt;
     }
 
@@ -86,5 +95,14 @@ public class Memories {
     public void setDialogueType(DialogueType value) {
         this.dialogueType = value.getId();
         villager.updateMemories(this);
+    }
+
+    public void setLastSeen(int lastSeen) {
+        this.lastSeen = lastSeen;
+        villager.updateMemories(this);
+    }
+
+    public int getLastSeen() {
+        return lastSeen;
     }
 }

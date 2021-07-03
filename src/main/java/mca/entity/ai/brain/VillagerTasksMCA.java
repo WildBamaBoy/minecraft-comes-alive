@@ -27,6 +27,7 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(0, new FollowTask()),
                 Pair.of(0, new StayTask()),
+                Pair.of(0, new GreetPlayerTask()),
                 Pair.of(0, new ProcreateTask()),
                 Pair.of(0, new SwimTask(0.8F)),
                 Pair.of(0, new InteractWithDoorTask()),

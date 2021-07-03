@@ -194,7 +194,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         // and the data manager required those fields
         data.register();
 
-        this.setSilent(true);
+        this.setSilent(false);
 
         if (!level.isClientSide) {
             Gender eGender = Gender.getRandom();
@@ -233,13 +233,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         return (Brain<VillagerEntityMCA>) this.brain;
     }
 
-    @Override
-    protected void ageBoundaryReached() {
-
-        //sus method
-        super.ageBoundaryReached();
-    }
-
     private void registerBrainGoals(Brain<VillagerEntityMCA> brain) {
         VillagerProfession villagerprofession = this.getVillagerData().getProfession();
         if (this.isBaby()) {
@@ -263,7 +256,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);
         brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
-
     }
 
     @Nullable
@@ -560,6 +552,10 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         return SoundEvents.GENERIC_HURT;
     }
 
+    public final void playWelcomeSound() {
+        playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
+    }
+
     @Override
     public final ITextComponent getDisplayName() {
         TextComponent name = new StringTextComponent(villagerName.get());
@@ -686,7 +682,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             playSound(SoundEvents.ZOMBIE_AMBIENT, this.getSoundVolume(), this.getVoicePitch());
         } else {
             DialogueType dialogueType = getMemoriesForPlayer(target).getDialogueType();
-            sendMessageTo(chatPrefix + MCA.localize(dialogueType.getName() + "." + phraseId, paramList.toArray(new String[0])), target);
+            String localizedText = MCA.getLocalizer().localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
+            sendMessageTo(chatPrefix + localizedText, target);
         }
     }
 
@@ -855,7 +852,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             case "gui.button.procreate":
                 if (PlayerSaveData.get(level, player.getUUID()).isBabyPresent()) {
                     say(player, "interaction.procreate.fail.hasbaby");
-
                 } else if (memory.getHearts() < 100) {
                     say(player, "interaction.procreate.fail.lowhearts");
                 } else {
