@@ -24,17 +24,17 @@ public class Localizer {
         String result = localizerMap.getOrDefault(key);
 
         //multi-variant text
-        result = getLocalizedString(key, key, localizerMap, result);
+        result = getLocalizedString(key, localizerMap, result);
 
         //multi-variant fallback text
-        result = getLocalizedString(key, keyFallback, localizerMap, result);
+        result = getLocalizedString(keyFallback, localizerMap, result);
 
         return parseVars(result, vars);
     }
 
-    private String getLocalizedString(String key, String keyFallback, LanguageMap localizerMap, String result) {
+    private String getLocalizedString(String key, LanguageMap localizerMap, String result) {
         if (result.equals(key)) {
-            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(keyFallback)).map(Map.Entry::getValue).collect(Collectors.toList());
+            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).map(Map.Entry::getValue).collect(Collectors.toList());
             if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
         return result;

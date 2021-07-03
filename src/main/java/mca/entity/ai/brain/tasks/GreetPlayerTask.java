@@ -56,7 +56,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         if (isWithinGreetingDistance(villager, target)) {
             if (!talked) {
                 Memories memories = villager.getMemoriesForPlayer(target);
-                int day = (int) (villager.level.getGameTime() % 24000);
+                int day = (int) (villager.level.getDayTime() / 24000L);
                 memories.setLastSeen(day);
 
                 String phrase = memories.getHearts() <= MCA.getConfig().greetHeartsThreshold ? "welcomeFoe" : "welcome";
@@ -88,7 +88,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         boolean isRelative = FamilyTree.get(villager.level).isRelative(villager.getUUID(), player.getUUID());
         boolean isSpouse = villager.spouseUUID.get().isPresent() && villager.spouseUUID.get().get().equals(player.getUUID());
         Memories memories = villager.getMemoriesForPlayer(player);
-        int day = (int) (villager.level.getGameTime() % 24000);
+        int day = (int) (villager.level.getDayTime() / 24000L);
 
         if (isSpouse || isRelative || Math.abs(memories.getHearts()) >= MCA.getConfig().greetHeartsThreshold) {
             int diff = day - memories.getLastSeen();

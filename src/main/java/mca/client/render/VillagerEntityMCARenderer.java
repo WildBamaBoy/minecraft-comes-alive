@@ -74,13 +74,16 @@ public class VillagerEntityMCARenderer extends BipedRenderer<VillagerEntityMCA, 
 
     @Override
     public void render(VillagerEntityMCA villager, float p_225623_2_, float p_225623_3_, MatrixStack p_225623_4_, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
-        model.headSize = villager.getAgeState().getHead();
-        model.breastSize = villager.getGender() == Gender.FEMALE ? villager.gene_breast.get() * villager.getAgeState().getBreasts() : 0.0f;
+        AgeState ageState = villager.getAgeState();
+        model.headSize = ageState.getHead();
+        model.headWidth = model.headSize / ageState.getWidth();
+        model.breastSize = villager.getGender() == Gender.FEMALE ? villager.gene_breast.get() * ageState.getBreasts() : 0.0f;
 
         //also apply this to the layers models, not sure if this is the intended solution
         for (VillagerEntityBaseModelMCA<VillagerEntityMCA> m : models) {
             m.breastSize = this.model.breastSize;
             m.headSize = this.model.headSize;
+            m.headWidth = this.model.headWidth;
         }
 
         super.render(villager, p_225623_2_, p_225623_3_, p_225623_4_, p_225623_5_, p_225623_6_);

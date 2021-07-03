@@ -14,6 +14,7 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
     protected final boolean cloth;
     public float breastSize = 1.0f;
     public float headSize = 1.0f;
+    public float headWidth = 1.0f;
 
     public VillagerEntityBaseModelMCA() {
         this(32, 1.0f, true);
@@ -56,7 +57,7 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
     public void renderToBuffer(MatrixStack transform, IVertexBuilder vertexBuilder, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
         //head
         transform.pushPose();
-        transform.scale(headSize, headSize, headSize);
+        transform.scale(headWidth, headSize, headWidth);
         transform.translate(0.0D, 0.0f, 0.0f);
         this.headParts().forEach((p_228230_8_) -> p_228230_8_.render(transform, vertexBuilder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_));
         transform.popPose();

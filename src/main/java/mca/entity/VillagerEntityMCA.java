@@ -194,7 +194,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         // and the data manager required those fields
         data.register();
 
-        this.setSilent(false);
+        this.setSilent(true);
 
         if (!level.isClientSide) {
             Gender eGender = Gender.getRandom();
@@ -553,7 +553,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public final void playWelcomeSound() {
-        playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
+        //TODO custom sounds?
+        //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
     }
 
     @Override
@@ -1317,8 +1318,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public void setBaby(boolean p_82227_1_) {
-        this.setAge(p_82227_1_ ? -AgeState.startingAge : 0);
+    public void setBaby(boolean isBaby) {
+        this.setAge(isBaby ? -AgeState.startingAge : 0);
     }
 
     //TODO

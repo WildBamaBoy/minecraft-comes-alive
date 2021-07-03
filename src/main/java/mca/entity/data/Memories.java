@@ -36,7 +36,7 @@ public class Memories {
         memory.playerUUID = uuid;
         memory.interactionFatigue = 0;
         memory.dialogueType = DialogueType.ADULT.getId();
-        memory.lastSeen = (int) (villager.level.getGameTime() % 24000);
+        memory.lastSeen = (int) (villager.level.getDayTime() / 24000L);
 
         return memory;
     }
