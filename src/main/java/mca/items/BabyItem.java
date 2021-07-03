@@ -9,6 +9,7 @@ import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.FamilyTreeEntry;
+import mca.entity.data.Memories;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.DialogueType;
 import mca.enums.Gender;
@@ -113,7 +114,9 @@ public class BabyItem extends Item {
             playerData.setBabyPresent(false);
 
             // set proper dialogue type
-            child.getMemoriesForPlayer(player).setDialogueType(DialogueType.CHILDP);
+            Memories memories = child.getMemoriesForPlayer(player);
+            memories.setDialogueType(DialogueType.CHILDP);
+            memories.setHearts(MCA.getConfig().childInitialHearts);
 
             stack.shrink(1);
 
