@@ -21,7 +21,6 @@ public class RecipeProviderMCA extends RecipeProvider {
 
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
-
         ShapelessRecipeBuilder.shapeless(ItemsMCA.ROSE_GOLD_INGOT.get(), 9)
                 .requires(BlocksMCA.ROSE_GOLD_BLOCK.get())
                 .unlockedBy("has_item", has(ItemsMCA.ROSE_GOLD_INGOT.get()))
@@ -49,6 +48,7 @@ public class RecipeProviderMCA extends RecipeProvider {
         CookingRecipeBuilder.smelting(Ingredient.of(BlocksMCA.ROSE_GOLD_ORE.get()), ItemsMCA.ROSE_GOLD_INGOT.get(), 0.7f, 200)
                 .unlockedBy("has_item", has(BlocksMCA.ROSE_GOLD_ORE.get()))
                 .save(consumer, modId("rose_gold_ingot_smelting"));
+
         CookingRecipeBuilder.blasting(Ingredient.of(BlocksMCA.ROSE_GOLD_ORE.get()), ItemsMCA.ROSE_GOLD_INGOT.get(), 0.7f, 100)
                 .unlockedBy("has_item", has(BlocksMCA.ROSE_GOLD_ORE.get()))
                 .save(consumer, modId("rose_gold_ingot_blasting"));
