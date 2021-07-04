@@ -60,6 +60,8 @@ public class GuiNameBaby extends Screen {
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
+        setFocused(babyNameTextField);
+
         drawCenteredString(transform, this.font, this.title, this.width / 2, 10, 16777215);
 
         babyNameTextField.render(transform, width / 2 - 100, height / 2 - 70, scale);
