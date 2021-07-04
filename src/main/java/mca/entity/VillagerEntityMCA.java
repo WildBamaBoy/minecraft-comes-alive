@@ -432,12 +432,17 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         gene_size.set(centeredRandom());
         gene_width.set(centeredRandom());
 
-        //temperature
+        // temperature
         float temp = level.getBiome(getOnPos()).getBaseTemperature();
 
+        // immigrants
+        if (random.nextInt(100) < MCA.getConfig().immigrantChance) {
+            temp = random.nextFloat() * 2.0f - 0.5f;
+        }
+
         // melanin
-        gene_melanin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
-        gene_hemoglobin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.5f));
+        gene_melanin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f));
+        gene_hemoglobin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f));
 
         // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
         gene_eumelanin.set(random.nextFloat());

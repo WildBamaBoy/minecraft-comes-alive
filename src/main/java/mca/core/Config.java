@@ -31,8 +31,8 @@ public final class Config implements Serializable {
     public int greetHeartsThreshold = 75;
     public int greetAfterDays = 1;
     public int childInitialHearts = 100;
+    public int immigrantChance = 20;
 
     public Config() {
     }
-
 }
