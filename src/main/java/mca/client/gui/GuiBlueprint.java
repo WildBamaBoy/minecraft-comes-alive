@@ -2,8 +2,8 @@ package mca.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
-import mca.cobalt.network.NetworkHandler;
 import mca.api.types.BuildingType;
+import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.entity.data.Building;
 import mca.entity.data.Village;

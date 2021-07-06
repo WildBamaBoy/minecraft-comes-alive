@@ -1,10 +1,10 @@
 package mca.network;
 
-import mca.cobalt.network.Message;
 import mca.client.gui.GuiBlueprint;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
+import mca.cobalt.network.Message;
 import mca.items.BabyItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;

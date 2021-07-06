@@ -2,9 +2,9 @@ package mca.core;
 
 import lombok.Getter;
 import mca.api.API;
-import mca.cobalt.localizer.Localizer;
 import mca.client.render.GrimReaperRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
+import mca.cobalt.localizer.Localizer;
 import mca.core.forge.EventHooks;
 import mca.core.forge.Registration;
 import mca.core.minecraft.EntitiesMCA;

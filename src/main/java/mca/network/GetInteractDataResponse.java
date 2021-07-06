@@ -1,9 +1,7 @@
 package mca.network;
 
-import mca.client.gui.GuiFamilyTree;
 import mca.client.gui.GuiInteract;
 import mca.cobalt.network.Message;
-import mca.entity.data.FamilyTreeEntry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -11,7 +9,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class GetInteractDataResponse extends Message {
     private final Map<String, Boolean> constraints;

@@ -206,7 +206,9 @@ public class ServerInteractionManager {
         // Notify the sender of the success and end both marriages.
         successMessage(sender, "Your marriage to " + senderData.getSpouseName() + " has ended.");
         PlayerEntity spouse = sender.level.getPlayerByUUID(senderData.getSpouseUUID());
-        failMessage(spouse, sender.getScoreboardName() + " has ended their marriage with you.");
+        if (spouse != null) {
+            failMessage(spouse, sender.getScoreboardName() + " has ended their marriage with you.");
+        }
 
         senderData.endMarriage();
         receiverData.endMarriage();

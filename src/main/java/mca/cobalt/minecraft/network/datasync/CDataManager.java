@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class CDataManager {
     private final Entity entity;
-    private final Map<String, CDataParameter> params;
+    private final Map<String, CDataParameter<?>> params;
 
     public CDataManager(Entity e) {
         entity = e;
@@ -86,21 +86,21 @@ public class CDataManager {
 
     //register all entries
     public void register() {
-        for (CDataParameter p : params.values()) {
+        for (CDataParameter<?> p : params.values()) {
             p.register();
         }
     }
 
     //load entity from nbt
     public void load(CNBT nbt) {
-        for (CDataParameter p : params.values()) {
+        for (CDataParameter<?> p : params.values()) {
             p.load(nbt);
         }
     }
 
     //save entity from nbt
     public void save(CNBT nbt) {
-        for (CDataParameter p : params.values()) {
+        for (CDataParameter<?> p : params.values()) {
             p.save(nbt);
         }
     }

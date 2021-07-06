@@ -26,18 +26,6 @@ import java.util.List;
 public class VillagerEntityMCARenderer extends BipedRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
     List<VillagerEntityBaseModelMCA<VillagerEntityMCA>> models = new LinkedList<>();
 
-    private VillagerEntityModelMCA<VillagerEntityMCA> createModel(float modelSize, float headSize, boolean cloth, boolean hideWear) {
-        VillagerEntityModelMCA<VillagerEntityMCA> m = new VillagerEntityModelMCA<>(modelSize, headSize, cloth, hideWear);
-        models.add(m);
-        return m;
-    }
-
-    private VillagerEntityArmorModelMCA<VillagerEntityMCA> createArmorModel(float modelSize) {
-        VillagerEntityArmorModelMCA<VillagerEntityMCA> m = new VillagerEntityArmorModelMCA<>(modelSize, modelSize);
-        models.add(m);
-        return m;
-    }
-
     public VillagerEntityMCARenderer(EntityRendererManager manager) {
         super(manager, new VillagerEntityModelMCA<>(), 0.5F);
 
@@ -49,6 +37,18 @@ public class VillagerEntityMCARenderer extends BipedRenderer<VillagerEntityMCA, 
                 createArmorModel(0.5f),
                 createArmorModel(1.0f)));
         this.addLayer(new HeldItemLayer<>(this));
+    }
+
+    private VillagerEntityModelMCA<VillagerEntityMCA> createModel(float modelSize, float headSize, boolean cloth, boolean hideWear) {
+        VillagerEntityModelMCA<VillagerEntityMCA> m = new VillagerEntityModelMCA<>(modelSize, headSize, cloth, hideWear);
+        models.add(m);
+        return m;
+    }
+
+    private VillagerEntityArmorModelMCA<VillagerEntityMCA> createArmorModel(float modelSize) {
+        VillagerEntityArmorModelMCA<VillagerEntityMCA> m = new VillagerEntityArmorModelMCA<>(modelSize, modelSize);
+        models.add(m);
+        return m;
     }
 
     @Override

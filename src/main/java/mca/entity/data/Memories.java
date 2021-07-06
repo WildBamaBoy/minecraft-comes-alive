@@ -97,12 +97,12 @@ public class Memories {
         villager.updateMemories(this);
     }
 
+    public int getLastSeen() {
+        return lastSeen;
+    }
+
     public void setLastSeen(int lastSeen) {
         this.lastSeen = lastSeen;
         villager.updateMemories(this);
-    }
-
-    public int getLastSeen() {
-        return lastSeen;
     }
 }

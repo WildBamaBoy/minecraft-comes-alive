@@ -21,7 +21,7 @@ public class ExtendedAssignProfessionTask extends AssignProfessionTask {
             GlobalPos globalpos = villager.getBrain().getMemory(MemoryModuleType.POTENTIAL_JOB_SITE).get();
             villager.getBrain().eraseMemory(MemoryModuleType.POTENTIAL_JOB_SITE);
             villager.getBrain().setMemory(MemoryModuleType.JOB_SITE, globalpos);
-            world.broadcastEntityEvent(villager, (byte)14);
+            world.broadcastEntityEvent(villager, (byte) 14);
             if (villager.getVillagerData().getProfession() == VillagerProfession.NONE) {
                 MinecraftServer minecraftserver = world.getServer();
                 Optional.ofNullable(minecraftserver.getLevel(globalpos.dimension())).flatMap((p_241376_1_) -> p_241376_1_.getPoiManager().getType(globalpos.pos())).flatMap((p_220390_0_) -> Registry.VILLAGER_PROFESSION.stream().filter((p_220389_1_) -> p_220389_1_.getJobPoiType() == p_220390_0_).findFirst()).ifPresent((p_220388_2_) -> {
