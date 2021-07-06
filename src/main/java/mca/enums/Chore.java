@@ -21,7 +21,7 @@ public enum Chore {
     int id;
     String friendlyName;
     @Getter
-    Class toolType;
+    Class<?> toolType;
 
     public static Chore byId(int id) {
         Optional<Chore> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();

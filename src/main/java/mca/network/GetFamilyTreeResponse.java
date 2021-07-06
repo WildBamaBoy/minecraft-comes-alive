@@ -1,8 +1,6 @@
 package mca.network;
 
 import mca.client.gui.GuiFamilyTree;
-import mca.client.gui.GuiWhistle;
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.Message;
 import mca.entity.data.FamilyTreeEntry;
 import net.minecraft.client.Minecraft;

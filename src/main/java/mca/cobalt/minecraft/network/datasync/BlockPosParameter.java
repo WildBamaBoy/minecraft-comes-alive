@@ -2,7 +2,6 @@ package mca.cobalt.minecraft.network.datasync;
 
 import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;

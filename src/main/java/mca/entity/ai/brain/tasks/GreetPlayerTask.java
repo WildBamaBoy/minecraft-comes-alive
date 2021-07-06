@@ -16,12 +16,11 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Optional;
 
 public class GreetPlayerTask extends Task<VillagerEntityMCA> {
+    private static final int talkTime = 10 * 20;
     private int cooldown;
     private PlayerEntity target;
-
     private boolean talked;
     private int talking;
-    private static final int talkTime = 10 * 20;
 
     public GreetPlayerTask() {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleStatus.REGISTERED, MemoryModuleType.LOOK_TARGET, MemoryModuleStatus.REGISTERED, MemoryModuleType.INTERACTION_TARGET, MemoryModuleStatus.REGISTERED, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleStatus.VALUE_PRESENT));
@@ -70,7 +69,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         } else {
             BrainUtil.setWalkAndLookTargetMemories(villager, target, 0.5F, 3);
         }
-     }
+    }
 
     protected void stop(ServerWorld world, VillagerEntityMCA villager, long time) {
         target = null;

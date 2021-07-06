@@ -74,7 +74,6 @@
     "profession": "minecraft:weaponsmith",
     "count": 5
   },
-
   {
     "gender": "male",
     "profession": "minecraft:archer",
@@ -175,7 +174,6 @@
     "profession": "minecraft:weaponsmith",
     "count": 5
   },
-
   {
     "gender": "neutral",
     "profession": "minecraft:armorer",

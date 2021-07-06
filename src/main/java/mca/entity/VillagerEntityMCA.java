@@ -174,15 +174,14 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     public final CIntegerParameter village = data.newInteger("village", -1);
     public final CIntegerParameter building = data.newInteger("buildings", -1);
+    private final GossipManager gossips = new GossipManager();
+    //gift desaturation queue
+    private final List<String> giftDesaturation = new LinkedList<>();
     public int procreateTick = -1;
     @Nullable
     private PlayerEntity interactingPlayer;
-    private final GossipManager gossips = new GossipManager();
     private long lastGossipTime;
     private long lastGossipDecayTime;
-
-    //gift desaturation queue
-    private final List<String> giftDesaturation = new LinkedList<>();
 
     public VillagerEntityMCA(World w) {
         super(EntitiesMCA.VILLAGER, w);

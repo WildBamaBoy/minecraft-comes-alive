@@ -75,7 +75,7 @@ public class GrimReaperRestGoal extends Goal {
             EntityType.LIGHTNING_BOLT.spawn((ServerWorld) reaper.level, null, null, null, new BlockPos(dX, y, dZ), SpawnReason.TRIGGERED, false, false);
 
             // Also spawn a random skeleton or zombie.
-            EntityType m = reaper.getRandom().nextFloat() >= 0.5F ? EntityType.ZOMBIE : EntityType.SKELETON;
+            EntityType<?> m = reaper.getRandom().nextFloat() >= 0.5F ? EntityType.ZOMBIE : EntityType.SKELETON;
             Entity e = m.spawn((ServerWorld) reaper.level, null, null, null, new BlockPos(reaper.getX() + dX + 4, y, reaper.getZ() + dZ + 4), SpawnReason.TRIGGERED, false, false);
 
             if (e != null && m == EntityType.SKELETON) {

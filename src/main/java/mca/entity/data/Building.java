@@ -1,8 +1,8 @@
 package mca.entity.data;
 
 import mca.api.API;
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.api.types.BuildingType;
+import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

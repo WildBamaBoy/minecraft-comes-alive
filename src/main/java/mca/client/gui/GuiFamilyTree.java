@@ -3,7 +3,6 @@ package mca.client.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.data.FamilyTreeEntry;
-import mca.enums.Gender;
 import mca.network.GetFamilyTreeRequest;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -15,30 +14,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GuiFamilyTree extends Screen {
-    private class Line {
-        boolean vertical;
-        int x, y, z;
-
-        public Line(boolean vertical, int x, int y, int z) {
-            this.vertical = vertical;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        public void render(MatrixStack transform) {
-            if (vertical) {
-                vLine(transform, x, y, z, 0xffffffff);
-            } else {
-                hLine(transform, x, y, z, 0xffffffff);
-            }
-        }
-    }
-
+    private final List<Line> lines = new LinkedList<>();
     private UUID uuid;
     private Map<UUID, FamilyTreeEntry> family;
-    private final List<Line> lines = new LinkedList<>();
-
     public GuiFamilyTree(UUID uuid) {
         super(new StringTextComponent("Family Tree"));
 
@@ -135,6 +113,26 @@ public class GuiFamilyTree extends Screen {
             for (UUID child : children) {
                 addButton(child, x, offset + h, width / 2, offset);
                 x += w;
+            }
+        }
+    }
+
+    private class Line {
+        boolean vertical;
+        int x, y, z;
+
+        public Line(boolean vertical, int x, int y, int z) {
+            this.vertical = vertical;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public void render(MatrixStack transform) {
+            if (vertical) {
+                vLine(transform, x, y, z, 0xffffffff);
+            } else {
+                hLine(transform, x, y, z, 0xffffffff);
             }
         }
     }

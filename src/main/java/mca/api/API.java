@@ -14,14 +14,12 @@ import mca.enums.Gender;
 import mca.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -275,6 +273,7 @@ public class API {
         int value = getGiftValueFromStack(stack);
         return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
     }
+
     public static String getResponseForSaturatedGift(ItemStack stack) {
         return "saturatedGift";
     }
@@ -294,8 +293,8 @@ public class API {
     /**
      * Adds API buttons to the GUI screen provided.
      *
-     * @param guiKey   String key for the GUI's buttons
-     * @param screen   Screen instance the buttons should be added to
+     * @param guiKey String key for the GUI's buttons
+     * @param screen Screen instance the buttons should be added to
      */
     public static void addButtons(String guiKey, GuiInteract screen) {
         for (APIButton b : buttonMap.get(guiKey)) {

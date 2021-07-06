@@ -5,8 +5,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mca.core.Constants;
-import mca.core.minecraft.ItemsMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.Village;
@@ -19,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -74,39 +73,8 @@ public class AdminCommand {
         return 0;
     }
 
-    private static int clearVillagerEditors(CommandContext<CommandSource> ctx) {
-        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
-        for (int i = 0; i < player.inventory.getContainerSize(); i++) {
-            ItemStack stack = player.inventory.getItem(i);
-            if (stack.getItem() == ItemsMCA.VILLAGER_EDITOR.get()) {
-                player.inventory.removeItem(stack);
-            }
-        }
-        return 0;
-    }
-
-    private static int resetPlayerData(CommandContext<CommandSource> ctx) {
-        return 0;
-    }
-
-    private static int resetVillagerData(CommandContext<CommandSource> ctx) {
-        return 0;
-    }
-
-    private static int dumpPlayerData(CommandContext<CommandSource> ctx) {
-        return 0;
-    }
-
-    private static int killGrimReaper(CommandContext<CommandSource> ctx) {
-        return 0;
-    }
-
-    private static int spawnGrimReaper(CommandContext<CommandSource> ctx) {
-        return 0;
-    }
-
-    private static int decrementHearts(CommandContext<CommandSource> ctx) {
-        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+    private static int decrementHearts(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player =  ctx.getSource().getPlayerOrException();
         getLoadedVillagers(ctx).forEach(v -> {
             Memories memories = ((VillagerEntityMCA) v).getMemoriesForPlayer(player);
             memories.setHearts(memories.getHearts() - 10);
@@ -115,8 +83,8 @@ public class AdminCommand {
         return 0;
     }
 
-    private static int incrementHearts(CommandContext<CommandSource> ctx) {
-        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+    private static int incrementHearts(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player =  ctx.getSource().getPlayerOrException();
         getLoadedVillagers(ctx).forEach(v -> {
             Memories memories = ((VillagerEntityMCA) v).getMemoriesForPlayer(player);
             memories.setHearts(memories.getHearts() + 10);
@@ -130,8 +98,8 @@ public class AdminCommand {
         return 0;
     }
 
-    private static int forceBabyGrowth(CommandContext<CommandSource> ctx) {
-        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+    private static int forceBabyGrowth(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player =  ctx.getSource().getPlayerOrException();
         ItemStack heldStack = player.getMainHandItem();
 
         if (heldStack.getItem() instanceof BabyItem) {
@@ -140,8 +108,8 @@ public class AdminCommand {
         return 0;
     }
 
-    private static int forceFullHearts(CommandContext<CommandSource> ctx) {
-        PlayerEntity player = (PlayerEntity) ctx.getSource().getEntity();
+    private static int forceFullHearts(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player =  ctx.getSource().getPlayerOrException();
         getLoadedVillagers(ctx).forEach(v -> {
             Memories memories = ((VillagerEntityMCA) v).getMemoriesForPlayer(player);
             memories.setHearts(100);
@@ -151,8 +119,6 @@ public class AdminCommand {
     }
 
     private static int restoreClearedVillagers(CommandContext<CommandSource> ctx) {
-        ServerWorld world = ctx.getSource().getLevel();
-//        prevVillagersRemoved.forEach(world::addEntity);
         prevVillagersRemoved.clear();
         success("Restored cleared villagers.", ctx);
         return 0;
@@ -189,23 +155,23 @@ public class AdminCommand {
         ctx.getSource().sendFailure(new StringTextComponent(Constants.Color.RED + "Village with this ID does not exist."));
     }
 
-    private static int displayHelp(CommandContext<CommandSource> ctx) {
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "OP COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin ffh " + Constants.Color.GOLD + " - Force all hearts on all villagers.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin fbg " + Constants.Color.GOLD + " - Force your baby to grow up.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin fcg " + Constants.Color.GOLD + " - Force nearby children to grow.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin clv " + Constants.Color.GOLD + " - Clear all loaded villagers. " + Constants.Color.RED + "(IRREVERSABLE)");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin rcv " + Constants.Color.GOLD + " - Restores cleared villagers. ");
+    private static int displayHelp(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "OP COMMANDS" + Constants.Color.DARKRED + " ---");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin ffh " + Constants.Color.GOLD + " - Force all hearts on all villagers.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin fbg " + Constants.Color.GOLD + " - Force your baby to grow up.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin fcg " + Constants.Color.GOLD + " - Force nearby children to grow.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin clv " + Constants.Color.GOLD + " - Clear all loaded villagers. " + Constants.Color.RED + "(IRREVERSABLE)");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin rcv " + Constants.Color.GOLD + " - Restores cleared villagers. ");
 
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin listVillages " + Constants.Color.GOLD + " - Prints a list of all villages.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin removeVillage id" + Constants.Color.GOLD + " - Removed a village with given id.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin listVillages " + Constants.Color.GOLD + " - Prints a list of all villages.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin removeVillage id" + Constants.Color.GOLD + " - Removed a village with given id.");
 
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin inh " + Constants.Color.GOLD + " - Increase hearts by 10.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin deh " + Constants.Color.GOLD + " - Decrease hearts by 10.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin cve" + Constants.Color.GOLD + " - Remove all villager editors from the game.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin inh " + Constants.Color.GOLD + " - Increase hearts by 10.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin deh " + Constants.Color.GOLD + " - Decrease hearts by 10.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin cve" + Constants.Color.GOLD + " - Remove all villager editors from the game.");
 
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca-admin help " + Constants.Color.GOLD + " - Shows this list of commands.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca-admin help " + Constants.Color.GOLD + " - Shows this list of commands.");
         return 0;
     }
 

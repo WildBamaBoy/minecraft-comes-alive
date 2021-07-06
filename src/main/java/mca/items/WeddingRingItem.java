@@ -18,12 +18,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class WeddingRingItem extends Item implements SpecialCaseGift {
-    protected int getHeartsRequired() {
-        return MCA.getConfig().marriageHeartsRequirement;
-    }
-
     public WeddingRingItem(Item.Properties properties) {
         super(properties);
+    }
+
+    protected int getHeartsRequired() {
+        return MCA.getConfig().marriageHeartsRequirement;
     }
 
     @Override

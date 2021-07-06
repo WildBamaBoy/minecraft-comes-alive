@@ -29,16 +29,16 @@ public class MCACommand {
         );
     }
 
-    private static int displayHelp(CommandContext<CommandSource> ctx) {
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "PLAYER COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca propose <PlayerName>" + Constants.Color.GOLD + " - Proposes marriage to the given player.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca proposals " + Constants.Color.GOLD + " - Shows all active proposals.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca accept <PlayerName>" + Constants.Color.GOLD + " - Accepts the player's marriage request.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca reject <PlayerName>" + Constants.Color.GOLD + " - Rejects the player's marriage request.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca procreate " + Constants.Color.GOLD + " - Starts procreation.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca separate " + Constants.Color.GOLD + " - Ends your marriage.");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getEntity(), Constants.Color.WHITE + " /mca help " + Constants.Color.GOLD + " - Shows this list of commands.");
+    private static int displayHelp(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "PLAYER COMMANDS" + Constants.Color.DARKRED + " ---");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca propose <PlayerName>" + Constants.Color.GOLD + " - Proposes marriage to the given player.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca proposals " + Constants.Color.GOLD + " - Shows all active proposals.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca accept <PlayerName>" + Constants.Color.GOLD + " - Accepts the player's marriage request.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca reject <PlayerName>" + Constants.Color.GOLD + " - Rejects the player's marriage request.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca procreate " + Constants.Color.GOLD + " - Starts procreation.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca separate " + Constants.Color.GOLD + " - Ends your marriage.");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---");
+        sendMessage(ctx.getSource().getPlayerOrException(), Constants.Color.WHITE + " /mca help " + Constants.Color.GOLD + " - Shows this list of commands.");
         return 0;
     }
 

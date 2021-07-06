@@ -29,6 +29,7 @@ public class VillagerEntityArmorModelMCA<T extends VillagerEntityMCA> extends Vi
 
         breasts.copyFrom(body);
     }
+
     public void copyPropertiesTo(VillagerEntityModelMCA<T> target) {
         super.copyPropertiesTo(target);
 

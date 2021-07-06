@@ -3,10 +3,8 @@ package mca.core.minecraft;
 import com.google.common.collect.ImmutableSet;
 import mca.core.forge.Registration;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.village.PointOfInterestType;
-import net.minecraftforge.fml.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
