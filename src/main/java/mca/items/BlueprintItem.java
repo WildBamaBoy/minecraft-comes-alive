@@ -13,8 +13,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -37,7 +35,6 @@ public class BlueprintItem extends AbstractMapItem {
 
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag iTooltipFlag) {
         tooltip.add(new StringTextComponent("Manage the village you are currently in"));
     }

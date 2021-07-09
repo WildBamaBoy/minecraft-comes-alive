@@ -22,8 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiInteract extends Screen {
     private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
     private final VillagerEntityMCA villager;
@@ -58,6 +56,7 @@ public class GuiInteract extends Screen {
         this.activeKey = "main";
     }
 
+    @Override
     public boolean isPauseScreen() {
         return false;
     }

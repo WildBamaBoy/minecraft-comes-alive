@@ -27,8 +27,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -79,7 +77,6 @@ public class JewelerWorkbench extends Block {
         return SHAPE;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack item, @Nullable IBlockReader iBlock, List<ITextComponent> tooltip, ITooltipFlag iTooltipFlag) {
         tooltip.add(new StringTextComponent("Workbench allows you to buy rings from Jeweler").withStyle(TextFormatting.GRAY));
         tooltip.add(new TranslationTextComponent(String.format("tooltip.%s.block.statue.line1", MCA.MOD_ID)).withStyle(TextFormatting.GRAY));

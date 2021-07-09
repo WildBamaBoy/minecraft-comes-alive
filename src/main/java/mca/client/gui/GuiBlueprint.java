@@ -18,15 +18,12 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiBlueprint extends Screen {
     //gui element Y positions
     private final int positionTaxes = -60;

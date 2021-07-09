@@ -4,10 +4,7 @@ import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
     public FaceLayer(IEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
         super(renderer, model);

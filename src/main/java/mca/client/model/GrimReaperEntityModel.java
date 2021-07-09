@@ -7,10 +7,7 @@ import mca.enums.ReaperAttackState;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class GrimReaperEntityModel<T extends GrimReaperEntity> extends BipedModel<T> {
     private final ModelRenderer head;
     private final ModelRenderer rightArm;

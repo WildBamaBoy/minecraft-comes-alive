@@ -12,13 +12,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiStaffOfLife extends Screen {
     private final List<String> keys = new ArrayList<>();
     private Map<String, CNBT> villagerData;

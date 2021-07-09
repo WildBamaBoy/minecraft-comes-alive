@@ -13,12 +13,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Objects;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiNameBaby extends Screen {
     private final ItemStack baby;
     private final PlayerEntity player;

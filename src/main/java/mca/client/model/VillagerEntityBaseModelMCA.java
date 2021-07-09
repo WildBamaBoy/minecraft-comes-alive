@@ -6,10 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends BipedModel<T> {
     protected final boolean cloth;
     public float breastSize = 1.0f;

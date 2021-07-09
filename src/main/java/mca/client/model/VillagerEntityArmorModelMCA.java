@@ -3,10 +3,7 @@ package mca.client.model;
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class VillagerEntityArmorModelMCA<T extends VillagerEntityMCA> extends VillagerEntityBaseModelMCA<T> {
     public final ModelRenderer breasts;
 
@@ -20,6 +17,7 @@ public class VillagerEntityArmorModelMCA<T extends VillagerEntityMCA> extends Vi
         breasts = newBreasts(modelSize, true, 0);
     }
 
+    @Override
     protected Iterable<ModelRenderer> breastsParts() {
         return ImmutableList.of(breasts);
     }

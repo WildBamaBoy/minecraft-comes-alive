@@ -73,8 +73,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -333,8 +331,6 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         return damageDealt;
     }
 
-
-    @OnlyIn(Dist.CLIENT)
     private void openScreen(PlayerEntity player) {
         Minecraft.getInstance().setScreen(new GuiInteract(this, player));
     }

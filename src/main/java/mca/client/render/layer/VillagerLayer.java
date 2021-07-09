@@ -12,12 +12,9 @@ import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ResourceLocationException;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends VillagerEntityModelMCA<T>> extends LayerRenderer<T, M> {
     protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
     public final M model;

@@ -4,10 +4,7 @@ import mca.client.colors.HairColors;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class HairLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
     public HairLayer(IEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
         super(renderer, model);

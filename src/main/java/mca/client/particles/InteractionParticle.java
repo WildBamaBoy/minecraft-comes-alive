@@ -3,8 +3,6 @@ package mca.client.particles;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class InteractionParticle extends SpriteTexturedParticle {
     protected InteractionParticle(ClientWorld p_i232447_1_, double p_i232447_2_, double p_i232447_4_, double p_i232447_6_) {
@@ -51,7 +49,6 @@ public class InteractionParticle extends SpriteTexturedParticle {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Factory implements IParticleFactory<BasicParticleType> {
         private final IAnimatedSprite sprite;
 

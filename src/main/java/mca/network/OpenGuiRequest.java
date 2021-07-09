@@ -11,8 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class OpenGuiRequest extends Message {
     private final gui gui;
@@ -22,7 +20,6 @@ public class OpenGuiRequest extends Message {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void receive(ServerPlayerEntity e) {
         switch (gui) {
             case WHISTLE:
