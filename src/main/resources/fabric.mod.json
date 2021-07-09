@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "mca",
+  "version": "${version}",
+  "name": "Minecraft Comes Alive",
+  "description": "No more squidward-villagers! Interact with male and female human villagers and raise a family.",
+  "authors": [
+    "WildBamaBoy", "SheWolfDeadly"
+  ],
+  "contact": {
+    "homepage": "https://minelittlepony-mod.com/",
+    "sources": "https://github.com/MineLittlePony/MineLittlePony",
+    "issues": "https://github.com/MineLittlePony/MineLittlePony/issues"
+  },
+  "license": "MIT",
+  "icon": "mca.png",
+  "accessWidener": "mca.aw",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.minelittlepony.client.MineLittlePony"
+    ]
+  },
+  "mixins": [
+    "mca.mixin.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "java": ">=16",
+    "fabric-api-base": ">=0.1.0",
+    "fabric-lifecycle-events-v1": ">=0.1.0",
+    "fabric-resource-loader-v0": ">=0.1.0"
+  }
+}
