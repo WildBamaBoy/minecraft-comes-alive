@@ -7,13 +7,10 @@
   ],
   "key": {
     "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
+      { "item": "minecraft:iron_ingot" }
     ]
   },
   "result": {
-    "item": "mca:matchmakers_ring",
-    "count": 1
+    "item": "mca:matchmakers_ring"
   }
 }

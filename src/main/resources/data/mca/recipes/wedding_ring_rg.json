@@ -7,13 +7,10 @@
   ],
   "key": {
     "G": [
-      {
-        "item": "mca:rose_gold_ingot"
-      }
+      { "item": "mca:rose_gold_ingot" }
     ]
   },
   "result": {
-    "item": "mca:wedding_ring_rg",
-    "count": 1
+    "item": "mca:wedding_ring_rg"
   }
 }

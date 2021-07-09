@@ -2,23 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "IB ",
-    "III",
-    "   "
+    "III"
   ],
   "key": {
     "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
+      { "item": "minecraft:iron_ingot" }
     ],
     "B": [
-      {
-        "item": "mca:rose_gold_block"
-      }
+      { "item": "mca:rose_gold_block" }
     ]
   },
   "result": {
-    "item": "mca:whistle",
-    "count": 1
+    "item": "mca:whistle"
   }
 }

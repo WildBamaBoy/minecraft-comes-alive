@@ -7,13 +7,10 @@
   ],
   "key": {
     "G": [
-      {
-        "item": "mca:gold_dust"
-      }
+      { "item": "mca:gold_dust" }
     ]
   },
   "result": {
-    "item": "minecraft:gold_nugget",
-    "count": 1
+    "item": "minecraft:gold_nugget"
   }
 }

@@ -7,13 +7,10 @@
   ],
   "key": {
     "G": [
-      {
-        "item": "minecraft:gold_ingot"
-      }
+      { "item": "minecraft:gold_ingot" }
     ]
   },
   "result": {
-    "item": "mca:wedding_ring",
-    "count": 1
+    "item": "mca:wedding_ring"
   }
 }

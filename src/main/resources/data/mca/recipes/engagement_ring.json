@@ -7,18 +7,13 @@
   ],
   "key": {
     "G": [
-      {
-        "item": "minecraft:gold_ingot"
-      }
+      { "item": "minecraft:gold_ingot" }
     ],
     "D": [
-      {
-        "item": "minecraft:diamond"
-      }
+      { "item": "minecraft:diamond" }
     ]
   },
   "result": {
-    "item": "mca:engagement_ring",
-    "count": 1
+    "item": "mca:engagement_ring"
   }
 }

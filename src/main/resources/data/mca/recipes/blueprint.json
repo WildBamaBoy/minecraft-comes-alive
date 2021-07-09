@@ -7,18 +7,13 @@
   ],
   "key": {
     "P": [
-      {
-        "item": "minecraft:paper"
-      }
+      { "item": "minecraft:paper" }
     ],
     "B": [
-      {
-        "item": "minecraft:blue_dye"
-      }
+      { "item": "minecraft:blue_dye" }
     ]
   },
   "result": {
-    "item": "mca:blueprint",
-    "count": 1
+    "item": "mca:blueprint"
   }
 }

@@ -7,13 +7,10 @@
   ],
   "key": {
     "G": [
-      {
-        "item": "mca:rose_gold_dust"
-      }
+      { "item": "mca:rose_gold_dust" }
     ]
   },
   "result": {
-    "item": "mca:rose_gold_ingot",
-    "count": 1
+    "item": "mca:rose_gold_ingot"
   }
 }
