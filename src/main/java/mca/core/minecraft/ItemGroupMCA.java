@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemGroupMCA extends ItemGroup {
     public static final ItemGroup MCA = new ItemGroup(getGroupCountSafe(), "mcaTab") {
-        public ItemStack makeIcon() {
+        public ItemStack createIcon() {
             return new ItemStack(ItemsMCA.ENGAGEMENT_RING.get());
         }
     };
@@ -15,7 +15,7 @@ public class ItemGroupMCA extends ItemGroup {
     }
 
     @Override
-    public ItemStack makeIcon() {
+    public ItemStack createIcon() {
         return null;
     }
 }

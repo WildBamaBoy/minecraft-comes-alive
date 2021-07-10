@@ -8,21 +8,20 @@ import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.LiteralText;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-
 import java.util.*;
 
 public class VillageHelper {
     private static final Map<UUID, Integer> playerVillagePositions = new HashMap<>();
 
     private static boolean isWithinVillage(Village village, Entity entity) {
-        return village.getCenter().distSqr(entity.blockPosition()) < Math.pow(village.getSize(), 2.0);
+        return village.getCenter().getSquaredDistance(entity.getBlockPos()) < Math.pow(village.getSize(), 2.0);
     }
 
     public static Village getNearestVillage(Entity entity) {
-        Collection<Village> villages = VillageManagerData.get(entity.level).villages.values();
+        Collection<Village> villages = VillageManagerData.get(entity.world).villages.values();
         for (Village village : villages) {
             if (isWithinVillage(village, entity)) {
                 return village;
@@ -32,28 +31,28 @@ public class VillageHelper {
     }
 
     public static void tick(World world) {
-        if (!world.isClientSide) {
+        if (!world.isClient) {
             //keep track on where player are currently in
-            if (world.getDayTime() % 100 == 0) {
-                world.players().forEach((player) -> {
+            if (world.getTimeOfDay() % 100 == 0) {
+                world.getPlayers().forEach((player) -> {
                     //check if still in village
-                    if (playerVillagePositions.containsKey(player.getUUID())) {
-                        int id = playerVillagePositions.get(player.getUUID());
+                    if (playerVillagePositions.containsKey(player.getUuid())) {
+                        int id = playerVillagePositions.get(player.getUuid());
                         Village village = VillageManagerData.get(world).villages.get(id);
                         if (village == null) {
                             //TODO world switch may trigger left village notification
-                            playerVillagePositions.remove(player.getUUID());
+                            playerVillagePositions.remove(player.getUuid());
                         } else {
                             if (!isWithinVillage(village, player)) {
-                                player.sendMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUUID());
-                                playerVillagePositions.remove(player.getUUID());
+                                player.sendSystemMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUuid());
+                                playerVillagePositions.remove(player.getUuid());
                             }
                         }
                     } else {
                         Village village = getNearestVillage(player);
                         if (village != null) {
-                            player.sendMessage(MCA.localizeText("gui.village.welcome", village.getName()), player.getUUID());
-                            playerVillagePositions.put(player.getUUID(), village.getId());
+                            player.sendSystemMessage(MCA.localizeText("gui.village.welcome", village.getName()), player.getUuid());
+                            playerVillagePositions.put(player.getUuid(), village.getId());
                             village.deliverTaxes((ServerWorld) world);
                         }
                     }
@@ -61,7 +60,7 @@ public class VillageHelper {
             }
 
             //taxes time
-            long time = world.getGameTime();
+            long time = world.getTime();
             if (time % 24000 == 0) {
                 updateTaxes(world);
             }
@@ -96,7 +95,7 @@ public class VillageHelper {
             village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
             village.deliverTaxes((ServerWorld) world);
 
-            world.players().forEach((player) -> player.sendMessage(MCA.localizeText("gui.village.taxes", village.getName()), player.getUUID()));
+            world.getPlayers().forEach((player) -> player.sendSystemMessage(MCA.localizeText("gui.village.taxes", village.getName()), player.getUuid()));
         }
     }
 
@@ -119,8 +118,8 @@ public class VillageHelper {
                         villager.isBabyMale.set(world.random.nextBoolean());
 
                         // notify all players
-                        StringTextComponent phrase = MCA.localizeText("events.baby", villager.getName().getContents(), spouse.getName().getContents());
-                        world.players().forEach((player) -> player.sendMessage(phrase, player.getUUID()));
+                        LiteralText phrase = MCA.localizeText("events.baby", villager.getName().asString(), spouse.getName().asString());
+                        world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
                     }
                 }
             }
@@ -145,8 +144,8 @@ public class VillageHelper {
                 VillagerEntityMCA spouse = villagers.remove(world.random.nextInt(villagers.size()));
 
                 // notify all players
-                StringTextComponent phrase = MCA.localizeText("events.marry", villager.getName().getContents(), spouse.getName().getContents());
-                world.players().forEach((player) -> player.sendMessage(phrase, player.getUUID()));
+                LiteralText phrase = MCA.localizeText("events.marry", villager.getName().asString(), spouse.getName().asString());
+                world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
 
                 // marry
                 spouse.marry(villager);

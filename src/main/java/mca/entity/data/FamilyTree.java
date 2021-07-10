@@ -26,7 +26,7 @@ public class FamilyTree extends CWorldSavedData {
 
     //in case the villager does not exist, add
     public void addEntry(VillagerEntityMCA villager) {
-        if (!entries.containsKey(villager.getUUID())) {
+        if (!entries.containsKey(villager.getUuid())) {
             addEntry(villager, Constants.ZERO_UUID, Constants.ZERO_UUID);
         }
     }
@@ -39,10 +39,10 @@ public class FamilyTree extends CWorldSavedData {
     }
 
     public void addEntry(VillagerEntityMCA villager, UUID father, UUID mother) {
-        addChildToParent(villager.getUUID(), father);
-        addChildToParent(villager.getUUID(), mother);
+        addChildToParent(villager.getUuid(), father);
+        addChildToParent(villager.getUuid(), mother);
 
-        entries.put(villager.getUUID(), new FamilyTreeEntry(
+        entries.put(villager.getUuid(), new FamilyTreeEntry(
                 villager.villagerName.get(),
                 false,
                 villager.getGender(),
@@ -52,17 +52,17 @@ public class FamilyTree extends CWorldSavedData {
     }
 
     public void addEntry(PlayerEntity player) {
-        if (!entries.containsKey(player.getUUID())) {
+        if (!entries.containsKey(player.getUuid())) {
             addEntry(player, Constants.ZERO_UUID, Constants.ZERO_UUID);
         }
     }
 
     public void addEntry(PlayerEntity player, UUID father, UUID mother) {
-        addChildToParent(player.getUUID(), father);
-        addChildToParent(player.getUUID(), mother);
+        addChildToParent(player.getUuid(), father);
+        addChildToParent(player.getUuid(), mother);
 
-        entries.put(player.getUUID(), new FamilyTreeEntry(
-                player.getName().getContents(),
+        entries.put(player.getUuid(), new FamilyTreeEntry(
+                player.getName().asString(),
                 true,
                 Gender.MALE, //TODO
                 father,
@@ -71,11 +71,11 @@ public class FamilyTree extends CWorldSavedData {
     }
 
     public FamilyTreeEntry getEntry(VillagerEntityMCA villager) {
-        if (!entries.containsKey(villager.getUUID())) {
+        if (!entries.containsKey(villager.getUuid())) {
             //a new villager appeared, parents are unknown
             addEntry(villager, Constants.ZERO_UUID, Constants.ZERO_UUID);
         }
-        return entries.get(villager.getUUID());
+        return entries.get(villager.getUuid());
     }
 
     public FamilyTreeEntry getEntry(UUID uuid) {

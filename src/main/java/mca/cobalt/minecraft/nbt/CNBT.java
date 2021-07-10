@@ -2,9 +2,9 @@ package mca.cobalt.minecraft.nbt;
 
 import mca.core.Constants;
 import mca.core.MCA;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 
 import java.io.IOException;
@@ -13,13 +13,13 @@ import java.util.Set;
 import java.util.UUID;
 
 public class CNBT implements Serializable {
-    transient private CompoundNBT mcCompound;
+    transient private NbtCompound mcCompound;
 
     private CNBT() {
-        mcCompound = new CompoundNBT();
+        mcCompound = new NbtCompound();
     }
 
-    private CNBT(CompoundNBT nbt) {
+    private CNBT(NbtCompound nbt) {
         mcCompound = nbt;
     }
 
@@ -27,7 +27,7 @@ public class CNBT implements Serializable {
         return new CNBT();
     }
 
-    public static CNBT fromMC(CompoundNBT nbt) {
+    public static CNBT fromMC(NbtCompound nbt) {
         if (nbt == null) {
             return null;
         } else {
@@ -56,8 +56,8 @@ public class CNBT implements Serializable {
     }
 
     public UUID getUUID(String key) {
-        if (mcCompound.hasUUID(key)) {
-            return mcCompound.getUUID(key);
+        if (mcCompound.containsUuid(key)) {
+            return mcCompound.getUuid(key);
         } else {
             return Constants.ZERO_UUID;
         }
@@ -68,7 +68,7 @@ public class CNBT implements Serializable {
     }
 
     public void setUUID(String key, UUID value) {
-        mcCompound.putUUID(key, value);
+        mcCompound.putUuid(key, value);
     }
 
     public void setString(String key, String value) {
@@ -105,7 +105,7 @@ public class CNBT implements Serializable {
         mcCompound.putByte(key, value);
     }
 
-    public void setList(String key, ListNBT list) {
+    public void setList(String key, NbtList list) {
         mcCompound.put(key, list);
     }
 
@@ -113,11 +113,11 @@ public class CNBT implements Serializable {
         return new CNBT(mcCompound.copy());
     }
 
-    public ListNBT getList(String key) {
+    public NbtList getList(String key) {
         return mcCompound.getList(key, 9);
     }
 
-    public ListNBT getCompoundList(String key) {
+    public NbtList getCompoundList(String key) {
         return mcCompound.getList(key, 10);
     }
 
@@ -161,18 +161,18 @@ public class CNBT implements Serializable {
     }
 
     public Set<String> getKeySet() {
-        return mcCompound.getAllKeys();
+        return mcCompound.getKeys();
     }
 
-    public CompoundNBT getMcCompound() {
+    public NbtCompound getMcCompound() {
         return mcCompound;
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        CompressedStreamTools.write(mcCompound, out);
+        NbtIo.write(mcCompound, out);
     }
 
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        mcCompound = CompressedStreamTools.read(in);
+        mcCompound = NbtIo.read(in);
     }
 }

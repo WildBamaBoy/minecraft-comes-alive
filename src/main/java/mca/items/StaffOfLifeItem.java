@@ -3,15 +3,15 @@ package mca.items;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.network.OpenGuiRequest;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -19,36 +19,36 @@ import java.util.List;
 
 public class StaffOfLifeItem extends Item {
 
-    public StaffOfLifeItem(Item.Properties properties) {
+    public StaffOfLifeItem(Item.Settings properties) {
         super(properties);
     }
 
     @Override
-    public final ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+    public final TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getStackInHand(hand);
 
         if (!MCA.getConfig().enableRevivals) {
-            player.sendMessage(MCA.localizeText("notify.revival.disabled"), player.getUUID());
-            return ActionResult.fail(stack);
+            player.sendSystemMessage(MCA.localizeText("notify.revival.disabled"), player.getUuid());
+            return TypedActionResult.fail(stack);
         }
 
         if (player instanceof ServerPlayerEntity) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.STAFF_OF_LIFE), (ServerPlayerEntity) player);
         }
 
-        return ActionResult.success(stack);
+        return TypedActionResult.success(stack);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-        tooltip.add(new StringTextComponent("Uses left: " + (stack.getMaxDamage() - stack.getDamageValue() + 1)));
-        tooltip.add(new StringTextComponent("Use to revive a previously dead"));
-        tooltip.add(new StringTextComponent("villager, but all of their memories"));
-        tooltip.add(new StringTextComponent("will be forgotten."));
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
+        tooltip.add(new LiteralText("Uses left: " + (stack.getMaxDamage() - stack.getDamage() + 1)));
+        tooltip.add(new LiteralText("Use to revive a previously dead"));
+        tooltip.add(new LiteralText("villager, but all of their memories"));
+        tooltip.add(new LiteralText("will be forgotten."));
     }
 
     @Override
-    public boolean isFoil(ItemStack stack) {
+    public boolean hasGlint(ItemStack stack) {
         return true;
     }
 }

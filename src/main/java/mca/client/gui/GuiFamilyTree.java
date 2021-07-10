@@ -1,13 +1,12 @@
 package mca.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.data.FamilyTreeEntry;
 import mca.network.GetFamilyTreeRequest;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
-
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class GuiFamilyTree extends Screen {
     private UUID uuid;
     private Map<UUID, FamilyTreeEntry> family;
     public GuiFamilyTree(UUID uuid) {
-        super(new StringTextComponent("Family Tree"));
+        super(new LiteralText("Family Tree"));
 
         this.uuid = uuid;
     }
@@ -42,7 +41,7 @@ public class GuiFamilyTree extends Screen {
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
-        drawCenteredString(transform, this.font, this.title, this.width / 2, 10, 16777215);
+        drawCenteredString(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
 
         for (Line l : lines) {
             l.render(transform);
@@ -70,9 +69,9 @@ public class GuiFamilyTree extends Screen {
     private void addButton(UUID uuid, int x, int y) {
         FamilyTreeEntry e = family.get(uuid);
         if (e != null) {
-            addButton(new Button(
+            addButton(new ButtonWidget(
                     x - 40, y - 10, 80, 20,
-                    new StringTextComponent(e.getName()),
+                    new LiteralText(e.getName()),
                     (b) -> NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid)))
             );
         }
@@ -130,9 +129,9 @@ public class GuiFamilyTree extends Screen {
 
         public void render(MatrixStack transform) {
             if (vertical) {
-                vLine(transform, x, y, z, 0xffffffff);
+                drawVerticalLine(transform, x, y, z, 0xffffffff);
             } else {
-                hLine(transform, x, y, z, 0xffffffff);
+                drawHorizontalLine(transform, x, y, z, 0xffffffff);
             }
         }
     }

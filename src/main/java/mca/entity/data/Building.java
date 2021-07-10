@@ -7,20 +7,20 @@ import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.state.properties.BedPart;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static net.minecraft.tags.BlockTags.LEAVES;
+import static net.minecraft.tag.BlockTags.LEAVES;
 
 public class Building implements Serializable {
     private final Map<UUID, String> residents;
@@ -54,8 +54,8 @@ public class Building implements Serializable {
     }
 
     public void addResident(Entity e) {
-        if (!residents.containsKey(e.getUUID())) {
-            residents.put(e.getUUID(), e.getName().getString());
+        if (!residents.containsKey(e.getUuid())) {
+            residents.put(e.getUuid(), e.getName().getString());
         }
     }
 
@@ -98,7 +98,7 @@ public class Building implements Serializable {
             BlockPos p = queue.removeLast();
 
             //as long the max radius is not reached
-            if (p.distManhattan(center) < maxRadius) {
+            if (p.getManhattanDistance(center) < maxRadius) {
                 for (Direction d : directions) {
                     BlockPos n = p.relative(d);
 
@@ -110,21 +110,21 @@ public class Building implements Serializable {
                         done.add(n);
 
                         //if not solid, continue
-                        if (state.isAir() && !world.canSeeSky(n)) {
+                        if (state.isAir() && !world.isSkyVisible(n)) {
                             //special conditions
                             if (!roofCache.containsKey(n)) {
                                 BlockPos n2 = n;
                                 int maxScanHeight = 12;
                                 for (int i = 0; i < maxScanHeight; i++) {
                                     roofCache.put(n2, false);
-                                    n2 = n2.above();
+                                    n2 = n2.up();
 
                                     //found valid block
                                     BlockState b = world.getBlockState(n2);
                                     if (!b.isAir() || roofCache.containsKey(n2)) {
-                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !b.is(LEAVES)) {
+                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !b.isOf(LEAVES)) {
                                             for (int i2 = i; i2 >= 0; i2--) {
-                                                n2 = n2.below();
+                                                n2 = n2.down();
                                                 roofCache.put(n2, true);
                                             }
                                         }
@@ -177,7 +177,7 @@ public class Building implements Serializable {
                 if (block.is(BlockTags.ANVIL)) {
                     key = "anvil";
                 } else if (block instanceof BedBlock) {
-                    if (blockState.getValue(BedBlock.PART) == BedPart.HEAD) {
+                    if (blockState.get(BedBlock.PART) == BedPart.HEAD) {
                         key = "bed";
                     }
                 } else {
@@ -281,7 +281,7 @@ public class Building implements Serializable {
         v.setInteger("pos1Z", pos1Z);
         v.setString("type", type);
 
-        ListNBT residentsList = new ListNBT();
+        NbtList residentsList = new NbtList();
         for (Map.Entry<UUID, String> resident : residents.entrySet()) {
             CNBT entry = CNBT.createNew();
             entry.setUUID("uuid", resident.getKey());
@@ -290,7 +290,7 @@ public class Building implements Serializable {
         }
         v.setList("residents", residentsList);
 
-        ListNBT blockList = new ListNBT();
+        NbtList blockList = new NbtList();
         for (Map.Entry<String, Integer> block : blocks.entrySet()) {
             CNBT entry = CNBT.createNew();
             entry.setString("name", block.getKey());
@@ -313,15 +313,15 @@ public class Building implements Serializable {
         pos1Z = v.getInteger("pos1Z");
         type = v.getString("type");
 
-        ListNBT res = v.getCompoundList("residents");
+        NbtList res = v.getCompoundList("residents");
         for (int i = 0; i < res.size(); i++) {
-            CompoundNBT c = res.getCompound(i);
-            residents.put(c.getUUID("uuid"), c.getString("name"));
+            NbtCompound c = res.getCompound(i);
+            residents.put(c.getUuid("uuid"), c.getString("name"));
         }
 
-        ListNBT bl = v.getCompoundList("blocks");
+        NbtList bl = v.getCompoundList("blocks");
         for (int i = 0; i < bl.size(); i++) {
-            CompoundNBT c = bl.getCompound(i);
+            NbtCompound c = bl.getCompound(i);
             blocks.put(c.getString("name"), c.getInt("count"));
         }
     }

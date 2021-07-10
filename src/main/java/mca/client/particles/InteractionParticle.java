@@ -2,63 +2,63 @@ package mca.client.particles;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particle.DefaultParticleType;
 
-public class InteractionParticle extends SpriteTexturedParticle {
+public class InteractionParticle extends SpriteBillboardParticle {
     protected InteractionParticle(ClientWorld p_i232447_1_, double p_i232447_2_, double p_i232447_4_, double p_i232447_6_) {
         super(p_i232447_1_, p_i232447_2_, p_i232447_4_, p_i232447_6_);
-        this.xd *= 0.01F;
-        this.yd *= 0.01F;
-        this.zd *= 0.01F;
-        this.yd += 0.1D;
-        this.quadSize *= 1.5F;
-        this.lifetime = 20;
-        this.hasPhysics = false;
+        this.velocityX *= 0.01F;
+        this.velocityY *= 0.01F;
+        this.velocityZ *= 0.01F;
+        this.velocityY += 0.1D;
+        this.scale *= 1.5F;
+        this.maxAge = 20;
+        this.collidesWithWorld = false;
     }
 
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public ParticleTextureSheet getType() {
+        return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
 
-    public float getQuadSize(float p_217561_1_) {
+    public float getSize(float p_217561_1_) {
         return 0.3F;
     }
 
     public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
-        if (this.age++ >= this.lifetime) {
-            this.remove();
+        this.prevPosX = this.x;
+        this.prevPosY = this.y;
+        this.prevPosZ = this.z;
+        if (this.age++ >= this.maxAge) {
+            this.markDead();
         } else {
             //this.move(this.xd, this.yd, this.zd);
-            if (this.y == this.yo) {
-                this.xd *= 1.1D;
-                this.zd *= 1.1D;
+            if (this.y == this.prevPosY) {
+                this.velocityX *= 1.1D;
+                this.velocityZ *= 1.1D;
             }
 
-            this.xd *= 0.86F;
-            this.yd *= 0.86F;
-            this.zd *= 0.86F;
+            this.velocityX *= 0.86F;
+            this.velocityY *= 0.86F;
+            this.velocityZ *= 0.86F;
             if (this.onGround) {
-                this.xd *= 0.7F;
-                this.zd *= 0.7F;
+                this.velocityX *= 0.7F;
+                this.velocityZ *= 0.7F;
             }
 
         }
     }
 
-    public static class Factory implements IParticleFactory<BasicParticleType> {
-        private final IAnimatedSprite sprite;
+    public static class Factory implements ParticleFactory<DefaultParticleType> {
+        private final SpriteProvider sprite;
 
-        public Factory(IAnimatedSprite p_i50748_1_) {
+        public Factory(SpriteProvider p_i50748_1_) {
             this.sprite = p_i50748_1_;
         }
 
-        public Particle createParticle(BasicParticleType particleType, ClientWorld world, double p_199234_3_, double p_199234_5_, double p_199234_7_, double p_199234_9_, double p_199234_11_, double p_199234_13_) {
+        public Particle createParticle(DefaultParticleType particleType, ClientWorld world, double p_199234_3_, double p_199234_5_, double p_199234_7_, double p_199234_9_, double p_199234_11_, double p_199234_13_) {
             InteractionParticle heartparticle = new InteractionParticle(world, p_199234_3_, p_199234_5_ + 0.5D, p_199234_7_);
-            heartparticle.pickSprite(this.sprite);
+            heartparticle.setSprite(this.sprite);
             heartparticle.setColor(1.0F, 1.0F, 1.0F);
             return heartparticle;
         }

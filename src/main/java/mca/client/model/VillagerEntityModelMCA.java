@@ -2,17 +2,17 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.ModelPart;
 
 public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends VillagerEntityBaseModelMCA<T> {
-    public final ModelRenderer breasts;
+    public final ModelPart breasts;
 
-    public final ModelRenderer breastsWear;
-    public final ModelRenderer leftArmwear;
-    public final ModelRenderer rightArmwear;
-    public final ModelRenderer leftLegwear;
-    public final ModelRenderer rightLegwear;
-    public final ModelRenderer bodyWear;
+    public final ModelPart breastsWear;
+    public final ModelPart leftArmwear;
+    public final ModelPart rightArmwear;
+    public final ModelPart leftLegwear;
+    public final ModelPart rightLegwear;
+    public final ModelPart bodyWear;
 
     public VillagerEntityModelMCA(float modelSize, float headSize, boolean cloth, boolean hideWear) {
         this(modelSize, headSize, cloth);
@@ -35,71 +35,71 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
         super(64, modelSize, cloth);
 
         //head
-        head = new ModelRenderer(this, 0, 0);
+        head = new ModelPart(this, 0, 0);
         head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, headSize);
-        head.setPos(0.0F, 0.0F, 0.0F);
-        hat = new ModelRenderer(this, 32, 0);
+        head.setPivot(0.0F, 0.0F, 0.0F);
+        hat = new ModelPart(this, 32, 0);
         hat.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, headSize + 0.5F);
-        hat.setPos(0.0F, 0.0F, 0.0F);
+        hat.setPivot(0.0F, 0.0F, 0.0F);
 
         //arms
-        leftArm = new ModelRenderer(this, 32, 48);
+        leftArm = new ModelPart(this, 32, 48);
         leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize);
-        leftArm.setPos(5.0F, 2.0F, 0.0F);
-        leftArmwear = new ModelRenderer(this, 48, 48);
+        leftArm.setPivot(5.0F, 2.0F, 0.0F);
+        leftArmwear = new ModelPart(this, 48, 48);
         leftArmwear.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        leftArmwear.setPos(5.0F, 2.0F, 0.0F);
-        rightArmwear = new ModelRenderer(this, 40, 32);
+        leftArmwear.setPivot(5.0F, 2.0F, 0.0F);
+        rightArmwear = new ModelPart(this, 40, 32);
         rightArmwear.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        rightArmwear.setPos(-5.0F, 2.0F, 0.0F);
+        rightArmwear.setPivot(-5.0F, 2.0F, 0.0F);
 
         //legs
-        leftLeg = new ModelRenderer(this, 16, 48);
+        leftLeg = new ModelPart(this, 16, 48);
         leftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize);
-        leftLeg.setPos(1.9F, 12.0F, 0.0F);
-        leftLegwear = new ModelRenderer(this, 0, 48);
+        leftLeg.setPivot(1.9F, 12.0F, 0.0F);
+        leftLegwear = new ModelPart(this, 0, 48);
         leftLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        leftLegwear.setPos(1.9F, 12.0F, 0.0F);
-        rightLegwear = new ModelRenderer(this, 0, 32);
+        leftLegwear.setPivot(1.9F, 12.0F, 0.0F);
+        rightLegwear = new ModelPart(this, 0, 32);
         rightLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        rightLegwear.setPos(-1.9F, 12.0F, 0.0F);
-        bodyWear = new ModelRenderer(this, 16, 32);
+        rightLegwear.setPivot(-1.9F, 12.0F, 0.0F);
+        bodyWear = new ModelPart(this, 16, 32);
         bodyWear.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, modelSize + 0.25F);
-        bodyWear.setPos(0.0F, 0.0F, 0.0F);
+        bodyWear.setPivot(0.0F, 0.0F, 0.0F);
 
         breasts = newBreasts(modelSize, cloth, 0);
         breastsWear = newBreasts(modelSize + 0.25F, cloth, 16);
     }
 
     @Override
-    protected Iterable<ModelRenderer> headParts() {
+    protected Iterable<ModelPart> getHeadParts() {
         return ImmutableList.of(head, hat);
     }
 
     @Override
-    protected Iterable<ModelRenderer> bodyParts() {
+    protected Iterable<ModelPart> getBodyParts() {
         return ImmutableList.of(body, rightArm, leftArm, rightLeg, leftLeg, bodyWear, leftLegwear, rightLegwear, leftArmwear, rightArmwear);
     }
 
     @Override
-    protected Iterable<ModelRenderer> breastsParts() {
+    protected Iterable<ModelPart> breastsParts() {
         return ImmutableList.of(breasts, breastsWear);
     }
 
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
+        super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
 
-        leftLegwear.copyFrom(leftLeg);
-        rightLegwear.copyFrom(rightLeg);
-        leftArmwear.copyFrom(leftArm);
-        rightArmwear.copyFrom(rightArm);
-        bodyWear.copyFrom(body);
-        breasts.copyFrom(body);
-        breastsWear.copyFrom(body);
+        leftLegwear.copyTransform(leftLeg);
+        rightLegwear.copyTransform(rightLeg);
+        leftArmwear.copyTransform(leftArm);
+        rightArmwear.copyTransform(rightArm);
+        bodyWear.copyTransform(body);
+        breasts.copyTransform(body);
+        breastsWear.copyTransform(body);
     }
 
     public void setVisible(boolean visible) {
-        super.setAllVisible(visible);
+        super.setVisible(visible);
 
         leftArmwear.visible = visible;
         rightArmwear.visible = visible;
@@ -109,14 +109,14 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
     }
 
     public void copyPropertiesTo(VillagerEntityModelMCA<T> target) {
-        super.copyPropertiesTo(target);
+        super.setAttributes(target);
 
-        target.leftLegwear.copyFrom(leftLegwear);
-        target.rightLegwear.copyFrom(rightLegwear);
-        target.leftArmwear.copyFrom(leftArmwear);
-        target.rightArmwear.copyFrom(rightArmwear);
-        target.bodyWear.copyFrom(bodyWear);
-        target.breasts.copyFrom(breasts);
-        target.breastsWear.copyFrom(breastsWear);
+        target.leftLegwear.copyTransform(leftLegwear);
+        target.rightLegwear.copyTransform(rightLegwear);
+        target.leftArmwear.copyTransform(leftArmwear);
+        target.rightArmwear.copyTransform(rightArmwear);
+        target.bodyWear.copyTransform(bodyWear);
+        target.breasts.copyTransform(breasts);
+        target.breastsWear.copyTransform(breastsWear);
     }
 }

@@ -25,5 +25,7 @@ backup
 # Files from Forge MDK
 forge*changelog.txt
 /src/main/resources/assets/mca/skins/old
+/src/main/original-java
+/mapppings
 /mcmodsrepo
 /local.properties

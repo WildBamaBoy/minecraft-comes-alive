@@ -3,10 +3,10 @@ package mca.client.render.layer;
 import mca.client.colors.HairColors;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 
 public class HairLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
-    public HairLayer(IEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
+    public HairLayer(FeatureRendererContext<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
         super(renderer, model);
 
         this.model.leftLeg.visible = false;

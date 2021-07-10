@@ -5,8 +5,7 @@ import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.SavedVillagers;
 import mca.util.WorldUtils;
-import net.minecraft.entity.player.ServerPlayerEntity;
-
+import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.UUID;
 
 public class ReviveVillagerMessage extends Message {
@@ -18,15 +17,15 @@ public class ReviveVillagerMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        SavedVillagers villagers = SavedVillagers.get(player.level);
-        CNBT nbt = SavedVillagers.get(player.level).getVillagerByUUID(uuid);
+        SavedVillagers villagers = SavedVillagers.get(player.world);
+        CNBT nbt = SavedVillagers.get(player.world).getVillagerByUUID(uuid);
         if (nbt != null) {
-            VillagerEntityMCA villager = new VillagerEntityMCA(player.level);
-            villager.setPos(player.getX(), player.getY(), player.getZ());
+            VillagerEntityMCA villager = new VillagerEntityMCA(player.world);
+            villager.setPosition(player.offsetX(), player.getBodyY(), player.offsetZ());
 
-            villager.readAdditionalSaveData(nbt.getMcCompound());
+            villager.readCustomDataFromNbt(nbt.getMcCompound());
 
-            WorldUtils.spawnEntity(player.level, villager);
+            WorldUtils.spawnEntity(player.world, villager);
 
             villagers.removeVillager(uuid);
 
@@ -34,7 +33,7 @@ public class ReviveVillagerMessage extends Message {
             villager.deathTime = 0;
 
             //TODO potential bug if the player switches slot while reviving
-            player.getMainHandItem().hurtAndBreak(1, player, (a) -> {
+            player.getMainHandStack().damage(1, player, (a) -> {
             });
         }
     }

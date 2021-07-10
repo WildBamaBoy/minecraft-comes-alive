@@ -7,18 +7,17 @@ import mca.enums.Rank;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -112,7 +111,7 @@ public class Village implements Serializable {
         //calculate size
         size = 0;
         for (Building building : buildings.values()) {
-            size = (int) Math.max(building.getCenter().distSqr(centerX, centerY, centerZ, true), size);
+            size = (int) Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
         }
 
         //extra margin
@@ -172,7 +171,7 @@ public class Village implements Serializable {
         int residents = 5; //we slightly favor bigger villages
         for (Building b : buildings.values()) {
             for (UUID v : b.getResidents().keySet()) {
-                Entity entity = ((ServerWorld) player.level).getEntity(v);
+                Entity entity = ((ServerWorld) player.world).getEntity(v);
                 if (entity instanceof VillagerEntityMCA) {
                     VillagerEntityMCA villager = (VillagerEntityMCA) entity;
                     sum += villager.getMemoriesForPlayer(player).getHearts();
@@ -237,21 +236,21 @@ public class Village implements Serializable {
 
     public void deliverTaxes(ServerWorld world) {
         if (storageBuffer.size() > 0) {
-            buildings.values().stream().filter((b) -> b.getType().equals("inn")).filter((b) -> world.isLoaded(b.getCenter())).forEach((b) -> {
+            buildings.values().stream().filter((b) -> b.getType().equals("inn")).filter((b) -> world.canSetBlock(b.getCenter())).forEach((b) -> {
             });
         }
     }
 
     //returns an inventory at given position
-    private IInventory getInventoryAt(ServerWorld world, BlockPos pos) {
+    private Inventory getInventoryAt(ServerWorld world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         Block block = blockState.getBlock();
         if (blockState.hasTileEntity() && block instanceof ChestBlock) {
-            TileEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof IInventory) {
-                IInventory inventory = (IInventory) tileentity;
-                if (inventory instanceof ChestTileEntity) {
-                    return ChestBlock.getContainer((ChestBlock) block, blockState, world, pos, true);
+            BlockEntity tileentity = world.getBlockEntity(pos);
+            if (tileentity instanceof Inventory) {
+                Inventory inventory = (Inventory) tileentity;
+                if (inventory instanceof ChestBlockEntity) {
+                    return ChestBlock.getInventory((ChestBlock) block, blockState, world, pos, true);
                 }
             }
         }
@@ -271,7 +270,7 @@ public class Village implements Serializable {
         v.setInteger("populationThreshold", populationThreshold);
         v.setInteger("marriageThreshold", marriageThreshold);
 
-        ListNBT buildingsList = new ListNBT();
+        NbtList buildingsList = new NbtList();
         for (Building building : buildings.values()) {
             buildingsList.add(building.save().getMcCompound());
         }
@@ -291,9 +290,9 @@ public class Village implements Serializable {
         populationThreshold = v.getInteger("populationThreshold");
         marriageThreshold = v.getInteger("marriageThreshold");
 
-        ListNBT b = v.getCompoundList("buildings");
+        NbtList b = v.getCompoundList("buildings");
         for (int i = 0; i < b.size(); i++) {
-            CompoundNBT c = b.getCompound(i);
+            NbtCompound c = b.getCompound(i);
             Building building = new Building();
             building.load(CNBT.fromMC(c));
             buildings.put(building.getId(), building);
@@ -301,8 +300,8 @@ public class Village implements Serializable {
     }
 
     public void addResident(VillagerEntityMCA villager, int building) {
-        lastMoveIn = villager.level.getGameTime();
+        lastMoveIn = villager.world.getTime();
         buildings.get(building).addResident(villager);
-        VillageManagerData.get(villager.level).setDirty();
+        VillageManagerData.get(villager.world).setDirty();
     }
 }

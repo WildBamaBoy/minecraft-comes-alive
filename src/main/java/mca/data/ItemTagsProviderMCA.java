@@ -3,9 +3,9 @@ package mca.data;
 import mca.core.MCA;
 import mca.core.forge.TagsMCA;
 import mca.core.minecraft.ItemsMCA;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.data.server.BlockTagsProvider;
+import net.minecraft.data.server.ItemTagsProvider;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -15,7 +15,7 @@ public class ItemTagsProviderMCA extends ItemTagsProvider {
     }
 
     @Override
-    protected void addTags() {
+    protected void configure() {
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
         copy(Tags.Blocks.ORES_GOLD, Tags.Items.ORES_GOLD);
         copy(TagsMCA.Blocks.ORES_ROSE_GOLD, TagsMCA.Items.ORES_ROSE_GOLD);
@@ -27,18 +27,18 @@ public class ItemTagsProviderMCA extends ItemTagsProvider {
         copy(TagsMCA.Blocks.STORAGE_BLOCKS_JEWELER_WORKBENCH, TagsMCA.Items.STORAGE_BLOCKS_JEWELER_WORKBENCH);
 
 
-        tag(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ROSE_GOLD_INGOT.get());
-        tag(Tags.Items.INGOTS).addTag(TagsMCA.Items.INGOTS_ROSE_GOLD);
-        tag(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ENGAGEMENT_RING_RG.get());
+        getOrCreateTagBuilder(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ROSE_GOLD_INGOT.get());
+        getOrCreateTagBuilder(Tags.Items.INGOTS).addTag(TagsMCA.Items.INGOTS_ROSE_GOLD);
+        getOrCreateTagBuilder(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ENGAGEMENT_RING_RG.get());
 
-        tag(Tags.Items.INGOTS_GOLD).add(ItemsMCA.ENGAGEMENT_RING.get());
-        tag(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ROSE_GOLD_DUST.get(), ItemsMCA.GOLD_DUST.get());
-        tag(Tags.Items.DUSTS).addTag(TagsMCA.Items.INGOTS_ROSE_GOLD);
-        tag(Tags.Items.DUSTS).addTag(Tags.Items.INGOTS_GOLD);
+        getOrCreateTagBuilder(Tags.Items.INGOTS_GOLD).add(ItemsMCA.ENGAGEMENT_RING.get());
+        getOrCreateTagBuilder(TagsMCA.Items.INGOTS_ROSE_GOLD).add(ItemsMCA.ROSE_GOLD_DUST.get(), ItemsMCA.GOLD_DUST.get());
+        getOrCreateTagBuilder(Tags.Items.DUSTS).addTag(TagsMCA.Items.INGOTS_ROSE_GOLD);
+        getOrCreateTagBuilder(Tags.Items.DUSTS).addTag(Tags.Items.INGOTS_GOLD);
 
-        tag(Tags.Items.INGOTS).add(ItemsMCA.ENGAGEMENT_RING.get(), ItemsMCA.WEDDING_RING.get(), ItemsMCA.MATCHMAKERS_RING.get());
-        tag(Tags.Items.INGOTS).add(ItemsMCA.ENGAGEMENT_RING_RG.get(), ItemsMCA.WEDDING_RING_RG.get());
+        getOrCreateTagBuilder(Tags.Items.INGOTS).add(ItemsMCA.ENGAGEMENT_RING.get(), ItemsMCA.WEDDING_RING.get(), ItemsMCA.MATCHMAKERS_RING.get());
+        getOrCreateTagBuilder(Tags.Items.INGOTS).add(ItemsMCA.ENGAGEMENT_RING_RG.get(), ItemsMCA.WEDDING_RING_RG.get());
 
-        tag(TagsMCA.Items.LECTERN_BOOKS).add(ItemsMCA.BOOK_ROSE_GOLD.get(), ItemsMCA.BOOK_DEATH.get(), ItemsMCA.BOOK_ROMANCE.get(), ItemsMCA.BOOK_FAMILY.get(), ItemsMCA.BOOK_INFECTION.get());
+        getOrCreateTagBuilder(TagsMCA.Items.LECTERN_BOOKS).add(ItemsMCA.BOOK_ROSE_GOLD.get(), ItemsMCA.BOOK_DEATH.get(), ItemsMCA.BOOK_ROMANCE.get(), ItemsMCA.BOOK_FAMILY.get(), ItemsMCA.BOOK_INFECTION.get());
     }
 }

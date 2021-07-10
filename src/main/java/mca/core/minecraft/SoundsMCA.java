@@ -1,7 +1,7 @@
 package mca.core.minecraft;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,7 +28,7 @@ public final class SoundsMCA {
 
     //simplifies sound creation
     private static SoundEvent newSound(String sound) {
-        ResourceLocation loc = new ResourceLocation("mca", sound);
+        Identifier loc = new Identifier("mca", sound);
         SoundEvent event = new SoundEvent(loc).setRegistryName(loc);
         soundList.add(event);
         return event;

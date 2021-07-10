@@ -2,10 +2,9 @@ package mca.network;
 
 import mca.client.gui.GuiInteract;
 import mca.cobalt.network.Message;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.ServerPlayerEntity;
-
+import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.Map;
 
 public class GetInteractDataResponse extends Message {
@@ -21,7 +20,7 @@ public class GetInteractDataResponse extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        Screen screen = Minecraft.getInstance().screen;
+        Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof GuiInteract) {
             GuiInteract gui = (GuiInteract) screen;
             gui.setConstraints(constraints);

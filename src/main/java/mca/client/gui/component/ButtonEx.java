@@ -4,9 +4,9 @@ import lombok.Getter;
 import mca.api.types.APIButton;
 import mca.client.gui.GuiInteract;
 import mca.core.MCA;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.ButtonWidget;
 
-public class ButtonEx extends Button {
+public class ButtonEx extends ButtonWidget {
     @Getter
     private final APIButton apiButton;
 

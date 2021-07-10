@@ -5,9 +5,9 @@ import mca.core.MCA;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.merchant.villager.VillagerData;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.village.VillagerData;
+import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 
 public class VillagerFactory {
@@ -58,24 +58,24 @@ public class VillagerFactory {
 
     public VillagerFactory withPosition(double posX, double posY, double posZ) {
         isPositionSet = true;
-        villager.setPos(posX, posY, posZ);
+        villager.setPosition(posX, posY, posZ);
         return this;
     }
 
     public VillagerFactory withPosition(Entity entity) {
         isPositionSet = true;
-        villager.setPos(entity.getX(), entity.getY(), entity.getZ());
+        villager.setPosition(entity.offsetX(), entity.getBodyY(), entity.offsetZ());
         return this;
     }
 
     public VillagerFactory withPosition(BlockPos pos) {
         isPositionSet = true;
-        villager.setPos(pos.getX(), pos.getY() + 1, pos.getZ());
+        villager.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
         return this;
     }
 
     public VillagerFactory withAge(int age) {
-        villager.setAge(age);
+        villager.setBreedingAge(age);
         isAgeSet = true;
         return this;
     }
@@ -110,7 +110,7 @@ public class VillagerFactory {
 
         if (!isAgeSet) {
             //give it a random age between baby and adult
-            villager.setAge(villager.getRandom().nextInt(24000 * 2) - 24000);
+            villager.setBreedingAge(villager.getRandom().nextInt(24000 * 2) - 24000);
         }
 
         return villager;

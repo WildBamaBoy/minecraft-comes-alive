@@ -7,10 +7,9 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.world.server.ServerWorld;
-
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -27,20 +26,20 @@ public class GetVillagerRequest extends Message {
 
         //fetches all members
         //de-loaded members are excluded as can't teleport anyways
-        Set<UUID> family = FamilyTree.get(player.level).getFamily(player.getUUID());
+        Set<UUID> family = FamilyTree.get(player.world).getFamily(player.getUuid());
 
         //spouse
-        PlayerSaveData playerData = PlayerSaveData.get(player.level, player.getUUID());
+        PlayerSaveData playerData = PlayerSaveData.get(player.world, player.getUuid());
         family.add(playerData.getSpouseUUID());
 
         //pack information
         for (UUID member : family) {
-            Entity e = ((ServerWorld) player.level).getEntity(member);
+            Entity e = ((ServerWorld) player.world).getEntity(member);
             if (e instanceof VillagerEntityMCA) {
                 VillagerEntityMCA v = (VillagerEntityMCA) e;
-                CompoundNBT nbt = new CompoundNBT();
-                v.addAdditionalSaveData(nbt);
-                familyData.put(e.getUUID().toString(), CNBT.fromMC(nbt));
+                NbtCompound nbt = new NbtCompound();
+                v.writeCustomDataToNbt(nbt);
+                familyData.put(e.getUuid().toString(), CNBT.fromMC(nbt));
             }
         }
 

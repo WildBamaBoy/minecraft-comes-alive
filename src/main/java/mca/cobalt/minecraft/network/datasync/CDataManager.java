@@ -23,7 +23,7 @@ public class CDataManager {
     }
 
     public CFloatParameter newFloat(String id, float defaultValue) {
-        CFloatParameter p = new CFloatParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+        CFloatParameter p = new CFloatParameter(id, entity.getClass(), entity.getDataTracker(), defaultValue);
         params.put(id, p);
         return p;
     }
@@ -33,7 +33,7 @@ public class CDataManager {
     }
 
     public CIntegerParameter newInteger(String id, int defaultValue) {
-        CIntegerParameter p = new CIntegerParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+        CIntegerParameter p = new CIntegerParameter(id, entity.getClass(), entity.getDataTracker(), defaultValue);
         params.put(id, p);
         return p;
     }
@@ -43,7 +43,7 @@ public class CDataManager {
     }
 
     public CBooleanParameter newBoolean(String id, boolean defaultValue) {
-        CBooleanParameter p = new CBooleanParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+        CBooleanParameter p = new CBooleanParameter(id, entity.getClass(), entity.getDataTracker(), defaultValue);
         params.put(id, p);
         return p;
     }
@@ -53,17 +53,17 @@ public class CDataManager {
     }
 
     public CUUIDParameter newUUID(String id, UUID defaultValue) {
-        CUUIDParameter p = new CUUIDParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+        CUUIDParameter p = new CUUIDParameter(id, entity.getClass(), entity.getDataTracker(), defaultValue);
         params.put(id, p);
         return p;
     }
 
     public BlockPosParameter newPos(String id) {
-        return newPos(id, BlockPos.ZERO);
+        return newPos(id, BlockPos.ORIGIN);
     }
 
     public BlockPosParameter newPos(String id, BlockPos defaultValue) {
-        BlockPosParameter p = new BlockPosParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+        BlockPosParameter p = new BlockPosParameter(id, entity.getClass(), entity.getDataTracker(), defaultValue);
         params.put(id, p);
         return p;
     }
@@ -73,13 +73,13 @@ public class CDataManager {
     }
 
     public CStringParameter newString(String id, String defaultValue) {
-        CStringParameter p = new CStringParameter(id, entity.getClass(), entity.getEntityData(), defaultValue);
+        CStringParameter p = new CStringParameter(id, entity.getClass(), entity.getDataTracker(), defaultValue);
         params.put(id, p);
         return p;
     }
 
     public CTagParameter newTag(String id) {
-        CTagParameter p = new CTagParameter(id, entity.getClass(), entity.getEntityData());
+        CTagParameter p = new CTagParameter(id, entity.getClass(), entity.getDataTracker());
         params.put(id, p);
         return p;
     }

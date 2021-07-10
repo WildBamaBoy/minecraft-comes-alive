@@ -3,7 +3,7 @@ package mca.network;
 import mca.cobalt.network.Message;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class SaveVillageMessage extends Message {
     private final int id;
@@ -20,7 +20,7 @@ public class SaveVillageMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity e) {
-        Village village = VillageManagerData.get(e.level).villages.get(id);
+        Village village = VillageManagerData.get(e.world).villages.get(id);
         if (village != null) {
             village.setTaxes(taxes);
             village.setPopulationThreshold(populationThreshold);

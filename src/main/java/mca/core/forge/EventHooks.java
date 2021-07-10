@@ -16,15 +16,16 @@ import mca.server.ServerInteractionManager;
 import mca.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.command.CommandSource;
 import net.minecraft.entity.*;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -49,7 +50,7 @@ public class EventHooks {
 
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
-        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+        CommandDispatcher<ServerCommandSource> dispatcher = event.getDispatcher();
 
         AdminCommand.register(dispatcher);
         MCACommand.register(dispatcher);
@@ -78,14 +79,14 @@ public class EventHooks {
         // lazy spawning of our villagers as they can't be spawned while loading
         if (!spawnQueue.isEmpty()) {
             VillagerEntity e = spawnQueue.remove(0);
-            if (e.level.isLoaded(e.blockPosition())) {
+            if (e.world.canSetBlock(e.getBlockPos())) {
                 e.remove();
 
-                VillagerEntityMCA newVillager = new VillagerEntityMCA(e.level);
-                newVillager.setPos(e.getX(), e.getY(), e.getZ());
+                VillagerEntityMCA newVillager = new VillagerEntityMCA(e.world);
+                newVillager.setPosition(e.offsetX(), e.getBodyY(), e.offsetZ());
 
-                e.level.isLoaded(newVillager.blockPosition());
-                WorldUtils.spawnEntity(e.level, newVillager);
+                e.world.canSetBlock(newVillager.getBlockPos());
+                WorldUtils.spawnEntity(e.world, newVillager);
             } else {
                 spawnQueue.add(e);
             }
@@ -98,7 +99,7 @@ public class EventHooks {
         Entity entity;
         entity = event.getEntity();
 
-        if (world.isClientSide()) return;
+        if (world.isClient()) return;
         if (!MCA.getConfig().overwriteOriginalVillagers) return;
 
         if (entity.getClass().equals(VillagerEntity.class)) {
@@ -115,9 +116,9 @@ public class EventHooks {
 
             if (source instanceof LivingEntity) {
                 double r = 10.0D;
-                AxisAlignedBB axisAlignedBB = new AxisAlignedBB(villager.getX() - r, villager.getY() - r, villager.getZ() - r, villager.getX() + r, villager.getY() + r, villager.getZ() + r);
-                villager.level.getLoadedEntitiesOfClass(VillagerEntityMCA.class, axisAlignedBB).forEach(v -> {
-                    if (v.distanceToSqr(v) <= 100.0D && v.getProfession() == ProfessionsMCA.GUARD) {
+                Box axisAlignedBB = new Box(villager.offsetX() - r, villager.getBodyY() - r, villager.offsetZ() - r, villager.offsetX() + r, villager.getBodyY() + r, villager.offsetZ() + r);
+                villager.world.getLoadedEntitiesOfClass(VillagerEntityMCA.class, axisAlignedBB).forEach(v -> {
+                    if (v.squaredDistanceTo(v) <= 100.0D && v.getProfession() == ProfessionsMCA.GUARD) {
                         v.setTarget((LivingEntity) source);
                     }
                 });
@@ -178,8 +179,8 @@ public class EventHooks {
                     BlockPos pos = new BlockPos(x, y, z);
                     EntityType.LIGHTNING_BOLT.spawn((ServerWorld) event.getWorld(), null, null, null, pos, SpawnReason.STRUCTURE, false, false);
 
-                    event.getWorld().setBlock(pos, Blocks.SOUL_SOIL.defaultBlockState(), 3);
-                    event.getWorld().setBlock(pos.above(), Blocks.SOUL_FIRE.defaultBlockState(), 3);
+                    event.getWorld().setBlock(pos, Blocks.SOUL_SOIL.getDefaultState(), 3);
+                    event.getWorld().setBlock(pos.up(), Blocks.SOUL_FIRE.getDefaultState(), 3);
                 }
             }
         }
@@ -199,8 +200,8 @@ public class EventHooks {
         // If a player dies while holding a baby, remember it until they respawn.
         if (event.getEntityLiving() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-            Optional<ItemStack> babyStack = player.inventory.items.stream().filter(s -> s.getItem() instanceof BabyItem).findFirst();
-            babyStack.ifPresent(s -> limbo.put(player.getUUID(), babyStack.get()));
+            Optional<ItemStack> babyStack = player.inventory.main.stream().filter(s -> s.getItem() instanceof BabyItem).findFirst();
+            babyStack.ifPresent(s -> limbo.put(player.getUuid(), babyStack.get()));
         }
     }
 
@@ -220,7 +221,7 @@ public class EventHooks {
     //this event doesn't seem to fire so check EntitiesMCA for real one
     @SubscribeEvent
     public void attributeCreate(EntityAttributeCreationEvent event) {
-        event.put(EntitiesMCA.VILLAGER, VillagerEntityMCA.createAttributes().build());
+        event.put(EntitiesMCA.VILLAGER, VillagerEntityMCA.createVillagerAttributes().build());
         event.put(EntitiesMCA.GRIM_REAPER, GrimReaperEntity.createAttributes().build());
     }
 }

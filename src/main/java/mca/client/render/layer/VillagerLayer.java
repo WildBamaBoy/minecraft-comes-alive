@@ -1,25 +1,24 @@
 package mca.client.render.layer;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ResourceLocationException;
-
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.InvalidIdentifierException;
 import java.util.Map;
 
-public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends VillagerEntityModelMCA<T>> extends LayerRenderer<T, M> {
-    protected static final Map<String, ResourceLocation> textureRes = Maps.newHashMap();
+public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends VillagerEntityModelMCA<T>> extends FeatureRenderer<T, M> {
+    protected static final Map<String, Identifier> textureRes = Maps.newHashMap();
     public final M model;
 
-    public VillagerLayer(IEntityRenderer<T, M> renderer, M model) {
+    public VillagerLayer(FeatureRendererContext<T, M> renderer, M model) {
         super(renderer);
         this.model = model;
     }
@@ -40,19 +39,19 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
         return false;
     }
 
-    private void renderModel(MatrixStack transform, IRenderTypeBuffer buffer, int p_241738_3_, M model, float r, float g, float b, ResourceLocation res, int overlay) {
-        this.getParentModel().copyPropertiesTo(model);
+    private void renderModel(MatrixStack transform, VertexConsumerProvider buffer, int p_241738_3_, M model, float r, float g, float b, Identifier res, int overlay) {
+        this.getContextModel().copyPropertiesTo(model);
 
-        IVertexBuilder ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderType.entityTranslucent(res) : RenderType.entityCutoutNoCull(res));
-        model.renderToBuffer(transform, ivertexbuilder, p_241738_3_, overlay, r, g, b, 1.0F);
+        VertexConsumer ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderLayer.getEntityTranslucent(res) : RenderLayer.getEntityCutoutNoCull(res));
+        model.render(transform, ivertexbuilder, p_241738_3_, overlay, r, g, b, 1.0F);
     }
 
     @Override
-    public void render(MatrixStack transform, IRenderTypeBuffer buffer, int p_225628_3_, T entity, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
+    public void render(MatrixStack transform, VertexConsumerProvider buffer, int p_225628_3_, T entity, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
         String p;
 
         //copy the animation to this layers model
-        getParentModel().copyPropertiesTo(model);
+        getContextModel().copyPropertiesTo(model);
 
         //texture
         p = getTexture(entity);
@@ -60,25 +59,25 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
             //color
             float[] color = getColor(entity);
 
-            ResourceLocation res = getResource(p);
-            this.renderModel(transform, buffer, p_225628_3_, model, color[0], color[1], color[2], res, LivingRenderer.getOverlayCoords(entity, 0.0F));
+            Identifier res = getResource(p);
+            this.renderModel(transform, buffer, p_225628_3_, model, color[0], color[1], color[2], res, LivingEntityRenderer.getOverlay(entity, 0.0F));
         }
 
         //overlay
         p = getOverlayTexture(entity);
         if (p != null && p.length() > 0) {
-            ResourceLocation res = getResource(p);
-            this.renderModel(transform, buffer, p_225628_3_, model, 1.0f, 1.0f, 1.0f, res, LivingRenderer.getOverlayCoords(entity, 0.0F));
+            Identifier res = getResource(p);
+            this.renderModel(transform, buffer, p_225628_3_, model, 1.0f, 1.0f, 1.0f, res, LivingEntityRenderer.getOverlay(entity, 0.0F));
         }
     }
 
-    private ResourceLocation getResource(String s) {
-        ResourceLocation resourcelocation = textureRes.get(s);
+    private Identifier getResource(String s) {
+        Identifier resourcelocation = textureRes.get(s);
         if (resourcelocation == null) {
             try {
-                resourcelocation = new ResourceLocation(s);
-            } catch (ResourceLocationException ignored) {
-                resourcelocation = new ResourceLocation("");
+                resourcelocation = new Identifier(s);
+            } catch (InvalidIdentifierException ignored) {
+                resourcelocation = new Identifier("");
             }
             textureRes.put(s, resourcelocation);
         }

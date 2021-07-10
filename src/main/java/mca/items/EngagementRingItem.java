@@ -1,18 +1,18 @@
 package mca.items;
 
 import mca.core.MCA;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class EngagementRingItem extends WeddingRingItem {
-    public EngagementRingItem(Item.Properties properties) {
+    public EngagementRingItem(Item.Settings properties) {
         super(properties);
     }
 
@@ -21,7 +21,7 @@ public class EngagementRingItem extends WeddingRingItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-        tooltip.add(new StringTextComponent("Halves the hearts required to marry someone."));
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
+        tooltip.add(new LiteralText("Halves the hearts required to marry someone."));
     }
 }

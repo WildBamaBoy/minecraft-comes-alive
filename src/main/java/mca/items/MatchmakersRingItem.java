@@ -9,14 +9,14 @@ import net.minecraft.item.Item;
 import java.util.Comparator;
 
 public class MatchmakersRingItem extends Item implements SpecialCaseGift {
-    public MatchmakersRingItem(Properties properties) {
+    public MatchmakersRingItem(Settings properties) {
         super(properties);
     }
 
     @Override
     public boolean handle(PlayerEntity player, VillagerEntityMCA villager) {
         // ensure two rings are in the inventory
-        if (player.getMainHandItem().getCount() < 2) {
+        if (player.getMainHandStack().getCount() < 2) {
             villager.say(player, "interaction.matchmaker.fail.needtwo");
             return false;
         }
@@ -28,7 +28,7 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
         }
 
         // look for partner
-        java.util.Optional<VillagerEntityMCA> target = WorldUtils.getCloseEntities(villager.level, villager, 3.0).stream()
+        java.util.Optional<VillagerEntityMCA> target = WorldUtils.getCloseEntities(villager.world, villager, 3.0).stream()
                 .filter(v -> v != villager && v instanceof VillagerEntityMCA)
                 .map(v -> (VillagerEntityMCA) v)
                 .filter(v -> !v.isBaby() && !v.isMarried())
@@ -46,11 +46,11 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
         spouse.marry(villager);
 
         // show a reaction
-        player.level.broadcastEntityEvent(villager, (byte) 12);
+        player.world.sendEntityStatus(villager, (byte) 12);
 
         // remove the rings for survival mode
         if (!player.isCreative())
-            player.getMainHandItem().shrink(1);
+            player.getMainHandStack().decrement(1);
         return true;
     }
 }

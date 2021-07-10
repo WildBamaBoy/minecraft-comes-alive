@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
 import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
@@ -15,14 +14,14 @@ import mca.enums.MoveState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.village.VillagerProfession;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GuiInteract extends Screen {
-    private static final ResourceLocation ICON_TEXTURES = new ResourceLocation("mca:textures/gui.png");
+    private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
     private final VillagerEntityMCA villager;
     private final PlayerEntity player;
     private final float iconScale = 1.5f;
@@ -49,7 +48,7 @@ public class GuiInteract extends Screen {
     private String activeKey;
 
     public GuiInteract(VillagerEntityMCA villager, PlayerEntity player) {
-        super(new StringTextComponent("Interact"));
+        super(new LiteralText("Interact"));
 
         this.villager = villager;
         this.player = player;
@@ -63,13 +62,13 @@ public class GuiInteract extends Screen {
 
     @Override
     public void onClose() {
-        Objects.requireNonNull(this.minecraft).setScreen(null);
+        Objects.requireNonNull(this.client).openScreen(null);
         villager.setInteractingPlayer(null);
     }
 
     @Override
     public void init() {
-        NetworkHandler.sendToServer(new GetInteractDataRequest(villager.getUUID()));
+        NetworkHandler.sendToServer(new GetInteractDataRequest(villager.getUuid()));
     }
 
     public void addExButton(ButtonEx b) {
@@ -90,16 +89,16 @@ public class GuiInteract extends Screen {
         drawIcons(transform);
         drawTextPopups(transform);
 
-        mouseX = (int) (minecraft.mouseHandler.xpos() * width / minecraft.getWindow().getWidth());
-        mouseY = (int) (minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getHeight());
+        mouseX = (int) (client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
+        mouseY = (int) (client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
     }
 
     @Override
     public boolean mouseScrolled(double x, double y, double d) {
         if (d < 0) {
-            player.inventory.selected = player.inventory.selected == 8 ? 0 : player.inventory.selected + 1;
+            player.inventory.selectedSlot = player.inventory.selectedSlot == 8 ? 0 : player.inventory.selectedSlot + 1;
         } else if (d > 0) {
-            player.inventory.selected = player.inventory.selected == 0 ? 8 : player.inventory.selected - 1;
+            player.inventory.selectedSlot = player.inventory.selectedSlot == 0 ? 8 : player.inventory.selectedSlot - 1;
         }
 
         return super.mouseScrolled(x, y, d);
@@ -111,7 +110,7 @@ public class GuiInteract extends Screen {
 
         // Right mouse button
         if (inGiftMode && button == 1) {
-            NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, "gui.button.gift", villager.getUUID()));
+            NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, "gui.button.gift", villager.getUuid()));
             return true;
         } else {
             return false;
@@ -135,7 +134,7 @@ public class GuiInteract extends Screen {
 
     private void drawIcon(MatrixStack transform, String key) {
         APIIcon icon = API.getIcon(key);
-        this.blit(transform, (int) (icon.getX() / iconScale), (int) (icon.getY() / iconScale), icon.getU(), icon.getV(), 16, 16);
+        this.drawTexture(transform, (int) (icon.getX() / iconScale), (int) (icon.getY() / iconScale), icon.getU(), icon.getV(), 16, 16);
     }
 
     private void drawHoveringIconText(MatrixStack transform, String text, String key) {
@@ -144,12 +143,12 @@ public class GuiInteract extends Screen {
     }
 
     private void renderTooltip(MatrixStack transform, String text, int x, int y) {
-        renderTooltip(transform, new StringTextComponent(text), x, y);
+        renderTooltip(transform, new LiteralText(text), x, y);
     }
 
-    private void drawHoveringIconText(MatrixStack transform, List<ITextComponent> text, String key) {
+    private void drawHoveringIconText(MatrixStack transform, List<Text> text, String key) {
         APIIcon icon = API.getIcon(key);
-        this.renderComponentTooltip(transform, text, icon.getX() + 16, icon.getY() + 20);
+        this.renderTooltip(transform, text, icon.getX() + 16, icon.getY() + 20);
     }
 
     private void drawIcons(MatrixStack transform) {
@@ -172,7 +171,7 @@ public class GuiInteract extends Screen {
         {
             GL11.glScalef(iconScale, iconScale, iconScale);
 
-            this.minecraft.getTextureManager().bind(ICON_TEXTURES);
+            this.client.getTextureManager().bindTexture(ICON_TEXTURES);
 
             drawIcon(transform, marriageIcon);
             drawIcon(transform, heartIcon);
@@ -249,19 +248,19 @@ public class GuiInteract extends Screen {
 
         //genes
         if (hoveringOverIcon("genes")) {
-            List<ITextComponent> lines = new LinkedList<>();
-            lines.add(new StringTextComponent("Genes"));
+            List<Text> lines = new LinkedList<>();
+            lines.add(new LiteralText("Genes"));
             for (int i = 0; i < villager.GENES.length; i++) {
                 String key = VillagerEntityMCA.GENES_NAMES[i].replace("_", ".");
                 int value = (int) (villager.GENES[i].get() * 100);
-                lines.add(new StringTextComponent(String.format("%s: %d%%", MCA.localize(key), value)));
+                lines.add(new LiteralText(String.format("%s: %d%%", MCA.localize(key), value)));
             }
             drawHoveringIconText(transform, lines, "genes");
         }
 
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
-            List<ITextComponent> lines = new LinkedList<>();
+            List<Text> lines = new LinkedList<>();
             lines.add(MCA.localizeText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
@@ -313,7 +312,7 @@ public class GuiInteract extends Screen {
             activeKey = "clothing";
             drawClothingMenu();
         } else if (id.equals("gui.button.familyTree")) {
-            Minecraft.getInstance().setScreen(new GuiFamilyTree(villager.getUUID()));
+            MinecraftClient.getInstance().openScreen(new GuiFamilyTree(villager.getUuid()));
         } else if (id.equals("gui.button.work")) {
             activeKey = "work";
             drawWorkButtonMenu();
@@ -334,7 +333,7 @@ public class GuiInteract extends Screen {
             if (button.getApiButton().isTargetServer()) {
                 NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id));
             } else {
-                NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUUID()));
+                NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUuid()));
             }
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;

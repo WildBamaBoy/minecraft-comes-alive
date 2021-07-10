@@ -2,19 +2,18 @@ package mca.entity.ai.brain.tasks.chore;
 
 import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.server.ServerWorld;
-
+import net.minecraft.server.world.ServerWorld;
 import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractChoreTask extends Task<VillagerEntityMCA> {
     protected VillagerEntityMCA villager;
 
-    public AbstractChoreTask(Map<MemoryModuleType<?>, MemoryModuleStatus> p_i51504_1_) {
+    public AbstractChoreTask(Map<MemoryModuleType<?>, MemoryModuleState> p_i51504_1_) {
         super(p_i51504_1_);
     }
 
@@ -33,7 +32,7 @@ public abstract class AbstractChoreTask extends Task<VillagerEntityMCA> {
     }
 
     Optional<PlayerEntity> getAssigningPlayer() {
-        PlayerEntity player = villager.level.getPlayerByUUID(villager.choreAssigningPlayer.get().get());
+        PlayerEntity player = villager.world.getPlayerByUuid(villager.choreAssigningPlayer.get().get());
         return Optional.ofNullable(player);
     }
 }

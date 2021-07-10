@@ -1,34 +1,34 @@
 package mca.entity.ai;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class GrimReaperTargetGoal extends Goal {
-    private final EntityPredicate attackTargeting = (new EntityPredicate()).range(64.0D);
-    private final CreatureEntity mob;
+    private final TargetPredicate attackTargeting = (new TargetPredicate()).setBaseMaxDistance(64.0D);
+    private final PathAwareEntity mob;
     private int nextScanTick = 20;
 
-    public GrimReaperTargetGoal(CreatureEntity mob) {
+    public GrimReaperTargetGoal(PathAwareEntity mob) {
         this.mob = mob;
     }
 
-    public boolean canUse() {
+    public boolean canStart() {
         if (this.nextScanTick > 0) {
             this.nextScanTick--;
         } else {
             this.nextScanTick = 20;
-            List<PlayerEntity> list = mob.level.getNearbyPlayers(this.attackTargeting, mob, mob.getBoundingBox().inflate(48.0D, 64.0D, 48.0D));
+            List<PlayerEntity> list = mob.world.getPlayers(this.attackTargeting, mob, mob.getBoundingBox().expand(48.0D, 64.0D, 48.0D));
             if (!list.isEmpty()) {
                 list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
                 for (PlayerEntity playerentity : list) {
-                    if (mob.canAttack(playerentity, EntityPredicate.DEFAULT)) {
+                    if (mob.isTarget(playerentity, TargetPredicate.DEFAULT)) {
                         mob.setTarget(playerentity);
                         return true;
                     }
@@ -39,7 +39,7 @@ public class GrimReaperTargetGoal extends Goal {
         return false;
     }
 
-    public boolean canContinueToUse() {
+    public boolean shouldContinue() {
         return mob.getTarget() != null;
     }
 }

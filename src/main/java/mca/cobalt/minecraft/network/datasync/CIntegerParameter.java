@@ -2,15 +2,15 @@ package mca.cobalt.minecraft.network.datasync;
 
 import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 
 public class CIntegerParameter extends CDataParameter<Integer> {
-    private final EntityDataManager data;
+    private final DataTracker data;
     private final int defaultValue;
 
-    public CIntegerParameter(String id, Class<? extends Entity> e, EntityDataManager d, int dv) {
-        super(id, e, DataSerializers.INT);
+    public CIntegerParameter(String id, Class<? extends Entity> e, DataTracker d, int dv) {
+        super(id, e, TrackedDataHandlerRegistry.INTEGER);
         data = d;
         defaultValue = dv;
     }
@@ -25,7 +25,7 @@ public class CIntegerParameter extends CDataParameter<Integer> {
 
     @Override
     public void register() {
-        data.define(param, defaultValue);
+        data.startTracking(param, defaultValue);
     }
 
     @Override

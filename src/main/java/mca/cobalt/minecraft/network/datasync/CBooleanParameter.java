@@ -2,15 +2,15 @@ package mca.cobalt.minecraft.network.datasync;
 
 import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 
 public class CBooleanParameter extends CDataParameter<Boolean> {
-    private final EntityDataManager data;
+    private final DataTracker data;
     private final boolean defaultValue;
 
-    public CBooleanParameter(String id, Class<? extends Entity> e, EntityDataManager d, boolean dv) {
-        super(id, e, DataSerializers.BOOLEAN);
+    public CBooleanParameter(String id, Class<? extends Entity> e, DataTracker d, boolean dv) {
+        super(id, e, TrackedDataHandlerRegistry.BOOLEAN);
         data = d;
         defaultValue = dv;
     }
@@ -25,7 +25,7 @@ public class CBooleanParameter extends CDataParameter<Boolean> {
 
     @Override
     public void register() {
-        data.define(param, defaultValue);
+        data.startTracking(param, defaultValue);
     }
 
     @Override

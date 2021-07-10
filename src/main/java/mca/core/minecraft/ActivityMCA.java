@@ -1,7 +1,7 @@
 package mca.core.minecraft;
 
 import mca.core.forge.Registration;
-import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.Activity;
 
 public class ActivityMCA {
     public static final Activity CHORE = new Activity("chore");

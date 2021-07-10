@@ -4,8 +4,7 @@ import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.FamilyTreeEntry;
-import net.minecraft.entity.player.ServerPlayerEntity;
-
+import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,7 @@ public class GetFamilyTreeRequest extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        FamilyTree tree = FamilyTree.get(player.level);
+        FamilyTree tree = FamilyTree.get(player.world);
         FamilyTreeEntry entry = tree.getEntry(uuid);
         if (entry != null) {
             Map<UUID, FamilyTreeEntry> familyEntries = new HashMap<>();

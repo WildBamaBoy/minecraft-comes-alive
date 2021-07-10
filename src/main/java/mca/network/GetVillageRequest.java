@@ -4,7 +4,7 @@ import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.minecraft.VillageHelper;
 import mca.entity.data.Village;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class GetVillageRequest extends Message {
     public GetVillageRequest() {

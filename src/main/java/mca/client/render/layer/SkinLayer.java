@@ -4,10 +4,10 @@ import mca.client.colors.SkinColors;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 
 public class SkinLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
-    public SkinLayer(IEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
+    public SkinLayer(FeatureRendererContext<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
         super(renderer, model);
     }
 

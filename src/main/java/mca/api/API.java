@@ -12,11 +12,11 @@ import mca.entity.VillagerEntityMCA;
 import mca.enums.Constraint;
 import mca.enums.Gender;
 import mca.util.Util;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.ChatUtil;
+import net.minecraft.util.Identifier;
+import net.minecraft.village.VillagerProfession;
 import org.apache.commons.io.IOUtils;
 
 import javax.annotation.Nonnull;
@@ -91,7 +91,7 @@ public class API {
         supporters = Util.readResourceAsJSON("api/supporters.json", String[].class);
 
         // Load names
-        InputStream namesStream = StringUtils.class.getResourceAsStream("/assets/mca/lang/names.lang");
+        InputStream namesStream = ChatUtil.class.getResourceAsStream("/assets/mca/lang/names.lang");
         try {
             // read in all names and process into the correct list
             List<String> lines = IOUtils.readLines(namesStream, Charsets.UTF_8);
@@ -185,7 +185,7 @@ public class API {
 
     private static Hair getHair(HairGroup g, int i) {
         String overlay = String.format("mca:skins/hair/%s/%d_overlay.png", g.getGender().getStrName(), i);
-        boolean hasOverlay = Minecraft.getInstance().getResourceManager().hasResource(new ResourceLocation(overlay));
+        boolean hasOverlay = MinecraftClient.getInstance().getResourceManager().containsResource(new Identifier(overlay));
         return new Hair(
                 String.format("mca:skins/hair/%s/%d.png", g.getGender().getStrName(), i),
                 hasOverlay ? overlay : ""

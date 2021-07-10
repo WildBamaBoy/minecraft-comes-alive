@@ -1,18 +1,17 @@
 package mca.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.ReviveVillagerMessage;
 import mca.network.SavedVillagersRequest;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
-
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import java.util.*;
 
 public class GuiStaffOfLife extends Screen {
@@ -21,37 +20,37 @@ public class GuiStaffOfLife extends Screen {
     private VillagerEntityMCA dummy;
     // selection fields
     private int selectedIndex = 0;
-    private Button nameButton;
-    private Button reviveButton;
-    private Button nextButton;
-    private Button backButton;
+    private ButtonWidget nameButton;
+    private ButtonWidget reviveButton;
+    private ButtonWidget nextButton;
+    private ButtonWidget backButton;
 
     public GuiStaffOfLife() {
-        super(new StringTextComponent("Staff of Life"));
+        super(new LiteralText("Staff of Life"));
     }
 
     @Override
     public void init() {
         NetworkHandler.sendToServer(new SavedVillagersRequest());
 
-        backButton = addButton(new Button(width / 2 - 123, height / 2 + 65, 20, 20, new StringTextComponent("<<"),
+        backButton = addButton(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"),
                 (button) -> selectData(selectedIndex - 1)));
 
-        nextButton = addButton(new Button(width / 2 + 103, height / 2 + 65, 20, 20, new StringTextComponent(">>"),
+        nextButton = addButton(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"),
                 (button) -> selectData(selectedIndex + 1)));
 
-        nameButton = addButton(new Button(width / 2 - 100, height / 2 + 65, 200, 20, new StringTextComponent(""),
+        nameButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""),
                 (button) -> {
                 }));
 
-        reviveButton = addButton(new Button(width / 2 - 100, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.revive"),
+        reviveButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.revive"),
                 (button) -> {
                     NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(selectedIndex))));
-                    Objects.requireNonNull(this.minecraft).setScreen(null);
+                    Objects.requireNonNull(this.client).openScreen(null);
                 }));
 
-        addButton(new Button(width / 2 + 40, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.exit"),
-                (button) -> Objects.requireNonNull(this.minecraft).setScreen(null)));
+        addButton(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.exit"),
+                (button) -> Objects.requireNonNull(this.client).openScreen(null)));
 
         toggleButtons(false);
     }
@@ -66,7 +65,7 @@ public class GuiStaffOfLife extends Screen {
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
-        drawCenteredString(transform, font, MCA.localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredString(transform, textRenderer, MCA.localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
 
         super.render(transform, w, h, scale);
 
@@ -77,13 +76,13 @@ public class GuiStaffOfLife extends Screen {
         villagerData = data;
 
         if (data.size() > 0) {
-            dummy = new VillagerEntityMCA(Minecraft.getInstance().level);
+            dummy = new VillagerEntityMCA(MinecraftClient.getInstance().world);
             keys.clear();
             keys.addAll(data.keySet());
             selectData(0);
             toggleButtons(true);
         } else {
-            nameButton.setMessage(new StringTextComponent("No villagers found."));
+            nameButton.setMessage(new LiteralText("No villagers found."));
             toggleButtons(false);
         }
     }
@@ -96,7 +95,7 @@ public class GuiStaffOfLife extends Screen {
     }
 
     private void updateDummy(CNBT nbt) {
-        dummy.readAdditionalSaveData(nbt.getMcCompound());
+        dummy.readCustomDataFromNbt(nbt.getMcCompound());
     }
 
     private void selectData(int i) {
@@ -112,6 +111,6 @@ public class GuiStaffOfLife extends Screen {
         int posX = width / 2;
         int posY = height / 2 + 45;
 
-        if (dummy != null) InventoryScreen.renderEntityInInventory(posX, posY, 60, 0, 0, dummy);
+        if (dummy != null) InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
     }
 }

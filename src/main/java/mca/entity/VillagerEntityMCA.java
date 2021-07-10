@@ -20,75 +20,76 @@ import mca.items.SpecialCaseGift;
 import mca.util.InventoryUtils;
 import mca.util.Util;
 import mca.util.WorldUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.Schedule;
+import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.merchant.IReputationType;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.ChestContainer;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.*;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.text.BaseText;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.*;
+import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
-import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
-import net.minecraft.village.GossipManager;
-import net.minecraft.village.PointOfInterest;
-import net.minecraft.village.PointOfInterestManager;
-import net.minecraft.village.PointOfInterestType;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.village.TradeOffer;
+import net.minecraft.village.VillagerGossips;
+import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-
+import net.minecraft.world.poi.PointOfInterest;
+import net.minecraft.world.poi.PointOfInterestStorage;
+import net.minecraft.world.poi.PointOfInterestType;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class VillagerEntityMCA extends VillagerEntity implements INamedContainerProvider {
+public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory {
     public static final String[] GENES_NAMES = new String[]{
             "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
             MemoryModuleType.HOME, MemoryModuleType.JOB_SITE,
             MemoryModuleType.POTENTIAL_JOB_SITE,
             MemoryModuleType.MEETING_POINT,
-            MemoryModuleType.LIVING_ENTITIES,
-            MemoryModuleType.VISIBLE_LIVING_ENTITIES,
+            MemoryModuleType.MOBS,
+            MemoryModuleType.VISIBLE_MOBS,
             MemoryModuleType.VISIBLE_VILLAGER_BABIES,
             MemoryModuleType.NEAREST_PLAYERS,
             MemoryModuleType.NEAREST_VISIBLE_PLAYER,
@@ -129,7 +130,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     );
 
     public final CDataManager data = new CDataManager(this);
-    public final Inventory inventory;
+    public final SimpleInventory inventory;
     public final CStringParameter villagerName = data.newString("villagerName");
     public final CStringParameter clothes = data.newString("clothes");
     public final CStringParameter hair = data.newString("hair");
@@ -172,7 +173,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     public final CIntegerParameter village = data.newInteger("village", -1);
     public final CIntegerParameter building = data.newInteger("buildings", -1);
-    private final GossipManager gossips = new GossipManager();
+    private final VillagerGossips gossips = new VillagerGossips();
     //gift desaturation queue
     private final List<String> giftDesaturation = new LinkedList<>();
     public int procreateTick = -1;
@@ -184,7 +185,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     public VillagerEntityMCA(World w) {
         super(EntitiesMCA.VILLAGER, w);
 
-        inventory = new Inventory(27);
+        inventory = new SimpleInventory(27);
         inventory.addListener(this::onInvChange);
 
         //register has to be here, not in initialize, since the super call is called before the field init
@@ -193,7 +194,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
         this.setSilent(true);
 
-        if (!level.isClientSide) {
+        if (!world.isClient) {
             Gender eGender = Gender.getRandom();
             gender.set(eGender.getId());
 
@@ -201,28 +202,28 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         }
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 48.0D);
+    public static DefaultAttributeContainer.Builder createVillagerAttributes() {
+        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
     }
 
-    protected Brain.BrainCodec<VillagerEntityMCA> mcaBrainProvider() {
-        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+    protected Brain.Profile<VillagerEntityMCA> mcaBrainProvider() {
+        return Brain.createProfile(MEMORY_TYPES, SENSOR_TYPES);
     }
 
     @Override
-    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
-        Brain<VillagerEntityMCA> brain = this.mcaBrainProvider().makeBrain(dynamic);
-        this.registerBrainGoals(brain);
+    protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+        Brain<VillagerEntityMCA> brain = this.mcaBrainProvider().deserialize(dynamic);
+        this.initBrain(brain);
         return brain;
     }
 
     @Override
-    public void refreshBrain(ServerWorld world) {
+    public void reinitializeBrain(ServerWorld world) {
         Brain<VillagerEntityMCA> brain = this.getMCABrain();
-        brain.stopAll(world, this);
+        brain.stopAllTasks(world, this);
         //copyWithoutBehaviors will copy the memories of the old brain to the new brain
-        this.brain = brain.copyWithoutBehaviors();
-        this.registerBrainGoals(this.getMCABrain());
+        this.brain = brain.copy();
+        this.initBrain(this.getMCABrain());
     }
 
     public Brain<VillagerEntityMCA> getMCABrain() {
@@ -230,36 +231,36 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         return (Brain<VillagerEntityMCA>) this.brain;
     }
 
-    private void registerBrainGoals(Brain<VillagerEntityMCA> brain) {
+    private void initBrain(Brain<VillagerEntityMCA> brain) {
         VillagerProfession villagerprofession = this.getVillagerData().getProfession();
         if (this.isBaby()) {
             brain.setSchedule(Schedule.VILLAGER_BABY);
-            brain.addActivity(Activity.PLAY, VillagerTasksMCA.getPlayPackage(0.5F));
+            brain.setTaskList(Activity.PLAY, VillagerTasksMCA.getPlayPackage(0.5F));
         } else {
             brain.setSchedule(Schedule.VILLAGER_DEFAULT);
-            brain.addActivityWithConditions(Activity.WORK, VillagerTasksMCA.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
+            brain.setTaskList(Activity.WORK, VillagerTasksMCA.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleState.VALUE_PRESENT)));
         }
 
-        brain.addActivity(Activity.CORE, VillagerTasksMCA.getCorePackage(villagerprofession, 0.5F));
-        brain.addActivityWithConditions(Activity.MEET, VillagerTasksMCA.getMeetPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
-        brain.addActivity(Activity.REST, VillagerTasksMCA.getRestPackage(villagerprofession, 0.5F));
-        brain.addActivity(Activity.IDLE, VillagerTasksMCA.getIdlePackage(villagerprofession, 0.5F));
-        brain.addActivity(Activity.PANIC, VillagerTasksMCA.getPanicPackage(villagerprofession, 0.5F));
-        brain.addActivity(Activity.PRE_RAID, VillagerTasksMCA.getPreRaidPackage(villagerprofession, 0.5F));
-        brain.addActivity(Activity.RAID, VillagerTasksMCA.getRaidPackage(villagerprofession, 0.5F));
-        brain.addActivity(Activity.HIDE, VillagerTasksMCA.getHidePackage(villagerprofession, 0.5F));
-        brain.addActivity(ActivityMCA.CHORE, VillagerTasksMCA.getChorePackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.CORE, VillagerTasksMCA.getCorePackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.MEET, VillagerTasksMCA.getMeetPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT)));
+        brain.setTaskList(Activity.REST, VillagerTasksMCA.getRestPackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.IDLE, VillagerTasksMCA.getIdlePackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.PANIC, VillagerTasksMCA.getPanicPackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.PRE_RAID, VillagerTasksMCA.getPreRaidPackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.RAID, VillagerTasksMCA.getRaidPackage(villagerprofession, 0.5F));
+        brain.setTaskList(Activity.HIDE, VillagerTasksMCA.getHidePackage(villagerprofession, 0.5F));
+        brain.setTaskList(ActivityMCA.CHORE, VillagerTasksMCA.getChorePackage(villagerprofession, 0.5F));
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
-        brain.setActiveActivityIfPossible(Activity.IDLE);
-        brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
+        brain.doExclusively(Activity.IDLE);
+        brain.refreshActivities(this.world.getTimeOfDay(), this.world.getTime());
     }
 
     @Nullable
     @Override
     @ParametersAreNonnullByDefault
-    public ILivingEntityData finalizeSpawn(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
-        ILivingEntityData iLivingEntityData = super.finalizeSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+    public EntityData initialize(ServerWorldAccess p_213386_1_, LocalDifficulty p_213386_2_, SpawnReason p_213386_3_, @Nullable EntityData p_213386_4_, @Nullable NbtCompound p_213386_5_) {
+        EntityData iLivingEntityData = super.initialize(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 
         initializeGenes();
         initializeSkin();
@@ -269,8 +270,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
+    protected void initDataTracker() {
+        super.initDataTracker();
     }
 
     public final VillagerProfession getProfession() {
@@ -278,13 +279,13 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public final void setProfession(VillagerProfession profession) {
-        this.setVillagerData(this.getVillagerData().setProfession(profession));
-        refreshBrain((ServerWorld) level);
+        this.setVillagerData(this.getVillagerData().withProfession(profession));
+        reinitializeBrain((ServerWorld) world);
         clothes.set(API.getRandomClothing(this));
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean tryAttack(Entity target) {
         //villager is peaceful and wont hurt as long as not necessary
         if (getPersonality() == Personality.PEACEFUL && getHealth() == getMaxHealth()) {
             return false;
@@ -305,55 +306,55 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
         //enchantment
         if (target instanceof LivingEntity) {
-            damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) target).getMobType());
-            knockback += (float) EnchantmentHelper.getKnockbackBonus(this);
+            damage += EnchantmentHelper.getAttackDamage(this.getMainHandStack(), ((LivingEntity) target).getGroup());
+            knockback += (float) EnchantmentHelper.getKnockback(this);
         }
 
         //fire aspect
         int i = EnchantmentHelper.getFireAspect(this);
         if (i > 0) {
-            target.setSecondsOnFire(i * 4);
+            target.setOnFireFor(i * 4);
         }
 
-        boolean damageDealt = target.hurt(DamageSource.mobAttack(this), damage);
+        boolean damageDealt = target.damage(DamageSource.mob(this), damage);
 
         //knockback and post damage stuff
         if (damageDealt) {
             if (knockback > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).knockback(knockback * 0.5F, MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
-                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
+                ((LivingEntity) target).takeKnockback(knockback * 0.5F, MathHelper.sin(this.yaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.yaw * ((float) Math.PI / 180F)));
+                this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
             }
 
-            this.doEnchantDamageEffects(this, target);
-            this.setLastHurtMob(target);
+            this.applyDamageEffects(this, target);
+            this.onAttacking(target);
         }
 
         return damageDealt;
     }
 
     private void openScreen(PlayerEntity player) {
-        Minecraft.getInstance().setScreen(new GuiInteract(this, player));
+        MinecraftClient.getInstance().openScreen(new GuiInteract(this, player));
     }
 
     @Override
-    public final ActionResultType interactAt(PlayerEntity player, Vector3d pos, @Nonnull Hand hand) {
-        if (level.isClientSide) {
+    public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @Nonnull Hand hand) {
+        if (world.isClient) {
             openScreen(player);
-            return ActionResultType.SUCCESS;
+            return ActionResult.SUCCESS;
         } else {
             this.setInteractingPlayer(player);
-            return ActionResultType.PASS;
+            return ActionResult.PASS;
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT nbt) {
-        super.readAdditionalSaveData(nbt);
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
 
         data.load(CNBT.fromMC(nbt));
 
         //load gift desaturation queue
-        ListNBT res = nbt.getList("giftDesaturation", 8);
+        NbtList res = nbt.getList("giftDesaturation", 8);
         for (int i = 0; i < res.size(); i++) {
             String c = res.getString(i);
             giftDesaturation.add(c);
@@ -370,31 +371,31 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         speed /= gene_width.get();
         speed *= gene_skin.get();
 
-        setSpeed(speed);
+        setMovementSpeed(speed);
         InventoryUtils.readFromNBT(inventory, nbt);
 
-        ListNBT listnbt = nbt.getList("Gossips", 10);
+        NbtList listnbt = nbt.getList("Gossips", 10);
         this.lastGossipDecayTime = nbt.getLong("LastGossipDecay");
 
-        this.gossips.update(new Dynamic<>(NBTDynamicOps.INSTANCE, listnbt));
+        this.gossips.deserialize(new Dynamic<>(NbtOps.INSTANCE, listnbt));
     }
 
     @Override
-    public final void addAdditionalSaveData(CompoundNBT nbt) {
-        super.addAdditionalSaveData(nbt);
+    public final void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
 
         data.save(CNBT.fromMC(nbt));
 
         InventoryUtils.saveToNBT(inventory, nbt);
 
         //save gift desaturation queue
-        ListNBT giftDesaturationQueue = new ListNBT();
+        NbtList giftDesaturationQueue = new NbtList();
         for (int i = 0; i < giftDesaturation.size(); i++) {
-            giftDesaturationQueue.addTag(i, StringNBT.valueOf(giftDesaturation.get(i)));
+            giftDesaturationQueue.addElement(i, NbtString.of(giftDesaturation.get(i)));
         }
         nbt.put("giftDesaturation", giftDesaturationQueue);
 
-        nbt.put("Gossips", this.gossips.store(NBTDynamicOps.INSTANCE).getValue());
+        nbt.put("Gossips", this.gossips.serialize(NbtOps.INSTANCE).getValue());
         nbt.putLong("LastGossipDecay", this.lastGossipDecayTime);
     }
 
@@ -428,7 +429,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         gene_width.set(centeredRandom());
 
         // temperature
-        float temp = level.getBiome(getOnPos()).getBaseTemperature();
+        float temp = world.getBiome(getLandingPos()).getTemperature();
 
         // immigrants
         if (random.nextInt(100) < MCA.getConfig().immigrantChance) {
@@ -457,7 +458,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public final boolean hurt(DamageSource source, float damageAmount) {
+    public final boolean damage(DamageSource source, float damageAmount) {
         // Guards take 50% less damage
         if (getProfession() == ProfessionsMCA.GUARD) {
             damageAmount *= 0.5;
@@ -467,50 +468,50 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         if (getPersonality() == Personality.TOUGH) damageAmount *= 0.5;
         if (getPersonality() == Personality.FRAGILE) damageAmount *= 1.25;
 
-        if (!level.isClientSide) {
-            if (source.getEntity() instanceof PlayerEntity) {
-                PlayerEntity p = (PlayerEntity) source.getEntity();
+        if (!world.isClient) {
+            if (source.getAttacker() instanceof PlayerEntity) {
+                PlayerEntity p = (PlayerEntity) source.getAttacker();
                 sendMessageTo(MCA.localize("villager.hurt"), p);
             }
 
-            if (source.getDirectEntity() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
+            if (source.getSource() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
                 isInfected.set(true);
             }
         }
 
-        return super.hurt(source, damageAmount);
+        return super.damage(source, damageAmount);
     }
 
     @Override
-    public void aiStep() {
-        updateSwingTime();
-        super.aiStep();
+    public void tickMovement() {
+        tickHandSwing();
+        super.tickMovement();
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (level.isClientSide) {
+        if (world.isClient) {
             onEachClientUpdate();
         } else {
             onEachServerUpdate();
         }
 
-        this.maybeDecayGossip();
+        this.decayGossip();
     }
 
     public void sendMessageTo(String message, Entity receiver) {
-        receiver.sendMessage(new StringTextComponent(message), receiver.getUUID());
+        receiver.sendSystemMessage(new LiteralText(message), receiver.getUuid());
     }
 
     @Override
-    public void die(DamageSource cause) {
-        super.die(cause);
+    public void onDeath(DamageSource cause) {
+        super.onDeath(cause);
 
-        if (!level.isClientSide) {
+        if (!world.isClient) {
             //The death of a villager negatively modifies the mood of nearby villagers
-            for (VillagerEntityMCA villager : WorldUtils.getCloseEntities(level, this, 32.0D, VillagerEntityMCA.class)) {
+            for (VillagerEntityMCA villager : WorldUtils.getCloseEntities(world, this, 32.0D, VillagerEntityMCA.class)) {
                 villager.modifyMoodLevel(-10);
             }
 
@@ -518,8 +519,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
             if (isMarried()) {
                 UUID spouse = spouseUUID.get().orElse(Constants.ZERO_UUID);
-                Entity sp = ((ServerWorld) level).getEntity(spouse);
-                PlayerSaveData playerSaveData = PlayerSaveData.get(level, spouse);
+                Entity sp = ((ServerWorld) world).getEntity(spouse);
+                PlayerSaveData playerSaveData = PlayerSaveData.get(world, spouse);
 
                 // Notify spouse of the death
                 if (sp instanceof VillagerEntityMCA) {
@@ -533,13 +534,13 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             // Entity[] parents = getBothParentEntities();
             //TODO, optionally affect parents behavior
 
-            SavedVillagers.get(level).saveVillager(this);
+            SavedVillagers.get(world).saveVillager(this);
         }
     }
 
     @Override
     public final SoundEvent getDeathSound() {
-        return SoundEvents.PLAYER_DEATH;
+        return SoundEvents.ENTITY_PLAYER_DEATH;
     }
 
     @Override
@@ -549,7 +550,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     @Override
     protected final SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.GENERIC_HURT;
+        return SoundEvents.ENTITY_GENERIC_HURT;
     }
 
     public final void playWelcomeSound() {
@@ -558,26 +559,26 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public final ITextComponent getDisplayName() {
-        TextComponent name = new StringTextComponent(villagerName.get());
-        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
-            name.append(new StringTextComponent("(Staying)"));
+    public final Text getDisplayName() {
+        BaseText name = new LiteralText(villagerName.get());
+        if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+            name.append(new LiteralText("(Staying)"));
         }
         return name;
     }
 
     @Override
-    public final ITextComponent getCustomName() {
-        return new StringTextComponent(villagerName.get());
+    public final Text getCustomName() {
+        return new LiteralText(villagerName.get());
     }
 
     public Memories getMemoriesForPlayer(PlayerEntity player) {
         CNBT cnbt = memories.get();
-        CNBT compoundTag = cnbt.getCompoundTag(player.getUUID().toString());
+        CNBT compoundTag = cnbt.getCompoundTag(player.getUuid().toString());
         Memories returnMemories = Memories.fromCNBT(this, compoundTag);
         if (returnMemories == null) {
-            returnMemories = Memories.getNew(this, player.getUUID());
-            memories.set(memories.get().setTag(player.getUUID().toString(), returnMemories.toCNBT()));
+            returnMemories = Memories.getNew(this, player.getUuid());
+            memories.set(memories.get().setTag(player.getUuid().toString(), returnMemories.toCNBT()));
         }
         return returnMemories;
     }
@@ -599,7 +600,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     private void goHome(PlayerEntity player) {
-        if (getHome().equals(BlockPos.ZERO)) {
+        if (getHome().equals(BlockPos.ORIGIN)) {
             say(player, "interaction.gohome.fail");
         } else {
             BlockPos home = getHome();
@@ -609,13 +610,13 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public BlockPos getWorkplace() {
-        Optional<GlobalPos> home = this.brain.getMemory(MemoryModuleType.JOB_SITE);
-        return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
+        Optional<GlobalPos> home = this.brain.getOptionalMemory(MemoryModuleType.JOB_SITE);
+        return home.map(GlobalPos::getPos).orElse(BlockPos.ORIGIN);
     }
 
     public void setWorkplace(PlayerEntity player) {
         say(player, "interaction.setworkplace.success");
-        this.brain.setMemory(MemoryModuleType.JOB_SITE, GlobalPos.of(player.level.dimension(), player.blockPosition()));
+        this.brain.remember(MemoryModuleType.JOB_SITE, GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos()));
     }
 
     public BlockPos getHangout() {
@@ -624,17 +625,17 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     public void setHangout(PlayerEntity player) {
         say(player, "interaction.sethangout.success");
-        hangoutPos.set(player.blockPosition());
+        hangoutPos.set(player.getBlockPos());
     }
 
     public BlockPos getHome() {
-        Optional<GlobalPos> home = this.brain.getMemory(MemoryModuleType.HOME);
-        return home.map(GlobalPos::pos).orElse(BlockPos.ZERO);
+        Optional<GlobalPos> home = this.brain.getOptionalMemory(MemoryModuleType.HOME);
+        return home.map(GlobalPos::getPos).orElse(BlockPos.ORIGIN);
     }
 
     private void setHome(PlayerEntity player) {
         //check if it is a bed
-        if (setHome(player.blockPosition(), player.level)) {
+        if (setHome(player.getBlockPos(), player.world)) {
             say(player, "interaction.sethome.success");
         } else {
             say(player, "interaction.sethome.fail");
@@ -642,12 +643,12 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     private void clearHome() {
-        ServerWorld serverWorld = ((ServerWorld) level);
-        PointOfInterestManager poiManager = serverWorld.getPoiManager();
-        Optional<GlobalPos> bed = this.brain.getMemory(MemoryModuleType.HOME);
+        ServerWorld serverWorld = ((ServerWorld) world);
+        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
+        Optional<GlobalPos> bed = this.brain.getOptionalMemory(MemoryModuleType.HOME);
         bed.ifPresent(globalPos -> {
-            if (poiManager.existsAtPosition(PointOfInterestType.HOME, globalPos.pos())) {
-                poiManager.release(globalPos.pos());
+            if (poiManager.hasTypeAt(PointOfInterestType.HOME, globalPos.getPos())) {
+                poiManager.releaseTicket(globalPos.getPos());
             }
         });
     }
@@ -655,14 +656,14 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     private boolean setHome(BlockPos pos, World world) {
         clearHome();
 
-        ServerWorld serverWorld = ((ServerWorld) level);
-        PointOfInterestManager poiManager = serverWorld.getPoiManager();
+        ServerWorld serverWorld = ((ServerWorld) world);
+        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
 
         //check if it is a bed
-        if (level.getBlockState(pos).is(BlockTags.BEDS)) {
-            brain.setMemory(MemoryModuleType.HOME, GlobalPos.of(world.dimension(), pos));
-            poiManager.take(PointOfInterestType.HOME.getPredicate(), (p) -> p.equals(pos), pos, 1);
-            serverWorld.broadcastEntityEvent(this, (byte) 14);
+        if (world.getBlockState(pos).isOf(BlockTags.BEDS)) {
+            brain.remember(MemoryModuleType.HOME, GlobalPos.create(world.getRegistryKey(), pos));
+            poiManager.getPosition(PointOfInterestType.HOME.getCompletionCondition(), (p) -> p.equals(pos), pos, 1);
+            serverWorld.sendEntityStatus(this, (byte) 14);
 
             return true;
         } else {
@@ -680,7 +681,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         String chatPrefix = MCA.getConfig().villagerChatPrefix + getDisplayName().getString() + ": ";
         if (isInfected.get()) { // Infected villagers do not speak
             sendMessageTo(chatPrefix + "???", target);
-            playSound(SoundEvents.ZOMBIE_AMBIENT, this.getSoundVolume(), this.getVoicePitch());
+            playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         } else {
             DialogueType dialogueType = getMemoriesForPlayer(target).getDialogueType();
             String localizedText = MCA.getLocalizer().localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
@@ -697,13 +698,13 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public void marry(PlayerEntity player) {
-        spouseUUID.set(player.getUUID());
-        spouseName.set(player.getName().getContents());
+        spouseUUID.set(player.getUuid());
+        spouseName.set(player.getName().asString());
         marriageState.set(MarriageState.MARRIED_TO_PLAYER.getId());
     }
 
     public void marry(VillagerEntityMCA spouse) {
-        spouseUUID.set(spouse.getUUID());
+        spouseUUID.set(spouse.getUuid());
         spouseName.set(spouse.villagerName.get());
         marriageState.set(MarriageState.MARRIED.getId());
     }
@@ -731,9 +732,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
         //spawn particles
         if (succeeded) {
-            this.level.broadcastEntityEvent(this, (byte) 16);
+            this.world.sendEntityStatus(this, (byte) 16);
         } else {
-            this.level.broadcastEntityEvent(this, (byte) 15);
+            this.world.sendEntityStatus(this, (byte) 15);
 
             //sensitive people doubles the loss
             if (getPersonality() == Personality.SENSITIVE) {
@@ -760,21 +761,21 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         Hair h;
         switch (buttonId) {
             case "gui.button.move":
-                this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
-                this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
+                this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+                this.brain.forget(MemoryModuleTypeMCA.STAYING);
                 updateMoveState();
                 closeGUIIfOpen();
                 break;
             case "gui.button.stay":
-                this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
-                this.brain.setMemory(MemoryModuleTypeMCA.STAYING, true);
+                this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+                this.brain.remember(MemoryModuleTypeMCA.STAYING, true);
                 updateMoveState();
                 closeGUIIfOpen();
 
                 break;
             case "gui.button.follow":
-                this.brain.setMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
-                this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
+                this.brain.remember(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
+                this.brain.forget(MemoryModuleTypeMCA.STAYING);
                 stopChore();
                 updateMoveState();
                 closeGUIIfOpen();
@@ -800,16 +801,16 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                 closeGUIIfOpen();
                 break;
             case "gui.button.trade":
-                this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
-                this.updateSpecialPrices(player);
-                this.setTradingPlayer(player);
+                this.sendOffers(player, this.getDisplayName(), this.getVillagerData().getLevel());
+                this.prepareOffersFor(player);
+                this.setCurrentCustomer(player);
 
                 break;
             case "gui.button.inventory":
-                player.openMenu(this);
+                player.openHandledScreen(this);
                 break;
             case "gui.button.gift":
-                ItemStack stack = player.getMainHandItem();
+                ItemStack stack = player.getMainHandStack();
                 if (!stack.isEmpty()) {
                     int giftValue = API.getGiftValueFromStack(stack);
                     if (!handleSpecialCaseGift(player, stack)) {
@@ -817,7 +818,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                             //TODO special
                             isInfected.set(false);
                         } else {
-                            String id = stack.getDescriptionId();
+                            String id = stack.getTranslationKey();
                             long occurrences = giftDesaturation.stream().filter(e -> e.equals(id)).count();
 
                             //check if desaturation fail happen
@@ -835,23 +836,23 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                     }
 
                     //add to desaturation queue
-                    giftDesaturation.add(stack.getDescriptionId());
+                    giftDesaturation.add(stack.getTranslationKey());
                     while (giftDesaturation.size() > MCA.getConfig().giftDesaturationQueueLength) {
                         giftDesaturation.remove(0);
                     }
 
                     //particles
                     if (giftValue > 0) {
-                        player.getMainHandItem().shrink(1);
-                        this.level.broadcastEntityEvent(this, (byte) 16);
+                        player.getMainHandStack().decrement(1);
+                        this.world.sendEntityStatus(this, (byte) 16);
                     } else {
-                        this.level.broadcastEntityEvent(this, (byte) 15);
+                        this.world.sendEntityStatus(this, (byte) 15);
                     }
                 }
                 closeGUIIfOpen();
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(level, player.getUUID()).isBabyPresent()) {
+                if (PlayerSaveData.get(world, player.getUuid()).isBabyPresent()) {
                     say(player, "interaction.procreate.fail.hasbaby");
                 } else if (memory.getHearts() < 100) {
                     say(player, "interaction.procreate.fail.lowhearts");
@@ -923,17 +924,17 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
         if (item instanceof SpecialCaseGift) {
             if (((SpecialCaseGift) item).handle(player, this)) {
-                player.getMainHandItem().shrink(1);
+                player.getMainHandStack().decrement(1);
             }
             return true;
         } else if (item == Items.CAKE) {
             if (isMarried() && !isBaby()) {
-                Entity spouse = ((ServerWorld) level).getEntity(spouseUUID.get().orElse(Constants.ZERO_UUID));
+                Entity spouse = ((ServerWorld) world).getEntity(spouseUUID.get().orElse(Constants.ZERO_UUID));
                 if (spouse instanceof VillagerEntityMCA) {
                     VillagerEntityMCA progressor = gender.get() == Gender.FEMALE.getId() ? this : (VillagerEntityMCA) spouse;
                     progressor.hasBaby.set(true);
                     progressor.isBabyMale.set(random.nextBoolean());
-                    addParticlesAroundSelf(ParticleTypes.HEART);
+                    produceParticles(ParticleTypes.HEART);
                     say(player, "gift.cake.success");
                 } else {
                     say(player, "gift.cake.fail");
@@ -942,7 +943,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             }
         } else if (item == Items.GOLDEN_APPLE && this.isBaby()) {
             // increase age by 5 minutes
-            this.ageUp(1200 * 5);
+            this.growUp(1200 * 5);
             return true;
         }
 
@@ -951,10 +952,10 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     private void onEachClientUpdate() {
         if (isProcreating.get()) {
-            this.yHeadRot += 50.0F;
+            this.headYaw += 50.0F;
         }
 
-        if (this.tickCount % 20 == 0) {
+        if (this.age % 20 == 0) {
             onEachClientSecond();
         }
     }
@@ -964,43 +965,43 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             if (getMoodLevel() <= -15) {
                 switch (getPersonality().getMoodGroup()) {
                     case GENERAL:
-                        this.addParticlesAroundSelf(ParticleTypes.SPLASH);
+                        this.produceParticles(ParticleTypes.SPLASH);
 
                         break;
                     case PLAYFUL:
-                        this.addParticlesAroundSelf(ParticleTypes.SMOKE);
+                        this.produceParticles(ParticleTypes.SMOKE);
 
                         break;
                     case SERIOUS:
-                        this.addParticlesAroundSelf(ParticleTypes.ANGRY_VILLAGER);
+                        this.produceParticles(ParticleTypes.ANGRY_VILLAGER);
 
                         break;
                 }
 
             } else if (getMoodLevel() >= 15) {
-                this.addParticlesAroundSelf(ParticleTypes.HAPPY_VILLAGER);
+                this.produceParticles(ParticleTypes.HAPPY_VILLAGER);
             }
         }
     }
 
     //report potential buildings within this villagers reach
     private void reportBuildings() {
-        VillageManagerData manager = VillageManagerData.get(level);
+        VillageManagerData manager = VillageManagerData.get(world);
 
         //fetch all near POIs
-        Stream<BlockPos> stream = ((ServerWorld) level).getPoiManager().findAll(
-                PointOfInterestType.ALL,
+        Stream<BlockPos> stream = ((ServerWorld) world).getPointOfInterestStorage().getPositions(
+                PointOfInterestType.ALWAYS_TRUE,
                 (p) -> !manager.cache.contains(p),
-                getOnPos(),
+                getLandingPos(),
                 48,
-                PointOfInterestManager.Status.ANY);
+                PointOfInterestStorage.OccupationStatus.ANY);
 
         //check if it is a building
         stream.forEach(manager::reportBuilding);
     }
 
     private void updateVillage() {
-        if (tickCount % 600 == 0) {
+        if (age % 600 == 0) {
             reportBuildings();
 
             //poor villager has no village
@@ -1013,7 +1014,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
             //and no house
             if (village.get() >= 0 && building.get() == -1) {
-                Village v = VillageManagerData.get(level).villages.get(this.village.get());
+                Village v = VillageManagerData.get(world).villages.get(this.village.get());
                 if (v == null) {
                     village.set(-1);
                 } else {
@@ -1023,16 +1024,16 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
                     for (Building b : buildings) {
                         if (b.getBeds() > b.getResidents().size()) {
                             //find a free bed within the building
-                            Optional<PointOfInterest> bed = ((ServerWorld) level).getPoiManager().getInSquare(
-                                    PointOfInterestType.HOME.getPredicate(),
+                            Optional<PointOfInterest> bed = ((ServerWorld) world).getPointOfInterestStorage().getInSquare(
+                                    PointOfInterestType.HOME.getCompletionCondition(),
                                     b.getCenter(),
-                                    b.getPos0().distManhattan(b.getPos1()),
-                                    PointOfInterestManager.Status.HAS_SPACE).filter((poi) -> b.containsPos(poi.getPos())).findAny();
+                                    b.getPos0().getManhattanDistance(b.getPos1()),
+                                    PointOfInterestStorage.OccupationStatus.HAS_SPACE).filter((poi) -> b.containsPos(poi.getPos())).findAny();
 
                             //sometimes the bed is blocked by someone
                             if (bed.isPresent()) {
                                 //get a bed
-                                setHome(bed.get().getPos(), level);
+                                setHome(bed.get().getPos(), world);
 
                                 //add to residents
                                 building.set(b.getId());
@@ -1045,9 +1046,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             }
         }
 
-        if (tickCount % 6000 == 0) {
+        if (age % 6000 == 0) {
             //check if village still exists
-            Village v = VillageManagerData.get(level).villages.get(this.village.get());
+            Village v = VillageManagerData.get(world).villages.get(this.village.get());
             if (v == null) {
                 village.set(-1);
                 building.set(-1);
@@ -1071,14 +1072,14 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     private void onEachServerUpdate() {
         // Every second
-        if (this.tickCount % 20 == 0) {
+        if (this.age % 20 == 0) {
             onEachServerSecond();
         }
 
         updateVillage();
 
         // Every 10 seconds and when we're not already dead
-        if (this.tickCount % 200 == 0 && this.getHealth() > 0.0F) {
+        if (this.age % 200 == 0 && this.getHealth() > 0.0F) {
             if (this.getHealth() < this.getMaxHealth()) {
                 this.setHealth(this.getHealth() + 1.0F); // heal
             }
@@ -1086,10 +1087,10 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
         //check if another state has been reached
         AgeState last = AgeState.byId(ageState.get());
-        AgeState next = AgeState.byCurrentAge(getAge());
+        AgeState next = AgeState.byCurrentAge(getBreedingAge());
         if (last != next) {
             ageState.set(next.getId());
-            refreshDimensions();
+            calculateDimensions();
 
             if (next == AgeState.ADULT) {
                 // Notify player parents of the age up and set correct dialogue type.
@@ -1115,7 +1116,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
             if (babyAge.get() >= MCA.getConfig().babyGrowUpTime * 60) {
                 //get the father
                 UUID fatherUUID = spouseUUID.get().orElse(Constants.ZERO_UUID);
-                Entity fatherEntity = ((ServerWorld) level).getEntity(fatherUUID);
+                Entity fatherEntity = ((ServerWorld) world).getEntity(fatherUUID);
                 VillagerEntityMCA father;
                 if (fatherEntity instanceof VillagerEntityMCA) {
                     father = (VillagerEntityMCA) fatherEntity;
@@ -1127,19 +1128,19 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
                 //create child
                 Gender gender = isBabyMale.get() ? Gender.MALE : Gender.FEMALE;
-                VillagerEntityMCA child = new VillagerEntityMCA(level);
+                VillagerEntityMCA child = new VillagerEntityMCA(world);
                 child.gender.set(gender.getId());
-                child.setPos(this.getX(), this.getY(), this.getZ());
+                child.setPosition(this.offsetX(), this.getBodyY(), this.offsetZ());
                 child.inheritGenes(father, this);
 
                 //add all 3 to the family tree
                 FamilyTree tree = getFamilyTree();
                 tree.addEntry(father);
                 tree.addEntry(this);
-                tree.addEntry(child, fatherUUID, getUUID());
+                tree.addEntry(child, fatherUUID, getUuid());
 
                 //and yeet it into the world
-                WorldUtils.spawnEntity(level, child);
+                WorldUtils.spawnEntity(world, child);
 
                 hasBaby.set(false);
                 babyAge.set(0);
@@ -1147,29 +1148,29 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         }
 
         //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
-        Optional<Activity> possiblyChore = this.brain.getActiveNonCoreActivity();
+        Optional<Activity> possiblyChore = this.brain.getFirstPossibleNonCoreActivity();
         if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE) && activeChore.get() != Chore.NONE.getId()) {
-            this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
+            this.brain.doExclusively(ActivityMCA.CHORE);
         }
 
-        if (MoveState.byId(this.moveState.get()) == MoveState.FOLLOW && !this.brain.getMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+        if (MoveState.byId(this.moveState.get()) == MoveState.FOLLOW && !this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
             this.updateMoveState();
         }
 
     }
 
     public void stopChore() {
-        this.brain.setActiveActivityIfPossible(Activity.IDLE);
+        this.brain.doExclusively(Activity.IDLE);
         activeChore.set(Chore.NONE.getId());
         choreAssigningPlayer.set(Constants.ZERO_UUID);
     }
 
     public void startChore(Chore chore, PlayerEntity player) {
-        this.brain.setActiveActivityIfPossible(ActivityMCA.CHORE);
+        this.brain.doExclusively(ActivityMCA.CHORE);
         activeChore.set(chore.getId());
-        choreAssigningPlayer.set(player.getUUID());
-        this.brain.eraseMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
-        this.brain.eraseMemory(MemoryModuleTypeMCA.STAYING);
+        choreAssigningPlayer.set(player.getUuid());
+        this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+        this.brain.forget(MemoryModuleTypeMCA.STAYING);
     }
 
     public void updateMemories(Memories memories) {
@@ -1181,8 +1182,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     @Nullable
     @Override
     @ParametersAreNonnullByDefault
-    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return ChestContainer.threeRows(i, playerInventory, inventory);
+    public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, inventory);
     }
 
     public AgeState getAgeState() {
@@ -1190,9 +1191,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public float getScale() {
+    public float getScaleFactor() {
         if (gene_size == null) {
-            return super.getScale();
+            return super.getScaleFactor();
         } else {
             float height = gene_size.get() * 0.5f + 0.75f;
             return height * getAgeState().getHeight();
@@ -1200,9 +1201,9 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pose, EntitySize size) {
+    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions size) {
         if (gene_size == null) {
-            return super.getStandingEyeHeight(pose, size);
+            return super.getActiveEyeHeight(pose, size);
         } else {
             float height = gene_size.get() * 0.5f + 0.75f;
             return height * getAgeState().getHeight() * 1.6f;
@@ -1210,25 +1211,25 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public void onSyncedDataUpdated(DataParameter<?> par) {
+    public void onTrackedDataSet(TrackedData<?> par) {
         if (ageState != null && ageState.getParam().equals(par)) {
-            refreshDimensions();
+            calculateDimensions();
         } else if (gene_size != null && gene_size.getParam().equals(par)) {
-            refreshDimensions();
+            calculateDimensions();
         }
 
-        super.onSyncedDataUpdated(par);
+        super.onTrackedDataSet(par);
     }
 
     @Override
-    public Inventory getInventory() {
+    public SimpleInventory getInventory() {
         return this.inventory;
     }
 
     public void updateMoveState() {
-        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+        if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
             this.moveState.set(MoveState.STAY.getId());
-        } else if (this.brain.getMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+        } else if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
             this.moveState.set(MoveState.FOLLOW.getId());
         } else {
             this.moveState.set(MoveState.MOVE.getId());
@@ -1236,8 +1237,8 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
-        BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
-        this.brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
+        BlockPosLookTarget blockposwrapper = new BlockPosLookTarget(pos);
+        this.brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
         this.lookAt(pos);
     }
 
@@ -1246,16 +1247,16 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public void lookAt(BlockPos pos) {
-        BlockPosWrapper blockposwrapper = new BlockPosWrapper(pos);
-        this.brain.setMemory(MemoryModuleType.LOOK_TARGET, blockposwrapper);
+        BlockPosLookTarget blockposwrapper = new BlockPosLookTarget(pos);
+        this.brain.remember(MemoryModuleType.LOOK_TARGET, blockposwrapper);
 
     }
 
     public void closeGUIIfOpen() {
-        if (!this.level.isClientSide) {
+        if (!this.world.isClient) {
             ServerPlayerEntity entity = (ServerPlayerEntity) this.getInteractingPlayer();
             if (entity != null) {
-                entity.closeContainer();
+                entity.closeHandledScreen();
             }
             this.setInteractingPlayer(null);
         }
@@ -1270,23 +1271,23 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
         this.interactingPlayer = player;
     }
 
-    private void updateSpecialPrices(PlayerEntity player) {
-        int i = this.getPlayerReputation(player);
+    private void prepareOffersFor(PlayerEntity player) {
+        int i = this.getReputation(player);
         if (i != 0) {
-            for (MerchantOffer merchantoffer : this.getOffers()) {
-                merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
+            for (TradeOffer merchantoffer : this.getOffers()) {
+                merchantoffer.increaseSpecialPrice(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
             }
         }
 
-        if (player.hasEffect(Effects.HERO_OF_THE_VILLAGE)) {
-            EffectInstance effectinstance = player.getEffect(Effects.HERO_OF_THE_VILLAGE);
+        if (player.hasStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE)) {
+            StatusEffectInstance effectinstance = player.getStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE);
             if (effectinstance != null) {
                 int k = effectinstance.getAmplifier();
 
-                for (MerchantOffer merchantOffer : this.getOffers()) {
+                for (TradeOffer merchantOffer : this.getOffers()) {
                     double d0 = 0.3D + 0.0625D * (double) k;
-                    int j = (int) Math.floor(d0 * (double) merchantOffer.getBaseCostA().getCount());
-                    merchantOffer.addToSpecialPriceDiff(-Math.max(j, 1));
+                    int j = (int) Math.floor(d0 * (double) merchantOffer.getOriginalFirstBuyItem().getCount());
+                    merchantOffer.increaseSpecialPrice(-Math.max(j, 1));
                 }
             }
         }
@@ -1294,24 +1295,24 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public void handleEntityEvent(byte id) {
+    public void handleStatus(byte id) {
         if (id == 15) {
-            this.level.addAlwaysVisibleParticle(ParticleTypesMCA.NEG_INTERACTION.get(), true, this.getX(), this.getEyeY() + 0.5, this.getZ(), 0, 0, 0);
+            this.world.addImportantParticle(ParticleTypesMCA.NEG_INTERACTION.get(), true, this.offsetX(), this.getEyeY() + 0.5, this.offsetZ(), 0, 0, 0);
         } else if (id == 16) {
-            this.level.addAlwaysVisibleParticle(ParticleTypesMCA.POS_INTERACTION.get(), true, this.getX(), this.getEyeY() + 0.5, this.getZ(), 0, 0, 0);
+            this.world.addImportantParticle(ParticleTypesMCA.POS_INTERACTION.get(), true, this.offsetX(), this.getEyeY() + 0.5, this.offsetZ(), 0, 0, 0);
         } else {
-            super.handleEntityEvent(id);
+            super.handleStatus(id);
         }
     }
 
-    public void onInvChange(IInventory inventoryFromListener) {
-        Inventory inv = this.getInventory();
+    public void onInvChange(Inventory inventoryFromListener) {
+        SimpleInventory inv = this.getInventory();
 
-        for (EquipmentSlotType type : EquipmentSlotType.values()) {
-            if (type.getType() == EquipmentSlotType.Group.ARMOR) {
+        for (EquipmentSlot type : EquipmentSlot.values()) {
+            if (type.getType() == EquipmentSlot.Type.ARMOR) {
                 ItemStack stack = InventoryUtils.getBestArmorOfType(inv, type);
                 if (!stack.isEmpty()) {
-                    this.setItemSlot(type, stack);
+                    this.equipStack(type, stack);
                 }
             }
         }
@@ -1319,26 +1320,26 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
 
     @Override
     public void setBaby(boolean isBaby) {
-        this.setAge(isBaby ? -AgeState.startingAge : 0);
+        this.setBreedingAge(isBaby ? -AgeState.startingAge : 0);
     }
 
     //TODO
     @Override
-    public int getPlayerReputation(PlayerEntity p_223107_1_) {
-        return super.getPlayerReputation(p_223107_1_);
+    public int getReputation(PlayerEntity p_223107_1_) {
+        return super.getReputation(p_223107_1_);
     }
 
     public void gossip(ServerWorld p_242368_1_, VillagerEntityMCA p_242368_2_, long p_242368_3_) {
         if ((p_242368_3_ < this.lastGossipTime || p_242368_3_ >= this.lastGossipTime + 1200L) && (p_242368_3_ < p_242368_2_.lastGossipTime || p_242368_3_ >= p_242368_2_.lastGossipTime + 1200L)) {
-            this.gossips.transferFrom(p_242368_2_.gossips, this.random, 10);
+            this.gossips.shareGossipFrom(p_242368_2_.gossips, this.random, 10);
             this.lastGossipTime = p_242368_3_;
             p_242368_2_.lastGossipTime = p_242368_3_;
-            this.spawnGolemIfNeeded(p_242368_1_, p_242368_3_, 5);
+            this.summonGolem(p_242368_1_, p_242368_3_, 5);
         }
     }
 
-    private void maybeDecayGossip() {
-        long i = this.level.getGameTime();
+    private void decayGossip() {
+        long i = this.world.getTime();
         if (this.lastGossipDecayTime == 0L) {
             this.lastGossipDecayTime = i;
         } else if (i >= this.lastGossipDecayTime + 24000L) {
@@ -1348,7 +1349,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public FamilyTree getFamilyTree() {
-        return FamilyTree.get(level);
+        return FamilyTree.get(world);
     }
 
     public FamilyTreeEntry getFamilyTreeEntry() {
@@ -1356,7 +1357,7 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     public Entity[] getBothParentEntities() {
-        ServerWorld serverWorld = (ServerWorld) level;
+        ServerWorld serverWorld = (ServerWorld) world;
         FamilyTreeEntry entry = getFamilyTreeEntry();
         return new Entity[]{
                 serverWorld.getEntity(entry.getFather()),
@@ -1365,16 +1366,16 @@ public class VillagerEntityMCA extends VillagerEntity implements INamedContainer
     }
 
     @Override
-    public void onReputationEventFrom(IReputationType p_213739_1_, Entity p_213739_2_) {
-        super.onReputationEventFrom(p_213739_1_, p_213739_2_);
+    public void onInteractionWith(EntityInteraction p_213739_1_, Entity p_213739_2_) {
+        super.onInteractionWith(p_213739_1_, p_213739_2_);
     }
 
-    public GossipManager getGossips() {
+    public VillagerGossips getGossip() {
         return this.gossips;
     }
 
-    public void setGossips(INBT p_223716_1_) {
-        this.gossips.update(new Dynamic<>(NBTDynamicOps.INSTANCE, p_223716_1_));
+    public void readGossipDataNbt(NbtElement p_223716_1_) {
+        this.gossips.deserialize(new Dynamic<>(NbtOps.INSTANCE, p_223716_1_));
     }
 
     public Gender getGender() {

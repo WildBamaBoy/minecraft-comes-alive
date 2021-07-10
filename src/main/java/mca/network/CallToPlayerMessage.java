@@ -3,9 +3,8 @@ package mca.network;
 import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.world.server.ServerWorld;
-
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import java.util.UUID;
 
 public class CallToPlayerMessage extends Message {
@@ -17,10 +16,10 @@ public class CallToPlayerMessage extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        Entity e = ((ServerWorld) player.level).getEntity(uuid);
+        Entity e = ((ServerWorld) player.world).getEntity(uuid);
         if (e instanceof VillagerEntityMCA) {
             VillagerEntityMCA v = (VillagerEntityMCA) e;
-            v.setPos(player.getX(), player.getY(), player.getZ());
+            v.setPosition(player.offsetX(), player.getBodyY(), player.offsetZ());
         }
     }
 }

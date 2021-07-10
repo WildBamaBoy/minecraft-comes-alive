@@ -1,16 +1,16 @@
 package mca.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.client.model.GrimReaperEntityModel;
 import mca.entity.GrimReaperEntity;
-import net.minecraft.client.renderer.entity.BipedRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.render.entity.BipedEntityRenderer;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 
-public class GrimReaperRenderer extends BipedRenderer<GrimReaperEntity, GrimReaperEntityModel<GrimReaperEntity>> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/entity/grimreaper.png");
+public class GrimReaperRenderer extends BipedEntityRenderer<GrimReaperEntity, GrimReaperEntityModel<GrimReaperEntity>> {
+    private static final Identifier TEXTURE = new Identifier("mca:textures/entity/grimreaper.png");
 
-    public GrimReaperRenderer(EntityRendererManager manager) {
+    public GrimReaperRenderer(EntityRenderDispatcher manager) {
         super(manager, new GrimReaperEntityModel<>(), 0.5F);
     }
 
@@ -24,7 +24,7 @@ public class GrimReaperRenderer extends BipedRenderer<GrimReaperEntity, GrimReap
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GrimReaperEntity reaper) {
+    public Identifier getTextureLocation(GrimReaperEntity reaper) {
         return TEXTURE;
     }
 }

@@ -37,12 +37,12 @@ public final class ItemsMCA {
     public static void register() {
     }
 
-    private static Item.Properties baseProps() {
-        return new Item.Properties().tab(ItemGroupMCA.MCA);
+    private static Item.Settings baseProps() {
+        return new Item.Settings().group(ItemGroupMCA.MCA);
     }
 
-    private static Item.Properties unstackableProps() {
-        return baseProps().stacksTo(1);
+    private static Item.Settings unstackableProps() {
+        return baseProps().maxCount(1);
     }
 
 

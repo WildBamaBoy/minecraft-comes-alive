@@ -1,9 +1,9 @@
 package mca.cobalt.network;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.chunk.WorldChunk;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("mca", "main"),
+            new Identifier("mca", "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -45,8 +45,8 @@ public class NetworkHandler {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> e), m);
     }
 
-    public static void sendToChunk(Message m, Chunk c) {
-        INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with((Supplier<Chunk>) c), m);
+    public static void sendToChunk(Message m, WorldChunk c) {
+        INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with((Supplier<WorldChunk>) c), m);
     }
 
     public static void sendToAll(Message m) {

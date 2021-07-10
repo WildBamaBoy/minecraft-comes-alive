@@ -6,9 +6,8 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTreeEntry;
 import mca.enums.Constraint;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.world.server.ServerWorld;
-
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +21,7 @@ public class GetInteractDataRequest extends Message {
 
     @Override
     public void receive(ServerPlayerEntity player) {
-        Entity entity = ((ServerWorld) player.level).getEntity(uuid);
+        Entity entity = ((ServerWorld) player.world).getEntity(uuid);
 
         if (entity instanceof VillagerEntityMCA) {
             VillagerEntityMCA villager = (VillagerEntityMCA) entity;

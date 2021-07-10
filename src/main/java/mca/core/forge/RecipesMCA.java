@@ -2,8 +2,8 @@ package mca.core.forge;
 
 import mca.core.MCA;
 import mca.crafting.recipe.PressingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraftforge.fml.RegistryObject;
 
 public final class RecipesMCA {
@@ -14,7 +14,7 @@ public final class RecipesMCA {
     }
 
     public static final class Types {
-        public static final IRecipeType<PressingRecipe> PRESSING = IRecipeType.register(
+        public static final RecipeType<PressingRecipe> PRESSING = RecipeType.register(
                 MCA.MOD_ID + ":pressing");
 
         private Types() {
@@ -22,7 +22,7 @@ public final class RecipesMCA {
     }
 
     public static final class Serializers {
-        public static final RegistryObject<IRecipeSerializer<?>> PRESSING = Registration.RECIPE_SERIALIZERS.register(
+        public static final RegistryObject<RecipeSerializer<?>> PRESSING = Registration.RECIPE_SERIALIZERS.register(
                 "pressing", PressingRecipe.Serializer::new);
 
         private Serializers() {

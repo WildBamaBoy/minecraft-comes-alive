@@ -2,9 +2,8 @@ package mca.entity.data;
 
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.enums.Gender;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,10 +35,10 @@ public class FamilyTreeEntry implements Serializable {
                 nbt.getUUID("mother")
         );
 
-        ListNBT childrenList = nbt.getCompoundList("children");
+        NbtList childrenList = nbt.getCompoundList("children");
         for (int i = 0; i < childrenList.size(); i++) {
-            CompoundNBT c = childrenList.getCompound(i);
-            e.children.add(c.getUUID("uuid"));
+            NbtCompound c = childrenList.getCompound(i);
+            e.children.add(c.getUuid("uuid"));
         }
 
         return e;
@@ -53,7 +52,7 @@ public class FamilyTreeEntry implements Serializable {
         nbt.setUUID("father", father);
         nbt.setUUID("mother", mother);
 
-        ListNBT childrenList = new ListNBT();
+        NbtList childrenList = new NbtList();
         for (UUID child : children) {
             CNBT n = CNBT.createNew();
             n.setUUID("uuid", child);

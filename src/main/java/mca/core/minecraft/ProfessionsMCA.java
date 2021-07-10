@@ -2,18 +2,17 @@ package mca.core.minecraft;
 
 import com.google.common.collect.ImmutableSet;
 import mca.core.forge.Registration;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.village.PointOfInterestType;
-
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.poi.PointOfInterestType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class ProfessionsMCA {
-    public static final VillagerProfession CHILD = new VillagerProfession("child", PointOfInterestType.HOME, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_FARMER);
-    public static final VillagerProfession GUARD = new VillagerProfession("guard", PointOfInterestType.ARMORER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_ARMORER);
+    public static final VillagerProfession CHILD = new VillagerProfession("child", PointOfInterestType.HOME, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
+    public static final VillagerProfession GUARD = new VillagerProfession("guard", PointOfInterestType.ARMORER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
     // as set of invalid professions
     private static final List<VillagerProfession> PROFESSIONS = new ArrayList<>(12);
 

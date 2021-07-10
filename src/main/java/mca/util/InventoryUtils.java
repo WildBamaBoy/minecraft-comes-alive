@@ -1,32 +1,31 @@
 package mca.util;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class InventoryUtils {
-    public static int getFirstSlotContainingItem(Inventory inv, Predicate<ItemStack> predicate) {
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack stack = inv.getItem(i);
+    public static int getFirstSlotContainingItem(SimpleInventory inv, Predicate<ItemStack> predicate) {
+        for (int i = 0; i < inv.size(); i++) {
+            ItemStack stack = inv.getStack(i);
             if (!predicate.test(stack)) continue;
             return i;
         }
         return -1;
     }
 
-    public static boolean contains(Inventory inv, Class<?> clazz) {
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
-            final ItemStack stack = inv.getItem(i);
+    public static boolean contains(SimpleInventory inv, Class<?> clazz) {
+        for (int i = 0; i < inv.size(); ++i) {
+            final ItemStack stack = inv.getStack(i);
             final Item item = stack.getItem();
 
             if (item.getClass() == clazz) return true;
@@ -40,20 +39,20 @@ public class InventoryUtils {
      * @param type The class of item that will be returned.
      * @return The item stack containing the item of the specified type with the highest max damage.
      */
-    public static ItemStack getBestItemOfType(Inventory inv, @Nullable Class<?> type) {
+    public static ItemStack getBestItemOfType(SimpleInventory inv, @Nullable Class<?> type) {
         if (type == null) return ItemStack.EMPTY;
-        else return inv.getItem(getBestItemOfTypeSlot(inv, type));
+        else return inv.getStack(getBestItemOfTypeSlot(inv, type));
     }
 
-    public static ItemStack getBestArmorOfType(Inventory inv, EquipmentSlotType slot) {
+    public static ItemStack getBestArmorOfType(SimpleInventory inv, EquipmentSlot slot) {
         ItemStack returnStack = ItemStack.EMPTY;
 
         List<ItemStack> armors = new ArrayList<>();
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
-            ItemStack stack = inv.getItem(i);
+        for (int i = 0; i < inv.size(); ++i) {
+            ItemStack stack = inv.getStack(i);
             if (stack.getItem() instanceof ArmorItem) {
                 ArmorItem armor = (ArmorItem) stack.getItem();
-                EquipmentSlotType slotOfArmor = armor.getSlot();
+                EquipmentSlot slotOfArmor = armor.getSlotType();
                 if (slotOfArmor == slot) {
                     armors.add(stack);
                 }
@@ -70,12 +69,12 @@ public class InventoryUtils {
         return returnStack;
     }
 
-    public static int getBestItemOfTypeSlot(Inventory inv, Class<?> type) {
+    public static int getBestItemOfTypeSlot(SimpleInventory inv, Class<?> type) {
         int highestMaxDamage = 0;
         int best = -1;
 
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
-            ItemStack stackInInventory = inv.getItem(i);
+        for (int i = 0; i < inv.size(); ++i) {
+            ItemStack stackInInventory = inv.getStack(i);
 
             final String itemClassName = stackInInventory.getItem().getClass().getName();
 
@@ -88,37 +87,37 @@ public class InventoryUtils {
         return best;
     }
 
-    public static void dropAllItems(Entity entity, Inventory inv) {
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack stack = inv.getItem(i);
-            entity.spawnAtLocation(stack, 1.0F);
+    public static void dropAllItems(Entity entity, SimpleInventory inv) {
+        for (int i = 0; i < inv.size(); i++) {
+            ItemStack stack = inv.getStack(i);
+            entity.dropStack(stack, 1.0F);
         }
-        inv.clearContent();
+        inv.clear();
     }
 
-    public static void load(Inventory inv, ListNBT tagList) {
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
-            inv.setItem(i, ItemStack.EMPTY);
+    public static void load(SimpleInventory inv, NbtList tagList) {
+        for (int i = 0; i < inv.size(); ++i) {
+            inv.setStack(i, ItemStack.EMPTY);
         }
 
         for (int i = 0; i < tagList.size(); ++i) {
-            CompoundNBT nbt = tagList.getCompound(i);
+            NbtCompound nbt = tagList.getCompound(i);
             int slot = nbt.getByte("Slot") & 255;
 
-            if (slot < inv.getContainerSize()) {
-                inv.setItem(slot, ItemStack.of(nbt));
+            if (slot < inv.size()) {
+                inv.setStack(slot, ItemStack.fromNbt(nbt));
             }
         }
     }
 
-    public static ListNBT save(Inventory inv) {
-        ListNBT tagList = new ListNBT();
+    public static NbtList save(SimpleInventory inv) {
+        NbtList tagList = new NbtList();
 
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
-            ItemStack itemstack = inv.getItem(i);
+        for (int i = 0; i < inv.size(); ++i) {
+            ItemStack itemstack = inv.getStack(i);
 
             if (itemstack != ItemStack.EMPTY) {
-                CompoundNBT nbt = new CompoundNBT();
+                NbtCompound nbt = new NbtCompound();
                 nbt.putByte("Slot", (byte) i);
                 itemstack.setTag(nbt);
                 tagList.add(nbt);
@@ -128,11 +127,11 @@ public class InventoryUtils {
         return tagList;
     }
 
-    public static void saveToNBT(Inventory inv, CompoundNBT nbt) {
-        nbt.put("Inventory", inv.createTag());
+    public static void saveToNBT(SimpleInventory inv, NbtCompound nbt) {
+        nbt.put("Inventory", inv.toNbtList());
     }
 
-    public static void readFromNBT(Inventory inv, CompoundNBT nbt) {
-        inv.fromTag(nbt.getList("Inventory", 10));
+    public static void readFromNBT(SimpleInventory inv, NbtCompound nbt) {
+        inv.readNbtList(nbt.getList("Inventory", 10));
     }
 }

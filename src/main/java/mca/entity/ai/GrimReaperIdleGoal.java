@@ -3,8 +3,7 @@ package mca.entity.ai;
 import mca.entity.GrimReaperEntity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.vector.Vector3d;
-
+import net.minecraft.util.math.Vec3d;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
@@ -25,16 +24,16 @@ public class GrimReaperIdleGoal extends Goal {
         this.speedModifier = speed;
         this.interval = interval;
 
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setControls(EnumSet.of(Goal.Control.MOVE));
     }
 
-    public boolean canUse() {
+    public boolean canStart() {
 
         if (this.reaper.getRandom().nextInt(this.interval) != 0) {
             return false;
         }
 
-        Vector3d vector3d = this.getPosition();
+        Vec3d vector3d = this.getPosition();
         if (vector3d == null) {
             return false;
         } else {
@@ -46,20 +45,20 @@ public class GrimReaperIdleGoal extends Goal {
     }
 
     @Nullable
-    protected Vector3d getPosition() {
+    protected Vec3d getPosition() {
         if (reaper.getTarget() != null) {
-            return reaper.getTarget().position();
+            return reaper.getTarget().getPos();
         } else {
             return RandomPositionGenerator.getAirPos(this.reaper, 8, 6, -2, null, 1.0F);
         }
     }
 
-    public boolean canContinueToUse() {
-        return !this.reaper.getNavigation().isDone();
+    public boolean shouldContinue() {
+        return !this.reaper.getNavigation().isIdle();
     }
 
     public void start() {
-        this.reaper.getNavigation().moveTo(this.wantedX, this.wantedY, this.wantedZ, this.speedModifier);
+        this.reaper.getNavigation().startMovingAlong(this.wantedX, this.wantedY, this.wantedZ, this.speedModifier);
     }
 
     public void stop() {

@@ -26,8 +26,8 @@ public class SavedVillagers extends CWorldSavedData {
 
     public void saveVillager(VillagerEntityMCA villager) {
         CNBT nbt = CNBT.createNew();
-        villager.save(nbt.getMcCompound());
-        villagerData.put(villager.getUUID().toString(), nbt);
+        villager.saveNbt(nbt.getMcCompound());
+        villagerData.put(villager.getUuid().toString(), nbt);
         setDirty();
     }
 

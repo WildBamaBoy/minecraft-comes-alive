@@ -19,14 +19,14 @@ public final class DataGenerators {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        gen.addProvider(new BlockStateProviderMCA(gen, existingFileHelper));
-        gen.addProvider(new ItemModelProviderMCA(gen, existingFileHelper));
+        gen.install(new BlockStateProviderMCA(gen, existingFileHelper));
+        gen.install(new ItemModelProviderMCA(gen, existingFileHelper));
 
         BlockTagsProviderMCA blockTags = new BlockTagsProviderMCA(gen, existingFileHelper);
-        gen.addProvider(blockTags);
-        gen.addProvider(new ItemTagsProviderMCA(gen, blockTags, existingFileHelper));
+        gen.install(blockTags);
+        gen.install(new ItemTagsProviderMCA(gen, blockTags, existingFileHelper));
 
-        gen.addProvider(new LootTableProviderMCA(gen));
-        gen.addProvider(new RecipeProviderMCA(gen));
+        gen.install(new LootTableProviderMCA(gen));
+        gen.install(new RecipeProviderMCA(gen));
     }
 }

@@ -10,8 +10,8 @@ import mca.core.forge.Registration;
 import mca.core.minecraft.EntitiesMCA;
 import mca.entity.GrimReaperEntity;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.entity.attribute.DefaultAttributeRegistry;
+import net.minecraft.text.LiteralText;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -53,8 +53,8 @@ public class MCA {
         mod.logger.info(message);
     }
 
-    public static StringTextComponent localizeText(String key, String... vars) {
-        return new StringTextComponent(localize(key, vars));
+    public static LiteralText localizeText(String key, String... vars) {
+        return new LiteralText(localize(key, vars));
     }
 
     public static String localize(String key, String... vars) {
@@ -70,8 +70,8 @@ public class MCA {
         API.init();
         config = new Config();
         MinecraftForge.EVENT_BUS.register(new EventHooks());
-        GlobalEntityTypeAttributes.put(EntitiesMCA.VILLAGER, VillagerEntityMCA.createAttributes().build());
-        GlobalEntityTypeAttributes.put(EntitiesMCA.GRIM_REAPER, GrimReaperEntity.createAttributes().build());
+        DefaultAttributeRegistry.put(EntitiesMCA.VILLAGER, VillagerEntityMCA.createVillagerAttributes().build());
+        DefaultAttributeRegistry.put(EntitiesMCA.GRIM_REAPER, GrimReaperEntity.createAttributes().build());
     }
 
     public final void clientSetup(FMLClientSetupEvent event) {

@@ -6,10 +6,10 @@ import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
 import mca.cobalt.network.Message;
 import mca.items.BabyItem;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
 public class OpenGuiRequest extends Message {
@@ -23,20 +23,20 @@ public class OpenGuiRequest extends Message {
     public void receive(ServerPlayerEntity e) {
         switch (gui) {
             case WHISTLE:
-                Minecraft.getInstance().setScreen(new GuiWhistle());
+                MinecraftClient.getInstance().openScreen(new GuiWhistle());
                 break;
             case STAFF_OF_LIFE:
-                Minecraft.getInstance().setScreen(new GuiStaffOfLife());
+                MinecraftClient.getInstance().openScreen(new GuiStaffOfLife());
                 break;
             case BLUEPRINT:
-                Minecraft.getInstance().setScreen(new GuiBlueprint());
+                MinecraftClient.getInstance().openScreen(new GuiBlueprint());
                 break;
             case BABY_NAME:
-                PlayerEntity player = Minecraft.getInstance().player;
+                PlayerEntity player = MinecraftClient.getInstance().player;
                 if (player != null) {
-                    ItemStack item = player.getItemInHand(Hand.MAIN_HAND);
+                    ItemStack item = player.getStackInHand(Hand.MAIN_HAND);
                     if (item.getItem() instanceof BabyItem) {
-                        Minecraft.getInstance().setScreen(new GuiNameBaby(player, item));
+                        MinecraftClient.getInstance().openScreen(new GuiNameBaby(player, item));
                     }
                 }
                 break;

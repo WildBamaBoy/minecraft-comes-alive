@@ -84,7 +84,7 @@ public class Util {
         double closest = 10000.0D;
         BlockPos returnPoint = null;
         for (BlockPos point : blocks) {
-            double distance = origin.distSqr(point.getX(), point.getY(), point.getZ(), true);
+            double distance = origin.getSquaredDistance(point.getX(), point.getY(), point.getZ(), true);
             if (distance < closest) {
                 closest = distance;
                 returnPoint = point;

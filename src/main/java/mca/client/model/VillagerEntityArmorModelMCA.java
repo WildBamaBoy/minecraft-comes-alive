@@ -2,10 +2,10 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.ModelPart;
 
 public class VillagerEntityArmorModelMCA<T extends VillagerEntityMCA> extends VillagerEntityBaseModelMCA<T> {
-    public final ModelRenderer breasts;
+    public final ModelPart breasts;
 
     public VillagerEntityArmorModelMCA() {
         this(1.0f, 1.0f);
@@ -18,19 +18,19 @@ public class VillagerEntityArmorModelMCA<T extends VillagerEntityMCA> extends Vi
     }
 
     @Override
-    protected Iterable<ModelRenderer> breastsParts() {
+    protected Iterable<ModelPart> breastsParts() {
         return ImmutableList.of(breasts);
     }
 
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
+        super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
 
-        breasts.copyFrom(body);
+        breasts.copyTransform(body);
     }
 
     public void copyPropertiesTo(VillagerEntityModelMCA<T> target) {
-        super.copyPropertiesTo(target);
+        super.setAttributes(target);
 
-        target.breasts.copyFrom(breasts);
+        target.breasts.copyTransform(breasts);
     }
 }

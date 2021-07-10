@@ -1,9 +1,8 @@
 package mca.cobalt.localizer;
 
-import net.minecraft.util.text.LanguageMap;
-
 import java.util.*;
 import java.util.stream.Collectors;
+import net.minecraft.util.Language;
 
 public class Localizer {
     private final ArrayList<VarParser> registeredVarParsers = new ArrayList<>();
@@ -19,9 +18,9 @@ public class Localizer {
     }
 
     public String localize(String key, String keyFallback, ArrayList<String> vars) {
-        LanguageMap localizerMap = LanguageMap.getInstance();
+        Language localizerMap = Language.getInstance();
 
-        String result = localizerMap.getOrDefault(key);
+        String result = localizerMap.get(key);
 
         //multi-variant text
         result = getLocalizedString(key, localizerMap, result);
@@ -32,7 +31,7 @@ public class Localizer {
         return parseVars(result, vars);
     }
 
-    private String getLocalizedString(String key, LanguageMap localizerMap, String result) {
+    private String getLocalizedString(String key, Language localizerMap, String result) {
         if (result.equals(key)) {
             List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).map(Map.Entry::getValue).collect(Collectors.toList());
             if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));

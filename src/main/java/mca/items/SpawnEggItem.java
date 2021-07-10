@@ -4,28 +4,28 @@ import lombok.Getter;
 import mca.entity.VillagerFactory;
 import mca.enums.Gender;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.Direction;
 
 public class SpawnEggItem extends Item {
     @Getter
     private final Gender gender;
 
-    public SpawnEggItem(Gender gender, Item.Properties properties) {
+    public SpawnEggItem(Gender gender, Item.Settings properties) {
         super(properties);
         this.gender = gender;
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        if (!context.getLevel().isClientSide && context.getClickedFace() == Direction.UP) {
-            VillagerFactory.newVillager(context.getLevel())
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        if (!context.getWorld().isClient && context.getSide() == Direction.UP) {
+            VillagerFactory.newVillager(context.getWorld())
                     .withGender(gender)
-                    .withPosition(context.getClickedPos())
+                    .withPosition(context.getBlockPos())
                     .spawn();
-            return ActionResultType.SUCCESS;
+            return ActionResult.SUCCESS;
         }
-        return ActionResultType.PASS;
+        return ActionResult.PASS;
     }
 }

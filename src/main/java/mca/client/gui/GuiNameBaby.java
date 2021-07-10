@@ -1,19 +1,18 @@
 package mca.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import mca.api.API;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.items.BabyItem;
 import mca.network.BabyNamingVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import java.util.Objects;
 
 public class GuiNameBaby extends Screen {
@@ -22,7 +21,7 @@ public class GuiNameBaby extends Screen {
     private TextFieldWidget babyNameTextField;
 
     public GuiNameBaby(PlayerEntity player, ItemStack baby) {
-        super(new StringTextComponent("Name Baby"));
+        super(new LiteralText("Name Baby"));
         this.baby = baby;
         this.player = player;
     }
@@ -36,13 +35,13 @@ public class GuiNameBaby extends Screen {
 
     @Override
     public void init() {
-        addButton(new Button(width / 2 - 40, height / 2 - 10, 80, 20, MCA.localizeText("gui.button.done"), (b) -> {
-            NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.inventory.selected, babyNameTextField.getValue().trim()));
-            Objects.requireNonNull(this.minecraft).setScreen(null);
+        addButton(new ButtonWidget(width / 2 - 40, height / 2 - 10, 80, 20, MCA.localizeText("gui.button.done"), (b) -> {
+            NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.inventory.selectedSlot, babyNameTextField.getText().trim()));
+            Objects.requireNonNull(this.client).openScreen(null);
         }));
-        addButton(new Button(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> babyNameTextField.setValue(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
+        addButton(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> babyNameTextField.setText(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
 
-        babyNameTextField = new TextFieldWidget(this.font, width / 2 - 100, height / 2 - 60, 200, 20, new TranslationTextComponent("structure_block.structure_name"));
+        babyNameTextField = new TextFieldWidget(this.textRenderer, width / 2 - 100, height / 2 - 60, 200, 20, new TranslatableText("structure_block.structure_name"));
         babyNameTextField.setMaxLength(32);
 
         setInitialFocus(babyNameTextField);
@@ -59,7 +58,7 @@ public class GuiNameBaby extends Screen {
 
         setFocused(babyNameTextField);
 
-        drawCenteredString(transform, this.font, this.title, this.width / 2, 10, 16777215);
+        drawCenteredString(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
 
         babyNameTextField.render(transform, width / 2 - 100, height / 2 - 70, scale);
 

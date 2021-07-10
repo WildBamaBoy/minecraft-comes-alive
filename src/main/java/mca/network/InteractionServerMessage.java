@@ -1,7 +1,7 @@
 package mca.network;
 
 import mca.cobalt.network.Message;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class InteractionServerMessage extends Message {
 

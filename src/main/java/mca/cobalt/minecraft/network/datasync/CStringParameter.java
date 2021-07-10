@@ -2,15 +2,15 @@ package mca.cobalt.minecraft.network.datasync;
 
 import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 
 public class CStringParameter extends CDataParameter<String> {
-    private final EntityDataManager data;
+    private final DataTracker data;
     private final String defaultValue;
 
-    public CStringParameter(String id, Class<? extends Entity> e, EntityDataManager d, String dv) {
-        super(id, e, DataSerializers.STRING);
+    public CStringParameter(String id, Class<? extends Entity> e, DataTracker d, String dv) {
+        super(id, e, TrackedDataHandlerRegistry.STRING);
         data = d;
         defaultValue = dv;
     }
@@ -25,7 +25,7 @@ public class CStringParameter extends CDataParameter<String> {
 
     @Override
     public void register() {
-        data.define(param, defaultValue);
+        data.startTracking(param, defaultValue);
     }
 
     @Override
