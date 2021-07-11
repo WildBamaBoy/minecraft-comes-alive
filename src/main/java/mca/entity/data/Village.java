@@ -21,31 +21,27 @@ import net.minecraft.world.World;
 import java.io.Serializable;
 import java.util.*;
 
+import org.jetbrains.annotations.Nullable;
+
 public class Village implements Serializable {
-    //todo move tasks to own class
+    private static final long serialVersionUID = -5484691612873839269L;
+
+    //TODO: move tasks to own class
     private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "bePatient"};
-    public final List<ItemStack> storageBuffer;
-    private final Map<Integer, Building> buildings;
+
+    public final List<ItemStack> storageBuffer = new LinkedList<>();
+    private final Map<Integer, Building> buildings = new HashMap<>();
     public long lastMoveIn;
     private int id;
-    private String name;
+    private String name = API.getRandomVillageName("village");
     private int centerX, centerY, centerZ;
-    private int size;
+    private int size = 32;
     private int taxes;
-    private int populationThreshold;
-    private int marriageThreshold;
+    private int populationThreshold = 50;
+    private int marriageThreshold = 50;
     private boolean[] tasks;
 
     public Village() {
-        name = API.getRandomVillageName("village");
-        size = 32;
-
-        populationThreshold = 50;
-        marriageThreshold = 50;
-
-        buildings = new HashMap<>();
-        storageBuffer = new LinkedList<>();
-
         checkTasks();
     }
 
@@ -182,6 +178,9 @@ public class Village implements Serializable {
         return sum / residents;
     }
 
+    /**
+     * Returns the index of the first incomplete task.
+     */
     public int tasksCompleted() {
         for (int i = 0; i < tasks.length; i++) {
             if (!tasks[i]) {
@@ -194,7 +193,7 @@ public class Village implements Serializable {
     public Rank getRank(int reputation) {
         Rank rank = Rank.fromReputation(reputation);
         int t = tasksCompleted();
-        for (int i = 0; i <= rank.getId(); i++) {
+        for (int i = 0; i <= rank.ordinal(); i++) {
             Rank r = Rank.fromRank(i);
             if (t < r.getTasks()) {
                 return r;
@@ -236,16 +235,25 @@ public class Village implements Serializable {
 
     public void deliverTaxes(ServerWorld world) {
         if (storageBuffer.size() > 0) {
-            buildings.values().stream().filter((b) -> b.getType().equals("inn")).filter((b) -> world.canSetBlock(b.getCenter())).forEach((b) -> {
+            buildings.values()
+                .stream()
+                .filter(b -> b.getType().equals("inn") && world.canSetBlock(b.getCenter()))
+                .forEach(building -> {
+                    // TODO: noop
             });
         }
     }
 
-    //returns an inventory at given position
+    /**
+     * returns an inventory at a given position
+     *
+     * @see HopperBlockEntity#getInventoryAt
+     */
+    @Nullable
     private Inventory getInventoryAt(ServerWorld world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         Block block = blockState.getBlock();
-        if (blockState.hasTileEntity() && block instanceof ChestBlock) {
+        if (blockState.hasBlockEntity() && block instanceof ChestBlock) {
             BlockEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof Inventory) {
                 Inventory inventory = (Inventory) tileentity;
@@ -302,6 +310,6 @@ public class Village implements Serializable {
     public void addResident(VillagerEntityMCA villager, int building) {
         lastMoveIn = villager.world.getTime();
         buildings.get(building).addResident(villager);
-        VillageManagerData.get(villager.world).setDirty();
+        VillageManagerData.get(villager.world).markDirty();
     }
 }

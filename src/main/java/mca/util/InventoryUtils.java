@@ -8,10 +8,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import org.jetbrains.annotations.Nullable;
 
 public class InventoryUtils {
     public static int getFirstSlotContainingItem(SimpleInventory inv, Predicate<ItemStack> predicate) {

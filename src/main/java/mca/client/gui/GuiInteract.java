@@ -3,9 +3,9 @@ package mca.client.gui;
 import mca.api.API;
 import mca.api.types.APIIcon;
 import mca.client.gui.component.ButtonEx;
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 import mca.enums.Chore;
@@ -16,6 +16,7 @@ import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -72,7 +73,7 @@ public class GuiInteract extends Screen {
     }
 
     public void addExButton(ButtonEx b) {
-        addButton(b);
+        addSelectableChild(b);
     }
 
     @Override
@@ -96,9 +97,9 @@ public class GuiInteract extends Screen {
     @Override
     public boolean mouseScrolled(double x, double y, double d) {
         if (d < 0) {
-            player.inventory.selectedSlot = player.inventory.selectedSlot == 8 ? 0 : player.inventory.selectedSlot + 1;
+            player.getInventory().selectedSlot = player.getInventory().selectedSlot == 8 ? 0 : player.getInventory().selectedSlot + 1;
         } else if (d > 0) {
-            player.inventory.selectedSlot = player.inventory.selectedSlot == 0 ? 8 : player.inventory.selectedSlot - 1;
+            player.getInventory().selectedSlot = player.getInventory().selectedSlot == 0 ? 8 : player.getInventory().selectedSlot - 1;
         }
 
         return super.mouseScrolled(x, y, d);
@@ -187,12 +188,12 @@ public class GuiInteract extends Screen {
     private void drawTextPopups(MatrixStack transform) {
         //general information
         VillagerProfession profession = villager.getProfession();
-        String professionName = villager.isBaby() ? villager.getAgeState().localizedName() : MCA.localize("entity.minecraft.villager." + profession);
+        String professionName = villager.isBaby() ? villager.getAgeState().localizedName() : Localizer.getInstance().localize("entity.minecraft.villager." + profession);
 
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
-            renderTooltip(transform, MCA.localize("gui.interact.label.giveGift"), 10, 28);
+            renderTooltip(transform, Localizer.getInstance().localize("gui.interact.label.giveGift"), 10, 28);
         } else {
             renderTooltip(transform, villager.getName(), 10, 28);
         }
@@ -202,7 +203,7 @@ public class GuiInteract extends Screen {
 
         //mood
         String color = villager.getMoodLevel() < 0 ? Constants.Color.RED : villager.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
-        String mood = MCA.localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
+        String mood = Localizer.getInstance().localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
         renderTooltip(transform, color + mood, 10, 30 + h * 2);
 
         //personality
@@ -210,7 +211,7 @@ public class GuiInteract extends Screen {
             renderTooltip(transform, villager.getPersonality().getLocalizedDescription(), 10, 30 + h * 3);
         } else {
             color = Constants.Color.WHITE; //White as we don't know if a personality is negative
-            String personality = MCA.localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
+            String personality = Localizer.getInstance().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
             renderTooltip(transform, color + personality, 10, 30 + h * 3);
         }
 
@@ -226,25 +227,25 @@ public class GuiInteract extends Screen {
         if (hoveringOverIcon("married")) {
             String spouseName = villager.spouseName.get();
             if (marriageState == MarriageState.MARRIED || marriageState == MarriageState.MARRIED_TO_PLAYER)
-                marriageInfo = MCA.localize("gui.interact.label.married", spouseName);
+                marriageInfo = Localizer.getInstance().localize("gui.interact.label.married", spouseName);
             else if (marriageState == MarriageState.ENGAGED)
-                marriageInfo = MCA.localize("gui.interact.label.engaged", spouseName);
-            else marriageInfo = MCA.localize("gui.interact.label.notmarried");
+                marriageInfo = Localizer.getInstance().localize("gui.interact.label.engaged", spouseName);
+            else marriageInfo = Localizer.getInstance().localize("gui.interact.label.notmarried");
 
             drawHoveringIconText(transform, marriageInfo, "married");
         }
 
         //parents
         if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
-            drawHoveringIconText(transform, MCA.localize("gui.interact.label.parents",
-                    father == null ? MCA.localize("gui.interact.label.parentUnknown") : father,
-                    mother == null ? MCA.localize("gui.interact.label.parentUnknown") : mother
+            drawHoveringIconText(transform, Localizer.getInstance().localize("gui.interact.label.parents",
+                    father == null ? Localizer.getInstance().localize("gui.interact.label.parentUnknown") : father,
+                    mother == null ? Localizer.getInstance().localize("gui.interact.label.parentUnknown") : mother
             ), "parents");
         }
 
         //gift
         if (canDrawGiftIcon() && hoveringOverIcon("gift"))
-            drawHoveringIconText(transform, MCA.localize("gui.interact.label.gift"), "gift");
+            drawHoveringIconText(transform, Localizer.getInstance().localize("gui.interact.label.gift"), "gift");
 
         //genes
         if (hoveringOverIcon("genes")) {
@@ -253,7 +254,7 @@ public class GuiInteract extends Screen {
             for (int i = 0; i < villager.GENES.length; i++) {
                 String key = VillagerEntityMCA.GENES_NAMES[i].replace("_", ".");
                 int value = (int) (villager.GENES[i].get() * 100);
-                lines.add(new LiteralText(String.format("%s: %d%%", MCA.localize(key), value)));
+                lines.add(new LiteralText(String.format("%s: %d%%", Localizer.getInstance().localize(key), value)));
             }
             drawHoveringIconText(transform, lines, "genes");
         }
@@ -261,7 +262,7 @@ public class GuiInteract extends Screen {
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
             List<Text> lines = new LinkedList<>();
-            lines.add(MCA.localizeText("gui.interact.label.happiness", "0/10"));
+            lines.add(Localizer.getInstance().localizeText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }
@@ -342,8 +343,7 @@ public class GuiInteract extends Screen {
     }
 
     private void clearButtons() {
-        buttons.clear();
-        children.clear();
+        clearChildren();
     }
 
     private void drawMainButtonMenu() {
@@ -411,25 +411,33 @@ public class GuiInteract extends Screen {
     }
 
     private void disableButton(String id) {
-        buttons.forEach(b -> {
-            if (((ButtonEx) b).getApiButton().getIdentifier().equals(id)) {
-                b.active = false;
+        this.children().forEach(b -> {
+            if (b instanceof ButtonEx) {
+                if (((ButtonEx) b).getApiButton().getIdentifier().equals(id)) {
+                    ((ButtonEx)b).active = false;
+                }
             }
         });
     }
 
     private void enableAllButtons() {
-        buttons.forEach(b -> b.active = true);
+        this.children().forEach(b -> {
+            if (b instanceof ClickableWidget) {
+                ((ClickableWidget)b).active = true;
+            }
+        });
     }
 
     private void disableAllButtons() {
-        buttons.forEach(b -> {
-            if (b instanceof ButtonEx) {
-                if (!((ButtonEx) b).getApiButton().getIdentifier().equals("gui.button.backarrow")) {
-                    b.active = false;
+        this.children().forEach(b -> {
+            if (b instanceof ClickableWidget) {
+                if (b instanceof ButtonEx) {
+                    if (!((ButtonEx) b).getApiButton().getIdentifier().equals("gui.button.backarrow")) {
+                        ((ClickableWidget)b).active = true;
+                    }
+                } else {
+                    ((ClickableWidget)b).active = true;
                 }
-            } else {
-                b.active = false;
             }
         });
     }

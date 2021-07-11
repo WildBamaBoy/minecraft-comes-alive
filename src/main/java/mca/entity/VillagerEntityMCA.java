@@ -8,11 +8,13 @@ import mca.api.API;
 import mca.api.types.APIButton;
 import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.network.datasync.*;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.*;
+import mca.core.minecraft.entity.village.VillageHelper;
 import mca.entity.ai.brain.VillagerTasksMCA;
 import mca.entity.data.*;
 import mca.enums.*;
@@ -64,6 +66,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
@@ -75,13 +78,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterest;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestType;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory {
+public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable {
     public static final String[] GENES_NAMES = new String[]{
             "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
@@ -177,13 +179,18 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     //gift desaturation queue
     private final List<String> giftDesaturation = new LinkedList<>();
     public int procreateTick = -1;
+
     @Nullable
     private PlayerEntity interactingPlayer;
     private long lastGossipTime;
     private long lastGossipDecayTime;
 
     public VillagerEntityMCA(World w) {
-        super(EntitiesMCA.VILLAGER, w);
+        this(EntitiesMCA.VILLAGER, w);
+    }
+
+    public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w) {
+        super(type, w);
 
         inventory = new SimpleInventory(27);
         inventory.addListener(this::onInvChange);
@@ -258,7 +265,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Nullable
     @Override
-    @ParametersAreNonnullByDefault
     public EntityData initialize(ServerWorldAccess p_213386_1_, LocalDifficulty p_213386_2_, SpawnReason p_213386_3_, @Nullable EntityData p_213386_4_, @Nullable NbtCompound p_213386_5_) {
         EntityData iLivingEntityData = super.initialize(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
 
@@ -307,7 +313,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         //enchantment
         if (target instanceof LivingEntity) {
             damage += EnchantmentHelper.getAttackDamage(this.getMainHandStack(), ((LivingEntity) target).getGroup());
-            knockback += (float) EnchantmentHelper.getKnockback(this);
+            knockback += EnchantmentHelper.getKnockback(this);
         }
 
         //fire aspect
@@ -321,7 +327,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         //knockback and post damage stuff
         if (damageDealt) {
             if (knockback > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).takeKnockback(knockback * 0.5F, MathHelper.sin(this.yaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.yaw * ((float) Math.PI / 180F)));
+                ((LivingEntity) target).takeKnockback(knockback * 0.5F, MathHelper.sin(this.getYaw() * ((float) Math.PI / 180F)), -MathHelper.cos(this.getYaw() * ((float) Math.PI / 180F)));
                 this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
             }
 
@@ -337,7 +343,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     @Override
-    public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @Nonnull Hand hand) {
+    public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
         if (world.isClient) {
             openScreen(player);
             return ActionResult.SUCCESS;
@@ -471,12 +477,25 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
                 PlayerEntity p = (PlayerEntity) source.getAttacker();
-                sendMessageTo(MCA.localize("villager.hurt"), p);
+                sendMessageTo(Localizer.getInstance().localize("villager.hurt"), p);
             }
 
             if (source.getSource() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
                 isInfected.set(true);
             }
+        }
+
+        @Nullable
+        Entity attacker = source != null ? source.getAttacker() : null;
+
+        // Notify the surrounding guards when a villager is attacked. Yoinks!
+        if (attacker instanceof LivingEntity) {
+            Vec3d pos = getPos();
+            world.getNonSpectatingEntities(VillagerEntityMCA.class, new Box(pos, pos).expand(10)).forEach(v -> {
+                if (v.squaredDistanceTo(v) <= 100 && v.getProfession() == ProfessionsMCA.GUARD) {
+                    v.setTarget((LivingEntity) attacker);
+                }
+            });
         }
 
         return super.damage(source, damageAmount);
@@ -660,7 +679,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
 
         //check if it is a bed
-        if (world.getBlockState(pos).isOf(BlockTags.BEDS)) {
+        if (world.getBlockState(pos).isIn(BlockTags.BEDS)) {
             brain.remember(MemoryModuleType.HOME, GlobalPos.create(world.getRegistryKey(), pos));
             poiManager.getPosition(PointOfInterestType.HOME.getCompletionCondition(), (p) -> p.equals(pos), pos, 1);
             serverWorld.sendEntityStatus(this, (byte) 14);
@@ -684,7 +703,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         } else {
             DialogueType dialogueType = getMemoriesForPlayer(target).getDialogueType();
-            String localizedText = MCA.getLocalizer().localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
+            String localizedText = Localizer.getInstance().localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
             sendMessageTo(chatPrefix + localizedText, target);
         }
     }
@@ -755,7 +774,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         Memories memory = getMemoriesForPlayer(player);
         java.util.Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {
-            MCA.log("Button not found for key and ID: " + guiKey + ", " + buttonId);
+            MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
         } else if (button.get().isInteraction()) handleInteraction(player, memory, button.get());
 
         Hair h;
@@ -1097,7 +1116,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 Entity[] parents = getBothParentEntities();
                 Arrays.stream(parents).filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
                     getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                    sendMessageTo(MCA.localize("notify.child.grownup", villagerName.get()), p);
+                    sendMessageTo(Localizer.getInstance().localize("notify.child.grownup", villagerName.get()), p);
                 });
             }
         }
@@ -1130,7 +1149,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 Gender gender = isBabyMale.get() ? Gender.MALE : Gender.FEMALE;
                 VillagerEntityMCA child = new VillagerEntityMCA(world);
                 child.gender.set(gender.getId());
-                child.setPosition(this.offsetX(), this.getBodyY(), this.offsetZ());
+                child.setPosition(this.getX(), this.getY(), this.getZ());
                 child.inheritGenes(father, this);
 
                 //add all 3 to the family tree
@@ -1181,7 +1200,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Nullable
     @Override
-    @ParametersAreNonnullByDefault
     public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
         return GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, inventory);
     }
@@ -1275,7 +1293,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         int i = this.getReputation(player);
         if (i != 0) {
             for (TradeOffer merchantoffer : this.getOffers()) {
-                merchantoffer.increaseSpecialPrice(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
+                merchantoffer.increaseSpecialPrice(-MathHelper.floor(i * merchantoffer.getPriceMultiplier()));
             }
         }
 
@@ -1285,8 +1303,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 int k = effectinstance.getAmplifier();
 
                 for (TradeOffer merchantOffer : this.getOffers()) {
-                    double d0 = 0.3D + 0.0625D * (double) k;
-                    int j = (int) Math.floor(d0 * (double) merchantOffer.getOriginalFirstBuyItem().getCount());
+                    double d0 = 0.3D + 0.0625D * k;
+                    int j = (int) Math.floor(d0 * merchantOffer.getOriginalFirstBuyItem().getCount());
                     merchantOffer.increaseSpecialPrice(-Math.max(j, 1));
                 }
             }
@@ -1297,9 +1315,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public void handleStatus(byte id) {
         if (id == 15) {
-            this.world.addImportantParticle(ParticleTypesMCA.NEG_INTERACTION.get(), true, this.offsetX(), this.getEyeY() + 0.5, this.offsetZ(), 0, 0, 0);
+            this.world.addImportantParticle(ParticleTypesMCA.NEG_INTERACTION, true, this.getX(), this.getEyeY() + 0.5, this.getZ(), 0, 0, 0);
         } else if (id == 16) {
-            this.world.addImportantParticle(ParticleTypesMCA.POS_INTERACTION.get(), true, this.offsetX(), this.getEyeY() + 0.5, this.offsetZ(), 0, 0, 0);
+            this.world.addImportantParticle(ParticleTypesMCA.POS_INTERACTION, true, this.getX(), this.getEyeY() + 0.5, this.getZ(), 0, 0, 0);
         } else {
             super.handleStatus(id);
         }
@@ -1321,6 +1339,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public void setBaby(boolean isBaby) {
         this.setBreedingAge(isBaby ? -AgeState.startingAge : 0);
+    }
+
+    @Override
+    public boolean canBeTargettedBy(Entity mob) {
+        return !this.isInfected.get();
     }
 
     //TODO
@@ -1370,10 +1393,12 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         super.onInteractionWith(p_213739_1_, p_213739_2_);
     }
 
+    @Override
     public VillagerGossips getGossip() {
         return this.gossips;
     }
 
+    @Override
     public void readGossipDataNbt(NbtElement p_223716_1_) {
         this.gossips.deserialize(new Dynamic<>(NbtOps.INSTANCE, p_223716_1_));
     }

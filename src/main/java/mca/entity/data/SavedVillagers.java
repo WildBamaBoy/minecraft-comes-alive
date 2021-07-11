@@ -1,6 +1,5 @@
 package mca.entity.data;
 
-import lombok.Getter;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.entity.VillagerEntityMCA;
@@ -13,11 +12,14 @@ import java.util.UUID;
 
 public class SavedVillagers extends CWorldSavedData {
     private static final String DATA_ID = "MCA-Villagers";
-    @Getter
+
     private final Map<String, CNBT> villagerData = new HashMap<>();
 
     public SavedVillagers(String id) {
-        super(id);
+    }
+
+    public Map<String, CNBT> getVillagerData() {
+        return villagerData;
     }
 
     public static SavedVillagers get(World world) {
@@ -28,12 +30,12 @@ public class SavedVillagers extends CWorldSavedData {
         CNBT nbt = CNBT.createNew();
         villager.saveNbt(nbt.getMcCompound());
         villagerData.put(villager.getUuid().toString(), nbt);
-        setDirty();
+        markDirty();
     }
 
     public void removeVillager(UUID uuid) {
         villagerData.remove(uuid.toString());
-        setDirty();
+        markDirty();
     }
 
     public CNBT getVillagerByUUID(UUID uuid) {

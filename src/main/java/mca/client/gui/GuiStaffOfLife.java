@@ -1,8 +1,8 @@
 package mca.client.gui;
 
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.ReviveVillagerMessage;
 import mca.network.SavedVillagersRequest;
@@ -14,12 +14,20 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import java.util.*;
 
+import org.jetbrains.annotations.Nullable;
+
 public class GuiStaffOfLife extends Screen {
+
     private final List<String> keys = new ArrayList<>();
+
     private Map<String, CNBT> villagerData;
+
+    @Nullable
     private VillagerEntityMCA dummy;
+
     // selection fields
     private int selectedIndex = 0;
+
     private ButtonWidget nameButton;
     private ButtonWidget reviveButton;
     private ButtonWidget nextButton;
@@ -33,25 +41,14 @@ public class GuiStaffOfLife extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new SavedVillagersRequest());
 
-        backButton = addButton(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"),
-                (button) -> selectData(selectedIndex - 1)));
-
-        nextButton = addButton(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"),
-                (button) -> selectData(selectedIndex + 1)));
-
-        nameButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""),
-                (button) -> {
-                }));
-
-        reviveButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.revive"),
-                (button) -> {
-                    NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(selectedIndex))));
-                    Objects.requireNonNull(this.client).openScreen(null);
-                }));
-
-        addButton(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, MCA.localizeText("gui.button.exit"),
-                (button) -> Objects.requireNonNull(this.client).openScreen(null)));
-
+        backButton = addSelectableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> selectData(selectedIndex - 1)));
+        nextButton = addSelectableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> selectData(selectedIndex + 1)));
+        nameButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
+        reviveButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, Localizer.getInstance().localizeText("gui.button.revive"), b -> {
+            NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(selectedIndex))));
+            Objects.requireNonNull(this.client).openScreen(null);
+        }));
+        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, Localizer.getInstance().localizeText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
         toggleButtons(false);
     }
 
@@ -61,15 +58,19 @@ public class GuiStaffOfLife extends Screen {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
-        drawCenteredString(transform, textRenderer, MCA.localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
 
         super.render(transform, w, h, scale);
 
-        drawDummy();
+        int posX = width / 2;
+        int posY = height / 2 + 45;
+
+        if (dummy != null) {
+            InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
+        }
     }
 
     public void setVillagerData(Map<String, CNBT> data) {
@@ -99,18 +100,14 @@ public class GuiStaffOfLife extends Screen {
     }
 
     private void selectData(int i) {
-        if (i < 0) i = keys.size() - 1;
-        else if (i > keys.size() - 1) i = 0;
+        if (i < 0) {
+            i = keys.size() - 1;
+        } else if (i > keys.size() - 1) {
+            i = 0;
+        }
 
         selectedIndex = i;
         updateDummy(villagerData.get(keys.get(selectedIndex)));
         nameButton.setMessage(dummy.getDisplayName());
-    }
-
-    private void drawDummy() {
-        int posX = width / 2;
-        int posY = height / 2 + 45;
-
-        if (dummy != null) InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
     }
 }

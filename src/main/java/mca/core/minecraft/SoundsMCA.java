@@ -2,47 +2,27 @@ package mca.core.minecraft;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.util.registry.Registry;
 
-import java.util.LinkedList;
-import java.util.List;
+import mca.core.MCA;
 
-@Mod.EventBusSubscriber(modid = "mca")
-public final class SoundsMCA {
-    static final List<SoundEvent> soundList = new LinkedList<>();
+public interface SoundsMCA {
+    SoundEvent reaper_scythe_out = register("reaper.scythe_out");
+    SoundEvent reaper_scythe_swing = register("reaper.scythe_swing");
+    SoundEvent reaper_idle = register("reaper.idle");
+    SoundEvent reaper_death = register("reaper.death");
+    SoundEvent reaper_block = register("reaper.block");
+    SoundEvent reaper_summon = register("reaper.summon");
 
-    public static final SoundEvent reaper_scythe_out = newSound("reaper.scythe_out");
-    public static final SoundEvent reaper_scythe_swing = newSound("reaper.scythe_swing");
-    public static final SoundEvent reaper_idle = newSound("reaper.idle");
-    public static final SoundEvent reaper_death = newSound("reaper.death");
-    public static final SoundEvent reaper_block = newSound("reaper.block");
-    public static final SoundEvent reaper_summon = newSound("reaper.summon");
+    SoundEvent working_anvil = register("working.anvil");
+    SoundEvent working_page = register("working.page");
+    SoundEvent working_saw = register("working.saw");
+    SoundEvent working_sharpen = register("working.sharpen");
 
-    public static final SoundEvent working_anvil = newSound("working.anvil");
-    public static final SoundEvent working_page = newSound("working.page");
-    public static final SoundEvent working_saw = newSound("working.saw");
-    public static final SoundEvent working_sharpen = newSound("working.sharpen");
+    static void bootstrap() { }
 
-    //simplifies sound creation
-    private static SoundEvent newSound(String sound) {
-        Identifier loc = new Identifier("mca", sound);
-        SoundEvent event = new SoundEvent(loc).setRegistryName(loc);
-        soundList.add(event);
-        return event;
-    }
-
-    public static void register() {
-    }
-
-    @SubscribeEvent
-    public static void register(RegistryEvent.Register<SoundEvent> event) {
-        IForgeRegistry<SoundEvent> registry = event.getRegistry();
-
-        for (SoundEvent e : soundList) {
-            registry.register(e);
-        }
+    private static SoundEvent register(String sound) {
+        Identifier id = new Identifier(MCA.MOD_ID, sound);
+        return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(id));
     }
 }

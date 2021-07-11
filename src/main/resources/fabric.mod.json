@@ -8,17 +8,19 @@
     "WildBamaBoy", "SheWolfDeadly"
   ],
   "contact": {
-    "homepage": "https://minelittlepony-mod.com/",
-    "sources": "https://github.com/MineLittlePony/MineLittlePony",
-    "issues": "https://github.com/MineLittlePony/MineLittlePony/issues"
+    "sources": "https://github.com/Luke100000/minecraft-comes-alive",
+    "issues": "https://github.com/Luke100000/minecraft-comes-alive/issues"
   },
   "license": "MIT",
   "icon": "mca.png",
   "accessWidener": "mca.aw",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
+    "main": [
+      "mca.core.MCA"
+    ],
     "client": [
-      "com.minelittlepony.client.MineLittlePony"
+      "mca.core.MCAClient"
     ]
   },
   "mixins": [
@@ -27,8 +29,6 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "java": ">=16",
-    "fabric-api-base": ">=0.1.0",
-    "fabric-lifecycle-events-v1": ">=0.1.0",
-    "fabric-resource-loader-v0": ">=0.1.0"
+    "fabric-api-base": ">=0.1.0"
   }
 }

@@ -28,10 +28,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class JewelerWorkbench extends Block {
+import org.jetbrains.annotations.Nullable;
+
+public class JewelerWorkbench extends Block/* implements BlockEntityProvider*/ {
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     protected static final VoxelShape SHAPE = Block.createCuboidShape(1.0D, 0.1D, 1.0D, 15.0D, 24.0D, 15.0D);
 
@@ -39,31 +40,31 @@ public class JewelerWorkbench extends Block {
         super(properties);
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
+    /*
     @Nullable
     @Override
-    public BlockEntity createTileEntity(BlockState state, BlockView world) {
-        return null;//return new JewelerWorkbenchTileEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return return new JewelerWorkbenchTileEntity();
     }
+    */
 
-    @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult rayTrace) {
         if (world.isClient) {
             return ActionResult.SUCCESS;
         }
-        this.interactWith(world, pos, player);
+        //this.interactWith(world, pos, player);
         return ActionResult.CONSUME;
     }
 
+    /*
     private void interactWith(World world, BlockPos pos, PlayerEntity player) {
         BlockEntity tileEntity = world.getBlockEntity(pos);
+        // TODO: Implement this
     }
+    */
 
+    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
@@ -89,19 +90,16 @@ public class JewelerWorkbench extends Block {
         return this.getDefaultState().with(FACING, context.getPlayerFacing().getOpposite());
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public BlockState rotate(BlockState state, BlockRotation rot) {
         return state.with(FACING, rot.rotate(state.get(FACING)));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public BlockState mirror(BlockState state, BlockMirror mirrorIn) {
         return state.rotate(mirrorIn.getRotation(state.get(FACING)));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.isOf(newState.getBlock())) {

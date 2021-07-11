@@ -1,6 +1,5 @@
 package mca.items;
 
-import lombok.Getter;
 import mca.entity.VillagerFactory;
 import mca.enums.Gender;
 import net.minecraft.item.Item;
@@ -9,12 +8,15 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Direction;
 
 public class SpawnEggItem extends Item {
-    @Getter
     private final Gender gender;
 
     public SpawnEggItem(Gender gender, Item.Settings properties) {
         super(properties);
         this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 
     @Override

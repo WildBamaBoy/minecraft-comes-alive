@@ -64,7 +64,7 @@ public class VillagerFactory {
 
     public VillagerFactory withPosition(Entity entity) {
         isPositionSet = true;
-        villager.setPosition(entity.offsetX(), entity.getBodyY(), entity.offsetZ());
+        villager.setPosition(entity.getX(), entity.getY(), entity.getZ());
         return this;
     }
 
@@ -82,7 +82,7 @@ public class VillagerFactory {
 
     public VillagerFactory spawn() {
         if (!isPositionSet) {
-            MCA.log("Attempted to spawn villager without a position being set!");
+            MCA.logger.info("Attempted to spawn villager without a position being set!");
         }
 
         WorldUtils.spawnEntity(world, villager);

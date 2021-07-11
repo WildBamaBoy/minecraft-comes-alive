@@ -7,8 +7,9 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class EngagementRingRGItem extends EngagementRingItem {
     public EngagementRingRGItem(Item.Settings properties) {

@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public class VillageSaveData extends CWorldSavedData {
     public VillageSaveData(String id) {
-        super(id);
     }
 
     public static VillageSaveData get(World world) {
@@ -17,9 +16,5 @@ public class VillageSaveData extends CWorldSavedData {
     @Override
     public CNBT save(CNBT nbt) {
         return nbt;
-    }
-
-    @Override
-    public void load(CNBT nbt) {
     }
 }

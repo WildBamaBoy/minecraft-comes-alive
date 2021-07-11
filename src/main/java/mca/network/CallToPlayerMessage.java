@@ -3,11 +3,13 @@ package mca.network;
 import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import java.util.UUID;
 
-public class CallToPlayerMessage extends Message {
+public class CallToPlayerMessage implements Message {
+    private static final long serialVersionUID = 2556280539773400447L;
+
     private final UUID uuid;
 
     public CallToPlayerMessage(UUID uuid) {
@@ -15,11 +17,11 @@ public class CallToPlayerMessage extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         Entity e = ((ServerWorld) player.world).getEntity(uuid);
         if (e instanceof VillagerEntityMCA) {
             VillagerEntityMCA v = (VillagerEntityMCA) e;
-            v.setPosition(player.offsetX(), player.getBodyY(), player.offsetZ());
+            v.setPosition(player.getX(), player.getY(), player.getZ());
         }
     }
 }

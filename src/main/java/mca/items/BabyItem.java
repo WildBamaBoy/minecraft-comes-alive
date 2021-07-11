@@ -1,5 +1,6 @@
 package mca.items;
 
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.Constants;
@@ -29,14 +30,20 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import javax.annotation.Nullable;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class BabyItem extends Item {
     public int tick = -1;
 
     public BabyItem(Item.Settings properties) {
         super(properties);
+    }
+
+    public boolean onDropped(ItemStack stack, PlayerEntity player) {
+        player.getInventory().insertStack(stack);
+        return false;
     }
 
     @Override
@@ -139,24 +146,25 @@ public class BabyItem extends Item {
 
             String textColor = ((BabyItem) stack.getItem()).getGender() == Gender.MALE ? Constants.Color.AQUA : Constants.Color.LIGHTPURPLE;
             int ageInMinutes = nbt.getInteger("age");
-            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUuid()) ? MCA.localize("gui.label.you") : nbt.getString("ownerName");
+            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUuid()) ? Localizer.getInstance().localize("gui.label.you") : nbt.getString("ownerName");
 
-            if (getBabyName(stack).equals(""))
-                tooltip.add(new LiteralText(textColor + MCA.localize("gui.label.name") + " " + Constants.Format.RESET + MCA.localize("gui.label.unnamed")));
-            else
-                tooltip.add(new LiteralText(textColor + MCA.localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name")));
+            if (getBabyName(stack).equals("")) {
+                tooltip.add(new LiteralText(textColor + Localizer.getInstance().localize("gui.label.name") + " " + Constants.Format.RESET + Localizer.getInstance().localize("gui.label.unnamed")));
+            } else {
+                tooltip.add(new LiteralText(textColor + Localizer.getInstance().localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name")));
+            }
 
-            tooltip.add(new LiteralText(MCA.localize("gui.label.age") + " " + Constants.Format.RESET + ageInMinutes + " " + (ageInMinutes == 1 ? MCA.localize("gui.label.minute") : MCA.localize("gui.label.minutes"))));
-            tooltip.add(new LiteralText(MCA.localize("gui.label.parent") + " " + Constants.Format.RESET + ownerName));
+            tooltip.add(new LiteralText(Localizer.getInstance().localize("gui.label.age") + " " + Constants.Format.RESET + ageInMinutes + " " + (ageInMinutes == 1 ? Localizer.getInstance().localize("gui.label.minute") : Localizer.getInstance().localize("gui.label.minutes"))));
+            tooltip.add(new LiteralText(Localizer.getInstance().localize("gui.label.parent") + " " + Constants.Format.RESET + ownerName));
 
             if (nbt.getBoolean("isInfected"))
-                tooltip.add(new LiteralText(Constants.Color.GREEN + MCA.localize("gui.label.infected")));
+                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.getInstance().localize("gui.label.infected")));
 
             if (isReadyToGrowUp(stack))
-                tooltip.add(new LiteralText(Constants.Color.GREEN + MCA.localize("gui.label.readytogrow")));
+                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.getInstance().localize("gui.label.readytogrow")));
 
-            if (nbt.getString("name").equals(MCA.localize("gui.label.unnamed"))) {
-                tooltip.add(new LiteralText(Constants.Color.YELLOW + MCA.localize("gui.label.rightclicktoname")));
+            if (nbt.getString("name").equals(Localizer.getInstance().localize("gui.label.unnamed"))) {
+                tooltip.add(new LiteralText(Constants.Color.YELLOW + Localizer.getInstance().localize("gui.label.rightclicktoname")));
             }
         }
     }
@@ -175,6 +183,6 @@ public class BabyItem extends Item {
     }
 
     public Gender getGender() {
-        return this.equals(ItemsMCA.BABY_BOY.get()) ? Gender.MALE : Gender.FEMALE;
+        return this.equals(ItemsMCA.BABY_BOY) ? Gender.MALE : Gender.FEMALE;
     }
 }

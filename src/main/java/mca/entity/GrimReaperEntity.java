@@ -83,7 +83,7 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     public void checkDespawn() {
         if (this.world.getDifficulty() == Difficulty.PEACEFUL && this.isDisallowedInPeaceful()) {
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 
@@ -95,6 +95,7 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     protected EntityNavigation createNavigation(World world) {
         BirdNavigation flyingpathnavigator = new BirdNavigation(this, world) {
+            @Override
             public boolean isValidPosition(BlockPos p_188555_1_) {
                 return true;
             }
@@ -108,7 +109,7 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     protected void dropEquipment(DamageSource source, int lootingLvl, boolean hitByPlayer) {
         super.dropEquipment(source, lootingLvl, hitByPlayer);
-        ItemEntity itementity = dropStack(ItemsMCA.STAFF_OF_LIFE.get());
+        ItemEntity itementity = dropItem(ItemsMCA.STAFF_OF_LIFE);
         if (itementity != null) {
             itementity.setCovetedItem();
         }
@@ -147,7 +148,7 @@ public class GrimReaperEntity extends PathAwareEntity {
         if (source == DamageSource.IN_WALL || source == DamageSource.ON_FIRE || source.isExplosive() || source == DamageSource.IN_FIRE) {
             // Teleport out of any walls we may end up in
             if (source == DamageSource.IN_WALL) {
-                requestTeleport(this.offsetX(), this.getBodyY() + 3, this.offsetZ());
+                requestTeleport(this.getX(), this.getY() + 3, this.getZ());
             }
             return false;
         }
@@ -157,20 +158,20 @@ public class GrimReaperEntity extends PathAwareEntity {
         // Ignore damage when blocking, and teleport behind the attacker when attacked
         if (!world.isClient && this.getAttackState() == ReaperAttackState.BLOCK && attacker != null) {
 
-            double deltaX = this.offsetX() - attacker.offsetX();
-            double deltaZ = this.offsetZ() - attacker.offsetZ();
+            double deltaX = this.getX() - attacker.getX();
+            double deltaZ = this.getZ() - attacker.getZ();
 
             this.playSound(SoundsMCA.reaper_block, 1.0F, 1.0F);
-            requestTeleport(attacker.offsetX() - (deltaX * 2), attacker.getBodyY() + 2, this.offsetZ() - (deltaZ * 2));
+            requestTeleport(attacker.getX() - (deltaX * 2), attacker.getY() + 2, this.getZ() - (deltaZ * 2));
             return false;
         }
 
         // Randomly portal behind the player who just attacked.
         if (!world.isClient && random.nextFloat() >= 0.30F && attacker != null) {
-            double deltaX = this.offsetX() - attacker.offsetX();
-            double deltaZ = this.offsetZ() - attacker.offsetZ();
+            double deltaX = this.getX() - attacker.getX();
+            double deltaZ = this.getZ() - attacker.getZ();
 
-            requestTeleport(attacker.offsetX() - (deltaX * 2), attacker.getBodyY() + 2, this.offsetZ() - (deltaZ * 2));
+            requestTeleport(attacker.getX() - (deltaX * 2), attacker.getY() + 2, this.getZ() - (deltaZ * 2));
         }
 
         // Teleport behind the player who fired an arrow and ignore its damage.
@@ -181,12 +182,12 @@ public class GrimReaperEntity extends PathAwareEntity {
                 Entity owner = arrow.getOwner();
 
                 if (owner != null) {
-                    double newX = owner.offsetX() + (random.nextFloat() >= 0.50F ? 2 : -2);
-                    double newZ = owner.offsetZ() + (random.nextFloat() >= 0.50F ? 2 : -2);
+                    double newX = owner.getX() + (random.nextFloat() >= 0.50F ? 2 : -2);
+                    double newZ = owner.getZ() + (random.nextFloat() >= 0.50F ? 2 : -2);
 
-                    requestTeleport(newX, owner.getBodyY(), newZ);
+                    requestTeleport(newX, owner.getY(), newZ);
                 }
-                arrow.remove();
+                arrow.remove(RemovalReason.DISCARDED);
             }
             return false;
         }
@@ -223,7 +224,7 @@ public class GrimReaperEntity extends PathAwareEntity {
         bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 
         if (!MCA.getConfig().allowGrimReaper) {
-            remove();
+            remove(RemovalReason.KILLED);
         }
 
         // Prevent flying off into oblivion on death...
@@ -235,7 +236,7 @@ public class GrimReaperEntity extends PathAwareEntity {
         // look at the player. Aways.
         PlayerEntity player = world.getClosestPlayer(this, 10.D);
         if (player != null) {
-            getLookControl().lookAt(player.offsetX(), player.getEyeY(), player.offsetZ());
+            getLookControl().lookAt(player.getX(), player.getEyeY(), player.getZ());
         }
 
         LivingEntity entityToAttack = this.getTarget();
@@ -259,11 +260,13 @@ public class GrimReaperEntity extends PathAwareEntity {
         }
     }
 
+    @Override
     public void onStartedTrackingBy(ServerPlayerEntity p_184178_1_) {
         super.onStartedTrackingBy(p_184178_1_);
         this.bossInfo.addPlayer(p_184178_1_);
     }
 
+    @Override
     public void onStoppedTrackingBy(ServerPlayerEntity p_184203_1_) {
         super.onStoppedTrackingBy(p_184203_1_);
         this.bossInfo.removePlayer(p_184203_1_);

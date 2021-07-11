@@ -4,13 +4,16 @@ import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.FamilyTreeEntry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class GetFamilyTreeRequest extends Message {
+public class GetFamilyTreeRequest implements Message {
+    private static final long serialVersionUID = -6232925305386763715L;
+
     UUID uuid;
 
     public GetFamilyTreeRequest(UUID uuid) {
@@ -18,7 +21,7 @@ public class GetFamilyTreeRequest extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         FamilyTree tree = FamilyTree.get(player.world);
         FamilyTreeEntry entry = tree.getEntry(uuid);
         if (entry != null) {
@@ -30,7 +33,9 @@ public class GetFamilyTreeRequest extends Message {
                 familyEntries.put(id, tree.getEntry(id));
             }
 
-            NetworkHandler.sendToPlayer(new GetFamilyTreeResponse(uuid, familyEntries), player);
+            if (player instanceof ServerPlayerEntity) {
+                NetworkHandler.sendToPlayer(new GetFamilyTreeResponse(uuid, familyEntries), (ServerPlayerEntity)player);
+            }
         }
     }
 }

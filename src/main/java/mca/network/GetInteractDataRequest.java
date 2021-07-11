@@ -6,13 +6,16 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTreeEntry;
 import mca.enums.Constraint;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class GetInteractDataRequest extends Message {
+public class GetInteractDataRequest implements Message {
+    private static final long serialVersionUID = -4363277735373237564L;
+
     UUID uuid;
 
     public GetInteractDataRequest(UUID villager) {
@@ -20,7 +23,7 @@ public class GetInteractDataRequest extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         Entity entity = ((ServerWorld) player.world).getEntity(uuid);
 
         if (entity instanceof VillagerEntityMCA) {
@@ -39,7 +42,9 @@ public class GetInteractDataRequest extends Message {
             FamilyTreeEntry mother = familyTreeEntry != null ? villager.getFamilyTree().getEntry(familyTreeEntry.getMother()) : null;
             String motherName = mother != null ? mother.getName() : null;
 
-            NetworkHandler.sendToPlayer(new GetInteractDataResponse(constraints, fatherName, motherName), player);
+            if (player instanceof ServerPlayerEntity) {
+                NetworkHandler.sendToPlayer(new GetInteractDataResponse(constraints, fatherName, motherName), (ServerPlayerEntity)player);
+            }
         }
     }
 }

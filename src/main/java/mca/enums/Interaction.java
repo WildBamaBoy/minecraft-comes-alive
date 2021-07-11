@@ -4,20 +4,20 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 
 public enum Interaction {
-    CHAT("chat", 70, 4),
-    JOKE("joke", 60, 5),
-    SHAKE_HAND("handshake", 80, 3),
-    TELL_STORY("tellstory", 50, 7),
-    FLIRT("flirt", 50, 8),
-    HUG("hug", 30, 9),
-    KISS("kiss", 15, 10);
+    CHAT(70, 4),
+    JOKE(60, 5),
+    SHAKE_HAND(80, 3),
+    TELL_STORY(50, 7),
+    FLIRT(50, 8),
+    HUG(30, 9),
+    KISS(15, 10);
 
     private final String name;
     private final int baseChance;
     private final int baseHearts;
 
-    Interaction(String name, int baseChance, int baseHearts) {
-        this.name = name;
+    Interaction(int baseChance, int baseHearts) {
+        this.name = name().toLowerCase().replaceAll("_", "");
         this.baseChance = baseChance;
         this.baseHearts = baseHearts;
     }
@@ -57,6 +57,7 @@ public enum Interaction {
             case KISS:
                 returnAmount = hearts >= 100 ? 80 : hearts >= 90 ? 55 : hearts >= 80 ? 40 : hearts >= 70 ? 30 : hearts >= 60 ? 20 : 0;
                 break;
+            default:
         }
 
         return returnAmount;

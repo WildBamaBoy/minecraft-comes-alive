@@ -1,83 +1,68 @@
 package mca.core;
 
-import lombok.Getter;
 import mca.api.API;
-import mca.client.render.GrimReaperRenderer;
-import mca.client.render.VillagerEntityMCARenderer;
-import mca.cobalt.localizer.Localizer;
-import mca.core.forge.EventHooks;
-import mca.core.forge.Registration;
+import mca.command.AdminCommand;
+import mca.command.MCACommand;
+import mca.core.minecraft.BlocksMCA;
 import mca.core.minecraft.EntitiesMCA;
-import mca.entity.GrimReaperEntity;
-import mca.entity.VillagerEntityMCA;
-import net.minecraft.entity.attribute.DefaultAttributeRegistry;
-import net.minecraft.text.LiteralText;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import mca.core.minecraft.ItemsMCA;
+import mca.core.minecraft.MessagesMCA;
+import mca.core.minecraft.ParticleTypesMCA;
+import mca.core.minecraft.SoundsMCA;
+import mca.core.minecraft.entity.village.VillageHelper;
+import mca.core.minecraft.entity.village.VillageSpawnQueue;
+import mca.entity.data.VillageManagerData;
+import mca.server.ReaperSpawner;
+import mca.server.ServerInteractionManager;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(MCA.MOD_ID)
-public class MCA {
+public final class MCA implements ModInitializer {
     public static final String MOD_ID = "mca";
-    @Getter
-    public static MCA mod;
-    private static Config config;
-    protected final Localizer localizer = new Localizer();
-    public Logger logger = LogManager.getLogger();
+    public static final Logger logger = LogManager.getLogger();
 
-
-    public MCA() {
-        // Add any FML event listeners
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-        MinecraftForge.EVENT_BUS.register(this);
-
-        mod = this;
-
-        //Register class. Registering mod components in the Forge registry (such as items, blocks, sounds, etc.)
-        Registration.register();
-
-        localizer.registerVarParser((v) -> v.replaceAll("%Supporter%", API.getRandomSupporter()));
-    }
+    private static Config config = new Config();
 
     public static Config getConfig() {
         return config;
     }
 
-    public static void log(String message) {
-        mod.logger.info(message);
-    }
-
-    public static LiteralText localizeText(String key, String... vars) {
-        return new LiteralText(localize(key, vars));
-    }
-
-    public static String localize(String key, String... vars) {
-        return mod.localizer.localize(key, vars);
-    }
-
-    public static Localizer getLocalizer() {
-        return mod.localizer;
-    }
-
-    public final void setup(FMLCommonSetupEvent event) {
-        logger = LogManager.getLogger();
+    @Override
+    public void onInitialize() {
         API.init();
-        config = new Config();
-        MinecraftForge.EVENT_BUS.register(new EventHooks());
-        DefaultAttributeRegistry.put(EntitiesMCA.VILLAGER, VillagerEntityMCA.createVillagerAttributes().build());
-        DefaultAttributeRegistry.put(EntitiesMCA.GRIM_REAPER, GrimReaperEntity.createAttributes().build());
-    }
+        BlocksMCA.bootstrap();
+        ItemsMCA.bootstrap();
+        SoundsMCA.bootstrap();
+        ParticleTypesMCA.bootstrap();
+        EntitiesMCA.bootstrap();
+        MessagesMCA.bootstrap();
 
-    public final void clientSetup(FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.VILLAGER, VillagerEntityMCARenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.GRIM_REAPER, GrimReaperRenderer::new);
-    }
+        ServerTickEvents.END_WORLD_TICK.register(w -> {
+            VillageHelper.tick(w);
 
+            if (w.getTime() % 21 == 0) {
+                VillageManagerData.get(w).processNextBuildings(w);
+            }
+        });
+        ServerTickEvents.END_SERVER_TICK.register(s -> {
+            ReaperSpawner.tick();
+            ServerInteractionManager.getInstance().tick();
+            VillageSpawnQueue.getInstance().tick();
+        });
+
+        ServerPlayerEvents.AFTER_RESPAWN.register((old, neu, alive) -> {
+            VillageSpawnQueue.getInstance().onPlayerRespawn(neu);
+        });
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
+            AdminCommand.register(dispatcher);
+            MCACommand.register(dispatcher);
+        });
+    }
 }
 

@@ -1,26 +1,34 @@
 package mca.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import mca.cobalt.localizer.Localizer;
 import mca.core.MCA;
 
-import java.util.Arrays;
-
-@AllArgsConstructor
 public enum MoveState {
-    MOVE(0, ""),
-    STAY(1, "gui.label.staying"),
-    FOLLOW(2, "gui.label.following");
+    MOVE(""),
+    STAY("gui.label.staying"),
+    FOLLOW("gui.label.following");
 
-    @Getter
-    int id;
+    private static final MoveState[] VALUES = values();
+
     String friendlyName;
 
+    MoveState(String friendlyName) {
+        this.friendlyName = friendlyName;
+    }
+
+    @Deprecated
+    public int getId() {
+        return ordinal();
+    }
+
     public static MoveState byId(int id) {
-        return Arrays.stream(values()).filter(s -> s.id == id).findFirst().orElse(MOVE);
+        if (id < 0 || id >= VALUES.length) {
+            return MOVE;
+        }
+        return VALUES[id];
     }
 
     public String getFriendlyName() {
-        return MCA.localize(friendlyName);
+        return Localizer.getInstance().localize(friendlyName);
     }
 }

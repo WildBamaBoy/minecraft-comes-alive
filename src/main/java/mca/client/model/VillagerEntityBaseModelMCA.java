@@ -2,39 +2,55 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
+import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.ModelPartBuilder;
+import net.minecraft.client.model.ModelPartData;
+import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends BipedEntityModel<T> {
-    protected final boolean cloth;
-    public float breastSize = 1.0f;
-    public float headSize = 1.0f;
-    public float headWidth = 1.0f;
+    private final boolean cloth;
 
-    public VillagerEntityBaseModelMCA() {
-        this(32, 1.0f, true);
+    public final ModelPart breasts;
+
+    public float breastSize = 1;
+    public float headSize = 1;
+    public float headWidth = 1;
+
+    public VillagerEntityBaseModelMCA(ModelPart root, boolean clothing) {
+        super(root);
+        this.cloth = clothing;
+        this.breasts = root.getChild("breasts");
     }
 
-    public VillagerEntityBaseModelMCA(int size, float modelSize, boolean cloth) {
-        super(modelSize, 0.0F, 64, size);
-        this.cloth = cloth;
+    public static ModelData getModelData(Dilation dilation, boolean clothing) {
+        ModelData modelData = BipedEntityModel.getModelData(dilation, 0);
+        ModelPartData data = modelData.getRoot();
+
+        VillagerEntityBaseModelMCA.newBreasts("breasts", data, dilation, clothing, 0);
+
+        return modelData;
     }
 
-    protected ModelPart newBreasts(float modelSize, boolean cloth, int oy) {
-        ModelPart breasts = new ModelPart(this, 18, 21 + oy);
+    protected static void newBreasts(String name, ModelPartData data, Dilation dilation, boolean cloth, int oy) {
+        ModelPartBuilder builder = ModelPartBuilder.create().mirrored();
+
         if (cloth) {
-            breasts.addBox(-3.25F, -1.25F, -1.5F, 6, 3, 3, modelSize);
+            builder.uv(18, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 6, 3, 3, dilation);
         } else {
-            breasts.texOffs(17, 21 + oy);
-            breasts.addBox(-3.25F, -1.25F, -1.5F, 3, 3, 3, modelSize);
-            breasts.texOffs(22, 21 + oy);
-            breasts.addBox(0.25F, -1.25F, -1.5F, 3, 3, 3, modelSize);
+            builder
+                .uv(17, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 3, 3, 3, dilation)
+                .uv(22, 21 + oy).cuboid(0.25F, -1.25F, -1.5F, 3, 3, 3, dilation);
         }
-        breasts.setPivot(0F, 0F, 0F);
-        breasts.mirror = true;
-        return breasts;
+
+        data.addChild(name,
+                builder,
+                ModelTransform.pivot(0, 0, 0)
+        );
     }
 
     @Override
@@ -48,9 +64,26 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
     }
 
     protected Iterable<ModelPart> breastsParts() {
-        return ImmutableList.of();
+        return ImmutableList.of(breasts);
     }
 
+    @Override
+    public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
+        super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
+
+        breasts.copyTransform(body);
+    }
+
+    @Override
+    public void setAttributes(BipedEntityModel<T> target) {
+        super.setAttributes(target);
+
+        if (target instanceof VillagerEntityBaseModelMCA) {
+            ((VillagerEntityBaseModelMCA<T>)target).breasts.copyTransform(breasts);
+        }
+    }
+
+    @Override
     public void render(MatrixStack transform, VertexConsumer vertexBuilder, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
         //head
         transform.push();

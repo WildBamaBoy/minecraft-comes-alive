@@ -1,7 +1,10 @@
 package mca.crafting.recipe;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonObject;
-import mca.core.forge.RecipesMCA;
+
+import mca.core.minecraft.RecipesMCA;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -10,17 +13,13 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-
-import javax.annotation.Nullable;
 
 public class PressingRecipe extends CuttingRecipe {
-    public PressingRecipe(Identifier recipeId,
-                          Ingredient ingredient,
-                          ItemStack result) {
-        super(RecipesMCA.Types.PRESSING, RecipesMCA.Serializers.PRESSING.get(), recipeId, "", ingredient, result);
+
+    public PressingRecipe(Identifier recipeId, Ingredient ingredient, ItemStack result) {
+        super(RecipesMCA.PRESSING, RecipesMCA.PRESSING_SERIALIZER, recipeId, "", ingredient, result);
     }
 
     @Override
@@ -28,14 +27,14 @@ public class PressingRecipe extends CuttingRecipe {
         return this.input.test(inv.getStack(0));
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<PressingRecipe> {
+    public static class Serializer implements RecipeSerializer<PressingRecipe> {
         @Override
         public PressingRecipe read(Identifier recipeId, JsonObject json) {
             Ingredient ingredient = Ingredient.fromJson(json.get("ingredient"));
             Identifier itemId = new Identifier(JsonHelper.getString(json, "result"));
             int count = JsonHelper.getInt(json, "count", 1);
 
-            ItemStack result = new ItemStack(ForgeRegistries.ITEMS.getValue(itemId), count);
+            ItemStack result = new ItemStack(Registry.ITEM.get(itemId), count);
 
             return new PressingRecipe(recipeId, ingredient, result);
         }
@@ -49,7 +48,7 @@ public class PressingRecipe extends CuttingRecipe {
         }
 
         @Override
-        public void toNetwork(PacketByteBuf buffer, PressingRecipe recipe) {
+        public void write(PacketByteBuf buffer, PressingRecipe recipe) {
             recipe.input.write(buffer);
             buffer.writeItemStack(recipe.output);
         }

@@ -86,8 +86,8 @@ public class VillagerTasksMCA {
                 Pair.of(5, new RandomTask<>(
                         ImmutableMap.of(MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryModuleState.VALUE_ABSENT),
                         ImmutableList.of(
-                                Pair.of(FindEntityTask.of(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
-                                Pair.of(FindEntityTask.of(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
+                                Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
+                                Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
                                 Pair.of(new FindWalkTargetTask(speedModifier), 1),
                                 Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
                                 Pair.of(new JumpInBedTask(speedModifier), 2),
@@ -142,9 +142,9 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(2, new RandomTask<>(
                         ImmutableList.of(
-                                Pair.of(FindEntityTask.of(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
+                                Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
                                 Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
-                                Pair.of(FindEntityTask.of(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
+                                Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
                                 Pair.of(new FindWalkTargetTask(speedModifier), 1), Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
                                 Pair.of(new JumpInBedTask(speedModifier), 1), Pair.of(new WaitTask(30, 60), 1))
                 )),

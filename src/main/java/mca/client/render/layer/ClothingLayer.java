@@ -10,7 +10,7 @@ public class ClothingLayer extends VillagerLayer<VillagerEntityMCA, VillagerEnti
     }
 
     @Override
-    String getTexture(VillagerEntityMCA villager) {
+    protected String getSkin(VillagerEntityMCA villager) {
         return villager.clothes.get();
     }
 }

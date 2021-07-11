@@ -1,22 +1,23 @@
 package mca.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import java.util.Arrays;
-
-@AllArgsConstructor
-@Getter
 public enum ReaperAttackState {
-    IDLE(0),
-    PRE(1),
-    POST(2),
-    REST(3),
-    BLOCK(4);
+    IDLE,
+    PRE,
+    POST,
+    REST,
+    BLOCK;
 
-    int id;
+    private static final ReaperAttackState[] VALUES = values();
+
+    @Deprecated
+    public int getId() {
+        return ordinal();
+    }
 
     public static ReaperAttackState fromId(int id) {
-        return Arrays.stream(values()).filter(s -> s.id == id).findFirst().orElse(IDLE);
+        if (id < 0 || id >= VALUES.length) {
+            return IDLE;
+        }
+        return VALUES[id];
     }
 }

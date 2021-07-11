@@ -35,18 +35,18 @@ public class FishingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         return villager.activeChore.get() == Chore.FISH.getId();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        return shouldRun(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
     @Override
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
-        super.start(world, villager, p_212831_3_);
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
+        super.run(world, villager, time);
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof FishingRodItem);
             if (i == -1) {
@@ -64,8 +64,8 @@ public class FishingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
-        super.tick(world, villager, p_212831_3_);
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        super.keepRunning(world, villager, time);
 
         if (!InventoryUtils.contains(villager.getInventory(), FishingRodItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.fishing.norod");
@@ -98,7 +98,7 @@ public class FishingTask extends AbstractChoreTask {
 
                     villager.swingHand(Hand.MAIN_HAND);
                     villager.inventory.addStack(stack);
-                    villager.getMainHandStack().damage(1, villager, (p_220038_0_) -> p_220038_0_.sendToolBreakStatus(EquipmentSlot.MAINHAND));
+                    villager.getMainHandStack().damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
                 }
                 ticks = 0;
             }
@@ -109,7 +109,7 @@ public class FishingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
+    protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
         if (!stack.isEmpty()) {
             villager.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);

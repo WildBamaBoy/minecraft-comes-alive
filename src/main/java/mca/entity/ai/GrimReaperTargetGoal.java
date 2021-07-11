@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GrimReaperTargetGoal extends Goal {
-    private final TargetPredicate attackTargeting = (new TargetPredicate()).setBaseMaxDistance(64.0D);
+    private final TargetPredicate attackTargeting = TargetPredicate.createAttackable().setBaseMaxDistance(64.0D);
     private final PathAwareEntity mob;
     private int nextScanTick = 20;
 
@@ -18,6 +18,7 @@ public class GrimReaperTargetGoal extends Goal {
         this.mob = mob;
     }
 
+    @Override
     public boolean canStart() {
         if (this.nextScanTick > 0) {
             this.nextScanTick--;
@@ -39,6 +40,7 @@ public class GrimReaperTargetGoal extends Goal {
         return false;
     }
 
+    @Override
     public boolean shouldContinue() {
         return mob.getTarget() != null;
     }

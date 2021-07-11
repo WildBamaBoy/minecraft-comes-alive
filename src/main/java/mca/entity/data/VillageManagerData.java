@@ -12,18 +12,14 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class VillageManagerData extends CWorldSavedData {
-    public final Map<Integer, Village> villages;
-    public final Set<BlockPos> cache;
-    private final List<BlockPos> buildingQueue;
+    public final Map<Integer, Village> villages = new ConcurrentHashMap<>();
+    public final Set<BlockPos> cache = ConcurrentHashMap.newKeySet();
+    private final List<BlockPos> buildingQueue = new LinkedList<>();
+
     private int lastBuildingId;
     private int lastVillageId;
 
     public VillageManagerData(String id) {
-        super(id);
-
-        cache = ConcurrentHashMap.newKeySet();
-        villages = new ConcurrentHashMap<>();
-        buildingQueue = new LinkedList<>();
     }
 
     public static VillageManagerData get(World world) {
@@ -98,7 +94,7 @@ public class VillageManagerData extends CWorldSavedData {
                     villages.remove(village.getId());
                 }
 
-                setDirty();
+                markDirty();
             }
         } else {
             //create new building
@@ -135,7 +131,7 @@ public class VillageManagerData extends CWorldSavedData {
                     village.addBuilding(building);
                 }
 
-                setDirty();
+                markDirty();
             }
         }
     }

@@ -23,7 +23,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.IPlantable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,23 +33,22 @@ public class HarvestingTask extends AbstractChoreTask {
     private int lastCropScan = 0;
     private int lastActionTicks = 0;
 
-
     public HarvestingTask() {
         super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT));
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         return villager.activeChore.get() == Chore.HARVEST.getId();// && (blockWork - villager.tickCount) < 0;
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        return shouldRun(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
     @Override
-    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
+    protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
         if (!stack.isEmpty()) {
             villager.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
@@ -59,8 +57,8 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
-        super.start(world, villager, p_212831_3_);
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
+        super.run(world, villager, time);
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             if (i == -1) {
@@ -78,7 +76,7 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     private BlockPos searchCrop(int rangeX, int rangeY, boolean harvestableOnly) {
-        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isOf(BlockTags.CROPS) || blockState.getBlock() instanceof GourdBlock, rangeX, rangeY);
+        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isIn(BlockTags.CROPS) || blockState.getBlock() instanceof GourdBlock, rangeX, rangeY);
         harvestable.clear();
 
         if (harvestableOnly) {
@@ -109,7 +107,7 @@ public class HarvestingTask extends AbstractChoreTask {
             if (state.getBlock() instanceof FarmlandBlock) {
                 FarmlandBlock farmlandBlock = (FarmlandBlock) state.getBlock();
 
-                if (farmlandBlock.isFertile(state, villager.world, pos) && possibleCrop.isAir()) {
+                if (farmlandBlock.canPlaceAt(state, villager.world, pos) && possibleCrop.isAir()) {
                     fertileLand.add(pos);
                 }
             }
@@ -119,7 +117,7 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         if (this.villager == null) this.villager = villager;
 
         if (!InventoryUtils.contains(villager.getInventory(), HoeItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
@@ -220,33 +218,35 @@ public class HarvestingTask extends AbstractChoreTask {
             ItemStack itemstack = inventory.getStack(i);
             boolean flag = false;
             if (!itemstack.isEmpty()) {
+                // TODO: Use an ItemTag for this
                 if (itemstack.getItem() == Items.WHEAT_SEEDS) {
-                    world.setBlockState(target, Blocks.WHEAT.getDefaultState(), 3);
+                    world.setBlockState(target, Blocks.WHEAT.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                     flag = true;
                 } else if (itemstack.getItem() == Items.POTATO) {
-                    world.setBlockState(target, Blocks.POTATOES.getDefaultState(), 3);
+                    world.setBlockState(target, Blocks.POTATOES.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                     flag = true;
                 } else if (itemstack.getItem() == Items.CARROT) {
-                    world.setBlockState(target, Blocks.CARROTS.getDefaultState(), 3);
+                    world.setBlockState(target, Blocks.CARROTS.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                     flag = true;
                 } else if (itemstack.getItem() == Items.BEETROOT_SEEDS) {
-                    world.setBlockState(target, Blocks.BEETROOTS.getDefaultState(), 3);
+                    world.setBlockState(target, Blocks.BEETROOTS.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                     flag = true;
-                } else if (itemstack.getItem() instanceof IPlantable) {
-                    if (((IPlantable) itemstack.getItem()).getPlantType(world, target) == net.minecraftforge.common.PlantType.CROP) {
-                        world.setBlockState(target, ((IPlantable) itemstack.getItem()).getPlant(world, target), 3);
+                }// else if (itemstack.getItem() instanceof IPlantable) {
+                    // TODO: And for this
+                    /*if (((IPlantable) itemstack.getItem()).getPlantType(world, target) == net.minecraftforge.common.PlantType.CROP) {
+                        world.setBlockState(target, ((IPlantable) itemstack.getItem()).getPlant(world, target), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                         flag = true;
                     }
-                }
+                }*/
             }
 
             if (flag) {
-                world.playSoundFromEntity(null, target.getX(), target.getY(), target.getZ(), SoundEvents.ITEM_CROP_PLANT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, target.getX(), target.getY(), target.getZ(), SoundEvents.ITEM_CROP_PLANT, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 itemstack.decrement(1);
                 if (itemstack.isEmpty()) {
                     inventory.setStack(i, ItemStack.EMPTY);
                 }
-                villager.getMainHandStack().damage(1, villager, (p_220038_0_) -> p_220038_0_.sendToolBreakStatus(EquipmentSlot.MAINHAND));
+                villager.getMainHandStack().damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
                 lastActionTicks = 0;
                 villager.swingHand(Hand.MAIN_HAND);
                 return true;
@@ -271,7 +271,7 @@ public class HarvestingTask extends AbstractChoreTask {
             ItemStack stack = villager.inventory.getStack(i);
             stack.decrement(1);
             ((CropBlock) state.getBlock()).grow(world, villager.getRandom(), pos, state);
-            villager.getMainHandStack().damage(1, villager, (p_220038_0_) -> p_220038_0_.sendToolBreakStatus(EquipmentSlot.MAINHAND));
+            villager.getMainHandStack().damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
             lastActionTicks = 0;
             villager.swingHand(Hand.MAIN_HAND);
             return true;

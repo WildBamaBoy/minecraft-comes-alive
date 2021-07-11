@@ -20,29 +20,35 @@ public class InteractTask extends Task<VillagerEntityMCA> {
         this.speedModifier = speedModifie;
     }
 
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    @Override
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         PlayerEntity playerentity = villager.getInteractingPlayer();
         return villager.isAlive() && playerentity != null && !villager.isTouchingWater() && !villager.velocityModified && villager.squaredDistanceTo(playerentity) <= 16.0D && playerentity.currentScreenHandler != null && Chore.byId(villager.activeChore.get()) == Chore.NONE;
     }
 
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return this.checkExtraStartConditions(world, villager);
+    @Override
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        return this.shouldRun(world, villager);
     }
 
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
+    @Override
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         this.followPlayer(villager);
     }
 
-    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
+    @Override
+    protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         Brain<?> brain = villager.getBrain();
         brain.forget(MemoryModuleType.WALK_TARGET);
         brain.forget(MemoryModuleType.LOOK_TARGET);
     }
 
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+    @Override
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         this.followPlayer(villager);
     }
 
+    @Override
     protected boolean isTimeLimitExceeded(long p_220383_1_) {
         return false;
     }

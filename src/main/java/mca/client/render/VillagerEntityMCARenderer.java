@@ -1,6 +1,5 @@
 package mca.client.render;
 
-import mca.client.model.VillagerEntityArmorModelMCA;
 import mca.client.model.VillagerEntityBaseModelMCA;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.client.render.layer.ClothingLayer;
@@ -11,22 +10,28 @@ import mca.entity.VillagerEntityMCA;
 import mca.enums.AgeState;
 import mca.enums.Gender;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
     List<VillagerEntityBaseModelMCA<VillagerEntityMCA>> models = new LinkedList<>();
 
-    public VillagerEntityMCARenderer(EntityRenderDispatcher manager) {
-        super(manager, new VillagerEntityModelMCA<>(), 0.5F);
+    public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx) {
+        super(ctx, new VillagerEntityModelMCA<>(
+                TexturedModelData.of(
+                        VillagerEntityModelMCA.getModelData(new Dilation(1), 1, true), 64, 64)
+                .createModel(), true, false), 0.5F);
 
         this.addFeature(new SkinLayer(this, createModel(0.0f, 0.0f, false, true)));
         this.addFeature(new ClothingLayer(this, createModel(0.0833f, 0.16666f, true, false)));
@@ -39,13 +44,19 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
     }
 
     private VillagerEntityModelMCA<VillagerEntityMCA> createModel(float modelSize, float headSize, boolean cloth, boolean hideWear) {
-        VillagerEntityModelMCA<VillagerEntityMCA> m = new VillagerEntityModelMCA<>(modelSize, headSize, cloth, hideWear);
+        VillagerEntityModelMCA<VillagerEntityMCA> m = new VillagerEntityModelMCA<>(
+                TexturedModelData.of(
+                        VillagerEntityModelMCA.getModelData(new Dilation(modelSize), headSize, cloth), 64, 64)
+                .createModel(), cloth, hideWear);
         models.add(m);
         return m;
     }
 
-    private VillagerEntityArmorModelMCA<VillagerEntityMCA> createArmorModel(float modelSize) {
-        VillagerEntityArmorModelMCA<VillagerEntityMCA> m = new VillagerEntityArmorModelMCA<>(modelSize, modelSize);
+    private VillagerEntityBaseModelMCA<VillagerEntityMCA> createArmorModel(float modelSize) {
+        VillagerEntityBaseModelMCA<VillagerEntityMCA> m = new VillagerEntityBaseModelMCA<>(
+                TexturedModelData.of(
+                        VillagerEntityBaseModelMCA.getModelData(new Dilation(modelSize), true), 64, 64)
+                .createModel(), true);
         models.add(m);
         return m;
     }
@@ -65,14 +76,14 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
 
     @Nullable
     @Override
-    protected RenderLayer getRenderType(VillagerEntityMCA p_230496_1_, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
+    protected RenderLayer getRenderLayer(VillagerEntityMCA entity, boolean showBody, boolean translucent, boolean showOutlines) {
         //setting the type to null prevents it from rendering
         //we need a skin layer anyways because of the color
         return null;
     }
 
     @Override
-    public void render(VillagerEntityMCA villager, float p_225623_2_, float p_225623_3_, MatrixStack p_225623_4_, VertexConsumerProvider p_225623_5_, int p_225623_6_) {
+    public void render(VillagerEntityMCA villager, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light) {
         AgeState ageState = villager.getAgeState();
         model.headSize = ageState.getHead();
         model.headWidth = model.headSize / ageState.getWidth();
@@ -85,11 +96,11 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
             m.headWidth = this.model.headWidth;
         }
 
-        super.render(villager, p_225623_2_, p_225623_3_, p_225623_4_, p_225623_5_, p_225623_6_);
+        super.render(villager, yaw, tickDelta, matrixStack, vertexConsumers, light);
     }
 
     @Override
-    protected boolean shouldShowName(VillagerEntityMCA villager) {
+    protected boolean hasLabel(VillagerEntityMCA villager) {
         if (MinecraftClient.getInstance().player != null) {
             return MinecraftClient.getInstance().player.squaredDistanceTo(villager) < 25.0F;
         }

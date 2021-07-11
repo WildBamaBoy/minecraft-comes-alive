@@ -5,11 +5,13 @@ import mca.cobalt.network.Message;
 import mca.entity.data.FamilyTreeEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import java.util.Map;
 import java.util.UUID;
 
-public class GetFamilyTreeResponse extends Message {
+public class GetFamilyTreeResponse implements Message {
+    private static final long serialVersionUID = 1371939319244994642L;
+
     private final UUID uuid;
     private final Map<UUID, FamilyTreeEntry> family;
 
@@ -19,7 +21,7 @@ public class GetFamilyTreeResponse extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof GuiFamilyTree) {
             GuiFamilyTree gui = (GuiFamilyTree) screen;

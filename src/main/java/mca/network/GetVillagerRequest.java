@@ -7,6 +7,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -15,13 +16,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class GetVillagerRequest extends Message {
-    public GetVillagerRequest() {
-
-    }
+public class GetVillagerRequest implements Message {
+    private static final long serialVersionUID = -4415670234855916259L;
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         Map<String, CNBT> familyData = new HashMap<>();
 
         //fetches all members
@@ -43,6 +42,8 @@ public class GetVillagerRequest extends Message {
             }
         }
 
-        NetworkHandler.sendToPlayer(new GetVillagerResponse(familyData), player);
+        if (player instanceof ServerPlayerEntity) {
+            NetworkHandler.sendToPlayer(new GetVillagerResponse(familyData), (ServerPlayerEntity)player);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package mca.enums;
 
-import mca.core.MCA;
+import mca.cobalt.localizer.Localizer;
 
 import java.util.*;
 
@@ -73,12 +73,12 @@ public enum Personality {
 
     public String getLocalizedName() {
         String name = "personality." + this.name().toLowerCase();
-        return MCA.localize(name);
+        return Localizer.getInstance().localize(name);
     }
 
     public String getLocalizedDescription() {
         String name = "personalityDescription." + this.name().toLowerCase();
-        return MCA.localize(name);
+        return Localizer.getInstance().localize(name);
     }
 
     public int getSuccessModifierForInteraction(Interaction interaction) {

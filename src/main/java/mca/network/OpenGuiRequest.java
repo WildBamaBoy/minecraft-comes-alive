@@ -9,10 +9,11 @@ import mca.items.BabyItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
-public class OpenGuiRequest extends Message {
+public class OpenGuiRequest implements Message {
+    private static final long serialVersionUID = -2371116419166251497L;
+
     private final gui gui;
 
     public OpenGuiRequest(OpenGuiRequest.gui gui) {
@@ -20,7 +21,7 @@ public class OpenGuiRequest extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity e) {
+    public void receive(PlayerEntity e) {
         switch (gui) {
             case WHISTLE:
                 MinecraftClient.getInstance().openScreen(new GuiWhistle());

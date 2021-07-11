@@ -1,7 +1,5 @@
 package mca.api.types;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import mca.enums.Constraint;
 
 import java.util.List;
@@ -13,27 +11,50 @@ import java.util.Map;
  * These buttons are dynamically attached to a Screen and include additional instruction/constraints for building
  * and processing interactions.
  */
-@AllArgsConstructor
-public class APIButton {
-    @Getter
-    private final int id;             // numeric id
-    @Getter
-    private final String identifier;  // string identifier for the button in the .lang file
-    @Getter
-    private final int x;              // x position
-    @Getter
-    private final int y;              // y position
-    @Getter
-    private final int width;          // button width
-    @Getter
-    private final int height;         // button height
-    @Getter
-    private final boolean notifyServer;   // whether the button press is sent to the server for processing
-    @Getter
-    private final boolean targetServer;   // whether the button is processed by the villager or the server itself
-    private final String constraints;     // list of EnumConstraints separated by a pipe character |
-    @Getter
-    private final boolean isInteraction;  // whether the button is an interaction that generates a response and boosts/decreases hearts
+public record APIButton (
+    int id,             // numeric id
+    String identifier,  // string identifier for the button in the .lang file
+    int x,              // x position
+    int y,              // y position
+    int width,          // button width
+    int height,         // button height
+    boolean notifyServer,   // whether the button press is sent to the server for processing
+    boolean targetServer,   // whether the button is processed by the villager or the server itself
+    String constraints,     // list of EnumConstraints separated by a pipe character |
+    boolean isInteraction  // whether the button is an interaction that generates a response and boosts/decreases hearts
+) {
+    @Deprecated
+    public int getId() {
+        return id;
+    }
+    @Deprecated
+    public String getIdentifier() {
+        return identifier;
+    }
+    @Deprecated
+    public int getX() {
+        return x;
+    }
+    @Deprecated
+    public int getY() {
+        return y;
+    }
+    @Deprecated
+    public int getWidth() {
+        return width;
+    }
+    @Deprecated
+    public int getHeight() {
+        return height;
+    }
+    @Deprecated
+    public boolean isTargetServer() {
+        return targetServer;
+    }
+    @Deprecated
+    public boolean isNotifyServer() {
+        return notifyServer;
+    }
 
     public List<Constraint> getConstraints() {
         return Constraint.fromStringList(constraints);

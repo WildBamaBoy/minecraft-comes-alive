@@ -1,9 +1,8 @@
 package mca.client.gui;
 
-import lombok.NonNull;
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.CallToPlayerMessage;
 import mca.network.GetVillagerRequest;
@@ -14,6 +13,8 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import java.util.*;
+
+import org.jetbrains.annotations.NotNull;
 
 public class GuiWhistle extends Screen {
     private final List<String> keys = new ArrayList<>();
@@ -47,7 +48,7 @@ public class GuiWhistle extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new GetVillagerRequest());
 
-        selectionLeftButton = addButton(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), (b) -> {
+        selectionLeftButton = addSelectableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> {
             if (selectedIndex == 0) {
                 selectedIndex = keys.size() - 1;
             } else {
@@ -55,8 +56,7 @@ public class GuiWhistle extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
-
-        selectionRightButton = addButton(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), (b) -> {
+        selectionRightButton = addSelectableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> {
             if (selectedIndex == keys.size() - 1) {
                 selectedIndex = 0;
             } else {
@@ -64,16 +64,14 @@ public class GuiWhistle extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
+        villagerNameButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
 
-        villagerNameButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), (b) -> {
-        }));
-
-        callButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new LiteralText(MCA.localize("gui.button.call")), (b) -> {
+        callButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new LiteralText(Localizer.getInstance().localize("gui.button.call")), (b) -> {
             NetworkHandler.sendToServer(new CallToPlayerMessage(UUID.fromString(keys.get(selectedIndex))));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
 
-        addButton(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new LiteralText(MCA.localize("gui.button.exit")), (b) -> Objects.requireNonNull(this.client).openScreen(null)));
+        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new LiteralText(Localizer.getInstance().localize("gui.button.exit")), b -> Objects.requireNonNull(this.client).openScreen(null)));
 
         toggleButtons(false);
     }
@@ -87,16 +85,16 @@ public class GuiWhistle extends Screen {
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
-        drawCenteredString(transform, textRenderer, MCA.localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
         if (loadingAnimationTicks != -1) {
             String loadingMsg = "Loading" + new String(new char[loadingAnimationTicks % 10]).replace("\0", ".");
-            drawTextWithShadow(transform, textRenderer, loadingMsg, width / 2 - 20, height / 2 - 10, 0xffffff);
+            drawStringWithShadow(transform, textRenderer, loadingMsg, width / 2 - 20, height / 2 - 10, 0xffffff);
         } else {
             if (keys.size() == 0) {
-                drawCenteredString(transform, textRenderer, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);
+                drawCenteredText(transform, textRenderer, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);
             } else {
-                drawCenteredString(transform, textRenderer, (selectedIndex + 1) + " / " + keys.size(), width / 2, height / 2 + 50, 0xffffff);
+                drawCenteredText(transform, textRenderer, (selectedIndex + 1) + " / " + keys.size(), width / 2, height / 2 + 50, 0xffffff);
             }
         }
 
@@ -111,7 +109,7 @@ public class GuiWhistle extends Screen {
         if (dummy != null) InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
     }
 
-    public void setVillagerData(@NonNull Map<String, CNBT> data) {
+    public void setVillagerData(@NotNull Map<String, CNBT> data) {
         villagerData = data;
         keys.clear();
         keys.addAll(data.keySet());

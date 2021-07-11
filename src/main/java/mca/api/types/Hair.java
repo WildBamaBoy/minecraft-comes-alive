@@ -1,8 +1,6 @@
 package mca.api.types;
 
-public class Hair {
-    private final String texture;
-    private final String overlay;
+public record Hair (String texture, String overlay) {
 
     public Hair() {
         this("", "");
@@ -12,21 +10,12 @@ public class Hair {
         this.texture = texture;
         this.overlay = overlay == null ? "" : overlay;
     }
-
+    @Deprecated
     public String getTexture() {
         return texture;
     }
-
+    @Deprecated
     public String getOverlay() {
         return overlay;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    public boolean equals(Hair obj) {
-        return texture.equals(obj.texture) && overlay.equals(obj.overlay);
     }
 }

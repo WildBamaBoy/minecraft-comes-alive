@@ -11,11 +11,11 @@ public enum MoodGroup {
 
         if (level == 0) {
             return Mood.PASSIVE;
-        } else {
-            for (Mood mood : Mood.values()) {
-                if (mood.getMoodGroup() == this && mood.isInRange(level)) {
-                    return mood;
-                }
+        }
+
+        for (Mood mood : Mood.values()) {
+            if (mood.getMoodGroup() == this && mood.isInRange(level)) {
+                return mood;
             }
         }
 

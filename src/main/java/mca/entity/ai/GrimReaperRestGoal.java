@@ -43,7 +43,7 @@ public class GrimReaperRestGoal extends Goal {
 
     @Override
     public void start() {
-        reaper.requestTeleport(reaper.offsetX(), reaper.getBodyY() + 8, reaper.offsetZ());
+        reaper.requestTeleport(reaper.getX(), reaper.getY() + 8, reaper.getZ());
 
         healingTime = 500;
         lastHeal = reaper.age;
@@ -70,13 +70,13 @@ public class GrimReaperRestGoal extends Goal {
             // Let's have a light show.
             int dX = reaper.getRandom().nextInt(8) + 4 * reaper.getRandom().nextFloat() >= 0.50F ? 1 : -1;
             int dZ = reaper.getRandom().nextInt(8) + 4 * reaper.getRandom().nextFloat() >= 0.50F ? 1 : -1;
-            int y = Util.getSpawnSafeTopLevel(reaper.world, (int) reaper.offsetX() + dX, 256, (int) reaper.offsetZ() + dZ);
+            int y = Util.getSpawnSafeTopLevel(reaper.world, (int) reaper.getX() + dX, 256, (int) reaper.getZ() + dZ);
 
             EntityType.LIGHTNING_BOLT.spawn((ServerWorld) reaper.world, null, null, null, new BlockPos(dX, y, dZ), SpawnReason.TRIGGERED, false, false);
 
             // Also spawn a random skeleton or zombie.
             EntityType<?> m = reaper.getRandom().nextFloat() >= 0.5F ? EntityType.ZOMBIE : EntityType.SKELETON;
-            Entity e = m.spawn((ServerWorld) reaper.world, null, null, null, new BlockPos(reaper.offsetX() + dX + 4, y, reaper.offsetZ() + dZ + 4), SpawnReason.TRIGGERED, false, false);
+            Entity e = m.spawn((ServerWorld) reaper.world, null, null, null, new BlockPos(reaper.getX() + dX + 4, y, reaper.getZ() + dZ + 4), SpawnReason.TRIGGERED, false, false);
 
             if (e != null && m == EntityType.SKELETON) {
                 e.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));

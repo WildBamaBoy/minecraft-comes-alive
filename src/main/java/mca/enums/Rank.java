@@ -1,44 +1,26 @@
 package mca.enums;
 
 public enum Rank {
-    OUTLAW(0, Integer.MIN_VALUE, 0),
-    PEASANT(1, 0, 0),
-    MERCHANT(2, 20, 1),
-    NOBE(3, 40, 3),
-    MAYOR(4, 60, 4),
-    MING(5, 80, 4);
+    OUTLAW  (Integer.MIN_VALUE, 0),
+    PEASANT (0, 0),
+    MERCHANT(20, 1),
+    NOBLE   (40, 3),
+    MAYOR   (60, 4),
+    KING    (80, 4);
 
-    final int id;
-    final int reputation;
-    final int tasks;
+    private static final Rank[] VALUES = values();
 
-    Rank(int id, int reputation, int tasks) {
-        this.id = id;
+    private final int reputation;
+    private final int tasks;
+
+    Rank(int reputation, int tasks) {
         this.reputation = reputation;
         this.tasks = tasks;
     }
 
-    public static Rank fromRank(int rank) {
-        for (Rank r : Rank.values()) {
-            if (r.id == rank) {
-                return r;
-            }
-        }
-        return OUTLAW;
-    }
-
-    public static Rank fromReputation(int rep) {
-        Rank rank = OUTLAW;
-        for (Rank r : Rank.values()) {
-            if (rep >= r.reputation && r.reputation > rank.reputation) {
-                rank = r;
-            }
-        }
-        return rank;
-    }
-
+    @Deprecated
     public int getId() {
-        return id;
+        return ordinal();
     }
 
     public int getReputation() {
@@ -48,4 +30,24 @@ public enum Rank {
     public int getTasks() {
         return tasks;
     }
+
+    public static Rank fromRank(int id) {
+        if (id < 0 || id >= VALUES.length) {
+            return OUTLAW;
+        }
+        return VALUES[id];
+    }
+
+    /**
+     * Returns the highest available rank for a given reputation.
+     */
+    public static Rank fromReputation(int rep) {
+        for (int i = VALUES.length - 1; i >= 0; i--) {
+            if (VALUES[i].reputation >= rep) {
+                return VALUES[i];
+            }
+        }
+        return OUTLAW;
+    }
+
 }

@@ -5,10 +5,13 @@ import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.SavedVillagers;
 import mca.util.WorldUtils;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+
 import java.util.UUID;
 
-public class ReviveVillagerMessage extends Message {
+public class ReviveVillagerMessage implements Message {
+    private static final long serialVersionUID = 5302757876185799656L;
+
     private final UUID uuid;
 
     public ReviveVillagerMessage(UUID uuid) {
@@ -16,12 +19,12 @@ public class ReviveVillagerMessage extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         SavedVillagers villagers = SavedVillagers.get(player.world);
         CNBT nbt = SavedVillagers.get(player.world).getVillagerByUUID(uuid);
         if (nbt != null) {
             VillagerEntityMCA villager = new VillagerEntityMCA(player.world);
-            villager.setPosition(player.offsetX(), player.getBodyY(), player.offsetZ());
+            villager.setPosition(player.getX(), player.getY(), player.getZ());
 
             villager.readCustomDataFromNbt(nbt.getMcCompound());
 

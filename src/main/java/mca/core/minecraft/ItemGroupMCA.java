@@ -1,21 +1,13 @@
 package mca.core.minecraft;
 
+import mca.core.MCA;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 
-public class ItemGroupMCA extends ItemGroup {
-    public static final ItemGroup MCA = new ItemGroup(getGroupCountSafe(), "mcaTab") {
-        public ItemStack createIcon() {
-            return new ItemStack(ItemsMCA.ENGAGEMENT_RING.get());
-        }
-    };
-
-    public ItemGroupMCA(int addIdFolder, String itemsFolderName) {
-        super(addIdFolder, itemsFolderName);
-    }
-
-    @Override
-    public ItemStack createIcon() {
-        return null;
-    }
+public interface ItemGroupMCA {
+    ItemGroup MCA_GROUP = FabricItemGroupBuilder
+            .create(new Identifier(MCA.MOD_ID, "mcaTab"))
+            .icon(() -> ItemsMCA.ENGAGEMENT_RING.getDefaultStack())
+            .build();
 }

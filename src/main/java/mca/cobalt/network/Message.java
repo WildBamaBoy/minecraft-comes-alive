@@ -1,31 +1,34 @@
 package mca.cobalt.network;
 
-import lombok.SneakyThrows;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
+
 import java.io.*;
 
-public abstract class Message implements Serializable {
-    @SneakyThrows
-    public static Message decode(PacketByteBuf b) {
+public interface Message extends Serializable {
+
+    static Message decode(PacketByteBuf b) {
         byte[] data = new byte[b.readableBytes()];
         b.readBytes(data);
 
-        ObjectInputStream ois = new ObjectInputStream(
-                new ByteArrayInputStream(data));
-        Object o = ois.readObject();
-        ois.close();
-        return (Message) o;
+        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
+            return (Message)ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException("SneakyThrows", e);
+        }
     }
 
-    @SneakyThrows
-    public void encode(PacketByteBuf b) {
+    default void encode(PacketByteBuf b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(this);
-        oos.close();
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+            oos.writeObject(this);
+        } catch (IOException e) {
+            throw new RuntimeException("SneakyThrows", e);
+        }
+
         b.writeBytes(baos.toByteArray());
     }
 
-    public abstract void receive(ServerPlayerEntity e);
+    void receive(PlayerEntity e);
 }

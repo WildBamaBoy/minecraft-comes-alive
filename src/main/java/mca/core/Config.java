@@ -3,6 +3,8 @@ package mca.core;
 import java.io.Serializable;
 
 public final class Config implements Serializable {
+    private static final long serialVersionUID = 956221997003825933L;
+
     public boolean overwriteOriginalVillagers = true;
     public boolean enableDiminishingReturns = true;
     public boolean enableInfection = true;
@@ -32,7 +34,4 @@ public final class Config implements Serializable {
     public int greetAfterDays = 1;
     public int childInitialHearts = 100;
     public int immigrantChance = 20;
-
-    public Config() {
-    }
 }

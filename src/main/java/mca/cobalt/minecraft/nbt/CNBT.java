@@ -8,15 +8,19 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
 public class CNBT implements Serializable {
+    private static final long serialVersionUID = 5728742776742369248L;
+
     transient private NbtCompound mcCompound;
 
     private CNBT() {
-        mcCompound = new NbtCompound();
+        this(new NbtCompound());
     }
 
     private CNBT(NbtCompound nbt) {
@@ -156,7 +160,7 @@ public class CNBT implements Serializable {
         } else if (value instanceof CNBT) {
             setTag(key, (CNBT) value);
         } else {
-            MCA.getMod().logger.throwing(new Exception("Attempt to set CNBT data of unknown class!: " + clazz.getName()));
+            MCA.logger.throwing(new Exception("Attempt to set CNBT data of unknown class!: " + clazz.getName()));
         }
     }
 
@@ -168,11 +172,11 @@ public class CNBT implements Serializable {
         return mcCompound;
     }
 
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+    private void writeObject(ObjectOutputStream out) throws IOException {
         NbtIo.write(mcCompound, out);
     }
 
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         mcCompound = NbtIo.read(in);
     }
 }

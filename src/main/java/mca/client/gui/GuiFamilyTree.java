@@ -23,11 +23,6 @@ public class GuiFamilyTree extends Screen {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public void init() {
         NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid));
     }
@@ -41,7 +36,7 @@ public class GuiFamilyTree extends Screen {
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
-        drawCenteredString(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
+        drawCenteredText(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
 
         for (Line l : lines) {
             l.render(transform);
@@ -69,7 +64,7 @@ public class GuiFamilyTree extends Screen {
     private void addButton(UUID uuid, int x, int y) {
         FamilyTreeEntry e = family.get(uuid);
         if (e != null) {
-            addButton(new ButtonWidget(
+            addSelectableChild(new ButtonWidget(
                     x - 40, y - 10, 80, 20,
                     new LiteralText(e.getName()),
                     (b) -> NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid)))
@@ -78,7 +73,7 @@ public class GuiFamilyTree extends Screen {
     }
 
     private void rebuildTree() {
-        buttons.clear();
+        clearChildren();
         lines.clear();
 
         int w = 100;

@@ -4,10 +4,13 @@ import mca.client.gui.GuiInteract;
 import mca.cobalt.network.Message;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+
 import java.util.Map;
 
-public class GetInteractDataResponse extends Message {
+public class GetInteractDataResponse implements Message {
+    private static final long serialVersionUID = -4168503424192658779L;
+
     private final Map<String, Boolean> constraints;
     String father;
     String mother;
@@ -19,7 +22,7 @@ public class GetInteractDataResponse extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof GuiInteract) {
             GuiInteract gui = (GuiInteract) screen;

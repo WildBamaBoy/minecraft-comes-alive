@@ -14,22 +14,22 @@ public class StayTask extends Task<VillagerEntityMCA> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         return villager.getMCABrain().getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return this.checkExtraStartConditions(world, villager);
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        return this.shouldRun(world, villager);
     }
 
     @Override
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         villager.getNavigation().stop();
     }
 
     @Override
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         villager.getNavigation().stop();
         villager.getBrain().forget(MemoryModuleType.LOOK_TARGET);
         villager.getBrain().forget(MemoryModuleType.WALK_TARGET);

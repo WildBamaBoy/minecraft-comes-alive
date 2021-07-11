@@ -14,6 +14,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.io.Serializable;
@@ -23,6 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static net.minecraft.tag.BlockTags.LEAVES;
 
 public class Building implements Serializable {
+    private static final long serialVersionUID = -1106627083469687307L;
+
     private final Map<UUID, String> residents;
     private final Map<String, Integer> blocks;
     private final Direction[] directions = {
@@ -100,7 +103,7 @@ public class Building implements Serializable {
             //as long the max radius is not reached
             if (p.getManhattanDistance(center) < maxRadius) {
                 for (Direction d : directions) {
-                    BlockPos n = p.relative(d);
+                    BlockPos n = p.offset(d);
 
                     //and the block is not already checked
                     if (!done.contains(n)) {
@@ -122,7 +125,7 @@ public class Building implements Serializable {
                                     //found valid block
                                     BlockState b = world.getBlockState(n2);
                                     if (!b.isAir() || roofCache.containsKey(n2)) {
-                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !b.isOf(LEAVES)) {
+                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !b.isIn(LEAVES)) {
                                             for (int i2 = i; i2 >= 0; i2--) {
                                                 n2 = n2.down();
                                                 roofCache.put(n2, true);
@@ -135,9 +138,9 @@ public class Building implements Serializable {
                             if (roofCache.get(n)) {
                                 queue.add(n);
                             }
-                        } else if (state.getBlock().getBlock() instanceof DoorBlock) {
+                        } else if (state.getBlock() instanceof DoorBlock) {
                             //skip door and start a new room
-                            queue.add(n.relative(d));
+                            queue.add(n.offset(d));
                             hasDoor = true;
                         }
                     }
@@ -174,7 +177,7 @@ public class Building implements Serializable {
                 BlockState blockState = world.getBlockState(pos);
                 Block block = blockState.getBlock();
                 String key = null;
-                if (block.is(BlockTags.ANVIL)) {
+                if (blockState.isIn(BlockTags.ANVIL)) {
                     key = "anvil";
                 } else if (block instanceof BedBlock) {
                     if (blockState.get(BedBlock.PART) == BedPart.HEAD) {
@@ -182,7 +185,7 @@ public class Building implements Serializable {
                     }
                 } else {
                     //TODO exclude stone blocks, at least in the gui
-                    key = Objects.requireNonNull(block.getBlock().getRegistryName()).toString();
+                    key = Objects.requireNonNull(Registry.BLOCK.getId(block)).toString();
                 }
 
                 if (blockTypes.contains(key)) {

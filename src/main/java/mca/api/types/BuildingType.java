@@ -1,34 +1,19 @@
 package mca.api.types;
 
-import lombok.AllArgsConstructor;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@AllArgsConstructor
-public class BuildingType {
-    final String name;
-
-    final int size;
-    final String color;
-    final int priority;
-    final boolean visible;
-
-    final Map<String, Integer> blocks;
+public record BuildingType (String name, int size, String color, int priority, boolean visible, Map<String, Integer> blocks) {
 
     public BuildingType() {
-        name = "?";
-        size = 0;
-        color = "ffffffff";
-        priority = 0;
-        blocks = new HashMap<>();
-        visible = true;
+        this("?", 0, "ffffffff", 0, true, new HashMap<>());
     }
 
+    @Deprecated
     public String getName() {
         return name;
     }
-
+    @Deprecated
     public int getSize() {
         return size;
     }
@@ -36,15 +21,15 @@ public class BuildingType {
     public int getColor() {
         return (int) Long.parseLong(color, 16);
     }
-
+    @Deprecated
     public int getPriority() {
         return priority;
     }
-
+    @Deprecated
     public Map<String, Integer> getBlocks() {
         return blocks;
     }
-
+    @Deprecated
     public boolean isVisible() {
         return visible;
     }

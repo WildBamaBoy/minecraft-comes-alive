@@ -1,26 +1,30 @@
 package mca.core.minecraft;
 
-import mca.core.forge.Registration;
-import net.minecraft.block.AbstractBlock;
+import mca.core.MCA;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.OreBlock;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.RegistryObject;
-
-import java.util.function.Supplier;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 
-public final class BlocksMCA {
-    public static final RegistryObject<Block> ROSE_GOLD_BLOCK = register("rose_gold_block", () ->
-            new Block(AbstractBlock.Settings.of(Material.METAL, MapColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(BlockSoundGroup.METAL)));
+public interface BlocksMCA {
+    Block ROSE_GOLD_BLOCK = register("rose_gold_block", new Block(Block.Settings.of(Material.METAL, MapColor.GOLD)
+            .requiresTool()
+            .strength(3.0F, 6.0F)
+            .sounds(BlockSoundGroup.METAL))
+    );
 
-    public static final RegistryObject<Block> ROSE_GOLD_ORE = register("rose_gold_ore", () ->
-            new OreBlock(AbstractBlock.Settings.of(Material.STONE).requiresCorrectToolForDrops().harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3.0F, 3.0F).sound(BlockSoundGroup.STONE)));
+    Block ROSE_GOLD_ORE = register("rose_gold_ore", new OreBlock(FabricBlockSettings.of(Material.STONE)
+                    .requiresTool()
+                    .breakByTool(FabricToolTags.PICKAXES, 2)
+                    .strength(3.0F, 3.0F)
+                    .sounds(BlockSoundGroup.STONE))
+    );
 
 //    public static final RegistryObject<Block> VILLAGER_SPAWNER = register("villager_spawner",() ->
 //            new SpawnerBlock(AbstractBlock.Properties.of(Material.METAL).speedFactor(VillagerData.getMinXpPerLevel(7)).requiresCorrectToolForDrops().sound(SoundType.METAL)));
@@ -31,17 +35,12 @@ public final class BlocksMCA {
 //TODO <Block> JEWELER_WORKBENCH -> profession of a jeweler
 
 
-    public static void register() {
+    static void bootstrap() {
+        TagsMCA.Blocks.bootstrap();
+        TileEntityTypesMCA.bootstrap();
     }
 
-
-    private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block) {
-        return Registration.BLOCKS.register(name, block);
-    }
-
-    protected static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
-        RegistryObject<T> ret = registerNoItem(name, block);
-        Registration.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(ItemGroupMCA.MCA)));
-        return ret;
+    private static <T extends Block> T register(String name, T block) {
+        return Registry.register(Registry.BLOCK, new Identifier(MCA.MOD_ID, name), block);
     }
 }

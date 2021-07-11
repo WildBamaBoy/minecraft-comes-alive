@@ -1,6 +1,5 @@
 package mca.entity.data;
 
-import lombok.Getter;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
@@ -9,24 +8,29 @@ import mca.enums.DialogueType;
 import java.util.UUID;
 
 public class Memories {
-    @Getter
+
     private int hearts;
-    @Getter
-    private UUID playerUUID;
-    @Getter
+
+    private UUID playerUUID = Constants.ZERO_UUID;
+
     private int interactionFatigue;
 
-    private int dialogueType;
+    private int dialogueType = DialogueType.UNASSIGNED.getId();
 
     private VillagerEntityMCA villager;
 
     private int lastSeen;
 
-    private Memories() {
-        hearts = 0;
-        playerUUID = Constants.ZERO_UUID;
-        interactionFatigue = 0;
-        dialogueType = DialogueType.UNASSIGNED.getId();
+    public int getHearts() {
+        return hearts;
+    }
+
+    public UUID getPlayerUUID() {
+        return playerUUID;
+    }
+
+    public int getInteractionFatigue() {
+        return interactionFatigue;
     }
 
     public static Memories getNew(VillagerEntityMCA villager, UUID uuid) {

@@ -16,10 +16,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatUtil;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -119,7 +120,7 @@ public class API {
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
         for (Gift gift : gifts) {
             if (!gift.exists()) {
-                MCA.log("Could not find gift item or block in registry: " + gift.getName());
+                MCA.logger.info("Could not find gift item or block in registry: " + gift.getName());
             } else {
                 giftMap.put(gift.getName(), gift);
             }
@@ -128,7 +129,7 @@ public class API {
 
     //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
     private static List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
-        String profession = Objects.requireNonNull(villager.getProfession().getRegistryName()).toString();
+        String profession = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession())).toString();
         Gender gender = villager.getGender();
 
         if (clothing.get(gender).containsKey(profession)) {
@@ -142,7 +143,8 @@ public class API {
         return String.format("mca:skins/clothing/%s/%s/%d.png",
                 group.getGender().getStrName(),
                 group.getProfession().split(":")[1],
-                i);
+                i
+        );
     }
 
     /**
@@ -243,7 +245,7 @@ public class API {
      */
     public static APIIcon getIcon(String key) {
         if (!iconMap.containsKey(key)) {
-            MCA.log("Icon " + key + " does not exist!");
+            MCA.logger.info("Icon " + key + " does not exist!");
             iconMap.put(key, new APIIcon(0, 0, 0, 0));
         }
         return iconMap.get(key);
@@ -257,9 +259,12 @@ public class API {
      */
     public static int getGiftValueFromStack(ItemStack stack) {
         if (stack.isEmpty()) return 0;
-        if (stack.getItem().getRegistryName() == null) return 0;
 
-        String name = stack.getItem().getRegistryName().toString();
+        Identifier id = Registry.ITEM.getId(stack.getItem());
+
+        if (id == null) return 0;
+
+        String name = id.toString();
         return giftMap.containsKey(name) ? giftMap.get(name).getValue() : 0;
     }
 
@@ -284,7 +289,7 @@ public class API {
      * @param gender The gender the name should be appropriate for.
      * @return A gender appropriate name based on the provided gender.
      */
-    public static String getRandomName(@Nonnull Gender gender) {
+    public static String getRandomName(@NotNull Gender gender) {
         if (gender == Gender.MALE) return maleNames.get(rng.nextInt(maleNames.size()));
         else if (gender == Gender.FEMALE) return femaleNames.get(rng.nextInt(femaleNames.size()));
         return "";

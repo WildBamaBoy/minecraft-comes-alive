@@ -16,17 +16,17 @@ public class HairLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     }
 
     @Override
-    String getTexture(VillagerEntityMCA villager) {
+    protected String getSkin(VillagerEntityMCA villager) {
         return villager.hair.get();
     }
 
     @Override
-    String getOverlayTexture(VillagerEntityMCA villager) {
+    protected String getOverlay(VillagerEntityMCA villager) {
         return villager.hairOverlay.get();
     }
 
     @Override
-    float[] getColor(VillagerEntityMCA villager) {
+    protected float[] getColor(VillagerEntityMCA villager) {
         float e = villager.gene_eumelanin.get();
         float p = villager.gene_pheomelanin.get();
         double[] color = HairColors.getColor(e, p);

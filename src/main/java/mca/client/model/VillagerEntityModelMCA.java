@@ -2,10 +2,15 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
+import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.ModelPartBuilder;
+import net.minecraft.client.model.ModelPartData;
+import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.render.entity.model.EntityModelPartNames;
 
 public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends VillagerEntityBaseModelMCA<T> {
-    public final ModelPart breasts;
 
     public final ModelPart breastsWear;
     public final ModelPart leftArmwear;
@@ -14,8 +19,15 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
     public final ModelPart rightLegwear;
     public final ModelPart bodyWear;
 
-    public VillagerEntityModelMCA(float modelSize, float headSize, boolean cloth, boolean hideWear) {
-        this(modelSize, headSize, cloth);
+    public VillagerEntityModelMCA(ModelPart tree, boolean clothing, boolean hideWear) {
+        super(tree, clothing);
+
+        bodyWear = tree.getChild("jacket");
+        leftArmwear = tree.getChild("left_sleeve");
+        rightArmwear = tree.getChild("right_sleeve");
+        leftLegwear = tree.getChild("left_pants");
+        rightLegwear = tree.getChild("right_pants");
+        breastsWear = tree.getChild("breastplate");
 
         if (hideWear) {
             breastsWear.visible = false;
@@ -27,48 +39,52 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
         }
     }
 
-    public VillagerEntityModelMCA() {
-        this(1.0f, 1.0f, true);
-    }
+    public static ModelData getModelData(Dilation dilation, float headSize, boolean clothing) {
+        ModelData modelData = VillagerEntityBaseModelMCA.getModelData(dilation, clothing);
+        ModelPartData data = modelData.getRoot();
 
-    public VillagerEntityModelMCA(float modelSize, float headSize, boolean cloth) {
-        super(64, modelSize, cloth);
+        data.addChild(EntityModelPartNames.HEAD,
+                ModelPartBuilder.create().uv(32, 0).cuboid(-4, -8, -4, 8, 8, 8, dilation),
+                ModelTransform.pivot(0, 0, 0)
+        );
+        data.addChild(EntityModelPartNames.HAT,
+                ModelPartBuilder.create().uv(32, 0).cuboid(-4, -8, -4, 8, 8, 8, dilation.add(headSize + 0.5F)),
+                ModelTransform.pivot(0, 0, 0)
+        );
+        data.addChild(EntityModelPartNames.LEFT_LEG,
+                ModelPartBuilder.create().uv(16, 48).cuboid(-2, 0, -2, 4, 12, 4, dilation),
+                ModelTransform.pivot(1.9F, 12, 0)
+        );
+        data.addChild("left_pants",
+                ModelPartBuilder.create().uv(0, 48).cuboid(-2, 0, -2, 4, 12, 4, dilation.add(0.25F)),
+                ModelTransform.pivot(1.9F, 12, 0)
+        );
+        data.addChild("right_pants",
+                ModelPartBuilder.create().uv(0, 32).cuboid(-2, 0, -2, 4, 12, 4, dilation.add(0.25F)),
+                ModelTransform.pivot(-1.9F, 12, 0)
+        );
 
-        //head
-        head = new ModelPart(this, 0, 0);
-        head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, headSize);
-        head.setPivot(0.0F, 0.0F, 0.0F);
-        hat = new ModelPart(this, 32, 0);
-        hat.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, headSize + 0.5F);
-        hat.setPivot(0.0F, 0.0F, 0.0F);
+        data.addChild(EntityModelPartNames.LEFT_ARM,
+                ModelPartBuilder.create().uv(32, 48).cuboid(-1, -2, -2, 4, 12, 4, dilation),
+                ModelTransform.pivot(5, 2, 0)
+        );
+        data.addChild("left_sleeve",
+                ModelPartBuilder.create().uv(48, 48).cuboid(-1, -2, -2, 4, 12, 4, dilation.add(0.25F)),
+                ModelTransform.pivot(5, 2, 0)
+        );
+        data.addChild("right_sleeve",
+                ModelPartBuilder.create().uv(40, 32).cuboid(-3, -2, -2, 4, 12, 4, dilation.add(0.25F)),
+                ModelTransform.pivot(5, 2, 0)
+        );
 
-        //arms
-        leftArm = new ModelPart(this, 32, 48);
-        leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize);
-        leftArm.setPivot(5.0F, 2.0F, 0.0F);
-        leftArmwear = new ModelPart(this, 48, 48);
-        leftArmwear.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        leftArmwear.setPivot(5.0F, 2.0F, 0.0F);
-        rightArmwear = new ModelPart(this, 40, 32);
-        rightArmwear.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        rightArmwear.setPivot(-5.0F, 2.0F, 0.0F);
+        data.addChild("jacket",
+                ModelPartBuilder.create().uv(16, 32).cuboid(-4, 0, -2, 8, 12, 4, dilation.add(0.25F)),
+                ModelTransform.pivot(0, 0, 0)
+        );
 
-        //legs
-        leftLeg = new ModelPart(this, 16, 48);
-        leftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize);
-        leftLeg.setPivot(1.9F, 12.0F, 0.0F);
-        leftLegwear = new ModelPart(this, 0, 48);
-        leftLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        leftLegwear.setPivot(1.9F, 12.0F, 0.0F);
-        rightLegwear = new ModelPart(this, 0, 32);
-        rightLegwear.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize + 0.25F);
-        rightLegwear.setPivot(-1.9F, 12.0F, 0.0F);
-        bodyWear = new ModelPart(this, 16, 32);
-        bodyWear.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, modelSize + 0.25F);
-        bodyWear.setPivot(0.0F, 0.0F, 0.0F);
+        VillagerEntityBaseModelMCA.newBreasts("breastplate", data, dilation.add(0.25F), clothing, 16);
 
-        breasts = newBreasts(modelSize, cloth, 0);
-        breastsWear = newBreasts(modelSize + 0.25F, cloth, 16);
+        return modelData;
     }
 
     @Override
@@ -86,7 +102,8 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
         return ImmutableList.of(breasts, breastsWear);
     }
 
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
+    @Override
+    public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float p_225597_5_, float p_225597_6_) {
         super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, p_225597_5_, p_225597_6_);
 
         leftLegwear.copyTransform(leftLeg);
@@ -94,10 +111,10 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
         leftArmwear.copyTransform(leftArm);
         rightArmwear.copyTransform(rightArm);
         bodyWear.copyTransform(body);
-        breasts.copyTransform(body);
         breastsWear.copyTransform(body);
     }
 
+    @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
 
@@ -116,7 +133,6 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
         target.leftArmwear.copyTransform(leftArmwear);
         target.rightArmwear.copyTransform(rightArmwear);
         target.bodyWear.copyTransform(bodyWear);
-        target.breasts.copyTransform(breasts);
         target.breastsWear.copyTransform(breastsWear);
     }
 }

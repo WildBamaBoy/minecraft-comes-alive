@@ -1,7 +1,5 @@
 package mca.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -11,20 +9,33 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
-@AllArgsConstructor
-@Getter
-public enum Constraint {
-    NOT_FAMILY("notfamily", (villager, player) -> villager.getFamilyTree().isRelative(villager.getUUID(), player.getUUID()) || villager.isMarriedTo(player.getUUID())),
-    FAMILY("family", (villager, player) -> !(villager.getFamilyTree().isRelative(villager.getUUID(), player.getUUID()) || villager.isMarriedTo(player.getUUID()))),
-    ADULTS("adults", (villager, player) -> villager.isBaby()),
-    SPOUSE("spouse", (villager, player) -> !villager.isMarriedTo(player.getUUID())),
-    NOT_SPOUSE("notspouse", (villager, player) -> villager.isMarriedTo(player.getUUID())),
-    HIDE_ON_FAIL("hideonfail", (villager, player) -> false), //internal
-    NOT_YOUR_KIDS("notyourkids", (villager, player) -> villager.getFamilyTree().isParent(villager.getUUID(), player.getUUID()));
+import org.jetbrains.annotations.Nullable;
 
-    String id;
+public enum Constraint {
+    NOT_FAMILY("notfamily", (villager, player) -> villager.getFamilyTree().isRelative(villager.getUuid(), player.getUuid()) || villager.isMarriedTo(player.getUuid())),
+    FAMILY("family", (villager, player) -> !(villager.getFamilyTree().isRelative(villager.getUuid(), player.getUuid()) || villager.isMarriedTo(player.getUuid()))),
+    ADULTS("adults", (villager, player) -> villager.isBaby()),
+    SPOUSE("spouse", (villager, player) -> !villager.isMarriedTo(player.getUuid())),
+    NOT_SPOUSE("notspouse", (villager, player) -> villager.isMarriedTo(player.getUuid())),
+    HIDE_ON_FAIL("hideonfail", (villager, player) -> false), //internal
+    NOT_YOUR_KIDS("notyourkids", (villager, player) -> villager.getFamilyTree().isParent(villager.getUuid(), player.getUuid()));
+
+    private final String id;
     //* Returns true if it should not show the button
-    BiPredicate<VillagerEntityMCA, PlayerEntity> check;
+    private final BiPredicate<VillagerEntityMCA, PlayerEntity> check;
+
+    Constraint(String id, BiPredicate<VillagerEntityMCA, PlayerEntity> check) {
+        this.id = id;
+        this.check = check;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public BiPredicate<VillagerEntityMCA, PlayerEntity> getCheck() {
+        return check;
+    }
 
     public static List<Constraint> fromStringList(String constraints) {
         List<Constraint> list = new ArrayList<>();
@@ -43,9 +54,12 @@ public enum Constraint {
         return list;
     }
 
+    @Nullable
     public static Constraint byValue(String value) {
-        Optional<Constraint> state = Arrays.stream(values()).filter((e) -> e.id.equals(value)).findFirst();
-        return state.orElse(null);
+        return Arrays.stream(values())
+                .filter((e) -> e.id.equals(value))
+                .findFirst()
+                .orElse(null);
     }
 }
 

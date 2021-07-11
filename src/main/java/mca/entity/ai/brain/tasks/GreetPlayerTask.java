@@ -25,7 +25,8 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.INTERACTION_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleState.VALUE_PRESENT));
     }
 
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    @Override
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         if (cooldown > 0) {
             cooldown--;
             return false;
@@ -35,7 +36,8 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         }
     }
 
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long time) {
+    @Override
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         Optional<PlayerEntity> player = getPlayer(villager);
         if (player.isPresent()) {
             target = player.get();
@@ -45,11 +47,13 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         }
     }
 
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long time) {
+    @Override
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         return !talked || talking > 0;
     }
 
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long time) {
+    @Override
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         LookTargetUtil.lookAt(villager, target);
         if (isWithinGreetingDistance(villager, target)) {
             if (!talked) {
@@ -70,13 +74,15 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         }
     }
 
-    protected void stop(ServerWorld world, VillagerEntityMCA villager, long time) {
+    @Override
+    protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         target = null;
         villager.getBrain().forget(MemoryModuleType.INTERACTION_TARGET);
         villager.getBrain().forget(MemoryModuleType.WALK_TARGET);
         villager.getBrain().forget(MemoryModuleType.LOOK_TARGET);
     }
 
+    @SuppressWarnings("unchecked")
     private Optional<PlayerEntity> getPlayer(VillagerEntityMCA villager) {
         return (Optional<PlayerEntity>) villager.world.getPlayers().stream().filter(p -> shouldGreet(villager, p)).findFirst();
     }

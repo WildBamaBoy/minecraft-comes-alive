@@ -1,7 +1,9 @@
-package mca.core.minecraft;
+package mca.core.minecraft.entity.village;
 
+import mca.cobalt.localizer.Localizer;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
@@ -10,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import java.util.*;
 
@@ -44,14 +47,14 @@ public class VillageHelper {
                             playerVillagePositions.remove(player.getUuid());
                         } else {
                             if (!isWithinVillage(village, player)) {
-                                player.sendSystemMessage(MCA.localizeText("gui.village.left", village.getName()), player.getUuid());
+                                player.sendSystemMessage(Localizer.getInstance().localizeText("gui.village.left", village.getName()), player.getUuid());
                                 playerVillagePositions.remove(player.getUuid());
                             }
                         }
                     } else {
                         Village village = getNearestVillage(player);
                         if (village != null) {
-                            player.sendSystemMessage(MCA.localizeText("gui.village.welcome", village.getName()), player.getUuid());
+                            player.sendSystemMessage(Localizer.getInstance().localizeText("gui.village.welcome", village.getName()), player.getUuid());
                             playerVillagePositions.put(player.getUuid(), village.getId());
                             village.deliverTaxes((ServerWorld) world);
                         }
@@ -95,7 +98,7 @@ public class VillageHelper {
             village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
             village.deliverTaxes((ServerWorld) world);
 
-            world.getPlayers().forEach((player) -> player.sendSystemMessage(MCA.localizeText("gui.village.taxes", village.getName()), player.getUuid()));
+            world.getPlayers().forEach((player) -> player.sendSystemMessage(Localizer.getInstance().localizeText("gui.village.taxes", village.getName()), player.getUuid()));
         }
     }
 
@@ -118,7 +121,7 @@ public class VillageHelper {
                         villager.isBabyMale.set(world.random.nextBoolean());
 
                         // notify all players
-                        LiteralText phrase = MCA.localizeText("events.baby", villager.getName().asString(), spouse.getName().asString());
+                        Text phrase = Localizer.getInstance().localizeText("events.baby", villager.getName().asString(), spouse.getName().asString());
                         world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
                     }
                 }
@@ -144,7 +147,7 @@ public class VillageHelper {
                 VillagerEntityMCA spouse = villagers.remove(world.random.nextInt(villagers.size()));
 
                 // notify all players
-                LiteralText phrase = MCA.localizeText("events.marry", villager.getName().asString(), spouse.getName().asString());
+                Text phrase = Localizer.getInstance().localizeText("events.marry", villager.getName().asString(), spouse.getName().asString());
                 world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
 
                 // marry

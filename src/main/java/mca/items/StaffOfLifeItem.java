@@ -1,5 +1,6 @@
 package mca.items;
 
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.network.OpenGuiRequest;
@@ -14,8 +15,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class StaffOfLifeItem extends Item {
 
@@ -28,7 +30,7 @@ public class StaffOfLifeItem extends Item {
         ItemStack stack = player.getStackInHand(hand);
 
         if (!MCA.getConfig().enableRevivals) {
-            player.sendSystemMessage(MCA.localizeText("notify.revival.disabled"), player.getUuid());
+            player.sendSystemMessage(Localizer.getInstance().localizeText("notify.revival.disabled"), player.getUuid());
             return TypedActionResult.fail(stack);
         }
 

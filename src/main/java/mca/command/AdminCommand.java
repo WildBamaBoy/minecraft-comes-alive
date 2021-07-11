@@ -13,14 +13,17 @@ import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import mca.items.BabyItem;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.TypeFilter;
 import net.minecraft.util.Util;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class AdminCommand {
@@ -75,9 +78,9 @@ public class AdminCommand {
     private static int decrementHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player =  ctx.getSource().getPlayer();
         getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = ((VillagerEntityMCA) v).getMemoriesForPlayer(player);
+            Memories memories = v.getMemoriesForPlayer(player);
             memories.setHearts(memories.getHearts() - 10);
-            ((VillagerEntityMCA) v).updateMemories(memories);
+            v.updateMemories(memories);
         });
         return 0;
     }
@@ -85,15 +88,15 @@ public class AdminCommand {
     private static int incrementHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player =  ctx.getSource().getPlayer();
         getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = ((VillagerEntityMCA) v).getMemoriesForPlayer(player);
+            Memories memories = v.getMemoriesForPlayer(player);
             memories.setHearts(memories.getHearts() + 10);
-            ((VillagerEntityMCA) v).updateMemories(memories);
+            v.updateMemories(memories);
         });
         return 0;
     }
 
     private static int forceChildGrowth(CommandContext<ServerCommandSource> ctx) {
-        getLoadedVillagers(ctx).forEach(v -> ((VillagerEntityMCA) v).setBreedingAge(0));
+        getLoadedVillagers(ctx).forEach(v -> v.setBreedingAge(0));
         return 0;
     }
 
@@ -110,9 +113,9 @@ public class AdminCommand {
     private static int forceFullHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player =  ctx.getSource().getPlayer();
         getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = ((VillagerEntityMCA) v).getMemoriesForPlayer(player);
+            Memories memories = v.getMemoriesForPlayer(player);
             memories.setHearts(100);
-            ((VillagerEntityMCA) v).updateMemories(memories);
+            v.updateMemories(memories);
         });
         return 0;
     }
@@ -134,16 +137,17 @@ public class AdminCommand {
     private static int clearLoadedVillagers(final CommandContext<ServerCommandSource> ctx) {
         prevVillagersRemoved.clear();
         getLoadedVillagers(ctx).forEach(v -> {
-            prevVillagersRemoved.add((VillagerEntityMCA) v);
-            v.remove(true);
+            prevVillagersRemoved.add(v);
+            v.remove(RemovalReason.KILLED);
         });
 
         success("Removed loaded villagers.", ctx);
         return 0;
     }
 
-    private static Stream<Entity> getLoadedVillagers(final CommandContext<ServerCommandSource> ctx) {
-        return ctx.getSource().getWorld().getEntitiesByType().filter(e -> e instanceof VillagerEntityMCA);
+    @SuppressWarnings("unchecked")
+    private static Stream<VillagerEntityMCA> getLoadedVillagers(final CommandContext<ServerCommandSource> ctx) {
+        return ctx.getSource().getWorld().getEntitiesByType(TypeFilter.instanceOf(VillagerEntityMCA.class), (Predicate)t -> true).stream();
     }
 
     private static void success(String message, CommandContext<ServerCommandSource> ctx) {

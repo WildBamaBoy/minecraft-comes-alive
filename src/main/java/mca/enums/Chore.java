@@ -1,35 +1,49 @@
 package mca.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import mca.core.MCA;
+import mca.cobalt.localizer.Localizer;
 import net.minecraft.item.*;
 
-import java.util.Arrays;
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
-@AllArgsConstructor
 public enum Chore {
-    NONE(0, "none", null),
-    PROSPECT(1, "gui.label.prospecting", PickaxeItem.class),
-    HARVEST(2, "gui.label.harvesting", HoeItem.class),
-    CHOP(3, "gui.label.chopping", AxeItem.class),
-    HUNT(4, "gui.label.hunting", SwordItem.class),
-    FISH(5, "gui.label.fishing", FishingRodItem.class);
+    NONE    ("none", null),
+    PROSPECT("gui.label.prospecting", PickaxeItem.class),
+    HARVEST ("gui.label.harvesting", HoeItem.class),
+    CHOP    ("gui.label.chopping", AxeItem.class),
+    HUNT    ("gui.label.hunting", SwordItem.class),
+    FISH    ("gui.label.fishing", FishingRodItem.class);
 
-    @Getter
-    int id;
-    String friendlyName;
-    @Getter
-    Class<?> toolType;
+    private static final Chore[] VALUES = values();
+
+    private final String friendlyName;
+
+    @Nullable
+    private final Class<?> toolType;
+
+    Chore(String friendlyName, @Nullable Class<?> toolType) {
+        this.friendlyName = friendlyName;
+        this.toolType = toolType;
+    }
+
+    @Deprecated
+    public int getId() {
+        return ordinal();
+    }
+
+    @Nullable
+    public Class<?> getToolType() {
+        return toolType;
+    }
 
     public static Chore byId(int id) {
-        Optional<Chore> state = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
-        return state.orElse(NONE);
+        if (id < 0 || id >= VALUES.length) {
+            return NONE;
+        }
+        return VALUES[id];
     }
 
     public String getFriendlyName() {
-        return MCA.localize(this.friendlyName);
+        return Localizer.getInstance().localize(this.friendlyName);
     }
 }
 

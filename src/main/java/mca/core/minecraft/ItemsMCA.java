@@ -1,49 +1,57 @@
 package mca.core.minecraft;
 
-import mca.core.forge.Registration;
+import mca.core.MCA;
 import mca.enums.Gender;
 import mca.items.*;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
-public final class ItemsMCA {
-    public static final RegistryObject<Item> EGG_MALE = Registration.ITEMS.register("egg_male", () -> new SpawnEggItem(Gender.MALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> EGG_FEMALE = Registration.ITEMS.register("egg_female", () -> new SpawnEggItem(Gender.FEMALE, new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BABY_BOY = Registration.ITEMS.register("baby_boy", () -> new BabyItem(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BABY_GIRL = Registration.ITEMS.register("baby_girl", () -> new BabyItem(new Item.Properties().tab(ItemGroupMCA.MCA)));
+public interface ItemsMCA {
+    Item EGG_MALE = register("egg_male", new SpawnEggItem(Gender.MALE, baseProps()));
+    Item EGG_FEMALE = register("egg_female", new SpawnEggItem(Gender.FEMALE, baseProps()));
+    Item BABY_BOY = register("baby_boy", new BabyItem(baseProps()));
+    Item BABY_GIRL = register("baby_girl", new BabyItem(baseProps()));
 
-    public static final RegistryObject<Item> WEDDING_RING = Registration.ITEMS.register("wedding_ring", () -> new WeddingRingItem(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-    public static final RegistryObject<Item> WEDDING_RING_RG = Registration.ITEMS.register("wedding_ring_rg", () -> new WeddingRingRGItem(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-    public static final RegistryObject<Item> ENGAGEMENT_RING = Registration.ITEMS.register("engagement_ring", () -> new EngagementRingItem(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-    public static final RegistryObject<Item> ENGAGEMENT_RING_RG = Registration.ITEMS.register("engagement_ring_rg", () -> new EngagementRingRGItem(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(1)));
-    public static final RegistryObject<Item> MATCHMAKERS_RING = Registration.ITEMS.register("matchmakers_ring", () -> new MatchmakersRingItem(new Item.Properties().tab(ItemGroupMCA.MCA).stacksTo(2)));
+    Item WEDDING_RING = register("wedding_ring", new WeddingRingItem(unstackableProps()));
+    Item WEDDING_RING_RG = register("wedding_ring_rg", new WeddingRingRGItem(unstackableProps()));
+    Item ENGAGEMENT_RING = register("engagement_ring", new EngagementRingItem(unstackableProps()));
+    Item ENGAGEMENT_RING_RG = register("engagement_ring_rg", new EngagementRingRGItem(unstackableProps()));
+    Item MATCHMAKERS_RING = register("matchmakers_ring", new MatchmakersRingItem(baseProps().maxCount(2)));
 
-    public static final RegistryObject<Item> VILLAGER_EDITOR = Registration.ITEMS.register("villager_editor", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> STAFF_OF_LIFE = Registration.ITEMS.register("staff_of_life", () -> new StaffOfLifeItem(new Item.Properties().tab(ItemGroupMCA.MCA).durability(5)));
-    public static final RegistryObject<Item> WHISTLE = Registration.ITEMS.register("whistle", () -> new WhistleItem(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BLUEPRINT = Registration.ITEMS.register("blueprint", () -> new BlueprintItem(new Item.Properties().tab(ItemGroupMCA.MCA)));
+    Item VILLAGER_EDITOR = register("villager_editor", new Item(baseProps()));
+    Item STAFF_OF_LIFE = register("staff_of_life", new StaffOfLifeItem(baseProps().maxDamage(5)));
+    Item WHISTLE = register("whistle", new WhistleItem(baseProps()));
+    Item BLUEPRINT = register("blueprint", new BlueprintItem(baseProps()));
 
-    public static final RegistryObject<Item> BOOK_ROSE_GOLD = Registration.ITEMS.register("book_rose_gold", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BOOK_DEATH = Registration.ITEMS.register("book_death", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BOOK_ROMANCE = Registration.ITEMS.register("book_romance", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BOOK_FAMILY = Registration.ITEMS.register("book_family", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> BOOK_INFECTION = Registration.ITEMS.register("book_infection", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+    Item BOOK_ROSE_GOLD = register("book_rose_gold", new Item(baseProps()));
+    Item BOOK_DEATH = register("book_death", new Item(baseProps()));
+    Item BOOK_ROMANCE = register("book_romance", new Item(baseProps()));
+    Item BOOK_FAMILY = register("book_family", new Item(baseProps()));
+    Item BOOK_INFECTION = register("book_infection", new Item(baseProps()));
 
-    public static final RegistryObject<Item> GOLD_DUST = Registration.ITEMS.register("gold_dust", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> ROSE_GOLD_DUST = Registration.ITEMS.register("rose_gold_dust", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
-    public static final RegistryObject<Item> ROSE_GOLD_INGOT = Registration.ITEMS.register("rose_gold_ingot", () -> new Item(new Item.Properties().tab(ItemGroupMCA.MCA)));
+    Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
+    Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));
+    Item ROSE_GOLD_INGOT = register("rose_gold_ingot", new Item(baseProps()));
 
+    Item ROSE_GOLD_BLOCK = register("rose_gold_block", new BlockItem(BlocksMCA.ROSE_GOLD_BLOCK, baseProps()));
+    Item ROSE_GOLD_ORE = register("rose_gold_ore", new BlockItem(BlocksMCA.ROSE_GOLD_ORE, baseProps()));
 
-    public static void register() {
+    static void bootstrap() {
+        TagsMCA.Blocks.bootstrap();
+        RecipesMCA.bootstrap();
+    }
+
+    private static Item register(String name, Item item) {
+        return Registry.register(Registry.ITEM, new Identifier(MCA.MOD_ID, name), item);
     }
 
     private static Item.Settings baseProps() {
-        return new Item.Settings().group(ItemGroupMCA.MCA);
+        return new Item.Settings().group(ItemGroupMCA.MCA_GROUP);
     }
 
     private static Item.Settings unstackableProps() {
         return baseProps().maxCount(1);
     }
-
-
 }

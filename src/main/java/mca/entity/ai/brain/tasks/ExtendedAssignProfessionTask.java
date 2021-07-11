@@ -15,7 +15,7 @@ public class ExtendedAssignProfessionTask extends GoToWorkTask {
 
     //needed to change clothes as it directly touches data
     @Override
-    protected void start(ServerWorld world, VillagerEntity villager, long p_212831_3_) {
+    protected void run(ServerWorld world, VillagerEntity villager, long time) {
         if (villager instanceof VillagerEntityMCA) {
             GlobalPos globalpos = villager.getBrain().getOptionalMemory(MemoryModuleType.POTENTIAL_JOB_SITE).get();
             villager.getBrain().forget(MemoryModuleType.POTENTIAL_JOB_SITE);

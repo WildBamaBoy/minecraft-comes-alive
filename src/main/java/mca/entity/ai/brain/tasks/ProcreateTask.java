@@ -15,17 +15,17 @@ public class ProcreateTask extends Task<VillagerEntityMCA> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         return villager.isProcreating.get();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return checkExtraStartConditions(world, villager);
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        return shouldRun(world, villager);
     }
 
     @Override
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         Random random = villager.getRandom();
         if (villager.procreateTick > 0) {
             villager.procreateTick--;
@@ -35,7 +35,7 @@ public class ProcreateTask extends Task<VillagerEntityMCA> {
             //make sure this village is registered in the family tree
             villager.getFamilyTree().addEntry(villager);
 
-            ItemStack stack = new ItemStack(random.nextBoolean() ? ItemsMCA.BABY_BOY.get() : ItemsMCA.BABY_GIRL.get());
+            ItemStack stack = new ItemStack(random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
             PlayerEntity player = villager.world.getPlayerByUuid(villager.spouseUUID.get().get());
             if (player != null) {
                 if (!player.giveItemStack(stack)) {

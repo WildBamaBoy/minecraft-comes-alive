@@ -2,31 +2,28 @@ package mca.api.types;
 
 import mca.enums.Gender;
 
-public class ClothingGroup {
-    private final String gender;
-    private final String profession;
-    private final int count;
-    private final float chance;
+public record ClothingGroup (
+    String gender,
+    String profession,
+    int count,
+    float chance) {
 
     public ClothingGroup() {
-        gender = "";
-        profession = "";
-        count = 0;
-        chance = 1.0f;
+        this("", "", 0, 1);
     }
 
     public Gender getGender() {
         return Gender.byName(gender);
     }
-
+    @Deprecated
     public String getProfession() {
         return profession;
     }
-
+    @Deprecated
     public int getCount() {
         return count;
     }
-
+    @Deprecated
     public float getChance() {
         return chance;
     }

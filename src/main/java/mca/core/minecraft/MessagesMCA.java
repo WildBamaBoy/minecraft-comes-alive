@@ -3,8 +3,8 @@ package mca.core.minecraft;
 import mca.cobalt.network.NetworkHandler;
 import mca.network.*;
 
-public class MessagesMCA {
-    static {
+public interface MessagesMCA {
+    static void bootstrap() {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
         NetworkHandler.registerMessage(InteractionServerMessage.class);
         NetworkHandler.registerMessage(BabyNamingVillagerMessage.class);
@@ -23,8 +23,5 @@ public class MessagesMCA {
         NetworkHandler.registerMessage(GetFamilyTreeResponse.class);
         NetworkHandler.registerMessage(GetInteractDataRequest.class);
         NetworkHandler.registerMessage(GetInteractDataResponse.class);
-    }
-
-    public static void register() {
     }
 }

@@ -1,5 +1,6 @@
 package mca.client.render.layer;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerEntityMCA;
@@ -14,8 +15,14 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends VillagerEntityModelMCA<T>> extends FeatureRenderer<T, M> {
-    protected static final Map<String, Identifier> textureRes = Maps.newHashMap();
+
+    private static final float[] DEFAULT_COLOR = new float[]{1, 1, 1};
+
+    protected static final Map<String, Identifier> TEXTURE_CACHE = Maps.newHashMap();
+
     public final M model;
 
     public VillagerLayer(FeatureRendererContext<T, M> renderer, M model) {
@@ -23,16 +30,18 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
         this.model = model;
     }
 
-    String getTexture(T entity) {
+    @Nullable
+    protected String getSkin(T entity) {
         return null;
     }
 
-    String getOverlayTexture(T entity) {
+    @Nullable
+    protected String getOverlay(T entity) {
         return null;
     }
 
-    float[] getColor(T entity) {
-        return new float[]{1.0f, 1.0f, 1.0f};
+    protected float[] getColor(T entity) {
+        return DEFAULT_COLOR;
     }
 
     boolean isTranslucent() {
@@ -47,40 +56,35 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
     }
 
     @Override
-    public void render(MatrixStack transform, VertexConsumerProvider buffer, int p_225628_3_, T entity, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
-        String p;
-
+    public void render(MatrixStack transform, VertexConsumerProvider buffer, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         //copy the animation to this layers model
         getContextModel().copyPropertiesTo(model);
 
         //texture
-        p = getTexture(entity);
-        if (p != null && p.length() > 0) {
+        String p = getSkin(entity);
+        if (!Strings.isNullOrEmpty(p)) {
             //color
             float[] color = getColor(entity);
 
             Identifier res = getResource(p);
-            this.renderModel(transform, buffer, p_225628_3_, model, color[0], color[1], color[2], res, LivingEntityRenderer.getOverlay(entity, 0.0F));
+            this.renderModel(transform, buffer, light, model, color[0], color[1], color[2], res, LivingEntityRenderer.getOverlay(entity, 0));
         }
 
         //overlay
-        p = getOverlayTexture(entity);
-        if (p != null && p.length() > 0) {
+        p = getOverlay(entity);
+        if (!Strings.isNullOrEmpty(p)) {
             Identifier res = getResource(p);
-            this.renderModel(transform, buffer, p_225628_3_, model, 1.0f, 1.0f, 1.0f, res, LivingEntityRenderer.getOverlay(entity, 0.0F));
+            this.renderModel(transform, buffer, light, model, 1, 1, 1, res, LivingEntityRenderer.getOverlay(entity, 0));
         }
     }
 
-    private Identifier getResource(String s) {
-        Identifier resourcelocation = textureRes.get(s);
-        if (resourcelocation == null) {
+    private Identifier getResource(String name) {
+        return TEXTURE_CACHE.computeIfAbsent(name, s -> {
             try {
-                resourcelocation = new Identifier(s);
+                return new Identifier(s);
             } catch (InvalidIdentifierException ignored) {
-                resourcelocation = new Identifier("");
+                return new Identifier("");
             }
-            textureRes.put(s, resourcelocation);
-        }
-        return resourcelocation;
+        });
     }
 }

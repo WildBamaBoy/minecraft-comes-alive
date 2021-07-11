@@ -1,13 +1,19 @@
 package mca.core.minecraft;
 
-import mca.core.forge.Registration;
+import mca.core.MCA;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
-public class ParticleTypesMCA {
-    public static final RegistryObject<DefaultParticleType> POS_INTERACTION = Registration.PARTICLE_TYPES.register("pos_interaction", () -> new BasicParticleType(false));
-    public static final RegistryObject<DefaultParticleType> NEG_INTERACTION = Registration.PARTICLE_TYPES.register("neg_interaction", () -> new BasicParticleType(false));
+public interface ParticleTypesMCA {
+    DefaultParticleType POS_INTERACTION = register("pos_interaction", FabricParticleTypes.simple());
+    DefaultParticleType NEG_INTERACTION = register("neg_interaction", FabricParticleTypes.simple());
 
-    public static void init() {
+    static void bootstrap() { }
+
+    private static <T extends ParticleType<?>> T register(String name, T type) {
+        return Registry.register(Registry.PARTICLE_TYPE, new Identifier(MCA.MOD_ID, name), type);
     }
 }

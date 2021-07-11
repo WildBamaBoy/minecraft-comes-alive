@@ -1,8 +1,8 @@
 package mca.client.gui;
 
 import mca.api.API;
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.MCA;
 import mca.items.BabyItem;
 import mca.network.BabyNamingVillagerMessage;
 import net.minecraft.client.gui.screen.Screen;
@@ -35,11 +35,11 @@ public class GuiNameBaby extends Screen {
 
     @Override
     public void init() {
-        addButton(new ButtonWidget(width / 2 - 40, height / 2 - 10, 80, 20, MCA.localizeText("gui.button.done"), (b) -> {
-            NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.inventory.selectedSlot, babyNameTextField.getText().trim()));
+        addSelectableChild(new ButtonWidget(width / 2 - 40, height / 2 - 10, 80, 20, Localizer.getInstance().localizeText("gui.button.done"), (b) -> {
+            NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.getInventory().selectedSlot, babyNameTextField.getText().trim()));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
-        addButton(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, MCA.localizeText("gui.button.random"), (b) -> babyNameTextField.setText(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
+        addSelectableChild(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, Localizer.getInstance().localizeText("gui.button.random"), (b) -> babyNameTextField.setText(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
 
         babyNameTextField = new TextFieldWidget(this.textRenderer, width / 2 - 100, height / 2 - 60, 200, 20, new TranslatableText("structure_block.structure_name"));
         babyNameTextField.setMaxLength(32);
@@ -58,7 +58,7 @@ public class GuiNameBaby extends Screen {
 
         setFocused(babyNameTextField);
 
-        drawCenteredString(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
+        drawCenteredText(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
 
         babyNameTextField.render(transform, width / 2 - 100, height / 2 - 70, scale);
 

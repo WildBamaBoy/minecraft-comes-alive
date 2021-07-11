@@ -2,7 +2,7 @@ package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -13,8 +13,9 @@ import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import javax.annotation.Nullable;
 import java.util.Optional;
+
+import org.jetbrains.annotations.Nullable;
 
 //TODO make them teleport
 public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
@@ -33,7 +34,8 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
         super(ImmutableMap.of(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleState.REGISTERED, MemoryModuleType.PATH, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_PRESENT), minDuration, maxDuration);
     }
 
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    @Override
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         if (this.remainingCooldown > 0) {
             --this.remainingCooldown;
             return false;
@@ -55,7 +57,8 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
         }
     }
 
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long gameTime) {
+    @Override
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long gameTime) {
         if (this.path != null && this.lastTargetPos != null) {
             Optional<WalkTarget> optional = villager.getBrain().getOptionalMemory(MemoryModuleType.WALK_TARGET);
             EntityNavigation pathnavigator = villager.getNavigation();
@@ -65,7 +68,8 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
         }
     }
 
-    protected void stop(ServerWorld world, VillagerEntityMCA villager, long gameTime) {
+    @Override
+    protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long gameTime) {
         if (villager.getBrain().hasMemoryModule(MemoryModuleType.WALK_TARGET) && !this.reachedTarget(villager, villager.getBrain().getOptionalMemory(MemoryModuleType.WALK_TARGET).get()) && villager.getNavigation().isNearPathStartPos()) {
             this.remainingCooldown = world.getRandom().nextInt(40);
         }
@@ -76,12 +80,14 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
         this.path = null;
     }
 
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
+    @Override
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         villager.getBrain().remember(MemoryModuleType.PATH, this.path);
         villager.getNavigation().startMovingAlong(this.path, this.speedModifier);
     }
 
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+    @Override
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         Path path = villager.getNavigation().getCurrentPath();
         Brain<?> brain = villager.getBrain();
         if (this.path != path) {
@@ -93,15 +99,15 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
             WalkTarget walktarget = brain.getOptionalMemory(MemoryModuleType.WALK_TARGET).get();
             if (walktarget.getLookTarget().getBlockPos().getSquaredDistance(this.lastTargetPos) > 4.0D && this.tryComputePath(villager, walktarget, world.getTime())) {
                 this.lastTargetPos = walktarget.getLookTarget().getBlockPos();
-                this.start(world, villager, p_212833_3_);
+                this.run(world, villager, time);
             }
 
         }
     }
 
-    private boolean tryComputePath(VillagerEntityMCA villager, WalkTarget walkTarget, long p_220487_3_) {
+    private boolean tryComputePath(VillagerEntityMCA villager, WalkTarget walkTarget, long time) {
         BlockPos blockpos = walkTarget.getLookTarget().getBlockPos();
-        this.path = villager.getNavigation().findPathToAny(blockpos, 0);
+        this.path = villager.getNavigation().findPathTo(blockpos, 0);
         this.speedModifier = walkTarget.getSpeed();
         Brain<?> brain = villager.getBrain();
         if (this.reachedTarget(villager, walkTarget)) {
@@ -111,7 +117,7 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
             if (flag) {
                 brain.forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
             } else if (!brain.hasMemoryModule(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) {
-                brain.remember(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, p_220487_3_);
+                brain.remember(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, time);
             }
 
             if (this.path != null) {
@@ -119,9 +125,9 @@ public class WalkOrTeleportToTargetTask extends Task<VillagerEntityMCA> {
             }
 
 
-            Vec3d vector3d = RandomPositionGenerator.getPosTowards(villager, 10, 7, Vec3d.ofBottomCenter(blockpos));
+            Vec3d vector3d = FuzzyTargeting.findTo(villager, 10, 7, Vec3d.ofBottomCenter(blockpos));
             if (vector3d != null) {
-                this.path = villager.getNavigation().findPathToAny(vector3d.x, vector3d.y, vector3d.z, 0);
+                this.path = villager.getNavigation().findPathTo(vector3d.x, vector3d.y, vector3d.z, 0);
                 return this.path != null;
             }
         }

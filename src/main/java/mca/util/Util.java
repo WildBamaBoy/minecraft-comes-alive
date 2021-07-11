@@ -8,8 +8,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -111,7 +111,7 @@ public class Util {
             in.close();
             return response.toString();
         } catch (IOException ignored) {
-            MCA.log("Failed to GET from: " + url);
+            MCA.logger.info("Failed to GET from: " + url);
         }
         return "";
     }

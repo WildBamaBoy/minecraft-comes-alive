@@ -250,7 +250,7 @@ public class ServerInteractionManager {
                 // On success, add a randomly generated baby to the original requester.
                 successMessage(sender, "Procreation successful!");
                 successMessage(spouse, "Procreation successful!");
-                spouse.giveItemStack(new ItemStack(sender.world.getRandom().nextBoolean() ? ItemsMCA.BABY_BOY.get() : ItemsMCA.BABY_GIRL.get()));
+                spouse.giveItemStack(new ItemStack(sender.world.getRandom().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
 
                 PlayerSaveData spouseData = PlayerSaveData.get(spouse.world, spouse.getUuid());
                 spouseData.setBabyPresent(true);

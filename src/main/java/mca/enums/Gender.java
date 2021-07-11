@@ -1,35 +1,46 @@
 package mca.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@AllArgsConstructor
-@Getter
 public enum Gender {
-    UNASSIGNED(0, "unassigned"),
-    MALE(1, "male"),
-    FEMALE(2, "female"),
-    NEUTRAL(3, "neutral");
+    UNASSIGNED,
+    MALE,
+    FEMALE,
+    NEUTRAL;
 
-    int id;
-    String strName;
+    private static final Random RNG = new Random();
+    private static final Gender[] VALUES = values();
+    private static final Map<String, Gender> REGISTRY = Stream.of(VALUES).collect(Collectors.toMap(Gender::name, Function.identity()));
+
+    public int getId() {
+        return ordinal();
+    }
+
+    public String getStrName() {
+        return name().toLowerCase();
+    }
+
+    public Gender binary() {
+        return this == FEMALE ? FEMALE : MALE;
+    }
 
     public static Gender byId(int id) {
-        Optional<Gender> gender = Arrays.stream(values()).filter((e) -> e.id == id).findFirst();
-        return gender.orElse(UNASSIGNED);
+        if (id < 0 || id >= VALUES.length) {
+            return UNASSIGNED;
+        }
+        return VALUES[id];
     }
 
     public static Gender getRandom() {
-        return new Random().nextBoolean() ? MALE : FEMALE;
+        return RNG.nextBoolean() ? MALE : FEMALE;
     }
 
     public static Gender byName(String name) {
-        Optional<Gender> gender = Arrays.stream(values()).filter((e) -> e.getStrName().equals(name)).findFirst();
-        return gender.orElse(UNASSIGNED);
+        return REGISTRY.getOrDefault(name, UNASSIGNED);
     }
 }
 

@@ -2,11 +2,13 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import java.util.UUID;
 
-public class InteractionVillagerMessage extends Message {
+public class InteractionVillagerMessage implements Message {
+    private static final long serialVersionUID = 2563941495766992462L;
+
     private final String page;
     private final String id;
     private final UUID villagerUUID;
@@ -18,7 +20,7 @@ public class InteractionVillagerMessage extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         VillagerEntityMCA villager = (VillagerEntityMCA) ((ServerWorld) player.world).getEntity(villagerUUID);
         if (villager != null) {
             villager.handleInteraction(player, page, id);

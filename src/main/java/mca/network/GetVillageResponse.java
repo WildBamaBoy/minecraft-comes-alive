@@ -5,9 +5,11 @@ import mca.cobalt.network.Message;
 import mca.entity.data.Village;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
-public class GetVillageResponse extends Message {
+public class GetVillageResponse implements Message {
+    private static final long serialVersionUID = 4882425683460617550L;
+
     private final Village data;
     private final int reputation;
 
@@ -17,7 +19,7 @@ public class GetVillageResponse extends Message {
     }
 
     @Override
-    public void receive(ServerPlayerEntity player) {
+    public void receive(PlayerEntity player) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof GuiBlueprint) {
             GuiBlueprint gui = (GuiBlueprint) screen;

@@ -1,46 +1,30 @@
 package mca.core.minecraft;
 
-import com.google.common.collect.ImmutableSet;
-import mca.core.forge.Registration;
+import mca.core.MCA;
+import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
-public class ProfessionsMCA {
-    public static final VillagerProfession CHILD = new VillagerProfession("child", PointOfInterestType.HOME, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
-    public static final VillagerProfession GUARD = new VillagerProfession("guard", PointOfInterestType.ARMORER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
-    // as set of invalid professions
-    private static final List<VillagerProfession> PROFESSIONS = new ArrayList<>(12);
+public interface ProfessionsMCA {
+    VillagerProfession CHILD = register("child", VillagerProfessionBuilder.create().workstation(PointOfInterestType.HOME).workSound(SoundEvents.ENTITY_VILLAGER_WORK_FARMER));
+    VillagerProfession GUARD = register("guard", VillagerProfessionBuilder.create().workstation(PointOfInterestType.ARMORER).workSound(SoundEvents.ENTITY_VILLAGER_WORK_ARMORER));
 
-    public static void register() {
-        Registration.PROFESSIONS.register("child", () -> CHILD);
-        Registration.PROFESSIONS.register("guard", () -> GUARD);
-
-        //TODO get other modded professions
-        PROFESSIONS.addAll(Arrays.asList(
-                VillagerProfession.ARMORER,
-                VillagerProfession.BUTCHER,
-                VillagerProfession.CARTOGRAPHER,
-                VillagerProfession.CLERIC,
-                VillagerProfession.FARMER,
-                VillagerProfession.FISHERMAN,
-                VillagerProfession.FLETCHER,
-                VillagerProfession.LEATHERWORKER,
-                VillagerProfession.LIBRARIAN,
-                VillagerProfession.MASON,
-                VillagerProfession.NITWIT,
-                GUARD
-        ));
+    static void bootstrap() {
+        PointOfInterestTypeMCA.bootstrap();
     }
 
-    public static VillagerProfession randomProfession() {
+    private static VillagerProfession register(String name, VillagerProfessionBuilder builder) {
+        Identifier id = new Identifier(MCA.MOD_ID, name);
+        return Registry.register(Registry.VILLAGER_PROFESSION, id, VillagerProfessionBuilder.create().id(id).build());
+    }
+
+    static VillagerProfession randomProfession() {
+        // TODO: use the world's random to avoid client/server desync.
         Random r = new Random();
-        return PROFESSIONS.get(r.nextInt(PROFESSIONS.size()));
+        return Registry.VILLAGER_PROFESSION.getRandom(r);
     }
-
-
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Chore;
 import mca.util.InventoryUtils;
+import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -28,18 +29,18 @@ public class HuntingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         return villager.activeChore.get() == Chore.HUNT.getId();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return checkExtraStartConditions(world, villager) && villager.getHealth() == villager.getMaxHealth();
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
+        return shouldRun(world, villager) && villager.getHealth() == villager.getMaxHealth();
     }
 
 
     @Override
-    protected void stop(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
+    protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long p_212835_3_) {
         ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
         if (!stack.isEmpty()) {
             villager.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
@@ -48,8 +49,8 @@ public class HuntingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
-        super.start(world, villager, p_212831_3_);
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
+        super.run(world, villager, p_212831_3_);
 
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof SwordItem);
@@ -67,8 +68,8 @@ public class HuntingTask extends AbstractChoreTask {
     }
 
     @Override
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
-        super.tick(world, villager, p_212833_3_);
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+        super.keepRunning(world, villager, p_212833_3_);
 
         if (!InventoryUtils.contains(villager.getInventory(), SwordItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
@@ -85,9 +86,9 @@ public class HuntingTask extends AbstractChoreTask {
             if (ticks >= nextAction) {
                 ticks = 0;
                 if (villager.world.random.nextFloat() >= 0.0D) {
-                    Optional<AnimalEntity> animal = villager.world.getLoadedEntitiesOfClass(AnimalEntity.class, villager.getBoundingBox().expand(15.0D, 3.0D, 15.0D)).stream()
+                    Optional<AnimalEntity> animal = villager.world.getNonSpectatingEntities(AnimalEntity.class, villager.getBoundingBox().expand(15.0D, 3.0D, 15.0D)).stream()
                             .filter((a) -> !(a instanceof TameableEntity))
-                            .min(Comparator.comparingDouble(d -> villager.distanceToSqr(d.getX(), d.getY(), d.getZ())));
+                            .min(Comparator.comparingDouble(villager::squaredDistanceTo));
 
                     if (animal.isPresent()) {
                         target = animal.get();
@@ -102,17 +103,17 @@ public class HuntingTask extends AbstractChoreTask {
 
             if (target.isDead()) {
                 // search for EntityItems around the target and grab them
-                villager.world.getLoadedEntitiesOfClass(ItemEntity.class, villager.getBoundingBox().expand(15.0D, 3.0D, 15.0D))
+                villager.world.getNonSpectatingEntities(ItemEntity.class, villager.getBoundingBox().expand(15.0D, 3.0D, 15.0D))
                         .forEach((item) -> {
-                            villager.inventory.addItem(item.getItem());
-                            item.remove();
+                            villager.inventory.addStack(item.getStack());
+                            item.remove(RemovalReason.DISCARDED);
                         });
                 target = null;
             } else if (villager.squaredDistanceTo(target) <= 12.25F) {
                 villager.moveTowards(target.getBlockPos());
                 villager.swingHand(Hand.MAIN_HAND);
                 target.damage(DamageSource.mob(villager), 6.0F);
-                villager.getMainHandStack().damage(1, villager, (p_220038_0_) -> p_220038_0_.sendToolBreakStatus(EquipmentSlot.MAINHAND));
+                villager.getMainHandStack().damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
             }
         }
     }

@@ -1,46 +1,66 @@
 package mca.cobalt.localizer;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.Nullable;
+
+import mca.api.API;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Language;
 
-public class Localizer {
-    private final ArrayList<VarParser> registeredVarParsers = new ArrayList<>();
+// TODO: Just use TranslatableText please.
+@Deprecated
+public final class Localizer {
+    private static final Localizer instance = new Localizer()
+            .registerVarParser(v -> v.replaceAll("%Supporter%", API.getRandomSupporter()));
 
-    public String localize(String key, String... vars) {
-        return localize(key, null, vars);
+    public static Localizer getInstance() {
+        return instance;
     }
 
-    public String localize(String key, String keyFallback, String... vars) {
+    private final ArrayList<VarParser> registeredVarParsers = new ArrayList<>();
+
+    private Localizer() {}
+
+    public Text localizeText(String key, String... vars) {
+        return new LiteralText(localize(key, vars));
+    }
+
+    public String localize(String key, String... vars) {
+        return localizeWithFallback(key, null, vars);
+    }
+
+    public String localizeWithFallback(String key, @Nullable String keyFallback, String... vars) {
         ArrayList<String> list = new ArrayList<>();
         Collections.addAll(list, vars);
         return localize(key, keyFallback, list);
     }
 
     public String localize(String key, String keyFallback, ArrayList<String> vars) {
-        Language localizerMap = Language.getInstance();
-
-        String result = localizerMap.get(key);
+        String result = Language.getInstance().get(key);
 
         //multi-variant text
-        result = getLocalizedString(key, localizerMap, result);
+        result = getLocalizedString(key, result);
 
         //multi-variant fallback text
-        result = getLocalizedString(keyFallback, localizerMap, result);
+        result = getLocalizedString(keyFallback, result);
 
         return parseVars(result, vars);
     }
 
-    private String getLocalizedString(String key, Language localizerMap, String result) {
+    private String getLocalizedString(String key, String result) {
         if (result.equals(key)) {
-            List<String> responses = localizerMap.getLanguageData().entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).map(Map.Entry::getValue).collect(Collectors.toList());
-            if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
+            // TODO: You can't do it like this.
+            //List<String> responses = Language.getInstance().entrySet().stream().filter(entry -> entry.getKey().startsWith(key)).map(Map.Entry::getValue).collect(Collectors.toList());
+            //if (responses.size() > 0) result = responses.get(new Random().nextInt(responses.size()));
         }
         return result;
     }
 
-    public void registerVarParser(VarParser parser) {
+    public Localizer registerVarParser(VarParser parser) {
         this.registeredVarParsers.add(parser);
+        return this;
     }
 
     private String parseVars(String str, ArrayList<String> vars) {

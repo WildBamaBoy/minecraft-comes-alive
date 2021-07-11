@@ -13,8 +13,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class WhistleItem extends Item {
     public WhistleItem(Settings properties) {

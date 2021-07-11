@@ -1,13 +1,15 @@
 package mca.core.minecraft;
 
-import mca.core.forge.Registration;
+import mca.core.MCA;
 import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.util.Identifier;
 
-public class ActivityMCA {
-    public static final Activity CHORE = new Activity("chore");
+public interface ActivityMCA {
+    Activity CHORE = register("chore");
 
+    static void bootstrap() { }
 
-    public static void init() {
-        Registration.ACTIVITIES.register("chore", () -> CHORE);
+    private static Activity register(String name) {
+        return Activity.register(new Identifier(MCA.MOD_ID, name).toString());
     }
 }

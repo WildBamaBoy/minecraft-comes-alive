@@ -64,19 +64,19 @@ public class GrimReaperMeleeGoal extends Goal {
             // Check to see if the player's blocking, then teleport behind them.
             // Also randomly swap their selected item with something else in the hotbar and apply blindness.
             if (player.isBlocking()) {
-                double dX = reaper.offsetX() - player.offsetX();
-                double dZ = reaper.offsetZ() - player.offsetZ();
+                double dX = reaper.getX() - player.getX();
+                double dZ = reaper.getZ() - player.getZ();
 
-                reaper.requestTeleport(player.offsetX() - (dX * 2), player.getBodyY() + 2, reaper.offsetZ() - (dZ * 2));
+                reaper.requestTeleport(player.getX() - (dX * 2), player.getY() + 2, reaper.getZ() - (dZ * 2));
 
                 if (!reaper.world.isClient && reaper.getRandom().nextFloat() >= 0.20F) {
-                    int currentItem = player.inventory.selectedSlot;
+                    int currentItem = player.getInventory().selectedSlot;
                     int randomItem = reaper.getRandom().nextInt(9);
-                    ItemStack currentItemStack = player.inventory.getStack(currentItem);
-                    ItemStack randomItemStack = player.inventory.getStack(randomItem);
+                    ItemStack currentItemStack = player.getInventory().getStack(currentItem);
+                    ItemStack randomItemStack = player.getInventory().getStack(randomItem);
 
-                    player.inventory.setStack(currentItem, randomItemStack);
-                    player.inventory.setStack(randomItem, currentItemStack);
+                    player.getInventory().setStack(currentItem, randomItemStack);
+                    player.getInventory().setStack(randomItem, currentItemStack);
 
                     entityToAttack.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 200));
                 }
@@ -106,7 +106,7 @@ public class GrimReaperMeleeGoal extends Goal {
                 int rY = reaper.getRandom().nextInt(6);
                 int rZ = reaper.getRandom().nextInt(10);
 
-                reaper.requestTeleport(reaper.offsetX() - 5 + rX, reaper.getBodyY() + rY, reaper.offsetZ() - 5 + rZ);
+                reaper.requestTeleport(reaper.getX() - 5 + rX, reaper.getY() + rY, reaper.getZ() - 5 + rZ);
                 reaper.getNavigation().stop();
             }
 
@@ -118,7 +118,7 @@ public class GrimReaperMeleeGoal extends Goal {
             reaper.setAttackState(ReaperAttackState.PRE);
 
             //charge
-            Vec3d dir = entityToAttack.getPos().subtract(reaper.getPos()).normalize().scale(0.15);
+            Vec3d dir = entityToAttack.getPos().subtract(reaper.getPos()).normalize().multiply(0.15);
             reaper.addVelocity(dir.x, dir.y, dir.z);
 
             //attack
@@ -137,7 +137,7 @@ public class GrimReaperMeleeGoal extends Goal {
             reaper.setAttackState(ReaperAttackState.POST);
 
             //retreat
-            Vec3d dir = entityToAttack.getPos().subtract(reaper.getPos()).normalize().scale(-0.1);
+            Vec3d dir = entityToAttack.getPos().subtract(reaper.getPos()).normalize().multiply(-0.1);
             reaper.setVelocity(dir.x, dir.y, dir.z);
         }
     }

@@ -1,24 +1,15 @@
 package mca.api.types;
 
-public class NameSet {
-    private final String separator;
-    private final String[] first;
-    private final String[] second;
-
-    public NameSet(String separator, String[] first, String[] second) {
-        this.separator = separator;
-        this.first = first;
-        this.second = second;
-    }
-
+public record NameSet (String separator, String[] first, String[] second) {
+    @Deprecated
     public String getSeparator() {
         return separator;
     }
-
+    @Deprecated
     public String[] getFirst() {
         return first;
     }
-
+    @Deprecated
     public String[] getSecond() {
         return second;
     }

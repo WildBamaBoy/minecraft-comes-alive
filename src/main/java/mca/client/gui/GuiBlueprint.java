@@ -2,6 +2,7 @@ package mca.client.gui;
 
 import mca.api.API;
 import mca.api.types.BuildingType;
+import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.entity.data.Building;
@@ -70,13 +71,13 @@ public class GuiBlueprint extends Screen {
     private ButtonWidget[] createValueChanger(int x, int y, int w, int h, Consumer<Boolean> onPress) {
         ButtonWidget[] buttons = new ButtonWidget[3];
 
-        buttons[1] = addButton(new ButtonWidget(x - w / 2, y, w / 4, h,
+        buttons[1] = addSelectableChild(new ButtonWidget(x - w / 2, y, w / 4, h,
                 new LiteralText("<<"), (b) -> onPress.accept(false)));
 
-        buttons[2] = addButton(new ButtonWidget(x + w / 4, y, w / 4, h,
+        buttons[2] = addSelectableChild(new ButtonWidget(x + w / 4, y, w / 4, h,
                 new LiteralText(">>"), (b) -> onPress.accept(true)));
 
-        buttons[0] = addButton(new ButtonWidget(x - w / 4, y, w / 2, h,
+        buttons[0] = addSelectableChild(new ButtonWidget(x - w / 4, y, w / 2, h,
                 new LiteralText(""), (b) -> {
         }));
 
@@ -89,12 +90,12 @@ public class GuiBlueprint extends Screen {
 
         showCatalog = false;
 
-        addButton(new ButtonWidget(width / 2 - 66, height / 2 + 80, 64, 20, new LiteralText("Exit"), (b) -> MinecraftClient.getInstance().openScreen(null)));
-        addButton(new ButtonWidget(width / 2 + 2, height / 2 + 80, 64, 20, new LiteralText("Add Building"), (b) -> {
+        addSelectableChild(new ButtonWidget(width / 2 - 66, height / 2 + 80, 64, 20, new LiteralText("Exit"), (b) -> MinecraftClient.getInstance().openScreen(null)));
+        addSelectableChild(new ButtonWidget(width / 2 + 2, height / 2 + 80, 64, 20, new LiteralText("Add Building"), (b) -> {
             NetworkHandler.sendToServer(new ReportBuildingMessage());
             NetworkHandler.sendToServer(new GetVillageRequest());
         }));
-        addButton(new ButtonWidget(width / 2 - fromCenter - 32, height / 2 + 80, 64, 20, new LiteralText("Catalog"), (b) -> {
+        addSelectableChild(new ButtonWidget(width / 2 - fromCenter - 32, height / 2 + 80, 64, 20, new LiteralText("Catalog"), (b) -> {
             toggleButtons(buttonTaxes, false);
             toggleButtons(buttonBirths, false);
             toggleButtons(buttonMarriage, false);
@@ -134,12 +135,12 @@ public class GuiBlueprint extends Screen {
             //title
             transform.push();
             transform.scale(2.0f, 2.0f, 2.0f);
-            drawCenteredString(transform, textRenderer, "Building Catalog", width / 4, height / 4 - 55, 0xffffffff);
+            drawCenteredText(transform, textRenderer, "Building Catalog", width / 4, height / 4 - 55, 0xffffffff);
             transform.pop();
 
             //explanation
-            drawCenteredString(transform, textRenderer, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
-            drawCenteredString(transform, textRenderer, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
+            drawCenteredText(transform, textRenderer, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
+            drawCenteredText(transform, textRenderer, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
 
             //buildings
             int row = 0;
@@ -152,17 +153,17 @@ public class GuiBlueprint extends Screen {
                     int x = width / 2 + fromCenter * (col - 1);
                     int y = row * (h + spacing) + 105;
                     rectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
-                    drawCenteredString(transform, textRenderer, MCA.localize("buildingType." + bt.getName()), x, y - 24, bt.getColor());
+                    drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("buildingType." + bt.getName()), x, y - 24, bt.getColor());
 
                     //size
-                    String size = bt.getSize() == 0 ? MCA.localize("gui.building.anySize") : MCA.localize("gui.building.size", String.valueOf(bt.getSize()));
-                    drawCenteredString(transform, textRenderer, size, x, y - 12, 0xffdddddd);
+                    String size = bt.getSize() == 0 ? Localizer.getInstance().localize("gui.building.anySize") : Localizer.getInstance().localize("gui.building.size", String.valueOf(bt.getSize()));
+                    drawCenteredText(transform, textRenderer, size, x, y - 12, 0xffdddddd);
 
                     //required blocks
                     int i = 0;
                     for (Map.Entry<String, Integer> b : bt.getBlocks().entrySet()) {
                         i++;
-                        drawCenteredString(transform, textRenderer, b.getValue() + " x " + getBlockName(b.getKey()), x, y - 12 + 12 * i, 0xffffffff);
+                        drawCenteredText(transform, textRenderer, b.getValue() + " x " + getBlockName(b.getKey()), x, y - 12 + 12 * i, 0xffffffff);
                     }
 
                     col++;
@@ -176,12 +177,12 @@ public class GuiBlueprint extends Screen {
             //name
             transform.push();
             transform.scale(2.0f, 2.0f, 2.0f);
-            drawCenteredString(transform, textRenderer, village.getName(), width / 4, height / 4 - 55, 0xffffffff);
+            drawCenteredText(transform, textRenderer, village.getName(), width / 4, height / 4 - 55, 0xffffffff);
             transform.pop();
 
             //population
-            drawCenteredString(transform, textRenderer, "Buildings: " + village.getBuildings().size(), width / 2, height / 2 - 90, 0xffffffff);
-            drawCenteredString(transform, textRenderer, "Population: " + village.getPopulation() + " of " + village.getMaxPopulation(), width / 2, height / 2 - 80, 0xffffffff);
+            drawCenteredText(transform, textRenderer, "Buildings: " + village.getBuildings().size(), width / 2, height / 2 - 90, 0xffffffff);
+            drawCenteredText(transform, textRenderer, "Population: " + village.getPopulation() + " of " + village.getMaxPopulation(), width / 2, height / 2 - 80, 0xffffffff);
 
             //update text
             buttonTaxes[0].setMessage(new LiteralText(village.getTaxes() + "%"));
@@ -190,39 +191,39 @@ public class GuiBlueprint extends Screen {
 
             //rank
             Rank rank = village.getRank(reputation);
-            String rankStr = MCA.localize("gui.village.rank." + rank.getId());
+            String rankStr = Localizer.getInstance().localize("gui.village.rank." + rank.getId());
             int rankColor = rank.getId() == 0 ? 0xffff0000 : 0xffffff00;
-            drawCenteredString(transform, textRenderer, MCA.localize("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
-            drawCenteredString(transform, textRenderer, MCA.localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.getId() == 0 ? 0xffff0000 : 0xffffffff);
+            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
+            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.getId() == 0 ? 0xffff0000 : 0xffffffff);
 
             //tasks
-            String str = MCA.localize("task.reputation", String.valueOf(rank.getReputation()));
-            drawCenteredString(transform, textRenderer, str, width / 2 - fromCenter, height / 2 - 22, reputation >= rank.getReputation() ? 0xff00ff00 : 0xffff0000);
+            String str = Localizer.getInstance().localize("task.reputation", String.valueOf(rank.getReputation()));
+            drawCenteredText(transform, textRenderer, str, width / 2 - fromCenter, height / 2 - 22, reputation >= rank.getReputation() ? 0xff00ff00 : 0xffff0000);
             for (int i = 0; i < Village.getTaskNames().length; i++) {
-                String task = MCA.localize("task." + Village.getTaskNames()[i]);
-                drawCenteredString(transform, textRenderer, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks()[i] ? 0xff00ff00 : 0xffdddddd);
+                String task = Localizer.getInstance().localize("task." + Village.getTaskNames()[i]);
+                drawCenteredText(transform, textRenderer, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks()[i] ? 0xff00ff00 : 0xffdddddd);
             }
 
             //taxes
-            drawCenteredString(transform, textRenderer, MCA.localize("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
+            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
             if (rank.getId() < rankTaxes) {
-                drawCenteredString(transform, textRenderer, MCA.localize("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
+                drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
                 toggleButtons(buttonTaxes, false);
             } else {
                 toggleButtons(buttonTaxes, true);
             }
 
-            drawCenteredString(transform, textRenderer, MCA.localize("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
+            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
             if (rank.getId() < rankBirth) {
-                drawCenteredString(transform, textRenderer, MCA.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
+                drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
                 toggleButtons(buttonBirths, false);
             } else {
                 toggleButtons(buttonBirths, true);
             }
 
-            drawCenteredString(transform, textRenderer, MCA.localize("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
+            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
             if (rank.getId() < rankMarriage) {
-                drawCenteredString(transform, textRenderer, MCA.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
+                drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
                 toggleButtons(buttonMarriage, false);
             } else {
                 toggleButtons(buttonMarriage, true);
@@ -244,7 +245,7 @@ public class GuiBlueprint extends Screen {
             //show the players location
             ClientPlayerEntity player = client.player;
             if (player != null) {
-                rectangle(transform, (int) player.offsetX() - 1, (int) player.offsetZ() - 1, (int) player.offsetX() + 1, (int) player.offsetZ() + 1, 0xffff00ff);
+                rectangle(transform, (int) player.getX() - 1, (int) player.getZ() - 1, (int) player.getX() + 1, (int) player.getZ() + 1, 0xffff00ff);
             }
 
             int mouseRawX = (int) (client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
@@ -274,8 +275,8 @@ public class GuiBlueprint extends Screen {
 
                 //name
                 BuildingType bt = API.getBuildingType(hoverBuilding.getType());
-                lines.add(MCA.localizeText("buildingType." + bt.getName()));
-                lines.add(MCA.localizeText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
+                lines.add(Localizer.getInstance().localizeText("buildingType." + bt.getName()));
+                lines.add(Localizer.getInstance().localizeText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
 
                 //residents
                 for (String name : hoverBuilding.getResidents().values()) {
@@ -297,7 +298,7 @@ public class GuiBlueprint extends Screen {
 
     private String getBlockName(String key) {
         //dis some hacking, no time to fix tho
-        return MCA.localize("block." + key.replace(":", "."));
+        return Localizer.getInstance().localize("block." + key.replace(":", "."));
     }
 
     private void toggleButtons(ButtonWidget[] buttons, boolean active) {

@@ -1,43 +1,43 @@
 package mca.enums;
 
 import mca.api.API;
-import mca.core.MCA;
-import net.minecraft.util.RangedInteger;
+import mca.cobalt.localizer.Localizer;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.math.MathHelper;
 
 public enum Mood {
+    DEPRESSED(-100, -15, MoodGroup.GENERAL),
+    SAD(-14, -7, MoodGroup.GENERAL),
+    UNHAPPY(-6, -1, MoodGroup.GENERAL),
+    PASSIVE(0, 0, MoodGroup.UNASSIGNED),
+    FINE(1, 6, MoodGroup.GENERAL),
+    HAPPY(7, 14, MoodGroup.GENERAL),
+    OVERJOYED(15, 15, MoodGroup.GENERAL),
 
-    DEPRESSED(RangedInteger.of(-100, -15), MoodGroup.GENERAL),
-    SAD(RangedInteger.of(-14, -7), MoodGroup.GENERAL),
-    UNHAPPY(RangedInteger.of(-6, -1), MoodGroup.GENERAL),
-    PASSIVE(RangedInteger.of(0, 0), MoodGroup.UNASSIGNED),
-    FINE(RangedInteger.of(1, 6), MoodGroup.GENERAL),
-    HAPPY(RangedInteger.of(7, 14), MoodGroup.GENERAL),
-    OVERJOYED(RangedInteger.of(15, 15), MoodGroup.GENERAL),
+    BORED_TO_TEARS(-100, -15, MoodGroup.PLAYFUL),
+    BORED(-14, -7, MoodGroup.PLAYFUL),
+    UNINTERESTED(-6, -1, MoodGroup.PLAYFUL),
+    SILLY(1, 6, MoodGroup.PLAYFUL),
+    GIGGLY(7, 14, MoodGroup.PLAYFUL),
+    ENTERTAINED(15, 15, MoodGroup.PLAYFUL),
 
-    BORED_TO_TEARS(RangedInteger.of(-100, -15), MoodGroup.PLAYFUL),
-    BORED(RangedInteger.of(-14, -7), MoodGroup.PLAYFUL),
-    UNINTERESTED(RangedInteger.of(-6, -1), MoodGroup.PLAYFUL),
-    SILLY(RangedInteger.of(1, 6), MoodGroup.PLAYFUL),
-    GIGGLY(RangedInteger.of(7, 14), MoodGroup.PLAYFUL),
-    ENTERTAINED(RangedInteger.of(15, 15), MoodGroup.PLAYFUL),
+    INFURIATED(-100, -15, MoodGroup.SERIOUS),
+    ANGRY(-14, -7, MoodGroup.SERIOUS),
+    ANNOYED(-6, -1, MoodGroup.SERIOUS),
+    INTERESTED(1, 6, MoodGroup.SERIOUS),
+    TALKATIVE(7, 14, MoodGroup.SERIOUS),
+    PLEASED(15, 15, MoodGroup.SERIOUS);
 
-    INFURIATED(RangedInteger.of(-100, -15), MoodGroup.SERIOUS),
-    ANGRY(RangedInteger.of(-14, -7), MoodGroup.SERIOUS),
-    ANNOYED(RangedInteger.of(-6, -1), MoodGroup.SERIOUS),
-    INTERESTED(RangedInteger.of(1, 6), MoodGroup.SERIOUS),
-    TALKATIVE(RangedInteger.of(7, 14), MoodGroup.SERIOUS),
-    PLEASED(RangedInteger.of(15, 15), MoodGroup.SERIOUS);
-
-    //-15 to 15 is a range of normal interactions, but mood can go -15 to -100 due to player interactions.
+    //-15 to 15 is a range create normal interactions, but mood can go -15 to -100 due to player interactions.
     public final static int normalMinLevel = -15;
     public final static int absoluteMinLevel = -100;
     public final static int maxLevel = 15;
-    private final RangedInteger level;
+
+    private final UniformIntProvider level;
     private final MoodGroup moodGroup;
 
-    Mood(RangedInteger level, MoodGroup moodGroup) {
-        this.level = level;
+    Mood(int min, int max, MoodGroup moodGroup) {
+        this.level = UniformIntProvider.create(min, max);
         this.moodGroup = moodGroup;
     }
 
@@ -50,12 +50,12 @@ public enum Mood {
     }
 
     public boolean isInRange(int level) {
-        return this.level.getMaxInclusive() >= level && this.level.getMinInclusive() <= level;
+        return this.level.getMax() >= level && this.level.getMin() <= level;
     }
 
     public String getLocalizedName() {
         String name = "mood." + this.name().toLowerCase();
-        return MCA.localize(name);
+        return Localizer.getInstance().localize(name);
     }
 
     public int getSuccessModifierForInteraction(Interaction interaction) {
@@ -69,11 +69,11 @@ public enum Mood {
             case JOKE:
             case TELL_STORY:
             case HUG:
-                return level.randomValue(API.getRng()) / 20;
+                return level.get(API.getRng()) / 20;
             case SHAKE_HAND:
             case FLIRT:
             case KISS:
-                return -level.randomValue(API.getRng()) / 20;
+                return -level.get(API.getRng()) / 20;
             default:
                 return 0;
         }

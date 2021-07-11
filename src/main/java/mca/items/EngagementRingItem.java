@@ -8,14 +8,16 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class EngagementRingItem extends WeddingRingItem {
     public EngagementRingItem(Item.Settings properties) {
         super(properties);
     }
 
+    @Override
     protected int getHeartsRequired() {
         return MCA.getConfig().marriageHeartsRequirement / 2;
     }

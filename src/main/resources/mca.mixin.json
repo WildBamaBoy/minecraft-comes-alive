@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "mca.core.mixin",
+  "refmap": "mca.mixin.refmap.json",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "MixinBlockItem",
+    "MixinPlayerEntity",
+    "MixinServerEntityManager",
+    "MixinTargetPredicate"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

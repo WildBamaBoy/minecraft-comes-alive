@@ -16,7 +16,6 @@ public class PlayerSaveData extends CWorldSavedData {
     private MarriageState marriageState;
 
     public PlayerSaveData(String id) {
-        super(id);
     }
 
     public static PlayerSaveData get(World world, UUID uuid) {
@@ -46,13 +45,13 @@ public class PlayerSaveData extends CWorldSavedData {
         this.spouseUUID = uuid;
         this.spouseName = name;
         this.marriageState = marriageState;
-        setDirty();
+        markDirty();
     }
 
     public void endMarriage() {
         spouseUUID = Constants.ZERO_UUID;
         spouseName = "";
-        setDirty();
+        markDirty();
     }
 
     public boolean isBabyPresent() {
@@ -61,13 +60,13 @@ public class PlayerSaveData extends CWorldSavedData {
 
     public void setBabyPresent(boolean value) {
         this.babyPresent = value;
-        setDirty();
+        markDirty();
     }
 
     public void reset() {
         endMarriage();
         setBabyPresent(false);
-        setDirty();
+        markDirty();
     }
 
     public MarriageState getMarriageState() {

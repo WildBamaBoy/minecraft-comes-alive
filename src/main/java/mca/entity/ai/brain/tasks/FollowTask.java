@@ -16,30 +16,30 @@ public class FollowTask extends Task<VillagerEntityMCA> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerWorld world, VillagerEntityMCA villager) {
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         return villager.getMCABrain().getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent();
     }
 
     @Override
-    protected boolean canStillUse(ServerWorld world, VillagerEntityMCA villager, long p_212834_3_) {
-        return this.checkExtraStartConditions(world, villager);
+    protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
+        return this.shouldRun(world, villager);
     }
 
     @Override
-    protected void start(ServerWorld world, VillagerEntityMCA villager, long p_212831_3_) {
+    protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         PlayerEntity playerToFollow = villager.getMCABrain().getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).get();
-        villager.getNavigation().startMovingAlong(playerToFollow, villager.hasVehicle() ? 1.7D : 0.8D);
+        villager.getNavigation().startMovingTo(playerToFollow, villager.hasVehicle() ? 1.7D : 0.8D);
     }
 
     @Override
-    protected void tick(ServerWorld world, VillagerEntityMCA villager, long p_212833_3_) {
+    protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         PlayerEntity playerToFollow = villager.getMCABrain().getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).get();
 
         double distance = villager.squaredDistanceTo(playerToFollow);
         if (distance >= 4.0D && distance <= 100.0D) {
-            villager.getNavigation().startMovingAlong(playerToFollow, villager.hasVehicle() ? 1.7D : 0.8D);
+            villager.getNavigation().startMovingTo(playerToFollow, villager.hasVehicle() ? 1.7D : 0.8D);
         } else if (distance > 100.0D) {
-            //teleportation when flying can kill the villager so we just let them walk on the surface. 
+            //teleportation when flying can kill the villager so we just let them walk on the surface.
             villager.requestTeleport(playerToFollow.prevX, world.getTopY(Heightmap.Type.WORLD_SURFACE, (int) playerToFollow.prevX, (int) playerToFollow.prevZ), playerToFollow.prevZ);
         } else {
             villager.getNavigation().stop();
