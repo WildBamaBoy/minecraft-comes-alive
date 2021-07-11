@@ -29,6 +29,7 @@ public class AdminCommand {
     private static final ArrayList<VillagerEntityMCA> prevVillagersRemoved = new ArrayList<>();
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        // TODO: proper command syntax.
         dispatcher.register(CommandManager.literal("mca-admin")
                 .then(register("help", AdminCommand::displayHelp))
                 .then(register("clv", AdminCommand::clearLoadedVillagers))
