@@ -40,7 +40,7 @@ public enum Gender {
     }
 
     public static Gender byName(String name) {
-        return REGISTRY.getOrDefault(name, UNASSIGNED);
+        return REGISTRY.getOrDefault(name.toUpperCase(), UNASSIGNED);
     }
 }
 
