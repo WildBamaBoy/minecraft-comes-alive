@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ServerWorldAccess;
@@ -19,15 +18,8 @@ public class WorldUtils {
     }
 
     public static List<Entity> getCloseEntities(World world, Entity e, double range) {
-        BlockPos pos = e.getBlockPos();
-        return world.getOtherEntities(e, new Box(
-                pos.getX() - range,
-                pos.getY() - range,
-                pos.getZ() - range,
-                pos.getX() + range,
-                pos.getY() + range,
-                pos.getZ() + range
-        ));
+        Vec3d pos = e.getPos();
+        return world.getOtherEntities(e, new Box(pos, pos).expand(range));
     }
 
     public static <T extends Entity> List<T> getCloseEntities(World world, Entity e, Class<T> c) {

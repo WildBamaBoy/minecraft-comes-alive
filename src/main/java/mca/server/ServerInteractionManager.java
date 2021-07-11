@@ -13,24 +13,23 @@ import java.util.*;
 
 public class ServerInteractionManager {
 
-    private static ServerInteractionManager instance;
-    // Maps a player's UUID to a list of UUIDs that have proposed to them with /mca propose
-    private final Map<UUID, List<UUID>> proposals;
-    // List of UUIDs that initiated procreation mapped to the time the request expires.
-    private final Object2LongArrayMap<UUID> procreateMap;
+    private static final ServerInteractionManager INSTANCE = new ServerInteractionManager();
+
+    /**
+     * Maps a player's UUID to a list of UUIDs that have proposed to them with /mca propose
+     */
+    private final Map<UUID, List<UUID>> proposals = new HashMap<>();
+
+    /**
+     * List of UUIDs that initiated procreation mapped to the time the request expires.
+     */
+    private final Object2LongArrayMap<UUID> procreateMap = new Object2LongArrayMap<>();
 
 
-    private ServerInteractionManager() {
-        proposals = new HashMap<>();
-        procreateMap = new Object2LongArrayMap<>();
-    }
+    private ServerInteractionManager() { }
 
     public static ServerInteractionManager getInstance() {
-
-        if (instance == null) {
-            instance = new ServerInteractionManager();
-        }
-        return instance;
+        return INSTANCE;
     }
 
     public void tick() {
