@@ -521,6 +521,16 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.decayGossip();
     }
 
+    @Override
+    public EntityDimensions getDimensions(EntityPose pose) {
+        AgeState ageState = getAgeState();
+
+        float height = gene_size.get() + 1;
+        float width = (gene_width.get() * 0.5f + 0.75f) * ageState.getWidth();
+
+        return EntityDimensions.changing(width, height);
+    }
+
     public void sendMessageTo(String message, Entity receiver) {
         receiver.sendSystemMessage(new LiteralText(message), receiver.getUuid());
     }

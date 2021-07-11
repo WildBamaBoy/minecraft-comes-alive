@@ -101,9 +101,7 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
 
     @Override
     protected boolean hasLabel(VillagerEntityMCA villager) {
-        if (MinecraftClient.getInstance().player != null) {
-            return MinecraftClient.getInstance().player.squaredDistanceTo(villager) < 25.0F;
-        }
-        return false;
+        return MinecraftClient.getInstance().player != null
+                && MinecraftClient.getInstance().player.squaredDistanceTo(villager) < 25;
     }
 }
