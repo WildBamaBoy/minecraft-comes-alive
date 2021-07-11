@@ -146,6 +146,9 @@ class ApiData {
 
     public String getRandomClothing(VillagerEntityMCA villager) {
         List<WeightedEntry> group = getClothing(villager);
+        if (group == null) {
+            return "";
+        }
         double totalChance = group.stream().mapToDouble(a -> a.weight).sum() * rng.nextDouble();
         for (WeightedEntry e : group) {
             totalChance -= e.weight;
@@ -183,6 +186,9 @@ class ApiData {
     public Hair getRandomHair(VillagerEntityMCA villager) {
         Gender gender = villager.getGender();
         List<Hair> hairs = hair.get(gender);
+        if (hairs.isEmpty()) {
+            return new Hair();
+        }
         return hairs.get(rng.nextInt(hairs.size()));
     }
 
