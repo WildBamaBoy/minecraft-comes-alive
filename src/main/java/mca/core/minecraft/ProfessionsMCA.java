@@ -19,7 +19,7 @@ public interface ProfessionsMCA {
 
     private static VillagerProfession register(String name, VillagerProfessionBuilder builder) {
         Identifier id = new Identifier(MCA.MOD_ID, name);
-        return Registry.register(Registry.VILLAGER_PROFESSION, id, VillagerProfessionBuilder.create().id(id).build());
+        return Registry.register(Registry.VILLAGER_PROFESSION, id, builder.id(id).build());
     }
 
     static VillagerProfession randomProfession() {

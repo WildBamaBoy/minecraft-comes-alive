@@ -1,6 +1,7 @@
 package mca.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import mca.core.MCA;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +25,10 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 public class Util {
     private static final String RESOURCE_PREFIX = "assets/mca/";
+
+    private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapterFactory(RecordTypeAdapterFactory.INSTANCE)
+            .create();
 
     /**
      * Finds a y position given an x,y,z coordinate triple that is assumed to be the world's "ground".
@@ -56,9 +62,12 @@ public class Util {
         return data;
     }
 
+    public static <T> T readResourceAsJSON(String path, Type type) {
+        return GSON.fromJson(Util.readResource(path), type);
+    }
+
     public static <T> T readResourceAsJSON(String path, Class<T> type) {
-        Gson gson = new Gson();
-        return gson.fromJson(Util.readResource(path), type);
+        return GSON.fromJson(Util.readResource(path), type);
     }
 
     public static List<BlockPos> getNearbyBlocks(BlockPos origin, World world, @Nullable Predicate<BlockState> filter, int xzDist, int yDist) {

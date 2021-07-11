@@ -1,150 +1,21 @@
 package mca.api;
 
-import com.google.common.base.Charsets;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import mca.api.types.*;
 import mca.client.gui.GuiInteract;
-import mca.client.gui.component.ButtonEx;
-import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
-import mca.enums.Constraint;
 import mca.enums.Gender;
-import mca.util.Util;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatUtil;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
  * Class API handles interaction with MCAs configurable options via JSON in the resources folder
  */
 public class API {
-    private static final Map<String, Gift> giftMap = new HashMap<>();
-    private static final Map<String, APIButton[]> buttonMap = new HashMap<>();
-    private static final Map<String, APIIcon> iconMap = new HashMap<>();
-    private static final List<String> maleNames = new ArrayList<>();
-    private static final List<String> femaleNames = new ArrayList<>();
-    private static final Map<Gender, Map<String, List<WeightedEntry>>> clothing = new HashMap<>();
-    private static final Map<Gender, List<Hair>> hair = new HashMap<>();
-    private static final Map<String, BuildingType> buildingTypes = new HashMap<>();
-    private static final Map<String, NameSet> nameSets = new HashMap<>();
-    private static String[] supporters;
-    private static Random rng;
-
-    /**
-     * Performs initialization of the API
-     */
-    public static void init() {
-        rng = new Random();
-
-        // Load skins
-        // Skins are stored in a <Gender, <Profession, List of paths>> map, which is generic enough to allow custom skins etc
-        for (Gender g : Gender.values()) {
-            clothing.put(g, new HashMap<>());
-        }
-        ClothingGroup[] clothingGroups = Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class);
-        for (ClothingGroup gp : clothingGroups) {
-            for (Gender g : Gender.values()) {
-                if (gp.getGender() == Gender.NEUTRAL || gp.getGender() == g) {
-                    if (!clothing.get(g).containsKey(gp.profession())) {
-                        clothing.get(g).put(gp.profession(), new LinkedList<>());
-                    }
-                    for (int i = 0; i < gp.count(); i++) {
-                        String path = getClothingPath(gp, i);
-                        clothing.get(g).get(gp.profession()).add(new WeightedEntry(path, gp.chance()));
-                    }
-                }
-            }
-        }
-
-        // Load hair
-        for (Gender g : Gender.values()) {
-            hair.put(g, new ArrayList<>());
-        }
-        HairGroup[] hairGroups = Util.readResourceAsJSON("api/hair.json", HairGroup[].class);
-        for (HairGroup hg : hairGroups) {
-            for (Gender g : Gender.values()) {
-                if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
-                    for (int i = 0; i < hg.count(); i++) {
-                        Hair path = getHair(hg, i);
-                        hair.get(g).add(path);
-                    }
-                }
-            }
-        }
-
-        BuildingType[] bts = Util.readResourceAsJSON("api/buildingTypes.json", BuildingType[].class);
-        for (BuildingType bt : bts) {
-            buildingTypes.put(bt.name(), bt);
-        }
-
-        nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
-        supporters = Util.readResourceAsJSON("api/supporters.json", String[].class);
-
-        // Load names
-        InputStream namesStream = ChatUtil.class.getResourceAsStream("/assets/mca/lang/names.lang");
-        try {
-            // read in all names and process into the correct list
-            List<String> lines = IOUtils.readLines(namesStream, Charsets.UTF_8);
-            lines.stream().filter((l) -> l.contains("name.male")).forEach((l) -> maleNames.add(l.split("=")[1]));
-            lines.stream().filter((l) -> l.contains("name.female")).forEach((l) -> femaleNames.add(l.split("=")[1]));
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load all NPC names from file", e);
-        }
-
-        // Read in buttons
-        buttonMap.put("main", Util.readResourceAsJSON("api/gui/main.json", APIButton[].class));
-        buttonMap.put("interact", Util.readResourceAsJSON("api/gui/interact.json", APIButton[].class));
-        buttonMap.put("debug", Util.readResourceAsJSON("api/gui/debug.json", APIButton[].class));
-        buttonMap.put("work", Util.readResourceAsJSON("api/gui/work.json", APIButton[].class));
-        buttonMap.put("locations", Util.readResourceAsJSON("api/gui/locations.json", APIButton[].class));
-        buttonMap.put("command", Util.readResourceAsJSON("api/gui/command.json", APIButton[].class));
-        buttonMap.put("clothing", Util.readResourceAsJSON("api/gui/clothing.json", APIButton[].class));
-
-        // Icons
-        Type mapType = new TypeToken<Map<String, APIIcon>>() {}.getType();
-        iconMap.putAll((new Gson()).fromJson(Util.readResource("api/gui/icons.json"), mapType));
-
-        // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
-        Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
-        for (Gift gift : gifts) {
-            if (!gift.exists()) {
-                MCA.logger.info("Could not find gift item or block in registry: " + gift.name());
-            } else {
-                giftMap.put(gift.name(), gift);
-            }
-        }
-    }
-
-    //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
-    private static List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
-        String profession = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession())).toString();
-        Gender gender = villager.getGender();
-
-        if (clothing.get(gender).containsKey(profession)) {
-            return clothing.get(gender).get(profession);
-        } else {
-            return clothing.get(gender).get("minecraft:none");
-        }
-    }
-
-    private static String getClothingPath(ClothingGroup group, int i) {
-        return String.format("mca:skins/clothing/%s/%s/%d.png",
-                group.getGender().getStrName(),
-                group.profession().split(":")[1],
-                i
-        );
-    }
+    static ApiData instance = new ApiData();
 
     /**
      * Returns a random skin based on the profession and gender provided.
@@ -153,15 +24,7 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomClothing(VillagerEntityMCA villager) {
-        List<WeightedEntry> group = getClothing(villager);
-        double totalChance = group.stream().mapToDouble(a -> a.weight).sum() * rng.nextDouble();
-        for (WeightedEntry e : group) {
-            totalChance -= e.weight;
-            if (totalChance <= 0.0) {
-                return e.value;
-            }
-        }
-        return "";
+        return instance.getRandomClothing(villager);
     }
 
     //returns the next clothing
@@ -171,26 +34,7 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static String getNextClothing(VillagerEntityMCA villager, String current, int next) {
-        List<WeightedEntry> group = getClothing(villager);
-
-        //look for the current one
-        for (int i = 0; i < group.size(); i++) {
-            if (group.get(i).value.equals(current)) {
-                return group.get(Math.floorMod(i + next, group.size())).value;
-            }
-        }
-
-        //fallback
-        return getRandomClothing(villager);
-    }
-
-    private static Hair getHair(HairGroup g, int i) {
-        String overlay = String.format("mca:skins/hair/%s/%d_overlay.png", g.getGender().getStrName(), i);
-        boolean hasOverlay = MinecraftClient.getInstance().getResourceManager().containsResource(new Identifier(overlay));
-        return new Hair(
-                String.format("mca:skins/hair/%s/%d.png", g.getGender().getStrName(), i),
-                hasOverlay ? overlay : ""
-        );
+        return instance.getNextClothing(villager, current, next);
     }
 
     /**
@@ -200,9 +44,7 @@ public class API {
      * @return String location of the random skin
      */
     public static Hair getRandomHair(VillagerEntityMCA villager) {
-        Gender gender = villager.getGender();
-        List<Hair> hairs = hair.get(gender);
-        return hairs.get(rng.nextInt(hairs.size()));
+        return instance.getRandomHair(villager);
     }
 
     //returns the next clothing
@@ -212,18 +54,7 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static Hair getNextHair(VillagerEntityMCA villager, Hair current, int next) {
-        Gender gender = villager.getGender();
-        List<Hair> hairs = hair.get(gender);
-
-        //look for the current one
-        for (int i = 0; i < hairs.size(); i++) {
-            if (hairs.get(i).texture().equals(current.texture())) {
-                return hairs.get(Math.floorMod(i + next, hairs.size()));
-            }
-        }
-
-        //fallback
-        return getRandomHair(villager);
+        return instance.getNextHair(villager, current, next);
     }
 
     /**
@@ -233,7 +64,7 @@ public class API {
      * @return Instance of APIButton matching the ID provided
      */
     public static Optional<APIButton> getButtonById(String key, String id) {
-        return Arrays.stream(buttonMap.get(key)).filter(b -> b.identifier().equals(id)).findFirst();
+        return instance.getButtonById(key, id);
     }
 
     /**
@@ -243,11 +74,7 @@ public class API {
      * @return Instance of APIIcon matching the ID provided
      */
     public static APIIcon getIcon(String key) {
-        if (!iconMap.containsKey(key)) {
-            MCA.logger.info("Icon " + key + " does not exist!");
-            iconMap.put(key, new APIIcon(0, 0, 0, 0));
-        }
-        return iconMap.get(key);
+        return instance.getIcon(key);
     }
 
     /**
@@ -257,14 +84,7 @@ public class API {
      * @return int value determining the gift value of a stack
      */
     public static int getGiftValueFromStack(ItemStack stack) {
-        if (stack.isEmpty()) return 0;
-
-        Identifier id = Registry.ITEM.getId(stack.getItem());
-
-        if (id == null) return 0;
-
-        String name = id.toString();
-        return giftMap.containsKey(name) ? giftMap.get(name).value() : 0;
+        return instance.getGiftValueFromStack(stack);
     }
 
     /**
@@ -289,9 +109,7 @@ public class API {
      * @return A gender appropriate name based on the provided gender.
      */
     public static String getRandomName(@NotNull Gender gender) {
-        if (gender == Gender.MALE) return maleNames.get(rng.nextInt(maleNames.size()));
-        else if (gender == Gender.FEMALE) return femaleNames.get(rng.nextInt(femaleNames.size()));
-        return "";
+        return instance.getRandomName(gender);
     }
 
     /**
@@ -301,19 +119,7 @@ public class API {
      * @param screen Screen instance the buttons should be added to
      */
     public static void addButtons(String guiKey, GuiInteract screen) {
-        for (APIButton b : buttonMap.get(guiKey)) {
-            ButtonEx guiButton = new ButtonEx(screen, b);
-            screen.addExButton(guiButton);
-
-            // Remove the button if we specify it should not be present on constraint failure
-            // Otherwise we just mark the button as disabled.
-            boolean isValid = b.isValidForConstraint(screen.getConstraints());
-            if (!isValid && b.getConstraints().contains(Constraint.HIDE_ON_FAIL)) {
-                guiButton.visible = false;
-            } else if (!isValid) {
-                guiButton.active = false;
-            }
-        }
+        instance.addButtons(guiKey, screen);
     }
 
     public static VillagerProfession randomProfession() {
@@ -322,40 +128,22 @@ public class API {
 
     //returns a random generated name for a given name set
     public static String getRandomVillageName(String from) {
-        if (nameSets.containsKey(from)) {
-            NameSet set = API.nameSets.get(from);
-            String first = set.first()[rng.nextInt(set.first().length)];
-            String second = set.second()[rng.nextInt(set.second().length)];
-            return first.substring(0, 1).toUpperCase() + first.substring(1) + set.separator() + second;
-
-        } else {
-            return "unknown names";
-        }
+        return instance.getRandomVillageName(from);
     }
 
     public static String getRandomSupporter() {
-        return supporters[rng.nextInt(supporters.length)];
+        return instance.getRandomSupporter();
     }
 
     public static Map<String, BuildingType> getBuildingTypes() {
-        return buildingTypes;
+        return instance.getBuildingTypes();
     }
 
     public static BuildingType getBuildingType(String type) {
-        return buildingTypes.containsKey(type) ? buildingTypes.get(type) : new BuildingType();
+        return instance.getBuildingType(type);
     }
 
     public static Random getRng() {
-        return rng;
-    }
-
-    private static class WeightedEntry {
-        final String value;
-        final float weight;
-
-        public WeightedEntry(String value, float weight) {
-            this.value = value;
-            this.weight = weight;
-        }
+        return instance.rng;
     }
 }
