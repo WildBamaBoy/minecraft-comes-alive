@@ -26,7 +26,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -170,21 +169,19 @@ public class GuiInteract extends Screen {
 
         String emeraldIcon = "neutralEmerald";
 
-        GL11.glPushMatrix();
-        {
-            GL11.glScalef(iconScale, iconScale, iconScale);
+        transform.push();
+        transform.scale(iconScale, iconScale, iconScale);
 
-            this.client.getTextureManager().bindTexture(ICON_TEXTURES);
+        this.client.getTextureManager().bindTexture(ICON_TEXTURES);
 
-            drawIcon(transform, marriageIcon);
-            drawIcon(transform, heartIcon);
-            drawIcon(transform, emeraldIcon);
-            drawIcon(transform, "genes");
+        drawIcon(transform, marriageIcon);
+        drawIcon(transform, heartIcon);
+        drawIcon(transform, emeraldIcon);
+        drawIcon(transform, "genes");
 
-            if (canDrawParentsIcon()) drawIcon(transform, "parents");
-            if (canDrawGiftIcon()) drawIcon(transform, "gift");
-        }
-        GL11.glPopMatrix();
+        if (canDrawParentsIcon()) drawIcon(transform, "parents");
+        if (canDrawGiftIcon()) drawIcon(transform, "gift");
+        transform.pop();
     }
 
     private void drawTextPopups(MatrixStack transform) {
