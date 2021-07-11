@@ -1,7 +1,6 @@
 package mca.enums;
 
 import mca.cobalt.localizer.Localizer;
-import mca.core.MCA;
 
 public enum MoveState {
     MOVE(""),

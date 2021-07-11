@@ -30,7 +30,7 @@ public class HuntingTask extends AbstractChoreTask {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        return villager.activeChore.get() == Chore.HUNT.getId();
+        return villager.activeChore.get() == Chore.HUNT.ordinal();
     }
 
     @Override

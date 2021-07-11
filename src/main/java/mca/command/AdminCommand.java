@@ -50,7 +50,7 @@ public class AdminCommand {
     }
 
     private static int listVillages(CommandContext<ServerCommandSource> ctx) {
-        for (Village village : VillageManagerData.get(ctx.getSource().getWorld()).villages.values()) {
+        for (Village village : VillageManagerData.get(ctx.getSource().getWorld())) {
             success(String.format("%d: %s with %d buildings and %d/%d villager",
                     village.getId(),
                     village.getName(),
@@ -64,10 +64,7 @@ public class AdminCommand {
 
     private static int removeVillage(CommandContext<ServerCommandSource> ctx) {
         int id = IntegerArgumentType.getInteger(ctx, "id");
-        Map<Integer, Village> villages = VillageManagerData.get(ctx.getSource().getWorld()).villages;
-        if (villages.containsKey(id)) {
-            villages.remove(id);
-            VillageManagerData.get(ctx.getSource().getWorld()).cache.clear();
+        if (VillageManagerData.get(ctx.getSource().getWorld()).removeVillage(id)) {
             success("Village deleted.", ctx);
         } else {
             fail(ctx);
@@ -145,7 +142,7 @@ public class AdminCommand {
         return 0;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static Stream<VillagerEntityMCA> getLoadedVillagers(final CommandContext<ServerCommandSource> ctx) {
         return ctx.getSource().getWorld().getEntitiesByType(TypeFilter.instanceOf(VillagerEntityMCA.class), (Predicate)t -> true).stream();
     }

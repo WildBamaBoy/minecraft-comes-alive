@@ -10,11 +10,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Language;
 
 // TODO: Just use TranslatableText please.
-@Deprecated
 public final class Localizer {
     private static final Localizer instance = new Localizer()
             .registerVarParser(v -> v.replaceAll("%Supporter%", API.getRandomSupporter()));
 
+    @Deprecated
     public static Localizer getInstance() {
         return instance;
     }

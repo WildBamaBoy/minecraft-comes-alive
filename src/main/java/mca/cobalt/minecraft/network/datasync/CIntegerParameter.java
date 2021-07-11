@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 
+// TODO: CEnumParameter
 public class CIntegerParameter extends CDataParameter<Integer> {
     private final DataTracker data;
     private final int defaultValue;

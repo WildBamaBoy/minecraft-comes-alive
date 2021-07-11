@@ -6,11 +6,8 @@ import mca.util.WorldUtils;
 import net.minecraft.world.World;
 
 public class VillageSaveData extends CWorldSavedData {
-    public VillageSaveData(String id) {
-    }
-
     public static VillageSaveData get(World world) {
-        return WorldUtils.loadData(world, VillageSaveData.class, "mca_village");
+        return WorldUtils.loadData(world, VillageSaveData::new, "mca_village");
     }
 
     @Override

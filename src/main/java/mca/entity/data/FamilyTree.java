@@ -16,10 +16,8 @@ public class FamilyTree extends CWorldSavedData {
 
     private final Map<UUID, FamilyTreeEntry> entries = new HashMap<>();
 
-    public FamilyTree(String id) {}
-
     public static FamilyTree get(World world) {
-        return WorldUtils.loadData(world, FamilyTree.class, DATA_ID);
+        return WorldUtils.loadData(world, FamilyTree::new, DATA_ID);
     }
 
     //in case the villager does not exist, add

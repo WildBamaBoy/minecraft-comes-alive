@@ -25,11 +25,6 @@ public enum Chore {
         this.toolType = toolType;
     }
 
-    @Deprecated
-    public int getId() {
-        return ordinal();
-    }
-
     @Nullable
     public Class<?> getToolType() {
         return toolType;

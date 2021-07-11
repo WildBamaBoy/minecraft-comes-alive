@@ -39,7 +39,7 @@ public class HarvestingTask extends AbstractChoreTask {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        return villager.activeChore.get() == Chore.HARVEST.getId();// && (blockWork - villager.tickCount) < 0;
+        return villager.activeChore.get() == Chore.HARVEST.ordinal();// && (blockWork - villager.tickCount) < 0;
     }
 
     @Override

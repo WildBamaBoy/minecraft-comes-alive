@@ -127,8 +127,8 @@ public class GrimReaperEntity extends PathAwareEntity {
 
     public void setAttackState(ReaperAttackState state) {
         // Only update if needed so that sounds only play once.
-        if (this.attackStage.get() != state.getId()) {
-            this.attackStage.set(state.getId());
+        if (this.attackStage.get() != state.ordinal()) {
+            this.attackStage.set(state.ordinal());
 
             switch (state) {
                 case PRE:
@@ -137,6 +137,7 @@ public class GrimReaperEntity extends PathAwareEntity {
                 case POST:
                     this.playSound(SoundsMCA.reaper_scythe_swing, 1.0F, 1.0F);
                     break;
+                default:
             }
         }
     }

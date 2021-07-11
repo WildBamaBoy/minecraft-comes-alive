@@ -56,12 +56,12 @@ public class API {
         for (ClothingGroup gp : clothingGroups) {
             for (Gender g : Gender.values()) {
                 if (gp.getGender() == Gender.NEUTRAL || gp.getGender() == g) {
-                    if (!clothing.get(g).containsKey(gp.getProfession())) {
-                        clothing.get(g).put(gp.getProfession(), new LinkedList<>());
+                    if (!clothing.get(g).containsKey(gp.profession())) {
+                        clothing.get(g).put(gp.profession(), new LinkedList<>());
                     }
-                    for (int i = 0; i < gp.getCount(); i++) {
+                    for (int i = 0; i < gp.count(); i++) {
                         String path = getClothingPath(gp, i);
-                        clothing.get(g).get(gp.getProfession()).add(new WeightedEntry(path, gp.getChance()));
+                        clothing.get(g).get(gp.profession()).add(new WeightedEntry(path, gp.chance()));
                     }
                 }
             }
@@ -75,7 +75,7 @@ public class API {
         for (HairGroup hg : hairGroups) {
             for (Gender g : Gender.values()) {
                 if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
-                    for (int i = 0; i < hg.getCount(); i++) {
+                    for (int i = 0; i < hg.count(); i++) {
                         Hair path = getHair(hg, i);
                         hair.get(g).add(path);
                     }
@@ -85,7 +85,7 @@ public class API {
 
         BuildingType[] bts = Util.readResourceAsJSON("api/buildingTypes.json", BuildingType[].class);
         for (BuildingType bt : bts) {
-            buildingTypes.put(bt.getName(), bt);
+            buildingTypes.put(bt.name(), bt);
         }
 
         nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
@@ -112,17 +112,16 @@ public class API {
         buttonMap.put("clothing", Util.readResourceAsJSON("api/gui/clothing.json", APIButton[].class));
 
         // Icons
-        Type mapType = new TypeToken<Map<String, APIIcon>>() {
-        }.getType();
+        Type mapType = new TypeToken<Map<String, APIIcon>>() {}.getType();
         iconMap.putAll((new Gson()).fromJson(Util.readResource("api/gui/icons.json"), mapType));
 
         // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
         Gift[] gifts = Util.readResourceAsJSON("api/gifts.json", Gift[].class);
         for (Gift gift : gifts) {
             if (!gift.exists()) {
-                MCA.logger.info("Could not find gift item or block in registry: " + gift.getName());
+                MCA.logger.info("Could not find gift item or block in registry: " + gift.name());
             } else {
-                giftMap.put(gift.getName(), gift);
+                giftMap.put(gift.name(), gift);
             }
         }
     }
@@ -142,7 +141,7 @@ public class API {
     private static String getClothingPath(ClothingGroup group, int i) {
         return String.format("mca:skins/clothing/%s/%s/%d.png",
                 group.getGender().getStrName(),
-                group.getProfession().split(":")[1],
+                group.profession().split(":")[1],
                 i
         );
     }
@@ -218,7 +217,7 @@ public class API {
 
         //look for the current one
         for (int i = 0; i < hairs.size(); i++) {
-            if (hairs.get(i).getTexture().equals(current.getTexture())) {
+            if (hairs.get(i).texture().equals(current.texture())) {
                 return hairs.get(Math.floorMod(i + next, hairs.size()));
             }
         }
@@ -234,7 +233,7 @@ public class API {
      * @return Instance of APIButton matching the ID provided
      */
     public static Optional<APIButton> getButtonById(String key, String id) {
-        return Arrays.stream(buttonMap.get(key)).filter(b -> b.getIdentifier().equals(id)).findFirst();
+        return Arrays.stream(buttonMap.get(key)).filter(b -> b.identifier().equals(id)).findFirst();
     }
 
     /**
@@ -265,7 +264,7 @@ public class API {
         if (id == null) return 0;
 
         String name = id.toString();
-        return giftMap.containsKey(name) ? giftMap.get(name).getValue() : 0;
+        return giftMap.containsKey(name) ? giftMap.get(name).value() : 0;
     }
 
     /**
@@ -325,9 +324,9 @@ public class API {
     public static String getRandomVillageName(String from) {
         if (nameSets.containsKey(from)) {
             NameSet set = API.nameSets.get(from);
-            String first = set.getFirst()[rng.nextInt(set.getFirst().length)];
-            String second = set.getSecond()[rng.nextInt(set.getSecond().length)];
-            return first.substring(0, 1).toUpperCase() + first.substring(1) + set.getSeparator() + second;
+            String first = set.first()[rng.nextInt(set.first().length)];
+            String second = set.second()[rng.nextInt(set.second().length)];
+            return first.substring(0, 1).toUpperCase() + first.substring(1) + set.separator() + second;
 
         } else {
             return "unknown names";

@@ -31,7 +31,7 @@ public class ChoppingTask extends AbstractChoreTask {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        return villager.activeChore.get() == Chore.CHOP.getId();
+        return villager.activeChore.get() == Chore.CHOP.ordinal();
     }
 
     @Override

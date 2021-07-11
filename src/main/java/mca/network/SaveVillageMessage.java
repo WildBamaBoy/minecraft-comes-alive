@@ -22,11 +22,10 @@ public class SaveVillageMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        Village village = VillageManagerData.get(e.world).villages.get(id);
-        if (village != null) {
+        VillageManagerData.get(e.world).getOrEmpty(id).ifPresent(village -> {
             village.setTaxes(taxes);
             village.setPopulationThreshold(populationThreshold);
             village.setMarriageThreshold(marriageThreshold);
-        }
+        });
     }
 }

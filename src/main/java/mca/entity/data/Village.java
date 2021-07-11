@@ -23,7 +23,7 @@ import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
 
-public class Village implements Serializable {
+public class Village implements Serializable, Iterable<Building> {
     private static final long serialVersionUID = -5484691612873839269L;
 
     //TODO: move tasks to own class
@@ -52,6 +52,16 @@ public class Village implements Serializable {
 
     public static String[] getTaskNames() {
         return taskNames;
+    }
+
+    public boolean isWithinBorder(Entity entity) {
+        return getCenter().getSquaredDistance(entity.getBlockPos()) < Math.pow(getSize(), 2);
+    }
+
+
+    @Override
+    public Iterator<Building> iterator() {
+        return buildings.values().iterator();
     }
 
     public void addBuilding(Building building) {
@@ -233,15 +243,8 @@ public class Village implements Serializable {
         return residents;
     }
 
-    public void deliverTaxes(ServerWorld world) {
-        if (storageBuffer.size() > 0) {
-            buildings.values()
-                .stream()
-                .filter(b -> b.getType().equals("inn") && world.canSetBlock(b.getCenter()))
-                .forEach(building -> {
-                    // TODO: noop
-            });
-        }
+    public boolean hasStoredResource() {
+        return storageBuffer.size() > 0;
     }
 
     /**

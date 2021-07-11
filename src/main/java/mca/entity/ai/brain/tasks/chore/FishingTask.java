@@ -36,7 +36,7 @@ public class FishingTask extends AbstractChoreTask {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        return villager.activeChore.get() == Chore.FISH.getId();
+        return villager.activeChore.get() == Chore.FISH.ordinal();
     }
 
     @Override

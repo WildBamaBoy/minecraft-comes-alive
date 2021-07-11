@@ -10,20 +10,43 @@ import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-public class VillageManagerData extends CWorldSavedData {
-    public final Map<Integer, Village> villages = new ConcurrentHashMap<>();
+public class VillageManagerData extends CWorldSavedData implements Iterable<Village> {
+
+    private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
+
     public final Set<BlockPos> cache = ConcurrentHashMap.newKeySet();
+
     private final List<BlockPos> buildingQueue = new LinkedList<>();
 
     private int lastBuildingId;
     private int lastVillageId;
 
-    public VillageManagerData(String id) {
+    public static VillageManagerData get(World world) {
+        return WorldUtils.loadData(world, VillageManagerData::new, "mca_villages");
     }
 
-    public static VillageManagerData get(World world) {
-        return WorldUtils.loadData(world, VillageManagerData.class, "mca_villages");
+    public Optional<Village> getOrEmpty(int id) {
+        return Optional.ofNullable(villages.get(id));
+    }
+
+    public boolean removeVillage(int id) {
+        if (villages.remove(id) != null) {
+            cache.clear();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Iterator<Village> iterator() {
+        return villages.values().iterator();
+    }
+
+    public Stream<Village> findVillages(Predicate<Village> predicate) {
+        return villages.values().stream().filter(predicate);
     }
 
     @Override

@@ -15,11 +15,8 @@ public class PlayerSaveData extends CWorldSavedData {
     private boolean babyPresent = false;
     private MarriageState marriageState;
 
-    public PlayerSaveData(String id) {
-    }
-
     public static PlayerSaveData get(World world, UUID uuid) {
-        return WorldUtils.loadData(world, PlayerSaveData.class, "mca_village_" + uuid.toString());
+        return WorldUtils.loadData(world, PlayerSaveData::new, "mca_village_" + uuid.toString());
     }
 
     public boolean isMarried() {

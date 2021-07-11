@@ -13,6 +13,7 @@ abstract public class CDataParameter<T> {
     protected final String id;
     protected final TrackedData<T> param;
 
+    @SuppressWarnings("unchecked")
     protected CDataParameter(String id, Class<? extends Entity> e, TrackedDataHandler<T> s) {
         this.id = id;
 

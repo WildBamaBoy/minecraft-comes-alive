@@ -233,6 +233,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.initBrain(this.getMCABrain());
     }
 
+    @SuppressWarnings("unchecked")
     public Brain<VillagerEntityMCA> getMCABrain() {
         //generics amirite
         return (Brain<VillagerEntityMCA>) this.brain;
@@ -409,8 +410,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         clothes.set(API.getRandomClothing(this));
 
         Hair h = API.getRandomHair(this);
-        hair.set(h.getTexture());
-        hairOverlay.set(h.getOverlay());
+        hair.set(h.texture());
+        hairOverlay.set(h.overlay());
     }
 
     private void initializePersonality() {
@@ -736,7 +737,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     private void handleInteraction(PlayerEntity player, Memories memory, APIButton button) {
         //interaction
-        String interactionName = button.getIdentifier().replace("gui.button.", "");
+        String interactionName = button.identifier().replace("gui.button.", "");
         Interaction interaction = Interaction.fromName(interactionName);
 
         //success chance and hearts
@@ -895,18 +896,18 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 break;
             case "gui.button.clothing.randHair":
                 h = API.getRandomHair(this);
-                hair.set(h.getTexture());
-                hairOverlay.set(h.getOverlay());
+                hair.set(h.texture());
+                hairOverlay.set(h.overlay());
                 break;
             case "gui.button.clothing.prevHair":
                 h = API.getNextHair(this, new Hair(hair.get(), hairOverlay.get()), -1);
-                hair.set(h.getTexture());
-                hairOverlay.set(h.getOverlay());
+                hair.set(h.texture());
+                hairOverlay.set(h.overlay());
                 break;
             case "gui.button.clothing.nextHair":
                 h = API.getNextHair(this, new Hair(hair.get(), hairOverlay.get()));
-                hair.set(h.getTexture());
-                hairOverlay.set(h.getOverlay());
+                hair.set(h.texture());
+                hairOverlay.set(h.overlay());
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());
@@ -995,6 +996,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                         this.produceParticles(ParticleTypes.ANGRY_VILLAGER);
 
                         break;
+                    default:
                 }
 
             } else if (getMoodLevel() >= 15) {
@@ -1025,20 +1027,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
             //poor villager has no village
             if (village.get() == -1) {
-                Village v = VillageHelper.getNearestVillage(this);
-                if (v != null) {
-                    village.set(v.getId());
-                }
+                VillageHelper.getNearestVillage(this).map(Village::getId).ifPresent(village::set);
             }
 
             //and no house
             if (village.get() >= 0 && building.get() == -1) {
-                Village v = VillageManagerData.get(world).villages.get(this.village.get());
-                if (v == null) {
-                    village.set(-1);
-                } else {
-                    //choose the first building available, shuffled
-                    ArrayList<Building> buildings = new ArrayList<>(v.getBuildings().values());
+                VillageManagerData.get(world).getOrEmpty(this.village.get()).ifPresentOrElse(village -> {
+                  //choose the first building available, shuffled
+                    ArrayList<Building> buildings = new ArrayList<>(village.getBuildings().values());
                     Collections.shuffle(buildings);
                     for (Building b : buildings) {
                         if (b.getBeds() > b.getResidents().size()) {
@@ -1056,28 +1052,23 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
                                 //add to residents
                                 building.set(b.getId());
-                                v.addResident(this, b.getId());
+                                village.addResident(this, b.getId());
                                 break;
                             }
                         }
                     }
-                }
+                }, () -> village.set(-1));
             }
         }
 
         if (age % 6000 == 0) {
             //check if village still exists
-            Village v = VillageManagerData.get(world).villages.get(this.village.get());
-            if (v == null) {
-                village.set(-1);
-                building.set(-1);
-                clearHome();
-            } else {
-                //check if building still exists
-                if (v.getBuildings().containsKey(building.get())) {
+            VillageManagerData.get(world).getOrEmpty(this.village.get()).ifPresentOrElse(village -> {
+              //check if building still exists
+                if (village.getBuildings().containsKey(building.get())) {
                     //check if still resident
                     //this is a rare case and is in most cases a save corruptionption
-                    if (v.getBuildings().get(building.get()).getResidents().keySet().stream().noneMatch((uuid) -> uuid.equals(this.uuid))) {
+                    if (village.getBuildings().get(building.get()).getResidents().keySet().stream().noneMatch((uuid) -> uuid.equals(this.uuid))) {
                         building.set(-1);
                         clearHome();
                     }
@@ -1085,7 +1076,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                     building.set(-1);
                     clearHome();
                 }
-            }
+            }, () -> {
+                village.set(-1);
+                building.set(-1);
+                clearHome();
+            });
         }
     }
 
@@ -1168,7 +1163,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
         Optional<Activity> possiblyChore = this.brain.getFirstPossibleNonCoreActivity();
-        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE) && activeChore.get() != Chore.NONE.getId()) {
+        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE) && activeChore.get() != Chore.NONE.ordinal()) {
             this.brain.doExclusively(ActivityMCA.CHORE);
         }
 
@@ -1180,13 +1175,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void stopChore() {
         this.brain.doExclusively(Activity.IDLE);
-        activeChore.set(Chore.NONE.getId());
+        activeChore.set(Chore.NONE.ordinal());
         choreAssigningPlayer.set(Constants.ZERO_UUID);
     }
 
     public void startChore(Chore chore, PlayerEntity player) {
         this.brain.doExclusively(ActivityMCA.CHORE);
-        activeChore.set(chore.getId());
+        activeChore.set(chore.ordinal());
         choreAssigningPlayer.set(player.getUuid());
         this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
         this.brain.forget(MemoryModuleTypeMCA.STAYING);
@@ -1246,11 +1241,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void updateMoveState() {
         if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
-            this.moveState.set(MoveState.STAY.getId());
+            this.moveState.set(MoveState.STAY.ordinal());
         } else if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
-            this.moveState.set(MoveState.FOLLOW.getId());
+            this.moveState.set(MoveState.FOLLOW.ordinal());
         } else {
-            this.moveState.set(MoveState.MOVE.getId());
+            this.moveState.set(MoveState.MOVE.ordinal());
         }
     }
 

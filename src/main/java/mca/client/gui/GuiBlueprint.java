@@ -4,7 +4,6 @@ import mca.api.API;
 import mca.api.types.BuildingType;
 import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.MCA;
 import mca.entity.data.Building;
 import mca.entity.data.Village;
 import mca.enums.Rank;
@@ -149,19 +148,19 @@ public class GuiBlueprint extends Screen {
             int h = 55;
             int spacing = 8;
             for (BuildingType bt : API.getBuildingTypes().values()) {
-                if (bt.isVisible()) {
+                if (bt.visible()) {
                     int x = width / 2 + fromCenter * (col - 1);
                     int y = row * (h + spacing) + 105;
                     rectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
-                    drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("buildingType." + bt.getName()), x, y - 24, bt.getColor());
+                    drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("buildingType." + bt.name()), x, y - 24, bt.getColor());
 
                     //size
-                    String size = bt.getSize() == 0 ? Localizer.getInstance().localize("gui.building.anySize") : Localizer.getInstance().localize("gui.building.size", String.valueOf(bt.getSize()));
+                    String size = bt.size() == 0 ? Localizer.getInstance().localize("gui.building.anySize") : Localizer.getInstance().localize("gui.building.size", String.valueOf(bt.size()));
                     drawCenteredText(transform, textRenderer, size, x, y - 12, 0xffdddddd);
 
                     //required blocks
                     int i = 0;
-                    for (Map.Entry<String, Integer> b : bt.getBlocks().entrySet()) {
+                    for (Map.Entry<String, Integer> b : bt.blocks().entrySet()) {
                         i++;
                         drawCenteredText(transform, textRenderer, b.getValue() + " x " + getBlockName(b.getKey()), x, y - 12 + 12 * i, 0xffffffff);
                     }
@@ -191,10 +190,10 @@ public class GuiBlueprint extends Screen {
 
             //rank
             Rank rank = village.getRank(reputation);
-            String rankStr = Localizer.getInstance().localize("gui.village.rank." + rank.getId());
-            int rankColor = rank.getId() == 0 ? 0xffff0000 : 0xffffff00;
+            String rankStr = Localizer.getInstance().localize("gui.village.rank." + rank.ordinal());
+            int rankColor = rank.ordinal() == 0 ? 0xffff0000 : 0xffffff00;
             drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
-            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.getId() == 0 ? 0xffff0000 : 0xffffffff);
+            drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.ordinal() == 0 ? 0xffff0000 : 0xffffffff);
 
             //tasks
             String str = Localizer.getInstance().localize("task.reputation", String.valueOf(rank.getReputation()));
@@ -206,7 +205,7 @@ public class GuiBlueprint extends Screen {
 
             //taxes
             drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
-            if (rank.getId() < rankTaxes) {
+            if (rank.ordinal() < rankTaxes) {
                 drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
                 toggleButtons(buttonTaxes, false);
             } else {
@@ -214,7 +213,7 @@ public class GuiBlueprint extends Screen {
             }
 
             drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
-            if (rank.getId() < rankBirth) {
+            if (rank.ordinal() < rankBirth) {
                 drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
                 toggleButtons(buttonBirths, false);
             } else {
@@ -222,7 +221,7 @@ public class GuiBlueprint extends Screen {
             }
 
             drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
-            if (rank.getId() < rankMarriage) {
+            if (rank.ordinal() < rankMarriage) {
                 drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
                 toggleButtons(buttonMarriage, false);
             } else {
@@ -275,7 +274,7 @@ public class GuiBlueprint extends Screen {
 
                 //name
                 BuildingType bt = API.getBuildingType(hoverBuilding.getType());
-                lines.add(Localizer.getInstance().localizeText("buildingType." + bt.getName()));
+                lines.add(Localizer.getInstance().localizeText("buildingType." + bt.name()));
                 lines.add(Localizer.getInstance().localizeText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
 
                 //residents

@@ -135,12 +135,12 @@ public class GuiInteract extends Screen {
 
     private void drawIcon(MatrixStack transform, String key) {
         APIIcon icon = API.getIcon(key);
-        this.drawTexture(transform, (int) (icon.getX() / iconScale), (int) (icon.getY() / iconScale), icon.getU(), icon.getV(), 16, 16);
+        this.drawTexture(transform, (int) (icon.x() / iconScale), (int) (icon.y() / iconScale), icon.u(), icon.v(), 16, 16);
     }
 
     private void drawHoveringIconText(MatrixStack transform, String text, String key) {
         APIIcon icon = API.getIcon(key);
-        renderTooltip(transform, text, icon.getX() + 16, icon.getY() + 20);
+        renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
     private void renderTooltip(MatrixStack transform, String text, int x, int y) {
@@ -149,7 +149,7 @@ public class GuiInteract extends Screen {
 
     private void drawHoveringIconText(MatrixStack transform, List<Text> text, String key) {
         APIIcon icon = API.getIcon(key);
-        this.renderTooltip(transform, text, icon.getX() + 16, icon.getY() + 20);
+        this.renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
     private void drawIcons(MatrixStack transform) {
@@ -271,7 +271,7 @@ public class GuiInteract extends Screen {
     //checks if the mouse hovers over a specified button
     private boolean hoveringOverIcon(String key) {
         APIIcon icon = API.getIcon(key);
-        return hoveringOver(icon.getX(), icon.getY(), (int) (16 * iconScale), (int) (16 * iconScale));
+        return hoveringOver(icon.x(), icon.y(), (int) (16 * iconScale), (int) (16 * iconScale));
     }
 
     //checks if the mouse hovers over a rectangle
@@ -295,7 +295,7 @@ public class GuiInteract extends Screen {
     }
 
     public void buttonPressed(ButtonEx button) {
-        String id = button.getApiButton().getIdentifier();
+        String id = button.getApiButton().identifier();
 
         if (timeSinceLastClick <= 2) {
             return; /* Prevents click-throughs on Mojang's button system */
@@ -330,8 +330,8 @@ public class GuiInteract extends Screen {
             drawLocationsButtonMenu();
         }
         /* Anything that should notify the server is handled here */
-        else if (button.getApiButton().isNotifyServer()) {
-            if (button.getApiButton().isTargetServer()) {
+        else if (button.getApiButton().notifyServer()) {
+            if (button.getApiButton().targetServer()) {
                 NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id));
             } else {
                 NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUuid()));
@@ -413,7 +413,7 @@ public class GuiInteract extends Screen {
     private void disableButton(String id) {
         this.children().forEach(b -> {
             if (b instanceof ButtonEx) {
-                if (((ButtonEx) b).getApiButton().getIdentifier().equals(id)) {
+                if (((ButtonEx) b).getApiButton().identifier().equals(id)) {
                     ((ButtonEx)b).active = false;
                 }
             }
@@ -432,7 +432,7 @@ public class GuiInteract extends Screen {
         this.children().forEach(b -> {
             if (b instanceof ClickableWidget) {
                 if (b instanceof ButtonEx) {
-                    if (!((ButtonEx) b).getApiButton().getIdentifier().equals("gui.button.backarrow")) {
+                    if (!((ButtonEx) b).getApiButton().identifier().equals("gui.button.backarrow")) {
                         ((ClickableWidget)b).active = true;
                     }
                 } else {

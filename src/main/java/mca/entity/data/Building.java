@@ -155,7 +155,7 @@ public class Building implements Serializable {
             //fetch all interesting block types
             Set<String> blockTypes = new HashSet<>();
             for (BuildingType bt : API.getBuildingTypes().values()) {
-                blockTypes.addAll(bt.getBlocks().keySet());
+                blockTypes.addAll(bt.blocks().keySet());
             }
             //dimensions
             int sx = center.getX();
@@ -207,9 +207,9 @@ public class Building implements Serializable {
             //determine type
             int bestPriority = -1;
             for (BuildingType bt : API.getBuildingTypes().values()) {
-                if (bt.getPriority() > bestPriority && sz >= bt.getSize()) {
+                if (bt.priority() > bestPriority && sz >= bt.size()) {
                     boolean valid = true;
-                    for (Map.Entry<String, Integer> block : bt.getBlocks().entrySet()) {
+                    for (Map.Entry<String, Integer> block : bt.blocks().entrySet()) {
                         if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()) < block.getValue()) {
                             valid = false;
                             break;
@@ -217,8 +217,8 @@ public class Building implements Serializable {
                     }
 
                     if (valid) {
-                        bestPriority = bt.getPriority();
-                        type = bt.getName();
+                        bestPriority = bt.priority();
+                        type = bt.name();
                     }
                 }
             }

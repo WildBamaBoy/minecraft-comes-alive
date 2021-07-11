@@ -18,11 +18,6 @@ public enum Rank {
         this.tasks = tasks;
     }
 
-    @Deprecated
-    public int getId() {
-        return ordinal();
-    }
-
     public int getReputation() {
         return reputation;
     }

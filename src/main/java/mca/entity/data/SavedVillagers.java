@@ -15,15 +15,12 @@ public class SavedVillagers extends CWorldSavedData {
 
     private final Map<String, CNBT> villagerData = new HashMap<>();
 
-    public SavedVillagers(String id) {
-    }
-
     public Map<String, CNBT> getVillagerData() {
         return villagerData;
     }
 
     public static SavedVillagers get(World world) {
-        return WorldUtils.loadData(world, SavedVillagers.class, DATA_ID);
+        return WorldUtils.loadData(world, SavedVillagers::new, DATA_ID);
     }
 
     public void saveVillager(VillagerEntityMCA villager) {
