@@ -15,16 +15,4 @@ public record ClothingGroup (
     public Gender getGender() {
         return Gender.byName(gender);
     }
-    @Deprecated
-    public String getProfession() {
-        return profession;
-    }
-    @Deprecated
-    public int getCount() {
-        return count;
-    }
-    @Deprecated
-    public float getChance() {
-        return chance;
-    }
 }

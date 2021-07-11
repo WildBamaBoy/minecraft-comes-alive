@@ -23,39 +23,6 @@ public record APIButton (
     String constraints,     // list of EnumConstraints separated by a pipe character |
     boolean isInteraction  // whether the button is an interaction that generates a response and boosts/decreases hearts
 ) {
-    @Deprecated
-    public int getId() {
-        return id;
-    }
-    @Deprecated
-    public String getIdentifier() {
-        return identifier;
-    }
-    @Deprecated
-    public int getX() {
-        return x;
-    }
-    @Deprecated
-    public int getY() {
-        return y;
-    }
-    @Deprecated
-    public int getWidth() {
-        return width;
-    }
-    @Deprecated
-    public int getHeight() {
-        return height;
-    }
-    @Deprecated
-    public boolean isTargetServer() {
-        return targetServer;
-    }
-    @Deprecated
-    public boolean isNotifyServer() {
-        return notifyServer;
-    }
-
     public List<Constraint> getConstraints() {
         return Constraint.fromStringList(constraints);
     }
