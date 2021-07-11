@@ -4,8 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+
 import mca.api.API;
-import mca.api.types.APIButton;
+import mca.api.types.Button;
 import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.cobalt.localizer.Localizer;
@@ -745,7 +746,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         marriageState.set(MarriageState.NOT_MARRIED.getId());
     }
 
-    private void handleInteraction(PlayerEntity player, Memories memory, APIButton button) {
+    private void handleInteraction(PlayerEntity player, Memories memory, Button button) {
         //interaction
         String interactionName = button.identifier().replace("gui.button.", "");
         Interaction interaction = Interaction.fromName(interactionName);
@@ -783,7 +784,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
         Memories memory = getMemoriesForPlayer(player);
-        java.util.Optional<APIButton> button = API.getButtonById(guiKey, buttonId);
+        java.util.Optional<Button> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {
             MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
         } else if (button.get().isInteraction()) handleInteraction(player, memory, button.get());

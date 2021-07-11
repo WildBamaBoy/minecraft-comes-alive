@@ -1,6 +1,6 @@
 package mca.api.types;
 
-public record APIIcon (
+public record Icon (
         int u,
         int v,
         int x,

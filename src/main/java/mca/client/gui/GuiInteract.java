@@ -1,7 +1,7 @@
 package mca.client.gui;
 
 import mca.api.API;
-import mca.api.types.APIIcon;
+import mca.api.types.Icon;
 import mca.client.gui.component.ButtonEx;
 import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
@@ -135,12 +135,12 @@ public class GuiInteract extends Screen {
     }
 
     private void drawIcon(MatrixStack transform, String key) {
-        APIIcon icon = API.getIcon(key);
+        Icon icon = API.getIcon(key);
         this.drawTexture(transform, (int) (icon.x() / iconScale), (int) (icon.y() / iconScale), icon.u(), icon.v(), 16, 16);
     }
 
     private void drawHoveringIconText(MatrixStack transform, String text, String key) {
-        APIIcon icon = API.getIcon(key);
+        Icon icon = API.getIcon(key);
         renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
@@ -149,7 +149,7 @@ public class GuiInteract extends Screen {
     }
 
     private void drawHoveringIconText(MatrixStack transform, List<Text> text, String key) {
-        APIIcon icon = API.getIcon(key);
+        Icon icon = API.getIcon(key);
         this.renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
@@ -267,7 +267,7 @@ public class GuiInteract extends Screen {
 
     //checks if the mouse hovers over a specified button
     private boolean hoveringOverIcon(String key) {
-        APIIcon icon = API.getIcon(key);
+        Icon icon = API.getIcon(key);
         return hoveringOver(icon.x(), icon.y(), (int) (16 * iconScale), (int) (16 * iconScale));
     }
 

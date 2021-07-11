@@ -1,15 +1,15 @@
 package mca.client.gui.component;
 
-import mca.api.types.APIButton;
+import mca.api.types.Button;
 import mca.client.gui.GuiInteract;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.TranslatableText;
 
 public class ButtonEx extends ButtonWidget {
-    private final APIButton apiButton;
+    private final Button apiButton;
 
     // TODO I hardcoded GuiInteract, but it should be an abstract class
-    public ButtonEx(GuiInteract gui, APIButton apiButton) {
+    public ButtonEx(GuiInteract gui, Button apiButton) {
         super((gui.width / 2) + apiButton.x(),
                 (gui.height / 2) + apiButton.y(),
                 apiButton.width(),
@@ -19,7 +19,7 @@ public class ButtonEx extends ButtonWidget {
         this.apiButton = apiButton;
     }
 
-    public APIButton getApiButton() {
+    public Button getApiButton() {
         return apiButton;
     }
 }

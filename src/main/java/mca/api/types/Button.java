@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * APIButton is a button defined in assets/mca/api/gui/*
+ * Button is a button defined in assets/mca/api/gui/*
  * <p>
  * These buttons are dynamically attached to a Screen and include additional instruction/constraints for building
  * and processing interactions.
  */
-public record APIButton (
+public record Button (
     int id,             // numeric id
     String identifier,  // string identifier for the button in the .lang file
     int x,              // x position

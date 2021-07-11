@@ -15,7 +15,7 @@ public class ApiReloadListener implements SimpleSynchronousResourceReloadListene
 
     @Override
     public void reload(ResourceManager manager) {
-        API.instance = new ApiData();
+        API.instance = new API.Data();
         API.instance.init();
     }
 }

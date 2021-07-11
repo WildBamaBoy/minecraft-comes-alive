@@ -5,6 +5,7 @@ import mca.client.gui.GuiInteract;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
+import mca.util.Util;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.VillagerProfession;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,7 @@ import java.util.*;
  * Class API handles interaction with MCAs configurable options via JSON in the resources folder
  */
 public class API {
-    static ApiData instance = new ApiData();
+    static Data instance = new Data();
 
     /**
      * Returns a random skin based on the profession and gender provided.
@@ -24,7 +25,7 @@ public class API {
      * @return String location of the random skin
      */
     public static String getRandomClothing(VillagerEntityMCA villager) {
-        return instance.getRandomClothing(villager);
+        return instance.clothing.pickOne(villager);
     }
 
     //returns the next clothing
@@ -34,7 +35,7 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static String getNextClothing(VillagerEntityMCA villager, String current, int next) {
-        return instance.getNextClothing(villager, current, next);
+        return instance.clothing.getNext(villager, current, next);
     }
 
     /**
@@ -44,7 +45,7 @@ public class API {
      * @return String location of the random skin
      */
     public static Hair getRandomHair(VillagerEntityMCA villager) {
-        return instance.getRandomHair(villager);
+        return instance.hair.getRandomHair(villager);
     }
 
     //returns the next clothing
@@ -54,7 +55,7 @@ public class API {
 
     //returns the next clothing with given offset to current
     public static Hair getNextHair(VillagerEntityMCA villager, Hair current, int next) {
-        return instance.getNextHair(villager, current, next);
+        return instance.hair.getNextHair(villager, current, next);
     }
 
     /**
@@ -63,8 +64,8 @@ public class API {
      * @param id String id matching the targeted button
      * @return Instance of APIButton matching the ID provided
      */
-    public static Optional<APIButton> getButtonById(String key, String id) {
-        return instance.getButtonById(key, id);
+    public static Optional<Button> getButtonById(String key, String id) {
+        return instance.guiComponents.getButtonById(key, id);
     }
 
     /**
@@ -73,8 +74,8 @@ public class API {
      * @param key String key of icon
      * @return Instance of APIIcon matching the ID provided
      */
-    public static APIIcon getIcon(String key) {
-        return instance.getIcon(key);
+    public static Icon getIcon(String key) {
+        return instance.guiComponents.getIcon(key);
     }
 
     /**
@@ -84,7 +85,7 @@ public class API {
      * @return int value determining the gift value of a stack
      */
     public static int getGiftValueFromStack(ItemStack stack) {
-        return instance.getGiftValueFromStack(stack);
+        return instance.gifts.getGiftValueFromStack(stack);
     }
 
     /**
@@ -109,7 +110,7 @@ public class API {
      * @return A gender appropriate name based on the provided gender.
      */
     public static String getRandomName(@NotNull Gender gender) {
-        return instance.getRandomName(gender);
+        return instance.villageComponents.pickCitizenName(gender);
     }
 
     /**
@@ -119,7 +120,7 @@ public class API {
      * @param screen Screen instance the buttons should be added to
      */
     public static void addButtons(String guiKey, GuiInteract screen) {
-        instance.addButtons(guiKey, screen);
+        instance.guiComponents.addButtons(guiKey, screen);
     }
 
     public static VillagerProfession randomProfession() {
@@ -128,22 +129,50 @@ public class API {
 
     //returns a random generated name for a given name set
     public static String getRandomVillageName(String from) {
-        return instance.getRandomVillageName(from);
+        return instance.villageComponents.pickVillageName(from);
     }
 
     public static String getRandomSupporter() {
-        return instance.getRandomSupporter();
+        return instance.pickSupporter();
     }
 
     public static Map<String, BuildingType> getBuildingTypes() {
-        return instance.getBuildingTypes();
+        return instance.villageComponents.getBuildingTypes();
     }
 
     public static BuildingType getBuildingType(String type) {
-        return instance.getBuildingType(type);
+        return instance.villageComponents.getBuildingType(type);
     }
 
     public static Random getRng() {
         return instance.rng;
+    }
+
+    static class Data {
+        final Random rng = new Random();
+
+        final GiftList gifts = new GiftList();
+
+        final ClothingList clothing = new ClothingList(rng);
+        final HairList hair = new HairList(rng);
+
+        final GuiComponents guiComponents = new GuiComponents();
+        final VillageComponents villageComponents = new VillageComponents(rng);
+
+        private final List<String> supporters = new ArrayList<>();
+
+        void init() {
+            clothing.load();
+            hair.load();
+            villageComponents.load();
+            guiComponents.load();
+            gifts.load();
+
+            supporters.addAll(List.of(Util.readResourceAsJSON("api/supporters.json", String[].class)));
+        }
+
+        public String pickSupporter() {
+            return PoolUtil.pickOne(supporters, "nobody", rng);
+        }
     }
 }
