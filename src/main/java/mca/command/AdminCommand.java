@@ -22,7 +22,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.Util;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 

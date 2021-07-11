@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
@@ -12,6 +11,8 @@ import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
+
 import java.util.*;
 
 import org.jetbrains.annotations.NotNull;
@@ -66,12 +67,12 @@ public class GuiWhistle extends Screen {
         }));
         villagerNameButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
 
-        callButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new LiteralText(Localizer.getInstance().localize("gui.button.call")), (b) -> {
+        callButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.call"), (b) -> {
             NetworkHandler.sendToServer(new CallToPlayerMessage(UUID.fromString(keys.get(selectedIndex))));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
 
-        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new LiteralText(Localizer.getInstance().localize("gui.button.exit")), b -> Objects.requireNonNull(this.client).openScreen(null)));
+        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
 
         toggleButtons(false);
     }
@@ -85,7 +86,7 @@ public class GuiWhistle extends Screen {
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
-        drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredText(transform, textRenderer, new TranslatableText("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
         if (loadingAnimationTicks != -1) {
             String loadingMsg = "Loading" + new String(new char[loadingAnimationTicks % 10]).replace("\0", ".");

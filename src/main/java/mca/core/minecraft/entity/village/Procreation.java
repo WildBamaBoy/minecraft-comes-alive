@@ -34,7 +34,7 @@ public class Procreation {
                         villager.isBabyMale.set(world.random.nextBoolean());
 
                         // notify all players
-                        Text phrase = Localizer.getInstance().localizeText("events.baby", villager.getName().asString(), spouse.getName().asString());
+                        Text phrase = Localizer.localizeText("events.baby", villager.getName().asString(), spouse.getName().asString());
                         world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
                     }
                 }
@@ -60,7 +60,7 @@ public class Procreation {
                 VillagerEntityMCA spouse = villagers.remove(world.random.nextInt(villagers.size()));
 
                 // notify all players
-                Text phrase = Localizer.getInstance().localizeText("events.marry", villager.getName().asString(), spouse.getName().asString());
+                Text phrase = Localizer.localizeText("events.marry", villager.getName().asString(), spouse.getName().asString());
                 world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
 
                 // marry

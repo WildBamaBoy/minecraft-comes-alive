@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
@@ -12,6 +11,8 @@ import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
+
 import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
@@ -44,11 +45,11 @@ public class GuiStaffOfLife extends Screen {
         backButton = addSelectableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> selectData(selectedIndex - 1)));
         nextButton = addSelectableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> selectData(selectedIndex + 1)));
         nameButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
-        reviveButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, Localizer.getInstance().localizeText("gui.button.revive"), b -> {
+        reviveButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.revive"), b -> {
             NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(selectedIndex))));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
-        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, Localizer.getInstance().localizeText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
+        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
         toggleButtons(false);
     }
 
@@ -61,7 +62,7 @@ public class GuiStaffOfLife extends Screen {
     public void render(MatrixStack transform, int w, int h, float scale) {
         renderBackground(transform);
 
-        drawCenteredText(transform, textRenderer, Localizer.getInstance().localize("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredText(transform, textRenderer, new TranslatableText("gui.title.staffoflife"), width / 2, height / 2 - 110, 0xffffff);
 
         super.render(transform, w, h, scale);
 

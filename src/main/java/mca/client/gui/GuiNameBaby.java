@@ -1,7 +1,6 @@
 package mca.client.gui;
 
 import mca.api.API;
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.items.BabyItem;
 import mca.network.BabyNamingVillagerMessage;
@@ -35,11 +34,11 @@ public class GuiNameBaby extends Screen {
 
     @Override
     public void init() {
-        addSelectableChild(new ButtonWidget(width / 2 - 40, height / 2 - 10, 80, 20, Localizer.getInstance().localizeText("gui.button.done"), (b) -> {
+        addSelectableChild(new ButtonWidget(width / 2 - 40, height / 2 - 10, 80, 20, new TranslatableText("gui.button.done"), (b) -> {
             NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.getInventory().selectedSlot, babyNameTextField.getText().trim()));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
-        addSelectableChild(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, Localizer.getInstance().localizeText("gui.button.random"), (b) -> babyNameTextField.setText(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
+        addSelectableChild(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, new TranslatableText("gui.button.random"), (b) -> babyNameTextField.setText(API.getRandomName(((BabyItem) baby.getItem()).getGender()))));
 
         babyNameTextField = new TextFieldWidget(this.textRenderer, width / 2 - 100, height / 2 - 60, 200, 20, new TranslatableText("structure_block.structure_name"));
         babyNameTextField.setMaxLength(32);

@@ -1,6 +1,8 @@
 package mca.enums;
 
 import mca.cobalt.localizer.Localizer;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 import java.util.*;
 
@@ -71,14 +73,22 @@ public enum Personality {
         return this.moodGroup;
     }
 
-    public String getLocalizedName() {
-        String name = "personality." + this.name().toLowerCase();
-        return Localizer.getInstance().localize(name);
+    public Text getName() {
+        return new TranslatableText("personality." + name().toLowerCase());
     }
 
+    public Text getDescription() {
+        return new TranslatableText("personalityDescription." + name().toLowerCase());
+    }
+
+    @Deprecated
+    public String getLocalizedName() {
+        return Localizer.localize("personality." + this.name().toLowerCase());
+    }
+
+    @Deprecated
     public String getLocalizedDescription() {
-        String name = "personalityDescription." + this.name().toLowerCase();
-        return Localizer.getInstance().localize(name);
+        return Localizer.localize("personalityDescription." + this.name().toLowerCase());
     }
 
     public int getSuccessModifierForInteraction(Interaction interaction) {

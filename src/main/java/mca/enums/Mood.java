@@ -3,6 +3,8 @@ package mca.enums;
 import mca.api.API;
 import mca.cobalt.localizer.Localizer;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 
 public enum Mood {
@@ -53,9 +55,13 @@ public enum Mood {
         return this.level.getMax() >= level && this.level.getMin() <= level;
     }
 
+    public Text getName() {
+        return new TranslatableText("mood." + name().toLowerCase());
+    }
+
+    @Deprecated
     public String getLocalizedName() {
-        String name = "mood." + this.name().toLowerCase();
-        return Localizer.getInstance().localize(name);
+        return Localizer.localize("mood." + this.name().toLowerCase());
     }
 
     public int getSuccessModifierForInteraction(Interaction interaction) {

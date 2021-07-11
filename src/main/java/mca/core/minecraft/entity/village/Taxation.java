@@ -22,7 +22,7 @@ public class Taxation {
             village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
             deliverTaxes(village, (ServerWorld) world);
 
-            world.getPlayers().forEach((player) -> player.sendSystemMessage(Localizer.getInstance().localizeText("gui.village.taxes", village.getName()), player.getUuid()));
+            world.getPlayers().forEach((player) -> player.sendSystemMessage(Localizer.localizeText("gui.village.taxes", village.getName()), player.getUuid()));
         }
     }
 

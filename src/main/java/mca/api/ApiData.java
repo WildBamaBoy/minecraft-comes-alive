@@ -1,7 +1,6 @@
 package mca.api;
 
 import com.google.common.base.Charsets;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import mca.api.types.*;
 import mca.client.gui.GuiInteract;

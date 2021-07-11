@@ -478,7 +478,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
                 PlayerEntity p = (PlayerEntity) source.getAttacker();
-                sendMessageTo(Localizer.getInstance().localize("villager.hurt"), p);
+                sendMessageTo(Localizer.localize("villager.hurt"), p);
             }
 
             if (source.getSource() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
@@ -704,7 +704,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         } else {
             DialogueType dialogueType = getMemoriesForPlayer(target).getDialogueType();
-            String localizedText = Localizer.getInstance().localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
+            String localizedText = Localizer.localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
             sendMessageTo(chatPrefix + localizedText, target);
         }
     }
@@ -1111,7 +1111,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 Entity[] parents = getBothParentEntities();
                 Arrays.stream(parents).filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
                     getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                    sendMessageTo(Localizer.getInstance().localize("notify.child.grownup", villagerName.get()), p);
+                    sendMessageTo(Localizer.localize("notify.child.grownup", villagerName.get()), p);
                 });
             }
         }

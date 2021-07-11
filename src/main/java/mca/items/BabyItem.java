@@ -146,25 +146,25 @@ public class BabyItem extends Item {
 
             String textColor = ((BabyItem) stack.getItem()).getGender() == Gender.MALE ? Constants.Color.AQUA : Constants.Color.LIGHTPURPLE;
             int ageInMinutes = nbt.getInteger("age");
-            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUuid()) ? Localizer.getInstance().localize("gui.label.you") : nbt.getString("ownerName");
+            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUuid()) ? Localizer.localize("gui.label.you") : nbt.getString("ownerName");
 
             if (getBabyName(stack).equals("")) {
-                tooltip.add(new LiteralText(textColor + Localizer.getInstance().localize("gui.label.name") + " " + Constants.Format.RESET + Localizer.getInstance().localize("gui.label.unnamed")));
+                tooltip.add(new LiteralText(textColor + Localizer.localize("gui.label.name") + " " + Constants.Format.RESET + Localizer.localize("gui.label.unnamed")));
             } else {
-                tooltip.add(new LiteralText(textColor + Localizer.getInstance().localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name")));
+                tooltip.add(new LiteralText(textColor + Localizer.localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name")));
             }
 
-            tooltip.add(new LiteralText(Localizer.getInstance().localize("gui.label.age") + " " + Constants.Format.RESET + ageInMinutes + " " + (ageInMinutes == 1 ? Localizer.getInstance().localize("gui.label.minute") : Localizer.getInstance().localize("gui.label.minutes"))));
-            tooltip.add(new LiteralText(Localizer.getInstance().localize("gui.label.parent") + " " + Constants.Format.RESET + ownerName));
+            tooltip.add(new LiteralText(Localizer.localize("gui.label.age") + " " + Constants.Format.RESET + ageInMinutes + " " + (ageInMinutes == 1 ? Localizer.localize("gui.label.minute") : Localizer.localize("gui.label.minutes"))));
+            tooltip.add(new LiteralText(Localizer.localize("gui.label.parent") + " " + Constants.Format.RESET + ownerName));
 
             if (nbt.getBoolean("isInfected"))
-                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.getInstance().localize("gui.label.infected")));
+                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.localize("gui.label.infected")));
 
             if (isReadyToGrowUp(stack))
-                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.getInstance().localize("gui.label.readytogrow")));
+                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.localize("gui.label.readytogrow")));
 
-            if (nbt.getString("name").equals(Localizer.getInstance().localize("gui.label.unnamed"))) {
-                tooltip.add(new LiteralText(Constants.Color.YELLOW + Localizer.getInstance().localize("gui.label.rightclicktoname")));
+            if (nbt.getString("name").equals(Localizer.localize("gui.label.unnamed"))) {
+                tooltip.add(new LiteralText(Constants.Color.YELLOW + Localizer.localize("gui.label.rightclicktoname")));
             }
         }
     }

@@ -2,6 +2,7 @@ package mca.enums;
 
 import mca.cobalt.localizer.Localizer;
 import net.minecraft.item.*;
+import net.minecraft.text.Text;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -37,8 +38,13 @@ public enum Chore {
         return VALUES[id];
     }
 
+    public Text getName() {
+        return Localizer.localizeText(this.friendlyName);
+    }
+
+    @Deprecated
     public String getFriendlyName() {
-        return Localizer.getInstance().localize(this.friendlyName);
+        return Localizer.localize(this.friendlyName);
     }
 }
 

@@ -2,8 +2,8 @@ package mca.client.gui.component;
 
 import mca.api.types.APIButton;
 import mca.client.gui.GuiInteract;
-import mca.cobalt.localizer.Localizer;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.text.TranslatableText;
 
 public class ButtonEx extends ButtonWidget {
     private final APIButton apiButton;
@@ -14,7 +14,7 @@ public class ButtonEx extends ButtonWidget {
                 (gui.height / 2) + apiButton.y(),
                 apiButton.width(),
                 apiButton.height(),
-                Localizer.getInstance().localizeText(apiButton.identifier()),
+                new TranslatableText(apiButton.identifier()),
                 (a) -> gui.buttonPressed((ButtonEx) a));
         this.apiButton = apiButton;
     }

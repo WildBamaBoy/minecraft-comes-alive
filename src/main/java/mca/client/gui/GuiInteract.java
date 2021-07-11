@@ -21,6 +21,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import org.lwjgl.glfw.GLFW;
@@ -188,31 +190,29 @@ public class GuiInteract extends Screen {
     private void drawTextPopups(MatrixStack transform) {
         //general information
         VillagerProfession profession = villager.getProfession();
-        String professionName = villager.isBaby() ? villager.getAgeState().localizedName() : Localizer.getInstance().localize("entity.minecraft.villager." + profession);
 
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
-            renderTooltip(transform, Localizer.getInstance().localize("gui.interact.label.giveGift"), 10, 28);
+            renderTooltip(transform, Localizer.localize("gui.interact.label.giveGift"), 10, 28);
         } else {
             renderTooltip(transform, villager.getName(), 10, 28);
         }
 
         //age or profession
-        renderTooltip(transform, professionName, 10, 30 + h);
+        renderTooltip(transform, villager.isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
 
         //mood
         String color = villager.getMoodLevel() < 0 ? Constants.Color.RED : villager.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
-        String mood = Localizer.getInstance().localize("gui.interact.label.mood", villager.getMood().getLocalizedName());
+        Text mood = new TranslatableText("gui.interact.label.mood", villager.getMood().getName());
         renderTooltip(transform, color + mood, 10, 30 + h * 2);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {
-            renderTooltip(transform, villager.getPersonality().getLocalizedDescription(), 10, 30 + h * 3);
+            renderTooltip(transform, villager.getPersonality().getDescription(), 10, 30 + h * 3);
         } else {
-            color = Constants.Color.WHITE; //White as we don't know if a personality is negative
-            String personality = Localizer.getInstance().localize("gui.interact.label.personality", villager.getPersonality().getLocalizedName());
-            renderTooltip(transform, color + personality, 10, 30 + h * 3);
+            //White as we don't know if a personality is negative
+            renderTooltip(transform, new TranslatableText("gui.interact.label.personality", villager.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 3);
         }
 
         //hearts
@@ -227,25 +227,25 @@ public class GuiInteract extends Screen {
         if (hoveringOverIcon("married")) {
             String spouseName = villager.spouseName.get();
             if (marriageState == MarriageState.MARRIED || marriageState == MarriageState.MARRIED_TO_PLAYER)
-                marriageInfo = Localizer.getInstance().localize("gui.interact.label.married", spouseName);
+                marriageInfo = Localizer.localize("gui.interact.label.married", spouseName);
             else if (marriageState == MarriageState.ENGAGED)
-                marriageInfo = Localizer.getInstance().localize("gui.interact.label.engaged", spouseName);
-            else marriageInfo = Localizer.getInstance().localize("gui.interact.label.notmarried");
+                marriageInfo = Localizer.localize("gui.interact.label.engaged", spouseName);
+            else marriageInfo = Localizer.localize("gui.interact.label.notmarried");
 
             drawHoveringIconText(transform, marriageInfo, "married");
         }
 
         //parents
         if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
-            drawHoveringIconText(transform, Localizer.getInstance().localize("gui.interact.label.parents",
-                    father == null ? Localizer.getInstance().localize("gui.interact.label.parentUnknown") : father,
-                    mother == null ? Localizer.getInstance().localize("gui.interact.label.parentUnknown") : mother
+            drawHoveringIconText(transform, Localizer.localize("gui.interact.label.parents",
+                    father == null ? Localizer.localize("gui.interact.label.parentUnknown") : father,
+                    mother == null ? Localizer.localize("gui.interact.label.parentUnknown") : mother
             ), "parents");
         }
 
         //gift
         if (canDrawGiftIcon() && hoveringOverIcon("gift"))
-            drawHoveringIconText(transform, Localizer.getInstance().localize("gui.interact.label.gift"), "gift");
+            drawHoveringIconText(transform, Localizer.localize("gui.interact.label.gift"), "gift");
 
         //genes
         if (hoveringOverIcon("genes")) {
@@ -254,7 +254,7 @@ public class GuiInteract extends Screen {
             for (int i = 0; i < villager.GENES.length; i++) {
                 String key = VillagerEntityMCA.GENES_NAMES[i].replace("_", ".");
                 int value = (int) (villager.GENES[i].get() * 100);
-                lines.add(new LiteralText(String.format("%s: %d%%", Localizer.getInstance().localize(key), value)));
+                lines.add(new LiteralText(String.format("%s: %d%%", Localizer.localize(key), value)));
             }
             drawHoveringIconText(transform, lines, "genes");
         }
@@ -262,7 +262,7 @@ public class GuiInteract extends Screen {
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
             List<Text> lines = new LinkedList<>();
-            lines.add(Localizer.getInstance().localizeText("gui.interact.label.happiness", "0/10"));
+            lines.add(Localizer.localizeText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }
