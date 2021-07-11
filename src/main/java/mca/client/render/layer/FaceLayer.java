@@ -13,7 +13,7 @@ public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     }
 
     @Override
-    boolean isTranslucent() {
+    protected boolean isTranslucent() {
         return true;
     }
 

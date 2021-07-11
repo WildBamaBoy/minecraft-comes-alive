@@ -44,21 +44,14 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
         return DEFAULT_COLOR;
     }
 
-    boolean isTranslucent() {
+    protected boolean isTranslucent() {
         return false;
-    }
-
-    private void renderModel(MatrixStack transform, VertexConsumerProvider buffer, int p_241738_3_, M model, float r, float g, float b, Identifier res, int overlay) {
-        this.getContextModel().copyPropertiesTo(model);
-
-        VertexConsumer ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderLayer.getEntityTranslucent(res) : RenderLayer.getEntityCutoutNoCull(res));
-        model.render(transform, ivertexbuilder, p_241738_3_, overlay, r, g, b, 1.0F);
     }
 
     @Override
     public void render(MatrixStack transform, VertexConsumerProvider buffer, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         //copy the animation to this layers model
-        getContextModel().copyPropertiesTo(model);
+        getContextModel().setAttributes(model);
 
         //texture
         String p = getSkin(entity);
@@ -76,6 +69,13 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
             Identifier res = getResource(p);
             this.renderModel(transform, buffer, light, model, 1, 1, 1, res, LivingEntityRenderer.getOverlay(entity, 0));
         }
+    }
+
+    private void renderModel(MatrixStack transform, VertexConsumerProvider buffer, int p_241738_3_, M model, float r, float g, float b, Identifier res, int overlay) {
+        this.getContextModel().setAttributes(model);
+
+        VertexConsumer ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderLayer.getEntityTranslucent(res) : RenderLayer.getEntityCutoutNoCull(res));
+        model.render(transform, ivertexbuilder, p_241738_3_, overlay, r, g, b, 1.0F);
     }
 
     private Identifier getResource(String name) {
