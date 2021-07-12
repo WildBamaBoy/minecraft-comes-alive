@@ -1,7 +1,6 @@
 package mca.network;
 
 import mca.client.gui.GuiStaffOfLife;
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.Message;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;

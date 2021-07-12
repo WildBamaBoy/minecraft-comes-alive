@@ -1,4 +1,4 @@
-package mca.cobalt.minecraft.nbt;
+package mca.network;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtIo;
