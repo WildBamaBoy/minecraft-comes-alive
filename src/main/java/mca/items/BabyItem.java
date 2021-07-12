@@ -3,9 +3,7 @@ package mca.items;
 import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTree;
@@ -22,10 +20,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -34,11 +35,19 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-public class BabyItem extends Item {
-    public int tick = -1;
+import com.google.common.base.Strings;
 
-    public BabyItem(Item.Settings properties) {
+public class BabyItem extends Item {
+
+    private final Gender gender;
+
+    public BabyItem(Gender gender, Item.Settings properties) {
         super(properties);
+        this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 
     public boolean onDropped(ItemStack stack, PlayerEntity player) {
@@ -47,48 +56,49 @@ public class BabyItem extends Item {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int pos, boolean selected) {
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int pos, boolean selected) {
         if (!world.isClient) {
-            if (!itemStack.hasTag()) {
-                CNBT compound = CNBT.createNew();
+            if (!stack.hasTag()) {
+                NbtCompound compound = stack.getOrCreateTag();
 
-                compound.setString("name", "");
-                compound.setInteger("age", 0);
-                compound.setUUID("ownerUUID", entity.getUuid());
-                compound.setString("ownerName", entity.getName().getString());
-                compound.setBoolean("isInfected", false);
-
-                itemStack.setTag(compound.getMcCompound());
-            } else {
-                updateBabyGrowth(itemStack);
+                compound.putString("name", "");
+                compound.putInt("age", 0);
+                compound.putUuid("ownerUUID", entity.getUuid());
+                compound.putString("ownerName", entity.getName().getString());
+                compound.putBoolean("isInfected", false);
             }
-            tick++;
+
+            if (world.getTime() % 1200 == 0) {
+                stack.getTag().putInt("age", stack.getTag().getInt("age") + 1);
+            }
         }
     }
 
     @Override
     public final TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        BlockPos pos = player.getBlockPos();
+
         ItemStack stack = player.getStackInHand(hand);
-        int posX = pos.getX();
-        int posY = pos.getY() + 1;
-        int posZ = pos.getZ();
 
         // Right-clicking an unnamed baby allows you to name it
         if (getBabyName(stack).equals("")) {
             if (player instanceof ServerPlayerEntity) {
                 NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.BABY_NAME), (ServerPlayerEntity) player);
             }
+
+            return TypedActionResult.pass(stack);
         }
 
-        if (!world.isClient && isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
+        // Name is good and we're ready to grow
+        if (!world.isClient && isReadyToGrowUp(stack)) {
             VillagerEntityMCA child = new VillagerEntityMCA(world);
 
             child.getGenetics().setGender(getGender());
             child.setProfession(ProfessionsMCA.CHILD);
             child.villagerName.set(getBabyName(stack));
             child.setBaby(true);
-            child.setPosition(posX, posY, posZ);
+
+            BlockPos pos = player.getBlockPos();
+            child.setPosition(pos.getX(), pos.getY() + 0.5, pos.getZ());
 
             PlayerSaveData playerData = PlayerSaveData.get(world, player.getUuid());
 
@@ -98,6 +108,7 @@ public class BabyItem extends Item {
 
             //assumes your child is from the players current spouse
             //as the father does not have any genes it just takes the one from the mother
+            //TODO: The player should be able to server as the mother too!
             Entity spouse = ((ServerWorld) world).getEntity(playerData.getSpouseUUID());
             if (spouse instanceof VillagerEntityMCA) {
                 VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
@@ -127,9 +138,9 @@ public class BabyItem extends Item {
             stack.decrement(1);
 
             return TypedActionResult.success(stack);
-        } else {
-            return TypedActionResult.pass(stack);
         }
+
+        return TypedActionResult.pass(stack);
     }
 
     @Override
@@ -138,54 +149,52 @@ public class BabyItem extends Item {
             PlayerEntity player = MinecraftClient.getInstance().player;
             CNBT nbt = CNBT.fromMC(stack.getTag());
 
-            String textColor = ((BabyItem) stack.getItem()).getGender() == Gender.MALE ? Constants.Color.AQUA : Constants.Color.LIGHTPURPLE;
+            String babyName = getBabyName(stack);
+            boolean unnamed = Strings.isNullOrEmpty(babyName);
+
+            tooltip.add(new TranslatableText("gui.label.name")
+                    .formatted(getGender().getColor())
+                    .append(" ")
+                    .append(unnamed ? new TranslatableText("gui.label.unnamed") : new LiteralText(babyName))
+            );
+
             int ageInMinutes = nbt.getInteger("age");
-            String ownerName = nbt.getUUID("ownerUUID").equals(player.getUuid()) ? Localizer.localize("gui.label.you") : nbt.getString("ownerName");
+            tooltip.add(new TranslatableText("gui.label.age")
+                    .append(" ").append(String.valueOf(ageInMinutes))
+                    .append(" ").append(new TranslatableText("gui.label.minute" + (ageInMinutes == 1 ? "s" : "")))
+            );
 
-            if (getBabyName(stack).equals("")) {
-                tooltip.add(new LiteralText(textColor + Localizer.localize("gui.label.name") + " " + Constants.Format.RESET + Localizer.localize("gui.label.unnamed")));
-            } else {
-                tooltip.add(new LiteralText(textColor + Localizer.localize("gui.label.name") + " " + Constants.Format.RESET + nbt.getString("name")));
+            tooltip.add(new TranslatableText("gui.label.parent")
+                    .append(" ")
+                    .append(nbt.getUUID("ownerUUID").equals(player.getUuid()) ? new TranslatableText("gui.label.you") : new LiteralText(nbt.getString("ownerName"))));
+
+            if (nbt.getBoolean("isInfected")) {
+                tooltip.add(new TranslatableText("gui.label.infected").formatted(Formatting.GREEN));
             }
 
-            tooltip.add(new LiteralText(Localizer.localize("gui.label.age") + " " + Constants.Format.RESET + ageInMinutes + " " + (ageInMinutes == 1 ? Localizer.localize("gui.label.minute") : Localizer.localize("gui.label.minutes"))));
-            tooltip.add(new LiteralText(Localizer.localize("gui.label.parent") + " " + Constants.Format.RESET + ownerName));
-
-            if (nbt.getBoolean("isInfected"))
-                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.localize("gui.label.infected")));
-
-            if (isReadyToGrowUp(stack))
-                tooltip.add(new LiteralText(Constants.Color.GREEN + Localizer.localize("gui.label.readytogrow")));
-
-            if (nbt.getString("name").equals(Localizer.localize("gui.label.unnamed"))) {
-                tooltip.add(new LiteralText(Constants.Color.YELLOW + Localizer.localize("gui.label.rightclicktoname")));
+            if (isReadyToGrowUp(stack)) {
+                tooltip.add(new TranslatableText("gui.label.readytogrow").formatted(Formatting.GREEN));
             }
-        }
-    }
 
-    private void updateBabyGrowth(ItemStack itemStack) {
-        CNBT tag = CNBT.fromMC(itemStack.getTag());
-        if (tag != null && tick % 1200 == 0) {
-            int age = tag.getInteger("age");
-            tag.setInteger("age", age + 1);
+            if (unnamed) {
+                tooltip.add(new TranslatableText("gui.label.rightclicktoname").formatted(Formatting.YELLOW));
+            }
         }
     }
 
     private static boolean isReadyToGrowUp(ItemStack stack) {
-        CNBT tag = CNBT.fromMC(stack.getTag());
-        return tag != null && tag.getInteger("age") >= MCA.getConfig().babyGrowUpTime;
-    }
-
-    public Gender getGender() {
-        return this.equals(ItemsMCA.BABY_BOY) ? Gender.MALE : Gender.FEMALE;
+        return stack.hasTag() && stack.getTag().getInt("age") >= MCA.getConfig().babyGrowUpTime;
     }
 
     public static String getBabyName(ItemStack stack) {
-        return stack.getTag().getString("name");
+        String name = stack.hasTag() ? stack.getTag().getString("name") : "";
+        if (Localizer.localize("gui.label.unnamed").equals(name)) {
+            return "";
+        }
+        return name;
     }
 
     public static void setBabyName(ItemStack stack, String name) {
-        stack.getTag().putString("name", name);
+        stack.getOrCreateTag().putString("name", name);
     }
-
 }

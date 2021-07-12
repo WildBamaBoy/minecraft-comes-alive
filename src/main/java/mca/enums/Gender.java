@@ -6,15 +6,27 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.minecraft.util.Formatting;
+
 public enum Gender {
-    UNASSIGNED,
-    MALE,
-    FEMALE,
-    NEUTRAL;
+    UNASSIGNED(Formatting.BLACK),
+    MALE(Formatting.AQUA),
+    FEMALE(Formatting.LIGHT_PURPLE), // TODO: Girls should be pink
+    NEUTRAL(Formatting.WHITE);
 
     private static final Random RNG = new Random();
     private static final Gender[] VALUES = values();
     private static final Map<String, Gender> REGISTRY = Stream.of(VALUES).collect(Collectors.toMap(Gender::name, Function.identity()));
+
+    private final Formatting color;
+
+    Gender(Formatting color) {
+        this.color = color;
+    }
+
+    public Formatting getColor() {
+        return color;
+    }
 
     public int getId() {
         return ordinal();
