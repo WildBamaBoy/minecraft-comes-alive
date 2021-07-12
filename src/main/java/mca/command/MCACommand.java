@@ -5,7 +5,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import mca.core.Constants;
 import mca.server.ServerInteractionManager;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
@@ -13,6 +12,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
 public class MCACommand {
@@ -30,15 +30,15 @@ public class MCACommand {
     }
 
     private static int displayHelp(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "PLAYER COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca propose <PlayerName>" + Constants.Color.GOLD + " - Proposes marriage to the given player.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca proposals " + Constants.Color.GOLD + " - Shows all active proposals.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca accept <PlayerName>" + Constants.Color.GOLD + " - Accepts the player's marriage request.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca reject <PlayerName>" + Constants.Color.GOLD + " - Rejects the player's marriage request.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca procreate " + Constants.Color.GOLD + " - Starts procreation.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca separate " + Constants.Color.GOLD + " - Ends your marriage.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca help " + Constants.Color.GOLD + " - Shows this list of commands.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.DARK_RED + "--- " + Formatting.GOLD + "PLAYER COMMANDS" + Formatting.DARK_RED + " ---");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca propose <PlayerName>" + Formatting.GOLD + " - Proposes marriage to the given player.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca proposals " + Formatting.GOLD + " - Shows all active proposals.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca accept <PlayerName>" + Formatting.GOLD + " - Accepts the player's marriage request.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca reject <PlayerName>" + Formatting.GOLD + " - Rejects the player's marriage request.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca procreate " + Formatting.GOLD + " - Starts procreation.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca separate " + Formatting.GOLD + " - Ends your marriage.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.DARK_RED + "--- " + Formatting.GOLD + "GLOBAL COMMANDS" + Formatting.DARK_RED + " ---");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca help " + Formatting.GOLD + " - Shows this list of commands.");
         return 0;
     }
 
@@ -87,6 +87,6 @@ public class MCACommand {
     }
 
     private static void sendMessage(Entity commandSender, String message) {
-        commandSender.sendSystemMessage(new LiteralText(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message), Util.NIL_UUID);
+        commandSender.sendSystemMessage(new LiteralText(Formatting.GOLD + "[MCA] " + Formatting.RESET + message), Util.NIL_UUID);
     }
 }

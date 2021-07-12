@@ -97,7 +97,7 @@ public class GuiStaffOfLife extends Screen {
     }
 
     private void updateDummy(CNBT nbt) {
-        dummy.readCustomDataFromNbt(nbt.getMcCompound());
+        dummy.readCustomDataFromNbt(nbt.upwrap());
     }
 
     private void selectData(int i) {

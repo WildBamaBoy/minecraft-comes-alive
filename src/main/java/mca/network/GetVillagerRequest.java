@@ -38,7 +38,7 @@ public class GetVillagerRequest implements Message {
                 VillagerEntityMCA v = (VillagerEntityMCA) e;
                 NbtCompound nbt = new NbtCompound();
                 v.writeCustomDataToNbt(nbt);
-                familyData.put(e.getUuid().toString(), CNBT.fromMC(nbt));
+                familyData.put(e.getUuid().toString(), CNBT.wrap(nbt));
             }
         }
 

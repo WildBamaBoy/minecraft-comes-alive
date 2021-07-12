@@ -1,8 +1,7 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
-import mca.core.Constants;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
@@ -99,14 +98,14 @@ public class CDataManager {
     }
 
     //load entity from nbt
-    public void load(CNBT nbt) {
+    public void load(NbtCompound nbt) {
         for (CDataParameter<?> p : params.values()) {
             p.load(nbt);
         }
     }
 
     //save entity from nbt
-    public void save(CNBT nbt) {
+    public void save(NbtCompound nbt) {
         for (CDataParameter<?> p : params.values()) {
             p.save(nbt);
         }

@@ -1,10 +1,11 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
+import net.minecraft.nbt.NbtCompound;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +32,9 @@ abstract public class CDataParameter<T> {
 
     public abstract void register();
 
-    public abstract void load(CNBT nbt);
+    public abstract void load(NbtCompound nbt);
 
-    public abstract void save(CNBT nbt);
+    public abstract void save(NbtCompound nbt);
 
     public TrackedData<T> getParam() {
         return param;

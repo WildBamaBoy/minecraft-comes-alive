@@ -125,7 +125,7 @@ public class GuiWhistle extends Screen {
             CNBT firstData = villagerData.get(keys.get(index));
 
             dummy = new VillagerEntityMCA(MinecraftClient.getInstance().world);
-            dummy.readCustomDataFromNbt(firstData.getMcCompound());
+            dummy.readCustomDataFromNbt(firstData.upwrap());
 
             villagerNameButton.setMessage(dummy.getDisplayName());
 

@@ -1,9 +1,9 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.nbt.NbtCompound;
 
 public class CBooleanParameter extends CDataParameter<Boolean> {
     private final DataTracker data;
@@ -29,12 +29,12 @@ public class CBooleanParameter extends CDataParameter<Boolean> {
     }
 
     @Override
-    public void load(CNBT nbt) {
+    public void load(NbtCompound nbt) {
         set(nbt.getBoolean(id));
     }
 
     @Override
-    public void save(CNBT nbt) {
-        nbt.setBoolean(id, get());
+    public void save(NbtCompound nbt) {
+        nbt.putBoolean(id, get());
     }
 }

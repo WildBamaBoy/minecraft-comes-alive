@@ -1,9 +1,9 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.enums.MarriageState;
 import mca.util.WorldUtils;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
 
@@ -24,16 +24,16 @@ public class PlayerSaveData extends CWorldSavedData {
     }
 
     @Override
-    public CNBT save(CNBT nbt) {
-        nbt.setUUID("spouseUUID", spouseUUID);
-        nbt.setString("spouseName", spouseName);
-        nbt.setBoolean("babyPresent", babyPresent);
+    public NbtCompound save(NbtCompound nbt) {
+        nbt.putUuid("spouseUUID", spouseUUID);
+        nbt.putString("spouseName", spouseName);
+        nbt.putBoolean("babyPresent", babyPresent);
         return nbt;
     }
 
     @Override
-    public void load(CNBT nbt) {
-        spouseUUID = nbt.getUUID("spouseUUID");
+    public void load(NbtCompound nbt) {
+        spouseUUID = nbt.getUuid("spouseUUID");
         spouseName = nbt.getString("spouseName");
         babyPresent = nbt.getBoolean("babyPresent");
     }

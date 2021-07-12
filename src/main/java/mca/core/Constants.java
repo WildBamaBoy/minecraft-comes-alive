@@ -1,9 +1,5 @@
 package mca.core;
 
-import java.util.UUID;
-
-import net.minecraft.util.Util;
-
 public class Constants {
     public static final int GUI_ID_INTERACT = 1;
     public static final int GUI_ID_NAMEBABY = 2;

@@ -7,9 +7,7 @@ import mca.api.types.Button;
 import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
 import mca.cobalt.localizer.Localizer;
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.network.datasync.*;
-import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.*;
 import mca.core.minecraft.entity.village.VillageHelper;
@@ -262,7 +260,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
 
-        data.load(CNBT.fromMC(nbt));
+        data.load(nbt);
 
         //load gift desaturation queue
         NbtList res = nbt.getList("giftDesaturation", 8);
@@ -291,7 +289,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
 
-        data.save(CNBT.fromMC(nbt));
+        data.save(nbt);
 
         InventoryUtils.saveToNBT(inventory, nbt);
 

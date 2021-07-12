@@ -1,7 +1,6 @@
 package mca.entity.data;
 
 import mca.api.API;
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Rank;
 import net.minecraft.block.Block;
@@ -14,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -268,44 +268,43 @@ public class Village implements Serializable, Iterable<Building> {
         return null;
     }
 
-    public CNBT save() {
-        CNBT v = CNBT.createNew();
+    public NbtCompound save() {
+        NbtCompound v = new NbtCompound();
 
-        v.setInteger("id", id);
-        v.setString("name", name);
-        v.setInteger("centerX", centerX);
-        v.setInteger("centerY", centerY);
-        v.setInteger("centerZ", centerZ);
-        v.setInteger("size", size);
-        v.setInteger("taxes", taxes);
-        v.setInteger("populationThreshold", populationThreshold);
-        v.setInteger("marriageThreshold", marriageThreshold);
+        v.putInt("id", id);
+        v.putString("name", name);
+        v.putInt("centerX", centerX);
+        v.putInt("centerY", centerY);
+        v.putInt("centerZ", centerZ);
+        v.putInt("size", size);
+        v.putInt("taxes", taxes);
+        v.putInt("populationThreshold", populationThreshold);
+        v.putInt("marriageThreshold", marriageThreshold);
 
         NbtList buildingsList = new NbtList();
         for (Building building : buildings.values()) {
-            buildingsList.add(building.save().getMcCompound());
+            buildingsList.add(building.save());
         }
-        v.setList("buildings", buildingsList);
+        v.put("buildings", buildingsList);
 
         return v;
     }
 
-    public void load(CNBT v) {
-        id = v.getInteger("id");
+    public void load(NbtCompound v) {
+        id = v.getInt("id");
         name = v.getString("name");
-        centerX = v.getInteger("centerX");
-        centerY = v.getInteger("centerY");
-        centerZ = v.getInteger("centerZ");
-        size = v.getInteger("size");
-        taxes = v.getInteger("taxes");
-        populationThreshold = v.getInteger("populationThreshold");
-        marriageThreshold = v.getInteger("marriageThreshold");
+        centerX = v.getInt("centerX");
+        centerY = v.getInt("centerY");
+        centerZ = v.getInt("centerZ");
+        size = v.getInt("size");
+        taxes = v.getInt("taxes");
+        populationThreshold = v.getInt("populationThreshold");
+        marriageThreshold = v.getInt("marriageThreshold");
 
-        NbtList b = v.getCompoundList("buildings");
+        NbtList b = v.getList("buildings", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < b.size(); i++) {
-            NbtCompound c = b.getCompound(i);
             Building building = new Building();
-            building.load(CNBT.fromMC(c));
+            building.load(b.getCompound(i));
             buildings.put(building.getId(), building);
         }
     }

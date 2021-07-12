@@ -1,11 +1,11 @@
 package mca.network;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.SavedVillagers;
 import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 
 import java.util.UUID;
 
@@ -21,12 +21,12 @@ public class ReviveVillagerMessage implements Message {
     @Override
     public void receive(PlayerEntity player) {
         SavedVillagers villagers = SavedVillagers.get(player.world);
-        CNBT nbt = SavedVillagers.get(player.world).getVillagerByUUID(uuid);
+        NbtCompound nbt = SavedVillagers.get(player.world).getVillagerByUUID(uuid);
         if (nbt != null) {
             VillagerEntityMCA villager = new VillagerEntityMCA(player.world);
             villager.setPosition(player.getX(), player.getY(), player.getZ());
 
-            villager.readCustomDataFromNbt(nbt.getMcCompound());
+            villager.readCustomDataFromNbt(nbt);
 
             WorldUtils.spawnEntity(player.world, villager);
 

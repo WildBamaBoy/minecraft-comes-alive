@@ -6,7 +6,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
@@ -18,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.Util;
 import java.util.ArrayList;
@@ -135,35 +135,35 @@ public class AdminCommand {
     }
 
     private static void success(String message, CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendFeedback(new LiteralText(Constants.Color.GREEN + message), true);
+        ctx.getSource().sendFeedback(new LiteralText(message).formatted(Formatting.GREEN), true);
     }
 
     private static void fail(CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendError(new LiteralText(Constants.Color.RED + "Village with this ID does not exist."));
+        ctx.getSource().sendError(new LiteralText("Village with this ID does not exist.").formatted(Formatting.RED));
     }
 
     private static int displayHelp(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "OP COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin ffh " + Constants.Color.GOLD + " - Force all hearts on all villagers.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin fbg " + Constants.Color.GOLD + " - Force your baby to grow up.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin fcg " + Constants.Color.GOLD + " - Force nearby children to grow.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin clv " + Constants.Color.GOLD + " - Clear all loaded villagers. " + Constants.Color.RED + "(IRREVERSABLE)");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin rcv " + Constants.Color.GOLD + " - Restores cleared villagers. ");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.DARK_RED + "--- " + Formatting.GOLD + "OP COMMANDS" + Formatting.DARK_RED + " ---");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin ffh " + Formatting.GOLD + " - Force all hearts on all villagers.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin fbg " + Formatting.GOLD + " - Force your baby to grow up.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin fcg " + Formatting.GOLD + " - Force nearby children to grow.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin clv " + Formatting.GOLD + " - Clear all loaded villagers. " + Formatting.RED + "(IRREVERSABLE)");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin rcv " + Formatting.GOLD + " - Restores cleared villagers. ");
 
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin listVillages " + Constants.Color.GOLD + " - Prints a list of all villages.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin removeVillage id" + Constants.Color.GOLD + " - Removed a village with given id.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin listVillages " + Formatting.GOLD + " - Prints a list of all villages.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin removeVillage id" + Formatting.GOLD + " - Removed a village with given id.");
 
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin inh " + Constants.Color.GOLD + " - Increase hearts by 10.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin deh " + Constants.Color.GOLD + " - Decrease hearts by 10.");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin cve" + Constants.Color.GOLD + " - Remove all villager editors from the game.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin inh " + Formatting.GOLD + " - Increase hearts by 10.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin deh " + Formatting.GOLD + " - Decrease hearts by 10.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin cve" + Formatting.GOLD + " - Remove all villager editors from the game.");
 
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.DARKRED + "--- " + Constants.Color.GOLD + "GLOBAL COMMANDS" + Constants.Color.DARKRED + " ---");
-        sendMessage(ctx.getSource().getPlayer(), Constants.Color.WHITE + " /mca-admin help " + Constants.Color.GOLD + " - Shows this list of commands.");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.DARK_RED + "--- " + Formatting.GOLD + "GLOBAL COMMANDS" + Formatting.DARK_RED + " ---");
+        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin help " + Formatting.GOLD + " - Shows this list of commands.");
         return 0;
     }
 
 
     private static void sendMessage(Entity commandSender, String message) {
-        commandSender.sendSystemMessage(new LiteralText(Constants.Color.GOLD + "[MCA] " + Constants.Format.RESET + message), Util.NIL_UUID);
+        commandSender.sendSystemMessage(new LiteralText(Formatting.GOLD + "[MCA] " + Formatting.RESET + message), Util.NIL_UUID);
     }
 }

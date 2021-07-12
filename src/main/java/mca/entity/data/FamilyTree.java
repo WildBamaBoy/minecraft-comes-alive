@@ -1,12 +1,11 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
-import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
 
@@ -99,17 +98,17 @@ public class FamilyTree extends CWorldSavedData {
     }
 
     @Override
-    public CNBT save(CNBT nbt) {
+    public NbtCompound save(NbtCompound nbt) {
         for (Map.Entry<UUID, FamilyTreeEntry> entry : entries.entrySet()) {
-            nbt.setTag(entry.getKey().toString(), entry.getValue().save());
+            nbt.put(entry.getKey().toString(), entry.getValue().save());
         }
         return nbt;
     }
 
     @Override
-    public void load(CNBT nbt) {
-        for (String uuid : nbt.getKeySet()) {
-            FamilyTreeEntry entry = FamilyTreeEntry.fromCBNT(nbt.getCompoundTag(uuid));
+    public void load(NbtCompound nbt) {
+        for (String uuid : nbt.getKeys()) {
+            FamilyTreeEntry entry = FamilyTreeEntry.fromCBNT(nbt.getCompound(uuid));
             entries.put(UUID.fromString(uuid), entry);
         }
     }

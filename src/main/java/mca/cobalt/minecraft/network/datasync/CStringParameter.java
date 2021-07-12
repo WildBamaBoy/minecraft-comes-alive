@@ -1,9 +1,9 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.nbt.NbtCompound;
 
 public class CStringParameter extends CDataParameter<String> {
     private final DataTracker data;
@@ -29,12 +29,12 @@ public class CStringParameter extends CDataParameter<String> {
     }
 
     @Override
-    public void load(CNBT nbt) {
+    public void load(NbtCompound nbt) {
         set(nbt.getString(id));
     }
 
     @Override
-    public void save(CNBT nbt) {
-        nbt.setString(id, get());
+    public void save(NbtCompound nbt) {
+        nbt.putString(id, get());
     }
 }

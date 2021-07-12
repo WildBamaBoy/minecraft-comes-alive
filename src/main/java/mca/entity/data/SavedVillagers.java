@@ -4,6 +4,7 @@ import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.entity.VillagerEntityMCA;
 import mca.util.WorldUtils;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -24,9 +25,9 @@ public class SavedVillagers extends CWorldSavedData {
     }
 
     public void saveVillager(VillagerEntityMCA villager) {
-        CNBT nbt = CNBT.createNew();
-        villager.saveNbt(nbt.getMcCompound());
-        villagerData.put(villager.getUuid().toString(), nbt);
+        NbtCompound nbt = new NbtCompound();
+        villager.saveNbt(nbt);
+        villagerData.put(villager.getUuid().toString(), CNBT.wrap(nbt));
         markDirty();
     }
 
@@ -35,18 +36,20 @@ public class SavedVillagers extends CWorldSavedData {
         markDirty();
     }
 
-    public CNBT getVillagerByUUID(UUID uuid) {
-        return villagerData.get(uuid.toString());
+    public NbtCompound getVillagerByUUID(UUID uuid) {
+        return villagerData.get(uuid.toString()).upwrap();
     }
 
     @Override
-    public CNBT save(CNBT nbt) {
-        villagerData.forEach(nbt::setTag);
+    public NbtCompound save(NbtCompound nbt) {
+        villagerData.forEach((key, value) -> {
+            nbt.put(key, value.upwrap());
+        });
         return nbt;
     }
 
     @Override
-    public void load(CNBT nbt) {
-        nbt.getKeySet().forEach((k) -> villagerData.put(k, nbt.getCompoundTag(k)));
+    public void load(NbtCompound nbt) {
+        nbt.getKeys().forEach((k) -> villagerData.put(k, CNBT.wrap(nbt.getCompound(k))));
     }
 }

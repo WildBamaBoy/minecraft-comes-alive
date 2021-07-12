@@ -1,6 +1,5 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.enums.DialogueType;
@@ -80,7 +79,7 @@ public class Memories {
         brain.updateMemories(this);
     }
 
-    public CNBT toCNBT() {
+    public NbtCompound toCNBT() {
         NbtCompound nbt = new NbtCompound();
 
         nbt.putUuid("playerUUID", playerUUID);
@@ -89,15 +88,14 @@ public class Memories {
         nbt.putInt("dialogueType", dialogueType.ordinal());
         nbt.putLong("lastSeen", lastSeen);
 
-        return CNBT.fromMC(nbt);
+        return nbt;
     }
 
-    public static Memories fromCNBT(VillagerEntityMCA villager, @Nullable CNBT cnbt) {
-        if (cnbt == null || cnbt.getMcCompound().isEmpty()) {
+    public static Memories fromCNBT(VillagerEntityMCA villager, @Nullable NbtCompound tag) {
+        if (tag == null || tag.isEmpty()) {
             return null;
         }
 
-        NbtCompound tag = cnbt.getMcCompound();
         Memories memories = new Memories(villager.getVillagerBrain(), villager.world.getTimeOfDay(), tag.getUuid("playerUUID"));
 
         memories.hearts = tag.getInt("hearts");

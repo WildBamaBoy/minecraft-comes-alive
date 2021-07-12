@@ -1,9 +1,9 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 public class BlockPosParameter extends CDataParameter<BlockPos> {
@@ -30,12 +30,28 @@ public class BlockPosParameter extends CDataParameter<BlockPos> {
     }
 
     @Override
-    public void load(CNBT nbt) {
-        set(nbt.getBlockPos(id));
+    public void load(NbtCompound nbt) {
+        set(getBlockPos(nbt, id));
     }
 
     @Override
-    public void save(CNBT nbt) {
-        nbt.setBlockPos(id, get());
+    public void save(NbtCompound nbt) {
+        putBlockPos(nbt, id, get());
     }
+
+
+    public static BlockPos getBlockPos(NbtCompound tag, String key) {
+        return new BlockPos(
+                tag.getInt(key + "X"),
+                tag.getInt(key + "Y"),
+                tag.getInt(key + "Z")
+        );
+    }
+
+    public static void putBlockPos(NbtCompound tag, String key, BlockPos pos) {
+        tag.putInt(key + "X", pos.getX());
+        tag.putInt(key + "Y", pos.getY());
+        tag.putInt(key + "Z", pos.getZ());
+    }
+
 }

@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.network.datasync.CDataManager;
 import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.cobalt.minecraft.network.datasync.CTagParameter;
@@ -23,6 +22,7 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.village.VillagerProfession;
 
@@ -135,18 +135,19 @@ public class VillagerBrain {
     }
 
     public void updateMemories(Memories memories) {
-        CNBT nbt = this.memories.get().copy();
-        nbt.setTag(memories.getPlayerUUID().toString(), memories.toCNBT());
+        NbtCompound nbt = this.memories.get();
+        nbt.put(memories.getPlayerUUID().toString(), memories.toCNBT());
         this.memories.set(nbt);
     }
 
     public Memories getMemoriesForPlayer(PlayerEntity player) {
-        CNBT cnbt = memories.get();
-        CNBT compoundTag = cnbt.getCompoundTag(player.getUuid().toString());
+        NbtCompound nbt = memories.get();
+        NbtCompound compoundTag = nbt.getCompound(player.getUuid().toString());
         Memories returnMemories = Memories.fromCNBT(entity, compoundTag);
         if (returnMemories == null) {
             returnMemories = new Memories(this, player.world.getTimeOfDay(), player.getUuid());
-            memories.set(memories.get().setTag(player.getUuid().toString(), returnMemories.toCNBT()));
+            nbt.put(player.getUuid().toString(), returnMemories.toCNBT());
+            memories.set(nbt);
         }
         return returnMemories;
     }

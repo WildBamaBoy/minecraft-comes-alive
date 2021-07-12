@@ -1,6 +1,5 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -14,26 +13,26 @@ public class CTagParameter extends CDataParameter<NbtCompound> {
         data = d;
     }
 
-    public CNBT get() {
-        return CNBT.fromMC(data.get(param));
+    public NbtCompound get() {
+        return data.get(param);
     }
 
-    public void set(CNBT v) {
-        data.set(param, v.getMcCompound());
+    public void set(NbtCompound v) {
+        data.set(param, v);
     }
 
     @Override
     public void register() {
-        data.startTracking(param, CNBT.createNew().getMcCompound());
+        data.startTracking(param, new NbtCompound());
     }
 
     @Override
-    public void load(CNBT nbt) {
-        set(nbt.getCompoundTag(id));
+    public void load(NbtCompound nbt) {
+        set(nbt.getCompound(id));
     }
 
     @Override
-    public void save(CNBT nbt) {
-        nbt.setTag(id, get());
+    public void save(NbtCompound nbt) {
+        nbt.put(id, get());
     }
 }

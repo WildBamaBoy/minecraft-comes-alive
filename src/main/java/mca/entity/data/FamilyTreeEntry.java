@@ -1,8 +1,8 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.enums.Gender;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -52,35 +52,35 @@ public class FamilyTreeEntry implements Serializable {
         return children;
     }
 
-    public CNBT save() {
-        CNBT nbt = CNBT.createNew();
-        nbt.setString("name", name);
-        nbt.setBoolean("isPlayer", isPlayer);
-        nbt.setInteger("gender", gender.getId());
-        nbt.setUUID("father", father);
-        nbt.setUUID("mother", mother);
+    public NbtCompound save() {
+        NbtCompound nbt = new NbtCompound();
+        nbt.putString("name", name);
+        nbt.putBoolean("isPlayer", isPlayer);
+        nbt.putInt("gender", gender.getId());
+        nbt.putUuid("father", father);
+        nbt.putUuid("mother", mother);
 
         NbtList childrenList = new NbtList();
         for (UUID child : children) {
-            CNBT n = CNBT.createNew();
-            n.setUUID("uuid", child);
-            childrenList.add(n.getMcCompound());
+            NbtCompound n = new NbtCompound();
+            n.putUuid("uuid", child);
+            childrenList.add(n);
         }
-        nbt.setList("children", childrenList);
+        nbt.put("children", childrenList);
 
         return nbt;
     }
 
-    public static FamilyTreeEntry fromCBNT(CNBT nbt) {
+    public static FamilyTreeEntry fromCBNT(NbtCompound nbt) {
         FamilyTreeEntry e = new FamilyTreeEntry(
                 nbt.getString("name"),
                 nbt.getBoolean("isPlayer"),
-                Gender.byId(nbt.getInteger("gender")),
-                nbt.getUUID("father"),
-                nbt.getUUID("mother")
+                Gender.byId(nbt.getInt("gender")),
+                nbt.getUuid("father"),
+                nbt.getUuid("mother")
         );
 
-        NbtList childrenList = nbt.getCompoundList("children");
+        NbtList childrenList = nbt.getList("children", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < childrenList.size(); i++) {
             NbtCompound c = childrenList.getCompound(i);
             e.children.add(c.getUuid("uuid"));

@@ -1,9 +1,10 @@
 package mca.cobalt.minecraft.network.datasync;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.nbt.NbtCompound;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,12 +32,12 @@ public class CUUIDParameter extends CDataParameter<Optional<UUID>> {
     }
 
     @Override
-    public void load(CNBT nbt) {
-        set(nbt.getUUID(id));
+    public void load(NbtCompound nbt) {
+        set(nbt.getUuid(id));
     }
 
     @Override
-    public void save(CNBT nbt) {
-        nbt.setUUID(id, get().orElse(null));
+    public void save(NbtCompound nbt) {
+        nbt.putUuid(id, get().orElse(null));
     }
 }

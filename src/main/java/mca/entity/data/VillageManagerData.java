@@ -1,9 +1,9 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -50,27 +50,26 @@ public class VillageManagerData extends CWorldSavedData implements Iterable<Vill
     }
 
     @Override
-    public CNBT save(CNBT nbt) {
-        nbt.setInteger("lastBuildingId", lastBuildingId);
-        nbt.setInteger("lastVillageId", lastVillageId);
+    public NbtCompound save(NbtCompound nbt) {
+        nbt.putInt("lastBuildingId", lastBuildingId);
+        nbt.putInt("lastVillageId", lastVillageId);
         NbtList villageList = new NbtList();
         for (Village village : villages.values()) {
-            villageList.add(village.save().getMcCompound());
+            villageList.add(village.save());
         }
-        nbt.setList("villages", villageList);
+        nbt.put("villages", villageList);
         return nbt;
     }
 
     @Override
-    public void load(CNBT nbt) {
-        lastBuildingId = nbt.getInteger("lastBuildingId");
-        lastVillageId = nbt.getInteger("lastVillageId");
+    public void load(NbtCompound nbt) {
+        lastBuildingId = nbt.getInt("lastBuildingId");
+        lastVillageId = nbt.getInt("lastVillageId");
 
-        NbtList v = nbt.getCompoundList("villages");
+        NbtList v = nbt.getList("villages", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < v.size(); i++) {
-            NbtCompound c = v.getCompound(i);
             Village village = new Village();
-            village.load(CNBT.fromMC(c));
+            village.load(v.getCompound(i));
             villages.put(village.getId(), village);
         }
     }

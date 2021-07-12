@@ -2,7 +2,6 @@ package mca.entity.data;
 
 import mca.api.API;
 import mca.api.types.BuildingType;
-import mca.cobalt.minecraft.nbt.CNBT;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,6 +9,7 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
@@ -271,58 +271,58 @@ public class Building implements Serializable {
         return size;
     }
 
-    public CNBT save() {
-        CNBT v = CNBT.createNew();
+    public NbtCompound save() {
+        NbtCompound v = new NbtCompound();
 
-        v.setInteger("id", id);
-        v.setInteger("size", size);
-        v.setInteger("pos0X", pos0X);
-        v.setInteger("pos0Y", pos0Y);
-        v.setInteger("pos0Z", pos0Z);
-        v.setInteger("pos1X", pos1X);
-        v.setInteger("pos1Y", pos1Y);
-        v.setInteger("pos1Z", pos1Z);
-        v.setString("type", type);
+        v.putInt("id", id);
+        v.putInt("size", size);
+        v.putInt("pos0X", pos0X);
+        v.putInt("pos0Y", pos0Y);
+        v.putInt("pos0Z", pos0Z);
+        v.putInt("pos1X", pos1X);
+        v.putInt("pos1Y", pos1Y);
+        v.putInt("pos1Z", pos1Z);
+        v.putString("type", type);
 
         NbtList residentsList = new NbtList();
         for (Map.Entry<UUID, String> resident : residents.entrySet()) {
-            CNBT entry = CNBT.createNew();
-            entry.setUUID("uuid", resident.getKey());
-            entry.setString("name", resident.getValue());
-            residentsList.add(entry.getMcCompound());
+            NbtCompound entry = new NbtCompound();
+            entry.putUuid("uuid", resident.getKey());
+            entry.putString("name", resident.getValue());
+            residentsList.add(entry);
         }
-        v.setList("residents", residentsList);
+        v.put("residents", residentsList);
 
         NbtList blockList = new NbtList();
         for (Map.Entry<String, Integer> block : blocks.entrySet()) {
-            CNBT entry = CNBT.createNew();
-            entry.setString("name", block.getKey());
-            entry.setInteger("count", block.getValue());
-            blockList.add(entry.getMcCompound());
+            NbtCompound entry = new NbtCompound();
+            entry.putString("name", block.getKey());
+            entry.putInt("count", block.getValue());
+            blockList.add(entry);
         }
-        v.setList("blocks", blockList);
+        v.put("blocks", blockList);
 
         return v;
     }
 
-    public void load(CNBT v) {
-        id = v.getInteger("id");
-        size = v.getInteger("size");
-        pos0X = v.getInteger("pos0X");
-        pos0Y = v.getInteger("pos0Y");
-        pos0Z = v.getInteger("pos0Z");
-        pos1X = v.getInteger("pos1X");
-        pos1Y = v.getInteger("pos1Y");
-        pos1Z = v.getInteger("pos1Z");
+    public void load(NbtCompound v) {
+        id = v.getInt("id");
+        size = v.getInt("size");
+        pos0X = v.getInt("pos0X");
+        pos0Y = v.getInt("pos0Y");
+        pos0Z = v.getInt("pos0Z");
+        pos1X = v.getInt("pos1X");
+        pos1Y = v.getInt("pos1Y");
+        pos1Z = v.getInt("pos1Z");
         type = v.getString("type");
 
-        NbtList res = v.getCompoundList("residents");
+        NbtList res = v.getList("residents", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < res.size(); i++) {
             NbtCompound c = res.getCompound(i);
             residents.put(c.getUuid("uuid"), c.getString("name"));
         }
 
-        NbtList bl = v.getCompoundList("blocks");
+        NbtList bl = v.getList("blocks", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < bl.size(); i++) {
             NbtCompound c = bl.getCompound(i);
             blocks.put(c.getString("name"), c.getInt("count"));
