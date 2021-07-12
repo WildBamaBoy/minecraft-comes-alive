@@ -451,7 +451,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         DialogueType dialogueType = mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
 
         // Player is always first in params passed to localizer for say().
-        return chatPrefix.append(new TranslatableText(dialogueType.getTranslationKey(phraseId), Stream.concat(Stream.of(receiver.getName()), Stream.of(params)).toArray()));
+        return chatPrefix.append(
+                new TranslatableText(dialogueType.getTranslationKey(phraseId),
+                        Stream.concat(Stream.of(receiver.getName()),
+                                Stream.of(params)).toArray())
+                );
     }
 
     public boolean isMarried() {

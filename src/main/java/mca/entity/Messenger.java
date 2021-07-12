@@ -2,7 +2,6 @@ package mca.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
@@ -10,7 +9,11 @@ import net.minecraft.world.World;
 public interface Messenger {
 
     default void sendMessageTo(String message, Entity receiver) {
-        receiver.sendSystemMessage(new LiteralText(message), receiver.getUuid());
+        if (receiver instanceof PlayerEntity) {
+            ((PlayerEntity)receiver).sendMessage(new TranslatableText(message), true);
+        } else {
+            receiver.sendSystemMessage(new TranslatableText(message), receiver.getUuid());
+        }
     }
 
     default Text formatDialogueMessage(String phraseId, PlayerEntity receiver, Object... params) {
