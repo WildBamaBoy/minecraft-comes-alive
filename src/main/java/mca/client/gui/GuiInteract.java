@@ -46,14 +46,13 @@ public class GuiInteract extends Screen {
     private String mother;
 
     // Tracks which page we're on in the GUI for sending button events
-    private String activeKey;
+    private String activeKey = "main";
 
     public GuiInteract(VillagerEntityMCA villager, PlayerEntity player) {
         super(new LiteralText("Interact"));
 
         this.villager = villager;
         this.player = player;
-        this.activeKey = "main";
     }
 
     @Override

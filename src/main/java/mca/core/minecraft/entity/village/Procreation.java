@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mca.api.PoolUtil;
-import mca.cobalt.localizer.Localizer;
 import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Village;
 import mca.enums.Gender;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 public class Procreation {
@@ -30,11 +29,7 @@ public class Procreation {
         PoolUtil.pick(village.getResidents(world), world.random)
             .filter(villager -> villager.getPregnancy().tryStartGestation())
             .ifPresent(villager -> {
-             // notify all players
-                villager.getSpouse().ifPresent(spouse -> {
-                   Text phrase = Localizer.localizeText("events.baby", villager.getName().asString(), spouse.getName().asString());
-                   world.getPlayers().forEach(player -> player.sendSystemMessage(phrase, player.getUuid()));
-                });
+                villager.getSpouse().ifPresent(spouse -> villager.tellAll(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
             });
     }
 
@@ -66,9 +61,7 @@ public class Procreation {
         PoolUtil.pop(males, world.random).ifPresent(husband -> {
             PoolUtil.pop(females, world.random).ifPresent(wife -> {
                 // notify all players
-                Text phrase = Localizer.localizeText("events.marry", husband.getName().asString(), wife.getName().asString());
-                world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
-
+                wife.tellAll(new TranslatableText("events.marry", husband.getName(), wife.getName()));
                 // marry
                 husband.marry(wife);
                 wife.marry(husband);

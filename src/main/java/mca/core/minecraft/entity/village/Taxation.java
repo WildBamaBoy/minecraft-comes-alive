@@ -1,11 +1,12 @@
 package mca.core.minecraft.entity.village;
 
-import mca.cobalt.localizer.Localizer;
+import mca.entity.Messenger;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 public class Taxation {
@@ -22,7 +23,7 @@ public class Taxation {
             village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
             deliverTaxes(village, (ServerWorld) world);
 
-            world.getPlayers().forEach((player) -> player.sendSystemMessage(Localizer.localizeText("gui.village.taxes", village.getName()), player.getUuid()));
+            Messenger.tellAll(world, new TranslatableText("gui.village.taxes", village.getName()));
         }
     }
 

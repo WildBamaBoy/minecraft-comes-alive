@@ -51,7 +51,9 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -67,7 +69,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable {
+public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable, Messenger {
 
     public final CDataManager data = new CDataManager(this);
 
@@ -306,8 +308,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
-                PlayerEntity p = (PlayerEntity) source.getAttacker();
-                sendMessageTo(Localizer.localize("villager.hurt"), p);
+                sendMessageTo("villager.hurt", source.getAttacker());
             }
 
             if (source.getSource() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
@@ -364,10 +365,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         float width = (genetics.width.get() * 0.5f + 0.75f) * ageState.getWidth();
 
         return EntityDimensions.changing(width, height);
-    }
-
-    public void sendMessageTo(String message, Entity receiver) {
-        receiver.sendSystemMessage(new LiteralText(message), receiver.getUuid());
     }
 
     @Override
@@ -441,23 +438,19 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return new LiteralText(villagerName.get());
     }
 
-    public void say(PlayerEntity target, String phraseId, String... params) {
-        String chatPrefix = MCA.getConfig().villagerChatPrefix + getDisplayName().getString() + ": ";
+    @Override
+    public Text formatDialogueMessage(String phraseId, PlayerEntity receiver, Object... params) {
+        MutableText chatPrefix = new LiteralText(MCA.getConfig().villagerChatPrefix).append(getDisplayName()).append(": ");
+
         if (isInfected.get()) { // Infected villagers do not speak
-            sendMessageTo(chatPrefix + "???", target);
-            playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, this.getSoundVolume(), this.getSoundPitch());
-        } else {
-            DialogueType dialogueType = mcaBrain.getMemoriesForPlayer(target).getDialogueType();
-
-            ArrayList<String> paramList = new ArrayList<>();
-            // Player is always first in params passed to localizer for say().
-            paramList.add(target.getName().getString());
-
-            Collections.addAll(paramList, params);
-
-            String localizedText = Localizer.localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
-            sendMessageTo(chatPrefix + localizedText, target);
+            playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
+            return chatPrefix.append("???");
         }
+
+        DialogueType dialogueType = mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
+
+        // Player is always first in params passed to localizer for say().
+        return chatPrefix.append(new TranslatableText(dialogueType.getTranslationKey(phraseId), Stream.concat(Stream.of(receiver.getName()), Stream.of(params)).toArray()));
     }
 
     public boolean isMarried() {

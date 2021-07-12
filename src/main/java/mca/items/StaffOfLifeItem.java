@@ -30,7 +30,7 @@ public class StaffOfLifeItem extends Item {
         ItemStack stack = player.getStackInHand(hand);
 
         if (!MCA.getConfig().enableRevivals) {
-            player.sendSystemMessage(new TranslatableText("notify.revival.disabled"), player.getUuid());
+            player.sendMessage(new TranslatableText("notify.revival.disabled"), true);
             return TypedActionResult.fail(stack);
         }
 

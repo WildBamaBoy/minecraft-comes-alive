@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import mca.cobalt.localizer.Localizer;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 public class Residency {
@@ -25,13 +25,13 @@ public class Residency {
                     int id = PLAYER_VILLAGE_POSITIONS.get(player.getUuid());
                     VillageManagerData.get(world).getOrEmpty(id).ifPresentOrElse(village -> {
                         if (!village.isWithinBorder(player)) {
-                            player.sendSystemMessage(Localizer.localizeText("gui.village.left", village.getName()), player.getUuid());
+                            player.sendMessage(new TranslatableText("gui.village.left", village.getName()), true);
                             PLAYER_VILLAGE_POSITIONS.remove(player.getUuid());
                         }
                     }, () -> PLAYER_VILLAGE_POSITIONS.remove(player.getUuid()));
                 } else {
                     VillageHelper.getNearestVillage(player).ifPresent(village -> {
-                        player.sendSystemMessage(Localizer.localizeText("gui.village.welcome", village.getName()), player.getUuid());
+                        player.sendMessage(new TranslatableText("gui.village.welcome", village.getName()), true);
                         PLAYER_VILLAGE_POSITIONS.put(player.getUuid(), village.getId());
                         Taxation.deliverTaxes(village, (ServerWorld) world);
                     });

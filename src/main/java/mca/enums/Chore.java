@@ -41,10 +41,5 @@ public enum Chore {
     public Text getName() {
         return Localizer.localizeText(friendlyName);
     }
-
-    @Deprecated
-    public String getFriendlyName() {
-        return Localizer.localize(friendlyName);
-    }
 }
 

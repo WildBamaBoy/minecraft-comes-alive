@@ -1,5 +1,7 @@
 package mca.enums;
 
+import net.minecraft.util.Language;
+
 public enum DialogueType {
     UNASSIGNED,
     CHILDP,
@@ -9,8 +11,9 @@ public enum DialogueType {
 
     private static final DialogueType[] VALUES = values();
 
-    public String getName() {
-        return name().toLowerCase();
+    public String getTranslationKey(String phrase) {
+        String fullPhrase = name().toLowerCase() + "." + phrase;
+        return Language.getInstance().hasTranslation(fullPhrase) ? fullPhrase : "generic." + phrase;
     }
 
     public static DialogueType byId(int id) {
