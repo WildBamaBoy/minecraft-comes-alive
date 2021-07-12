@@ -8,10 +8,6 @@ public enum MarriageState {
 
     private static final MarriageState[] VALUES = values();
 
-    public int getId() {
-        return ordinal();
-    }
-
     public static MarriageState byId(int id) {
         if (id < 0 || id >= VALUES.length) {
             return NOT_MARRIED;

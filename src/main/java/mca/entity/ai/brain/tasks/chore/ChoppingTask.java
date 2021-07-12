@@ -31,7 +31,7 @@ public class ChoppingTask extends AbstractChoreTask {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        return villager.activeChore.get() == Chore.CHOP.ordinal();
+        return villager.getVillagerBrain().getCurrentJob() == Chore.CHOP;
     }
 
     @Override
@@ -55,17 +55,11 @@ public class ChoppingTask extends AbstractChoreTask {
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof AxeItem);
             if (i == -1) {
-                if (this.getAssigningPlayer().isPresent()) {
-                    villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
-                }
-                villager.stopChore();
+                abandonJobWithMessage("chore.chopping.noaxe");
             } else {
                 villager.setStackInHand(Hand.MAIN_HAND, villager.inventory.getStack(i));
             }
-
-
         }
-
     }
 
     @Override
@@ -73,8 +67,7 @@ public class ChoppingTask extends AbstractChoreTask {
         if (this.villager == null) this.villager = villager;
 
         if (!InventoryUtils.contains(villager.inventory, AxeItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
-            villager.say(this.getAssigningPlayer().get(), "chore.chopping.noaxe");
-            villager.stopChore();
+            abandonJobWithMessage("chore.chopping.noaxe");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.inventory, stack -> stack.getItem() instanceof AxeItem);
             ItemStack stack = villager.inventory.getStack(i);

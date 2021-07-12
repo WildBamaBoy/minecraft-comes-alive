@@ -11,13 +11,11 @@ import mca.enums.Gender;
 import mca.util.WorldUtils;
 
 public class Pregnancy {
-    public final CBooleanParameter hasBaby;
-
-    public final CBooleanParameter isBabyMale;
-
-    public final CIntegerParameter babyAge;
-
     private final VillagerEntityMCA mother;
+
+    private final CBooleanParameter hasBaby;
+    private final CBooleanParameter isBabyMale;
+    private final CIntegerParameter babyAge;
 
     Pregnancy(VillagerEntityMCA entity, CDataManager data) {
         this.mother = entity;

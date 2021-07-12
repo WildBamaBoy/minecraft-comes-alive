@@ -20,7 +20,6 @@ import mca.util.WorldUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -85,34 +84,26 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final SimpleInventory inventory = new SimpleInventory(27);
 
     public final CStringParameter villagerName = data.newString("villagerName");
-
     public final CStringParameter clothes = data.newString("clothes");
-
     public final CStringParameter hair = data.newString("hair");
-
     public final CStringParameter hairOverlay = data.newString("hairOverlay");
 
-    public final CIntegerParameter moveState = data.newInteger("moveState");
-
-    public final CIntegerParameter ageState = data.newInteger("ageState");
+    public final CEnumParameter<MoveState> moveState = data.newEnum("moveState", MoveState.MOVE);
+    public final CEnumParameter<AgeState> ageState = data.newEnum("ageState", AgeState.UNASSIGNED);
 
     public final CStringParameter spouseName = data.newString("spouseName");
     public final CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
 
-    public final CIntegerParameter marriageState = data.newInteger("marriageState");
+    public final CEnumParameter<MarriageState> marriageState = data.newEnum("marriageState", MarriageState.NOT_MARRIED);
     public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public final CBooleanParameter isInfected = data.newBoolean("isInfected");
-    public final CIntegerParameter activeChore = data.newInteger("activeChore");
 
-    public final CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
-    public final BlockPosParameter hangoutPos = data.newPos("hangoutPos");
+    private final BlockPosParameter hangoutPos = data.newPos("hangoutPos");
 
     public final CBooleanParameter importantProfession = data.newBoolean("importantProfession", false);
 
-    //personality and mood
-
-    public final CIntegerParameter village = data.newInteger("village", -1);
-    public final CIntegerParameter building = data.newInteger("buildings", -1);
+    private final CIntegerParameter village = data.newInteger("village", -1);
+    private final CIntegerParameter building = data.newInteger("buildings", -1);
 
     //gift desaturation queue
     private final List<String> giftDesaturation = new LinkedList<>();
@@ -120,6 +111,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Nullable
     private PlayerEntity interactingPlayer;
+
     private long lastGossipTime;
     private long lastGossipDecayTime;
 
@@ -554,19 +546,19 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void marry(PlayerEntity player) {
         spouseUUID.set(player.getUuid());
         spouseName.set(player.getName().asString());
-        marriageState.set(MarriageState.MARRIED_TO_PLAYER.getId());
+        marriageState.set(MarriageState.MARRIED_TO_PLAYER);
     }
 
     public void marry(VillagerEntityMCA spouse) {
         spouseUUID.set(spouse.getUuid());
         spouseName.set(spouse.villagerName.get());
-        marriageState.set(MarriageState.MARRIED.getId());
+        marriageState.set(MarriageState.MARRIED);
     }
 
     private void endMarriage() {
         spouseUUID.set(Util.NIL_UUID);
         spouseName.set("");
-        marriageState.set(MarriageState.NOT_MARRIED.getId());
+        marriageState.set(MarriageState.NOT_MARRIED);
     }
 
     public Optional<Entity> getSpouse() {
@@ -634,7 +626,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             case "gui.button.follow":
                 this.brain.remember(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
                 this.brain.forget(MemoryModuleTypeMCA.STAYING);
-                stopChore();
+                getVillagerBrain().abandonJob();
                 updateMoveState();
                 closeGUIIfOpen();
                 break;
@@ -745,28 +737,28 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 setProfession(ProfessionsMCA.randomProfession());
                 break;
             case "gui.button.prospecting":
-                startChore(Chore.PROSPECT, player);
+                getVillagerBrain().assignJob(Chore.PROSPECT, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.hunting":
-                startChore(Chore.HUNT, player);
+                getVillagerBrain().assignJob(Chore.HUNT, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.fishing":
-                startChore(Chore.FISH, player);
+                getVillagerBrain().assignJob(Chore.FISH, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.chopping":
-                startChore(Chore.CHOP, player);
+                getVillagerBrain().assignJob(Chore.CHOP, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.harvesting":
-                startChore(Chore.HARVEST, player);
+                getVillagerBrain().assignJob(Chore.HARVEST, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.stopworking":
                 closeGUIIfOpen();
-                stopChore();
+                getVillagerBrain().abandonJob();
                 break;
         }
     }
@@ -922,11 +914,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
 
         //check if another state has been reached
-        AgeState last = AgeState.byId(ageState.get());
+        AgeState last = ageState.get();
         AgeState next = AgeState.byCurrentAge(getBreedingAge());
 
         if (last != next) {
-            ageState.set(next.getId());
+            ageState.set(next);
             calculateDimensions();
 
             if (next == AgeState.ADULT) {
@@ -946,30 +938,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     private void onEachServerSecond() {
         // villager has a baby
         pregnancy.tick();
+        mcaBrain.performChores();
 
-        //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
-        Optional<Activity> possiblyChore = this.brain.getFirstPossibleNonCoreActivity();
-        if (possiblyChore.isPresent() && !possiblyChore.get().equals(ActivityMCA.CHORE) && activeChore.get() != Chore.NONE.ordinal()) {
-            this.brain.doExclusively(ActivityMCA.CHORE);
-        }
-
-        if (MoveState.byId(this.moveState.get()) == MoveState.FOLLOW && !this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+        if (moveState.get() == MoveState.FOLLOW && !this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
             this.updateMoveState();
         }
-    }
-
-    public void stopChore() {
-        this.brain.doExclusively(Activity.IDLE);
-        activeChore.set(Chore.NONE.ordinal());
-        choreAssigningPlayer.set(Util.NIL_UUID);
-    }
-
-    public void startChore(Chore chore, PlayerEntity player) {
-        this.brain.doExclusively(ActivityMCA.CHORE);
-        activeChore.set(chore.ordinal());
-        choreAssigningPlayer.set(player.getUuid());
-        this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
-        this.brain.forget(MemoryModuleTypeMCA.STAYING);
     }
 
     @Nullable
@@ -979,7 +952,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public AgeState getAgeState() {
-        return AgeState.byId(ageState.get());
+        return ageState.get();
     }
 
     @Override
@@ -1012,11 +985,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void updateMoveState() {
         if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
-            this.moveState.set(MoveState.STAY.ordinal());
+            this.moveState.set(MoveState.STAY);
         } else if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
-            this.moveState.set(MoveState.FOLLOW.ordinal());
+            this.moveState.set(MoveState.FOLLOW);
         } else {
-            this.moveState.set(MoveState.MOVE.ordinal());
+            this.moveState.set(MoveState.MOVE);
         }
     }
 

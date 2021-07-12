@@ -39,7 +39,7 @@ public class HarvestingTask extends AbstractChoreTask {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        return villager.activeChore.get() == Chore.HARVEST.ordinal();// && (blockWork - villager.tickCount) < 0;
+        return villager.getVillagerBrain().getCurrentJob() == Chore.HARVEST;// && (blockWork - villager.tickCount) < 0;
     }
 
     @Override
@@ -62,17 +62,12 @@ public class HarvestingTask extends AbstractChoreTask {
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             if (i == -1) {
-                villager.say(getAssigningPlayer().get(), "chore.harvesting.nohoe");
-                villager.stopChore();
+                abandonJobWithMessage("chore.chopping.nohoe");
             } else {
                 ItemStack stack = villager.inventory.getStack(i);
                 villager.setStackInHand(Hand.MAIN_HAND, stack);
             }
-
-
         }
-
-
     }
 
     private BlockPos searchCrop(int rangeX, int rangeY, boolean harvestableOnly) {
@@ -121,8 +116,7 @@ public class HarvestingTask extends AbstractChoreTask {
         if (this.villager == null) this.villager = villager;
 
         if (!InventoryUtils.contains(villager.getInventory(), HoeItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
-            villager.say(this.getAssigningPlayer().get(), "chore.harvesting.nohoe");
-            villager.stopChore();
+            abandonJobWithMessage("chore.chopping.norod");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             ItemStack stack = villager.inventory.getStack(i);
@@ -254,8 +248,6 @@ public class HarvestingTask extends AbstractChoreTask {
                 //TODO make the villager say that it needs seeds. ALSO NEEDS COOLDOWN OR IT WILL SPAM IT
                 //villager.say(getAssigningPlayer().get(), "chore.harvesting.noseed");
             }
-
-
         }
 
         return false;

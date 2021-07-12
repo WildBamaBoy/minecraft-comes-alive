@@ -1,16 +1,21 @@
 package mca.entity.ai.brain;
 
+import java.util.Optional;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
 import mca.cobalt.minecraft.network.datasync.CDataManager;
+import mca.cobalt.minecraft.network.datasync.CEnumParameter;
 import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.cobalt.minecraft.network.datasync.CTagParameter;
+import mca.cobalt.minecraft.network.datasync.CUUIDParameter;
 import mca.core.minecraft.ActivityMCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
+import mca.enums.Chore;
 import mca.enums.Mood;
 import mca.enums.Personality;
 import net.minecraft.entity.ai.brain.Activity;
@@ -24,6 +29,7 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.Util;
 import net.minecraft.village.VillagerProfession;
 
 public class VillagerBrain {
@@ -107,15 +113,20 @@ public class VillagerBrain {
 
     private final VillagerEntityMCA entity;
 
-    public final CTagParameter memories;
-    public final CIntegerParameter personality;
-    public final CIntegerParameter mood;
+    private final CTagParameter memories;
+    private final CEnumParameter<Personality> personality;
+    private final CIntegerParameter mood;
+
+    private final CEnumParameter<Chore> activeChore;
+    private final CUUIDParameter choreAssigningPlayer;
 
     public VillagerBrain(VillagerEntityMCA entity, CDataManager data) {
         this.entity = entity;
         memories = data.newTag("memories");
-        personality = data.newInteger("personality");
+        personality = data.newEnum("personality", Personality.UNASSIGNED);
         mood = data.newInteger("mood");
+        activeChore = data.newEnum("activeChore", Chore.NONE);
+        choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     }
 
     public void think() {
@@ -128,8 +139,52 @@ public class VillagerBrain {
         }
     }
 
+    public void performChores() {
+        // When you relog, it should continue doing the chores.
+        // Chore saves but Activity doesn't, so this checks if the activity is not on there and puts it on there.
+
+        if (activeChore.get() == Chore.NONE) {
+            return; // I have nothing to do
+        }
+
+        // find something to do
+        entity.getBrain().getFirstPossibleNonCoreActivity().ifPresent(activity -> {
+            if (!activity.equals(ActivityMCA.CHORE)) {
+                entity.getBrain().doExclusively(ActivityMCA.CHORE);
+            }
+        });
+    }
+
+    public Chore getCurrentJob() {
+        return activeChore.get();
+    }
+
+    public Optional<PlayerEntity> getJobAssigner() {
+        return this.choreAssigningPlayer.get().map(id -> entity.world.getPlayerByUuid(id));
+    }
+
+    /**
+     * Tells the villager to stop doing whatever it's doing.
+     */
+    public void abandonJob() {
+        entity.getBrain().doExclusively(Activity.IDLE);
+        activeChore.set(Chore.NONE);
+        choreAssigningPlayer.set(Util.NIL_UUID);
+    }
+
+    /**
+     * Assigns a job for the villager to do.
+     */
+    public void assignJob(Chore chore, PlayerEntity player) {
+        entity.getBrain().doExclusively(ActivityMCA.CHORE);
+        activeChore.set(chore);
+        choreAssigningPlayer.set(player.getUuid());
+        entity.getBrain().forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+        entity.getBrain().forget(MemoryModuleTypeMCA.STAYING);
+    }
+
     public void randomize() {
-        personality.set(Personality.getRandom().getId());
+        personality.set(Personality.getRandom());
         //since minLevel is -100 and it makes no
         mood.set(Mood.getLevel(entity.world.random.nextInt(Mood.maxLevel - Mood.normalMinLevel + 1) + Mood.normalMinLevel));
     }
@@ -153,7 +208,7 @@ public class VillagerBrain {
     }
 
     public Personality getPersonality() {
-        return Personality.getById(personality.get());
+        return personality.get();
     }
 
     public Mood getMood() {

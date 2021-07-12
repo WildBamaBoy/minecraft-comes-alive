@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.Random;
 
 import mca.cobalt.minecraft.network.datasync.CDataManager;
+import mca.cobalt.minecraft.network.datasync.CEnumParameter;
 import mca.cobalt.minecraft.network.datasync.CFloatParameter;
-import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.core.MCA;
 import mca.enums.Gender;
 import net.minecraft.entity.Entity;
@@ -38,7 +38,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
     public final Gene skin;
     public final Gene face;
 
-    public final CIntegerParameter gender;
+    public final CEnumParameter<Gender> gender;
 
     private Genetics(CDataManager data) {
         this.data = data;
@@ -51,7 +51,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
         pheomelanin = withGene("gene_pheomelanin");
         skin = withGene("gene_skin");
         face = withGene("gene_face");
-        gender = data.newInteger("gender");
+        gender = data.newEnum("gender", Gender.UNASSIGNED);
     }
 
     protected Gene withGene(String key) {
@@ -67,11 +67,11 @@ public class Genetics implements Iterable<Genetics.Gene> {
     }
 
     public void setGender(Gender gender) {
-        this.gender.set(gender.ordinal());
+        this.gender.set(gender);
     }
 
     public Gender getGender() {
-        return Gender.byId(gender.get());
+        return gender.get();
     }
 
     public float getBreastSize() {
@@ -118,8 +118,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
         pheomelanin.set(random.nextFloat());
 
         if (!entity.world.isClient) {
-            Gender eGender = Gender.getRandom();
-            gender.set(eGender.getId());
+            gender.set(Gender.getRandom());
         }
     }
 

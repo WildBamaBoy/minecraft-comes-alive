@@ -9,9 +9,7 @@ import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.Memories;
-import mca.enums.Chore;
 import mca.enums.MarriageState;
-import mca.enums.MoveState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
@@ -155,7 +153,7 @@ public class GuiInteract extends Screen {
     }
 
     private void drawIcons(MatrixStack transform) {
-        MarriageState marriageState = MarriageState.byId(villager.marriageState.get());
+        MarriageState marriageState = villager.marriageState.get();
         String marriageIcon =
                 marriageState == MarriageState.MARRIED ? "married" :
                         marriageState == MarriageState.ENGAGED ? "engaged" :
@@ -222,7 +220,7 @@ public class GuiInteract extends Screen {
         }
 
         //marriage status
-        MarriageState marriageState = MarriageState.byId(villager.marriageState.get());
+        MarriageState marriageState = villager.marriageState.get();
         String marriageInfo;
         if (hoveringOverIcon("married")) {
             String spouseName = villager.spouseName.get();
@@ -361,19 +359,7 @@ public class GuiInteract extends Screen {
     private void drawCommandButtonMenu() {
         clearButtons();
         API.addButtons("command", this);
-
-        int id = villager.moveState.get();
-        switch (MoveState.byId(id)) {
-            case STAY:
-                disableButton("gui.button.stay");
-                break;
-            case FOLLOW:
-                disableButton("gui.button.follow");
-                break;
-            case MOVE:
-                disableButton("gui.button.move");
-                break;
-        }
+        disableButton("gui.button." + villager.moveState.get().name().toLowerCase());
     }
 
     private void drawClothingMenu() {
@@ -384,27 +370,7 @@ public class GuiInteract extends Screen {
     private void drawWorkButtonMenu() {
         clearButtons();
         API.addButtons("work", this);
-
-        int id = villager.activeChore.get();
-        switch (Chore.byId(id)) {
-            case NONE:
-                disableButton("gui.button.stopworking");
-                break;
-            case CHOP:
-                disableButton("gui.button.chopping");
-                break;
-            case FISH:
-                disableButton("gui.button.fishing");
-                break;
-            case HUNT:
-                disableButton("gui.button.hunting");
-                break;
-            case HARVEST:
-                disableButton("gui.button.harvesting");
-                break;
-            case PROSPECT:
-                break;
-        }
+        disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());
     }
 
     private void drawLocationsButtonMenu() {

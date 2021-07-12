@@ -23,7 +23,13 @@ public class InteractTask extends Task<VillagerEntityMCA> {
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         PlayerEntity playerentity = villager.getInteractingPlayer();
-        return villager.isAlive() && playerentity != null && !villager.isTouchingWater() && !villager.velocityModified && villager.squaredDistanceTo(playerentity) <= 16.0D && playerentity.currentScreenHandler != null && Chore.byId(villager.activeChore.get()) == Chore.NONE;
+        return villager.isAlive()
+                && playerentity != null
+                && !villager.isTouchingWater()
+                && !villager.velocityModified
+                && villager.squaredDistanceTo(playerentity) <= 16.0D
+                && playerentity.currentScreenHandler != null
+                && villager.getVillagerBrain().getCurrentJob() == Chore.NONE;
     }
 
     @Override
