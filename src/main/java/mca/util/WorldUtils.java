@@ -33,7 +33,7 @@ public interface WorldUtils {
     }
 
     static <T extends Entity> List<T> getCloseEntities(World world, Vec3d pos, double range, Class<T> c) {
-        return world.getEntitiesByClass(c, new Box(pos, pos).expand(range), null);
+        return world.getNonSpectatingEntities(c, new Box(pos, pos).expand(range));
     }
 
     static <T extends PersistentState> T loadData(World world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
