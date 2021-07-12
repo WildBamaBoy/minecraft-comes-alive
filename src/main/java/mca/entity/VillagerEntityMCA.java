@@ -80,6 +80,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final CDataManager data = new CDataManager(this);
 
     private final Genetics genetics = Genetics.create(data);
+    private final Pregnancy pregnancy = new Pregnancy(this, data);
     private final VillagerBrain mcaBrain = new VillagerBrain(data);
 
     public final SimpleInventory inventory = new SimpleInventory(27);
@@ -105,12 +106,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public final CBooleanParameter isInfected = data.newBoolean("isInfected");
     public final CIntegerParameter activeChore = data.newInteger("activeChore");
-
-    public final CBooleanParameter hasBaby = data.newBoolean("hasBaby");
-
-    public final CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
-
-    public final CIntegerParameter babyAge = data.newInteger("babyAge");
 
     public final CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     public final BlockPosParameter hangoutPos = data.newPos("hangoutPos");
@@ -613,6 +608,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         marriageState.set(MarriageState.NOT_MARRIED.getId());
     }
 
+    public Optional<Entity> getSpouse() {
+        return spouseUUID.get().map(id -> ((ServerWorld) world).getEntity(id));
+    }
+
     private void handleInteraction(PlayerEntity player, Memories memory, Button button) {
         //interaction
         String interactionName = button.identifier().replace("gui.button.", "");
@@ -821,6 +820,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.hairOverlay.set(hair.overlay());
     }
 
+    public Pregnancy getPregnancy() {
+        return pregnancy;
+    }
+
     private boolean handleSpecialCaseGift(PlayerEntity player, ItemStack stack) {
         Item item = stack.getItem();
 
@@ -831,13 +834,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             return true;
         } else if (item == Items.CAKE) {
             if (isMarried() && !isBaby()) {
-                Entity spouse = ((ServerWorld) world).getEntity(spouseUUID.get().orElse(Constants.ZERO_UUID));
-                if (spouse instanceof VillagerEntityMCA) {
-
-                    VillagerEntityMCA progressor = getGenetics().getGender() == Gender.FEMALE ? this : (VillagerEntityMCA) spouse;
-                    progressor.hasBaby.set(true);
-                    progressor.isBabyMale.set(random.nextBoolean());
-
+                if (pregnancy.tryStartGestation()) {
                     produceParticles(ParticleTypes.HEART);
                     say(player, "gift.cake.success");
                 } else {
@@ -845,9 +842,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 }
                 return true;
             }
-        } else if (item == Items.GOLDEN_APPLE && this.isBaby()) {
+        } else if (item == Items.GOLDEN_APPLE && isBaby()) {
             // increase age by 5 minutes
-            this.growUp(1200 * 5);
+            growUp(1200 * 5);
             return true;
         }
 
@@ -1006,35 +1003,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     private void onEachServerSecond() {
         // villager has a baby
-        if (hasBaby.get()) {
-            babyAge.set(babyAge.get() + 1);
-
-            // grow up time is in minutes and we measure age in seconds
-            if (babyAge.get() >= MCA.getConfig().babyGrowUpTime * 60) {
-                //get the father
-                UUID fatherUUID = spouseUUID.get().orElse(Constants.ZERO_UUID);
-                Entity fatherEntity = ((ServerWorld) world).getEntity(fatherUUID);
-                VillagerEntityMCA father = fatherEntity instanceof VillagerEntityMCA ? (VillagerEntityMCA)fatherEntity : this;
-
-                //create child
-                VillagerEntityMCA child = new VillagerEntityMCA(world);
-                child.getGenetics().setGender(isBabyMale.get() ? Gender.MALE : Gender.FEMALE);
-                child.setPosition(getX(), getY(), getZ());
-                child.getGenetics().combine(father.getGenetics(), genetics);
-
-                //add all 3 to the family tree
-                FamilyTree tree = getFamilyTree();
-                tree.addEntry(father);
-                tree.addEntry(this);
-                tree.addEntry(child, fatherUUID, getUuid());
-
-                //and yeet it into the world
-                WorldUtils.spawnEntity(world, child);
-
-                hasBaby.set(false);
-                babyAge.set(0);
-            }
-        }
+        pregnancy.tick();
 
         //When you relog, it should continue doing the chores. Chore save but Activity doesn't, so this checks if the activity is not on there and puts it on there.
         Optional<Activity> possiblyChore = this.brain.getFirstPossibleNonCoreActivity();
@@ -1045,7 +1014,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (MoveState.byId(this.moveState.get()) == MoveState.FOLLOW && !this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
             this.updateMoveState();
         }
-
     }
 
     public void stopChore() {
