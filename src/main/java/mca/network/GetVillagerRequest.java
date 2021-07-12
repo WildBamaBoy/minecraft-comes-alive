@@ -1,6 +1,5 @@
 package mca.network;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
@@ -11,8 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,7 +18,7 @@ public class GetVillagerRequest implements Message {
 
     @Override
     public void receive(PlayerEntity player) {
-        Map<String, CNBT> familyData = new HashMap<>();
+        NbtCompound familyData = new NbtCompound();
 
         //fetches all members
         //de-loaded members are excluded as can't teleport anyways
@@ -38,7 +35,7 @@ public class GetVillagerRequest implements Message {
                 VillagerEntityMCA v = (VillagerEntityMCA) e;
                 NbtCompound nbt = new NbtCompound();
                 v.writeCustomDataToNbt(nbt);
-                familyData.put(e.getUuid().toString(), CNBT.wrap(nbt));
+                familyData.put(e.getUuid().toString(), nbt);
             }
         }
 

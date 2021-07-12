@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.network.ReviveVillagerMessage;
@@ -10,6 +9,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
@@ -19,9 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class GuiStaffOfLife extends Screen {
 
-    private final List<String> keys = new ArrayList<>();
-
-    private Map<String, CNBT> villagerData;
+    private List<String> keys = new ArrayList<>();
+    private NbtCompound villagerData = new NbtCompound();
 
     @Nullable
     private VillagerEntityMCA dummy;
@@ -74,13 +73,12 @@ public class GuiStaffOfLife extends Screen {
         }
     }
 
-    public void setVillagerData(Map<String, CNBT> data) {
+    public void setVillagerData(NbtCompound data) {
         villagerData = data;
 
-        if (data.size() > 0) {
+        if (!data.isEmpty()) {
             dummy = new VillagerEntityMCA(MinecraftClient.getInstance().world);
-            keys.clear();
-            keys.addAll(data.keySet());
+            keys = new ArrayList<>(data.getKeys());
             selectData(0);
             toggleButtons(true);
         } else {
@@ -96,10 +94,6 @@ public class GuiStaffOfLife extends Screen {
         reviveButton.active = enabled;
     }
 
-    private void updateDummy(CNBT nbt) {
-        dummy.readCustomDataFromNbt(nbt.upwrap());
-    }
-
     private void selectData(int i) {
         if (i < 0) {
             i = keys.size() - 1;
@@ -108,7 +102,7 @@ public class GuiStaffOfLife extends Screen {
         }
 
         selectedIndex = i;
-        updateDummy(villagerData.get(keys.get(selectedIndex)));
+        dummy.readCustomDataFromNbt(villagerData.getCompound(keys.get(selectedIndex)));
         nameButton.setMessage(dummy.getDisplayName());
     }
 }

@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.network.CallToPlayerMessage;
@@ -10,6 +9,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
@@ -18,9 +18,11 @@ import java.util.*;
 import org.jetbrains.annotations.NotNull;
 
 public class GuiWhistle extends Screen {
-    private final List<String> keys = new ArrayList<>();
+    private List<String> keys = new ArrayList<>();
+    private NbtCompound villagerData = new NbtCompound();
+
     private VillagerEntityMCA dummy;
-    private Map<String, CNBT> villagerData;
+
     private ButtonWidget selectionLeftButton;
     private ButtonWidget selectionRightButton;
     private ButtonWidget villagerNameButton;
@@ -110,10 +112,9 @@ public class GuiWhistle extends Screen {
         if (dummy != null) InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
     }
 
-    public void setVillagerData(@NotNull Map<String, CNBT> data) {
+    public void setVillagerData(@NotNull NbtCompound data) {
         villagerData = data;
-        keys.clear();
-        keys.addAll(data.keySet());
+        keys = new ArrayList<>(data.getKeys());
         loadingAnimationTicks = -1;
         selectedIndex = 0;
 
@@ -122,10 +123,10 @@ public class GuiWhistle extends Screen {
 
     private void setVillagerData(int index) {
         if (keys.size() > 0) {
-            CNBT firstData = villagerData.get(keys.get(index));
+            NbtCompound firstData = villagerData.getCompound(keys.get(index));
 
             dummy = new VillagerEntityMCA(MinecraftClient.getInstance().world);
-            dummy.readCustomDataFromNbt(firstData.upwrap());
+            dummy.readCustomDataFromNbt(firstData);
 
             villagerNameButton.setMessage(dummy.getDisplayName());
 
