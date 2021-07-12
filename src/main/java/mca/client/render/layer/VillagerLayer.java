@@ -31,16 +31,16 @@ public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends Villa
     }
 
     @Nullable
-    protected String getSkin(T entity) {
+    protected String getSkin(T villager) {
         return null;
     }
 
     @Nullable
-    protected String getOverlay(T entity) {
+    protected String getOverlay(T villager) {
         return null;
     }
 
-    protected float[] getColor(T entity) {
+    protected float[] getColor(T villager) {
         return DEFAULT_COLOR;
     }
 

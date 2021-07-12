@@ -6,17 +6,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
-import mca.api.types.ClothingGroup;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
 import mca.util.Util;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.village.VillagerProfession;
 
 public class ClothingList {
-
-    private final Map<Gender, Map<String, List<WeightedEntry>>> clothing = new EnumMap<>(Gender.class);
+    private final Map<Gender, Map<Identifier, Optional<List<WeightedEntry>>>> clothing = new EnumMap<>(Gender.class);
 
     private final Random rng;
 
@@ -31,30 +32,36 @@ public class ClothingList {
         for (ClothingGroup gp : Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class)) {
             for (Gender g : Gender.values()) {
                 if (gp.getGender() == Gender.NEUTRAL || gp.getGender() == g) {
-                    if (!clothing.get(g).containsKey(gp.profession())) {
-                        clothing.get(g).put(gp.profession(), new LinkedList<>());
-                    }
-                    for (int i = 0; i < gp.count(); i++) {
-                        clothing
+                    Identifier id = new Identifier(gp.profession());
+
+                    List<WeightedEntry> entries = clothing
                             .computeIfAbsent(g, o -> new HashMap<>())
-                            .computeIfAbsent(gp.profession(), o -> new LinkedList<>())
-                            .add(new WeightedEntry(getClothingPath(gp, i), gp.chance()));
+                            .computeIfAbsent(id, o -> Optional.of(new LinkedList<>()))
+                            .get();
+
+                    for (int i = 0; i < gp.count(); i++) {
+                        entries.add(new WeightedEntry(getClothingPath(gp, i), gp.chance()));
                     }
                 }
             }
         }
     }
 
+    private Map<Identifier, Optional<List<WeightedEntry>>> getClothingForGender(Gender gender) {
+        return clothing.getOrDefault(gender, Map.of());
+    }
+
     //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
     private List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
-        String profession = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession())).toString();
-        Gender gender = villager.getGender();
 
-        if (clothing.get(gender).containsKey(profession)) {
-            return clothing.get(gender).get(profession);
-        }
+        Identifier id = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession()));
+        var clothing = getClothingForGender(villager.getGenetics().getGender());
 
-        return clothing.get(gender).get("minecraft:none");
+        return clothing.getOrDefault(id, Optional.empty()).orElseGet(() -> {
+            Identifier fallback = Registry.VILLAGER_PROFESSION.getId(VillagerProfession.NONE);
+
+            return clothing.getOrDefault(fallback, Optional.empty()).orElse(List.of());
+        });
     }
 
     private String getClothingPath(ClothingGroup group, int i) {
@@ -63,7 +70,7 @@ public class ClothingList {
 
     public String pickOne(VillagerEntityMCA villager) {
         List<WeightedEntry> group = getClothing(villager);
-        if (group == null) {
+        if (group.isEmpty()) {
             return "";
         }
         double totalChance = group.stream().mapToDouble(a -> a.weight).sum() * rng.nextDouble();
@@ -94,6 +101,20 @@ public class ClothingList {
         return pickOne(villager);
     }
 
+    public record ClothingGroup (
+        String gender,
+        String profession,
+        int count,
+        float chance) {
+
+        public ClothingGroup() {
+            this("", "", 0, 1);
+        }
+
+        public Gender getGender() {
+            return Gender.byName(gender);
+        }
+    }
 
     private class WeightedEntry {
         final String value;

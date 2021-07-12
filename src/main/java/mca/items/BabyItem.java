@@ -83,7 +83,8 @@ public class BabyItem extends Item {
 
         if (!world.isClient && isReadyToGrowUp(stack) && !getBabyName(stack).equals("")) { // Name is good and we're ready to grow
             VillagerEntityMCA child = new VillagerEntityMCA(world);
-            child.gender.set((getGender()).getId());
+
+            child.getGenetics().setGender(getGender());
             child.setProfession(ProfessionsMCA.CHILD);
             child.villagerName.set(getBabyName(stack));
             child.setBaby(true);
@@ -101,11 +102,12 @@ public class BabyItem extends Item {
             if (spouse instanceof VillagerEntityMCA) {
                 VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
                 familyTree.addEntry(spouseVillager);
-                child.inheritGenes(spouseVillager, spouseVillager);
+                child.getGenetics().combine(spouseVillager.getGenetics(), spouseVillager.getGenetics());
             }
 
             //add the child to the family tree
             FamilyTreeEntry spouseEntry = familyTree.getEntry(playerData.getSpouseUUID());
+
             if (spouseEntry != null && spouseEntry.getGender() == Gender.FEMALE) {
                 familyTree.addEntry(child, player.getUuid(), playerData.getSpouseUUID());
             } else {
@@ -128,14 +130,6 @@ public class BabyItem extends Item {
         } else {
             return TypedActionResult.pass(stack);
         }
-    }
-
-    public String getBabyName(ItemStack stack) {
-        return stack.getTag().getString("name");
-    }
-
-    public void setBabyName(ItemStack stack, String name) {
-        stack.getTag().putString("name", name);
     }
 
     @Override
@@ -177,7 +171,7 @@ public class BabyItem extends Item {
         }
     }
 
-    private boolean isReadyToGrowUp(ItemStack stack) {
+    private static boolean isReadyToGrowUp(ItemStack stack) {
         CNBT tag = CNBT.fromMC(stack.getTag());
         return tag != null && tag.getInteger("age") >= MCA.getConfig().babyGrowUpTime;
     }
@@ -185,4 +179,13 @@ public class BabyItem extends Item {
     public Gender getGender() {
         return this.equals(ItemsMCA.BABY_BOY) ? Gender.MALE : Gender.FEMALE;
     }
+
+    public static String getBabyName(ItemStack stack) {
+        return stack.getTag().getString("name");
+    }
+
+    public static void setBabyName(ItemStack stack, String name) {
+        stack.getTag().putString("name", name);
+    }
+
 }

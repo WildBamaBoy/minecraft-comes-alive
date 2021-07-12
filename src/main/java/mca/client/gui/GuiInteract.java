@@ -6,6 +6,7 @@ import mca.client.gui.component.ButtonEx;
 import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.Constants;
+import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 import mca.enums.Chore;
@@ -248,11 +249,13 @@ public class GuiInteract extends Screen {
         if (hoveringOverIcon("genes")) {
             List<Text> lines = new LinkedList<>();
             lines.add(new LiteralText("Genes"));
-            for (int i = 0; i < villager.GENES.length; i++) {
-                String key = VillagerEntityMCA.GENES_NAMES[i].replace("_", ".");
-                int value = (int) (villager.GENES[i].get() * 100);
+
+            for (Genetics.Gene gene : villager.getGenetics()) {
+                String key = gene.key().replace("_", ".");
+                int value = (int) (gene.get() * 100);
                 lines.add(new LiteralText(String.format("%s: %d%%", Localizer.localize(key), value)));
             }
+
             drawHoveringIconText(transform, lines, "genes");
         }
 

@@ -8,7 +8,6 @@ import mca.client.render.layer.HairLayer;
 import mca.client.render.layer.SkinLayer;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.AgeState;
-import mca.enums.Gender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.TexturedModelData;
@@ -63,14 +62,8 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
 
     @Override
     protected void scale(VillagerEntityMCA villager, MatrixStack matrixStackIn, float partialTickTime) {
-        AgeState ageState = villager.getAgeState();
-        float scale = ageState.getHeight();
-        matrixStackIn.scale(scale, scale, scale);
-
-        //dimensions
-        float height = villager.gene_size.get() * 0.5f + 0.75f;
-        float width = villager.gene_width.get() * 0.5f + 0.75f;
-        width *= ageState.getWidth();
+        float height = villager.getScaleFactor();
+        float width = villager.getHorizontalScaleFactor();
         matrixStackIn.scale(width, height, width);
     }
 
@@ -87,9 +80,9 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
         AgeState ageState = villager.getAgeState();
         model.headSize = ageState.getHead();
         model.headWidth = model.headSize / ageState.getWidth();
-        model.breastSize = villager.getGender() == Gender.FEMALE ? villager.gene_breast.get() * ageState.getBreasts() : 0.0f;
+        model.breastSize = villager.getGenetics().getBreastSize() * ageState.getBreasts();
 
-        //also apply this to the layers models, not sure if this is the intended solution
+        // also apply this to the layers models, not sure if this is the intended solution
         for (VillagerEntityBaseModelMCA<VillagerEntityMCA> m : models) {
             m.breastSize = this.model.breastSize;
             m.headSize = this.model.headSize;

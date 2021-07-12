@@ -41,7 +41,7 @@ public class FamilyTree extends CWorldSavedData {
         entries.put(villager.getUuid(), new FamilyTreeEntry(
                 villager.villagerName.get(),
                 false,
-                villager.getGender(),
+                villager.getGenetics().getGender(),
                 father,
                 mother
         ));

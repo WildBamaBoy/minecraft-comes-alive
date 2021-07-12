@@ -1,28 +1,31 @@
 package mca.entity;
 
+import java.util.Optional;
+import java.util.OptionalInt;
+
 import mca.api.API;
 import mca.core.MCA;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 
 public class VillagerFactory {
     private final World world;
-    private final VillagerEntityMCA villager;
-    private boolean isNameSet;
-    private boolean isProfessionSet;
-    private boolean isGenderSet;
-    private boolean isPositionSet;
-    private boolean isAgeSet;
-    private boolean isLevelSet;
+
+    private Optional<String> name = Optional.empty();
+    private Optional<Gender> gender = Optional.empty();
+    private Optional<VillagerProfession> profession = Optional.empty();
+    private OptionalInt level = OptionalInt.empty();
+    private OptionalInt age = OptionalInt.empty();
+    private Optional<Vec3d> position = Optional.empty();
 
     private VillagerFactory(World world) {
         this.world = world;
-        this.villager = new VillagerEntityMCA(world);
     }
 
     public static VillagerFactory newVillager(World world) {
@@ -30,89 +33,69 @@ public class VillagerFactory {
     }
 
     public VillagerFactory withGender(Gender gender) {
-        villager.gender.set(gender.getId());
-        isGenderSet = true;
+        this.gender = Optional.ofNullable(gender);
         return this;
     }
 
     public VillagerFactory withProfession(VillagerProfession prof) {
-        VillagerData data = villager.getVillagerData();
-        villager.setVillagerData(new VillagerData(data.getType(), prof, 0));
-        isProfessionSet = true;
+        this.profession = Optional.ofNullable(prof);
         return this;
     }
 
     public VillagerFactory withProfession(VillagerProfession prof, int level) {
-        VillagerData data = villager.getVillagerData();
-        villager.setVillagerData(new VillagerData(data.getType(), prof, level));
-        isProfessionSet = true;
-        isLevelSet = true;
+        withProfession(prof);
+        this.level = OptionalInt.of(level);
         return this;
     }
 
     public VillagerFactory withName(String name) {
-        villager.villagerName.set(name);
-        isNameSet = true;
+        this.name = Optional.ofNullable(name);
         return this;
     }
 
-    public VillagerFactory withPosition(double posX, double posY, double posZ) {
-        isPositionSet = true;
-        villager.setPosition(posX, posY, posZ);
-        return this;
+    public VillagerFactory withPosition(double x, double y, double z) {
+        return withPosition(new Vec3d(x, y, z));
     }
 
     public VillagerFactory withPosition(Entity entity) {
-        isPositionSet = true;
-        villager.setPosition(entity.getX(), entity.getY(), entity.getZ());
+        return withPosition(entity.getX(), entity.getY(), entity.getZ());
+    }
+
+    public VillagerFactory withPosition(Vec3d pos) {
+        position = Optional.of(pos);
         return this;
     }
 
     public VillagerFactory withPosition(BlockPos pos) {
-        isPositionSet = true;
-        villager.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-        return this;
+        return withPosition(Vec3d.ofBottomCenter(pos.up()));
     }
 
     public VillagerFactory withAge(int age) {
-        villager.setBreedingAge(age);
-        isAgeSet = true;
+        this.age = OptionalInt.of(age);
         return this;
     }
 
     public VillagerFactory spawn() {
-        if (!isPositionSet) {
+        if (position.isEmpty()) {
             MCA.logger.info("Attempted to spawn villager without a position being set!");
         }
 
-        WorldUtils.spawnEntity(world, villager);
+        WorldUtils.spawnEntity(world, build());
         return this;
     }
 
     public VillagerEntityMCA build() {
-        if (!isGenderSet) {
-            villager.gender.set(Gender.getRandom().getId());
-        }
-
-        if (!isNameSet) {
-            villager.villagerName.set(API.getRandomName(Gender.byId(villager.gender.get())));
-        }
-
-        if (!isProfessionSet) {
-            VillagerData data = villager.getVillagerData();
-            villager.setVillagerData(new VillagerData(data.getType(), API.randomProfession(), data.getLevel()));
-        }
-
-        if (!isLevelSet) {
-            VillagerData data = villager.getVillagerData();
-            villager.setVillagerData(new VillagerData(data.getType(), data.getProfession(), 0));
-        }
-
-        if (!isAgeSet) {
-            //give it a random age between baby and adult
-            villager.setBreedingAge(villager.getRandom().nextInt(24000 * 2) - 24000);
-        }
-
+        VillagerEntityMCA villager = new VillagerEntityMCA(world);
+        villager.getGenetics().setGender(gender.orElseGet(Gender::getRandom));
+        villager.villagerName.set(name.orElseGet(() -> API.getRandomName(villager.getGenetics().getGender())));
+        villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(24000 * 2) - 24000));
+        VillagerData data = villager.getVillagerData();
+        villager.setVillagerData(new VillagerData(
+                data.getType(),
+                profession.orElseGet(API::randomProfession),
+                level.orElseGet(data::getLevel)
+            )
+        );
         return villager;
     }
 }

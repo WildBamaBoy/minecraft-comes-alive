@@ -20,9 +20,9 @@ public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     @Override
     protected String getSkin(VillagerEntityMCA villager) {
         int totalFaces = 11;
-        int skin = (int) Math.min(totalFaces - 1, Math.max(0, villager.gene_skin.get() * totalFaces));
-        int time = villager.age / 2 + (int) (villager.gene_hemoglobin.get() * 65536);
+        int skin = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().skin.get() * totalFaces));
+        int time = villager.age / 2 + (int) (villager.getGenetics().hemoglobin.get() * 65536);
         boolean blink = time % 50 == 0 || time % 57 == 0 || villager.isSleeping() || villager.isDead();
-        return String.format("mca:skins/faces/%s/%d%s.png", villager.getGender().binary().getStrName(), skin, blink ? "_blink" : "");
+        return String.format("mca:skins/faces/%s/%d%s.png", villager.getGenetics().getGender().binary().getStrName(), skin, blink ? "_blink" : "");
     }
 }

@@ -27,8 +27,8 @@ public class HairLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
 
     @Override
     protected float[] getColor(VillagerEntityMCA villager) {
-        float e = villager.gene_eumelanin.get();
-        float p = villager.gene_pheomelanin.get();
+        float e = villager.getGenetics().eumelanin.get();
+        float p = villager.getGenetics().pheomelanin.get();
         double[] color = HairColors.getColor(e, p);
         return new float[]{(float) color[0], (float) color[1], (float) color[2]};
     }

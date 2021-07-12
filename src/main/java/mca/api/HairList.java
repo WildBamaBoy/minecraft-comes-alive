@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Random;
 
 import mca.api.types.Hair;
-import mca.api.types.HairGroup;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
 import mca.util.Util;
@@ -45,8 +44,7 @@ public class HairList {
     }
 
     public Hair getRandomHair(VillagerEntityMCA villager) {
-        Gender gender = villager.getGender();
-        List<Hair> hairs = hair.get(gender);
+        List<Hair> hairs = hair.get(villager.getGenetics().getGender());
         if (hairs.isEmpty()) {
             return new Hair();
         }
@@ -55,8 +53,7 @@ public class HairList {
 
     //returns the next clothing with given offset to current
     public Hair getNextHair(VillagerEntityMCA villager, Hair current, int next) {
-        Gender gender = villager.getGender();
-        List<Hair> hairs = hair.get(gender);
+        List<Hair> hairs = hair.get(villager.getGenetics().getGender());
 
         //look for the current one
         for (int i = 0; i < hairs.size(); i++) {
@@ -69,4 +66,9 @@ public class HairList {
         return getRandomHair(villager);
     }
 
+    public record HairGroup(String gender, int count) {
+        public Gender getGender() {
+            return Gender.byName(gender);
+        }
+    }
 }

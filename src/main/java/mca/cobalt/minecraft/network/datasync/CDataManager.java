@@ -38,6 +38,12 @@ public class CDataManager {
         return p;
     }
 
+    public <T extends Enum<T>> CEnumParameter<T> newEnum(String id, T defaultValue) {
+        CEnumParameter<T> p = new CEnumParameter<>(id, entity.getClass(), entity.getDataTracker(), defaultValue);
+        params.put(id, p);
+        return p;
+    }
+
     public CBooleanParameter newBoolean(String id) {
         return newBoolean(id, false);
     }

@@ -1,8 +1,5 @@
 package mca.entity;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 
 import mca.api.API;
@@ -16,12 +13,11 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.*;
 import mca.core.minecraft.entity.village.VillageHelper;
-import mca.entity.ai.brain.VillagerTasksMCA;
+import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.*;
 import mca.enums.*;
 import mca.items.SpecialCaseGift;
 import mca.util.InventoryUtils;
-import mca.util.Util;
 import mca.util.WorldUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,12 +25,8 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.entity.ai.brain.WalkTarget;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -71,7 +63,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
-import net.minecraft.village.VillagerGossips;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -85,90 +76,46 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable {
-    public static final String[] GENES_NAMES = new String[]{
-            "gene_size", "gene_width", "gene_breast", "gene_melanin", "gene_hemoglobin", "gene_eumelanin", "gene_pheomelanin", "gene_skin", "gene_face"};
-    private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
-            MemoryModuleType.HOME, MemoryModuleType.JOB_SITE,
-            MemoryModuleType.POTENTIAL_JOB_SITE,
-            MemoryModuleType.MEETING_POINT,
-            MemoryModuleType.MOBS,
-            MemoryModuleType.VISIBLE_MOBS,
-            MemoryModuleType.VISIBLE_VILLAGER_BABIES,
-            MemoryModuleType.NEAREST_PLAYERS,
-            MemoryModuleType.NEAREST_VISIBLE_PLAYER,
-            MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
-            MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
-            MemoryModuleType.WALK_TARGET,
-            MemoryModuleType.LOOK_TARGET,
-            MemoryModuleType.INTERACTION_TARGET,
-            MemoryModuleType.BREED_TARGET,
-            MemoryModuleType.PATH,
-            MemoryModuleType.DOORS_TO_CLOSE,
-            MemoryModuleType.NEAREST_BED,
-            MemoryModuleType.HURT_BY,
-            MemoryModuleType.HURT_BY_ENTITY,
-            MemoryModuleType.NEAREST_HOSTILE,
-            MemoryModuleType.SECONDARY_JOB_SITE,
-            MemoryModuleType.HIDING_PLACE,
-            MemoryModuleType.HEARD_BELL_TIME,
-            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
-            MemoryModuleType.LAST_SLEPT,
-            MemoryModuleType.LAST_WOKEN,
-            MemoryModuleType.LAST_WORKED_AT_POI,
-            MemoryModuleType.GOLEM_DETECTED_RECENTLY,
-            MemoryModuleTypeMCA.PLAYER_FOLLOWING,
-            MemoryModuleTypeMCA.STAYING
-    );
-
-    private static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(
-            SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.NEAREST_PLAYERS,
-            SensorType.NEAREST_ITEMS,
-            SensorType.NEAREST_BED,
-            SensorType.HURT_BY,
-            SensorType.VILLAGER_HOSTILES,
-            SensorType.VILLAGER_BABIES,
-            SensorType.SECONDARY_POIS,
-            SensorType.GOLEM_DETECTED
-    );
 
     public final CDataManager data = new CDataManager(this);
-    public final SimpleInventory inventory;
+
+    private final Genetics genetics = Genetics.create(data);
+    private final VillagerBrain mcaBrain = new VillagerBrain(data);
+
+    public final SimpleInventory inventory = new SimpleInventory(27);
+
     public final CStringParameter villagerName = data.newString("villagerName");
+
     public final CStringParameter clothes = data.newString("clothes");
+
     public final CStringParameter hair = data.newString("hair");
+
     public final CStringParameter hairOverlay = data.newString("hairOverlay");
-    public final CIntegerParameter gender = data.newInteger("gender");
+
     public final CTagParameter memories = data.newTag("memories");
+
     public final CIntegerParameter moveState = data.newInteger("moveState");
+
     public final CIntegerParameter ageState = data.newInteger("ageState");
+
     public final CStringParameter spouseName = data.newString("spouseName");
     public final CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
+
     public final CIntegerParameter marriageState = data.newInteger("marriageState");
     public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public final CBooleanParameter isInfected = data.newBoolean("isInfected");
     public final CIntegerParameter activeChore = data.newInteger("activeChore");
+
     public final CBooleanParameter hasBaby = data.newBoolean("hasBaby");
+
     public final CBooleanParameter isBabyMale = data.newBoolean("isBabyMale");
+
     public final CIntegerParameter babyAge = data.newInteger("babyAge");
+
     public final CUUIDParameter choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     public final BlockPosParameter hangoutPos = data.newPos("hangoutPos");
+
     public final CBooleanParameter importantProfession = data.newBoolean("importantProfession", false);
-
-    // genes
-    public final CFloatParameter gene_size = data.newFloat("gene_size");
-    public final CFloatParameter gene_width = data.newFloat("gene_width");
-    public final CFloatParameter gene_breast = data.newFloat("gene_breast");
-    public final CFloatParameter gene_melanin = data.newFloat("gene_melanin");
-    public final CFloatParameter gene_hemoglobin = data.newFloat("gene_hemoglobin");
-    public final CFloatParameter gene_eumelanin = data.newFloat("gene_eumelanin");
-    public final CFloatParameter gene_pheomelanin = data.newFloat("gene_pheomelanin");
-    public final CFloatParameter gene_skin = data.newFloat("gene_skin");
-    public final CFloatParameter gene_face = data.newFloat("gene_face");
-
-    // genes list
-    public final CFloatParameter[] GENES = new CFloatParameter[]{
-            gene_size, gene_width, gene_breast, gene_melanin, gene_hemoglobin, gene_eumelanin, gene_pheomelanin, gene_skin, gene_face};
 
     //personality and mood
     public final CIntegerParameter personality = data.newInteger("personality");
@@ -176,7 +123,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public final CIntegerParameter village = data.newInteger("village", -1);
     public final CIntegerParameter building = data.newInteger("buildings", -1);
-    private final VillagerGossips gossips = new VillagerGossips();
+
     //gift desaturation queue
     private final List<String> giftDesaturation = new LinkedList<>();
     public int procreateTick = -1;
@@ -192,94 +139,52 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w) {
         super(type, w);
-
-        inventory = new SimpleInventory(27);
         inventory.addListener(this::onInvChange);
 
         //register has to be here, not in initialize, since the super call is called before the field init
-        // and the data manager required those fields
+        // and the data manager requires those fields
         data.register();
 
         this.setSilent(true);
-
-        if (!world.isClient) {
-            Gender eGender = Gender.getRandom();
-            gender.set(eGender.getId());
-
-            villagerName.set(API.getRandomName(eGender));
-        }
     }
 
     public static DefaultAttributeContainer.Builder createVillagerAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
-    }
-
-    protected Brain.Profile<VillagerEntityMCA> mcaBrainProvider() {
-        return Brain.createProfile(MEMORY_TYPES, SENSOR_TYPES);
+        return MobEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48);
     }
 
     @Override
     protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
-        Brain<VillagerEntityMCA> brain = this.mcaBrainProvider().deserialize(dynamic);
-        this.initBrain(brain);
-        return brain;
+        return VillagerBrain.initializeTasks(this, VillagerBrain.createProfile().deserialize(dynamic));
     }
 
     @Override
     public void reinitializeBrain(ServerWorld world) {
-        Brain<VillagerEntityMCA> brain = this.getMCABrain();
+        Brain<VillagerEntityMCA> brain = getMCABrain();
         brain.stopAllTasks(world, this);
         //copyWithoutBehaviors will copy the memories of the old brain to the new brain
         this.brain = brain.copy();
-        this.initBrain(this.getMCABrain());
+        VillagerBrain.initializeTasks(this, getMCABrain());
     }
 
     @SuppressWarnings("unchecked")
     public Brain<VillagerEntityMCA> getMCABrain() {
-        //generics amirite
-        return (Brain<VillagerEntityMCA>) this.brain;
-    }
-
-    private void initBrain(Brain<VillagerEntityMCA> brain) {
-        VillagerProfession villagerprofession = this.getVillagerData().getProfession();
-        if (this.isBaby()) {
-            brain.setSchedule(Schedule.VILLAGER_BABY);
-            brain.setTaskList(Activity.PLAY, VillagerTasksMCA.getPlayPackage(0.5F));
-        } else {
-            brain.setSchedule(Schedule.VILLAGER_DEFAULT);
-            brain.setTaskList(Activity.WORK, VillagerTasksMCA.getWorkPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleState.VALUE_PRESENT)));
-        }
-
-        brain.setTaskList(Activity.CORE, VillagerTasksMCA.getCorePackage(villagerprofession, 0.5F));
-        brain.setTaskList(Activity.MEET, VillagerTasksMCA.getMeetPackage(villagerprofession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT)));
-        brain.setTaskList(Activity.REST, VillagerTasksMCA.getRestPackage(villagerprofession, 0.5F));
-        brain.setTaskList(Activity.IDLE, VillagerTasksMCA.getIdlePackage(villagerprofession, 0.5F));
-        brain.setTaskList(Activity.PANIC, VillagerTasksMCA.getPanicPackage(villagerprofession, 0.5F));
-        brain.setTaskList(Activity.PRE_RAID, VillagerTasksMCA.getPreRaidPackage(villagerprofession, 0.5F));
-        brain.setTaskList(Activity.RAID, VillagerTasksMCA.getRaidPackage(villagerprofession, 0.5F));
-        brain.setTaskList(Activity.HIDE, VillagerTasksMCA.getHidePackage(villagerprofession, 0.5F));
-        brain.setTaskList(ActivityMCA.CHORE, VillagerTasksMCA.getChorePackage(villagerprofession, 0.5F));
-        brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
-        brain.setDefaultActivity(Activity.IDLE);
-        brain.doExclusively(Activity.IDLE);
-        brain.refreshActivities(this.world.getTimeOfDay(), this.world.getTime());
+        return (Brain<VillagerEntityMCA>) brain;
     }
 
     @Nullable
     @Override
-    public EntityData initialize(ServerWorldAccess p_213386_1_, LocalDifficulty p_213386_2_, SpawnReason p_213386_3_, @Nullable EntityData p_213386_4_, @Nullable NbtCompound p_213386_5_) {
-        EntityData iLivingEntityData = super.initialize(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        EntityData data = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
-        initializeGenes();
+        genetics.randomize(this);
+        villagerName.set(API.getRandomName(getGenetics().getGender()));
+
         initializeSkin();
         initializePersonality();
 
-        return iLivingEntityData;
-    }
-
-    @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
+        return data;
     }
 
     public final VillagerProfession getProfession() {
@@ -290,6 +195,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.setVillagerData(this.getVillagerData().withProfession(profession));
         reinitializeBrain((ServerWorld) world);
         clothes.set(API.getRandomClothing(this));
+    }
+
+    public Genetics getGenetics() {
+        return genetics;
     }
 
     @Override
@@ -376,8 +285,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (getPersonality() == Personality.SLEEPY) speed *= 0.8;
 
         //width and size impact
-        speed /= gene_width.get();
-        speed *= gene_skin.get();
+        speed /= genetics.width.get();
+        speed *= genetics.skin.get();
 
         setMovementSpeed(speed);
         InventoryUtils.readFromNBT(inventory, nbt);
@@ -385,7 +294,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         NbtList listnbt = nbt.getList("Gossips", 10);
         this.lastGossipDecayTime = nbt.getLong("LastGossipDecay");
 
-        this.gossips.deserialize(new Dynamic<>(NbtOps.INSTANCE, listnbt));
+        this.getGossip().deserialize(new Dynamic<>(NbtOps.INSTANCE, listnbt));
     }
 
     @Override
@@ -403,7 +312,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
         nbt.put("giftDesaturation", giftDesaturationQueue);
 
-        nbt.put("Gossips", this.gossips.serialize(NbtOps.INSTANCE).getValue());
+        nbt.put("Gossips", this.getGossip().serialize(NbtOps.INSTANCE).getValue());
         nbt.putLong("LastGossipDecay", this.lastGossipDecayTime);
     }
 
@@ -419,50 +328,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         personality.set(Personality.getRandom().getId());
         //since minLevel is -100 and it makes no
         mood.set(Mood.getLevel(random.nextInt(Mood.maxLevel - Mood.normalMinLevel + 1) + Mood.normalMinLevel));
-    }
-
-    //returns a float between 0 and 1, weighted at 0.5
-    private float centeredRandom() {
-        return (float) Math.min(1.0, Math.max(0.0, (random.nextFloat() - 0.5f) * (random.nextFloat() - 0.5f) + 0.5f));
-    }
-
-    //initializes the genes with random numbers
-    private void initializeGenes() {
-        for (CFloatParameter dp : GENES) {
-            dp.set(random.nextFloat());
-        }
-
-        // size is more centered
-        gene_size.set(centeredRandom());
-        gene_width.set(centeredRandom());
-
-        // temperature
-        float temp = world.getBiome(getLandingPos()).getTemperature();
-
-        // immigrants
-        if (random.nextInt(100) < MCA.getConfig().immigrantChance) {
-            temp = random.nextFloat() * 2.0f - 0.5f;
-        }
-
-        // melanin
-        gene_melanin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f));
-        gene_hemoglobin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f));
-
-        // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
-        gene_eumelanin.set(random.nextFloat());
-        gene_pheomelanin.set(random.nextFloat());
-    }
-
-    //interpolates and mutates the genes from two parent villager
-    public void inheritGenes(VillagerEntityMCA mother, VillagerEntityMCA father) {
-        for (int i = 0; i < GENES.length; i++) {
-            float m = mother.GENES[i].get();
-            float f = father.GENES[i].get();
-            float interpolation = random.nextFloat();
-            float mutation = (random.nextFloat() - 0.5f) * 0.2f;
-            float g = m * interpolation + f * (1.0f - interpolation) + mutation;
-            GENES[i].set((float) Math.min(1.0, Math.max(0.0, g)));
-        }
     }
 
     @Override
@@ -526,8 +391,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public EntityDimensions getDimensions(EntityPose pose) {
         AgeState ageState = getAgeState();
 
-        float height = gene_size.get() + 1;
-        float width = (gene_width.get() * 0.5f + 0.75f) * ageState.getWidth();
+        float height = genetics.size.get() + 1;
+        float width = (genetics.width.get() * 0.5f + 0.75f) * ageState.getWidth();
 
         return EntityDimensions.changing(width, height);
     }
@@ -571,11 +436,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public final SoundEvent getDeathSound() {
+        // TODO: Custom sounds
         return SoundEvents.ENTITY_PLAYER_DEATH;
     }
 
     @Override
     protected final SoundEvent getAmbientSound() {
+        // TODO: Custom sounds
         return null;
     }
 
@@ -784,12 +651,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
         Memories memory = getMemoriesForPlayer(player);
-        java.util.Optional<Button> button = API.getButtonById(guiKey, buttonId);
+        Optional<Button> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {
             MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
-        } else if (button.get().isInteraction()) handleInteraction(player, memory, button.get());
+        } else if (button.get().isInteraction()) {
+            handleInteraction(player, memory, button.get());
+        }
 
-        Hair h;
         switch (buttonId) {
             case "gui.button.move":
                 this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
@@ -906,19 +774,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 clothes.set(API.getNextClothing(this, clothes.get()));
                 break;
             case "gui.button.clothing.randHair":
-                h = API.getRandomHair(this);
-                hair.set(h.texture());
-                hairOverlay.set(h.overlay());
+                setHair(API.getRandomHair(this));
                 break;
             case "gui.button.clothing.prevHair":
-                h = API.getNextHair(this, new Hair(hair.get(), hairOverlay.get()), -1);
-                hair.set(h.texture());
-                hairOverlay.set(h.overlay());
+                setHair(API.getNextHair(this, getHair(), -1));
                 break;
             case "gui.button.clothing.nextHair":
-                h = API.getNextHair(this, new Hair(hair.get(), hairOverlay.get()));
-                hair.set(h.texture());
-                hairOverlay.set(h.overlay());
+                setHair(API.getNextHair(this, getHair()));
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());
@@ -950,6 +812,15 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
     }
 
+    public Hair getHair() {
+        return new Hair(hair.get(), hairOverlay.get());
+    }
+
+    public void setHair(Hair hair) {
+        this.hair.set(hair.texture());
+        this.hairOverlay.set(hair.overlay());
+    }
+
     private boolean handleSpecialCaseGift(PlayerEntity player, ItemStack stack) {
         Item item = stack.getItem();
 
@@ -962,9 +833,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             if (isMarried() && !isBaby()) {
                 Entity spouse = ((ServerWorld) world).getEntity(spouseUUID.get().orElse(Constants.ZERO_UUID));
                 if (spouse instanceof VillagerEntityMCA) {
-                    VillagerEntityMCA progressor = gender.get() == Gender.FEMALE.getId() ? this : (VillagerEntityMCA) spouse;
+
+                    VillagerEntityMCA progressor = getGenetics().getGender() == Gender.FEMALE ? this : (VillagerEntityMCA) spouse;
                     progressor.hasBaby.set(true);
                     progressor.isBabyMale.set(random.nextBoolean());
+
                     produceParticles(ParticleTypes.HEART);
                     say(player, "gift.cake.success");
                 } else {
@@ -986,12 +859,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             this.headYaw += 50.0F;
         }
 
-        if (this.age % 20 == 0) {
-            onEachClientSecond();
+        if (this.age % 20 != 0) {
+            return;
         }
-    }
 
-    private void onEachClientSecond() {
         if (random.nextBoolean()) {
             if (getMoodLevel() <= -15) {
                 switch (getPersonality().getMoodGroup()) {
@@ -1113,6 +984,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         //check if another state has been reached
         AgeState last = AgeState.byId(ageState.get());
         AgeState next = AgeState.byCurrentAge(getBreedingAge());
+
         if (last != next) {
             ageState.set(next.getId());
             calculateDimensions();
@@ -1142,21 +1014,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 //get the father
                 UUID fatherUUID = spouseUUID.get().orElse(Constants.ZERO_UUID);
                 Entity fatherEntity = ((ServerWorld) world).getEntity(fatherUUID);
-                VillagerEntityMCA father;
-                if (fatherEntity instanceof VillagerEntityMCA) {
-                    father = (VillagerEntityMCA) fatherEntity;
-                } else {
-                    //the father died, is out of range, etc
-                    //fallback to mother-gene only
-                    father = this;
-                }
+                VillagerEntityMCA father = fatherEntity instanceof VillagerEntityMCA ? (VillagerEntityMCA)fatherEntity : this;
 
                 //create child
-                Gender gender = isBabyMale.get() ? Gender.MALE : Gender.FEMALE;
                 VillagerEntityMCA child = new VillagerEntityMCA(world);
-                child.gender.set(gender.getId());
-                child.setPosition(this.getX(), this.getY(), this.getZ());
-                child.inheritGenes(father, this);
+                child.getGenetics().setGender(isBabyMale.get() ? Gender.MALE : Gender.FEMALE);
+                child.setPosition(getX(), getY(), getZ());
+                child.getGenetics().combine(father.getGenetics(), genetics);
 
                 //add all 3 to the family tree
                 FamilyTree tree = getFamilyTree();
@@ -1216,29 +1080,21 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public float getScaleFactor() {
-        if (gene_size == null) {
-            return super.getScaleFactor();
-        } else {
-            float height = gene_size.get() * 0.5f + 0.75f;
-            return height * getAgeState().getHeight();
-        }
+        return genetics.getVerticalScaleFactor() * getAgeState().getHeight();
+    }
+
+    public float getHorizontalScaleFactor() {
+        return genetics.getVerticalScaleFactor() * getAgeState().getHeight() * getAgeState().getWidth();
     }
 
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions size) {
-        if (gene_size == null) {
-            return super.getActiveEyeHeight(pose, size);
-        } else {
-            float height = gene_size.get() * 0.5f + 0.75f;
-            return height * getAgeState().getHeight() * 1.6f;
-        }
+        return getScaleFactor() * 1.6f;
     }
 
     @Override
     public void onTrackedDataSet(TrackedData<?> par) {
-        if (ageState != null && ageState.getParam().equals(par)) {
-            calculateDimensions();
-        } else if (gene_size != null && gene_size.getParam().equals(par)) {
+        if (ageState.getParam().equals(par) || genetics.size.equals(par)) {
             calculateDimensions();
         }
 
@@ -1267,24 +1123,21 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public void moveTowards(BlockPos pos) {
-        this.moveTowards(pos, 0.5F, 1);
+        moveTowards(pos, 0.5F, 1);
     }
 
     public void lookAt(BlockPos pos) {
-        BlockPosLookTarget blockposwrapper = new BlockPosLookTarget(pos);
-        this.brain.remember(MemoryModuleType.LOOK_TARGET, blockposwrapper);
-
+        this.brain.remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(pos));
     }
 
     public void closeGUIIfOpen() {
         if (!this.world.isClient) {
-            ServerPlayerEntity entity = (ServerPlayerEntity) this.getInteractingPlayer();
+            ServerPlayerEntity entity = (ServerPlayerEntity) getInteractingPlayer();
             if (entity != null) {
                 entity.closeHandledScreen();
             }
             this.setInteractingPlayer(null);
         }
-
     }
 
     public PlayerEntity getInteractingPlayer() {
@@ -1360,7 +1213,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void gossip(ServerWorld p_242368_1_, VillagerEntityMCA p_242368_2_, long p_242368_3_) {
         if ((p_242368_3_ < this.lastGossipTime || p_242368_3_ >= this.lastGossipTime + 1200L) && (p_242368_3_ < p_242368_2_.lastGossipTime || p_242368_3_ >= p_242368_2_.lastGossipTime + 1200L)) {
-            this.gossips.shareGossipFrom(p_242368_2_.gossips, this.random, 10);
+            this.getGossip().shareGossipFrom(p_242368_2_.getGossip(), this.random, 10);
             this.lastGossipTime = p_242368_3_;
             p_242368_2_.lastGossipTime = p_242368_3_;
             this.summonGolem(p_242368_1_, p_242368_3_, 5);
@@ -1372,7 +1225,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (this.lastGossipDecayTime == 0L) {
             this.lastGossipDecayTime = i;
         } else if (i >= this.lastGossipDecayTime + 24000L) {
-            this.gossips.decay();
+            this.getGossip().decay();
             this.lastGossipDecayTime = i;
         }
     }
@@ -1392,24 +1245,5 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 serverWorld.getEntity(entry.getFather()),
                 serverWorld.getEntity(entry.getMother())
         };
-    }
-
-    @Override
-    public void onInteractionWith(EntityInteraction p_213739_1_, Entity p_213739_2_) {
-        super.onInteractionWith(p_213739_1_, p_213739_2_);
-    }
-
-    @Override
-    public VillagerGossips getGossip() {
-        return this.gossips;
-    }
-
-    @Override
-    public void readGossipDataNbt(NbtElement p_223716_1_) {
-        this.gossips.deserialize(new Dynamic<>(NbtOps.INSTANCE, p_223716_1_));
-    }
-
-    public Gender getGender() {
-        return Gender.byId(gender.get());
     }
 }
