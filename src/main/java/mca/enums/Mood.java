@@ -1,7 +1,6 @@
 package mca.enums;
 
 import mca.api.API;
-import mca.cobalt.localizer.Localizer;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;

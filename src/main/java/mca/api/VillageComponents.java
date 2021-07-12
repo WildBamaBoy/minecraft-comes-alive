@@ -16,7 +16,6 @@ import com.google.common.base.Charsets;
 import mca.api.types.BuildingType;
 import mca.api.types.NameSet;
 import mca.enums.Gender;
-import mca.util.Util;
 import net.minecraft.util.ChatUtil;
 
 public class VillageComponents {
@@ -31,11 +30,11 @@ public class VillageComponents {
     }
 
     void load() {
-        for (BuildingType bt : Util.readResourceAsJSON("api/buildingTypes.json", BuildingType[].class)) {
+        for (BuildingType bt : Resources.read("api/buildingTypes.json", BuildingType[].class)) {
             buildingTypes.put(bt.name(), bt);
         }
 
-        nameSets.put("village", Util.readResourceAsJSON("api/names/village.json", NameSet.class));
+        nameSets.put("village", Resources.read("api/names/village.json", NameSet.class));
 
         loadResidentNames();
     }

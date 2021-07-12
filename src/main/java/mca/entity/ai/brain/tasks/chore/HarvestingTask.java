@@ -2,9 +2,9 @@ package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.TaskUtils;
 import mca.enums.Chore;
 import mca.util.InventoryUtils;
-import mca.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -76,7 +76,7 @@ public class HarvestingTask extends AbstractChoreTask {
     }
 
     private BlockPos searchCrop(int rangeX, int rangeY, boolean harvestableOnly) {
-        List<BlockPos> nearbyCrops = Util.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isIn(BlockTags.CROPS) || blockState.getBlock() instanceof GourdBlock, rangeX, rangeY);
+        List<BlockPos> nearbyCrops = TaskUtils.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isIn(BlockTags.CROPS) || blockState.getBlock() instanceof GourdBlock, rangeX, rangeY);
         harvestable.clear();
 
         if (harvestableOnly) {
@@ -94,12 +94,12 @@ public class HarvestingTask extends AbstractChoreTask {
             }
         }
 
-        return Util.getNearestPoint(villager.getBlockPos(), harvestable.isEmpty() ? nearbyCrops : harvestable);
+        return TaskUtils.getNearestPoint(villager.getBlockPos(), harvestable.isEmpty() ? nearbyCrops : harvestable);
 
     }
 
     private BlockPos searchUnusedFarmLand(int rangeX, int rangeY) {
-        List<BlockPos> nearbyFarmLand = Util.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isOf(Blocks.FARMLAND), rangeX, rangeY);
+        List<BlockPos> nearbyFarmLand = TaskUtils.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isOf(Blocks.FARMLAND), rangeX, rangeY);
         List<BlockPos> fertileLand = new ArrayList<>();
         for (BlockPos pos : nearbyFarmLand) {
             BlockState state = villager.world.getBlockState(pos);
@@ -113,7 +113,7 @@ public class HarvestingTask extends AbstractChoreTask {
             }
         }
 
-        return Util.getNearestPoint(villager.getBlockPos(), fertileLand);
+        return TaskUtils.getNearestPoint(villager.getBlockPos(), fertileLand);
     }
 
     @Override

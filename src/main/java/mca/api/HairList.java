@@ -9,7 +9,6 @@ import java.util.Random;
 import mca.api.types.Hair;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
-import mca.util.Util;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
@@ -23,7 +22,7 @@ public class HairList {
     }
 
     void load() {
-        for (HairGroup hg : Util.readResourceAsJSON("api/hair.json", HairGroup[].class)) {
+        for (HairGroup hg : Resources.read("api/hair.json", HairGroup[].class)) {
             for (Gender g : Gender.values()) {
                 if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
                     for (int i = 0; i < hg.count(); i++) {

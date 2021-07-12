@@ -2,9 +2,9 @@ package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.TaskUtils;
 import mca.enums.Chore;
 import mca.util.InventoryUtils;
-import mca.util.Util;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -77,7 +77,7 @@ public class FishingTask extends AbstractChoreTask {
         }
 
         if (targetWater == null) {
-            List<BlockPos> nearbyStaticLiquid = Util.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isOf(Blocks.WATER), 12, 3);
+            List<BlockPos> nearbyStaticLiquid = TaskUtils.getNearbyBlocks(villager.getBlockPos(), villager.world, blockState -> blockState.isOf(Blocks.WATER), 12, 3);
             targetWater = nearbyStaticLiquid.stream()
                     .filter((p) -> villager.world.getBlockState(p).getBlock() == Blocks.WATER)
                     .min(Comparator.comparingDouble(d -> villager.squaredDistanceTo(d.getX(), d.getY(), d.getZ()))).orElse(null);

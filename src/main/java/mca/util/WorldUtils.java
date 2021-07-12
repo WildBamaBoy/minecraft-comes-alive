@@ -14,33 +14,33 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class WorldUtils {
-    public static List<Entity> getCloseEntities(World world, Entity e) {
+public interface WorldUtils {
+    static List<Entity> getCloseEntities(World world, Entity e) {
         return getCloseEntities(world, e, 256.0);
     }
 
-    public static List<Entity> getCloseEntities(World world, Entity e, double range) {
+    static List<Entity> getCloseEntities(World world, Entity e, double range) {
         Vec3d pos = e.getPos();
         return world.getOtherEntities(e, new Box(pos, pos).expand(range));
     }
 
-    public static <T extends Entity> List<T> getCloseEntities(World world, Entity e, Class<T> c) {
+    static <T extends Entity> List<T> getCloseEntities(World world, Entity e, Class<T> c) {
         return getCloseEntities(world, e, 256.0, c);
     }
 
-    public static <T extends Entity> List<T> getCloseEntities(World world, Entity e, double range, Class<T> c) {
+    static <T extends Entity> List<T> getCloseEntities(World world, Entity e, double range, Class<T> c) {
         return getCloseEntities(world, e.getPos(), range, c);
     }
 
-    public static <T extends Entity> List<T> getCloseEntities(World world, Vec3d pos, double range, Class<T> c) {
+    static <T extends Entity> List<T> getCloseEntities(World world, Vec3d pos, double range, Class<T> c) {
         return world.getEntitiesByClass(c, new Box(pos, pos).expand(range), null);
     }
 
-    public static <T extends PersistentState> T loadData(World world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
+    static <T extends PersistentState> T loadData(World world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
         return ((ServerWorld) world).getPersistentStateManager().getOrCreate(loader, factory, dataId);
     }
 
-    public static void spawnEntity(World world, Entity entity) {
+    static void spawnEntity(World world, Entity entity) {
         ((MobEntity) entity).initialize((ServerWorldAccess) world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.NATURAL, null, null);
         world.spawnEntity(entity);
     }

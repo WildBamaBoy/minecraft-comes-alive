@@ -5,7 +5,6 @@ import mca.client.gui.GuiInteract;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
-import mca.util.Util;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.VillagerProfession;
 import org.jetbrains.annotations.NotNull;
@@ -168,7 +167,7 @@ public class API {
             guiComponents.load();
             gifts.load();
 
-            supporters.addAll(List.of(Util.readResourceAsJSON("api/supporters.json", String[].class)));
+            supporters.addAll(List.of(Resources.read("api/supporters.json", String[].class)));
         }
 
         public String pickSupporter() {

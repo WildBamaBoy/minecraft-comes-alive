@@ -2,7 +2,6 @@ package mca.entity.ai;
 
 import mca.entity.GrimReaperEntity;
 import mca.enums.ReaperAttackState;
-import mca.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -70,7 +69,7 @@ public class GrimReaperRestGoal extends Goal {
             // Let's have a light show.
             int dX = reaper.getRandom().nextInt(8) + 4 * reaper.getRandom().nextFloat() >= 0.50F ? 1 : -1;
             int dZ = reaper.getRandom().nextInt(8) + 4 * reaper.getRandom().nextFloat() >= 0.50F ? 1 : -1;
-            int y = Util.getSpawnSafeTopLevel(reaper.world, (int) reaper.getX() + dX, 256, (int) reaper.getZ() + dZ);
+            int y = TaskUtils.getSpawnSafeTopLevel(reaper.world, (int) reaper.getX() + dX, 256, (int) reaper.getZ() + dZ);
 
             EntityType.LIGHTNING_BOLT.spawn((ServerWorld) reaper.world, null, null, null, new BlockPos(dX, y, dZ), SpawnReason.TRIGGERED, false, false);
 

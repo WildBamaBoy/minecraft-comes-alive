@@ -5,7 +5,6 @@ import java.util.Map;
 
 import mca.api.types.Gift;
 import mca.core.MCA;
-import mca.util.Util;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -15,7 +14,7 @@ public class GiftList {
 
     void load() {
      // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
-        for (Gift gift : Util.readResourceAsJSON("api/gifts.json", Gift[].class)) {
+        for (Gift gift : Resources.read("api/gifts.json", Gift[].class)) {
             if (!gift.exists()) {
                 MCA.logger.info("Could not find gift item or block in registry: " + gift.name());
             } else {

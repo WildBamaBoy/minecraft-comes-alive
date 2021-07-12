@@ -11,7 +11,6 @@ import java.util.Random;
 
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
-import mca.util.Util;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
@@ -29,7 +28,7 @@ public class ClothingList {
         // Load skins
         // Skins are stored in a <Gender, <Profession, List of paths>> map, which is generic enough to allow custom skins etc
 
-        for (ClothingGroup gp : Util.readResourceAsJSON("api/clothing.json", ClothingGroup[].class)) {
+        for (ClothingGroup gp : Resources.read("api/clothing.json", ClothingGroup[].class)) {
             for (Gender g : Gender.values()) {
                 if (gp.getGender() == Gender.NEUTRAL || gp.getGender() == g) {
                     Identifier id = new Identifier(gp.profession());

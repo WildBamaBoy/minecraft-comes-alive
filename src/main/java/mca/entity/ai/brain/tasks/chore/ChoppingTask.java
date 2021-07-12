@@ -2,9 +2,9 @@ package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.TaskUtils;
 import mca.enums.Chore;
 import mca.util.InventoryUtils;
-import mca.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -82,18 +82,18 @@ public class ChoppingTask extends AbstractChoreTask {
         }
 
         if (targetTree == null) {
-            List<BlockPos> nearbyLogs = Util.getNearbyBlocks(villager.getBlockPos(), world, (blockState -> blockState.isIn(BlockTags.LOGS)), 15, 5);
+            List<BlockPos> nearbyLogs = TaskUtils.getNearbyBlocks(villager.getBlockPos(), world, (blockState -> blockState.isIn(BlockTags.LOGS)), 15, 5);
             List<BlockPos> nearbyTrees = new ArrayList<>();
 
             // valid "trees" are logs on the ground with leaves around them
             nearbyLogs.stream()
                     .filter(log -> {
                         BlockState down = world.getBlockState(log.down());
-                        List<BlockPos> leaves = Util.getNearbyBlocks(log, world, (blockState -> blockState.isIn(BlockTags.LEAVES)), 1, 5);
+                        List<BlockPos> leaves = TaskUtils.getNearbyBlocks(log, world, (blockState -> blockState.isIn(BlockTags.LEAVES)), 1, 5);
                         return leaves.size() > 0 && (down.getBlock() == Blocks.GRASS_BLOCK || down.getBlock() == Blocks.DIRT);
                     })
                     .forEach(nearbyTrees::add);
-            targetTree = Util.getNearestPoint(villager.getBlockPos(), nearbyTrees);
+            targetTree = TaskUtils.getNearestPoint(villager.getBlockPos(), nearbyTrees);
             return;
         }
 

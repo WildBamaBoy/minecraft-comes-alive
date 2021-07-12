@@ -1,4 +1,4 @@
-package mca.util;
+package mca.api;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -22,7 +22,7 @@ import net.minecraft.util.Util;
 /**
  * https://github.com/google/gson/issues/1794
  */
-public final class RecordTypeAdapterFactory implements TypeAdapterFactory {
+final class RecordTypeAdapterFactory implements TypeAdapterFactory {
     public static final TypeAdapterFactory INSTANCE = new RecordTypeAdapterFactory();
 
     private static final Map<Class<?>, Object> PRIMITIVE_DEFAULTS = Util.make(new HashMap<>(), m -> {
