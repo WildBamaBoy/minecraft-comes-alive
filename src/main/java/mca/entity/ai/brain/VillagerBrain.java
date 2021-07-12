@@ -4,10 +4,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
+import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.network.datasync.CDataManager;
+import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
+import mca.cobalt.minecraft.network.datasync.CTagParameter;
 import mca.core.minecraft.ActivityMCA;
 import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.data.Memories;
+import mca.enums.Mood;
+import mca.enums.Personality;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -16,12 +22,14 @@ import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.village.VillagerProfession;
 
 public class VillagerBrain {
-
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
-            MemoryModuleType.HOME, MemoryModuleType.JOB_SITE,
+            MemoryModuleType.HOME,
+            MemoryModuleType.JOB_SITE,
             MemoryModuleType.POTENTIAL_JOB_SITE,
             MemoryModuleType.MEETING_POINT,
             MemoryModuleType.MOBS,
@@ -97,11 +105,66 @@ public class VillagerBrain {
         return brain;
     }
 
+    private final VillagerEntityMCA entity;
 
-    public VillagerBrain(CDataManager data) {
+    public final CTagParameter memories;
+    public final CIntegerParameter personality;
+    public final CIntegerParameter mood;
 
+    public VillagerBrain(VillagerEntityMCA entity, CDataManager data) {
+        this.entity = entity;
+        memories = data.newTag("memories");
+        personality = data.newInteger("personality");
+        mood = data.newInteger("mood");
     }
 
+    public void think() {
+        if (entity.world.random.nextBoolean()) {
+            if (getMoodLevel() <= -15) {
+                getPersonality().getMoodGroup().getParticles().ifPresent(entity::produceParticles);
+            } else if (getMoodLevel() >= 15) {
+                entity.produceParticles(ParticleTypes.HAPPY_VILLAGER);
+            }
+        }
+    }
 
+    public void randomize() {
+        personality.set(Personality.getRandom().getId());
+        //since minLevel is -100 and it makes no
+        mood.set(Mood.getLevel(entity.world.random.nextInt(Mood.maxLevel - Mood.normalMinLevel + 1) + Mood.normalMinLevel));
+    }
+
+    public void updateMemories(Memories memories) {
+        CNBT nbt = this.memories.get().copy();
+        nbt.setTag(memories.getPlayerUUID().toString(), memories.toCNBT());
+        this.memories.set(nbt);
+    }
+
+    public Memories getMemoriesForPlayer(PlayerEntity player) {
+        CNBT cnbt = memories.get();
+        CNBT compoundTag = cnbt.getCompoundTag(player.getUuid().toString());
+        Memories returnMemories = Memories.fromCNBT(entity, compoundTag);
+        if (returnMemories == null) {
+            returnMemories = new Memories(this, player.world.getTimeOfDay(), player.getUuid());
+            memories.set(memories.get().setTag(player.getUuid().toString(), returnMemories.toCNBT()));
+        }
+        return returnMemories;
+    }
+
+    public Personality getPersonality() {
+        return Personality.getById(personality.get());
+    }
+
+    public Mood getMood() {
+        return getPersonality().getMoodGroup().getMood(mood.get());
+    }
+
+    public void modifyMoodLevel(int mood) {
+        this.mood.set(Mood.getLevel(this.getMoodLevel() + mood));
+    }
+
+    public int getMoodLevel() {
+        return mood.get();
+    }
 
 }

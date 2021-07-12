@@ -39,26 +39,32 @@ public class CNBT implements Serializable {
         }
     }
 
+    @Deprecated
     public int getInteger(String key) {
         return mcCompound.getInt(key);
     }
 
+    @Deprecated
     public String getString(String key) {
         return mcCompound.getString(key);
     }
 
+    @Deprecated
     public float getFloat(String key) {
         return mcCompound.getFloat(key);
     }
 
+    @Deprecated
     public double getDouble(String key) {
         return mcCompound.getDouble(key);
     }
 
+    @Deprecated
     public boolean getBoolean(String key) {
         return mcCompound.getBoolean(key);
     }
 
+    @Deprecated
     public UUID getUUID(String key) {
         if (mcCompound.containsUuid(key)) {
             return mcCompound.getUuid(key);
@@ -67,60 +73,74 @@ public class CNBT implements Serializable {
         }
     }
 
+    @Deprecated
     public byte getByte(String key) {
         return mcCompound.getByte(key);
     }
 
+    @Deprecated
     public void setUUID(String key, UUID value) {
         mcCompound.putUuid(key, value);
     }
 
+    @Deprecated
     public void setString(String key, String value) {
         mcCompound.putString(key, value);
     }
 
+    @Deprecated
     public CNBT getCompoundTag(String key) {
         return CNBT.fromMC(mcCompound.getCompound(key));
     }
 
+    @Deprecated
     public void setInteger(String key, int value) {
         mcCompound.putInt(key, value);
     }
 
+    @Deprecated
     public CNBT setBoolean(String key, boolean value) {
         mcCompound.putBoolean(key, value);
         return this;
     }
 
+    @Deprecated
     public CNBT setTag(String key, CNBT value) {
         mcCompound.put(key, value.mcCompound);
         return this;
     }
 
+    @Deprecated
     public void setDouble(String key, double value) {
         mcCompound.putDouble(key, value);
     }
 
+    @Deprecated
     public void setFloat(String key, float value) {
         mcCompound.putFloat(key, value);
     }
 
+    @Deprecated
     public void setByte(String key, byte value) {
         mcCompound.putByte(key, value);
     }
 
+    @Deprecated
     public void setList(String key, NbtList list) {
         mcCompound.put(key, list);
     }
 
+    @Deprecated
     public CNBT copy() {
         return new CNBT(mcCompound.copy());
     }
 
+    @Deprecated
     public NbtList getList(String key) {
         return mcCompound.getList(key, 9);
     }
 
+    @Deprecated
     public NbtList getCompoundList(String key) {
         return mcCompound.getList(key, 10);
     }
@@ -141,6 +161,7 @@ public class CNBT implements Serializable {
         this.setInteger(key + "Z", pos.getZ());
     }
 
+    @Deprecated
     public void set(String key, Object value) {
         Class<?> clazz = value.getClass();
         if (value instanceof Float) {
@@ -164,6 +185,7 @@ public class CNBT implements Serializable {
         }
     }
 
+    @Deprecated
     public Set<String> getKeySet() {
         return mcCompound.getKeys();
     }

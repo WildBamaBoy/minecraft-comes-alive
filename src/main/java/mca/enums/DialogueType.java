@@ -9,10 +9,6 @@ public enum DialogueType {
 
     private static final DialogueType[] VALUES = values();
 
-    public int getId() {
-        return ordinal() - 1;
-    }
-
     public String getName() {
         return name().toLowerCase();
     }

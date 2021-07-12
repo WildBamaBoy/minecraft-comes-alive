@@ -1,6 +1,6 @@
 package mca.enums;
 
-import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.Memories;
 
 public enum Interaction {
@@ -36,14 +36,6 @@ public enum Interaction {
         return name;
     }
 
-    public int getBaseChance() {
-        return baseChance;
-    }
-
-    public int getBaseHearts() {
-        return baseHearts;
-    }
-
     public int getBonusChanceForCurrentPoints(int hearts) {
         int returnAmount = 0;
 
@@ -63,20 +55,20 @@ public enum Interaction {
         return returnAmount;
     }
 
-    public int getSuccessChance(VillagerEntityMCA villager, Memories memory) {
-        return getBaseChance()
+    public int getSuccessChance(VillagerBrain brain, Memories memory) {
+        return baseChance
                 - memory.getInteractionFatigue() * 5
                 + memory.getHearts() / 5
-                + villager.getPersonality().getSuccessModifierForInteraction(this)
-                + villager.getMood().getSuccessModifierForInteraction(this)
-                + villager.getMood().getMoodGroup().getSuccessModifierForInteraction(this)
+                + brain.getPersonality().getSuccessModifierForInteraction(this)
+                + brain.getMood().getSuccessModifierForInteraction(this)
+                + brain.getMood().getMoodGroup().getSuccessModifierForInteraction(this)
                 + getBonusChanceForCurrentPoints(memory.getHearts());
     }
 
-    public int getHearts(VillagerEntityMCA villager) {
-        return getBaseHearts()
-                + villager.getPersonality().getHeartsModifierForInteraction(this)
-                + villager.getMood().getHeartsModifierForInteraction(this)
-                + villager.getMood().getMoodGroup().getHeartsModifierForInteraction(this);
+    public int getHearts(VillagerBrain brain) {
+        return baseHearts
+                + brain.getPersonality().getHeartsModifierForInteraction(this)
+                + brain.getMood().getHeartsModifierForInteraction(this)
+                + brain.getMood().getMoodGroup().getHeartsModifierForInteraction(this);
     }
 }

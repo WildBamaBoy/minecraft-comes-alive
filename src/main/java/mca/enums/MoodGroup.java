@@ -1,10 +1,25 @@
 package mca.enums;
 
+import java.util.Optional;
+
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+
 public enum MoodGroup {
-    UNASSIGNED,
-    GENERAL,
-    PLAYFUL,
-    SERIOUS;
+    UNASSIGNED(null),
+    GENERAL(ParticleTypes.SPLASH),
+    PLAYFUL(ParticleTypes.HAPPY_VILLAGER),
+    SERIOUS(ParticleTypes.ANGRY_VILLAGER);
+
+    private final Optional<ParticleEffect> particles;
+
+    MoodGroup(ParticleEffect particles) {
+        this.particles = Optional.ofNullable(particles);
+    }
+
+    public Optional<ParticleEffect> getParticles() {
+        return particles;
+    }
 
     public Mood getMood(int moodPoints) {
         int level = Mood.getLevel(moodPoints);

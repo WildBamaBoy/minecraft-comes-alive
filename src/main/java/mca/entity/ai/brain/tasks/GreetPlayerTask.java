@@ -11,7 +11,6 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
 import java.util.Optional;
 
 public class GreetPlayerTask extends Task<VillagerEntityMCA> {
@@ -57,7 +56,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         LookTargetUtil.lookAt(villager, target);
         if (isWithinGreetingDistance(villager, target)) {
             if (!talked) {
-                Memories memories = villager.getMemoriesForPlayer(target);
+                Memories memories = villager.getVillagerBrain().getMemoriesForPlayer(target);
                 int day = (int) (villager.world.getTimeOfDay() / 24000L);
                 memories.setLastSeen(day);
 
@@ -90,12 +89,12 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
     private boolean shouldGreet(VillagerEntityMCA villager, PlayerEntity player) {
         //first check relationships, only family, friends and foes will greet you
         boolean isRelative = FamilyTree.get(villager.world).isRelative(villager.getUuid(), player.getUuid());
-        boolean isSpouse = villager.spouseUUID.get().isPresent() && villager.spouseUUID.get().get().equals(player.getUuid());
-        Memories memories = villager.getMemoriesForPlayer(player);
+        boolean isSpouse = villager.spouseUUID.get().filter(a -> a.equals(player.getUuid())).isPresent();
+        Memories memories = villager.getVillagerBrain().getMemoriesForPlayer(player);
         int day = (int) (villager.world.getTimeOfDay() / 24000L);
 
         if (isSpouse || isRelative || Math.abs(memories.getHearts()) >= MCA.getConfig().greetHeartsThreshold) {
-            int diff = day - memories.getLastSeen();
+            long diff = day - memories.getLastSeen();
 
             if (diff > MCA.getConfig().greetAfterDays && memories.getLastSeen() > 0) {
                 return true;
@@ -111,8 +110,6 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
     }
 
     private boolean isWithinGreetingDistance(VillagerEntityMCA villager, PlayerEntity player) {
-        BlockPos p = player.getBlockPos();
-        BlockPos v = villager.getBlockPos();
-        return v.isWithinDistance(p, 3.0D);
+        return villager.getBlockPos().isWithinDistance(player.getBlockPos(), 3.0D);
     }
 }

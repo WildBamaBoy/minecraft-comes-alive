@@ -8,6 +8,7 @@ import mca.cobalt.network.NetworkHandler;
 import mca.core.Constants;
 import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.Memories;
 import mca.enums.Chore;
 import mca.enums.MarriageState;
@@ -162,7 +163,7 @@ public class GuiInteract extends Screen {
                                 marriageState == MarriageState.MARRIED_TO_PLAYER ? "marriedToPlayer" :
                                         "notMarried";
 
-        Memories memory = villager.getMemoriesForPlayer(player);
+        Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
         String heartIcon =
                 memory.getHearts() < 0 ? "blackHeart" :
                         memory.getHearts() >= 100 ? "goldHeart" :
@@ -200,22 +201,24 @@ public class GuiInteract extends Screen {
         //age or profession
         renderTooltip(transform, villager.isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
 
+        VillagerBrain brain = villager.getVillagerBrain();
+
         //mood
-        String color = villager.getMoodLevel() < 0 ? Constants.Color.RED : villager.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
-        Text mood = new TranslatableText("gui.interact.label.mood", villager.getMood().getName());
+        String color = brain.getMoodLevel() < 0 ? Constants.Color.RED : brain.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
+        Text mood = new TranslatableText("gui.interact.label.mood", brain.getMood().getName());
         renderTooltip(transform, color + mood, 10, 30 + h * 2);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {
-            renderTooltip(transform, villager.getPersonality().getDescription(), 10, 30 + h * 3);
+            renderTooltip(transform, brain.getPersonality().getDescription(), 10, 30 + h * 3);
         } else {
             //White as we don't know if a personality is negative
-            renderTooltip(transform, new TranslatableText("gui.interact.label.personality", villager.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 3);
+            renderTooltip(transform, new TranslatableText("gui.interact.label.personality", brain.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 3);
         }
 
         //hearts
         if (hoveringOverIcon("redHeart")) {
-            int hearts = villager.getMemoriesForPlayer(player).getHearts();
+            int hearts = brain.getMemoriesForPlayer(player).getHearts();
             drawHoveringIconText(transform, hearts + " hearts", "redHeart");
         }
 

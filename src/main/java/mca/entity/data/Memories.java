@@ -1,112 +1,111 @@
 package mca.entity.data;
 
 import mca.cobalt.minecraft.nbt.CNBT;
-import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.brain.VillagerBrain;
 import mca.enums.DialogueType;
+import net.minecraft.nbt.NbtCompound;
 
 import java.util.UUID;
+
+import org.jetbrains.annotations.Nullable;
 
 public class Memories {
 
     private int hearts;
 
-    private UUID playerUUID = Constants.ZERO_UUID;
+    private UUID playerUUID;
 
     private int interactionFatigue;
 
-    private int dialogueType = DialogueType.UNASSIGNED.getId();
+    private DialogueType dialogueType;
 
-    private VillagerEntityMCA villager;
+    private VillagerBrain brain;
 
-    private int lastSeen;
+    private long lastSeen;
 
-    public int getHearts() {
-        return hearts;
+    public Memories(VillagerBrain brain, long time, UUID uuid) {
+        this.brain = brain;
+        playerUUID = uuid;
+        dialogueType = DialogueType.ADULT;
+        lastSeen = time / 24000L;
     }
 
     public UUID getPlayerUUID() {
         return playerUUID;
     }
 
-    public int getInteractionFatigue() {
-        return interactionFatigue;
-    }
-
-    public static Memories getNew(VillagerEntityMCA villager, UUID uuid) {
-        Memories memory = new Memories();
-
-        memory.villager = villager;
-        memory.playerUUID = uuid;
-        memory.interactionFatigue = 0;
-        memory.dialogueType = DialogueType.ADULT.getId();
-        memory.lastSeen = (int) (villager.world.getTimeOfDay() / 24000L);
-
-        return memory;
-    }
-
-    public static Memories fromCNBT(VillagerEntityMCA villager, CNBT cnbt) {
-        if (cnbt == null || cnbt.getMcCompound().isEmpty()) {
-            return null;
-        }
-
-        Memories memories = getNew(villager, cnbt.getUUID("playerUUID"));
-
-        memories.hearts = cnbt.getInteger("hearts");
-        memories.interactionFatigue = cnbt.getInteger("interactionFatigue");
-        memories.dialogueType = cnbt.getInteger("dialogueType");
-        memories.lastSeen = cnbt.getInteger("lastSeen");
-
-        return memories;
-    }
-
-    public CNBT toCNBT() {
-        CNBT nbt = CNBT.createNew();
-
-        nbt.setUUID("playerUUID", playerUUID);
-        nbt.setInteger("hearts", hearts);
-        nbt.setInteger("interactionFatigue", interactionFatigue);
-        nbt.setInteger("dialogueType", dialogueType);
-        nbt.setInteger("lastSeen", lastSeen);
-
-        return nbt;
+    public int getHearts() {
+        return hearts;
     }
 
     public void setHearts(int value) {
         this.hearts = value;
-        villager.updateMemories(this);
+        brain.updateMemories(this);
     }
 
     public void modHearts(int value) {
-        this.hearts += value;
-        villager.updateMemories(this);
+        setHearts(this.hearts += value);
+    }
+
+    public int getInteractionFatigue() {
+        return interactionFatigue;
     }
 
     public void setInteractionFatigue(int value) {
         this.interactionFatigue = value;
-        villager.updateMemories(this);
+        brain.updateMemories(this);
     }
 
     public void modInteractionFatigue(int value) {
         this.interactionFatigue += value;
-        villager.updateMemories(this);
+        brain.updateMemories(this);
     }
 
     public DialogueType getDialogueType() {
-        return DialogueType.byId(this.dialogueType);
+        return dialogueType;
     }
 
-    public void setDialogueType(DialogueType value) {
-        this.dialogueType = value.getId();
-        villager.updateMemories(this);
+    public void setDialogueType(DialogueType dialogueType) {
+        this.dialogueType = dialogueType;
+        brain.updateMemories(this);
     }
 
-    public int getLastSeen() {
+    public long getLastSeen() {
         return lastSeen;
     }
 
     public void setLastSeen(int lastSeen) {
         this.lastSeen = lastSeen;
-        villager.updateMemories(this);
+        brain.updateMemories(this);
     }
+
+    public CNBT toCNBT() {
+        NbtCompound nbt = new NbtCompound();
+
+        nbt.putUuid("playerUUID", playerUUID);
+        nbt.putInt("hearts", hearts);
+        nbt.putInt("interactionFatigue", interactionFatigue);
+        nbt.putInt("dialogueType", dialogueType.ordinal());
+        nbt.putLong("lastSeen", lastSeen);
+
+        return CNBT.fromMC(nbt);
+    }
+
+    public static Memories fromCNBT(VillagerEntityMCA villager, @Nullable CNBT cnbt) {
+        if (cnbt == null || cnbt.getMcCompound().isEmpty()) {
+            return null;
+        }
+
+        NbtCompound tag = cnbt.getMcCompound();
+        Memories memories = new Memories(villager.getVillagerBrain(), villager.world.getTimeOfDay(), tag.getUuid("playerUUID"));
+
+        memories.hearts = tag.getInt("hearts");
+        memories.interactionFatigue = tag.getInt("interactionFatigue");
+        memories.dialogueType = DialogueType.byId(tag.getInt("dialogueType"));
+        memories.lastSeen = tag.getLong("lastSeen");
+
+        return memories;
+    }
+
 }

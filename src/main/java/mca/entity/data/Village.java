@@ -180,7 +180,7 @@ public class Village implements Serializable, Iterable<Building> {
                 Entity entity = ((ServerWorld) player.world).getEntity(v);
                 if (entity instanceof VillagerEntityMCA) {
                     VillagerEntityMCA villager = (VillagerEntityMCA) entity;
-                    sum += villager.getMemoriesForPlayer(player).getHearts();
+                    sum += villager.getVillagerBrain().getMemoriesForPlayer(player).getHearts();
                     residents++;
                 }
             }

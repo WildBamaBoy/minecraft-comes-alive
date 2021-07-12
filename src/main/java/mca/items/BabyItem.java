@@ -1,7 +1,6 @@
 package mca.items;
 
 import mca.cobalt.localizer.Localizer;
-import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
@@ -131,7 +130,7 @@ public class BabyItem extends Item {
             playerData.setBabyPresent(false);
 
             // set proper dialogue type
-            Memories memories = child.getMemoriesForPlayer(player);
+            Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
             memories.setDialogueType(DialogueType.CHILDP);
             memories.setHearts(MCA.getConfig().childInitialHearts);
 
@@ -147,7 +146,7 @@ public class BabyItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
         if (stack.hasTag()) {
             PlayerEntity player = MinecraftClient.getInstance().player;
-            CNBT nbt = CNBT.fromMC(stack.getTag());
+            NbtCompound nbt = stack.getTag();
 
             String babyName = getBabyName(stack);
             boolean unnamed = Strings.isNullOrEmpty(babyName);
@@ -158,7 +157,7 @@ public class BabyItem extends Item {
                     .append(unnamed ? new TranslatableText("gui.label.unnamed") : new LiteralText(babyName))
             );
 
-            int ageInMinutes = nbt.getInteger("age");
+            int ageInMinutes = nbt.getInt("age");
             tooltip.add(new TranslatableText("gui.label.age")
                     .append(" ").append(String.valueOf(ageInMinutes))
                     .append(" ").append(new TranslatableText("gui.label.minute" + (ageInMinutes == 1 ? "s" : "")))
@@ -166,7 +165,7 @@ public class BabyItem extends Item {
 
             tooltip.add(new TranslatableText("gui.label.parent")
                     .append(" ")
-                    .append(nbt.getUUID("ownerUUID").equals(player.getUuid()) ? new TranslatableText("gui.label.you") : new LiteralText(nbt.getString("ownerName"))));
+                    .append(nbt.getUuid("ownerUUID").equals(player.getUuid()) ? new TranslatableText("gui.label.you") : new LiteralText(nbt.getString("ownerName"))));
 
             if (nbt.getBoolean("isInfected")) {
                 tooltip.add(new TranslatableText("gui.label.infected").formatted(Formatting.GREEN));

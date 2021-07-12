@@ -44,6 +44,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.*;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -81,7 +82,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     private final Genetics genetics = Genetics.create(data);
     private final Pregnancy pregnancy = new Pregnancy(this, data);
-    private final VillagerBrain mcaBrain = new VillagerBrain(data);
+    private final VillagerBrain mcaBrain = new VillagerBrain(this, data);
 
     public final SimpleInventory inventory = new SimpleInventory(27);
 
@@ -92,8 +93,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final CStringParameter hair = data.newString("hair");
 
     public final CStringParameter hairOverlay = data.newString("hairOverlay");
-
-    public final CTagParameter memories = data.newTag("memories");
 
     public final CIntegerParameter moveState = data.newInteger("moveState");
 
@@ -113,8 +112,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final CBooleanParameter importantProfession = data.newBoolean("importantProfession", false);
 
     //personality and mood
-    public final CIntegerParameter personality = data.newInteger("personality");
-    public final CIntegerParameter mood = data.newInteger("mood");
 
     public final CIntegerParameter village = data.newInteger("village", -1);
     public final CIntegerParameter building = data.newInteger("buildings", -1);
@@ -168,6 +165,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return (Brain<VillagerEntityMCA>) brain;
     }
 
+    public VillagerBrain getVillagerBrain() {
+        return mcaBrain;
+    }
+
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
@@ -177,7 +178,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         villagerName.set(API.getRandomName(getGenetics().getGender()));
 
         initializeSkin();
-        initializePersonality();
+        mcaBrain.randomize();
 
         return data;
     }
@@ -199,26 +200,20 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public boolean tryAttack(Entity target) {
         //villager is peaceful and wont hurt as long as not necessary
-        if (getPersonality() == Personality.PEACEFUL && getHealth() == getMaxHealth()) {
+        if (mcaBrain.getPersonality() == Personality.PEACEFUL && getHealth() == getMaxHealth()) {
             return false;
         }
 
         //we don't use attributes
-        float damage = getProfession() == ProfessionsMCA.GUARD ? 9.0F : 3.0F;
-        float knockback = 3.0F;
+        float damage = getProfession() == ProfessionsMCA.GUARD ? 9 : 3;
+        float knockback = 3;
 
         //personality bonus
-        if (getPersonality() == Personality.WEAK) {
-            damage *= 0.75;
-        } else if (getPersonality() == Personality.CONFIDENT) {
-            damage *= 1.25;
-        } else if (getPersonality() == Personality.STRONG) {
-            damage *= 1.5;
-        }
+        damage *= mcaBrain.getPersonality().getDamageModifier();
 
         //enchantment
         if (target instanceof LivingEntity) {
-            damage += EnchantmentHelper.getAttackDamage(this.getMainHandStack(), ((LivingEntity) target).getGroup());
+            damage += EnchantmentHelper.getAttackDamage(getMainHandStack(), ((LivingEntity) target).getGroup());
             knockback += EnchantmentHelper.getKnockback(this);
         }
 
@@ -232,13 +227,17 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         //knockback and post damage stuff
         if (damageDealt) {
-            if (knockback > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).takeKnockback(knockback * 0.5F, MathHelper.sin(this.getYaw() * ((float) Math.PI / 180F)), -MathHelper.cos(this.getYaw() * ((float) Math.PI / 180F)));
-                this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
+            if (knockback > 0 && target instanceof LivingEntity) {
+                ((LivingEntity) target).takeKnockback(
+                        knockback / 2, MathHelper.sin(getYaw() * ((float)Math.PI / 180F)),
+                        -MathHelper.cos(this.getYaw() * ((float) Math.PI / 180F))
+                );
+
+                setVelocity(getVelocity().multiply(0.6D, 1, 0.6));
             }
 
-            this.applyDamageEffects(this, target);
-            this.onAttacking(target);
+            applyDamageEffects(this, target);
+            onAttacking(target);
         }
 
         return damageDealt;
@@ -273,11 +272,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
 
         //set speed
-        float speed = 1.0f;
-
-        //personality bonuses
-        if (getPersonality() == Personality.ATHLETIC) speed *= 1.15;
-        if (getPersonality() == Personality.SLEEPY) speed *= 0.8;
+        float speed = mcaBrain.getPersonality().getSpeedModifier();
 
         //width and size impact
         speed /= genetics.width.get();
@@ -319,12 +314,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         hairOverlay.set(h.overlay());
     }
 
-    private void initializePersonality() {
-        personality.set(Personality.getRandom().getId());
-        //since minLevel is -100 and it makes no
-        mood.set(Mood.getLevel(random.nextInt(Mood.maxLevel - Mood.normalMinLevel + 1) + Mood.normalMinLevel));
-    }
-
     @Override
     public final boolean damage(DamageSource source, float damageAmount) {
         // Guards take 50% less damage
@@ -332,9 +321,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             damageAmount *= 0.5;
         }
 
-        //personality bonus
-        if (getPersonality() == Personality.TOUGH) damageAmount *= 0.5;
-        if (getPersonality() == Personality.FRAGILE) damageAmount *= 1.25;
+        damageAmount *= mcaBrain.getPersonality().getWeaknessModifier();
 
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
@@ -428,7 +415,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public void onNeighbourDeath(DamageSource cause) {
-        modifyMoodLevel(-10);
+        mcaBrain.modifyMoodLevel(-10);
     }
 
     @Override
@@ -465,33 +452,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public final Text getCustomName() {
         return new LiteralText(villagerName.get());
-    }
-
-    public Memories getMemoriesForPlayer(PlayerEntity player) {
-        CNBT cnbt = memories.get();
-        CNBT compoundTag = cnbt.getCompoundTag(player.getUuid().toString());
-        Memories returnMemories = Memories.fromCNBT(this, compoundTag);
-        if (returnMemories == null) {
-            returnMemories = Memories.getNew(this, player.getUuid());
-            memories.set(memories.get().setTag(player.getUuid().toString(), returnMemories.toCNBT()));
-        }
-        return returnMemories;
-    }
-
-    public Personality getPersonality() {
-        return Personality.getById(personality.get());
-    }
-
-    public Mood getMood() {
-        return getPersonality().getMoodGroup().getMood(mood.get());
-    }
-
-    public void modifyMoodLevel(int mood) {
-        this.mood.set(Mood.getLevel(this.getMoodLevel() + mood));
-    }
-
-    public int getMoodLevel() {
-        return mood.get();
     }
 
     private void goHome(PlayerEntity player) {
@@ -567,18 +527,19 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public void say(PlayerEntity target, String phraseId, String... params) {
-        ArrayList<String> paramList = new ArrayList<>();
-        Collections.addAll(paramList, params);
-
-        // Player is always first in params passed to localizer for say().
-        paramList.add(0, target.getName().getString());
-
         String chatPrefix = MCA.getConfig().villagerChatPrefix + getDisplayName().getString() + ": ";
         if (isInfected.get()) { // Infected villagers do not speak
             sendMessageTo(chatPrefix + "???", target);
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         } else {
-            DialogueType dialogueType = getMemoriesForPlayer(target).getDialogueType();
+            DialogueType dialogueType = mcaBrain.getMemoriesForPlayer(target).getDialogueType();
+
+            ArrayList<String> paramList = new ArrayList<>();
+            // Player is always first in params passed to localizer for say().
+            paramList.add(target.getName().getString());
+
+            Collections.addAll(paramList, params);
+
             String localizedText = Localizer.localize(dialogueType.getName() + "." + phraseId, "generic." + phraseId, paramList);
             sendMessageTo(chatPrefix + localizedText, target);
         }
@@ -623,8 +584,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         float successChance = 0.85F;
         int heartsBoost = 5;
         if (interaction != null) {
-            heartsBoost = interaction.getHearts(this);
-            successChance = interaction.getSuccessChance(this, memory) / 100.0f;
+            heartsBoost = interaction.getHearts(mcaBrain);
+            successChance = interaction.getSuccessChance(mcaBrain, memory) / 100.0f;
         }
 
         boolean succeeded = random.nextFloat() < successChance;
@@ -636,22 +597,21 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             this.world.sendEntityStatus(this, (byte) 15);
 
             //sensitive people doubles the loss
-            if (getPersonality() == Personality.SENSITIVE) {
+            if (mcaBrain.getPersonality() == Personality.SENSITIVE) {
                 heartsBoost *= 2;
             }
         }
 
         memory.modInteractionFatigue(1);
         memory.modHearts(succeeded ? heartsBoost : -heartsBoost);
-        modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
+        mcaBrain.modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
 
-        String responseId = String.format("%s.%s", interactionName, succeeded ? "success" : "fail");
-        say(player, responseId);
+        say(player, String.format("%s.%s", interactionName, succeeded ? "success" : "fail"));
         closeGUIIfOpen();
     }
 
     public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
-        Memories memory = getMemoriesForPlayer(player);
+        Memories memory = mcaBrain.getMemoriesForPlayer(player);
         Optional<Button> button = API.getButtonById(guiKey, buttonId);
         if (!button.isPresent()) {
             MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
@@ -730,7 +690,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                             }
 
                             //modify mood and hearts
-                            modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
+                            mcaBrain.modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
                             memory.modHearts(giftValue);
                         }
                     }
@@ -858,32 +818,15 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             this.headYaw += 50.0F;
         }
 
-        if (this.age % 20 != 0) {
-            return;
+        if (age % 20 == 0) {
+            mcaBrain.think();
         }
+    }
 
-        if (random.nextBoolean()) {
-            if (getMoodLevel() <= -15) {
-                switch (getPersonality().getMoodGroup()) {
-                    case GENERAL:
-                        this.produceParticles(ParticleTypes.SPLASH);
-
-                        break;
-                    case PLAYFUL:
-                        this.produceParticles(ParticleTypes.SMOKE);
-
-                        break;
-                    case SERIOUS:
-                        this.produceParticles(ParticleTypes.ANGRY_VILLAGER);
-
-                        break;
-                    default:
-                }
-
-            } else if (getMoodLevel() >= 15) {
-                this.produceParticles(ParticleTypes.HAPPY_VILLAGER);
-            }
-        }
+    // we make it public here
+    @Override
+    public void produceParticles(ParticleEffect parameters) {
+        super.produceParticles(parameters);
     }
 
     //report potential buildings within this villagers reach
@@ -913,7 +856,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
             //and no house
             if (village.get() >= 0 && building.get() == -1) {
-                VillageManagerData.get(world).getOrEmpty(this.village.get()).ifPresentOrElse(village -> {
+                VillageManagerData.get(world).getOrEmpty(village.get()).ifPresentOrElse(village -> {
                   //choose the first building available, shuffled
                     ArrayList<Building> buildings = new ArrayList<>(village.getBuildings().values());
                     Collections.shuffle(buildings);
@@ -944,7 +887,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         if (age % 6000 == 0) {
             //check if village still exists
-            VillageManagerData.get(world).getOrEmpty(this.village.get()).ifPresentOrElse(village -> {
+            VillageManagerData.get(world).getOrEmpty(village.get()).ifPresentOrElse(village -> {
               //check if building still exists
                 if (village.getBuildings().containsKey(building.get())) {
                     //check if still resident
@@ -991,7 +934,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             if (next == AgeState.ADULT) {
                 // Notify player parents of the age up and set correct dialogue type.
                 getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
-                    getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
+                    mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
                     sendMessageTo(Localizer.localize("notify.child.grownup", villagerName.get()), p);
                 });
             }
@@ -1029,12 +972,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         choreAssigningPlayer.set(player.getUuid());
         this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
         this.brain.forget(MemoryModuleTypeMCA.STAYING);
-    }
-
-    public void updateMemories(Memories memories) {
-        CNBT nbt = this.memories.get().copy();
-        nbt.setTag(memories.getPlayerUUID().toString(), memories.toCNBT());
-        this.memories.set(nbt);
     }
 
     @Nullable

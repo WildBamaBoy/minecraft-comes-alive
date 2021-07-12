@@ -8,7 +8,6 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mca.core.Constants;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.data.Memories;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import mca.items.BabyItem;
@@ -74,21 +73,13 @@ public class AdminCommand {
 
     private static int decrementHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player =  ctx.getSource().getPlayer();
-        getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = v.getMemoriesForPlayer(player);
-            memories.setHearts(memories.getHearts() - 10);
-            v.updateMemories(memories);
-        });
+        getLoadedVillagers(ctx).forEach(v -> v.getVillagerBrain().getMemoriesForPlayer(player).modHearts(-10));
         return 0;
     }
 
     private static int incrementHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player =  ctx.getSource().getPlayer();
-        getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = v.getMemoriesForPlayer(player);
-            memories.setHearts(memories.getHearts() + 10);
-            v.updateMemories(memories);
-        });
+        getLoadedVillagers(ctx).forEach(v -> v.getVillagerBrain().getMemoriesForPlayer(player).modHearts(10));
         return 0;
     }
 
@@ -109,11 +100,7 @@ public class AdminCommand {
 
     private static int forceFullHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player =  ctx.getSource().getPlayer();
-        getLoadedVillagers(ctx).forEach(v -> {
-            Memories memories = v.getMemoriesForPlayer(player);
-            memories.setHearts(100);
-            v.updateMemories(memories);
-        });
+        getLoadedVillagers(ctx).forEach(v -> v.getVillagerBrain().getMemoriesForPlayer(player).setHearts(100));
         return 0;
     }
 

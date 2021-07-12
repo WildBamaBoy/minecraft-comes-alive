@@ -73,6 +73,39 @@ public enum Personality {
         return this.moodGroup;
     }
 
+    public float getDamageModifier() {
+        if (this == Personality.WEAK) {
+            return 0.75F;
+        }
+        if (this == Personality.CONFIDENT) {
+            return 1.25F;
+        }
+        if (this == Personality.STRONG) {
+            return 1.5F;
+        }
+        return 1;
+    }
+
+    public float getWeaknessModifier() {
+        if (this == Personality.TOUGH) {
+            return 0.5F;
+        }
+        if (this == Personality.FRAGILE) {
+            return 1.25F;
+        }
+        return 1;
+    }
+
+    public float getSpeedModifier() {
+        if (this == Personality.ATHLETIC) {
+            return 1.15F;
+        }
+        if (this == Personality.SLEEPY) {
+            return 0.8F;
+        }
+        return 1;
+    }
+
     public Text getName() {
         return new TranslatableText("personality." + name().toLowerCase());
     }

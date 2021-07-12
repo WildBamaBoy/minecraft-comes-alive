@@ -29,13 +29,14 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
+        // TODO: Translation string
         tooltip.add(new LiteralText("Halves the hearts required to marry someone."));
     }
 
     @Override
     public boolean handle(PlayerEntity player, VillagerEntityMCA villager) {
         PlayerSaveData playerData = PlayerSaveData.get(player.world, player.getUuid());
-        Memories memory = villager.getMemoriesForPlayer(player);
+        Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
         String response;
         boolean consume = false;
 
@@ -54,9 +55,9 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
         } else {
             response = "interaction.marry.success";
             playerData.marry(villager.getUuid(), villager.villagerName.get(), MarriageState.MARRIED);
-            villager.getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
+            villager.getVillagerBrain().getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
             villager.marry(player);
-            villager.modifyMoodLevel(15);
+            villager.getVillagerBrain().modifyMoodLevel(15);
             consume = true;
         }
 
