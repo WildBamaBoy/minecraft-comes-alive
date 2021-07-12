@@ -10,6 +10,7 @@ import mca.cobalt.localizer.Localizer;
 import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Village;
+import mca.enums.Gender;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
@@ -51,20 +52,28 @@ public class Procreation {
                 .filter(v -> !v.isMarried() && !v.isBaby())
                 .collect(Collectors.toList());
 
-        if (villagers.size() < 2 || villagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
+        if (villagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
+            return; // The village is too small.
+        }
+
+        // TODO: Added orientations.
+        List<VillagerEntityMCA> males = villagers.stream().filter(i -> i.getGenetics().getGender() == Gender.MALE).collect(Collectors.toList());
+        List<VillagerEntityMCA> females = villagers.stream().filter(i -> i.getGenetics().getGender() == Gender.FEMALE).collect(Collectors.toList());
+
+        if (males.isEmpty() || females.isEmpty()) {
             return; // Can't marry, not enough villagers
         }
 
         // choose a random villager
-        PoolUtil.pop(villagers, world.random).ifPresent(villager -> {
-            PoolUtil.pop(villagers, world.random).ifPresent(spouse -> {
+        PoolUtil.pop(males, world.random).ifPresent(husband -> {
+            PoolUtil.pop(females, world.random).ifPresent(wife -> {
                 // notify all players
-                Text phrase = Localizer.localizeText("events.marry", villager.getName().asString(), spouse.getName().asString());
+                Text phrase = Localizer.localizeText("events.marry", husband.getName().asString(), wife.getName().asString());
                 world.getPlayers().forEach((player) -> player.sendSystemMessage(phrase, player.getUuid()));
 
                 // marry
-                spouse.marry(villager);
-                villager.marry(spouse);
+                husband.marry(wife);
+                wife.marry(husband);
             });
         });
     }

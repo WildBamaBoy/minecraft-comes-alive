@@ -400,33 +400,35 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
 
-        if (!world.isClient) {
-            //The death of a villager negatively modifies the mood of nearby villagers
-            for (VillagerEntityMCA villager : WorldUtils.getCloseEntities(world, this, 32.0D, VillagerEntityMCA.class)) {
-                villager.modifyMoodLevel(-10);
-            }
-
-            InventoryUtils.dropAllItems(this, inventory);
-
-            if (isMarried()) {
-                UUID spouse = spouseUUID.get().orElse(Constants.ZERO_UUID);
-                Entity sp = ((ServerWorld) world).getEntity(spouse);
-                PlayerSaveData playerSaveData = PlayerSaveData.get(world, spouse);
-
-                // Notify spouse of the death
-                if (sp instanceof VillagerEntityMCA) {
-                    ((VillagerEntityMCA) sp).endMarriage();
-                } else {
-                    playerSaveData.endMarriage();
-                }
-            }
-
-            // Notify all parents of the death
-            // Entity[] parents = getBothParentEntities();
-            //TODO, optionally affect parents behavior
-
-            SavedVillagers.get(world).saveVillager(this);
+        if (world.isClient) {
+            return;
         }
+
+        InventoryUtils.dropAllItems(this, inventory);
+
+        //The death of a villager negatively modifies the mood of nearby villagers
+        WorldUtils
+            .getCloseEntities(world, this, 32, VillagerEntityMCA.class)
+            .forEach(villager -> villager.onNeighbourDeath(cause));
+
+        getSpouse().ifPresent(spouse -> {
+            // Notify spouse of the death
+            if (spouse instanceof VillagerEntityMCA) {
+                ((VillagerEntityMCA) spouse).endMarriage();
+            } else {
+                PlayerSaveData.get(world, spouse.getUuid()).endMarriage();
+            }
+        });
+
+        // Notify all parents of the death
+        // Entity[] parents = getBothParentEntities();
+        //TODO, optionally affect parents behavior
+
+        SavedVillagers.get(world).saveVillager(this);
+    }
+
+    public void onNeighbourDeath(DamageSource cause) {
+        modifyMoodLevel(-10);
     }
 
     @Override
@@ -988,8 +990,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
             if (next == AgeState.ADULT) {
                 // Notify player parents of the age up and set correct dialogue type.
-                Entity[] parents = getBothParentEntities();
-                Arrays.stream(parents).filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
+                getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
                     getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
                     sendMessageTo(Localizer.localize("notify.child.grownup", villagerName.get()), p);
                 });
@@ -1206,12 +1207,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return getFamilyTree().getEntry(this);
     }
 
-    public Entity[] getBothParentEntities() {
+    public Stream<Entity> getParents() {
         ServerWorld serverWorld = (ServerWorld) world;
         FamilyTreeEntry entry = getFamilyTreeEntry();
-        return new Entity[]{
+
+        return Stream.of(
                 serverWorld.getEntity(entry.getFather()),
                 serverWorld.getEntity(entry.getMother())
-        };
+        ).filter(Objects::nonNull);
     }
 }
