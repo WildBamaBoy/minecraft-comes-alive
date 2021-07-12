@@ -10,6 +10,9 @@ import mca.entity.data.FamilyTree;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 
+/**
+ * The progenator. Preg-genator? Preg-genator.
+ */
 public class Pregnancy {
     private final VillagerEntityMCA mother;
 

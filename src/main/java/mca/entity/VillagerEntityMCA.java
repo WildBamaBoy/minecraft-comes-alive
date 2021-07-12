@@ -10,7 +10,6 @@ import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.network.datasync.*;
 import mca.core.MCA;
 import mca.core.minecraft.*;
-import mca.core.minecraft.entity.village.VillageHelper;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.*;
 import mca.enums.*;
@@ -50,12 +49,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
-import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -65,9 +62,6 @@ import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.poi.PointOfInterest;
-import net.minecraft.world.poi.PointOfInterestStorage;
-import net.minecraft.world.poi.PointOfInterestType;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 import java.util.*;
@@ -79,6 +73,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     private final Genetics genetics = Genetics.create(data);
     private final Pregnancy pregnancy = new Pregnancy(this, data);
+    private final Residency residency = new Residency(this, data);
     private final VillagerBrain mcaBrain = new VillagerBrain(this, data);
 
     public final SimpleInventory inventory = new SimpleInventory(27);
@@ -88,25 +83,21 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final CStringParameter hair = data.newString("hair");
     public final CStringParameter hairOverlay = data.newString("hairOverlay");
 
-    public final CEnumParameter<MoveState> moveState = data.newEnum("moveState", MoveState.MOVE);
     public final CEnumParameter<AgeState> ageState = data.newEnum("ageState", AgeState.UNASSIGNED);
 
     public final CStringParameter spouseName = data.newString("spouseName");
     public final CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
 
     public final CEnumParameter<MarriageState> marriageState = data.newEnum("marriageState", MarriageState.NOT_MARRIED);
-    public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
-    public final CBooleanParameter isInfected = data.newBoolean("isInfected");
 
-    private final BlockPosParameter hangoutPos = data.newPos("hangoutPos");
+    public final CBooleanParameter isInfected = data.newBoolean("isInfected");
 
     public final CBooleanParameter importantProfession = data.newBoolean("importantProfession", false);
 
-    private final CIntegerParameter village = data.newInteger("village", -1);
-    private final CIntegerParameter building = data.newInteger("buildings", -1);
-
     //gift desaturation queue
     private final List<String> giftDesaturation = new LinkedList<>();
+
+    public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public int procreateTick = -1;
 
     @Nullable
@@ -351,7 +342,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         super.tick();
 
         if (world.isClient) {
-            onEachClientUpdate();
+            if (isProcreating.get()) {
+                this.headYaw += 50.0F;
+            }
+
+            if (age % 20 == 0) {
+                mcaBrain.clientTick();
+            }
         } else {
             onEachServerUpdate();
         }
@@ -442,78 +439,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public final Text getCustomName() {
         return new LiteralText(villagerName.get());
-    }
-
-    private void goHome(PlayerEntity player) {
-        if (getHome().equals(BlockPos.ORIGIN)) {
-            say(player, "interaction.gohome.fail");
-        } else {
-            BlockPos home = getHome();
-            this.moveTowards(home);
-            say(player, "interaction.gohome.success");
-        }
-    }
-
-    public BlockPos getWorkplace() {
-        Optional<GlobalPos> home = this.brain.getOptionalMemory(MemoryModuleType.JOB_SITE);
-        return home.map(GlobalPos::getPos).orElse(BlockPos.ORIGIN);
-    }
-
-    public void setWorkplace(PlayerEntity player) {
-        say(player, "interaction.setworkplace.success");
-        this.brain.remember(MemoryModuleType.JOB_SITE, GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos()));
-    }
-
-    public BlockPos getHangout() {
-        return hangoutPos.get();
-    }
-
-    public void setHangout(PlayerEntity player) {
-        say(player, "interaction.sethangout.success");
-        hangoutPos.set(player.getBlockPos());
-    }
-
-    public BlockPos getHome() {
-        Optional<GlobalPos> home = this.brain.getOptionalMemory(MemoryModuleType.HOME);
-        return home.map(GlobalPos::getPos).orElse(BlockPos.ORIGIN);
-    }
-
-    private void setHome(PlayerEntity player) {
-        //check if it is a bed
-        if (setHome(player.getBlockPos(), player.world)) {
-            say(player, "interaction.sethome.success");
-        } else {
-            say(player, "interaction.sethome.fail");
-        }
-    }
-
-    private void clearHome() {
-        ServerWorld serverWorld = ((ServerWorld) world);
-        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
-        Optional<GlobalPos> bed = this.brain.getOptionalMemory(MemoryModuleType.HOME);
-        bed.ifPresent(globalPos -> {
-            if (poiManager.hasTypeAt(PointOfInterestType.HOME, globalPos.getPos())) {
-                poiManager.releaseTicket(globalPos.getPos());
-            }
-        });
-    }
-
-    private boolean setHome(BlockPos pos, World world) {
-        clearHome();
-
-        ServerWorld serverWorld = ((ServerWorld) world);
-        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
-
-        //check if it is a bed
-        if (world.getBlockState(pos).isIn(BlockTags.BEDS)) {
-            brain.remember(MemoryModuleType.HOME, GlobalPos.create(world.getRegistryKey(), pos));
-            poiManager.getPosition(PointOfInterestType.HOME.getCompletionCondition(), (p) -> p.equals(pos), pos, 1);
-            serverWorld.sendEntityStatus(this, (byte) 14);
-
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public void say(PlayerEntity target, String phraseId, String... params) {
@@ -611,23 +536,15 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         switch (buttonId) {
             case "gui.button.move":
-                this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
-                this.brain.forget(MemoryModuleTypeMCA.STAYING);
-                updateMoveState();
+                mcaBrain.setMoveState(MoveState.MOVE, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.stay":
-                this.brain.forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
-                this.brain.remember(MemoryModuleTypeMCA.STAYING, true);
-                updateMoveState();
+                mcaBrain.setMoveState(MoveState.STAY, player);
                 closeGUIIfOpen();
-
                 break;
             case "gui.button.follow":
-                this.brain.remember(MemoryModuleTypeMCA.PLAYER_FOLLOWING, player);
-                this.brain.forget(MemoryModuleTypeMCA.STAYING);
-                getVillagerBrain().abandonJob();
-                updateMoveState();
+                mcaBrain.setMoveState(MoveState.FOLLOW, player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.ridehorse":
@@ -635,19 +552,19 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 closeGUIIfOpen();
                 break;
             case "gui.button.sethome":
-                setHome(player);
+                residency.setHome(player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.gohome":
-                goHome(player);
+                residency.goHome(player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.setworkplace":
-                setWorkplace(player);
+                residency.setWorkplace(player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.sethangout":
-                setHangout(player);
+                residency.setHangout(player);
                 closeGUIIfOpen();
                 break;
             case "gui.button.trade":
@@ -803,108 +720,21 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return false;
     }
 
-    private void onEachClientUpdate() {
-        if (isProcreating.get()) {
-            this.headYaw += 50.0F;
-        }
-
-        if (age % 20 == 0) {
-            mcaBrain.think();
-        }
-    }
-
     // we make it public here
     @Override
     public void produceParticles(ParticleEffect parameters) {
         super.produceParticles(parameters);
     }
 
-    //report potential buildings within this villagers reach
-    private void reportBuildings() {
-        VillageManagerData manager = VillageManagerData.get(world);
-
-        //fetch all near POIs
-        Stream<BlockPos> stream = ((ServerWorld) world).getPointOfInterestStorage().getPositions(
-                PointOfInterestType.ALWAYS_TRUE,
-                (p) -> !manager.cache.contains(p),
-                getLandingPos(),
-                48,
-                PointOfInterestStorage.OccupationStatus.ANY);
-
-        //check if it is a building
-        stream.forEach(manager::reportBuilding);
-    }
-
-    private void updateVillage() {
-        if (age % 600 == 0) {
-            reportBuildings();
-
-            //poor villager has no village
-            if (village.get() == -1) {
-                VillageHelper.getNearestVillage(this).map(Village::getId).ifPresent(village::set);
-            }
-
-            //and no house
-            if (village.get() >= 0 && building.get() == -1) {
-                VillageManagerData.get(world).getOrEmpty(village.get()).ifPresentOrElse(village -> {
-                  //choose the first building available, shuffled
-                    ArrayList<Building> buildings = new ArrayList<>(village.getBuildings().values());
-                    Collections.shuffle(buildings);
-                    for (Building b : buildings) {
-                        if (b.getBeds() > b.getResidents().size()) {
-                            //find a free bed within the building
-                            Optional<PointOfInterest> bed = ((ServerWorld) world).getPointOfInterestStorage().getInSquare(
-                                    PointOfInterestType.HOME.getCompletionCondition(),
-                                    b.getCenter(),
-                                    b.getPos0().getManhattanDistance(b.getPos1()),
-                                    PointOfInterestStorage.OccupationStatus.HAS_SPACE).filter((poi) -> b.containsPos(poi.getPos())).findAny();
-
-                            //sometimes the bed is blocked by someone
-                            if (bed.isPresent()) {
-                                //get a bed
-                                setHome(bed.get().getPos(), world);
-
-                                //add to residents
-                                building.set(b.getId());
-                                village.addResident(this, b.getId());
-                                break;
-                            }
-                        }
-                    }
-                }, () -> village.set(-1));
-            }
-        }
-
-        if (age % 6000 == 0) {
-            //check if village still exists
-            VillageManagerData.get(world).getOrEmpty(village.get()).ifPresentOrElse(village -> {
-              //check if building still exists
-                if (village.getBuildings().containsKey(building.get())) {
-                    //check if still resident
-                    //this is a rare case and is in most cases a save corruptionption
-                    if (village.getBuildings().get(building.get()).getResidents().keySet().stream().noneMatch((uuid) -> uuid.equals(this.uuid))) {
-                        building.set(-1);
-                        clearHome();
-                    }
-                } else {
-                    building.set(-1);
-                    clearHome();
-                }
-            }, () -> {
-                village.set(-1);
-                building.set(-1);
-                clearHome();
-            });
-        }
-    }
-
     private void onEachServerUpdate() {
         // Every second
-        if (this.age % 20 == 0) {
-            onEachServerSecond();
+        if (age % 20 == 0) {
+         // villager has a baby
+            pregnancy.tick();
+            mcaBrain.think();
         }
 
-        updateVillage();
+        residency.updateVillage();
 
         // Every 10 seconds and when we're not already dead
         if (this.age % 200 == 0 && this.getHealth() > 0.0F) {
@@ -935,16 +765,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
     }
 
-    private void onEachServerSecond() {
-        // villager has a baby
-        pregnancy.tick();
-        mcaBrain.performChores();
-
-        if (moveState.get() == MoveState.FOLLOW && !this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
-            this.updateMoveState();
-        }
-    }
-
     @Nullable
     @Override
     public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
@@ -957,7 +777,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public float getScaleFactor() {
-        return genetics.getVerticalScaleFactor() * getAgeState().getHeight();
+        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getAgeState().getHeight();
     }
 
     public float getHorizontalScaleFactor() {
@@ -971,7 +791,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public void onTrackedDataSet(TrackedData<?> par) {
-        if (ageState.getParam().equals(par) || genetics.size.equals(par)) {
+        if (ageState != null && (ageState.getParam().equals(par) || genetics.size.equals(par))) {
             calculateDimensions();
         }
 
@@ -981,16 +801,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public SimpleInventory getInventory() {
         return this.inventory;
-    }
-
-    public void updateMoveState() {
-        if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
-            this.moveState.set(MoveState.STAY);
-        } else if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
-            this.moveState.set(MoveState.FOLLOW);
-        } else {
-            this.moveState.set(MoveState.MOVE);
-        }
     }
 
     public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
@@ -1088,12 +898,12 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return super.getReputation(p_223107_1_);
     }
 
-    public void gossip(ServerWorld p_242368_1_, VillagerEntityMCA p_242368_2_, long p_242368_3_) {
-        if ((p_242368_3_ < this.lastGossipTime || p_242368_3_ >= this.lastGossipTime + 1200L) && (p_242368_3_ < p_242368_2_.lastGossipTime || p_242368_3_ >= p_242368_2_.lastGossipTime + 1200L)) {
-            this.getGossip().shareGossipFrom(p_242368_2_.getGossip(), this.random, 10);
-            this.lastGossipTime = p_242368_3_;
-            p_242368_2_.lastGossipTime = p_242368_3_;
-            this.summonGolem(p_242368_1_, p_242368_3_, 5);
+    public void gossip(ServerWorld world, VillagerEntityMCA entity, long time) {
+        if ((time < this.lastGossipTime || time >= this.lastGossipTime + 1200L) && (time < entity.lastGossipTime || time >= entity.lastGossipTime + 1200L)) {
+            this.getGossip().shareGossipFrom(entity.getGossip(), this.random, 10);
+            this.lastGossipTime = time;
+            entity.lastGossipTime = time;
+            this.summonGolem(world, time, 5);
         }
     }
 

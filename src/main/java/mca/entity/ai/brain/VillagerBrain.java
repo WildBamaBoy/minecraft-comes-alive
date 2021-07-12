@@ -2,6 +2,8 @@ package mca.entity.ai.brain;
 
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -17,6 +19,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 import mca.enums.Chore;
 import mca.enums.Mood;
+import mca.enums.MoveState;
 import mca.enums.Personality;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
@@ -32,6 +35,9 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Util;
 import net.minecraft.village.VillagerProfession;
 
+/**
+ * Handles memory and complex bodily functions. Such as walking, and not being a nitwit.
+ */
 public class VillagerBrain {
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
             MemoryModuleType.HOME,
@@ -117,6 +123,8 @@ public class VillagerBrain {
     private final CEnumParameter<Personality> personality;
     private final CIntegerParameter mood;
 
+    public final CEnumParameter<MoveState> moveState;
+
     private final CEnumParameter<Chore> activeChore;
     private final CUUIDParameter choreAssigningPlayer;
 
@@ -125,11 +133,12 @@ public class VillagerBrain {
         memories = data.newTag("memories");
         personality = data.newEnum("personality", Personality.UNASSIGNED);
         mood = data.newInteger("mood");
+        moveState = data.newEnum("moveState", MoveState.MOVE);
         activeChore = data.newEnum("activeChore", Chore.NONE);
         choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     }
 
-    public void think() {
+    public void clientTick() {
         if (entity.world.random.nextBoolean()) {
             if (getMoodLevel() <= -15) {
                 getPersonality().getMoodGroup().getParticles().ifPresent(entity::produceParticles);
@@ -139,7 +148,7 @@ public class VillagerBrain {
         }
     }
 
-    public void performChores() {
+    public void think() {
         // When you relog, it should continue doing the chores.
         // Chore saves but Activity doesn't, so this checks if the activity is not on there and puts it on there.
 
@@ -153,6 +162,8 @@ public class VillagerBrain {
                 entity.getBrain().doExclusively(ActivityMCA.CHORE);
             }
         });
+
+        updateMoveState();
     }
 
     public Chore getCurrentJob() {
@@ -221,6 +232,42 @@ public class VillagerBrain {
 
     public int getMoodLevel() {
         return mood.get();
+    }
+
+    public MoveState getMoveState() {
+        return moveState.get();
+    }
+
+    public void setMoveState(MoveState state, @Nullable PlayerEntity leader) {
+        moveState.set(state);
+        if (state == MoveState.MOVE) {
+            entity.getBrain().forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+            entity.getBrain().forget(MemoryModuleTypeMCA.STAYING);
+        }
+        if (state == MoveState.STAY) {
+            entity.getBrain().forget(MemoryModuleTypeMCA.PLAYER_FOLLOWING);
+            entity.getBrain().remember(MemoryModuleTypeMCA.STAYING, true);
+        }
+        if (state == MoveState.FOLLOW) {
+            entity.getBrain().remember(MemoryModuleTypeMCA.PLAYER_FOLLOWING, leader);
+            entity.getBrain().forget(MemoryModuleTypeMCA.STAYING);
+            abandonJob();
+        }
+    }
+
+    /**
+     * Read the move state from the active memory.
+     */
+    public void updateMoveState() {
+        if (getMoveState() == MoveState.FOLLOW && !entity.getBrain().getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+            if (entity.getBrain().getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+                moveState.set(MoveState.STAY);
+            } else if (entity.getBrain().getOptionalMemory(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) {
+                moveState.set(MoveState.FOLLOW);
+            } else {
+                moveState.set(MoveState.MOVE);
+            }
+        }
     }
 
 }

@@ -11,11 +11,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import net.minecraft.world.poi.PointOfInterest;
+import net.minecraft.world.poi.PointOfInterestStorage;
+import net.minecraft.world.poi.PointOfInterestType;
 
 import java.io.Serializable;
 import java.util.*;
@@ -54,6 +58,21 @@ public class Building implements Serializable {
         pos1X = pos0X;
         pos1Y = pos0Y;
         pos1Z = pos0Z;
+    }
+
+    public boolean hasFreeSpace() {
+        return getBeds() > getResidents().size();
+    }
+
+    public Optional<BlockPos> findOpenBed(ServerWorld world) {
+        return world.getPointOfInterestStorage().getInSquare(
+                        PointOfInterestType.HOME.getCompletionCondition(),
+                        getCenter(),
+                        getPos0().getManhattanDistance(getPos1()),
+                        PointOfInterestStorage.OccupationStatus.HAS_SPACE)
+                .filter((poi) -> containsPos(poi.getPos()))
+                .findAny()
+                .map(PointOfInterest::getPos);
     }
 
     public void addResident(Entity e) {
@@ -235,6 +254,10 @@ public class Building implements Serializable {
 
     public Map<UUID, String> getResidents() {
         return residents;
+    }
+
+    public boolean hasResident(UUID id) {
+        return residents.containsKey(id);
     }
 
     public Map<String, Integer> getBlocks() {

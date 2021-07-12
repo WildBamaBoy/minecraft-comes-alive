@@ -89,6 +89,7 @@ public class VillagerFactory {
         villager.getGenetics().setGender(gender.orElseGet(Gender::getRandom));
         villager.villagerName.set(name.orElseGet(() -> API.getRandomName(villager.getGenetics().getGender())));
         villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(24000 * 2) - 24000));
+        position.ifPresent(pos -> villager.updatePosition(pos.getX(), pos.getY(), pos.getZ()));
         VillagerData data = villager.getVillagerData();
         villager.setVillagerData(new VillagerData(
                 data.getType(),

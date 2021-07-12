@@ -359,7 +359,7 @@ public class GuiInteract extends Screen {
     private void drawCommandButtonMenu() {
         clearButtons();
         API.addButtons("command", this);
-        disableButton("gui.button." + villager.moveState.get().name().toLowerCase());
+        disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
     }
 
     private void drawClothingMenu() {

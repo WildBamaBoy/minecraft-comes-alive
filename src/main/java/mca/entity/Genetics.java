@@ -15,6 +15,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * Villagerized Genetic Diversity.
+ */
 public class Genetics implements Iterable<Genetics.Gene> {
 
     public static Genetics create(CDataManager data) {

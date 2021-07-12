@@ -164,6 +164,10 @@ public class Village implements Serializable, Iterable<Building> {
         return buildings;
     }
 
+    public Optional<Building> getBuilding(int id) {
+        return Optional.ofNullable(buildings.get(id));
+    }
+
     public Integer getId() {
         return id;
     }
