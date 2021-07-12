@@ -1,11 +1,11 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class VillageManagerData extends CWorldSavedData implements Iterable<Village> {
+public class VillageManagerData extends PersistentState implements Iterable<Village> {
 
     private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
 
@@ -25,8 +25,23 @@ public class VillageManagerData extends CWorldSavedData implements Iterable<Vill
     private int lastVillageId;
 
     public static VillageManagerData get(World world) {
-        return WorldUtils.loadData(world, VillageManagerData::new, "mca_villages");
+        return WorldUtils.loadData(world, VillageManagerData::new, VillageManagerData::new, "mca_villages");
     }
+
+    VillageManagerData() {}
+
+    VillageManagerData(NbtCompound nbt) {
+        lastBuildingId = nbt.getInt("lastBuildingId");
+        lastVillageId = nbt.getInt("lastVillageId");
+
+        NbtList v = nbt.getList("villages", NbtElement.COMPOUND_TYPE);
+        for (int i = 0; i < v.size(); i++) {
+            Village village = new Village();
+            village.load(v.getCompound(i));
+            villages.put(village.getId(), village);
+        }
+    }
+
 
     public Optional<Village> getOrEmpty(int id) {
         return Optional.ofNullable(villages.get(id));
@@ -50,7 +65,7 @@ public class VillageManagerData extends CWorldSavedData implements Iterable<Vill
     }
 
     @Override
-    public NbtCompound save(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         nbt.putInt("lastBuildingId", lastBuildingId);
         nbt.putInt("lastVillageId", lastVillageId);
         NbtList villageList = new NbtList();
@@ -59,19 +74,6 @@ public class VillageManagerData extends CWorldSavedData implements Iterable<Vill
         }
         nbt.put("villages", villageList);
         return nbt;
-    }
-
-    @Override
-    public void load(NbtCompound nbt) {
-        lastBuildingId = nbt.getInt("lastBuildingId");
-        lastVillageId = nbt.getInt("lastVillageId");
-
-        NbtList v = nbt.getList("villages", NbtElement.COMPOUND_TYPE);
-        for (int i = 0; i < v.size(); i++) {
-            Village village = new Village();
-            village.load(v.getCompound(i));
-            villages.put(village.getId(), village);
-        }
     }
 
     //adds a potential block to the processing queue

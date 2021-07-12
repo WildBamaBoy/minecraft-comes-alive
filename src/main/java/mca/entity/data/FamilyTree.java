@@ -1,23 +1,32 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Util;
+import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 
 import java.util.*;
 
-public class FamilyTree extends CWorldSavedData {
+public class FamilyTree extends PersistentState {
     private static final String DATA_ID = "MCA-FamilyTree";
 
     private final Map<UUID, FamilyTreeEntry> entries = new HashMap<>();
 
     public static FamilyTree get(World world) {
-        return WorldUtils.loadData(world, FamilyTree::new, DATA_ID);
+        return WorldUtils.loadData(world, FamilyTree::new, FamilyTree::new, DATA_ID);
+    }
+
+    FamilyTree() {}
+
+    FamilyTree(NbtCompound nbt) {
+        for (String uuid : nbt.getKeys()) {
+            FamilyTreeEntry entry = FamilyTreeEntry.fromCBNT(nbt.getCompound(uuid));
+            entries.put(UUID.fromString(uuid), entry);
+        }
     }
 
     //in case the villager does not exist, add
@@ -98,19 +107,11 @@ public class FamilyTree extends CWorldSavedData {
     }
 
     @Override
-    public NbtCompound save(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         for (Map.Entry<UUID, FamilyTreeEntry> entry : entries.entrySet()) {
             nbt.put(entry.getKey().toString(), entry.getValue().save());
         }
         return nbt;
-    }
-
-    @Override
-    public void load(NbtCompound nbt) {
-        for (String uuid : nbt.getKeys()) {
-            FamilyTreeEntry entry = FamilyTreeEntry.fromCBNT(nbt.getCompound(uuid));
-            entries.put(UUID.fromString(uuid), entry);
-        }
     }
 
     private void gatherParents(UUID current, Set<UUID> family, int depth) {

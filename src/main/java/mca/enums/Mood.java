@@ -59,11 +59,6 @@ public enum Mood {
         return new TranslatableText("mood." + name().toLowerCase());
     }
 
-    @Deprecated
-    public String getLocalizedName() {
-        return Localizer.localize("mood." + this.name().toLowerCase());
-    }
-
     public int getSuccessModifierForInteraction(Interaction interaction) {
         //no need for custom values
         return getHeartsModifierForInteraction(interaction);

@@ -1,15 +1,17 @@
 package mca.util;
 
-import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.PersistentState;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class WorldUtils {
@@ -34,14 +36,8 @@ public class WorldUtils {
         return world.getEntitiesByClass(c, new Box(pos, pos).expand(range), null);
     }
 
-    public static <T extends CWorldSavedData> T loadData(World world, Supplier<T> factory, String dataId) {
-        return ((ServerWorld) world).getPersistentStateManager().getOrCreate(compoundTag -> {
-            T value = factory.get();
-            if (value != null) {
-                value.fromNbt(compoundTag);
-            }
-            return value;
-        }, factory, dataId);
+    public static <T extends PersistentState> T loadData(World world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
+        return ((ServerWorld) world).getPersistentStateManager().getOrCreate(loader, factory, dataId);
     }
 
     public static void spawnEntity(World world, Entity entity) {

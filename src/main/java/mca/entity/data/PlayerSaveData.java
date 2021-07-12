@@ -1,41 +1,43 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.enums.MarriageState;
 import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Util;
+import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class PlayerSaveData extends CWorldSavedData {
+public class PlayerSaveData extends PersistentState {
     private UUID spouseUUID = Util.NIL_UUID;
     private String spouseName = "";
     private boolean babyPresent = false;
     private MarriageState marriageState;
 
     public static PlayerSaveData get(World world, UUID uuid) {
-        return WorldUtils.loadData(world, PlayerSaveData::new, "mca_village_" + uuid.toString());
+        return WorldUtils.loadData(world, PlayerSaveData::new, PlayerSaveData::new, "mca_village_" + uuid.toString());
     }
+
+    PlayerSaveData() {}
+
+    PlayerSaveData(NbtCompound nbt) {
+        spouseUUID = nbt.getUuid("spouseUUID");
+        spouseName = nbt.getString("spouseName");
+        babyPresent = nbt.getBoolean("babyPresent");
+    }
+
 
     public boolean isMarried() {
         return !spouseUUID.equals(Util.NIL_UUID) && marriageState != MarriageState.NOT_MARRIED;
     }
 
     @Override
-    public NbtCompound save(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         nbt.putUuid("spouseUUID", spouseUUID);
         nbt.putString("spouseName", spouseName);
         nbt.putBoolean("babyPresent", babyPresent);
         return nbt;
-    }
-
-    @Override
-    public void load(NbtCompound nbt) {
-        spouseUUID = nbt.getUuid("spouseUUID");
-        spouseName = nbt.getString("spouseName");
-        babyPresent = nbt.getBoolean("babyPresent");
     }
 
     public void marry(UUID uuid, String name, MarriageState marriageState) {

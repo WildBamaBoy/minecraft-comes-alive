@@ -1,24 +1,30 @@
 package mca.entity.data;
 
-import mca.cobalt.minecraft.world.storage.CWorldSavedData;
 import mca.entity.VillagerEntityMCA;
 import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class SavedVillagers extends CWorldSavedData {
+public class SavedVillagers extends PersistentState {
     private static final String DATA_ID = "MCA-Villagers";
 
     private final NbtCompound villagerData = new NbtCompound();
 
-    public NbtCompound getVillagerData() {
-        return villagerData;
+    public static SavedVillagers get(World world) {
+        return WorldUtils.loadData(world, SavedVillagers::new, SavedVillagers::new, DATA_ID);
     }
 
-    public static SavedVillagers get(World world) {
-        return WorldUtils.loadData(world, SavedVillagers::new, DATA_ID);
+    SavedVillagers() {}
+
+    SavedVillagers(NbtCompound nbt) {
+        nbt.getKeys().forEach((k) -> villagerData.put(k, nbt.getCompound(k)));
+    }
+
+    public NbtCompound getVillagerData() {
+        return villagerData;
     }
 
     public void saveVillager(VillagerEntityMCA villager) {
@@ -38,15 +44,10 @@ public class SavedVillagers extends CWorldSavedData {
     }
 
     @Override
-    public NbtCompound save(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         villagerData.getKeys().forEach(key -> {
             nbt.put(key, villagerData.get(key));
         });
         return nbt;
-    }
-
-    @Override
-    public void load(NbtCompound nbt) {
-        nbt.getKeys().forEach((k) -> villagerData.put(k, nbt.getCompound(k)));
     }
 }
