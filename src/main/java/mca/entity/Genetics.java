@@ -11,9 +11,9 @@ import mca.cobalt.minecraft.network.datasync.CFloatParameter;
 import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
 import mca.core.MCA;
 import mca.enums.Gender;
-import mca.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.util.math.MathHelper;
 
 public class Genetics implements Iterable<Genetics.Gene> {
 
@@ -110,8 +110,8 @@ public class Genetics implements Iterable<Genetics.Gene> {
         }
 
         // melanin
-        melanin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f));
-        hemoglobin.set(Util.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f));
+        melanin.set(MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
+        hemoglobin.set(MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
 
         // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
         eumelanin.set(random.nextFloat());

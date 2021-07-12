@@ -124,12 +124,4 @@ public class Util {
         }
         return "";
     }
-
-    public static float clamp(float val) {
-        return Math.max(0.0f, Math.min(1.0f, val));
-    }
-
-    public static float clamp(float val, float min, float max) {
-        return Math.max(min, Math.min(max, val));
-    }
 }
