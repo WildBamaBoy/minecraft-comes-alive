@@ -163,6 +163,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         initializeSkin();
         mcaBrain.randomize();
 
+        calculateDimensions();
+
         return data;
     }
 
@@ -359,10 +361,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public EntityDimensions getDimensions(EntityPose pose) {
-        AgeState ageState = getAgeState();
 
-        float height = genetics.size.get() + 1;
-        float width = (genetics.width.get() * 0.5f + 0.75f) * ageState.getWidth();
+        float height = genetics.getVerticalScaleFactor() + 0.8F;
+        float width = genetics.getHorizontalScaleFactor() * 0.7F;
 
         return EntityDimensions.changing(width, height);
     }
