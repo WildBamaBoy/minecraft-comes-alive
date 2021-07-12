@@ -3,6 +3,7 @@ package mca.cobalt.minecraft.network.datasync;
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.core.Constants;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class CDataManager {
     }
 
     public CUUIDParameter newUUID(String id) {
-        return newUUID(id, Constants.ZERO_UUID);
+        return newUUID(id, Util.NIL_UUID);
     }
 
     public CUUIDParameter newUUID(String id, UUID defaultValue) {

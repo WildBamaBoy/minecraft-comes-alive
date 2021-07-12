@@ -2,6 +2,8 @@ package mca.core;
 
 import java.util.UUID;
 
+import net.minecraft.util.Util;
+
 public class Constants {
     public static final int GUI_ID_INTERACT = 1;
     public static final int GUI_ID_NAMEBABY = 2;
@@ -10,14 +12,17 @@ public class Constants {
     public static final int GUI_ID_VILLAGEREDITOR = 5;
     public static final int GUI_ID_GUIDEBOOK = 6;
     public static final int GUI_ID_WHISTLE = 7;
-    public static final UUID ZERO_UUID = new UUID(0, 0);
+
     public static final int GUI_SCREEN_BUTTON_LIST_FIELD_INDEX = 7;
+
+    @Deprecated
     private static final String SECTION_SIGN = "\u00a7";
 
     /**
      * All possible font colors
      */
     // TODO: Use Formatting
+    @Deprecated
     public static final class Color {
         public static final String BLACK = SECTION_SIGN + "0";
         public static final String DARKBLUE = SECTION_SIGN + "1";
@@ -41,6 +46,7 @@ public class Constants {
      * All possible font formats.
      */
     // TODO: Use Formatting
+    @Deprecated
     public static final class Format {
         public static final String OBFUSCATED = SECTION_SIGN + "k";
         public static final String BOLD = SECTION_SIGN + "l";

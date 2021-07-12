@@ -546,11 +546,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public boolean isMarried() {
-        return !spouseUUID.get().orElse(Constants.ZERO_UUID).equals(Constants.ZERO_UUID);
+        return !spouseUUID.get().orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
     }
 
     public boolean isMarriedTo(UUID uuid) {
-        return spouseUUID.get().orElse(Constants.ZERO_UUID).equals(uuid);
+        return spouseUUID.get().orElse(Util.NIL_UUID).equals(uuid);
     }
 
     public void marry(PlayerEntity player) {
@@ -566,7 +566,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     private void endMarriage() {
-        spouseUUID.set(Constants.ZERO_UUID);
+        spouseUUID.set(Util.NIL_UUID);
         spouseName.set("");
         marriageState.set(MarriageState.NOT_MARRIED.getId());
     }
@@ -963,7 +963,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void stopChore() {
         this.brain.doExclusively(Activity.IDLE);
         activeChore.set(Chore.NONE.ordinal());
-        choreAssigningPlayer.set(Constants.ZERO_UUID);
+        choreAssigningPlayer.set(Util.NIL_UUID);
     }
 
     public void startChore(Chore chore, PlayerEntity player) {

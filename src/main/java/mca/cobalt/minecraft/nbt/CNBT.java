@@ -5,6 +5,7 @@ import mca.core.MCA;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import java.io.IOException;
@@ -68,9 +69,8 @@ public class CNBT implements Serializable {
     public UUID getUUID(String key) {
         if (mcCompound.containsUuid(key)) {
             return mcCompound.getUuid(key);
-        } else {
-            return Constants.ZERO_UUID;
         }
+        return Util.NIL_UUID;
     }
 
     @Deprecated

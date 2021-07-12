@@ -2,15 +2,15 @@ package mca.entity.data;
 
 import mca.cobalt.minecraft.nbt.CNBT;
 import mca.cobalt.minecraft.world.storage.CWorldSavedData;
-import mca.core.Constants;
 import mca.enums.MarriageState;
 import mca.util.WorldUtils;
+import net.minecraft.util.Util;
 import net.minecraft.world.World;
 
 import java.util.UUID;
 
 public class PlayerSaveData extends CWorldSavedData {
-    private UUID spouseUUID = Constants.ZERO_UUID;
+    private UUID spouseUUID = Util.NIL_UUID;
     private String spouseName = "";
     private boolean babyPresent = false;
     private MarriageState marriageState;
@@ -20,7 +20,7 @@ public class PlayerSaveData extends CWorldSavedData {
     }
 
     public boolean isMarried() {
-        return !spouseUUID.equals(Constants.ZERO_UUID) && marriageState != MarriageState.NOT_MARRIED;
+        return !spouseUUID.equals(Util.NIL_UUID) && marriageState != MarriageState.NOT_MARRIED;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PlayerSaveData extends CWorldSavedData {
     }
 
     public void endMarriage() {
-        spouseUUID = Constants.ZERO_UUID;
+        spouseUUID = Util.NIL_UUID;
         spouseName = "";
         markDirty();
     }

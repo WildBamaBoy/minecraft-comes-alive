@@ -1,13 +1,13 @@
 package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
-import mca.core.Constants;
 import mca.core.minecraft.ItemsMCA;
 import mca.entity.data.PlayerSaveData;
 import mca.enums.MarriageState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import java.util.*;
 
@@ -261,15 +261,15 @@ public class ServerInteractionManager {
     }
 
     private void successMessage(PlayerEntity player, String message) {
-        player.sendSystemMessage(new LiteralText(Constants.Color.GREEN + message), Util.NIL_UUID);
+        player.sendSystemMessage(new LiteralText(message).formatted(Formatting.GREEN), Util.NIL_UUID);
     }
 
     private void failMessage(PlayerEntity player, String message) {
-        player.sendSystemMessage(new LiteralText(Constants.Color.RED + message), Util.NIL_UUID);
+        player.sendSystemMessage(new LiteralText(message).formatted(Formatting.RED), Util.NIL_UUID);
     }
 
     private void infoMessage(PlayerEntity player, String message) {
-        player.sendSystemMessage(new LiteralText(Constants.Color.YELLOW + message), Util.NIL_UUID);
+        player.sendSystemMessage(new LiteralText(message).formatted(Formatting.YELLOW), Util.NIL_UUID);
     }
 
 }

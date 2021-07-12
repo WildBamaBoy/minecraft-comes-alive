@@ -5,7 +5,6 @@ import mca.api.types.Icon;
 import mca.client.gui.component.ButtonEx;
 import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.Constants;
 import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.brain.VillagerBrain;
@@ -204,9 +203,9 @@ public class GuiInteract extends Screen {
         VillagerBrain brain = villager.getVillagerBrain();
 
         //mood
-        String color = brain.getMoodLevel() < 0 ? Constants.Color.RED : brain.getMoodLevel() > 0 ? Constants.Color.GREEN : Constants.Color.WHITE;
-        Text mood = new TranslatableText("gui.interact.label.mood", brain.getMood().getName());
-        renderTooltip(transform, color + mood, 10, 30 + h * 2);
+        renderTooltip(transform,
+                new TranslatableText("gui.interact.label.mood", brain.getMood().getName())
+                .formatted(brain.getMoodLevel() < 0 ? Formatting.RED : brain.getMoodLevel() > 0 ? Formatting.GREEN : Formatting.WHITE), 10, 30 + h * 2);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {

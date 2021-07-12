@@ -7,6 +7,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -23,7 +24,7 @@ public class FamilyTree extends CWorldSavedData {
     //in case the villager does not exist, add
     public void addEntry(VillagerEntityMCA villager) {
         if (!entries.containsKey(villager.getUuid())) {
-            addEntry(villager, Constants.ZERO_UUID, Constants.ZERO_UUID);
+            addEntry(villager, Util.NIL_UUID, Util.NIL_UUID);
         }
     }
 
@@ -49,7 +50,7 @@ public class FamilyTree extends CWorldSavedData {
 
     public void addEntry(PlayerEntity player) {
         if (!entries.containsKey(player.getUuid())) {
-            addEntry(player, Constants.ZERO_UUID, Constants.ZERO_UUID);
+            addEntry(player, Util.NIL_UUID, Util.NIL_UUID);
         }
     }
 
@@ -69,7 +70,7 @@ public class FamilyTree extends CWorldSavedData {
     public FamilyTreeEntry getEntry(VillagerEntityMCA villager) {
         if (!entries.containsKey(villager.getUuid())) {
             //a new villager appeared, parents are unknown
-            addEntry(villager, Constants.ZERO_UUID, Constants.ZERO_UUID);
+            addEntry(villager, Util.NIL_UUID, Util.NIL_UUID);
         }
         return entries.get(villager.getUuid());
     }
@@ -153,7 +154,7 @@ public class FamilyTree extends CWorldSavedData {
         gatherChildren(uuid, family, childrenDepth);
 
         //zero UUIDs are no real members
-        family.remove(Constants.ZERO_UUID);
+        family.remove(Util.NIL_UUID);
 
         //and the caller is not meant either
         family.remove(uuid);
