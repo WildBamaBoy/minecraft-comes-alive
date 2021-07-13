@@ -4,19 +4,29 @@ import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.jetbrains.annotations.Nullable;
 
 public enum Chore {
     NONE    ("none", null),
-    PROSPECT("gui.label.prospecting", PickaxeItem.class),
-    HARVEST ("gui.label.harvesting", HoeItem.class),
-    CHOP    ("gui.label.chopping", AxeItem.class),
-    HUNT    ("gui.label.hunting", SwordItem.class),
-    FISH    ("gui.label.fishing", FishingRodItem.class);
+    PROSPECT("prospecting", PickaxeItem.class),
+    HARVEST ("harvesting", HoeItem.class),
+    CHOP    ("chopping", AxeItem.class),
+    HUNT    ("hunting", SwordItem.class),
+    FISH    ("fishing", FishingRodItem.class);
 
     private static final Chore[] VALUES = values();
+    private static final Map<String, Chore> REGISTRY = Stream.of(VALUES).collect(Collectors.toMap(
+            c -> c.friendlyName,
+            Function.identity())
+    );
 
-    private final String friendlyName;
+    protected final String friendlyName;
 
     @Nullable
     private final Class<?> toolType;
@@ -27,12 +37,16 @@ public enum Chore {
     }
 
     public Text getName() {
-        return new TranslatableText(friendlyName);
+        return new TranslatableText("gui.label." + friendlyName);
     }
 
     @Nullable
     public Class<?> getToolType() {
         return toolType;
+    }
+
+    public static Optional<Chore> byAction(String action) {
+        return Optional.ofNullable(REGISTRY.get(action.replace("gui.button.", "").toLowerCase()));
     }
 
     public static Chore byId(int id) {

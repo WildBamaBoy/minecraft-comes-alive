@@ -9,7 +9,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 public class InteractTask extends Task<VillagerEntityMCA> {
@@ -25,13 +24,10 @@ public class InteractTask extends Task<VillagerEntityMCA> {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        PlayerEntity playerentity = villager.getInteractingPlayer();
         return villager.isAlive()
-                && playerentity != null
+                && villager.getInteractions().getInteractingPlayer().filter(player -> villager.squaredDistanceTo(player) <= 16).isPresent()
                 && !villager.isTouchingWater()
                 && !villager.velocityModified
-                && villager.squaredDistanceTo(playerentity) <= 16.0D
-                && playerentity.currentScreenHandler != null
                 && villager.getVillagerBrain().getCurrentJob() == Chore.NONE;
     }
 
@@ -64,7 +60,13 @@ public class InteractTask extends Task<VillagerEntityMCA> {
 
     private void followPlayer(VillagerEntityMCA villager) {
         Brain<?> brain = villager.getBrain();
-        brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(new EntityLookTarget(villager.getInteractingPlayer(), false), this.speedModifier, 2));
-        brain.remember(MemoryModuleType.LOOK_TARGET, new EntityLookTarget(villager.getInteractingPlayer(), true));
+
+        villager.getInteractions().getInteractingPlayer().ifPresentOrElse(player -> {
+            brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(new EntityLookTarget(player, false), this.speedModifier, 2));
+            brain.remember(MemoryModuleType.LOOK_TARGET, new EntityLookTarget(player, true));
+        }, () -> {
+            brain.forget(MemoryModuleType.WALK_TARGET);
+            brain.forget(MemoryModuleType.LOOK_TARGET);
+        });
     }
 }

@@ -23,7 +23,7 @@ public class InteractionVillagerMessage implements Message {
     public void receive(PlayerEntity player) {
         VillagerEntityMCA villager = (VillagerEntityMCA) ((ServerWorld) player.world).getEntity(villagerUUID);
         if (villager != null) {
-            villager.handleInteraction(player, page, id);
+            villager.getInteractions().handle(player, page, id);
         }
     }
 }

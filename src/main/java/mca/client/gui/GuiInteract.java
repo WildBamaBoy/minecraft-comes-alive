@@ -75,7 +75,7 @@ public class GuiInteract extends AbstractDynamicScreen {
     @Override
     public void onClose() {
         Objects.requireNonNull(this.client).openScreen(null);
-        villager.setInteractingPlayer(null);
+        villager.getInteractions().stopInteracting();
     }
 
     @Override

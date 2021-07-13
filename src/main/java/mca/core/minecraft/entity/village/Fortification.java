@@ -27,7 +27,6 @@ public class Fortification {
             VillagerEntityMCA villager = villagers.get(world.random.nextInt(villagers.size()));
             if (!villager.isBaby()) {
                 villager.setProfession(ProfessionsMCA.GUARD);
-                villager.importantProfession.set(true);
             }
         }
     }

@@ -9,6 +9,6 @@ public class LoseUnimportantJobTask extends LoseJobOnSiteLossTask {
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
         return super.shouldRun(world, entity)
-                && !((VillagerEntityMCA) entity).importantProfession.get();
+                && !((VillagerEntityMCA) entity).isProfessionImportant();
     }
 }

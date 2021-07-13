@@ -52,9 +52,8 @@ public class ClothingList {
 
     //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
     private List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
-
-        Identifier id = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession()));
         var clothing = getClothingForGender(villager.getGenetics().getGender());
+        Identifier id = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession()));
 
         return clothing.getOrDefault(id, Optional.empty()).orElseGet(() -> {
             Identifier fallback = Registry.VILLAGER_PROFESSION.getId(VillagerProfession.NONE);

@@ -3,9 +3,7 @@ package mca.entity;
 import com.mojang.serialization.Dynamic;
 
 import mca.api.API;
-import mca.api.types.Button;
 import mca.api.types.Hair;
-import mca.client.gui.GuiInteract;
 import mca.cobalt.minecraft.network.datasync.*;
 import mca.core.MCA;
 import mca.core.minecraft.*;
@@ -13,10 +11,8 @@ import mca.entity.ai.VillagerNavigation;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.*;
 import mca.enums.*;
-import mca.items.SpecialCaseGift;
 import mca.util.InventoryUtils;
 import mca.util.WorldUtils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -28,8 +24,6 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -37,21 +31,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.*;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
@@ -59,7 +48,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.village.TradeOffer;
 import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.LocalDifficulty;
@@ -79,6 +67,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     private final Pregnancy pregnancy = new Pregnancy(this, data);
     private final Residency residency = new Residency(this, data);
     private final VillagerBrain mcaBrain = new VillagerBrain(this, data);
+    private final Interactions interactions = new Interactions(this);
 
     public final SimpleInventory inventory = new SimpleInventory(27);
 
@@ -96,19 +85,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public final CBooleanParameter isInfected = data.newBoolean("isInfected");
 
-    public final CBooleanParameter importantProfession = data.newBoolean("importantProfession", false);
-
     //gift desaturation queue
-    private final List<String> giftDesaturation = new LinkedList<>();
+    final List<String> giftDesaturation = new LinkedList<>();
 
     public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
     public int procreateTick = -1;
-
-    @Nullable
-    private PlayerEntity interactingPlayer;
-
-    private long lastGossipTime;
-    private long lastGossipDecayTime;
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
@@ -119,6 +100,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         data.register();
         this.genetics.setGender(gender);
 
+        // TODO: sounds
         this.setSilent(true);
     }
 
@@ -152,8 +134,20 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return (Brain<VillagerEntityMCA>) brain;
     }
 
+    public Genetics getGenetics() {
+        return genetics;
+    }
+
     public VillagerBrain getVillagerBrain() {
         return mcaBrain;
+    }
+
+    public Residency getResidency() {
+        return residency;
+    }
+
+    public Interactions getInteractions() {
+        return interactions;
     }
 
     @Nullable
@@ -190,16 +184,16 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         setVillagerData(getVillagerData().withProfession(profession));
     }
 
+    public boolean isProfessionImportant() {
+        return getProfession() == ProfessionsMCA.GUARD;
+    }
+
     @Override
     public void setVillagerData(VillagerData data) {
-        super.setVillagerData(data);
         if (getProfession() != data.getProfession()) {
             clothes.set(API.getClothingPool().pickOne(this));
         }
-    }
-
-    public Genetics getGenetics() {
-        return genetics;
+        super.setVillagerData(data);
     }
 
     @Override
@@ -210,6 +204,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
 
         //we don't use attributes
+        // why not?
         float damage = getProfession() == ProfessionsMCA.GUARD ? 9 : 3;
         float knockback = 3;
 
@@ -248,25 +243,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return damageDealt;
     }
 
-    private void openScreen(PlayerEntity player) {
-        MinecraftClient.getInstance().openScreen(new GuiInteract(this, player));
-    }
-
     @Override
     public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-        if (world.isClient) {
-            openScreen(player);
-            return ActionResult.SUCCESS;
-        } else {
-            this.setInteractingPlayer(player);
-            return ActionResult.PASS;
-        }
+        return interactions.interactAt(player, pos, hand);
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-
         data.load(nbt);
 
         //load gift desaturation queue
@@ -285,17 +269,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         setMovementSpeed(speed);
         InventoryUtils.readFromNBT(inventory, nbt);
-
-        NbtList listnbt = nbt.getList("Gossips", 10);
-        this.lastGossipDecayTime = nbt.getLong("LastGossipDecay");
-
-        this.getGossip().deserialize(new Dynamic<>(NbtOps.INSTANCE, listnbt));
     }
 
     @Override
     public final void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-
         data.save(nbt);
 
         InventoryUtils.saveToNBT(inventory, nbt);
@@ -306,9 +284,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             giftDesaturationQueue.addElement(i, NbtString.of(giftDesaturation.get(i)));
         }
         nbt.put("giftDesaturation", giftDesaturationQueue);
-
-        nbt.put("Gossips", this.getGossip().serialize(NbtOps.INSTANCE).getValue());
-        nbt.putLong("LastGossipDecay", this.lastGossipDecayTime);
     }
 
     private void initializeSkin() {
@@ -380,8 +355,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         } else {
             onEachServerUpdate();
         }
-
-        this.decayGossip();
     }
 
     @Override
@@ -456,17 +429,17 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public final Text getDisplayName() {
-        MutableText name = new LiteralText(villagerName.get());
+        Text name = super.getDisplayName();
 
         MoveState state = getVillagerBrain().getMoveState();
         if (state != MoveState.MOVE) {
-            name = name.append(" (").append(getVillagerBrain().getMoveState().getName()).append(")");
+            return new LiteralText("").append(name).append(" (").append(getVillagerBrain().getMoveState().getName()).append(")").setStyle(name.getStyle());
         }
         return name;
     }
 
     @Override
-    public final Text getCustomName() {
+    public final Text getDefaultName() {
         return new LiteralText(villagerName.get());
     }
 
@@ -520,198 +493,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return spouseUUID.get().map(id -> ((ServerWorld) world).getEntity(id));
     }
 
-    private void handleInteraction(PlayerEntity player, Memories memory, Button button) {
-        //interaction
-        String interactionName = button.identifier().replace("gui.button.", "");
-        Interaction interaction = Interaction.fromName(interactionName);
-
-        //success chance and hearts
-        float successChance = 0.85F;
-        int heartsBoost = 5;
-        if (interaction != null) {
-            heartsBoost = interaction.getHearts(mcaBrain);
-            successChance = interaction.getSuccessChance(mcaBrain, memory) / 100.0f;
-        }
-
-        boolean succeeded = random.nextFloat() < successChance;
-
-        //spawn particles
-        if (succeeded) {
-            this.world.sendEntityStatus(this, (byte) 16);
-        } else {
-            this.world.sendEntityStatus(this, (byte) 15);
-
-            //sensitive people doubles the loss
-            if (mcaBrain.getPersonality() == Personality.SENSITIVE) {
-                heartsBoost *= 2;
-            }
-        }
-
-        memory.modInteractionFatigue(1);
-        memory.modHearts(succeeded ? heartsBoost : -heartsBoost);
-        mcaBrain.modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
-
-        sendChatMessage(player, String.format("%s.%s", interactionName, succeeded ? "success" : "fail"));
-        closeGUIIfOpen();
-    }
-
-    public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
-        Memories memory = mcaBrain.getMemoriesForPlayer(player);
-        Optional<Button> button = API.getScreenComponents().getButton(guiKey, buttonId);
-        if (!button.isPresent()) {
-            MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
-        } else if (button.get().isInteraction()) {
-            handleInteraction(player, memory, button.get());
-        }
-
-        switch (buttonId) {
-            case "gui.button.move":
-                mcaBrain.setMoveState(MoveState.MOVE, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.stay":
-                mcaBrain.setMoveState(MoveState.STAY, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.follow":
-                mcaBrain.setMoveState(MoveState.FOLLOW, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.ridehorse":
-//                toggleMount(player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.sethome":
-                residency.setHome(player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.gohome":
-                residency.goHome(player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.setworkplace":
-                residency.setWorkplace(player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.sethangout":
-                residency.setHangout(player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.trade":
-                sendOffers(player, getDisplayName(), getVillagerData().getLevel());
-                prepareOffersFor(player);
-                setCurrentCustomer(player);
-
-                break;
-            case "gui.button.inventory":
-                player.openHandledScreen(this);
-                break;
-            case "gui.button.gift":
-                ItemStack stack = player.getMainHandStack();
-
-                if (!stack.isEmpty()) {
-                    int giftValue = API.getGiftPool().getWorth(stack);
-                    if (!handleSpecialCaseGift(player, stack)) {
-                        if (stack.getItem() == Items.GOLDEN_APPLE) {
-                            //TODO special
-                            isInfected.set(false);
-                        } else {
-                            // TODO: Don't use translation keys. Use identifiers.
-                            String id = stack.getTranslationKey();
-                            long occurrences = giftDesaturation.stream().filter(id::equals).count();
-
-                            //check if desaturation fail happen
-                            if (random.nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
-                                giftValue = -giftValue / 2;
-                                sendChatMessage(player, API.getGiftPool().getResponseForSaturatedGift(stack));
-                            } else {
-                                sendChatMessage(player, API.getGiftPool().getResponse(stack));
-                            }
-
-                            //modify mood and hearts
-                            mcaBrain.modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
-                            memory.modHearts(giftValue);
-                        }
-                    }
-
-                    //add to desaturation queue
-                    giftDesaturation.add(stack.getTranslationKey());
-                    while (giftDesaturation.size() > MCA.getConfig().giftDesaturationQueueLength) {
-                        giftDesaturation.remove(0);
-                    }
-
-                    //particles
-                    if (giftValue > 0) {
-                        player.getMainHandStack().decrement(1);
-                        this.world.sendEntityStatus(this, (byte) 16);
-                    } else {
-                        this.world.sendEntityStatus(this, (byte) 15);
-                    }
-                }
-                closeGUIIfOpen();
-                break;
-            case "gui.button.procreate":
-                if (PlayerSaveData.get(world, player.getUuid()).isBabyPresent()) {
-                    sendChatMessage(player, "interaction.procreate.fail.hasbaby");
-                } else if (memory.getHearts() < 100) {
-                    sendChatMessage(player, "interaction.procreate.fail.lowhearts");
-                } else {
-                    procreateTick = 60;
-                    isProcreating.set(true);
-                }
-                closeGUIIfOpen();
-                break;
-            case "gui.button.infected":
-                isInfected.set(!isInfected.get());
-                break;
-            case "gui.button.clothing.randClothing":
-                clothes.set(API.getClothingPool().pickOne(this));
-                break;
-            case "gui.button.clothing.prevClothing":
-                clothes.set(API.getClothingPool().pickNext(this, clothes.get(), -1));
-                break;
-            case "gui.button.clothing.nextClothing":
-                clothes.set(API.getClothingPool().pickNext(this, clothes.get(), 1));
-                break;
-            case "gui.button.clothing.randHair":
-                setHair(API.getHairPool().pickOne(this));
-                break;
-            case "gui.button.clothing.prevHair":
-                setHair(API.getHairPool().pickNext(this, getHair(), -1));
-                break;
-            case "gui.button.clothing.nextHair":
-                setHair(API.getHairPool().pickNext(this, getHair(), 1));
-                break;
-            case "gui.button.profession":
-                setProfession(ProfessionsMCA.randomProfession());
-                break;
-            case "gui.button.prospecting":
-                getVillagerBrain().assignJob(Chore.PROSPECT, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.hunting":
-                getVillagerBrain().assignJob(Chore.HUNT, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.fishing":
-                getVillagerBrain().assignJob(Chore.FISH, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.chopping":
-                getVillagerBrain().assignJob(Chore.CHOP, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.harvesting":
-                getVillagerBrain().assignJob(Chore.HARVEST, player);
-                closeGUIIfOpen();
-                break;
-            case "gui.button.stopworking":
-                closeGUIIfOpen();
-                getVillagerBrain().abandonJob();
-                break;
-        }
-    }
-
     public Hair getHair() {
         return new Hair(hair.get(), hairOverlay.get());
     }
@@ -723,33 +504,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public Pregnancy getPregnancy() {
         return pregnancy;
-    }
-
-    private boolean handleSpecialCaseGift(PlayerEntity player, ItemStack stack) {
-        Item item = stack.getItem();
-
-        if (item instanceof SpecialCaseGift) {
-            if (((SpecialCaseGift) item).handle(player, this)) {
-                player.getMainHandStack().decrement(1);
-            }
-            return true;
-        } else if (item == Items.CAKE) {
-            if (isMarried() && !isBaby()) {
-                if (pregnancy.tryStartGestation()) {
-                    produceParticles(ParticleTypes.HEART);
-                    sendChatMessage(player, "gift.cake.success");
-                } else {
-                    sendChatMessage(player, "gift.cake.fail");
-                }
-                return true;
-            }
-        } else if (item == Items.GOLDEN_APPLE && isBaby()) {
-            // increase age by 5 minutes
-            growUp(1200 * 5);
-            return true;
-        }
-
-        return false;
     }
 
     // we make it public here
@@ -849,47 +603,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.brain.remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(pos));
     }
 
-    public void closeGUIIfOpen() {
-        if (!this.world.isClient) {
-            ServerPlayerEntity entity = (ServerPlayerEntity) getInteractingPlayer();
-            if (entity != null) {
-                entity.closeHandledScreen();
-            }
-            this.setInteractingPlayer(null);
-        }
-    }
-
-    public PlayerEntity getInteractingPlayer() {
-        return this.interactingPlayer;
-    }
-
-    public void setInteractingPlayer(PlayerEntity player) {
-        this.interactingPlayer = player;
-    }
-
-    private void prepareOffersFor(PlayerEntity player) {
-        int i = this.getReputation(player);
-        if (i != 0) {
-            for (TradeOffer merchantoffer : this.getOffers()) {
-                merchantoffer.increaseSpecialPrice(-MathHelper.floor(i * merchantoffer.getPriceMultiplier()));
-            }
-        }
-
-        if (player.hasStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE)) {
-            StatusEffectInstance effectinstance = player.getStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE);
-            if (effectinstance != null) {
-                int k = effectinstance.getAmplifier();
-
-                for (TradeOffer merchantOffer : this.getOffers()) {
-                    double d0 = 0.3D + 0.0625D * k;
-                    int j = (int) Math.floor(d0 * merchantOffer.getOriginalFirstBuyItem().getCount());
-                    merchantOffer.increaseSpecialPrice(-Math.max(j, 1));
-                }
-            }
-        }
-
-    }
-
     @Override
     public void handleStatus(byte id) {
         if (id == 15) {
@@ -908,7 +621,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             if (type.getType() == EquipmentSlot.Type.ARMOR) {
                 ItemStack stack = InventoryUtils.getBestArmorOfType(inv, type);
                 if (!stack.isEmpty()) {
-                    this.equipStack(type, stack);
+                    equipStack(type, stack);
                 }
             }
         }
@@ -924,29 +637,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return !this.isInfected.get();
     }
 
-    //TODO
+    //TODO: Reputation
     @Override
     public int getReputation(PlayerEntity player) {
         return super.getReputation(player);
-    }
-
-    public void gossip(ServerWorld world, VillagerEntityMCA entity, long time) {
-        if ((time < this.lastGossipTime || time >= this.lastGossipTime + 1200L) && (time < entity.lastGossipTime || time >= entity.lastGossipTime + 1200L)) {
-            this.getGossip().shareGossipFrom(entity.getGossip(), this.random, 10);
-            this.lastGossipTime = time;
-            entity.lastGossipTime = time;
-            this.summonGolem(world, time, 5);
-        }
-    }
-
-    private void decayGossip() {
-        long i = this.world.getTime();
-        if (this.lastGossipDecayTime == 0L) {
-            this.lastGossipDecayTime = i;
-        } else if (i >= this.lastGossipDecayTime + 24000L) {
-            this.getGossip().decay();
-            this.lastGossipDecayTime = i;
-        }
     }
 
     public FamilyTree getFamilyTree() {
