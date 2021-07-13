@@ -4,22 +4,31 @@ import java.util.Optional;
 
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.Formatting;
 
 public enum MoodGroup {
-    UNASSIGNED(null),
-    GENERAL(ParticleTypes.SPLASH),
-    PLAYFUL(ParticleTypes.HAPPY_VILLAGER),
-    SERIOUS(ParticleTypes.ANGRY_VILLAGER);
+    UNASSIGNED(null, Formatting.WHITE),
+    GENERAL(ParticleTypes.SPLASH, Formatting.WHITE),
+    PLAYFUL(ParticleTypes.HAPPY_VILLAGER, Formatting.AQUA),
+    SERIOUS(ParticleTypes.ANGRY_VILLAGER, Formatting.RED);
 
     private final Optional<ParticleEffect> particles;
 
-    MoodGroup(ParticleEffect particles) {
+    private final Formatting color;
+
+    MoodGroup(ParticleEffect particles, Formatting color) {
         this.particles = Optional.ofNullable(particles);
+        this.color = color;
     }
 
     public Optional<ParticleEffect> getParticles() {
         return particles;
     }
+
+    public Formatting getColor() {
+        return color;
+    }
+
 
     public Mood getMood(int moodPoints) {
         int level = Mood.getLevel(moodPoints);

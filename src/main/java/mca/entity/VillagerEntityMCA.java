@@ -52,6 +52,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
@@ -456,9 +457,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public final Text getDisplayName() {
-        BaseText name = new LiteralText(villagerName.get());
-        if (this.brain.getOptionalMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
-            name.append(new LiteralText("(Staying)"));
+        MutableText name = new LiteralText(villagerName.get());
+
+        MoveState state = getVillagerBrain().getMoveState();
+        if (state != MoveState.MOVE) {
+            name = name.append(" (").append(getVillagerBrain().getMoveState().getName()).append(")");
         }
         return name;
     }
