@@ -101,12 +101,11 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.HOME, speedModifier, 1, 150, 1200)),
                 Pair.of(3, new SleepTask()),
-                Pair.of(5, new RandomTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_ABSENT),
-                        ImmutableList.of(
-                                Pair.of(new WalkHomeTask(speedModifier), 1),
-                                Pair.of(new WanderIndoorsTask(speedModifier), 4),
-                                Pair.of(new GoToPointOfInterestTask(speedModifier, 4), 2),
-                                Pair.of(new WaitTask(20, 40), 2))
+                Pair.of(5, new RandomTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_ABSENT), ImmutableList.of(
+                        Pair.of(new WalkHomeTask(speedModifier), 1),
+                        Pair.of(new WanderIndoorsTask(speedModifier), 4),
+                        Pair.of(new GoToPointOfInterestTask(speedModifier, 4), 2),
+                        Pair.of(new WaitTask(20, 40), 2))
                 )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new ScheduleActivityTask())
@@ -115,10 +114,9 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getMeetPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
-                Pair.of(2, new RandomTask<>(
-                        ImmutableList.of(
-                                Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
-                                Pair.of(new MeetVillagerTask(), 2))
+                Pair.of(2, new RandomTask<>(ImmutableList.of(
+                        Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
+                        Pair.of(new MeetVillagerTask(), 2))
                 )),
                 Pair.of(10, new HoldTradeOffersTask(400, 1600)),
                 Pair.of(10, new FindInteractionTargetTask(EntityType.PLAYER, 4)),
@@ -130,8 +128,7 @@ public class VillagerTasksMCA {
                         ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
                         CompositeTask.Order.ORDERED,
                         CompositeTask.RunMode.RUN_ONE,
-                        ImmutableList.of(
-                                Pair.of(new GatherItemsVillagerTask(), 1)) // GOSSIP TASK
+                        ImmutableList.of(Pair.of(new GatherItemsVillagerTask(), 1)) // GOSSIP TASK
                 )),
                 getFullLookBehavior(),
                 Pair.of(99, new ScheduleActivityTask())
@@ -140,31 +137,26 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getIdlePackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
-                Pair.of(2, new RandomTask<>(
-                        ImmutableList.of(
-                                Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
-                                Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
-                                Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
-                                Pair.of(new FindWalkTargetTask(speedModifier), 1), Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
-                                Pair.of(new JumpInBedTask(speedModifier), 1), Pair.of(new WaitTask(30, 60), 1))
+                Pair.of(2, new RandomTask<>(ImmutableList.of(
+                    Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
+                    Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
+                    Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
+                    Pair.of(new FindWalkTargetTask(speedModifier), 1), Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
+                    Pair.of(new JumpInBedTask(speedModifier), 1), Pair.of(new WaitTask(30, 60), 1))
                 )),
                 Pair.of(3, new GiveGiftsToHeroTask(100)),
                 Pair.of(3, new FindInteractionTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(3, new HoldTradeOffersTask(400, 1600)),
-                Pair.of(3, new CompositeTask<>(
-                        ImmutableMap.of(),
-                        ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
-                        CompositeTask.Order.ORDERED, CompositeTask.RunMode.RUN_ONE,
-                        ImmutableList.of(
-                                Pair.of(new GatherItemsVillagerTask(), 1))
+                Pair.of(3, new CompositeTask<>(ImmutableMap.of(),
+                    ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
+                    CompositeTask.Order.ORDERED, CompositeTask.RunMode.RUN_ONE, ImmutableList.of(
+                            Pair.of(new GatherItemsVillagerTask(), 1))
                 )),
-                Pair.of(3, new CompositeTask<>(
-                        ImmutableMap.of(),
-                        ImmutableSet.of(MemoryModuleType.BREED_TARGET),
-                        CompositeTask.Order.ORDERED,
-                        CompositeTask.RunMode.RUN_ONE,
-                        ImmutableList.of(
-                                Pair.of(new VillagerBreedTask(), 1))
+                Pair.of(3, new CompositeTask<>(ImmutableMap.of(),
+                    ImmutableSet.of(MemoryModuleType.BREED_TARGET),
+                    CompositeTask.Order.ORDERED,
+                    CompositeTask.RunMode.RUN_ONE,
+                    ImmutableList.of(Pair.of(new VillagerBreedTask(), 1))
                 )),
                 getFullLookBehavior(),
                 Pair.of(99, new ScheduleActivityTask())
@@ -185,10 +177,9 @@ public class VillagerTasksMCA {
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getPreRaidPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
                 Pair.of(0, new RingBellTask()),
-                Pair.of(0, new RandomTask<>(
-                        ImmutableList.of(
-                                Pair.of(new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, speedModifier * 1.5F, 2, 150, 200), 6),
-                                Pair.of(new FindWalkTargetTask(speedModifier * 1.5F), 2))
+                Pair.of(0, new RandomTask<>(ImmutableList.of(
+                    Pair.of(new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, speedModifier * 1.5F, 2, 150, 200), 6),
+                    Pair.of(new FindWalkTargetTask(speedModifier * 1.5F), 2))
                 )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new EndRaidTask())
@@ -197,11 +188,10 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getRaidPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
-                Pair.of(0, new RandomTask<>(
-                        ImmutableList.of(
-                                Pair.of(new SeekSkyAfterRaidWinTask(speedModifier), 5),
-                                Pair.of(new RunAroundAfterRaidTask(speedModifier * 1.1F), 2)
-                        ))),
+                Pair.of(0, new RandomTask<>(ImmutableList.of(
+                    Pair.of(new SeekSkyAfterRaidWinTask(speedModifier), 5),
+                    Pair.of(new RunAroundAfterRaidTask(speedModifier * 1.1F), 2)
+                ))),
                 Pair.of(0, new CelebrateRaidWinTask(600, 600)),
                 Pair.of(2, new HideInHomeDuringRaidTask(24, speedModifier * 1.4F)),
                 getMinimalLookBehavior(),
@@ -227,10 +217,23 @@ public class VillagerTasksMCA {
     }
 
     private static Pair<Integer, Task<LivingEntity>> getFullLookBehavior() {
-        return Pair.of(5, new RandomTask<>(ImmutableList.of(Pair.of(new FollowMobTask(EntityType.CAT, 8.0F), 8), Pair.of(new FollowMobTask(EntityType.VILLAGER, 8.0F), 2), Pair.of(new FollowMobTask(EntityType.PLAYER, 8.0F), 2), Pair.of(new FollowMobTask(SpawnGroup.CREATURE, 8.0F), 1), Pair.of(new FollowMobTask(SpawnGroup.WATER_CREATURE, 8.0F), 1), Pair.of(new FollowMobTask(SpawnGroup.WATER_AMBIENT, 8.0F), 1), Pair.of(new FollowMobTask(SpawnGroup.MONSTER, 8.0F), 1), Pair.of(new WaitTask(30, 60), 2))));
+        return Pair.of(5, new RandomTask<>(ImmutableList.of(
+                Pair.of(new FollowMobTask(EntityType.CAT, 8.0F), 8),
+                Pair.of(new FollowMobTask(EntityType.VILLAGER, 8.0F), 2),
+                Pair.of(new FollowMobTask(EntityType.PLAYER, 8.0F), 2),
+                Pair.of(new FollowMobTask(SpawnGroup.CREATURE, 8.0F), 1),
+                Pair.of(new FollowMobTask(SpawnGroup.WATER_CREATURE, 8.0F), 1),
+                Pair.of(new FollowMobTask(SpawnGroup.WATER_AMBIENT, 8.0F), 1),
+                Pair.of(new FollowMobTask(SpawnGroup.MONSTER, 8.0F), 1),
+                Pair.of(new WaitTask(30, 60), 2)))
+        );
     }
 
     private static Pair<Integer, Task<LivingEntity>> getMinimalLookBehavior() {
-        return Pair.of(5, new RandomTask<>(ImmutableList.of(Pair.of(new FollowMobTask(EntityType.VILLAGER, 8.0F), 2), Pair.of(new FollowMobTask(EntityType.PLAYER, 8.0F), 2), Pair.of(new WaitTask(30, 60), 8))));
+        return Pair.of(5, new RandomTask<>(ImmutableList.of(
+                Pair.of(new FollowMobTask(EntityType.VILLAGER, 8.0F), 2),
+                Pair.of(new FollowMobTask(EntityType.PLAYER, 8.0F), 2),
+                Pair.of(new WaitTask(30, 60), 8)))
+        );
     }
 }
