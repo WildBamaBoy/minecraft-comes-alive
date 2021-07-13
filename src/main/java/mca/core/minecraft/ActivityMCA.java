@@ -1,15 +1,28 @@
 package mca.core.minecraft;
 
+import java.util.function.Supplier;
+
 import mca.core.MCA;
+import mca.core.mixin.MixinSensorType;
+import mca.entity.ai.brain.sensor.ExplodingCreeperSensor;
 import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.util.Identifier;
 
 public interface ActivityMCA {
-    Activity CHORE = register("chore");
+    Activity CHORE = activity("chore");
+
+    SensorType<ExplodingCreeperSensor> EXPLODING_CREEPER = sensor("exploding_creeper", ExplodingCreeperSensor::new);
 
     static void bootstrap() { }
 
-    private static Activity register(String name) {
+    private static Activity activity(String name) {
         return Activity.register(new Identifier(MCA.MOD_ID, name).toString());
+    }
+
+
+    private static <T extends Sensor<?>> SensorType<T> sensor(String name, Supplier<T> factory) {
+        return MixinSensorType.register(new Identifier(MCA.MOD_ID, name).toString(), factory);
     }
 }

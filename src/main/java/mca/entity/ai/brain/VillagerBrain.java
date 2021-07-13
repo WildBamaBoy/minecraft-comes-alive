@@ -82,7 +82,8 @@ public class VillagerBrain {
             SensorType.VILLAGER_HOSTILES,
             SensorType.VILLAGER_BABIES,
             SensorType.SECONDARY_POIS,
-            SensorType.GOLEM_DETECTED
+            SensorType.GOLEM_DETECTED,
+            ActivityMCA.EXPLODING_CREEPER
     );
 
     public static Brain.Profile<VillagerEntityMCA> createProfile() {
