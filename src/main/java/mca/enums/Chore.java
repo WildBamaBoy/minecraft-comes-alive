@@ -1,8 +1,8 @@
 package mca.enums;
 
-import mca.cobalt.localizer.Localizer;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +26,10 @@ public enum Chore {
         this.toolType = toolType;
     }
 
+    public Text getName() {
+        return new TranslatableText(friendlyName);
+    }
+
     @Nullable
     public Class<?> getToolType() {
         return toolType;
@@ -36,10 +40,6 @@ public enum Chore {
             return NONE;
         }
         return VALUES[id];
-    }
-
-    public Text getName() {
-        return Localizer.localizeText(friendlyName);
     }
 }
 

@@ -1,6 +1,5 @@
 package mca.enums;
 
-import mca.cobalt.localizer.Localizer;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
@@ -19,11 +18,6 @@ public enum MoveState {
 
     public Text getName() {
         return new TranslatableText(friendlyName);
-    }
-
-    @Deprecated
-    public String getFriendlyName() {
-        return Localizer.localize(friendlyName);
     }
 
     public static MoveState byId(int id) {

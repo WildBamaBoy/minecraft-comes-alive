@@ -1,6 +1,5 @@
 package mca.items;
 
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
@@ -31,6 +30,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Language;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import java.util.List;
@@ -195,7 +195,7 @@ public class BabyItem extends Item {
 
     public static String getBabyName(ItemStack stack) {
         String name = stack.hasTag() ? stack.getTag().getString("name") : "";
-        if (Localizer.localize("gui.label.unnamed").equals(name)) {
+        if (Language.getInstance().get("gui.label.unnamed").equals(name)) {
             return "";
         }
         return name;

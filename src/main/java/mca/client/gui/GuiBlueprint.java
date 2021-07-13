@@ -2,7 +2,6 @@ package mca.client.gui;
 
 import mca.api.API;
 import mca.api.types.BuildingType;
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.data.Building;
 import mca.entity.data.Village;
@@ -17,6 +16,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.LinkedList;
@@ -153,10 +153,10 @@ public class GuiBlueprint extends Screen {
                     int x = width / 2 + fromCenter * (col - 1);
                     int y = row * (h + spacing) + 105;
                     rectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
-                    drawCenteredText(transform, textRenderer, Localizer.localize("buildingType." + bt.name()), x, y - 24, bt.getColor());
+                    drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + bt.name()), x, y - 24, bt.getColor());
 
                     //size
-                    String size = bt.size() == 0 ? Localizer.localize("gui.building.anySize") : Localizer.localize("gui.building.size", String.valueOf(bt.size()));
+                    Text size = bt.size() == 0 ? new TranslatableText("gui.building.anySize") : new TranslatableText("gui.building.size", String.valueOf(bt.size()));
                     drawCenteredText(transform, textRenderer, size, x, y - 12, 0xffdddddd);
 
                     //required blocks
@@ -191,39 +191,39 @@ public class GuiBlueprint extends Screen {
 
             //rank
             Rank rank = village.getRank(reputation);
-            String rankStr = Localizer.localize("gui.village.rank." + rank.ordinal());
+            Text rankStr = new TranslatableText("gui.village.rank." + rank.ordinal());
             int rankColor = rank.ordinal() == 0 ? 0xffff0000 : 0xffffff00;
-            drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
-            drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.ordinal() == 0 ? 0xffff0000 : 0xffffffff);
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.ordinal() == 0 ? 0xffff0000 : 0xffffffff);
 
             //tasks
-            String str = Localizer.localize("task.reputation", String.valueOf(rank.getReputation()));
+            Text str = new TranslatableText("task.reputation", String.valueOf(rank.getReputation()));
             drawCenteredText(transform, textRenderer, str, width / 2 - fromCenter, height / 2 - 22, reputation >= rank.getReputation() ? 0xff00ff00 : 0xffff0000);
             for (int i = 0; i < Village.getTaskNames().length; i++) {
-                String task = Localizer.localize("task." + Village.getTaskNames()[i]);
+                Text task = new TranslatableText("task." + Village.getTaskNames()[i]);
                 drawCenteredText(transform, textRenderer, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks()[i] ? 0xff00ff00 : 0xffdddddd);
             }
 
             //taxes
-            drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
             if (rank.ordinal() < rankTaxes) {
-                drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
+                drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
                 toggleButtons(buttonTaxes, false);
             } else {
                 toggleButtons(buttonTaxes, true);
             }
 
-            drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
             if (rank.ordinal() < rankBirth) {
-                drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
+                drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
                 toggleButtons(buttonBirths, false);
             } else {
                 toggleButtons(buttonBirths, true);
             }
 
-            drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
             if (rank.ordinal() < rankMarriage) {
-                drawCenteredText(transform, textRenderer, Localizer.localize("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
+                drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
                 toggleButtons(buttonMarriage, false);
             } else {
                 toggleButtons(buttonMarriage, true);
@@ -275,8 +275,8 @@ public class GuiBlueprint extends Screen {
 
                 //name
                 BuildingType bt = API.getBuildingType(hoverBuilding.getType());
-                lines.add(Localizer.localizeText("buildingType." + bt.name()));
-                lines.add(Localizer.localizeText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
+                lines.add(new TranslatableText("buildingType." + bt.name()));
+                lines.add(new TranslatableText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
 
                 //residents
                 for (String name : hoverBuilding.getResidents().values()) {
@@ -296,9 +296,9 @@ public class GuiBlueprint extends Screen {
         super.render(transform, sizeX, sizeY, offset);
     }
 
-    private String getBlockName(String key) {
+    private Text getBlockName(String key) {
         //dis some hacking, no time to fix tho
-        return Localizer.localize("block." + key.replace(":", "."));
+        return new TranslatableText("block." + key.replace(":", "."));
     }
 
     private void toggleButtons(ButtonWidget[] buttons, boolean active) {

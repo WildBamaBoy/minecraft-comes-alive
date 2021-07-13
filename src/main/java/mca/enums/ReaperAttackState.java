@@ -9,11 +9,6 @@ public enum ReaperAttackState {
 
     private static final ReaperAttackState[] VALUES = values();
 
-    @Deprecated
-    public int getId() {
-        return ordinal();
-    }
-
     public static ReaperAttackState fromId(int id) {
         if (id < 0 || id >= VALUES.length) {
             return IDLE;

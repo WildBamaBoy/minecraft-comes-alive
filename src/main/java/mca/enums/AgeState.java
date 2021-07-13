@@ -1,7 +1,7 @@
 package mca.enums;
 
-import mca.cobalt.localizer.Localizer;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public enum AgeState {
     UNASSIGNED(0.8f,  1.0f,  1.0f, 1.0f),
@@ -28,16 +28,7 @@ public enum AgeState {
     }
 
     public Text getName() {
-        return Localizer.localizeText("enum.agestate." + name().toLowerCase());
-    }
-
-    @Deprecated
-    public String localizedName() {
-        return Localizer.localize("enum.agestate." + name().toLowerCase());
-    }
-
-    public int getId() {
-        return ordinal() - 1;
+        return new TranslatableText("enum.agestate." + name().toLowerCase());
     }
 
     public float getWidth() {

@@ -3,7 +3,6 @@ package mca.client.gui;
 import mca.api.API;
 import mca.api.types.Icon;
 import mca.client.gui.component.ButtonEx;
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
@@ -139,13 +138,9 @@ public class GuiInteract extends Screen {
         this.drawTexture(transform, (int) (icon.x() / iconScale), (int) (icon.y() / iconScale), icon.u(), icon.v(), 16, 16);
     }
 
-    private void drawHoveringIconText(MatrixStack transform, String text, String key) {
+    private void drawHoveringIconText(MatrixStack transform, Text text, String key) {
         Icon icon = API.getIcon(key);
         renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
-    }
-
-    private void renderTooltip(MatrixStack transform, String text, int x, int y) {
-        renderTooltip(transform, new LiteralText(text), x, y);
     }
 
     private void drawHoveringIconText(MatrixStack transform, List<Text> text, String key) {
@@ -191,7 +186,7 @@ public class GuiInteract extends Screen {
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
-            renderTooltip(transform, Localizer.localize("gui.interact.label.giveGift"), 10, 28);
+            renderTooltip(transform, new TranslatableText("gui.interact.label.giveGift"), 10, 28);
         } else {
             renderTooltip(transform, villager.getName(), 10, 28);
         }
@@ -217,34 +212,34 @@ public class GuiInteract extends Screen {
         //hearts
         if (hoveringOverIcon("redHeart")) {
             int hearts = brain.getMemoriesForPlayer(player).getHearts();
-            drawHoveringIconText(transform, hearts + " hearts", "redHeart");
+            drawHoveringIconText(transform, new LiteralText(hearts + " hearts"), "redHeart");
         }
 
         //marriage status
         MarriageState marriageState = villager.marriageState.get();
-        String marriageInfo;
+        Text marriageInfo;
         if (hoveringOverIcon("married")) {
             String spouseName = villager.spouseName.get();
             if (marriageState == MarriageState.MARRIED || marriageState == MarriageState.MARRIED_TO_PLAYER)
-                marriageInfo = Localizer.localize("gui.interact.label.married", spouseName);
+                marriageInfo = new TranslatableText("gui.interact.label.married", spouseName);
             else if (marriageState == MarriageState.ENGAGED)
-                marriageInfo = Localizer.localize("gui.interact.label.engaged", spouseName);
-            else marriageInfo = Localizer.localize("gui.interact.label.notmarried");
+                marriageInfo = new TranslatableText("gui.interact.label.engaged", spouseName);
+            else marriageInfo = new TranslatableText("gui.interact.label.notmarried");
 
             drawHoveringIconText(transform, marriageInfo, "married");
         }
 
         //parents
         if (canDrawParentsIcon() && hoveringOverIcon("parents")) {
-            drawHoveringIconText(transform, Localizer.localize("gui.interact.label.parents",
-                    father == null ? Localizer.localize("gui.interact.label.parentUnknown") : father,
-                    mother == null ? Localizer.localize("gui.interact.label.parentUnknown") : mother
+            drawHoveringIconText(transform, new TranslatableText("gui.interact.label.parents",
+                    father == null ? new TranslatableText("gui.interact.label.parentUnknown") : father,
+                    mother == null ? new TranslatableText("gui.interact.label.parentUnknown") : mother
             ), "parents");
         }
 
         //gift
         if (canDrawGiftIcon() && hoveringOverIcon("gift"))
-            drawHoveringIconText(transform, Localizer.localize("gui.interact.label.gift"), "gift");
+            drawHoveringIconText(transform, new TranslatableText("gui.interact.label.gift"), "gift");
 
         //genes
         if (hoveringOverIcon("genes")) {
@@ -254,7 +249,7 @@ public class GuiInteract extends Screen {
             for (Genetics.Gene gene : villager.getGenetics()) {
                 String key = gene.key().replace("_", ".");
                 int value = (int) (gene.get() * 100);
-                lines.add(new LiteralText(String.format("%s: %d%%", Localizer.localize(key), value)));
+                lines.add(new LiteralText(String.format("%s: %d%%", new TranslatableText(key), value)));
             }
 
             drawHoveringIconText(transform, lines, "genes");
@@ -263,7 +258,7 @@ public class GuiInteract extends Screen {
         //happiness
         if (hoveringOverIcon("neutralEmerald")) {
             List<Text> lines = new LinkedList<>();
-            lines.add(Localizer.localizeText("gui.interact.label.happiness", "0/10"));
+            lines.add(new TranslatableText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }

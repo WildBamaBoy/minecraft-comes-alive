@@ -40,7 +40,7 @@ public class PooledTranslationStorage {
     public String get(String key) {
         List<String> options = getOptions(key);
         if (!options.isEmpty()) {
-            return options.get(rand.nextInt(options.size()));
+            return TemplateSet.INSTANCE.replace(options.get(rand.nextInt(options.size())));
         }
         return null;
     }
