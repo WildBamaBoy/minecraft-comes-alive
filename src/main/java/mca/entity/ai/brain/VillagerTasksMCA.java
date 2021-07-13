@@ -37,7 +37,7 @@ public class VillagerTasksMCA {
                 Pair.of(0, new StartRaidTask()),
                 Pair.of(0, new ForgetCompletedPointOfInterestTask(profession.getWorkStation(), MemoryModuleType.JOB_SITE)),
                 Pair.of(0, new ForgetCompletedPointOfInterestTask(profession.getWorkStation(), MemoryModuleType.POTENTIAL_JOB_SITE)),
-                Pair.of(1, new WalkOrTeleportToTargetTask()),
+                Pair.of(1, new WanderOrTeleportToTargetTask()),
                 Pair.of(2, new WorkStationCompetitionTask(profession)),
                 Pair.of(3, new InteractTask(speedModifier)),
                 Pair.of(3, new FollowCustomerTask(speedModifier)),
@@ -47,8 +47,8 @@ public class VillagerTasksMCA {
                 Pair.of(8, new TakeJobSiteTask(speedModifier)),
                 Pair.of(10, new FindPointOfInterestTask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))),
                 Pair.of(10, new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))),
-                Pair.of(10, new ExtendedAssignProfessionTask()),
-                Pair.of(10, new ExtendedChangeJobTask())
+                Pair.of(10, new GoToWorkTask()),
+                Pair.of(10, new LoseUnimportantJobTask())
         );
     }
 

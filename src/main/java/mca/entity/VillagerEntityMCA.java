@@ -58,6 +58,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
+import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -69,7 +70,7 @@ import java.util.stream.Stream;
 
 public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable, Messenger {
 
-    public final CDataManager data = new CDataManager(this);
+    private final CDataManager data = new CDataManager(this);
 
     private final Genetics genetics = Genetics.create(data);
     private final Pregnancy pregnancy = new Pregnancy(this, data);
@@ -178,9 +179,15 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public final void setProfession(VillagerProfession profession) {
-        this.setVillagerData(this.getVillagerData().withProfession(profession));
-        reinitializeBrain((ServerWorld) world);
-        clothes.set(API.getRandomClothing(this));
+        setVillagerData(getVillagerData().withProfession(profession));
+    }
+
+    @Override
+    public void setVillagerData(VillagerData data) {
+        super.setVillagerData(data);
+        if (getProfession() != data.getProfession()) {
+            clothes.set(API.getRandomClothing(this));
+        }
     }
 
     public Genetics getGenetics() {
@@ -582,6 +589,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 break;
             case "gui.button.gift":
                 ItemStack stack = player.getMainHandStack();
+
                 if (!stack.isEmpty()) {
                     int giftValue = API.getGiftValueFromStack(stack);
                     if (!handleSpecialCaseGift(player, stack)) {
@@ -589,8 +597,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                             //TODO special
                             isInfected.set(false);
                         } else {
+                            // TODO: Don't use translation keys. Use identifiers.
                             String id = stack.getTranslationKey();
-                            long occurrences = giftDesaturation.stream().filter(e -> e.equals(id)).count();
+                            long occurrences = giftDesaturation.stream().filter(id::equals).count();
 
                             //check if desaturation fail happen
                             if (random.nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
@@ -898,8 +907,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     //TODO
     @Override
-    public int getReputation(PlayerEntity p_223107_1_) {
-        return super.getReputation(p_223107_1_);
+    public int getReputation(PlayerEntity player) {
+        return super.getReputation(player);
     }
 
     public void gossip(ServerWorld world, VillagerEntityMCA entity, long time) {

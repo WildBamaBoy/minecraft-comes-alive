@@ -14,10 +14,12 @@ import net.minecraft.server.world.ServerWorld;
 import java.util.Optional;
 
 public class GreetPlayerTask extends Task<VillagerEntityMCA> {
-    private static final int talkTime = 200;
+    private static final int MAX_COOLDOWN = 200;
+
+    private Optional<? extends PlayerEntity> target = Optional.empty();
 
     private int cooldown;
-    private PlayerEntity target;
+
     private boolean talked;
     private int talking;
 
@@ -35,21 +37,20 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         if (cooldown > 0) {
             cooldown--;
             return false;
-        } else {
-            cooldown = 200;
-            return getPlayer(villager).isPresent();
         }
+
+        cooldown = MAX_COOLDOWN;
+        return getPlayer(villager).isPresent();
     }
 
     @Override
     protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
-        Optional<PlayerEntity> player = getPlayer(villager);
-        if (player.isPresent()) {
-            target = player.get();
-            villager.getBrain().remember(MemoryModuleType.INTERACTION_TARGET, target);
-            LookTargetUtil.lookAt(villager, target);
+        target = getPlayer(villager);
+        target.ifPresent(player -> {
+            villager.getBrain().remember(MemoryModuleType.INTERACTION_TARGET, player);
+            LookTargetUtil.lookAt(villager, player);
             talked = false;
-        }
+        });
     }
 
     @Override
@@ -59,44 +60,51 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
 
     @Override
     protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
-        LookTargetUtil.lookAt(villager, target);
-        if (isWithinGreetingDistance(villager, target)) {
-            if (!talked) {
-                Memories memories = villager.getVillagerBrain().getMemoriesForPlayer(target);
-                int day = (int) (villager.world.getTimeOfDay() / 24000L);
-                memories.setLastSeen(day);
+        target.ifPresent(player -> {
+            LookTargetUtil.lookAt(villager, player);
 
-                String phrase = memories.getHearts() <= MCA.getConfig().greetHeartsThreshold ? "welcomeFoe" : "welcome";
-                villager.sendChatMessage(target, phrase, target.getName());
-                talked = true;
-                talking = talkTime;
+            if (isWithinGreetingDistance(villager, player)) {
+                if (!talked) {
+                    Memories memories = villager.getVillagerBrain().getMemoriesForPlayer(player);
+                    int day = (int) (villager.world.getTimeOfDay() / 24000L);
+                    memories.setLastSeen(day);
 
-                villager.playWelcomeSound();
+                    String phrase = memories.getHearts() <= MCA.getConfig().greetHeartsThreshold ? "welcomeFoe" : "welcome";
+                    villager.sendChatMessage(player, phrase, player.getName());
+                    talked = true;
+                    talking = MAX_COOLDOWN;
+
+                    villager.playWelcomeSound();
+                }
+                talking--;
+            } else {
+                LookTargetUtil.walkTowards(villager, player, 0.5F, 3);
             }
-            talking--;
-        } else {
-            LookTargetUtil.walkTowards(villager, target, 0.5F, 3);
-        }
+        });
     }
 
     @Override
     protected void finishRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
-        target = null;
+        target = Optional.empty();
         villager.getBrain().forget(MemoryModuleType.INTERACTION_TARGET);
         villager.getBrain().forget(MemoryModuleType.WALK_TARGET);
         villager.getBrain().forget(MemoryModuleType.LOOK_TARGET);
     }
 
-    @SuppressWarnings("unchecked")
-    private Optional<PlayerEntity> getPlayer(VillagerEntityMCA villager) {
-        return (Optional<PlayerEntity>) villager.world.getPlayers().stream().filter(p -> shouldGreet(villager, p)).findFirst();
+    private static Optional<? extends PlayerEntity> getPlayer(VillagerEntityMCA villager) {
+        return villager.world.getPlayers().stream()
+                .filter(p -> shouldGreet(villager, p))
+                .findFirst();
     }
 
-    private boolean shouldGreet(VillagerEntityMCA villager, PlayerEntity player) {
+    private static boolean shouldGreet(VillagerEntityMCA villager, PlayerEntity player) {
         //first check relationships, only family, friends and foes will greet you
         boolean isRelative = FamilyTree.get(villager.world).isRelative(villager.getUuid(), player.getUuid());
+
         boolean isSpouse = villager.spouseUUID.get().filter(a -> a.equals(player.getUuid())).isPresent();
+
         Memories memories = villager.getVillagerBrain().getMemoriesForPlayer(player);
+
         int day = (int) (villager.world.getTimeOfDay() / 24000L);
 
         if (isSpouse || isRelative || Math.abs(memories.getHearts()) >= MCA.getConfig().greetHeartsThreshold) {
@@ -104,7 +112,9 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
 
             if (diff > MCA.getConfig().greetAfterDays && memories.getLastSeen() > 0) {
                 return true;
-            } else if (diff > 0) {
+            }
+
+            if (diff > 0) {
                 //there is a diff, but not long enough
                 memories.setLastSeen(day);
             }
@@ -112,10 +122,11 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
             //no interest
             memories.setLastSeen(day);
         }
+
         return false;
     }
 
-    private boolean isWithinGreetingDistance(VillagerEntityMCA villager, PlayerEntity player) {
-        return villager.getBlockPos().isWithinDistance(player.getBlockPos(), 3.0D);
+    private static boolean isWithinGreetingDistance(VillagerEntityMCA villager, PlayerEntity player) {
+        return villager.getBlockPos().isWithinDistance(player.getBlockPos(), 3);
     }
 }

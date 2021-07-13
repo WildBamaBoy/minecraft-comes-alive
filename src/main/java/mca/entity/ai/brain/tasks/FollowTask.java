@@ -12,7 +12,9 @@ import net.minecraft.world.Heightmap;
 public class FollowTask extends Task<VillagerEntityMCA> {
 
     public FollowTask() {
-        super(ImmutableMap.of(MemoryModuleTypeMCA.PLAYER_FOLLOWING, MemoryModuleState.VALUE_PRESENT));
+        super(ImmutableMap.of(
+                MemoryModuleTypeMCA.PLAYER_FOLLOWING, MemoryModuleState.VALUE_PRESENT
+        ));
     }
 
     @Override

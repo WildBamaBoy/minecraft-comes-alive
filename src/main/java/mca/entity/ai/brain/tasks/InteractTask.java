@@ -16,7 +16,10 @@ public class InteractTask extends Task<VillagerEntityMCA> {
     private final float speedModifier;
 
     public InteractTask(float speedModifie) {
-        super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED), Integer.MAX_VALUE);
+        super(ImmutableMap.of(
+                MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED,
+                MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED
+        ), Integer.MAX_VALUE);
         this.speedModifier = speedModifie;
     }
 
@@ -60,8 +63,6 @@ public class InteractTask extends Task<VillagerEntityMCA> {
     }
 
     private void followPlayer(VillagerEntityMCA villager) {
-
-
         Brain<?> brain = villager.getBrain();
         brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(new EntityLookTarget(villager.getInteractingPlayer(), false), this.speedModifier, 2));
         brain.remember(MemoryModuleType.LOOK_TARGET, new EntityLookTarget(villager.getInteractingPlayer(), true));
