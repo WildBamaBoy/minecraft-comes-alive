@@ -71,13 +71,13 @@ public class GuiBlueprint extends Screen {
     private ButtonWidget[] createValueChanger(int x, int y, int w, int h, Consumer<Boolean> onPress) {
         ButtonWidget[] buttons = new ButtonWidget[3];
 
-        buttons[1] = addSelectableChild(new ButtonWidget(x - w / 2, y, w / 4, h,
+        buttons[1] = addDrawableChild(new ButtonWidget(x - w / 2, y, w / 4, h,
                 new LiteralText("<<"), (b) -> onPress.accept(false)));
 
-        buttons[2] = addSelectableChild(new ButtonWidget(x + w / 4, y, w / 4, h,
+        buttons[2] = addDrawableChild(new ButtonWidget(x + w / 4, y, w / 4, h,
                 new LiteralText(">>"), (b) -> onPress.accept(true)));
 
-        buttons[0] = addSelectableChild(new ButtonWidget(x - w / 4, y, w / 2, h,
+        buttons[0] = addDrawableChild(new ButtonWidget(x - w / 4, y, w / 2, h,
                 new LiteralText(""), (b) -> {
         }));
 
@@ -90,12 +90,12 @@ public class GuiBlueprint extends Screen {
 
         showCatalog = false;
 
-        addSelectableChild(new ButtonWidget(width / 2 - 66, height / 2 + 80, 64, 20, new LiteralText("Exit"), (b) -> MinecraftClient.getInstance().openScreen(null)));
-        addSelectableChild(new ButtonWidget(width / 2 + 2, height / 2 + 80, 64, 20, new LiteralText("Add Building"), (b) -> {
+        addDrawableChild(new ButtonWidget(width / 2 - 66, height / 2 + 80, 64, 20, new LiteralText("Exit"), (b) -> MinecraftClient.getInstance().openScreen(null)));
+        addDrawableChild(new ButtonWidget(width / 2 + 2, height / 2 + 80, 64, 20, new LiteralText("Add Building"), (b) -> {
             NetworkHandler.sendToServer(new ReportBuildingMessage());
             NetworkHandler.sendToServer(new GetVillageRequest());
         }));
-        addSelectableChild(new ButtonWidget(width / 2 - fromCenter - 32, height / 2 + 80, 64, 20, new LiteralText("Catalog"), (b) -> {
+        addDrawableChild(new ButtonWidget(width / 2 - fromCenter - 32, height / 2 + 80, 64, 20, new LiteralText("Catalog"), (b) -> {
             toggleButtons(buttonTaxes, false);
             toggleButtons(buttonBirths, false);
             toggleButtons(buttonMarriage, false);

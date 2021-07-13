@@ -13,9 +13,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GuiFamilyTree extends Screen {
+
     private final List<Line> lines = new LinkedList<>();
+
     private UUID uuid;
+
     private Map<UUID, FamilyTreeEntry> family;
+
     public GuiFamilyTree(UUID uuid) {
         super(new LiteralText("Family Tree"));
 
@@ -64,7 +68,7 @@ public class GuiFamilyTree extends Screen {
     private void addButton(UUID uuid, int x, int y) {
         FamilyTreeEntry e = family.get(uuid);
         if (e != null) {
-            addSelectableChild(new ButtonWidget(
+            addDrawableChild(new ButtonWidget(
                     x - 40, y - 10, 80, 20,
                     new LiteralText(e.getName()),
                     (b) -> NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid)))

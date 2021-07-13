@@ -42,14 +42,14 @@ public class GuiStaffOfLife extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new SavedVillagersRequest());
 
-        backButton = addSelectableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> selectData(selectedIndex - 1)));
-        nextButton = addSelectableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> selectData(selectedIndex + 1)));
-        nameButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
-        reviveButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.revive"), b -> {
+        backButton = addDrawableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> selectData(selectedIndex - 1)));
+        nextButton = addDrawableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> selectData(selectedIndex + 1)));
+        nameButton = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
+        reviveButton = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.revive"), b -> {
             NetworkHandler.sendToServer(new ReviveVillagerMessage(UUID.fromString(keys.get(selectedIndex))));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
-        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
+        addDrawableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
         toggleButtons(false);
     }
 

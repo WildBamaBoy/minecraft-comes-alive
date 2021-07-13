@@ -26,6 +26,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +74,7 @@ public class GuiInteract extends Screen {
     }
 
     public void addExButton(ButtonEx b) {
-        addSelectableChild(b);
+        addDrawableChild(b);
     }
 
     @Override
@@ -170,7 +172,7 @@ public class GuiInteract extends Screen {
         transform.push();
         transform.scale(iconScale, iconScale, iconScale);
 
-        this.client.getTextureManager().bindTexture(ICON_TEXTURES);
+        RenderSystem.setShaderTexture(0, ICON_TEXTURES);
 
         drawIcon(transform, marriageIcon);
         drawIcon(transform, heartIcon);

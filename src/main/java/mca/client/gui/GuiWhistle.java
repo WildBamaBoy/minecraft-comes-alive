@@ -52,7 +52,7 @@ public class GuiWhistle extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new GetVillagerRequest());
 
-        selectionLeftButton = addSelectableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> {
+        selectionLeftButton = addDrawableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> {
             if (selectedIndex == 0) {
                 selectedIndex = keys.size() - 1;
             } else {
@@ -60,7 +60,7 @@ public class GuiWhistle extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
-        selectionRightButton = addSelectableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> {
+        selectionRightButton = addDrawableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> {
             if (selectedIndex == keys.size() - 1) {
                 selectedIndex = 0;
             } else {
@@ -68,14 +68,14 @@ public class GuiWhistle extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
-        villagerNameButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
+        villagerNameButton = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
 
-        callButton = addSelectableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.call"), (b) -> {
+        callButton = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.call"), (b) -> {
             NetworkHandler.sendToServer(new CallToPlayerMessage(UUID.fromString(keys.get(selectedIndex))));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
 
-        addSelectableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
+        addDrawableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
 
         toggleButtons(false);
     }
@@ -110,7 +110,9 @@ public class GuiWhistle extends Screen {
     private void drawDummy() {
         final int posX = width / 2;
         int posY = height / 2 + 45;
-        if (dummy != null) InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
+        if (dummy != null) {
+            InventoryScreen.drawEntity(posX, posY, 60, 0, 0, dummy);
+        }
     }
 
     public void setVillagerData(@NotNull NbtCompound data) {
