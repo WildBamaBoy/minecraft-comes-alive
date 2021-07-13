@@ -8,8 +8,10 @@ import java.util.UUID;
 
 import mca.core.MCA;
 import mca.entity.VillagerEntityMCA;
+import mca.enums.Gender;
 import mca.items.BabyItem;
 import mca.util.WorldUtils;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -35,11 +37,11 @@ public class VillageSpawnQueue {
             if (e.world.canSetBlock(e.getBlockPos())) {
                 e.remove(RemovalReason.DISCARDED);
 
-                VillagerEntityMCA newVillager = new VillagerEntityMCA(e.world);
+                VillagerEntityMCA newVillager = Gender.getRandom().getVillagerType().create(e.world);
                 newVillager.setPosition(e.getX(), e.getY(), e.getZ());
 
                 e.world.canSetBlock(newVillager.getBlockPos());
-                WorldUtils.spawnEntity(e.world, newVillager);
+                WorldUtils.spawnEntity(e.world, newVillager, SpawnReason.NATURAL);
             } else {
                 spawnQueue.add(e);
             }

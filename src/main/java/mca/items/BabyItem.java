@@ -5,6 +5,7 @@ import mca.cobalt.network.NetworkHandler;
 import mca.core.MCA;
 import mca.core.minecraft.ProfessionsMCA;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerFactory;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.FamilyTreeEntry;
 import mca.entity.data.Memories;
@@ -16,19 +17,21 @@ import mca.util.WorldUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import java.util.List;
 
@@ -47,6 +50,11 @@ public class BabyItem extends Item {
 
     public Gender getGender() {
         return gender;
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        return ActionResult.PASS;
     }
 
     public boolean onDropped(ItemStack stack, PlayerEntity player) {
@@ -89,17 +97,13 @@ public class BabyItem extends Item {
 
         // Name is good and we're ready to grow
         if (!world.isClient && isReadyToGrowUp(stack)) {
-            VillagerEntityMCA child = new VillagerEntityMCA(world);
 
-            child.getGenetics().setGender(getGender());
-            child.setProfession(ProfessionsMCA.CHILD);
-            child.villagerName.set(getBabyName(stack));
-            child.setBaby(true);
-
-            BlockPos pos = player.getBlockPos();
-            child.setPosition(pos.getX(), pos.getY() + 0.5, pos.getZ());
-
-            PlayerSaveData playerData = PlayerSaveData.get(world, player.getUuid());
+            VillagerEntityMCA child = VillagerFactory.newVillager(world)
+                .withName(getBabyName(stack))
+                .withPosition(player.getPos())
+                .withGender(gender)
+                .withProfession(ProfessionsMCA.CHILD)
+                .build();
 
             //make sure both parents are registered in the family tree
             FamilyTree familyTree = child.getFamilyTree();
@@ -107,12 +111,16 @@ public class BabyItem extends Item {
 
             //assumes your child is from the players current spouse
             //as the father does not have any genes it just takes the one from the mother
-            //TODO: The player should be able to server as the mother too!
+            //TODO: The player should be able to serve as the mother too!
+            PlayerSaveData playerData = PlayerSaveData.get(world, player.getUuid());
             Entity spouse = ((ServerWorld) world).getEntity(playerData.getSpouseUUID());
+
             if (spouse instanceof VillagerEntityMCA) {
                 VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
                 familyTree.addEntry(spouseVillager);
                 child.getGenetics().combine(spouseVillager.getGenetics(), spouseVillager.getGenetics());
+            } else {
+                child.getGenetics().randomize(child);
             }
 
             //add the child to the family tree
@@ -124,7 +132,7 @@ public class BabyItem extends Item {
                 familyTree.addEntry(child, playerData.getSpouseUUID(), player.getUuid());
             }
 
-            WorldUtils.spawnEntity(world, child);
+            WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
 
             player.getStackInHand(hand).decrement(1);
             playerData.setBabyPresent(false);
@@ -152,7 +160,7 @@ public class BabyItem extends Item {
             boolean unnamed = Strings.isNullOrEmpty(babyName);
 
             tooltip.add(new TranslatableText("gui.label.name")
-                    .formatted(getGender().getColor())
+                    .formatted(gender.getColor())
                     .append(" ")
                     .append(unnamed ? new TranslatableText("gui.label.unnamed") : new LiteralText(babyName))
             );

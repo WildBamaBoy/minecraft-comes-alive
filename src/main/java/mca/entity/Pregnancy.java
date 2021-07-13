@@ -9,6 +9,7 @@ import mca.core.MCA;
 import mca.entity.data.FamilyTree;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
+import net.minecraft.entity.SpawnReason;
 
 /**
  * The progenator. Preg-genator? Preg-genator.
@@ -66,9 +67,7 @@ public class Pregnancy {
     public void birthChild() {
         VillagerEntityMCA father = getFather().orElse(mother);
         //create child
-        VillagerEntityMCA child = new VillagerEntityMCA(mother.world);
-
-        child.getGenetics().setGender(isBabyMale.get() ? Gender.MALE : Gender.FEMALE);
+        VillagerEntityMCA child = (isBabyMale.get() ? Gender.MALE : Gender.FEMALE).getVillagerType().create(mother.world);
 
         child.setPosition(mother.getX(), mother.getY(), mother.getZ());
         child.getGenetics().combine(father.getGenetics(), mother.getGenetics());
@@ -80,7 +79,7 @@ public class Pregnancy {
         tree.addEntry(child, father.getUuid(), mother.getUuid());
 
         //and yeet it into the world
-        WorldUtils.spawnEntity(mother.world, child);
+        WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
     }
 
     private Optional<VillagerEntityMCA> getFather() {

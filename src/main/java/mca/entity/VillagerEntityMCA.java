@@ -108,17 +108,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     private long lastGossipTime;
     private long lastGossipDecayTime;
 
-    public VillagerEntityMCA(World w) {
-        this(EntitiesMCA.VILLAGER, w);
-    }
-
-    public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w) {
+    public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
         inventory.addListener(this::onInvChange);
 
         //register has to be here, not in initialize, since the super call is called before the field init
         // and the data manager requires those fields
         data.register();
+        this.genetics.setGender(gender);
 
         this.setSilent(true);
     }
@@ -157,11 +154,21 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         EntityData data = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
-        genetics.randomize(this);
-        villagerName.set(API.getRandomName(getGenetics().getGender()));
+        if (spawnReason != SpawnReason.CONVERSION) {
+            if (spawnReason != SpawnReason.BREEDING) {
+                genetics.randomize(this);
 
-        initializeSkin();
-        mcaBrain.randomize();
+                if (spawnReason != SpawnReason.SPAWN_EGG && spawnReason != SpawnReason.DISPENSER) {
+                    genetics.setGender(Gender.getRandom());
+                }
+            }
+
+            villagerName.set(API.getRandomName(getGenetics().getGender()));
+
+            initializeSkin();
+
+            mcaBrain.randomize();
+        }
 
         calculateDimensions();
 

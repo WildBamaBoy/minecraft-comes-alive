@@ -12,7 +12,8 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 public final class MCAClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.INSTANCE.register(EntitiesMCA.VILLAGER, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.INSTANCE.register(EntitiesMCA.MALE_VILLAGER, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.INSTANCE.register(EntitiesMCA.FEMALE_VILLAGER, VillagerEntityMCARenderer::new);
         EntityRendererRegistry.INSTANCE.register(EntitiesMCA.GRIM_REAPER, GrimReaperRenderer::new);
 
         ParticleFactoryRegistry.getInstance().register(ParticleTypesMCA.NEG_INTERACTION, InteractionParticle.Factory::new);

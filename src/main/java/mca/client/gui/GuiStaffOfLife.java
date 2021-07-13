@@ -1,6 +1,7 @@
 package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
+import mca.core.minecraft.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.ReviveVillagerMessage;
 import mca.network.SavedVillagersRequest;
@@ -77,7 +78,7 @@ public class GuiStaffOfLife extends Screen {
         villagerData = data;
 
         if (!data.isEmpty()) {
-            dummy = new VillagerEntityMCA(MinecraftClient.getInstance().world);
+            dummy = EntitiesMCA.MALE_VILLAGER.create(MinecraftClient.getInstance().world);
             keys = new ArrayList<>(data.getKeys());
             selectData(0);
             toggleButtons(true);

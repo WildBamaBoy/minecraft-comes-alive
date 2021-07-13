@@ -4,6 +4,8 @@ import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.SavedVillagers;
 import mca.util.WorldUtils;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 
@@ -23,21 +25,24 @@ public class ReviveVillagerMessage implements Message {
         SavedVillagers villagers = SavedVillagers.get(player.world);
         NbtCompound nbt = SavedVillagers.get(player.world).getVillagerByUUID(uuid);
         if (nbt != null) {
-            VillagerEntityMCA villager = new VillagerEntityMCA(player.world);
-            villager.setPosition(player.getX(), player.getY(), player.getZ());
+            EntityType.getEntityFromNbt(nbt, player.world)
+                .filter(v -> v instanceof VillagerEntityMCA)
+                .map(VillagerEntityMCA.class::cast)
+                .ifPresent(villager -> {
+                    villager.setPosition(player.getX(), player.getY(), player.getZ());
+                    villager.readCustomDataFromNbt(nbt);
 
-            villager.readCustomDataFromNbt(nbt);
+                    WorldUtils.spawnEntity(player.world, villager, SpawnReason.CONVERSION);
 
-            WorldUtils.spawnEntity(player.world, villager);
+                    villagers.removeVillager(uuid);
 
-            villagers.removeVillager(uuid);
+                    villager.setHealth(villager.getMaxHealth());
+                    villager.deathTime = 0;
 
-            villager.setHealth(villager.getMaxHealth());
-            villager.deathTime = 0;
-
-            //TODO potential bug if the player switches slot while reviving
-            player.getMainHandStack().damage(1, player, (a) -> {
+                    //TODO potential bug if the player switches slot while reviving
+                    player.getMainHandStack().damage(1, player, (a) -> {});
             });
+
         }
     }
 }

@@ -119,10 +119,6 @@ public class Genetics implements Iterable<Genetics.Gene> {
         // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
         eumelanin.set(random.nextFloat());
         pheomelanin.set(random.nextFloat());
-
-        if (!entity.world.isClient) {
-            gender.set(Gender.getRandom());
-        }
     }
 
     public void combine(Genetics mother, Genetics father) {

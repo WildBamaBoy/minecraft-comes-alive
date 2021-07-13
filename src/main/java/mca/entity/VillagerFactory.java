@@ -8,6 +8,7 @@ import mca.core.MCA;
 import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.VillagerData;
@@ -75,18 +76,17 @@ public class VillagerFactory {
         return this;
     }
 
-    public VillagerFactory spawn() {
+    public VillagerFactory spawn(SpawnReason reason) {
         if (position.isEmpty()) {
             MCA.logger.info("Attempted to spawn villager without a position being set!");
         }
 
-        WorldUtils.spawnEntity(world, build());
+        WorldUtils.spawnEntity(world, build(), reason);
         return this;
     }
 
     public VillagerEntityMCA build() {
-        VillagerEntityMCA villager = new VillagerEntityMCA(world);
-        villager.getGenetics().setGender(gender.orElseGet(Gender::getRandom));
+        VillagerEntityMCA villager = gender.orElseGet(Gender::getRandom).getVillagerType().create(world);
         villager.villagerName.set(name.orElseGet(() -> API.getRandomName(villager.getGenetics().getGender())));
         villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(24000 * 2) - 24000));
         position.ifPresent(pos -> villager.updatePosition(pos.getX(), pos.getY(), pos.getZ()));

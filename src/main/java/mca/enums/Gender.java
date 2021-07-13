@@ -6,6 +6,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import mca.core.minecraft.EntitiesMCA;
+import mca.entity.VillagerEntityMCA;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.Formatting;
 
 public enum Gender {
@@ -22,6 +25,10 @@ public enum Gender {
 
     Gender(Formatting color) {
         this.color = color;
+    }
+
+    public EntityType<VillagerEntityMCA> getVillagerType() {
+        return this == FEMALE ? EntitiesMCA.FEMALE_VILLAGER : EntitiesMCA.MALE_VILLAGER;
     }
 
     public Formatting getColor() {

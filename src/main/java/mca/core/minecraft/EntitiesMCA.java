@@ -3,6 +3,7 @@ package mca.core.minecraft;
 import mca.core.MCA;
 import mca.entity.GrimReaperEntity;
 import mca.entity.VillagerEntityMCA;
+import mca.enums.Gender;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
@@ -13,8 +14,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public interface EntitiesMCA {
-    EntityType<VillagerEntityMCA> VILLAGER = register("villager", FabricEntityTypeBuilder
-            .<VillagerEntityMCA>create(SpawnGroup.AMBIENT, VillagerEntityMCA::new)
+    EntityType<VillagerEntityMCA> MALE_VILLAGER = register("villager", FabricEntityTypeBuilder
+            .<VillagerEntityMCA>create(SpawnGroup.AMBIENT, (t, w) -> new VillagerEntityMCA(t, w, Gender.MALE))
+            .dimensions(EntityDimensions.fixed(0.6F, 2.0F))
+            .build()
+    );
+    EntityType<VillagerEntityMCA> FEMALE_VILLAGER = register("female_villager", FabricEntityTypeBuilder
+            .<VillagerEntityMCA>create(SpawnGroup.AMBIENT, (t, w) -> new VillagerEntityMCA(t, w, Gender.FEMALE))
             .dimensions(EntityDimensions.fixed(0.6F, 2.0F))
             .build()
     );
@@ -29,7 +35,8 @@ public interface EntitiesMCA {
         ActivityMCA.bootstrap();
         SchedulesMCA.bootstrap();
         ProfessionsMCA.bootstrap();
-        FabricDefaultAttributeRegistry.register(VILLAGER, VillagerEntityMCA.createVillagerAttributes());
+        FabricDefaultAttributeRegistry.register(MALE_VILLAGER, VillagerEntityMCA.createVillagerAttributes());
+        FabricDefaultAttributeRegistry.register(FEMALE_VILLAGER, VillagerEntityMCA.createVillagerAttributes());
         FabricDefaultAttributeRegistry.register(GRIM_REAPER, GrimReaperEntity.createAttributes());
     }
 

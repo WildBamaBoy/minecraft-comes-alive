@@ -1,6 +1,7 @@
 package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
+import mca.core.minecraft.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.CallToPlayerMessage;
 import mca.network.GetVillagerRequest;
@@ -125,7 +126,7 @@ public class GuiWhistle extends Screen {
         if (keys.size() > 0) {
             NbtCompound firstData = villagerData.getCompound(keys.get(index));
 
-            dummy = new VillagerEntityMCA(MinecraftClient.getInstance().world);
+            dummy = EntitiesMCA.MALE_VILLAGER.create(MinecraftClient.getInstance().world);
             dummy.readCustomDataFromNbt(firstData);
 
             villagerNameButton.setMessage(dummy.getDisplayName());
