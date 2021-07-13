@@ -65,6 +65,7 @@ import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 import java.util.*;
@@ -332,7 +333,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
             }
 
-            if (source.getSource() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
+            if (source.getSource() instanceof ZombieEntity
+                    && getProfession() != ProfessionsMCA.GUARD
+                    && MCA.getConfig().enableInfection
+                    && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
                 isInfected.set(true);
             }
         }
