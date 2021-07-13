@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import mca.api.PoolUtil;
+
 public class PooledTranslationStorage {
     private static final Pattern TRAILING_NUMBERS_PATTERN = Pattern.compile("[0-9]+$");
     private static final Predicate<String> TRAILING_NUMERS_PREDICATE = TRAILING_NUMBERS_PATTERN.asPredicate();
@@ -33,14 +35,14 @@ public class PooledTranslationStorage {
 
     @NotNull
     private List<String> getOptions(String key) {
-        return multiTranslations.getOrDefault(TRAILING_NUMBERS_PATTERN.matcher(key).replaceAll(""), List.of());
+        return multiTranslations.getOrDefault(key, List.of());
     }
 
     @Nullable
     public String get(String key) {
         List<String> options = getOptions(key);
         if (!options.isEmpty()) {
-            return TemplateSet.INSTANCE.replace(options.get(rand.nextInt(options.size())));
+            return TemplateSet.INSTANCE.replace(PoolUtil.pickOne(options, key, rand));
         }
         return null;
     }
