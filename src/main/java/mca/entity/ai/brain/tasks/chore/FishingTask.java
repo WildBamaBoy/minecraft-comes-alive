@@ -52,7 +52,7 @@ public class FishingTask extends AbstractChoreTask {
             if (i == -1) {
                 abandonJobWithMessage("chore.chopping.norod");
             } else {
-                villager.setStackInHand(Hand.MAIN_HAND, villager.inventory.getStack(i));
+                villager.setStackInHand(Hand.MAIN_HAND, villager.getInventory().getStack(i));
             }
         }
 
@@ -69,7 +69,7 @@ public class FishingTask extends AbstractChoreTask {
             abandonJobWithMessage("chore.chopping.norod");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof FishingRodItem);
-            ItemStack stack = villager.inventory.getStack(i);
+            ItemStack stack = villager.getInventory().getStack(i);
             villager.setStackInHand(Hand.MAIN_HAND, stack);
         }
 
@@ -94,7 +94,7 @@ public class FishingTask extends AbstractChoreTask {
                     ItemStack stack = list.get(villager.getRandom().nextInt(list.size())).copy();
 
                     villager.swingHand(Hand.MAIN_HAND);
-                    villager.inventory.addStack(stack);
+                    villager.getInventory().addStack(stack);
                     villager.getMainHandStack().damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
                 }
                 ticks = 0;

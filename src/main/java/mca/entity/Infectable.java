@@ -3,5 +3,11 @@ package mca.entity;
 import net.minecraft.entity.Entity;
 
 public interface Infectable {
-    boolean canBeTargettedBy(Entity mob);
+    boolean isInfected();
+
+    void setInfected(boolean infected);
+
+    default boolean canBeTargettedBy(Entity mob) {
+        return !isInfected();
+    }
 }

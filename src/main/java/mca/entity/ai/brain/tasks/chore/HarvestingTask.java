@@ -64,7 +64,7 @@ public class HarvestingTask extends AbstractChoreTask {
             if (i == -1) {
                 abandonJobWithMessage("chore.chopping.nohoe");
             } else {
-                ItemStack stack = villager.inventory.getStack(i);
+                ItemStack stack = villager.getInventory().getStack(i);
                 villager.setStackInHand(Hand.MAIN_HAND, stack);
             }
         }
@@ -119,7 +119,7 @@ public class HarvestingTask extends AbstractChoreTask {
             abandonJobWithMessage("chore.chopping.norod");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
-            ItemStack stack = villager.inventory.getStack(i);
+            ItemStack stack = villager.getInventory().getStack(i);
             villager.setStackInHand(Hand.MAIN_HAND, stack);
         }
 
@@ -163,7 +163,7 @@ public class HarvestingTask extends AbstractChoreTask {
                         LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).parameter(LootContextParameters.ORIGIN, villager.getPos()).parameter(LootContextParameters.TOOL, ItemStack.EMPTY).parameter(LootContextParameters.THIS_ENTITY, villager).parameter(LootContextParameters.BLOCK_STATE, state).random(this.villager.getRandom()).luck(0F);
                         List<ItemStack> drops = world.getServer().getLootManager().getTable(crop.getLootTableId()).generateLoot(lootcontext$builder.build(LootContextTypes.BLOCK));
                         for (ItemStack stack : drops) {
-                            villager.inventory.addStack(stack);
+                            villager.getInventory().addStack(stack);
                         }
 
                         world.breakBlock(target, false, villager);
@@ -191,7 +191,7 @@ public class HarvestingTask extends AbstractChoreTask {
         LootContext.Builder lootcontext$builder = (new LootContext.Builder(world)).parameter(LootContextParameters.ORIGIN, villager.getPos()).parameter(LootContextParameters.TOOL, ItemStack.EMPTY).parameter(LootContextParameters.THIS_ENTITY, villager).parameter(LootContextParameters.BLOCK_STATE, state).random(this.villager.getRandom()).luck(0F);
         List<ItemStack> drops = world.getServer().getLootManager().getTable(block.getLootTableId()).generateLoot(lootcontext$builder.build(LootContextTypes.BLOCK));
         for (ItemStack stack : drops) {
-            villager.inventory.addStack(stack);
+            villager.getInventory().addStack(stack);
         }
 
         world.breakBlock(target, false, villager);
@@ -204,7 +204,6 @@ public class HarvestingTask extends AbstractChoreTask {
         if (lastActionTicks < 15) {
             return false;
         }
-
 
         SimpleInventory inventory = villager.getInventory();
 
@@ -260,7 +259,7 @@ public class HarvestingTask extends AbstractChoreTask {
 
         int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof BoneMealItem);
         if (i > -1) {
-            ItemStack stack = villager.inventory.getStack(i);
+            ItemStack stack = villager.getInventory().getStack(i);
             stack.decrement(1);
             ((CropBlock) state.getBlock()).grow(world, villager.getRandom(), pos, state);
             villager.getMainHandStack().damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));

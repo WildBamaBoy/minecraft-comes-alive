@@ -132,7 +132,7 @@ public class Interactions {
                 stopInteracting();
                 break;
             case "gui.button.infected":
-                entity.isInfected.set(!entity.isInfected.get());
+                entity.setInfected(!entity.isInfected());
                 break;
             case "gui.button.clothing.randClothing":
                 entity.clothes.set(API.getClothingPool().pickOne(entity));
@@ -242,7 +242,7 @@ public class Interactions {
             if (!handleSpecialCaseGift(player, stack)) {
                 if (stack.getItem() == Items.GOLDEN_APPLE) {
                     //TODO special
-                    entity.isInfected.set(false);
+                    entity.setInfected(false);
                 } else {
                     // TODO: Don't use translation keys. Use identifiers.
                     String id = stack.getTranslationKey();

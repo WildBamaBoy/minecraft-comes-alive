@@ -69,7 +69,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     private final VillagerBrain mcaBrain = new VillagerBrain(this, data);
     private final Interactions interactions = new Interactions(this);
 
-    public final SimpleInventory inventory = new SimpleInventory(27);
+    private final SimpleInventory inventory = new SimpleInventory(27);
 
     public final CStringParameter villagerName = data.newString("villagerName");
     public final CStringParameter clothes = data.newString("clothes");
@@ -83,7 +83,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public final CEnumParameter<MarriageState> marriageState = data.newEnum("marriageState", MarriageState.NOT_MARRIED);
 
-    public final CBooleanParameter isInfected = data.newBoolean("isInfected");
+    private final CBooleanParameter isInfected = data.newBoolean("isInfected");
 
     //gift desaturation queue
     final List<String> giftDesaturation = new LinkedList<>();
@@ -449,6 +449,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     @Override
+    public void setInfected(boolean infected) {
+        isInfected.set(infected);
+    }
+
+    @Override
     public void playSpeechEffect() {
         if (isInfected()) {
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
@@ -586,7 +591,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public SimpleInventory getInventory() {
-        return this.inventory;
+        return inventory;
     }
 
     public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
@@ -630,11 +635,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public void setBaby(boolean isBaby) {
         this.setBreedingAge(isBaby ? -AgeState.startingAge : 0);
-    }
-
-    @Override
-    public boolean canBeTargettedBy(Entity mob) {
-        return !this.isInfected.get();
     }
 
     //TODO: Reputation

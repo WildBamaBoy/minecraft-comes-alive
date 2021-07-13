@@ -57,7 +57,7 @@ public class ChoppingTask extends AbstractChoreTask {
             if (i == -1) {
                 abandonJobWithMessage("chore.chopping.noaxe");
             } else {
-                villager.setStackInHand(Hand.MAIN_HAND, villager.inventory.getStack(i));
+                villager.setStackInHand(Hand.MAIN_HAND, villager.getInventory().getStack(i));
             }
         }
     }
@@ -66,11 +66,11 @@ public class ChoppingTask extends AbstractChoreTask {
     protected void keepRunning(ServerWorld world, VillagerEntityMCA villager, long time) {
         if (this.villager == null) this.villager = villager;
 
-        if (!InventoryUtils.contains(villager.inventory, AxeItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
+        if (!InventoryUtils.contains(villager.getInventory(), AxeItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             abandonJobWithMessage("chore.chopping.noaxe");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
-            int i = InventoryUtils.getFirstSlotContainingItem(villager.inventory, stack -> stack.getItem() instanceof AxeItem);
-            ItemStack stack = villager.inventory.getStack(i);
+            int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof AxeItem);
+            ItemStack stack = villager.getInventory().getStack(i);
             villager.setStackInHand(Hand.MAIN_HAND, stack);
         }
 
@@ -114,7 +114,7 @@ public class ChoppingTask extends AbstractChoreTask {
         while (world.getBlockState(pos).isIn(BlockTags.LOGS)) {
             world.breakBlock(pos, false, villager);
             pos = pos.add(0, 1, 0);
-            villager.inventory.addStack(new ItemStack(log, 1));
+            villager.getInventory().addStack(new ItemStack(log, 1));
             stack.damage(1, villager, player -> player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         }
     }

@@ -55,7 +55,7 @@ public class HuntingTask extends AbstractChoreTask {
             if (i == -1) {
                 abandonJobWithMessage("chore.chopping.nosword");
             } else {
-                ItemStack stack = villager.inventory.getStack(i);
+                ItemStack stack = villager.getInventory().getStack(i);
                 villager.setStackInHand(Hand.MAIN_HAND, stack);
             }
         }
@@ -70,7 +70,7 @@ public class HuntingTask extends AbstractChoreTask {
             abandonJobWithMessage("chore.chopping.nosword");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof SwordItem);
-            ItemStack stack = villager.inventory.getStack(i);
+            ItemStack stack = villager.getInventory().getStack(i);
             villager.setStackInHand(Hand.MAIN_HAND, stack);
         }
 
@@ -97,7 +97,7 @@ public class HuntingTask extends AbstractChoreTask {
             if (target.isDead()) {
                 // search for EntityItems around the target and grab them
                 villager.world.getNonSpectatingEntities(ItemEntity.class, villager.getBoundingBox().expand(15, 3, 15)).forEach((item) -> {
-                    villager.inventory.addStack(item.getStack());
+                    villager.getInventory().addStack(item.getStack());
                     item.remove(RemovalReason.DISCARDED);
                 });
                 target = null;
