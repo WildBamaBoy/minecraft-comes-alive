@@ -39,12 +39,9 @@ public interface ItemsMCA {
     Item ROSE_GOLD_BLOCK = register("rose_gold_block", new BlockItem(BlocksMCA.ROSE_GOLD_BLOCK, baseProps()));
     Item ROSE_GOLD_ORE = register("rose_gold_ore", new BlockItem(BlocksMCA.ROSE_GOLD_ORE, baseProps()));
 
-    // TODO: villager_spawner
-    // TODO: jewelwer_workbench
-    // TODO: tombstone
-    Item VILLAGER_SPAWNER = register("villager_spawner", new Item(baseProps()));
-    Item JEWELER_WORKBENCH = register("jewelwer_workbench", new Item(baseProps()));
-    Item TOMBSTONE = register("tombstone", new Item(baseProps()));
+    Item VILLAGER_SPAWNER = register("villager_spawner", new BlockItem(BlocksMCA.VILLAGER_SPAWNER, baseProps()));
+    Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
+    Item TOMBSTONE = register("tombstone", new BlockItem(BlocksMCA.TOMBSTONE, baseProps()));
 
     static void bootstrap() {
         TagsMCA.Blocks.bootstrap();

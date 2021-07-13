@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "item/handheld",
   "textures": {
-    "layer0": "mca:items/staff_of_life"
+    "layer0": "mca:item/staff_of_life"
   }
 }

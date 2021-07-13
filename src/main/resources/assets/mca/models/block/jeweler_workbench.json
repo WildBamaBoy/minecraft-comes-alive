@@ -1,6 +1,12 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "all": "mca:blocks/test_b_T"
+    "particle": "minecraft:block/jeweler_workbench_front",
+    "north": "minecraft:block/jeweler_workbench_front",
+    "south": "minecraft:block/jeweler_workbench_side",
+    "east": "minecraft:block/jeweler_workbench_side",
+    "west": "minecraft:block/jeweler_workbench_front",
+    "up": "minecraft:block/jeweler_workbench_top",
+    "down": "minecraft:block/oak_planks"
   }
 }

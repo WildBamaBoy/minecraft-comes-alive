@@ -13,6 +13,8 @@ public interface ProfessionsMCA {
     VillagerProfession CHILD = register("child", VillagerProfessionBuilder.create().workstation(PointOfInterestType.HOME).workSound(SoundEvents.ENTITY_VILLAGER_WORK_FARMER));
     VillagerProfession GUARD = register("guard", VillagerProfessionBuilder.create().workstation(PointOfInterestType.ARMORER).workSound(SoundEvents.ENTITY_VILLAGER_WORK_ARMORER));
 
+    VillagerProfession JEWELER = register("jeweler", VillagerProfessionBuilder.create().workstation(PointOfInterestTypeMCA.JEWELER).workSound(SoundEvents.ENTITY_VILLAGER_WORK_ARMORER));
+
     static void bootstrap() {
         PointOfInterestTypeMCA.bootstrap();
     }

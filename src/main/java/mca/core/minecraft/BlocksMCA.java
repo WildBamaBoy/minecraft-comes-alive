@@ -10,7 +10,7 @@ import net.minecraft.block.OreBlock;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
+import net.minecraft.village.VillagerData;
 
 public interface BlocksMCA {
     Block ROSE_GOLD_BLOCK = register("rose_gold_block", new Block(Block.Settings.of(Material.METAL, MapColor.GOLD)
@@ -20,20 +20,23 @@ public interface BlocksMCA {
     );
 
     Block ROSE_GOLD_ORE = register("rose_gold_ore", new OreBlock(FabricBlockSettings.of(Material.STONE)
-                    .requiresTool()
-                    .breakByTool(FabricToolTags.PICKAXES, 2)
-                    .strength(3.0F, 3.0F)
-                    .sounds(BlockSoundGroup.STONE))
+            .requiresTool()
+            .breakByTool(FabricToolTags.PICKAXES, 2)
+            .strength(3.0F, 3.0F)
+            .sounds(BlockSoundGroup.STONE))
     );
 
-//    public static final RegistryObject<Block> VILLAGER_SPAWNER = register("villager_spawner",() ->
-//            new SpawnerBlock(AbstractBlock.Properties.of(Material.METAL).speedFactor(VillagerData.getMinXpPerLevel(7)).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    Block VILLAGER_SPAWNER = register("villager_spawner", new Block(Block.Settings.of(Material.METAL)
+            .slipperiness(VillagerData.getLowerLevelExperience(7))
+            .requiresTool()
+            .sounds(BlockSoundGroup.METAL)));
 
-//    public static final RegistryObject<Block> TOMBSTONE = register("tombstone",() ->
-//            new Block(AbstractBlock.Properties.of(Material.STONE).sound(SoundType.STONE)));
+    // TODO: <Block> JEWELER_WORKBENCH -> profession of a jeweler
+    Block JEWELER_WORKBENCH = register("jeweler_workbench", new Block(Block.Settings.of(Material.WOOD)
+            .sounds(BlockSoundGroup.WOOD)));
 
-//TODO <Block> JEWELER_WORKBENCH -> profession of a jeweler
-
+    Block TOMBSTONE = register("tombstone", new Block(Block.Settings.of(Material.STONE)
+            .sounds(BlockSoundGroup.STONE)));
 
     static void bootstrap() {
         TagsMCA.Blocks.bootstrap();

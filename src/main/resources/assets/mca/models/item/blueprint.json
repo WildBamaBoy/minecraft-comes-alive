@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "mca:items/blueprint"
+    "layer0": "mca:item/blueprint"
   }
 }
