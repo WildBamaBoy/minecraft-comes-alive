@@ -12,8 +12,8 @@ import net.minecraft.util.registry.Registry;
 public interface ItemsMCA {
     Item EGG_MALE = register("egg_male", new SpawnEggItem(EntitiesMCA.MALE_VILLAGER, 0x5e9aff, 0x3366bc, baseProps()));
     Item EGG_FEMALE = register("egg_female", new SpawnEggItem(EntitiesMCA.FEMALE_VILLAGER, 0xe85ca1, 0xe3368c, baseProps()));
-    Item BABY_BOY = register("baby_boy", new BabyItem(Gender.MALE, baseProps()));
-    Item BABY_GIRL = register("baby_girl", new BabyItem(Gender.FEMALE, baseProps()));
+    Item BABY_BOY = register("baby_boy", new BabyItem(Gender.MALE, baseProps().maxCount(1)));
+    Item BABY_GIRL = register("baby_girl", new BabyItem(Gender.FEMALE, baseProps().maxCount(1)));
 
     Item WEDDING_RING = register("wedding_ring", new WeddingRingItem(unstackableProps()));
     Item WEDDING_RING_RG = register("wedding_ring_rg", new WeddingRingRGItem(unstackableProps()));

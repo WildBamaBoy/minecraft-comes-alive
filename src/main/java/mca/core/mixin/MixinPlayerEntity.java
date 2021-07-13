@@ -23,6 +23,17 @@ abstract class MixinPlayerEntity extends LivingEntity {
         VillageSpawnQueue.getInstance().onPlayerDeath(cause, (PlayerEntity)(Object)this);
     }
 
+
+    @Inject(method = "dropSelectedItem(Z)Z",
+            at = @At("HEAD"),
+            cancellable = true)
+    public void onDropSelectedItem(boolean dropEntireStack, CallbackInfoReturnable<Boolean> info) {
+        ItemStack stack = this.getMainHandStack();
+        if (stack.getItem() instanceof BabyItem && !((BabyItem)stack.getItem()).onDropped(stack, (PlayerEntity)(Object)this)) {
+            info.setReturnValue(false);
+        }
+    }
+
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;",
             at = @At("HEAD"),
             cancellable = true)

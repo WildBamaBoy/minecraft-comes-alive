@@ -58,7 +58,7 @@ public class BabyItem extends Item {
     }
 
     public boolean onDropped(ItemStack stack, PlayerEntity player) {
-        player.getInventory().insertStack(stack);
+        player.sendMessage(new TranslatableText("item.mca.baby.no_drop"), true);
         return false;
     }
 
