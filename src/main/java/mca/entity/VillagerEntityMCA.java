@@ -9,6 +9,7 @@ import mca.client.gui.GuiInteract;
 import mca.cobalt.minecraft.network.datasync.*;
 import mca.core.MCA;
 import mca.core.minecraft.*;
+import mca.entity.ai.VillagerNavigation;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.*;
 import mca.enums.*;
@@ -22,6 +23,7 @@ import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
+import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -123,6 +125,11 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48);
+    }
+
+    @Override
+    protected EntityNavigation createNavigation(World world) {
+        return new VillagerNavigation(this, world);
     }
 
     @Override
@@ -356,6 +363,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void tick() {
         super.tick();
 
+        this.calculateDimensions();
+
         if (world.isClient) {
             if (isProcreating.get()) {
                 this.headYaw += 50.0F;
@@ -374,8 +383,12 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public EntityDimensions getDimensions(EntityPose pose) {
 
-        float height = genetics.getVerticalScaleFactor() + 0.8F;
-        float width = genetics.getHorizontalScaleFactor() * 0.7F;
+        if (pose == EntityPose.SLEEPING) {
+            return SLEEPING_DIMENSIONS;
+        }
+
+        float height = genetics.getVerticalScaleFactor() * 1.9F;
+        float width = genetics.getHorizontalScaleFactor() * 0.65F;
 
         return EntityDimensions.changing(width, height);
     }
