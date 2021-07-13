@@ -49,7 +49,7 @@ public class Residency {
     }
 
     public void setWorkplace(PlayerEntity player) {
-        entity.say(player, "interaction.setworkplace.success");
+        entity.sendChatMessage(player, "interaction.setworkplace.success");
         entity.getBrain().remember(MemoryModuleType.JOB_SITE, GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos()));
     }
 
@@ -58,7 +58,7 @@ public class Residency {
     }
 
     public void setHangout(PlayerEntity player) {
-        entity.say(player, "interaction.sethangout.success");
+        entity.sendChatMessage(player, "interaction.sethangout.success");
         hangoutPos.set(player.getBlockPos());
     }
 
@@ -139,9 +139,9 @@ public class Residency {
     void setHome(PlayerEntity player) {
         //check if it is a bed
         if (setHome(player.getBlockPos(), player.world)) {
-            entity.say(player, "interaction.sethome.success");
+            entity.sendChatMessage(player, "interaction.sethome.success");
         } else {
-            entity.say(player, "interaction.sethome.fail");
+            entity.sendChatMessage(player, "interaction.sethome.fail");
         }
     }
 
@@ -151,8 +151,8 @@ public class Residency {
             .filter(p -> p.getDimension() == entity.world.getRegistryKey())
             .ifPresentOrElse(home -> {
             entity.moveTowards(home.getPos());
-            entity.say(player, "interaction.gohome.success");
-        }, () -> entity.say(player, "interaction.gohome.fail"));
+            entity.sendChatMessage(player, "interaction.gohome.success");
+        }, () -> entity.sendChatMessage(player, "interaction.gohome.fail"));
     }
 
     private void clearHome() {

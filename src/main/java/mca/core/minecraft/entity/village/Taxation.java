@@ -23,7 +23,7 @@ public class Taxation {
             village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
             deliverTaxes(village, (ServerWorld) world);
 
-            Messenger.tellAll(world, new TranslatableText("gui.village.taxes", village.getName()));
+            Messenger.sendEventMessage(world, new TranslatableText("gui.village.taxes", village.getName()));
         }
     }
 

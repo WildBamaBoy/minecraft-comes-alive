@@ -14,14 +14,20 @@ import net.minecraft.server.world.ServerWorld;
 import java.util.Optional;
 
 public class GreetPlayerTask extends Task<VillagerEntityMCA> {
-    private static final int talkTime = 10 * 20;
+    private static final int talkTime = 200;
+
     private int cooldown;
     private PlayerEntity target;
     private boolean talked;
     private int talking;
 
     public GreetPlayerTask() {
-        super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.INTERACTION_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleState.VALUE_PRESENT));
+        super(ImmutableMap.of(
+                MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED,
+                MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED,
+                MemoryModuleType.INTERACTION_TARGET, MemoryModuleState.REGISTERED,
+                MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleState.VALUE_PRESENT
+        ));
     }
 
     @Override
@@ -61,7 +67,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
                 memories.setLastSeen(day);
 
                 String phrase = memories.getHearts() <= MCA.getConfig().greetHeartsThreshold ? "welcomeFoe" : "welcome";
-                villager.say(target, phrase, target.getName().asString());
+                villager.sendChatMessage(target, phrase, target.getName());
                 talked = true;
                 talking = talkTime;
 

@@ -61,7 +61,7 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
             consume = true;
         }
 
-        villager.say(player, response);
+        villager.sendChatMessage(player, response);
         return consume;
     }
 }

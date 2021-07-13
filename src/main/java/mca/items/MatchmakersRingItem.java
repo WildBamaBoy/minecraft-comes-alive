@@ -17,13 +17,13 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
     public boolean handle(PlayerEntity player, VillagerEntityMCA villager) {
         // ensure two rings are in the inventory
         if (player.getMainHandStack().getCount() < 2) {
-            villager.say(player, "interaction.matchmaker.fail.needtwo");
+            villager.sendChatMessage(player, "interaction.matchmaker.fail.needtwo");
             return false;
         }
 
         // ensure our target isn't married already or young
         if (villager.isMarried() || villager.getAgeState() != AgeState.ADULT) {
-            villager.say(player, "interaction.matchmaker.fail.married");
+            villager.sendChatMessage(player, "interaction.matchmaker.fail.married");
             return false;
         }
 
@@ -36,7 +36,7 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
 
         // ensure we found a nearby villager
         if (!target.isPresent()) {
-            villager.say(player, "interaction.matchmaker.fail.novillagers");
+            villager.sendChatMessage(player, "interaction.matchmaker.fail.novillagers");
             return false;
         }
 

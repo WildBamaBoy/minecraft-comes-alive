@@ -6,7 +6,6 @@ import mca.api.API;
 import mca.api.types.Button;
 import mca.api.types.Hair;
 import mca.client.gui.GuiInteract;
-import mca.cobalt.localizer.Localizer;
 import mca.cobalt.minecraft.network.datasync.*;
 import mca.core.MCA;
 import mca.core.minecraft.*;
@@ -51,7 +50,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
@@ -317,7 +315,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
-                sendMessageTo("villager.hurt", source.getAttacker());
+                sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
             }
 
             if (source.getSource() instanceof ZombieEntity && getProfession() != ProfessionsMCA.GUARD && MCA.getConfig().enableInfection && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
@@ -447,22 +445,23 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     @Override
-    public Text formatDialogueMessage(String phraseId, PlayerEntity receiver, Object... params) {
-        MutableText chatPrefix = new LiteralText(MCA.getConfig().villagerChatPrefix).append(getDisplayName()).append(": ");
+    public boolean isInfected() {
+        return isInfected.get();
+    }
 
-        if (isInfected.get()) { // Infected villagers do not speak
+    @Override
+    public void playSpeechEffect() {
+        if (isInfected()) {
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
-            return chatPrefix.append("???");
+        } else {
+            // TODO: Custom sounds
+            // playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
         }
+    }
 
-        DialogueType dialogueType = mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
-
-        // Player is always first in params passed to localizer for say().
-        return chatPrefix.append(
-                new TranslatableText(dialogueType.getTranslationKey(phraseId),
-                        Stream.concat(Stream.of(receiver.getName()),
-                                Stream.of(params)).toArray())
-                );
+    @Override
+    public DialogueType getDialogueType(PlayerEntity receiver) {
+        return mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
     }
 
     public boolean isMarried() {
@@ -526,7 +525,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         memory.modHearts(succeeded ? heartsBoost : -heartsBoost);
         mcaBrain.modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
 
-        say(player, String.format("%s.%s", interactionName, succeeded ? "success" : "fail"));
+        sendChatMessage(player, String.format("%s.%s", interactionName, succeeded ? "success" : "fail"));
         closeGUIIfOpen();
     }
 
@@ -596,9 +595,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                             //check if desaturation fail happen
                             if (random.nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
                                 giftValue = -giftValue / 2;
-                                say(player, API.getResponseForSaturatedGift(stack));
+                                sendChatMessage(player, API.getResponseForSaturatedGift(stack));
                             } else {
-                                say(player, API.getResponseForGift(stack));
+                                sendChatMessage(player, API.getResponseForGift(stack));
                             }
 
                             //modify mood and hearts
@@ -625,9 +624,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 break;
             case "gui.button.procreate":
                 if (PlayerSaveData.get(world, player.getUuid()).isBabyPresent()) {
-                    say(player, "interaction.procreate.fail.hasbaby");
+                    sendChatMessage(player, "interaction.procreate.fail.hasbaby");
                 } else if (memory.getHearts() < 100) {
-                    say(player, "interaction.procreate.fail.lowhearts");
+                    sendChatMessage(player, "interaction.procreate.fail.lowhearts");
                 } else {
                     procreateTick = 60;
                     isProcreating.set(true);
@@ -710,9 +709,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             if (isMarried() && !isBaby()) {
                 if (pregnancy.tryStartGestation()) {
                     produceParticles(ParticleTypes.HEART);
-                    say(player, "gift.cake.success");
+                    sendChatMessage(player, "gift.cake.success");
                 } else {
-                    say(player, "gift.cake.fail");
+                    sendChatMessage(player, "gift.cake.fail");
                 }
                 return true;
             }
@@ -760,7 +759,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 // Notify player parents of the age up and set correct dialogue type.
                 getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
                     mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                    sendMessageTo(Localizer.localize("notify.child.grownup", villagerName.get()), p);
+                    sendEventMessage(new TranslatableText("notify.child.grownup", villagerName.get()), p);
                 });
             }
         }

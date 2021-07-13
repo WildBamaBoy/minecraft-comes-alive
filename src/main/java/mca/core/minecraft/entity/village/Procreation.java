@@ -29,7 +29,7 @@ public class Procreation {
         PoolUtil.pick(village.getResidents(world), world.random)
             .filter(villager -> villager.getPregnancy().tryStartGestation())
             .ifPresent(villager -> {
-                villager.getSpouse().ifPresent(spouse -> villager.tellAll(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
+                villager.getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
             });
     }
 
@@ -61,7 +61,7 @@ public class Procreation {
         PoolUtil.pop(males, world.random).ifPresent(husband -> {
             PoolUtil.pop(females, world.random).ifPresent(wife -> {
                 // notify all players
-                wife.tellAll(new TranslatableText("events.marry", husband.getName(), wife.getName()));
+                wife.sendEventMessage(new TranslatableText("events.marry", husband.getName(), wife.getName()));
                 // marry
                 husband.marry(wife);
                 wife.marry(husband);
