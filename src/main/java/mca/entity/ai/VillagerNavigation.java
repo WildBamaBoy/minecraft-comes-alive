@@ -1,13 +1,9 @@
 package mca.entity.ai;
 
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.DoorBlock;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.ai.pathing.LandPathNodeMaker;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeNavigator;

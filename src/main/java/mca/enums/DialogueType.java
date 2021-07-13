@@ -1,5 +1,7 @@
 package mca.enums;
 
+import java.util.stream.Stream;
+
 import net.minecraft.util.Language;
 
 public enum DialogueType {
@@ -12,8 +14,10 @@ public enum DialogueType {
     private static final DialogueType[] VALUES = values();
 
     public String getTranslationKey(String phrase) {
-        String fullPhrase = name().toLowerCase() + "." + phrase;
-        return Language.getInstance().hasTranslation(fullPhrase) ? fullPhrase : "generic." + phrase;
+        return Stream.of(name().toLowerCase() + "." + phrase, "generic." + phrase)
+                .filter(Language.getInstance()::hasTranslation)
+                .findFirst()
+                .orElse(phrase);
     }
 
     public static DialogueType byId(int id) {
