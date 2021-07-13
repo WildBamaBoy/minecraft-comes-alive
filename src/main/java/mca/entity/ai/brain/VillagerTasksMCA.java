@@ -100,6 +100,7 @@ public class VillagerTasksMCA {
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getRestPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
                 Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.HOME, speedModifier, 1, 150, 1200)),
+                Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.HOME, MemoryModuleType.HOME)), // stops from trying to reach a bed when it stops being available.
                 Pair.of(3, new SleepTask()),
                 Pair.of(5, new RandomTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_ABSENT), ImmutableList.of(
                         Pair.of(new WalkHomeTask(speedModifier), 1),
