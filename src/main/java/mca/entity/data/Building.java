@@ -173,7 +173,7 @@ public class Building implements Serializable {
         if (hasDoor && queue.isEmpty() && done.size() > 32) {
             //fetch all interesting block types
             Set<String> blockTypes = new HashSet<>();
-            for (BuildingType bt : API.getBuildingTypes().values()) {
+            for (BuildingType bt : API.getVillagePool()) {
                 blockTypes.addAll(bt.blocks().keySet());
             }
             //dimensions
@@ -225,7 +225,7 @@ public class Building implements Serializable {
 
             //determine type
             int bestPriority = -1;
-            for (BuildingType bt : API.getBuildingTypes().values()) {
+            for (BuildingType bt : API.getVillagePool()) {
                 if (bt.priority() > bestPriority && sz >= bt.size()) {
                     boolean valid = true;
                     for (Map.Entry<String, Integer> block : bt.blocks().entrySet()) {

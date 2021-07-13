@@ -42,7 +42,13 @@ public class HairList {
         );
     }
 
-    public Hair getRandomHair(VillagerEntityMCA villager) {
+    /**
+     * Returns a random hair and optional overlay based on the gender provided.
+     *
+     * @param villager The villager who will be assigned the hair.
+     * @return String location of the random skin
+     */
+    public Hair pickOne(VillagerEntityMCA villager) {
         List<Hair> hairs = hair.get(villager.getGenetics().getGender());
         if (hairs.isEmpty()) {
             return new Hair();
@@ -51,7 +57,7 @@ public class HairList {
     }
 
     //returns the next clothing with given offset to current
-    public Hair getNextHair(VillagerEntityMCA villager, Hair current, int next) {
+    public Hair pickNext(VillagerEntityMCA villager, Hair current, int next) {
         List<Hair> hairs = hair.get(villager.getGenetics().getGender());
 
         //look for the current one
@@ -62,7 +68,7 @@ public class HairList {
         }
 
         //fallback
-        return getRandomHair(villager);
+        return pickOne(villager);
     }
 
     public record HairGroup(String gender, int count) {

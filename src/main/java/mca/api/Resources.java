@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-interface Resources {
+public interface Resources {
     String RESOURCE_PREFIX = "assets/mca/";
 
     Gson GSON = new GsonBuilder()

@@ -10,17 +10,13 @@ import com.google.gson.reflect.TypeToken;
 
 import mca.api.types.Button;
 import mca.api.types.Icon;
-import mca.client.gui.GuiInteract;
-import mca.client.gui.component.ButtonEx;
 import mca.core.MCA;
-import mca.enums.Constraint;
 
 public class GuiComponents {
     private final Map<String, Button[]> buttons = new HashMap<>();
     private final Map<String, Icon> icons = new HashMap<>();
 
     void load() {
-
         // Read in buttons
         buttons.put("main", Resources.read("api/gui/main.json", Button[].class));
         buttons.put("interact", Resources.read("api/gui/interact.json", Button[].class));
@@ -33,13 +29,24 @@ public class GuiComponents {
         // Icons
         Type mapType = new TypeToken<Map<String, Icon>>() {}.getType();
         icons.putAll(Resources.read("api/gui/icons.json", mapType));
-
     }
 
-    public Optional<Button> getButtonById(String key, String id) {
+    /**
+     * Returns an API button based on its ID
+     *
+     * @param id String id matching the targeted button
+     * @return Instance of APIButton matching the ID provided
+     */
+    public Optional<Button> getButton(String key, String id) {
         return Arrays.stream(buttons.get(key)).filter(b -> b.identifier().equals(id)).findFirst();
     }
 
+    /**
+     * Returns an API icon based on its key
+     *
+     * @param key String key of icon
+     * @return Instance of APIIcon matching the ID provided
+     */
     public Icon getIcon(String key) {
         if (!icons.containsKey(key)) {
             MCA.logger.info("Icon " + key + " does not exist!");
@@ -48,20 +55,12 @@ public class GuiComponents {
         return icons.get(key);
     }
 
-    public void addButtons(String guiKey, GuiInteract screen) {
-        for (Button b : buttons.get(guiKey)) {
-            ButtonEx guiButton = new ButtonEx(screen, b);
-            screen.addExButton(guiButton);
-
-            // Remove the button if we specify it should not be present on constraint failure
-            // Otherwise we just mark the button as disabled.
-            boolean isValid = b.isValidForConstraint(screen.getConstraints());
-            if (!isValid && b.getConstraints().contains(Constraint.HIDE_ON_FAIL)) {
-                guiButton.visible = false;
-            } else if (!isValid) {
-                guiButton.active = false;
-            }
-        }
+    /**
+     * Gets all of the buttons for a particular screen.
+     *
+     * @param guiKey String key for the GUI's buttons
+     */
+    public Optional<Button[]> getButtons(String guiKey) {
+        return Optional.ofNullable(buttons.get(guiKey));
     }
-
 }

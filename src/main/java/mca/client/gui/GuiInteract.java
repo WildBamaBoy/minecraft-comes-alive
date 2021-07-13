@@ -1,8 +1,8 @@
 package mca.client.gui;
 
 import mca.api.API;
+import mca.api.types.Button;
 import mca.api.types.Icon;
-import mca.client.gui.component.ButtonEx;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
@@ -13,8 +13,6 @@ import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -32,8 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GuiInteract extends Screen {
+public class GuiInteract extends AbstractDynamicScreen {
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
+
     private final VillagerEntityMCA villager;
     private final PlayerEntity player;
     private final float iconScale = 1.5f;
@@ -46,14 +45,26 @@ public class GuiInteract extends Screen {
     private String father;
     private String mother;
 
-    // Tracks which page we're on in the GUI for sending button events
-    private String activeKey = "main";
-
     public GuiInteract(VillagerEntityMCA villager, PlayerEntity player) {
         super(new LiteralText("Interact"));
 
         this.villager = villager;
         this.player = player;
+    }
+
+    @Override
+    public Map<String, Boolean> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(Map<String, Boolean> constraints) {
+        this.constraints = constraints;
+        setLayout("main");
+    }
+
+    public void setParents(String father, String mother) {
+        this.father = father;
+        this.mother = mother;
     }
 
     @Override
@@ -70,10 +81,6 @@ public class GuiInteract extends Screen {
     @Override
     public void init() {
         NetworkHandler.sendToServer(new GetInteractDataRequest(villager.getUuid()));
-    }
-
-    public void addExButton(ButtonEx b) {
-        addDrawableChild(b);
     }
 
     @Override
@@ -111,7 +118,7 @@ public class GuiInteract extends Screen {
 
         // Right mouse button
         if (inGiftMode && button == 1) {
-            NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, "gui.button.gift", villager.getUuid()));
+            NetworkHandler.sendToServer(new InteractionVillagerMessage(getActiveScreen(), "gui.button.gift", villager.getUuid()));
             return true;
         } else {
             return false;
@@ -134,18 +141,18 @@ public class GuiInteract extends Screen {
     }
 
     private void drawIcon(MatrixStack transform, String key) {
-        Icon icon = API.getIcon(key);
+        Icon icon = API.getScreenComponents().getIcon(key);
         this.drawTexture(transform, (int) (icon.x() / iconScale), (int) (icon.y() / iconScale), icon.u(), icon.v(), 16, 16);
     }
 
     private void drawHoveringIconText(MatrixStack transform, Text text, String key) {
-        Icon icon = API.getIcon(key);
+        Icon icon = API.getScreenComponents().getIcon(key);
         renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
     private void drawHoveringIconText(MatrixStack transform, List<Text> text, String key) {
-        Icon icon = API.getIcon(key);
-        this.renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
+        Icon icon = API.getScreenComponents().getIcon(key);
+        renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
     private void drawIcons(MatrixStack transform) {
@@ -266,7 +273,7 @@ public class GuiInteract extends Screen {
 
     //checks if the mouse hovers over a specified button
     private boolean hoveringOverIcon(String key) {
-        Icon icon = API.getIcon(key);
+        Icon icon = API.getScreenComponents().getIcon(key);
         return hoveringOver(icon.x(), icon.y(), (int) (16 * iconScale), (int) (16 * iconScale));
     }
 
@@ -286,12 +293,12 @@ public class GuiInteract extends Screen {
     }
 
     private boolean canDrawGiftIcon() {
-//        return villager.getMemoriesForPlayer(player).isGiftPresent();
-        return false;
+        return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
     }
 
-    public void buttonPressed(ButtonEx button) {
-        String id = button.getApiButton().identifier();
+    @Override
+    protected void buttonPressed(Button button) {
+        String id = button.identifier();
 
         if (timeSinceLastClick <= 2) {
             return; /* Prevents click-throughs on Mojang's button system */
@@ -300,123 +307,37 @@ public class GuiInteract extends Screen {
 
         /* Progression to different GUIs */
         if (id.equals("gui.button.interact")) {
-            activeKey = "interact";
-            drawInteractButtonMenu();
+            setLayout("interact");
         } else if (id.equals("gui.button.command")) {
-            activeKey = "command";
-            drawCommandButtonMenu();
+            setLayout("command");
+            disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
         } else if (id.equals("gui.button.clothing")) {
-            activeKey = "clothing";
-            drawClothingMenu();
+            setLayout("clothing");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new GuiFamilyTree(villager.getUuid()));
         } else if (id.equals("gui.button.work")) {
-            activeKey = "work";
-            drawWorkButtonMenu();
+            setLayout("work");
+            disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());
         } else if (id.equals("gui.button.backarrow")) {
             if (inGiftMode) {
                 inGiftMode = false;
                 enableAllButtons();
             } else {
-                drawMainButtonMenu();
-                activeKey = "main";
+                setLayout("main");
             }
         } else if (id.equals("gui.button.locations")) {
-            activeKey = "locations";
-            drawLocationsButtonMenu();
-        }
-        /* Anything that should notify the server is handled here */
-        else if (button.getApiButton().notifyServer()) {
-            if (button.getApiButton().targetServer()) {
-                NetworkHandler.sendToServer(new InteractionServerMessage(activeKey, id));
+            setLayout("locations");
+        } else if (button.notifyServer()) {
+            /* Anything that should notify the server is handled here */
+
+            if (button.targetServer()) {
+                NetworkHandler.sendToServer(new InteractionServerMessage(getActiveScreen(), id));
             } else {
-                NetworkHandler.sendToServer(new InteractionVillagerMessage(activeKey, id, villager.getUuid()));
+                NetworkHandler.sendToServer(new InteractionVillagerMessage(getActiveScreen(), id, villager.getUuid()));
             }
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
             disableAllButtons();
         }
-    }
-
-    private void clearButtons() {
-        clearChildren();
-    }
-
-    private void drawMainButtonMenu() {
-        clearButtons();
-        API.addButtons("main", this);
-    }
-
-    private void drawInteractButtonMenu() {
-        clearButtons();
-        API.addButtons("interact", this);
-    }
-
-    private void drawCommandButtonMenu() {
-        clearButtons();
-        API.addButtons("command", this);
-        disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
-    }
-
-    private void drawClothingMenu() {
-        clearButtons();
-        API.addButtons("clothing", this);
-    }
-
-    private void drawWorkButtonMenu() {
-        clearButtons();
-        API.addButtons("work", this);
-        disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());
-    }
-
-    private void drawLocationsButtonMenu() {
-        clearButtons();
-        API.addButtons("locations", this);
-    }
-
-    private void disableButton(String id) {
-        this.children().forEach(b -> {
-            if (b instanceof ButtonEx) {
-                if (((ButtonEx) b).getApiButton().identifier().equals(id)) {
-                    ((ButtonEx)b).active = false;
-                }
-            }
-        });
-    }
-
-    private void enableAllButtons() {
-        this.children().forEach(b -> {
-            if (b instanceof ClickableWidget) {
-                ((ClickableWidget)b).active = true;
-            }
-        });
-    }
-
-    private void disableAllButtons() {
-        this.children().forEach(b -> {
-            if (b instanceof ClickableWidget) {
-                if (b instanceof ButtonEx) {
-                    if (!((ButtonEx) b).getApiButton().identifier().equals("gui.button.backarrow")) {
-                        ((ClickableWidget)b).active = true;
-                    }
-                } else {
-                    ((ClickableWidget)b).active = true;
-                }
-            }
-        });
-    }
-
-    public Map<String, Boolean> getConstraints() {
-        return constraints;
-    }
-
-    public void setConstraints(Map<String, Boolean> constraints) {
-        this.constraints = constraints;
-        drawMainButtonMenu();
-    }
-
-    public void setParents(String father, String mother) {
-        this.father = father;
-        this.mother = mother;
     }
 }

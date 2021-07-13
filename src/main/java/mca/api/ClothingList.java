@@ -67,12 +67,18 @@ public class ClothingList {
         return String.format("mca:skins/clothing/%s/%s/%d.png", group.getGender().getStrName(), group.profession().split(":")[1], i);
     }
 
+    /**
+     * Returns a random skin based on the profession and gender provided.
+     *
+     * @param villager The villager who will be assigned the random skin.
+     * @return String location of the random skin
+     */
     public String pickOne(VillagerEntityMCA villager) {
         List<WeightedEntry> group = getClothing(villager);
         if (group.isEmpty()) {
             return "";
         }
-        double totalChance = group.stream().mapToDouble(a -> a.weight).sum() * rng.nextDouble();
+        double totalChance = group.stream().mapToDouble(a -> a.weight).sum() * rng.nextFloat();
 
         for (WeightedEntry e : group) {
             totalChance -= e.weight;
@@ -86,7 +92,7 @@ public class ClothingList {
     /**
      * returns the next clothing with given offset to current
      */
-    public String getNext(VillagerEntityMCA villager, String current, int next) {
+    public String pickNext(VillagerEntityMCA villager, String current, int next) {
         List<WeightedEntry> group = getClothing(villager);
 
         //look for the current one
@@ -121,7 +127,7 @@ public class ClothingList {
 
         public WeightedEntry(String value, float weight) {
             this.value = value;
-            this.weight = weight;
+            this.weight = Math.max(1, weight);
         }
     }
 }

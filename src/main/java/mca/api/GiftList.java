@@ -3,7 +3,6 @@ package mca.api;
 import java.util.HashMap;
 import java.util.Map;
 
-import mca.api.types.Gift;
 import mca.core.MCA;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -23,7 +22,13 @@ public class GiftList {
         }
     }
 
-    public int getGiftValueFromStack(ItemStack stack) {
+    /**
+     * Returns the value of a gift from an ItemStack
+     *
+     * @param stack ItemStack containing the gift item
+     * @return int value determining the gift value of a stack
+     */
+    public int getWorth(ItemStack stack) {
         if (stack.isEmpty()) {
             return 0;
         }
@@ -36,8 +41,14 @@ public class GiftList {
         return gifts.containsKey(name) ? gifts.get(name).value() : 0;
     }
 
-    public String getResponseForGift(ItemStack stack) {
-        int value = getGiftValueFromStack(stack);
+    /**
+     * Returns the proper response type based on a gift provided
+     *
+     * @param stack ItemStack containing the gift item
+     * @return String value of the appropriate response type
+     */
+    public String getResponse(ItemStack stack) {
+        int value = getWorth(stack);
         return "gift." + (value <= 0 ? "fail" : value <= 5 ? "good" : value <= 10 ? "better" : "best");
     }
 
@@ -45,5 +56,19 @@ public class GiftList {
         return "saturatedGift";
     }
 
+    public record Gift (
+            String type,
+            String name,
+            int value) {
 
+        /**
+         * Used for verifying if a given gift exists in the game's registries.
+         *
+         * @return True if the item/block exists.
+         */
+        public boolean exists() {
+            //TODO Check for registration
+            return true;
+        }
+    }
 }

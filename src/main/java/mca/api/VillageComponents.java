@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -18,7 +19,7 @@ import mca.api.types.NameSet;
 import mca.enums.Gender;
 import net.minecraft.util.ChatUtil;
 
-public class VillageComponents {
+public class VillageComponents implements Iterable<BuildingType> {
     private final Map<String, BuildingType> buildingTypes = new HashMap<>();
     private final Map<String, NameSet> nameSets = new HashMap<>();
     private final Map<Gender, List<String>> villagerNames = new EnumMap<>(Gender.class);
@@ -56,6 +57,12 @@ public class VillageComponents {
         }
     }
 
+    /**
+     * Gets a random name based on the gender provided.
+     *
+     * @param gender The gender the name should be appropriate for.
+     * @return A gender appropriate name based on the provided gender.
+     */
     public String pickCitizenName(@NotNull Gender gender) {
         return PoolUtil.pickOne(villagerNames.getOrDefault(gender, List.of()), "", rng);
     }
@@ -71,5 +78,10 @@ public class VillageComponents {
 
     public BuildingType getBuildingType(String type) {
         return buildingTypes.containsKey(type) ? buildingTypes.get(type) : new BuildingType();
+    }
+
+    @Override
+    public Iterator<BuildingType> iterator() {
+        return buildingTypes.values().iterator();
     }
 }

@@ -50,7 +50,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -171,7 +170,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 }
             }
 
-            villagerName.set(API.getRandomName(getGenetics().getGender()));
+            villagerName.set(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
 
             initializeSkin();
 
@@ -195,7 +194,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void setVillagerData(VillagerData data) {
         super.setVillagerData(data);
         if (getProfession() != data.getProfession()) {
-            clothes.set(API.getRandomClothing(this));
+            clothes.set(API.getClothingPool().pickOne(this));
         }
     }
 
@@ -313,9 +312,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     private void initializeSkin() {
-        clothes.set(API.getRandomClothing(this));
+        clothes.set(API.getClothingPool().pickOne(this));
 
-        Hair h = API.getRandomHair(this);
+        Hair h = API.getHairPool().pickOne(this);
         hair.set(h.texture());
         hairOverlay.set(h.overlay());
     }
@@ -558,7 +557,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public void handleInteraction(PlayerEntity player, String guiKey, String buttonId) {
         Memories memory = mcaBrain.getMemoriesForPlayer(player);
-        Optional<Button> button = API.getButtonById(guiKey, buttonId);
+        Optional<Button> button = API.getScreenComponents().getButton(guiKey, buttonId);
         if (!button.isPresent()) {
             MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
         } else if (button.get().isInteraction()) {
@@ -599,9 +598,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 closeGUIIfOpen();
                 break;
             case "gui.button.trade":
-                this.sendOffers(player, this.getDisplayName(), this.getVillagerData().getLevel());
-                this.prepareOffersFor(player);
-                this.setCurrentCustomer(player);
+                sendOffers(player, getDisplayName(), getVillagerData().getLevel());
+                prepareOffersFor(player);
+                setCurrentCustomer(player);
 
                 break;
             case "gui.button.inventory":
@@ -611,7 +610,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 ItemStack stack = player.getMainHandStack();
 
                 if (!stack.isEmpty()) {
-                    int giftValue = API.getGiftValueFromStack(stack);
+                    int giftValue = API.getGiftPool().getWorth(stack);
                     if (!handleSpecialCaseGift(player, stack)) {
                         if (stack.getItem() == Items.GOLDEN_APPLE) {
                             //TODO special
@@ -624,9 +623,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                             //check if desaturation fail happen
                             if (random.nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
                                 giftValue = -giftValue / 2;
-                                sendChatMessage(player, API.getResponseForSaturatedGift(stack));
+                                sendChatMessage(player, API.getGiftPool().getResponseForSaturatedGift(stack));
                             } else {
-                                sendChatMessage(player, API.getResponseForGift(stack));
+                                sendChatMessage(player, API.getGiftPool().getResponse(stack));
                             }
 
                             //modify mood and hearts
@@ -666,22 +665,22 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 isInfected.set(!isInfected.get());
                 break;
             case "gui.button.clothing.randClothing":
-                clothes.set(API.getRandomClothing(this));
+                clothes.set(API.getClothingPool().pickOne(this));
                 break;
             case "gui.button.clothing.prevClothing":
-                clothes.set(API.getNextClothing(this, clothes.get(), -1));
+                clothes.set(API.getClothingPool().pickNext(this, clothes.get(), -1));
                 break;
             case "gui.button.clothing.nextClothing":
-                clothes.set(API.getNextClothing(this, clothes.get()));
+                clothes.set(API.getClothingPool().pickNext(this, clothes.get(), 1));
                 break;
             case "gui.button.clothing.randHair":
-                setHair(API.getRandomHair(this));
+                setHair(API.getHairPool().pickOne(this));
                 break;
             case "gui.button.clothing.prevHair":
-                setHair(API.getNextHair(this, getHair(), -1));
+                setHair(API.getHairPool().pickNext(this, getHair(), -1));
                 break;
             case "gui.button.clothing.nextHair":
-                setHair(API.getNextHair(this, getHair()));
+                setHair(API.getHairPool().pickNext(this, getHair(), 1));
                 break;
             case "gui.button.profession":
                 setProfession(ProfessionsMCA.randomProfession());

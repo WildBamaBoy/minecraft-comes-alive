@@ -29,8 +29,7 @@ public record Button (
 
     //checks if a map of given evaluated constraints apply to this button
     public boolean isValidForConstraint(Map<String, Boolean> checkedConstraints) {
-        List<Constraint> constraints = getConstraints();
-        for (Constraint constraint : constraints) {
+        for (Constraint constraint : getConstraints()) {
             if (checkedConstraints.get(constraint.getId())) {
                 return false;
             }

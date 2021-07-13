@@ -33,7 +33,7 @@ public class Village implements Serializable, Iterable<Building> {
     private final Map<Integer, Building> buildings = new HashMap<>();
     public long lastMoveIn;
     private int id;
-    private String name = API.getRandomVillageName("village");
+    private String name = API.getVillagePool().pickVillageName("village");
     private int centerX, centerY, centerZ;
     private int size = 32;
     private int taxes;

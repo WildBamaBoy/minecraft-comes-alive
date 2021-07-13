@@ -148,7 +148,7 @@ public class GuiBlueprint extends Screen {
             int w = 120;
             int h = 55;
             int spacing = 8;
-            for (BuildingType bt : API.getBuildingTypes().values()) {
+            for (BuildingType bt : API.getVillagePool()) {
                 if (bt.visible()) {
                     int x = width / 2 + fromCenter * (col - 1);
                     int y = row * (h + spacing) + 105;
@@ -258,7 +258,7 @@ public class GuiBlueprint extends Screen {
             for (Building building : village.getBuildings().values()) {
                 BlockPos p0 = building.getPos0();
                 BlockPos p1 = building.getPos1();
-                BuildingType bt = API.getBuildingType(building.getType());
+                BuildingType bt = API.getVillagePool().getBuildingType(building.getType());
                 rectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
 
                 //tooltip
@@ -274,7 +274,7 @@ public class GuiBlueprint extends Screen {
                 List<Text> lines = new LinkedList<>();
 
                 //name
-                BuildingType bt = API.getBuildingType(hoverBuilding.getType());
+                BuildingType bt = API.getVillagePool().getBuildingType(hoverBuilding.getType());
                 lines.add(new TranslatableText("buildingType." + bt.name()));
                 lines.add(new TranslatableText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
 
