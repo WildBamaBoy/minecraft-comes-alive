@@ -71,6 +71,20 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         super.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
 
+        if (entity.getVillagerBrain().isPanicking()) {
+            float toRadiums = (float)Math.PI / 180;
+
+            float armRaise = (((float)Math.sin(animationProgress / 5) * 30 - 180)
+                    + ((float)Math.sin(animationProgress / 3) * 3))
+                    * toRadiums;
+            float waveSideways = ((float)Math.sin(animationProgress / 2) * 12 - 17) * toRadiums;
+
+            this.leftArm.pitch = armRaise;
+            this.leftArm.roll = -waveSideways;
+            this.rightArm.pitch = -armRaise;
+            this.rightArm.roll = waveSideways;
+        }
+
         breasts.copyTransform(body);
     }
 

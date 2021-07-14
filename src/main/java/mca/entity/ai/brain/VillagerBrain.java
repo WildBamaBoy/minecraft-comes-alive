@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
+import mca.cobalt.minecraft.network.datasync.CBooleanParameter;
 import mca.cobalt.minecraft.network.datasync.CDataManager;
 import mca.cobalt.minecraft.network.datasync.CEnumParameter;
 import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
@@ -129,6 +130,8 @@ public class VillagerBrain {
     private final CEnumParameter<Chore> activeChore;
     private final CUUIDParameter choreAssigningPlayer;
 
+    private final CBooleanParameter panicking;
+
     public VillagerBrain(VillagerEntityMCA entity, CDataManager data) {
         this.entity = entity;
         memories = data.newTag("memories");
@@ -136,6 +139,7 @@ public class VillagerBrain {
         mood = data.newInteger("mood");
         moveState = data.newEnum("moveState", MoveState.MOVE);
         activeChore = data.newEnum("activeChore", Chore.NONE);
+        panicking = data.newBoolean("isPanicking");
         choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
     }
 
@@ -153,18 +157,23 @@ public class VillagerBrain {
         // When you relog, it should continue doing the chores.
         // Chore saves but Activity doesn't, so this checks if the activity is not on there and puts it on there.
 
-        if (activeChore.get() == Chore.NONE) {
-            return; // I have nothing to do
+        if (activeChore.get() != Chore.NONE) {
+            // find something to do
+            entity.getBrain().getFirstPossibleNonCoreActivity().ifPresent(activity -> {
+                if (!activity.equals(ActivityMCA.CHORE)) {
+                    entity.getBrain().doExclusively(ActivityMCA.CHORE);
+                }
+            });
         }
 
-        // find something to do
-        entity.getBrain().getFirstPossibleNonCoreActivity().ifPresent(activity -> {
-            if (!activity.equals(ActivityMCA.CHORE)) {
-                entity.getBrain().doExclusively(ActivityMCA.CHORE);
-            }
-        });
+        boolean panicking = entity.getBrain().hasActivity(Activity.PANIC);
+        if (panicking != this.panicking.get()) {
+            this.panicking.set(panicking);
+        }
 
-        updateMoveState();
+        if (entity.age % 20 != 0) {
+            updateMoveState();
+        }
     }
 
     public Chore getCurrentJob() {
@@ -225,6 +234,10 @@ public class VillagerBrain {
 
     public Mood getMood() {
         return getPersonality().getMoodGroup().getMood(mood.get());
+    }
+
+    public boolean isPanicking() {
+        return panicking.get();
     }
 
     public void modifyMoodLevel(int mood) {

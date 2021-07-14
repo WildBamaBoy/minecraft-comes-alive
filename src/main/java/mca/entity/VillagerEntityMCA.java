@@ -462,9 +462,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         // Brain and pregnancy depend on the above states, so we tick them last
         // Every 1 second
-        if (age % 20 == 0) {
-            mcaBrain.think();
-        }
+        mcaBrain.think();
     }
 
     @Nullable
