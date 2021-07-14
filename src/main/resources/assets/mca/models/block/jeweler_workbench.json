@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "particle": "minecraft:block/jeweler_workbench_front",
-    "north": "minecraft:block/jeweler_workbench_front",
-    "south": "minecraft:block/jeweler_workbench_side",
-    "east": "minecraft:block/jeweler_workbench_side",
-    "west": "minecraft:block/jeweler_workbench_front",
-    "up": "minecraft:block/jeweler_workbench_top",
-    "down": "minecraft:block/oak_planks"
+    "particle": "mca:block/jeweler_workbench_front",
+    "north": "mca:block/jeweler_workbench_front",
+    "south": "mca:block/jeweler_workbench_side",
+    "east": "mca:block/jeweler_workbench_side",
+    "west": "mca:block/jeweler_workbench_front",
+    "up": "mca:block/jeweler_workbench_top",
+    "down": "mca:block/oak_planks"
   }
 }
