@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 import mca.MCA;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
 import mca.util.WorldUtils;
@@ -88,7 +89,7 @@ public class VillagerFactory {
     public VillagerEntityMCA build() {
         VillagerEntityMCA villager = gender.orElseGet(Gender::getRandom).getVillagerType().create(world);
         villager.villagerName.set(name.orElseGet(() -> API.getVillagePool().pickCitizenName(villager.getGenetics().getGender())));
-        villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(24000 * 2) - 24000));
+        villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(AgeState.startingAge * 2) - AgeState.startingAge));
         position.ifPresent(pos -> villager.updatePosition(pos.getX(), pos.getY(), pos.getZ()));
         VillagerData data = villager.getVillagerData();
         villager.setVillagerData(new VillagerData(
