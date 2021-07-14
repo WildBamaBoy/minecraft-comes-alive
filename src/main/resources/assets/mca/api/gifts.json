@@ -1,1292 +1,250 @@
-[
-  {
-    "type": "item",
-    "name": "minecraft:wooden_sword",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:wooden_axe",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:wooden_hoe",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:wooden_shovel",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:wooden_pickaxe",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:stone_sword",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:stone_axe",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:stone_hoe",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:stone_shovel",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:stone_pickaxe",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:beef",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chicken",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:porkchop",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:leather",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:leather_chestplate",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:leather_helmet",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:leather_leggings",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:leather_boots",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chain",
-    "value": 4
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chainmail_helmet",
-    "value": 4
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chainmail_chestplate",
-    "value": 4
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chainmail_leggins",
-    "value": 4
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chainmail_boots",
-    "value": 4
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_helmet",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_chestplate",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_leggings",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_boots",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_sword",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_axe",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_hoe",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_shovel",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_pickaxe",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:reeds",
-    "value": 2
-  },
-  {
-    "type": "item",
-    "name": "minecraft:wheat_seeds",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:wheat",
-    "value": 2
-  },
-  {
-    "type": "item",
-    "name": "minecraft:bread",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:coal",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:sugar",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:white_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:red_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:orange_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:yellow_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:green_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:lime_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:blue_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:light_blue_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cyan_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:purple_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:magenta_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:brown_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gray_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:light_gray_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:black_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:pink_dye",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_beef",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_chicken",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_porkchop",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cookie",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:melon",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:melon_seeds",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_helmet",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_chestplate",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_leggings",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_boots",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cake",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_sword",
-    "value": 8
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_axe",
-    "value": 8
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_hoe",
-    "value": 8
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_pickaxe",
-    "value": 8
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_shovel",
-    "value": 8
-  },
-  {
-    "type": "item",
-    "name": "minecraft:fishing_rod",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:bow",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:book",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:bucket",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:milk_bucket",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:water_bucket",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:lava_bucket",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:mushroom_stew",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:pumpkin_seeds",
-    "value": 2
-  },
-  {
-    "type": "item",
-    "name": "minecraft:pumpkin_pie",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:sweet_berries",
-    "value": 4
-  },
-  {
-    "type": "item",
-    "name": "minecraft:sea_pickle",
-    "value": 2
-  },
-  {
-    "type": "item",
-    "name": "minecraft:honey_bottle",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:nautilus_shell",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:heart_of_the_sea",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:tube_coral",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:brain_coral",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:bubble_coral",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:horn_coral",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:fire_coral",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:tube_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:brain_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:bubble_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:horn_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:fire_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:rose_gold_ingot",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_cod",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_salmon",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:trident",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:totem_of_undying",
-    "value": 20
-  },
-  {
-    "type": "item",
-    "name": "minecraft:crossbow",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:scute",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:enchanted_golden_apple",
-    "value": 30
-  },
-  {
-    "type": "item",
-    "name": "minecraft:bucket_of_tropical_fish",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:golden_carrot",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:dried_kelp",
-    "value": 1
-  },
-  {
-    "type": "item",
-    "name": "minecraft:chorus_fruit",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:beetroot_stew",
-    "value": 7
-  },
-  {
-    "type": "item",
-    "name": "minecraft:rabit_stew",
-    "value": 13
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_rabit",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:cooked_mutton",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:flint_and_steel",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:redstone",
-    "value": 2
-  },
-  {
-    "type": "item",
-    "name": "minecraft:boat",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_door",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:minecart",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:flint",
-    "value": 2
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_nugget",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_nugget",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gold_ingot",
-    "value": 8
-  },
-  {
-    "type": "item",
-    "name": "minecraft:iron_ingot",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:map",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:clock",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:compass",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:blaze_rod",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:blaze_powder",
-    "value": 6
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_sword",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_axe",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_pickaxe",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_shovel",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_hoe",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_helmet",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_chestplate",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_leggings",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:diamond_boots",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:painting",
-    "value": 10
-  },
-  {
-    "type": "item",
-    "name": "minecraft:ender_pearl",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:ender_eye",
-    "value": 25
-  },
-  {
-    "type": "item",
-    "name": "minecraft:saddle",
-    "value": 3
-  },
-  {
-    "type": "item",
-    "name": "minecraft:gunpowder",
-    "value": 5
-  },
-  {
-    "type": "item",
-    "name": "minecraft:golden_apple",
-    "value": 25
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_11",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_13",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_wait",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_cat",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_chirp",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_far",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_mall",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_mellohi",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_stal",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_strad",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_ward",
-    "value": 15
-  },
-  {
-    "type": "item",
-    "name": "minecraft:music_disc_pigstep",
-    "value": 20
-  },
-  {
-    "type": "item",
-    "name": "minecraft:emerald",
-    "value": 25
-  },
-  {
-    "type": "item",
-    "name": "minecraft:netherite_ingot",
-    "value": 20
-  },
-  {
-    "type": "item",
-    "name": "minecraft:netherite_sword",
-    "value": 30
-  },
-  {
-    "type": "item",
-    "name": "minecraft:netherite_axe",
-    "value": 25
-  },
-  {
-    "type": "item",
-    "name": "minecraft:netherite_shovel",
-    "value": 25
-  },
-  {
-    "type": "item",
-    "name": "minecraft:netherite_pickaxe",
-    "value": 25
-  },
-  {
-    "type": "item",
-    "name": "minecraft:netherite_hoe",
-    "value": 1000
-  },
-  {
-    "type": "block",
-    "name": "minecraft:red_tulip",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:pink_tulip",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:white_tulip",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:orange_tulip",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:blue_orchid",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:allium",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:bamboo",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:sunflower",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:rose_bush",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:peony",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:azure_bluet",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:lily_of_the_valley",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:oxeye_daisy",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:lilac",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:poppy",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:cornflower",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:dandelion",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:tube_coral",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:brain_coral",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:bubble_coral",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:horn_coral",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:fire_coral",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:tube_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:brain_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:bubble_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:horn_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:fire_coral_fan",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:conduit",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:oak_planks",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:oak_log",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:spruce_planks",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:spruce_log",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:birch_planks",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:birch_log",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:jungle_planks",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:jungle_log",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:dark_oak_planks",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:dark_oak_log",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:acacia_planks",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:acacia_log",
-    "value": 1
-  },
-  {
-    "type": "block",
-    "name": "minecraft:crimson_stem",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:crimson_planks",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:warped_stem",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:warped_planks",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_oak_log",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_spruce_log",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_birch_log",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_jungle_log",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_dark_oak_log",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_acacia_log",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_crimson_stem",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:stripped_warped_stem",
-    "value": 2
-  },
-  {
-    "type": "block",
-    "name": "minecraft:pumpkin",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:carved_pumpkin",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:jack_o'lanturn",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:chest",
-    "value": 6
-  },
-  {
-    "type": "block",
-    "name": "minecraft:white_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:red_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:orange_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:yellow_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:green_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:lime_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:blue_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:light_blue_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:cyan_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:purple_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:magenta_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:brown_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:gray_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:light_gray_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:black_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:pink_wool",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:iron_ore",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:gold_ore",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:redstone_ore",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:rail",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:detector_rail",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:activator_rail",
-    "value": 7
-  },
-  {
-    "type": "block",
-    "name": "minecraft:furnace",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:crafting_table",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:lapis_block",
-    "value": 15
-  },
-  {
-    "type": "block",
-    "name": "minecraft:bookshelf",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:gold_block",
-    "value": 15
-  },
-  {
-    "type": "block",
-    "name": "minecraft:iron_block",
-    "value": 10
-  },
-  {
-    "type": "block",
-    "name": "minecraft:diamond_block",
-    "value": 25
-  },
-  {
-    "type": "block",
-    "name": "minecraft:netherite_block",
-    "value": 35
-  },
-  {
-    "type": "block",
-    "name": "minecraft:brewing_stand",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:enchanting_table",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:brick_block",
-    "value": 3
-  },
-  {
-    "type": "block",
-    "name": "minecraft:obsidian",
-    "value": 9
-  },
-  {
-    "type": "block",
-    "name": "minecraft:piston",
-    "value": 6
-  },
-  {
-    "type": "block",
-    "name": "minecraft:glowstone",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:shroomlight",
-    "value": 5
-  },
-  {
-    "type": "block",
-    "name": "minecraft:emerald_block",
-    "value": 25
-  },
-  {
-    "type": "block",
-    "name": "minecraft:redstone_block",
-    "value": 15
-  },
-  {
-    "type": "block",
-    "name": "mca:rose_gold_block",
-    "value": 10
-  },
-  {
-    "type": "block",
-    "name": "mca:rose_gold_ore",
-    "value": 10
-  }
-]
+{
+  "minecraft:wooden_sword": 3,
+  "minecraft:wooden_axe": 3,
+  "minecraft:wooden_hoe": 3,
+  "minecraft:wooden_shovel": 3,
+  "minecraft:wooden_pickaxe": 3,
+  "minecraft:stone_sword": 6,
+  "minecraft:stone_axe": 6,
+  "minecraft:stone_hoe": 6,
+  "minecraft:stone_shovel": 6,
+  "minecraft:stone_pickaxe": 6,
+  "minecraft:beef": 5,
+  "minecraft:chicken": 5,
+  "minecraft:porkchop": 5,
+  "minecraft:leather": 3,
+  "minecraft:leather_chestplate": 3,
+  "minecraft:leather_helmet": 3,
+  "minecraft:leather_leggings": 3,
+  "minecraft:leather_boots": 3,
+  "minecraft:chain": 4,
+  "minecraft:chainmail_helmet": 4,
+  "minecraft:chainmail_chestplate": 4,
+  "minecraft:chainmail_leggins": 4,
+  "minecraft:chainmail_boots": 4,
+  "minecraft:gold_helmet": 5,
+  "minecraft:gold_chestplate": 5,
+  "minecraft:gold_leggings": 5,
+  "minecraft:gold_boots": 5,
+  "minecraft:gold_sword": 6,
+  "minecraft:gold_axe": 6,
+  "minecraft:gold_hoe": 6,
+  "minecraft:gold_shovel": 6,
+  "minecraft:gold_pickaxe": 6,
+  "minecraft:reeds": 2,
+  "minecraft:wheat_seeds": 1,
+  "minecraft:wheat": 2,
+  "minecraft:bread": 3,
+  "minecraft:coal": 5,
+  "minecraft:sugar": 5,
+  "minecraft:white_dye": 1,
+  "minecraft:red_dye": 1,
+  "minecraft:orange_dye": 1,
+  "minecraft:yellow_dye": 1,
+  "minecraft:green_dye": 1,
+  "minecraft:lime_dye": 1,
+  "minecraft:blue_dye": 1,
+  "minecraft:light_blue_dye": 1,
+  "minecraft:cyan_dye": 1,
+  "minecraft:purple_dye": 1,
+  "minecraft:magenta_dye": 1,
+  "minecraft:brown_dye": 1,
+  "minecraft:gray_dye": 1,
+  "minecraft:light_gray_dye": 1,
+  "minecraft:black_dye": 1,
+  "minecraft:pink_dye": 1,
+  "minecraft:cooked_beef": 5,
+  "minecraft:cooked_chicken": 5,
+  "minecraft:cooked_porkchop": 5,
+  "minecraft:cookie": 10,
+  "minecraft:melon": 5,
+  "minecraft:melon_seeds": 1,
+  "minecraft:iron_helmet": 6,
+  "minecraft:iron_chestplate": 6,
+  "minecraft:iron_leggings": 6,
+  "minecraft:iron_boots": 6,
+  "minecraft:cake": 10,
+  "minecraft:iron_sword": 8,
+  "minecraft:iron_axe": 8,
+  "minecraft:iron_hoe": 8,
+  "minecraft:iron_pickaxe": 8,
+  "minecraft:iron_shovel": 8,
+  "minecraft:fishing_rod": 3,
+  "minecraft:bow": 3,
+  "minecraft:book": 5,
+  "minecraft:bucket": 5,
+  "minecraft:milk_bucket": 5,
+  "minecraft:water_bucket": 5,
+  "minecraft:lava_bucket": 7,
+  "minecraft:mushroom_stew": 10,
+  "minecraft:pumpkin_seeds": 2,
+  "minecraft:pumpkin_pie": 5,
+  "minecraft:sweet_berries": 4,
+  "minecraft:sea_pickle": 2,
+  "minecraft:honey_bottle": 10,
+  "minecraft:nautilus_shell": 10,
+  "minecraft:heart_of_the_sea": 15,
+  "minecraft:rose_gold_ingot": 6,
+  "minecraft:cooked_cod": 5,
+  "minecraft:cooked_salmon": 5,
+  "minecraft:trident": 15,
+  "minecraft:totem_of_undying": 20,
+  "minecraft:crossbow": 15,
+  "minecraft:scute": 10,
+  "minecraft:enchanted_golden_apple": 30,
+  "minecraft:bucket_of_tropical_fish": 7,
+  "minecraft:golden_carrot": 10,
+  "minecraft:dried_kelp": 1,
+  "minecraft:chorus_fruit": 7,
+  "minecraft:beetroot_stew": 7,
+  "minecraft:rabit_stew": 13,
+  "minecraft:cooked_rabit": 5,
+  "minecraft:cooked_mutton": 5,
+  "minecraft:flint_and_steel": 3,
+  "minecraft:redstone": 2,
+  "minecraft:boat": 3,
+  "minecraft:iron_door": 5,
+  "minecraft:minecart": 5,
+  "minecraft:flint": 2,
+  "minecraft:gold_nugget": 5,
+  "minecraft:iron_nugget": 3,
+  "minecraft:gold_ingot": 8,
+  "minecraft:iron_ingot": 5,
+  "minecraft:diamond": 15,
+  "minecraft:map": 3,
+  "minecraft:clock": 3,
+  "minecraft:compass": 3,
+  "minecraft:blaze_rod": 10,
+  "minecraft:blaze_powder": 6,
+  "minecraft:diamond_sword": 15,
+  "minecraft:diamond_axe": 10,
+  "minecraft:diamond_pickaxe": 10,
+  "minecraft:diamond_shovel": 10,
+  "minecraft:diamond_hoe": 10,
+  "minecraft:diamond_helmet": 10,
+  "minecraft:diamond_chestplate": 10,
+  "minecraft:diamond_leggings": 10,
+  "minecraft:diamond_boots": 10,
+  "minecraft:painting": 10,
+  "minecraft:ender_pearl": 15,
+  "minecraft:ender_eye": 25,
+  "minecraft:saddle": 3,
+  "minecraft:gunpowder": 5,
+  "minecraft:golden_apple": 25,
+  "minecraft:music_disc_11": 15,
+  "minecraft:music_disc_13": 15,
+  "minecraft:music_disc_wait": 15,
+  "minecraft:music_disc_cat": 15,
+  "minecraft:music_disc_chirp": 15,
+  "minecraft:music_disc_far": 15,
+  "minecraft:music_disc_mall": 15,
+  "minecraft:music_disc_mellohi": 15,
+  "minecraft:music_disc_stal": 15,
+  "minecraft:music_disc_strad": 15,
+  "minecraft:music_disc_ward": 15,
+  "minecraft:music_disc_pigstep": 20,
+  "minecraft:emerald": 25,
+  "minecraft:netherite_ingot": 20,
+  "minecraft:netherite_sword": 30,
+  "minecraft:netherite_axe": 25,
+  "minecraft:netherite_shovel": 25,
+  "minecraft:netherite_pickaxe": 25,
+  "minecraft:netherite_hoe": 1000,
+  "minecraft:red_tulip": 2,
+  "minecraft:pink_tulip": 2,
+  "minecraft:white_tulip": 2,
+  "minecraft:orange_tulip": 2,
+  "minecraft:blue_orchid": 2,
+  "minecraft:allium": 2,
+  "minecraft:bamboo": 2,
+  "minecraft:sunflower": 2,
+  "minecraft:rose_bush": 2,
+  "minecraft:peony": 2,
+  "minecraft:azure_bluet": 2,
+  "minecraft:lily_of_the_valley": 2,
+  "minecraft:oxeye_daisy": 2,
+  "minecraft:lilac": 2,
+  "minecraft:poppy": 2,
+  "minecraft:cornflower": 2,
+  "minecraft:dandelion": 2,
+  "minecraft:tube_coral": 7,
+  "minecraft:brain_coral": 7,
+  "minecraft:bubble_coral": 7,
+  "minecraft:horn_coral": 7,
+  "minecraft:fire_coral": 7,
+  "minecraft:tube_coral_fan": 5,
+  "minecraft:brain_coral_fan": 5,
+  "minecraft:bubble_coral_fan": 5,
+  "minecraft:horn_coral_fan": 5,
+  "minecraft:fire_coral_fan": 5,
+  "minecraft:conduit": 5,
+  "minecraft:oak_planks": 1,
+  "minecraft:oak_log": 1,
+  "minecraft:spruce_planks": 1,
+  "minecraft:spruce_log": 1,
+  "minecraft:birch_planks": 1,
+  "minecraft:birch_log": 1,
+  "minecraft:jungle_planks": 1,
+  "minecraft:jungle_log": 1,
+  "minecraft:dark_oak_planks": 1,
+  "minecraft:dark_oak_log": 1,
+  "minecraft:acacia_planks": 1,
+  "minecraft:acacia_log": 1,
+  "minecraft:crimson_stem": 2,
+  "minecraft:crimson_planks": 2,
+  "minecraft:warped_stem": 2,
+  "minecraft:warped_planks": 2,
+  "minecraft:stripped_oak_log": 2,
+  "minecraft:stripped_spruce_log": 2,
+  "minecraft:stripped_birch_log": 2,
+  "minecraft:stripped_jungle_log": 2,
+  "minecraft:stripped_dark_oak_log": 2,
+  "minecraft:stripped_acacia_log": 2,
+  "minecraft:stripped_crimson_stem": 2,
+  "minecraft:stripped_warped_stem": 2,
+  "minecraft:pumpkin": 3,
+  "minecraft:carved_pumpkin": 5,
+  "minecraft:jack_o'lanturn": 5,
+  "minecraft:chest": 6,
+  "minecraft:white_wool": 3,
+  "minecraft:red_wool": 3,
+  "minecraft:orange_wool": 3,
+  "minecraft:yellow_wool": 3,
+  "minecraft:green_wool": 3,
+  "minecraft:lime_wool": 3,
+  "minecraft:blue_wool": 3,
+  "minecraft:light_blue_wool": 3,
+  "minecraft:cyan_wool": 3,
+  "minecraft:purple_wool": 3,
+  "minecraft:magenta_wool": 3,
+  "minecraft:brown_wool": 3,
+  "minecraft:gray_wool": 3,
+  "minecraft:light_gray_wool": 3,
+  "minecraft:black_wool": 3,
+  "minecraft:pink_wool": 3,
+  "minecraft:iron_ore": 3,
+  "minecraft:gold_ore": 5,
+  "minecraft:redstone_ore": 3,
+  "minecraft:rail": 5,
+  "minecraft:detector_rail": 7,
+  "minecraft:activator_rail": 7,
+  "minecraft:furnace": 5,
+  "minecraft:crafting_table": 3,
+  "minecraft:lapis_block": 15,
+  "minecraft:bookshelf": 5,
+  "minecraft:gold_block": 15,
+  "minecraft:iron_block": 10,
+  "minecraft:diamond_block": 25,
+  "minecraft:netherite_block": 35,
+  "minecraft:brewing_stand": 5,
+  "minecraft:enchanting_table": 5,
+  "minecraft:brick_block": 3,
+  "minecraft:obsidian": 9,
+  "minecraft:piston": 6,
+  "minecraft:glowstone": 5,
+  "minecraft:shroomlight": 5,
+  "minecraft:emerald_block": 25,
+  "minecraft:redstone_block": 15,
+  "mca:rose_gold_block": 10,
+  "mca:rose_gold_ore": 10
+}

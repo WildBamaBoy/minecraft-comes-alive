@@ -1,25 +1,21 @@
 package mca.resources;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import mca.MCA;
+import com.google.gson.reflect.TypeToken;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class GiftList {
-    private final Map<String, Gift> gifts = new HashMap<>();
+    private static final Type MAP_TYPE = new TypeToken<Map<String, Integer>>() {}.getType();
+    private final Map<String, Integer> gifts = new HashMap<>();
 
     void load() {
-     // Load gifts and assign to the appropriate map with a key value pair and print warnings on potential issues
-        for (Gift gift : Resources.read("api/gifts.json", Gift[].class)) {
-            if (!gift.exists()) {
-                MCA.logger.info("Could not find gift item or block in registry: " + gift.name());
-            } else {
-                gifts.put(gift.name(), gift);
-            }
-        }
+        gifts.putAll(Resources.read("api/gifts.json", MAP_TYPE));
     }
 
     /**
@@ -35,10 +31,11 @@ public class GiftList {
 
         Identifier id = Registry.ITEM.getId(stack.getItem());
 
-        if (id == null) return 0;
+        if (id == null) {
+            return 0;
+        }
 
-        String name = id.toString();
-        return gifts.containsKey(name) ? gifts.get(name).value() : 0;
+        return gifts.getOrDefault(id.toString(), 0);
     }
 
     /**
