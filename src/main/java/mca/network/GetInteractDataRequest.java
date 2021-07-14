@@ -1,18 +1,17 @@
 package mca.network;
 
+import mca.client.gui.Constraint;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.Relationship;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.FamilyTreeEntry;
-import mca.enums.Constraint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public class GetInteractDataRequest implements Message {
@@ -32,10 +31,7 @@ public class GetInteractDataRequest implements Message {
             VillagerEntityMCA villager = (VillagerEntityMCA) entity;
 
             //get constraints
-            Map<String, Boolean> constraints = new HashMap<>();
-            for (Constraint c : Constraint.values()) {
-                constraints.put(c.getId(), c.test(villager, player));
-            }
+            Set<Constraint> constraints = Constraint.allMatching(villager, player);
 
             Relationship relationship = villager.getRelationships();
             Optional<FamilyTreeEntry> family = relationship.getFamily();

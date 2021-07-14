@@ -12,7 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.Formatting;
 
 public enum Gender {
-    UNASSIGNED(Formatting.BLACK),
+    UNASSIGNED(Formatting.WHITE),
     MALE(Formatting.AQUA),
     FEMALE(Formatting.LIGHT_PURPLE), // TODO: Girls should be pink
     NEUTRAL(Formatting.WHITE);

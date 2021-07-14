@@ -1,9 +1,9 @@
 package mca.api.types;
 
-import mca.enums.Constraint;
+import java.util.Set;
+import java.util.stream.Stream;
 
-import java.util.List;
-import java.util.Map;
+import mca.client.gui.Constraint;
 
 /**
  * Button is a button defined in assets/mca/api/gui/*
@@ -12,28 +12,45 @@ import java.util.Map;
  * and processing interactions.
  */
 public record Button (
-    int id,             // numeric id
-    String identifier,  // string identifier for the button in the .lang file
-    int x,              // x position
-    int y,              // y position
-    int width,          // button width
-    int height,         // button height
-    boolean notifyServer,   // whether the button press is sent to the server for processing
-    boolean targetServer,   // whether the button is processed by the villager or the server itself
-    String constraints,     // list of EnumConstraints separated by a pipe character |
-    boolean isInteraction  // whether the button is an interaction that generates a response and boosts/decreases hearts
+    /**
+     * Unused.
+     */
+    int id,
+    /**
+     * The text and action to perform for this button
+     */
+    String identifier,
+    int x,
+    int y,
+    int width,
+    int height,
+    /**
+     * whether the button press is sent to the server for processing
+     */
+    boolean notifyServer,
+    /**
+     * whether the button is processed by the villager or the server itself
+     */
+    boolean targetServer,
+    /**
+     * list of EnumConstraints separated by the pipe character |
+     */
+    String constraints,
+    /**
+     * Whether the button should be hidden completely when its constraints fail. The default is to simply disable it.
+     */
+    boolean hideOnFail,
+    /**
+     * Whether the button is an interaction that generates a response and boosts/decreases hearts
+     */
+    boolean isInteraction
 ) {
-    public List<Constraint> getConstraints() {
+    public Stream<Constraint> getConstraints() {
         return Constraint.fromStringList(constraints);
     }
 
     //checks if a map of given evaluated constraints apply to this button
-    public boolean isValidForConstraint(Map<String, Boolean> checkedConstraints) {
-        for (Constraint constraint : getConstraints()) {
-            if (checkedConstraints.get(constraint.getId())) {
-                return false;
-            }
-        }
-        return true;
+    public boolean isValidForConstraint(Set<Constraint> constraints) {
+        return getConstraints().allMatch(constraints::contains);
     }
 }

@@ -1,10 +1,9 @@
 package mca.client.gui;
 
-import java.util.Map;
+import java.util.Set;
 
 import mca.api.API;
 import mca.api.types.Button;
-import mca.enums.Constraint;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -12,20 +11,26 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public abstract class AbstractDynamicScreen extends Screen {
-
     // Tracks which page we're on in the GUI for sending button events
-    private String activeKey = "main";
+    private String activeScreen = "main";
+
+    private Set<Constraint> constraints = Set.of();
 
     protected AbstractDynamicScreen(Text title) {
         super(title);
     }
 
     public String getActiveScreen() {
-        return activeKey;
+        return activeScreen;
     }
 
-    public Map<String, Boolean> getConstraints() {
-        return Map.of();
+    public Set<Constraint> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(Set<Constraint> constraints) {
+        this.constraints = constraints;
+        setLayout(activeScreen);
     }
 
     protected abstract void buttonPressed(Button button);
@@ -69,7 +74,7 @@ public abstract class AbstractDynamicScreen extends Screen {
      * @param screen Screen instance the buttons should be added to
      */
     public void setLayout(String guiKey) {
-        activeKey = guiKey;
+        activeScreen = guiKey;
 
         clearChildren();
         API.getScreenComponents().getButtons(guiKey).ifPresent(buttons -> {
@@ -94,10 +99,10 @@ public abstract class AbstractDynamicScreen extends Screen {
 
             // Remove the button if we specify it should not be present on constraint failure
             // Otherwise we just mark the button as disabled.
-            boolean isValid = apiButton.isValidForConstraint(screen.getConstraints());
-            if (!isValid && apiButton.getConstraints().contains(Constraint.HIDE_ON_FAIL)) {
-                visible = false;
-            } else if (!isValid) {
+            if (!apiButton.isValidForConstraint(screen.getConstraints())) {
+                if (apiButton.hideOnFail()) {
+                    visible = false;
+                }
                 active = false;
             }
         }

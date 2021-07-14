@@ -19,7 +19,8 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "notfamily|hideonfail"
+    "constraints": "notfamily",
+    "hideOnFail": true
   },
   {
     "id": 3,
@@ -30,7 +31,8 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "family|hideonfail"
+    "constraints": "family",
+    "hideOnFail": true
   },
   {
     "id": 4,
@@ -74,7 +76,8 @@
     "height": 20,
     "notifyServer": false,
     "targetServer": false,
-    "constraints": "family|hideonfail"
+    "constraints": "family",
+    "hideOnFail": true
   },
   {
     "id": 6,
@@ -85,7 +88,8 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "spouse|hideonfail"
+    "constraints": "spouse",
+    "hideOnFail": true
   },
   {
     "id": 7,

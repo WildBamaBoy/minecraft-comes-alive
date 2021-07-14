@@ -27,7 +27,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class GuiInteract extends AbstractDynamicScreen {
@@ -36,7 +35,7 @@ public class GuiInteract extends AbstractDynamicScreen {
     private final VillagerEntityMCA villager;
     private final PlayerEntity player;
     private final float iconScale = 1.5f;
-    private Map<String, Boolean> constraints;
+
     private boolean inGiftMode;
     private int timeSinceLastClick;
     private int mouseX;
@@ -50,16 +49,6 @@ public class GuiInteract extends AbstractDynamicScreen {
 
         this.villager = villager;
         this.player = player;
-    }
-
-    @Override
-    public Map<String, Boolean> getConstraints() {
-        return constraints;
-    }
-
-    public void setConstraints(Map<String, Boolean> constraints) {
-        this.constraints = constraints;
-        setLayout("main");
     }
 
     public void setParents(String father, String mother) {
