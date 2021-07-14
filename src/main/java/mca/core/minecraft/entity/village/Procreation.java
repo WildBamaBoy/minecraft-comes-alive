@@ -54,7 +54,7 @@ public class Procreation {
         PoolUtil.pop(availableVillagers, world.random).ifPresent(suitor -> {
             // Find a potential mate
             PoolUtil.pop(availableVillagers.stream()
-                    .filter(i -> suitor.getGenetics().getGender().isAttractedTo(i.getGenetics().getGender()))
+                    .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
                     .toList(), world.random).ifPresent(mate -> {
                 // smash their bodies together like nobody's business!
                 suitor.getRelationships().marry(mate);
