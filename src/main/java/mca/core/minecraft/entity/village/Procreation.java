@@ -27,9 +27,10 @@ public class Procreation {
 
         // look for married women without baby
         PoolUtil.pick(village.getResidents(world), world.random)
-            .filter(villager -> villager.getPregnancy().tryStartGestation())
+            .filter(villager -> villager.getGenetics().getGender() == Gender.FEMALE)
+            .filter(villager -> villager.getRelationships().getPregnancy().tryStartGestation())
             .ifPresent(villager -> {
-                villager.getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
+                villager.getRelationships().getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
             });
     }
 
@@ -42,7 +43,7 @@ public class Procreation {
         //list all and lonely villagers
         List<VillagerEntityMCA> allVillagers = village.getResidents(world);
         List<VillagerEntityMCA> villagers = allVillagers.stream()
-                .filter(v -> !v.isMarried() && !v.isBaby())
+                .filter(v -> !v.getRelationships().isMarried() && !v.isBaby())
                 .collect(Collectors.toList());
 
         if (villagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
@@ -63,8 +64,8 @@ public class Procreation {
                 // notify all players
                 wife.sendEventMessage(new TranslatableText("events.marry", husband.getName(), wife.getName()));
                 // marry
-                husband.marry(wife);
-                wife.marry(husband);
+                husband.getRelationships().marry(wife);
+                wife.getRelationships().marry(husband);
             });
         });
     }

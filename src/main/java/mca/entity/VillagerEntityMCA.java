@@ -12,7 +12,6 @@ import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.*;
 import mca.enums.*;
 import mca.util.InventoryUtils;
-import mca.util.WorldUtils;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -56,18 +55,15 @@ import net.minecraft.world.World;
 
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
-import java.util.*;
-import java.util.stream.Stream;
 
 public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable, Messenger {
-
     private final CDataManager data = new CDataManager(this);
 
     private final Genetics genetics = Genetics.create(data);
-    private final Pregnancy pregnancy = new Pregnancy(this, data);
     private final Residency residency = new Residency(this, data);
     private final VillagerBrain mcaBrain = new VillagerBrain(this, data);
     private final Interactions interactions = new Interactions(this);
+    private final Relationship relations = new Relationship(this, data);
 
     private final SimpleInventory inventory = new SimpleInventory(27);
 
@@ -78,18 +74,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public final CEnumParameter<AgeState> ageState = data.newEnum("ageState", AgeState.UNASSIGNED);
 
-    public final CStringParameter spouseName = data.newString("spouseName");
-    public final CUUIDParameter spouseUUID = data.newUUID("spouseUUID");
-
-    public final CEnumParameter<MarriageState> marriageState = data.newEnum("marriageState", MarriageState.NOT_MARRIED);
-
     private final CBooleanParameter isInfected = data.newBoolean("isInfected");
-
-    //gift desaturation queue
-    final List<String> giftDesaturation = new LinkedList<>();
-
-    public final CBooleanParameter isProcreating = data.newBoolean("isProcreating");
-    public int procreateTick = -1;
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
@@ -136,6 +121,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public Genetics getGenetics() {
         return genetics;
+    }
+
+    public Relationship getRelationships() {
+        return relations;
     }
 
     public VillagerBrain getVillagerBrain() {
@@ -252,13 +241,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         data.load(nbt);
-
-        //load gift desaturation queue
-        NbtList res = nbt.getList("giftDesaturation", 8);
-        for (int i = 0; i < res.size(); i++) {
-            String c = res.getString(i);
-            giftDesaturation.add(c);
-        }
+        relations.readFromNbt(nbt);
 
         //set speed
         float speed = mcaBrain.getPersonality().getSpeedModifier();
@@ -275,15 +258,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public final void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         data.save(nbt);
-
+        relations.writeToNbt(nbt);
         InventoryUtils.saveToNBT(inventory, nbt);
-
-        //save gift desaturation queue
-        NbtList giftDesaturationQueue = new NbtList();
-        for (int i = 0; i < giftDesaturation.size(); i++) {
-            giftDesaturationQueue.addElement(i, NbtString.of(giftDesaturation.get(i)));
-        }
-        nbt.put("giftDesaturation", giftDesaturationQueue);
     }
 
     private void initializeSkin() {
@@ -345,7 +321,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.calculateDimensions();
 
         if (world.isClient) {
-            if (isProcreating.get()) {
+            if (relations.isProcreating()) {
                 this.headYaw += 50.0F;
             }
 
@@ -380,29 +356,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         InventoryUtils.dropAllItems(this, inventory);
 
-        //The death of a villager negatively modifies the mood of nearby villagers
-        WorldUtils
-            .getCloseEntities(world, this, 32, VillagerEntityMCA.class)
-            .forEach(villager -> villager.onNeighbourDeath(cause));
-
-        getSpouse().ifPresent(spouse -> {
-            // Notify spouse of the death
-            if (spouse instanceof VillagerEntityMCA) {
-                ((VillagerEntityMCA) spouse).endMarriage();
-            } else {
-                PlayerSaveData.get(world, spouse.getUuid()).endMarriage();
-            }
-        });
+        relations.onDeath(cause);
 
         // Notify all parents of the death
         // Entity[] parents = getBothParentEntities();
         //TODO, optionally affect parents behavior
 
         SavedVillagers.get(world).saveVillager(this);
-    }
-
-    public void onNeighbourDeath(DamageSource cause) {
-        mcaBrain.modifyMoodLevel(-10);
     }
 
     @Override
@@ -468,36 +428,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
     }
 
-    public boolean isMarried() {
-        return !spouseUUID.get().orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
-    }
-
-    public boolean isMarriedTo(UUID uuid) {
-        return spouseUUID.get().orElse(Util.NIL_UUID).equals(uuid);
-    }
-
-    public void marry(PlayerEntity player) {
-        spouseUUID.set(player.getUuid());
-        spouseName.set(player.getName().asString());
-        marriageState.set(MarriageState.MARRIED_TO_PLAYER);
-    }
-
-    public void marry(VillagerEntityMCA spouse) {
-        spouseUUID.set(spouse.getUuid());
-        spouseName.set(spouse.villagerName.get());
-        marriageState.set(MarriageState.MARRIED);
-    }
-
-    private void endMarriage() {
-        spouseUUID.set(Util.NIL_UUID);
-        spouseName.set("");
-        marriageState.set(MarriageState.NOT_MARRIED);
-    }
-
-    public Optional<Entity> getSpouse() {
-        return spouseUUID.get().map(id -> ((ServerWorld) world).getEntity(id));
-    }
-
     public Hair getHair() {
         return new Hair(hair.get(), hairOverlay.get());
     }
@@ -507,10 +437,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         this.hairOverlay.set(hair.overlay());
     }
 
-    public Pregnancy getPregnancy() {
-        return pregnancy;
-    }
-
     // we make it public here
     @Override
     public void produceParticles(ParticleEffect parameters) {
@@ -518,41 +444,26 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     private void onEachServerUpdate() {
-        // Every second
-        if (age % 20 == 0) {
-         // villager has a baby
-            pregnancy.tick();
-            mcaBrain.think();
+        // Natural regeneration every 10 seconds
+        if (age % 200 == 0 && getHealth() < getMaxHealth()) {
+            heal(1);
         }
+
+        // Update age state for current entity growth
+        setAgeState(AgeState.byCurrentAge(getBreedingAge()));
 
         residency.updateVillage();
 
-        // Every 10 seconds and when we're not already dead
-        if (this.age % 200 == 0 && this.getHealth() > 0.0F) {
-            if (this.getHealth() < this.getMaxHealth()) {
-                this.setHealth(this.getHealth() + 1.0F); // heal
-            }
-        }
-
-        //check if another state has been reached
-        AgeState last = ageState.get();
-        AgeState next = AgeState.byCurrentAge(getBreedingAge());
-
-        if (last != next) {
-            ageState.set(next);
-            calculateDimensions();
-
-            if (next == AgeState.ADULT) {
-                // Notify player parents of the age up and set correct dialogue type.
-                getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
-                    mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                    sendEventMessage(new TranslatableText("notify.child.grownup", villagerName.get()), p);
-                });
-            }
-        }
-
         if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
             setProfession(API.randomProfession());
+        }
+
+        relations.tick(age);
+
+        // Brain and pregnancy depend on the above states, so we tick them last
+        // Every 1 second
+        if (age % 20 == 0) {
+            mcaBrain.think();
         }
     }
 
@@ -564,6 +475,23 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     public AgeState getAgeState() {
         return ageState.get();
+    }
+
+    public void setAgeState(AgeState state) {
+        if (state == getAgeState()) {
+            return;
+        }
+
+        ageState.set(state);
+        calculateDimensions();
+
+        if (state == AgeState.ADULT) {
+            // Notify player parents of the age up and set correct dialogue type.
+            relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
+                mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
+                sendEventMessage(new TranslatableText("notify.child.grownup", villagerName.get()), p);
+            });
+        }
     }
 
     @Override
@@ -641,23 +569,5 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public int getReputation(PlayerEntity player) {
         return super.getReputation(player);
-    }
-
-    public FamilyTree getFamilyTree() {
-        return FamilyTree.get(world);
-    }
-
-    public FamilyTreeEntry getFamilyTreeEntry() {
-        return getFamilyTree().getEntry(this);
-    }
-
-    public Stream<Entity> getParents() {
-        ServerWorld serverWorld = (ServerWorld) world;
-        FamilyTreeEntry entry = getFamilyTreeEntry();
-
-        return Stream.of(
-                serverWorld.getEntity(entry.getFather()),
-                serverWorld.getEntity(entry.getMother())
-        ).filter(Objects::nonNull);
     }
 }

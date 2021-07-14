@@ -106,7 +106,7 @@ public class BabyItem extends Item {
                 .build();
 
             //make sure both parents are registered in the family tree
-            FamilyTree familyTree = child.getFamilyTree();
+            FamilyTree familyTree = child.getRelationships().getFamilyTree();
             familyTree.addEntry(player);
 
             //assumes your child is from the players current spouse

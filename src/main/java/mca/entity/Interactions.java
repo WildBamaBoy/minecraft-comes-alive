@@ -16,15 +16,10 @@ import mca.enums.Chore;
 import mca.enums.Interaction;
 import mca.enums.MoveState;
 import mca.enums.Personality;
-import mca.items.SpecialCaseGift;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -117,7 +112,7 @@ public class Interactions {
                 player.openHandledScreen(entity);
                 break;
             case "gui.button.gift":
-                giveGift(player, memory);
+                entity.getRelationships().giveGift(player, memory);
                 stopInteracting();
                 break;
             case "gui.button.procreate":
@@ -126,8 +121,7 @@ public class Interactions {
                 } else if (memory.getHearts() < 100) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.lowhearts");
                 } else {
-                    entity.procreateTick = 60;
-                    entity.isProcreating.set(true);
+                    entity.getRelationships().startProcreating();
                 }
                 stopInteracting();
                 break;
@@ -234,74 +228,4 @@ public class Interactions {
         stopInteracting();
     }
 
-    private void giveGift(PlayerEntity player, Memories memory) {
-        ItemStack stack = player.getMainHandStack();
-
-        if (!stack.isEmpty()) {
-            int giftValue = API.getGiftPool().getWorth(stack);
-            if (!handleSpecialCaseGift(player, stack)) {
-                if (stack.getItem() == Items.GOLDEN_APPLE) {
-                    //TODO special
-                    entity.setInfected(false);
-                } else {
-                    // TODO: Don't use translation keys. Use identifiers.
-                    String id = stack.getTranslationKey();
-                    long occurrences = entity.giftDesaturation.stream().filter(id::equals).count();
-
-                    //check if desaturation fail happen
-                    if (entity.getRandom().nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
-                        giftValue = -giftValue / 2;
-                        entity.sendChatMessage(player, API.getGiftPool().getResponseForSaturatedGift(stack));
-                    } else {
-                        entity.sendChatMessage(player, API.getGiftPool().getResponse(stack));
-                    }
-
-                    //modify mood and hearts
-                    entity.getVillagerBrain().modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
-                    memory.modHearts(giftValue);
-                }
-            }
-
-            //add to desaturation queue
-            entity.giftDesaturation.add(stack.getTranslationKey());
-            while (entity.giftDesaturation.size() > MCA.getConfig().giftDesaturationQueueLength) {
-                entity.giftDesaturation.remove(0);
-            }
-
-            //particles
-            if (giftValue > 0) {
-                player.getMainHandStack().decrement(1);
-                entity.world.sendEntityStatus(entity, (byte) 16);
-            } else {
-                entity.world.sendEntityStatus(entity, (byte) 15);
-            }
-        }
-    }
-
-    private boolean handleSpecialCaseGift(PlayerEntity player, ItemStack stack) {
-        Item item = stack.getItem();
-
-        if (item instanceof SpecialCaseGift) {
-            if (((SpecialCaseGift) item).handle(player, entity)) {
-                player.getMainHandStack().decrement(1);
-            }
-            return true;
-        } else if (item == Items.CAKE) {
-            if (entity.isMarried() && !entity.isBaby()) {
-                if (entity.getPregnancy().tryStartGestation()) {
-                    entity.produceParticles(ParticleTypes.HEART);
-                    entity.sendChatMessage(player, "gift.cake.success");
-                } else {
-                    entity.sendChatMessage(player, "gift.cake.fail");
-                }
-                return true;
-            }
-        } else if (item == Items.GOLDEN_APPLE && entity.isBaby()) {
-            // increase age by 5 minutes
-            entity.growUp(1200 * 5);
-            return true;
-        }
-
-        return false;
-    }
 }

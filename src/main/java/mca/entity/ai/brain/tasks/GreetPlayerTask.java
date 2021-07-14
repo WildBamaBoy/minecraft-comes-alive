@@ -2,8 +2,8 @@ package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
 import mca.core.MCA;
+import mca.entity.Relationship;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.data.FamilyTree;
 import mca.entity.data.Memories;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -98,16 +98,15 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
     }
 
     private static boolean shouldGreet(VillagerEntityMCA villager, PlayerEntity player) {
-        //first check relationships, only family, friends and foes will greet you
-        boolean isRelative = FamilyTree.get(villager.world).isRelative(villager.getUuid(), player.getUuid());
-
-        boolean isSpouse = villager.spouseUUID.get().filter(a -> a.equals(player.getUuid())).isPresent();
 
         Memories memories = villager.getVillagerBrain().getMemoriesForPlayer(player);
 
         int day = (int) (villager.world.getTimeOfDay() / 24000L);
 
-        if (isSpouse || isRelative || Math.abs(memories.getHearts()) >= MCA.getConfig().greetHeartsThreshold) {
+        // first check relationships, only family, friends and foes will greet you
+        if (!Relationship.IS_MARRIED.test(villager, player)
+                || Relationship.IS_RELATIVE.test(villager, player)
+                || Math.abs(memories.getHearts()) >= MCA.getConfig().greetHeartsThreshold) {
             long diff = day - memories.getLastSeen();
 
             if (diff > MCA.getConfig().greetAfterDays && memories.getLastSeen() > 0) {

@@ -55,7 +55,7 @@ public class Pregnancy {
         return getFather().map(father -> {
             // In case we're the father, impregnate the other
             if (mother.getGenetics().getGender() == Gender.MALE && father.getGenetics().getGender() != Gender.MALE) {
-                return father.getPregnancy().tryStartGestation();
+                return father.getRelationships().getPregnancy().tryStartGestation();
             }
 
             hasBaby.set(true);
@@ -73,7 +73,7 @@ public class Pregnancy {
         child.getGenetics().combine(father.getGenetics(), mother.getGenetics());
 
         //add all 3 to the family tree
-        FamilyTree tree = mother.getFamilyTree();
+        FamilyTree tree = mother.getRelationships().getFamilyTree();
         tree.addEntry(father);
         tree.addEntry(mother);
         tree.addEntry(child, father.getUuid(), mother.getUuid());
@@ -83,7 +83,7 @@ public class Pregnancy {
     }
 
     private Optional<VillagerEntityMCA> getFather() {
-        return mother.getSpouse()
+        return mother.getRelationships().getSpouse()
                 .filter(father -> father instanceof VillagerEntityMCA)
                 .map(VillagerEntityMCA.class::cast)
                 .filter(father -> father.getGenetics().getGender() == Gender.MALE);

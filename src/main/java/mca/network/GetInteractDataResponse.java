@@ -12,8 +12,8 @@ public class GetInteractDataResponse implements Message {
     private static final long serialVersionUID = -4168503424192658779L;
 
     private final Map<String, Boolean> constraints;
-    String father;
-    String mother;
+    private final String father;
+    private final String mother;
 
     public GetInteractDataResponse(Map<String, Boolean> constraints, String father, String mother) {
         this.constraints = constraints;

@@ -156,33 +156,26 @@ public class GuiInteract extends AbstractDynamicScreen {
     }
 
     private void drawIcons(MatrixStack transform) {
-        MarriageState marriageState = villager.marriageState.get();
-        String marriageIcon =
-                marriageState == MarriageState.MARRIED ? "married" :
-                        marriageState == MarriageState.ENGAGED ? "engaged" :
-                                marriageState == MarriageState.MARRIED_TO_PLAYER ? "marriedToPlayer" :
-                                        "notMarried";
+        MarriageState marriageState = villager.getRelationships().getMarriageState();
 
         Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
-        String heartIcon =
-                memory.getHearts() < 0 ? "blackHeart" :
-                        memory.getHearts() >= 100 ? "goldHeart" :
-                                "redHeart";
-
-        String emeraldIcon = "neutralEmerald";
 
         transform.push();
         transform.scale(iconScale, iconScale, iconScale);
 
         RenderSystem.setShaderTexture(0, ICON_TEXTURES);
 
-        drawIcon(transform, marriageIcon);
-        drawIcon(transform, heartIcon);
-        drawIcon(transform, emeraldIcon);
+        drawIcon(transform, marriageState.getIcon());
+        drawIcon(transform, memory.getHearts() < 0 ? "blackHeart" : memory.getHearts() >= 100 ? "goldHeart" : "redHeart");
+        drawIcon(transform, "neutralEmerald");
         drawIcon(transform, "genes");
 
-        if (canDrawParentsIcon()) drawIcon(transform, "parents");
-        if (canDrawGiftIcon()) drawIcon(transform, "gift");
+        if (canDrawParentsIcon()) {
+            drawIcon(transform, "parents");
+        }
+        if (canDrawGiftIcon()) {
+            drawIcon(transform, "gift");
+        }
         transform.pop();
     }
 
@@ -223,17 +216,12 @@ public class GuiInteract extends AbstractDynamicScreen {
         }
 
         //marriage status
-        MarriageState marriageState = villager.marriageState.get();
-        Text marriageInfo;
         if (hoveringOverIcon("married")) {
-            String spouseName = villager.spouseName.get();
-            if (marriageState == MarriageState.MARRIED || marriageState == MarriageState.MARRIED_TO_PLAYER)
-                marriageInfo = new TranslatableText("gui.interact.label.married", spouseName);
-            else if (marriageState == MarriageState.ENGAGED)
-                marriageInfo = new TranslatableText("gui.interact.label.engaged", spouseName);
-            else marriageInfo = new TranslatableText("gui.interact.label.notmarried");
 
-            drawHoveringIconText(transform, marriageInfo, "married");
+            String marriageState = villager.getRelationships().getMarriageState().base().getIcon().toLowerCase();
+            Text spouseName = villager.getRelationships().getSpouseName().orElseGet(() -> new TranslatableText("gui.interact.label.parentUnknown"));
+
+            drawHoveringIconText(transform, new TranslatableText("gui.interact.label." + marriageState, spouseName), "married");
         }
 
         //parents

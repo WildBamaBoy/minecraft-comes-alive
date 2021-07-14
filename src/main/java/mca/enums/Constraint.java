@@ -1,29 +1,34 @@
 package mca.enums;
 
+import mca.entity.Relationship;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiPredicate;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 
-public enum Constraint {
-    NOT_FAMILY("notfamily", (villager, player) -> villager.getFamilyTree().isRelative(villager.getUuid(), player.getUuid()) || villager.isMarriedTo(player.getUuid())),
-    FAMILY("family", (villager, player) -> !(villager.getFamilyTree().isRelative(villager.getUuid(), player.getUuid()) || villager.isMarriedTo(player.getUuid()))),
+public enum Constraint implements Relationship.Predicate {
+    NOT_FAMILY("notfamily", Relationship.IS_FAMILY),
+    FAMILY("family", Relationship.IS_FAMILY.negate()),
     ADULTS("adults", (villager, player) -> villager.isBaby()),
-    SPOUSE("spouse", (villager, player) -> !villager.isMarriedTo(player.getUuid())),
-    NOT_SPOUSE("notspouse", (villager, player) -> villager.isMarriedTo(player.getUuid())),
+    SPOUSE("spouse", Relationship.IS_MARRIED.negate()),
+    NOT_SPOUSE("notspouse", Relationship.IS_MARRIED),
     HIDE_ON_FAIL("hideonfail", (villager, player) -> false), //internal
-    NOT_YOUR_KIDS("notyourkids", (villager, player) -> villager.getFamilyTree().isParent(villager.getUuid(), player.getUuid()));
+    NOT_YOUR_KIDS("notyourkids", Relationship.IS_PARENT);
+
+    private static final Map<String, Constraint> REGISTRY = Stream.of(values()).collect(Collectors.toMap(a -> a.id, Function.identity()));
 
     private final String id;
     //* Returns true if it should not show the button
-    private final BiPredicate<VillagerEntityMCA, PlayerEntity> check;
+    private final Relationship.Predicate check;
 
-    Constraint(String id, BiPredicate<VillagerEntityMCA, PlayerEntity> check) {
+    Constraint(String id, Relationship.Predicate check) {
         this.id = id;
         this.check = check;
     }
@@ -32,8 +37,9 @@ public enum Constraint {
         return id;
     }
 
-    public BiPredicate<VillagerEntityMCA, PlayerEntity> getCheck() {
-        return check;
+    @Override
+    public boolean test(VillagerEntityMCA t, UUID u) {
+        return check.test(t, u);
     }
 
     public static List<Constraint> fromStringList(String constraints) {
@@ -55,10 +61,8 @@ public enum Constraint {
 
     @Nullable
     public static Constraint byValue(String value) {
-        return Arrays.stream(values())
-                .filter((e) -> e.id.equals(value))
-                .findFirst()
-                .orElse(null);
+        return REGISTRY.get(value);
     }
+
 }
 

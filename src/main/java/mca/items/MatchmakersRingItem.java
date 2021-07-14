@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 
 import java.util.Comparator;
+import java.util.Optional;
 
 public class MatchmakersRingItem extends Item implements SpecialCaseGift {
     public MatchmakersRingItem(Settings properties) {
@@ -22,16 +23,16 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
         }
 
         // ensure our target isn't married already or young
-        if (villager.isMarried() || villager.getAgeState() != AgeState.ADULT) {
+        if (villager.getRelationships().isMarried() || villager.getAgeState() != AgeState.ADULT) {
             villager.sendChatMessage(player, "interaction.matchmaker.fail.married");
             return false;
         }
 
         // look for partner
-        java.util.Optional<VillagerEntityMCA> target = WorldUtils.getCloseEntities(villager.world, villager, 3.0).stream()
+        Optional<VillagerEntityMCA> target = WorldUtils.getCloseEntities(villager.world, villager, 3.0).stream()
                 .filter(v -> v != villager && v instanceof VillagerEntityMCA)
                 .map(v -> (VillagerEntityMCA) v)
-                .filter(v -> !v.isBaby() && !v.isMarried())
+                .filter(v -> !v.isBaby() && !v.getRelationships().isMarried())
                 .min(Comparator.comparingDouble(villager::distanceTo));
 
         // ensure we found a nearby villager
@@ -42,15 +43,17 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
 
         // setup the marriage by assigning spouse UUIDs
         VillagerEntityMCA spouse = target.get();
-        villager.marry(spouse);
-        spouse.marry(villager);
+        villager.getRelationships().marry(spouse);
+        spouse.getRelationships().marry(villager);
 
         // show a reaction
         player.world.sendEntityStatus(villager, (byte) 12);
 
         // remove the rings for survival mode
-        if (!player.isCreative())
+        if (!player.isCreative()) {
             player.getMainHandStack().decrement(1);
+        }
+
         return true;
     }
 }

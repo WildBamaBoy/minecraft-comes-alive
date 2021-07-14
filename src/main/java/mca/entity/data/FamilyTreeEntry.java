@@ -17,7 +17,7 @@ public class FamilyTreeEntry implements Serializable {
     private final Gender gender;
     private final UUID father;
     private final UUID mother;
-    private final List<UUID> children;
+    private final List<UUID> children = new LinkedList<>();
 
     public FamilyTreeEntry(String name, boolean isPlayer, Gender gender, UUID father, UUID mother) {
         this.name = name;
@@ -25,7 +25,6 @@ public class FamilyTreeEntry implements Serializable {
         this.gender = gender;
         this.father = father;
         this.mother = mother;
-        children = new LinkedList<>();
     }
 
     public String getName() {

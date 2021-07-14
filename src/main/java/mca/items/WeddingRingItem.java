@@ -1,6 +1,7 @@
 package mca.items;
 
 import mca.core.MCA;
+import mca.entity.Relationship;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.data.Memories;
 import mca.entity.data.PlayerSaveData;
@@ -42,11 +43,11 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
 
         if (villager.isBaby()) {
             response = "interaction.marry.fail.isbaby";
-        } else if (villager.getFamilyTree().isParent(villager.getUuid(), player.getUuid())) {
+        } else if (Relationship.IS_PARENT.test(villager, player)) {
             response = "interaction.marry.fail.isparent";
-        } else if (villager.isMarriedTo(player.getUuid())) {
+        } else if (Relationship.IS_MARRIED.test(villager, player)) {
             response = "interaction.marry.fail.marriedtogiver";
-        } else if (villager.isMarried()) {
+        } else if (villager.getRelationships().isMarried()) {
             response = "interaction.marry.fail.marriedtoother";
         } else if (playerData.isMarried()) {
             response = "interaction.marry.fail.playermarried";
@@ -56,7 +57,7 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
             response = "interaction.marry.success";
             playerData.marry(villager.getUuid(), villager.villagerName.get(), MarriageState.MARRIED);
             villager.getVillagerBrain().getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
-            villager.marry(player);
+            villager.getRelationships().marry(player);
             villager.getVillagerBrain().modifyMoodLevel(15);
             consume = true;
         }

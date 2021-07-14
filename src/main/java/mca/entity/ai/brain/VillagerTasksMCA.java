@@ -27,7 +27,6 @@ public class VillagerTasksMCA {
                 Pair.of(0, new FollowTask()),
                 Pair.of(0, new StayTask()),
                 Pair.of(0, new GreetPlayerTask()),
-                Pair.of(0, new ProcreateTask()),
                 Pair.of(0, new StayAboveWaterTask(0.8F)),
                 Pair.of(0, new OpenDoorsTask()),
                 Pair.of(0, new LookAroundTask(45, 90)),
