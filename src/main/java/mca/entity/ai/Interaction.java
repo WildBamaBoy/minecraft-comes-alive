@@ -57,7 +57,6 @@ public enum Interaction {
     public int getSuccessChance(VillagerBrain brain, Memories memory) {
         return baseChance
                 - memory.getInteractionFatigue() * 5
-                + memory.getHearts() / 5
                 + brain.getPersonality().getSuccessModifierForInteraction(this)
                 + brain.getMood().getSuccessModifierForInteraction(this)
                 + brain.getMood().getMoodGroup().getSuccessModifierForInteraction(this)

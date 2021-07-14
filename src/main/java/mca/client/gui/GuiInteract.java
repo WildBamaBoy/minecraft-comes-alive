@@ -88,6 +88,11 @@ public class GuiInteract extends AbstractDynamicScreen {
 
         mouseX = (int) (client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
         mouseY = (int) (client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
+
+        if (getActiveScreen().equals("divorce")) {
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.divorceConfirmation"), width / 2, 105, 0xFFFFFF);
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.divorcePaperWarning"), width / 2, 160, 0xFFFFFF);
+        }
     }
 
     @Override
@@ -290,6 +295,10 @@ public class GuiInteract extends AbstractDynamicScreen {
             disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
         } else if (id.equals("gui.button.clothing")) {
             setLayout("clothing");
+        } else if (id.equals("gui.button.divorceInitiate")) {
+            setLayout("divorce");
+        } else if (id.equals("gui.button.divorceCancel")) {
+            setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new GuiFamilyTree(villager.getUuid()));
         } else if (id.equals("gui.button.work")) {

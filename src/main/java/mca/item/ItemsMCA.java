@@ -39,6 +39,8 @@ public interface ItemsMCA {
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_INGOT = register("rose_gold_ingot", new Item(baseProps()));
 
+    Item DIVORCE_PAPERS = register("divorce_papers", new Item(baseProps()));
+
     Item ROSE_GOLD_BLOCK = register("rose_gold_block", new BlockItem(BlocksMCA.ROSE_GOLD_BLOCK, baseProps()));
     Item ROSE_GOLD_ORE = register("rose_gold_ore", new BlockItem(BlocksMCA.ROSE_GOLD_ORE, baseProps()));
 

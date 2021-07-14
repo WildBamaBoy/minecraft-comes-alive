@@ -114,6 +114,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": ""
+    "constraints": "",
+    "isInteraction": true
   }
 ]

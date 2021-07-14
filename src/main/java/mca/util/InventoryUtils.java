@@ -2,6 +2,7 @@ package mca.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -15,7 +16,7 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.Nullable;
 
 public interface InventoryUtils {
-    static int getFirstSlotContainingItem(SimpleInventory inv, Predicate<ItemStack> predicate) {
+    static int getFirstSlotContainingItem(Inventory inv, Predicate<ItemStack> predicate) {
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getStack(i);
             if (!predicate.test(stack)) continue;
@@ -24,7 +25,7 @@ public interface InventoryUtils {
         return -1;
     }
 
-    static boolean contains(SimpleInventory inv, Class<?> clazz) {
+    static boolean contains(Inventory inv, Class<?> clazz) {
         for (int i = 0; i < inv.size(); ++i) {
             final ItemStack stack = inv.getStack(i);
             final Item item = stack.getItem();
@@ -40,12 +41,12 @@ public interface InventoryUtils {
      * @param type The class of item that will be returned.
      * @return The item stack containing the item of the specified type with the highest max damage.
      */
-    static ItemStack getBestItemOfType(SimpleInventory inv, @Nullable Class<?> type) {
+    static ItemStack getBestItemOfType(Inventory inv, @Nullable Class<?> type) {
         if (type == null) return ItemStack.EMPTY;
         else return inv.getStack(getBestItemOfTypeSlot(inv, type));
     }
 
-    static ItemStack getBestArmorOfType(SimpleInventory inv, EquipmentSlot slot) {
+    static ItemStack getBestArmorOfType(Inventory inv, EquipmentSlot slot) {
         ItemStack returnStack = ItemStack.EMPTY;
 
         List<ItemStack> armors = new ArrayList<>();
@@ -70,7 +71,7 @@ public interface InventoryUtils {
         return returnStack;
     }
 
-    static int getBestItemOfTypeSlot(SimpleInventory inv, Class<?> type) {
+    static int getBestItemOfTypeSlot(Inventory inv, Class<?> type) {
         int highestMaxDamage = 0;
         int best = -1;
 
@@ -88,7 +89,7 @@ public interface InventoryUtils {
         return best;
     }
 
-    static void dropAllItems(Entity entity, SimpleInventory inv) {
+    static void dropAllItems(Entity entity, Inventory inv) {
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getStack(i);
             entity.dropStack(stack, 1.0F);
@@ -96,7 +97,7 @@ public interface InventoryUtils {
         inv.clear();
     }
 
-    static void load(SimpleInventory inv, NbtList tagList) {
+    static void load(Inventory inv, NbtList tagList) {
         for (int i = 0; i < inv.size(); ++i) {
             inv.setStack(i, ItemStack.EMPTY);
         }
@@ -111,7 +112,7 @@ public interface InventoryUtils {
         }
     }
 
-    static NbtList save(SimpleInventory inv) {
+    static NbtList save(Inventory inv) {
         NbtList tagList = new NbtList();
 
         for (int i = 0; i < inv.size(); ++i) {

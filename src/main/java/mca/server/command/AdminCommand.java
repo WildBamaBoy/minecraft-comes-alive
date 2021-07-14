@@ -6,8 +6,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import mca.entity.VillagerEntityMCA;
 import mca.item.BabyItem;
+import mca.server.world.data.PlayerSaveData;
 import mca.server.world.data.Village;
 import mca.server.world.data.VillageManagerData;
 import net.minecraft.entity.Entity;
@@ -17,12 +19,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.Util;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+
+import static net.minecraft.util.Formatting.*;
 
 public class AdminCommand {
     private static final ArrayList<VillagerEntityMCA> prevVillagersRemoved = new ArrayList<>();
@@ -31,18 +34,16 @@ public class AdminCommand {
         // TODO: proper command syntax.
         dispatcher.register(CommandManager.literal("mca-admin")
                 .then(register("help", AdminCommand::displayHelp))
-                .then(register("clv", AdminCommand::clearLoadedVillagers))
-                .then(register("rcv", AdminCommand::restoreClearedVillagers))
-                .then(register("ffh", AdminCommand::forceFullHearts))
-                .then(register("fbg", AdminCommand::forceBabyGrowth))
-                .then(register("fcg", AdminCommand::forceChildGrowth))
-                .then(register("inh", AdminCommand::incrementHearts))
-                .then(register("deh", AdminCommand::decrementHearts))
-                //.then(register("sgr", CommandMCAAdmin::spawnGrimReaper))
-                //.then(register("kgr", CommandMCAAdmin::killGrimReaper))
-                //.then(register("dpd", CommandMCAAdmin::dumpPlayerData))
-                //.then(register("rvd", CommandMCAAdmin::resetVillagerData))
-                //.then(register("rpd", CommandMCAAdmin::resetPlayerData))
+                .then(register("clearLoadedVillagers", AdminCommand::clearLoadedVillagers))
+                .then(register("restoreClearedVillagers", AdminCommand::restoreClearedVillagers))
+                .then(register("forceFullHearts", AdminCommand::forceFullHearts))
+                .then(register("forceBabyGrowth", AdminCommand::forceBabyGrowth))
+                .then(register("forceChildGrowth", AdminCommand::forceChildGrowth))
+                .then(register("incrementHearts", AdminCommand::incrementHearts))
+                .then(register("decrementHearts", AdminCommand::decrementHearts))
+                //.then(register("dumpPlayerData", CommandMCAAdmin::dumpPlayerData))
+                //.then(register("resetVillagerData", CommandMCAAdmin::resetVillagerData))
+                .then(register("resetPlayerData", AdminCommand::resetPlayerData))
                 .then(register("listVillages", AdminCommand::listVillages))
                 .then(register().then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillage)))
         );
@@ -68,6 +69,13 @@ public class AdminCommand {
         } else {
             fail(ctx);
         }
+        return 0;
+    }
+
+    private static int resetPlayerData(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+        PlayerEntity player = ctx.getSource().getPlayer();
+        PlayerSaveData playerData = PlayerSaveData.get(ctx.getSource().getWorld(), player.getUuid());
+        playerData.reset();
         return 0;
     }
 
@@ -135,35 +143,41 @@ public class AdminCommand {
     }
 
     private static void success(String message, CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendFeedback(new LiteralText(message).formatted(Formatting.GREEN), true);
+        ctx.getSource().sendFeedback(new LiteralText(message).formatted(GREEN), true);
     }
 
     private static void fail(CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendError(new LiteralText("Village with this ID does not exist.").formatted(Formatting.RED));
+        ctx.getSource().sendError(new LiteralText("Village with this ID does not exist.").formatted(RED));
     }
 
     private static int displayHelp(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        sendMessage(ctx.getSource().getPlayer(), Formatting.DARK_RED + "--- " + Formatting.GOLD + "OP COMMANDS" + Formatting.DARK_RED + " ---");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin ffh " + Formatting.GOLD + " - Force all hearts on all villagers.");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin fbg " + Formatting.GOLD + " - Force your baby to grow up.");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin fcg " + Formatting.GOLD + " - Force nearby children to grow.");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin clv " + Formatting.GOLD + " - Clear all loaded villagers. " + Formatting.RED + "(IRREVERSABLE)");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin rcv " + Formatting.GOLD + " - Restores cleared villagers. ");
+        Entity player = ctx.getSource().getEntity();
 
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin listVillages " + Formatting.GOLD + " - Prints a list of all villages.");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin removeVillage id" + Formatting.GOLD + " - Removed a village with given id.");
+        sendMessage(player, DARK_RED + "--- " + GOLD + "OP COMMANDS" + DARK_RED + " ---");
+        sendMessage(player, WHITE + " /mca-admin forceFullHearts " + GOLD + " - Force all hearts on all villagers.");
+        sendMessage(player, WHITE + " /mca-admin forceBabyGrowth " + GOLD + " - Force your baby to grow up.");
+        sendMessage(player, WHITE + " /mca-admin forceChildGrowth " + GOLD + " - Force nearby children to grow.");
+        sendMessage(player, WHITE + " /mca-admin clearLoadedVillagers " + GOLD + " - Clear all loaded villagers. " + RED + "(IRREVERSABLE)");
+        sendMessage(player, WHITE + " /mca-admin restoreClearedVillagers " + GOLD + " - Restores cleared villagers. ");
 
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin inh " + Formatting.GOLD + " - Increase hearts by 10.");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin deh " + Formatting.GOLD + " - Decrease hearts by 10.");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin cve" + Formatting.GOLD + " - Remove all villager editors from the game.");
+        sendMessage(player, WHITE + " /mca-admin listVillages " + GOLD + " - Prints a list of all villages.");
+        sendMessage(player, WHITE + " /mca-admin removeVillage id" + GOLD + " - Removed a village with given id.");
 
-        sendMessage(ctx.getSource().getPlayer(), Formatting.DARK_RED + "--- " + Formatting.GOLD + "GLOBAL COMMANDS" + Formatting.DARK_RED + " ---");
-        sendMessage(ctx.getSource().getPlayer(), Formatting.WHITE + " /mca-admin help " + Formatting.GOLD + " - Shows this list of commands.");
+        sendMessage(player, WHITE + " /mca-admin incrementHearts " + GOLD + " - Increase hearts by 10.");
+        sendMessage(player, WHITE + " /mca-admin decrementHearts " + GOLD + " - Decrease hearts by 10.");
+        sendMessage(player, WHITE + " /mca-admin cve" + GOLD + " - Remove all villager editors from the game.");
+        sendMessage(player, WHITE + " /mca-admin resetPlayerData " + GOLD + " - Resets hearts, marriage statuc etc.");
+
+        sendMessage(player, WHITE + " /mca-admin listVillages " + GOLD + " - List all known villages.");
+        sendMessage(player, WHITE + " /mca-admin removeVillage " + GOLD + " - Remove a given village.");
+
+        sendMessage(player, DARK_RED + "--- " + GOLD + "GLOBAL COMMANDS" + DARK_RED + " ---");
+        sendMessage(player, WHITE + " /mca-admin help " + GOLD + " - Shows this list of commands.");
         return 0;
     }
 
 
     private static void sendMessage(Entity commandSender, String message) {
-        commandSender.sendSystemMessage(new LiteralText(Formatting.GOLD + "[MCA] " + Formatting.RESET + message), Util.NIL_UUID);
+        commandSender.sendSystemMessage(new LiteralText(GOLD + "[MCA] " + RESET + message), Util.NIL_UUID);
     }
 }

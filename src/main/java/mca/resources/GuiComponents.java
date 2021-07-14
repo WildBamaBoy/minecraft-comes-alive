@@ -24,6 +24,7 @@ public class GuiComponents {
         buttons.put("locations", Resources.read("api/gui/locations.json", Button[].class));
         buttons.put("command", Resources.read("api/gui/command.json", Button[].class));
         buttons.put("clothing", Resources.read("api/gui/clothing.json", Button[].class));
+        buttons.put("divorce", Resources.read("api/gui/divorce.json", Button[].class));
 
         // Icons
         Type mapType = new TypeToken<Map<String, Icon>>() {}.getType();

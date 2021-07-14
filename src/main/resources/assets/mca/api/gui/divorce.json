@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "identifier": "gui.button.divorceConfirm",
+    "x": -85,
+    "y": 0,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "id": 2,
+    "identifier": "gui.button.divorceCancel",
+    "x": 20,
+    "y": 0,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  }
+]

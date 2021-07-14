@@ -10,7 +10,6 @@ import mca.client.gui.GuiInteract;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.Personality;
-import mca.util.InventoryUtils;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.data.Button;
@@ -160,7 +159,8 @@ public class Interactions {
                 break;
             case "gui.button.divorceConfirm":
                 //this lambda is meh
-                int divorcePaper = InventoryUtils.getFirstSlotContainingItem(player.getInventory(), s -> s.getItem() == ItemsMCA.DIVORCE_PAPERS);
+
+                int divorcePaper = player.getInventory().indexOf(ItemsMCA.DIVORCE_PAPERS.getDefaultStack());
                 Memories memories = entity.getVillagerBrain().getMemoriesForPlayer(player);
                 if (divorcePaper >= 0) {
                     entity.sendChatMessage(player, "divorcePaper");
@@ -171,7 +171,7 @@ public class Interactions {
                     memories.modHearts(-200);
                 }
                 entity.getVillagerBrain().modifyMoodLevel(-5);
-                divorce();
+                entity.getRelationships().endMarriage(MarriageState.SINGLE);
 
                 PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
                 playerData.endMarriage(MarriageState.SINGLE);
