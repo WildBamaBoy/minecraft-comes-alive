@@ -19,7 +19,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "notfamily",
+    "constraints": "!family",
     "hideOnFail": true
   },
   {
@@ -101,5 +101,31 @@
     "notifyServer": false,
     "targetServer": false,
     "constraints": ""
+  },
+  {
+    "id": 8,
+    "identifier": "gui.button.divorceInitiate",
+    "x": 140,
+    "y": 61,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": "spouse",
+    "isInteraction": true,
+    "hideOnFail": true
+  },
+  {
+    "id": 9,
+    "identifier": "gui.button.divorcePapers",
+    "x": 100,
+    "y": 61,
+    "width": 105,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "cleric,!spouse",
+    "isInteraction": true,
+    "hideOnFail": true
   }
 ]

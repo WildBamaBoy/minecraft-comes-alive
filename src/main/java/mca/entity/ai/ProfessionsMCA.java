@@ -11,6 +11,7 @@ import java.util.Random;
 import mca.MCA;
 
 public interface ProfessionsMCA {
+    VillagerProfession OUTLAW = register("outlaw", VillagerProfessionBuilder.create().workstation(PointOfInterestType.HOME).workSound(SoundEvents.ENTITY_VILLAGER_WORK_FARMER));
     VillagerProfession CHILD = register("child", VillagerProfessionBuilder.create().workstation(PointOfInterestType.HOME).workSound(SoundEvents.ENTITY_VILLAGER_WORK_FARMER));
     VillagerProfession GUARD = register("guard", VillagerProfessionBuilder.create().workstation(PointOfInterestType.ARMORER).workSound(SoundEvents.ENTITY_VILLAGER_WORK_ARMORER));
 

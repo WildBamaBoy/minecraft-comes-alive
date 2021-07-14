@@ -64,5 +64,28 @@
     "notifyServer": true,
     "targetServer": false,
     "constraints": ""
+  },
+  {
+    "id": 7,
+    "identifier": "gui.button.execute",
+    "x": 140,
+    "y": -5,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!outlawed"
+  },
+  {
+    "id": 8,
+    "identifier": "gui.button.pardon",
+    "x": 140,
+    "y": -5,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "outlawed",
+    "hideOnFail": true
   }
 ]

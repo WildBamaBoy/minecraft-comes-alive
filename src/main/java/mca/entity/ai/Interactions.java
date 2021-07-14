@@ -8,7 +8,10 @@ import org.jetbrains.annotations.Nullable;
 import mca.MCA;
 import mca.client.gui.GuiInteract;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.Personality;
+import mca.util.InventoryUtils;
+import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.data.Button;
 import mca.server.world.data.PlayerSaveData;
@@ -17,6 +20,7 @@ import net.minecraft.entity.Saddleable;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -25,6 +29,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
+import net.minecraft.village.VillagerProfession;
 
 public class Interactions {
     private final VillagerEntityMCA entity;
@@ -146,6 +151,39 @@ public class Interactions {
                 } else {
                     entity.getRelationships().startProcreating();
                 }
+                stopInteracting();
+                break;
+            case "gui.button.divorcePapers":
+                player.getInventory().insertStack(new ItemStack(ItemsMCA.DIVORCE_PAPERS));
+                entity.sendChatMessage(player, "cleric.divorcePapers");
+                stopInteracting();
+                break;
+            case "gui.button.divorceConfirm":
+                //this lambda is meh
+                int divorcePaper = InventoryUtils.getFirstSlotContainingItem(player.getInventory(), s -> s.getItem() == ItemsMCA.DIVORCE_PAPERS);
+                Memories memories = entity.getVillagerBrain().getMemoriesForPlayer(player);
+                if (divorcePaper >= 0) {
+                    entity.sendChatMessage(player, "divorcePaper");
+                    player.getInventory().getStack(divorcePaper).decrement(1);
+                    memories.modHearts(-20);
+                } else {
+                    entity.sendChatMessage(player, "divorce");
+                    memories.modHearts(-200);
+                }
+                entity.getVillagerBrain().modifyMoodLevel(-5);
+                divorce();
+
+                PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
+                playerData.endMarriage(MarriageState.SINGLE);
+
+                stopInteracting();
+                break;
+            case "gui.button.execute":
+                entity.setProfession(ProfessionsMCA.OUTLAW);
+                stopInteracting();
+                break;
+            case "gui.button.pardon":
+                entity.setProfession(VillagerProfession.NONE);
                 stopInteracting();
                 break;
             case "gui.button.infected":

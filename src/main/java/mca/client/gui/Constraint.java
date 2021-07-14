@@ -1,44 +1,64 @@
 package mca.client.gui;
 
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.ProfessionsMCA;
+import mca.entity.ai.Rank;
 import mca.entity.ai.Relationship;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.village.VillagerProfession;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum Constraint implements Relationship.Predicate {
-    NOT_FAMILY("notfamily", Relationship.IS_FAMILY.negate()),
+public enum Constraint implements BiPredicate<VillagerEntityMCA, Entity> {
     FAMILY("family", Relationship.IS_FAMILY),
-    ADULTS("adults", (villager, player) -> !villager.isBaby()),
+    NOT_FAMILY("!family", Relationship.IS_FAMILY.negate()),
+
+    ADULT("adult", (villager, player) -> !villager.isBaby()),
+    NOT_ADULT("!adult", (villager, player) -> villager.isBaby()),
+
     SPOUSE("spouse", Relationship.IS_MARRIED),
-    NOT_SPOUSE("notspouse", Relationship.IS_MARRIED.negate()),
-    /**
-     * Internal.
-     *
-     * Used to hide a button when any of its other constraints fail
-     */
-    HIDE_ON_FAIL("hideonfail", (villager, player) -> true),
-    NOT_YOUR_KIDS("notyourkids", Relationship.IS_PARENT);
+    NOT_SPOUSE("!spouse", Relationship.IS_MARRIED.negate()),
+
+    KIDS("kids", Relationship.IS_PARENT),
+    NOT_KIDS("!kids", Relationship.IS_PARENT.negate()),
+
+    CLERIC("cleric", (villager, player) -> villager.getProfession() == VillagerProfession.CLERIC),
+    NOT_CLERIC("!cleric", (villager, player) -> villager.getProfession() != VillagerProfession.CLERIC),
+
+    OUTLAWED("outlawed", (villager, player) -> villager.getProfession() == ProfessionsMCA.OUTLAW),
+    NOT_OUTLAWED("!outlawed", (villager, player) -> villager.getProfession() == ProfessionsMCA.OUTLAW),
+
+    PEASANT("peasant", (villager, player) -> {
+        return player instanceof PlayerEntity && villager.getResidency().getHomeVillage().filter(village -> {
+            return village.getRank((PlayerEntity)player).getReputation() >= Rank.PEASANT.getReputation();
+        }).isPresent();
+    }),
+    NOT_PEASANT("!peasant", (villager, player) -> {
+        return !(player instanceof PlayerEntity) || villager.getResidency().getHomeVillage().filter(village -> {
+            return village.getRank((PlayerEntity)player).getReputation() >= Rank.PEASANT.getReputation();
+        }).isEmpty();
+    });
 
     public static final Map<String, Constraint> REGISTRY = Stream.of(values()).collect(Collectors.toMap(a -> a.id, Function.identity()));
 
     private final String id;
-    private final Relationship.Predicate check;
+    private final BiPredicate<VillagerEntityMCA, Entity> check;
 
-    Constraint(String id, Relationship.Predicate check) {
+    Constraint(String id, BiPredicate<VillagerEntityMCA, Entity> check) {
         this.id = id;
         this.check = check;
     }
 
     @Override
-    public boolean test(VillagerEntityMCA t, UUID u) {
+    public boolean test(VillagerEntityMCA t, Entity u) {
         return check.test(t, u);
     }
 
@@ -54,7 +74,7 @@ public enum Constraint implements Relationship.Predicate {
         if (constraints == null || constraints.isEmpty()) {
             return Stream.empty();
         }
-        return Stream.of(constraints.split("\\|"))
+        return Stream.of(constraints.split("\\,"))
                 .map(REGISTRY::get)
                 .filter(Objects::nonNull);
     }

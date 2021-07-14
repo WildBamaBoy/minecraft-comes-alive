@@ -188,7 +188,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public boolean isProfessionImportant() {
-        return getProfession() == ProfessionsMCA.GUARD;
+        return getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW;
     }
 
     @Override
@@ -432,6 +432,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         //TODO custom sounds?
         //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
     }
+
+    // TODO: merge
+    /*public final ITextComponent getDisplayName() {
+        TextComponent name = new StringTextComponent((ProfessionsMCA.isRed(getProfession()) ? TextFormatting.RED : "") + villagerName.get());
+        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
+            name.append(new StringTextComponent("(Staying)"));
+        }
+        return name;*/
 
     @Override
     public final Text getDisplayName() {

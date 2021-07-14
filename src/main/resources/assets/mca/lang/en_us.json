@@ -1,5 +1,5 @@
 {
-  "itemGroup.mcaTab": "Minecraft Comes Alive",
+  "itemGroup.mca_tab": "Minecraft Comes Alive",
   "entity.minecraft.villager.none": "Jobless",
   "entity.minecraft.villager.marauder": "Marauder",
   "entity.minecraft.villager.outlaw": "Outlaw",
@@ -11,6 +11,7 @@
   "entity.minecraft.villager.archer": "Archer",
   "entity.minecraft.villager.hero": "Hero",
   "entity.minecraft.villager.child": "Child",
+  "entity.minecraft.villager.outlaw": "Outlaw",
   "entity.mca.grim_reaper": "Grim Reaper",
   "item.mca.wedding_ring": "Wedding Ring",
   "item.mca.wedding_ring_rg": "Rose Gold Wedding Ring",
@@ -199,6 +200,8 @@
   "gui.button.hug": "Hug",
   "gui.button.kiss": "Kiss",
   "gui.button.village": "Village",
+  "gui.button.execute": "Execute",
+  "gui.button.pardon": "Pardon",
   "gui.button.clothing.randClothing": "Random Clothes",
   "gui.button.clothing.prevClothing": "Prev",
   "gui.button.clothing.nextClothing": "Next",

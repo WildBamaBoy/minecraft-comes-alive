@@ -205,6 +205,10 @@ public class Village implements Serializable, Iterable<Building> {
         return tasks.length;
     }
 
+    public Rank getRank(PlayerEntity player) {
+        return getRank(getReputation(player));
+    }
+
     public Rank getRank(int reputation) {
         Rank rank = Rank.fromReputation(reputation);
         int t = tasksCompleted();

@@ -63,7 +63,7 @@ public class Residency {
         hangoutPos.set(player.getBlockPos());
     }
 
-    Optional<Village> getHomeVillage() {
+    public Optional<Village> getHomeVillage() {
         return VillageManagerData.get((ServerWorld)entity.world).getOrEmpty(village.get());
     }
 
@@ -183,5 +183,4 @@ public class Residency {
             return false;
         }
     }
-
 }

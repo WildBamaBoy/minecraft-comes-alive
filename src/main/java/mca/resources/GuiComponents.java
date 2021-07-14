@@ -20,7 +20,6 @@ public class GuiComponents {
         // Read in buttons
         buttons.put("main", Resources.read("api/gui/main.json", Button[].class));
         buttons.put("interact", Resources.read("api/gui/interact.json", Button[].class));
-        buttons.put("debug", Resources.read("api/gui/debug.json", Button[].class));
         buttons.put("work", Resources.read("api/gui/work.json", Button[].class));
         buttons.put("locations", Resources.read("api/gui/locations.json", Button[].class));
         buttons.put("command", Resources.read("api/gui/command.json", Button[].class));
