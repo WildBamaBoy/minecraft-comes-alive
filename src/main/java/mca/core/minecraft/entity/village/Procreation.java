@@ -42,30 +42,26 @@ public class Procreation {
 
         //list all and lonely villagers
         List<VillagerEntityMCA> allVillagers = village.getResidents(world);
-        List<VillagerEntityMCA> villagers = allVillagers.stream()
+        List<VillagerEntityMCA> availableVillagers = allVillagers.stream()
                 .filter(v -> !v.getRelationships().isMarried() && !v.isBaby())
                 .collect(Collectors.toList());
 
-        if (villagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
+        if (availableVillagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
             return; // The village is too small.
         }
 
-        // TODO: Added orientations.
-        List<VillagerEntityMCA> males = villagers.stream().filter(i -> i.getGenetics().getGender() == Gender.MALE).collect(Collectors.toList());
-        List<VillagerEntityMCA> females = villagers.stream().filter(i -> i.getGenetics().getGender() == Gender.FEMALE).collect(Collectors.toList());
+        // pick a random villager
+        PoolUtil.pop(availableVillagers, world.random).ifPresent(suitor -> {
+            // Find a potential mate
+            PoolUtil.pop(availableVillagers.stream()
+                    .filter(i -> suitor.getGenetics().getGender().isAttractedTo(i.getGenetics().getGender()))
+                    .toList(), world.random).ifPresent(mate -> {
+                // smash their bodies together like nobody's business!
+                suitor.getRelationships().marry(mate);
+                mate.getRelationships().marry(suitor);
 
-        if (males.isEmpty() || females.isEmpty()) {
-            return; // Can't marry, not enough villagers
-        }
-
-        // choose a random villager
-        PoolUtil.pop(males, world.random).ifPresent(husband -> {
-            PoolUtil.pop(females, world.random).ifPresent(wife -> {
-                // notify all players
-                wife.sendEventMessage(new TranslatableText("events.marry", husband.getName(), wife.getName()));
-                // marry
-                husband.getRelationships().marry(wife);
-                wife.getRelationships().marry(husband);
+                // tell everyone about it
+                suitor.sendEventMessage(new TranslatableText("events.marry", suitor.getName(), mate.getName()));
             });
         });
     }

@@ -47,6 +47,21 @@ public enum Gender {
         return this == FEMALE ? FEMALE : MALE;
     }
 
+    /**
+     * Checks whether this gender is attracted to another.
+     */
+    public boolean isAttractedTo(Gender other) {
+        return other == UNASSIGNED
+                && (other != this || this == NEUTRAL);
+    }
+
+    /**
+     * Checks whether both genders are mutually attracted to each other.
+     */
+    public boolean isMutuallyAttracted(Gender other) {
+        return isAttractedTo(other) && other.isAttractedTo(this);
+    }
+
     public static Gender byId(int id) {
         if (id < 0 || id >= VALUES.length) {
             return UNASSIGNED;
