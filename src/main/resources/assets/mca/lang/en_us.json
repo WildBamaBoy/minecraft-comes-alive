@@ -280,6 +280,7 @@
   "gene.pheomelanin": "Pheomelanin",
   "gene.skin": "Skin",
   "gene.face": "Face",
+  "gene.tooltip": "%s: %d%%",
   "events.marry": "%1$s and %2$s are now married!",
   "events.baby": "%1$s and %2$s have born a baby!",
   "villager.hurt1": "Ow! That hurt!",

@@ -225,7 +225,7 @@ public class HarvestingTask extends AbstractChoreTask {
                     world.setBlockState(target, Blocks.BEETROOTS.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                     flag = true;
                 }// else if (itemstack.getItem() instanceof IPlantable) {
-                    // TODO: And for this
+                    // TODO: Use an ItemTag for this too
                     /*if (((IPlantable) itemstack.getItem()).getPlantType(world, target) == net.minecraftforge.common.PlantType.CROP) {
                         world.setBlockState(target, ((IPlantable) itemstack.getItem()).getPlant(world, target), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
                         flag = true;

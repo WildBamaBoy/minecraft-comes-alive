@@ -233,7 +233,7 @@ public class GuiInteract extends AbstractDynamicScreen {
             for (Genetics.Gene gene : villager.getGenetics()) {
                 String key = gene.key().replace("_", ".");
                 int value = (int) (gene.get() * 100);
-                lines.add(new LiteralText(String.format("%s: %d%%", new TranslatableText(key), value)));
+                lines.add(new TranslatableText("gene.tooltip", new TranslatableText(key), value));
             }
 
             drawHoveringIconText(transform, lines, "genes");
