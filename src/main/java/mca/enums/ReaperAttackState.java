@@ -5,14 +5,5 @@ public enum ReaperAttackState {
     PRE,
     POST,
     REST,
-    BLOCK;
-
-    private static final ReaperAttackState[] VALUES = values();
-
-    public static ReaperAttackState fromId(int id) {
-        if (id < 0 || id >= VALUES.length) {
-            return IDLE;
-        }
-        return VALUES[id];
-    }
+    BLOCK
 }

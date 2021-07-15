@@ -2,7 +2,7 @@ package mca.entity;
 
 
 import mca.cobalt.minecraft.network.datasync.CDataManager;
-import mca.cobalt.minecraft.network.datasync.CIntegerParameter;
+import mca.cobalt.minecraft.network.datasync.CEnumParameter;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.minecraft.SoundsMCA;
@@ -37,7 +37,8 @@ import net.minecraft.world.World;
 public class GrimReaperEntity extends PathAwareEntity {
     public final CDataManager data = new CDataManager(this);
 
-    private final CIntegerParameter attackStage = data.newInteger("attackStage");
+
+    private final CEnumParameter<ReaperAttackState> attackStage = data.newEnum("attackStage", ReaperAttackState.IDLE);
 
     private final ServerBossBar bossInfo = (ServerBossBar) (new ServerBossBar(this.getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true);
 
@@ -69,9 +70,9 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     protected void initGoals() {
         //TODO seems to be ignored
-        this.goalSelector.add(5, new GrimReaperIdleGoal(this, 1.0D));
+        this.goalSelector.add(5, new GrimReaperIdleGoal(this, 1));
 
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8));
         this.goalSelector.add(7, new LookAroundGoal(this));
 
         this.goalSelector.add(2, new GrimReaperRestGoal(this));
@@ -115,30 +116,31 @@ public class GrimReaperEntity extends PathAwareEntity {
         }
     }
 
-
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
     }
 
     public ReaperAttackState getAttackState() {
-        return ReaperAttackState.fromId(this.attackStage.get());
+        return attackStage.get();
     }
 
     public void setAttackState(ReaperAttackState state) {
         // Only update if needed so that sounds only play once.
-        if (this.attackStage.get() != state.ordinal()) {
-            this.attackStage.set(state.ordinal());
+        if (getAttackState() == state) {
+            return;
+        }
 
-            switch (state) {
-                case PRE:
-                    this.playSound(SoundsMCA.reaper_scythe_out, 1.0F, 1.0F);
-                    break;
-                case POST:
-                    this.playSound(SoundsMCA.reaper_scythe_swing, 1.0F, 1.0F);
-                    break;
-                default:
-            }
+        attackStage.set(state);
+
+        switch (state) {
+            case PRE:
+                playSound(SoundsMCA.reaper_scythe_out, 1, 1);
+                break;
+            case POST:
+                playSound(SoundsMCA.reaper_scythe_swing, 1, 1);
+                break;
+            default:
         }
     }
 
@@ -249,27 +251,27 @@ public class GrimReaperEntity extends PathAwareEntity {
         }
 
         // Logic for flying.
-        fallDistance = 0.0F;
+        fallDistance = 0;
     }
 
     @Override
     public void requestTeleport(double x, double y, double z) {
-        if (this.world instanceof ServerWorld) {
-            this.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        if (world instanceof ServerWorld) {
+            playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1, 1);
             super.requestTeleport(x, y, z);
-            this.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
+            playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1, 1);
         }
     }
 
     @Override
-    public void onStartedTrackingBy(ServerPlayerEntity p_184178_1_) {
-        super.onStartedTrackingBy(p_184178_1_);
-        this.bossInfo.addPlayer(p_184178_1_);
+    public void onStartedTrackingBy(ServerPlayerEntity player) {
+        super.onStartedTrackingBy(player);
+        bossInfo.addPlayer(player);
     }
 
     @Override
-    public void onStoppedTrackingBy(ServerPlayerEntity p_184203_1_) {
-        super.onStoppedTrackingBy(p_184203_1_);
-        this.bossInfo.removePlayer(p_184203_1_);
+    public void onStoppedTrackingBy(ServerPlayerEntity player) {
+        super.onStoppedTrackingBy(player);
+        bossInfo.removePlayer(player);
     }
 }
