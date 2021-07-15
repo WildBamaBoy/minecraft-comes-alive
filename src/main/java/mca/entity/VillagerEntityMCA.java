@@ -24,6 +24,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -312,24 +313,48 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     public void tickMovement() {
         tickHandSwing();
         super.tickMovement();
+
+        // Natural regeneration every 10 seconds
+        if (age % 200 == 0 && getHealth() < getMaxHealth()) {
+            heal(1);
+        }
+
+        // Update age state for current entity growth
+        setAgeState(AgeState.byCurrentAge(getBreedingAge()));
+
+        residency.updateVillage();
+
+        if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
+            setProfession(API.randomProfession());
+        }
+
+        relations.tick(age);
+
+        // Brain and pregnancy depend on the above states, so we tick them last
+        // Every 1 second
+        mcaBrain.think();
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        this.calculateDimensions();
-
         if (world.isClient) {
             if (relations.isProcreating()) {
-                this.headYaw += 50.0F;
+                headYaw += 50;
             }
 
             if (age % 20 == 0) {
                 mcaBrain.clientTick();
             }
-        } else {
-            onEachServerUpdate();
+        }
+    }
+
+    @Override
+    public void tickRiding() {
+        super.tickRiding();
+        if (getVehicle() instanceof PathAwareEntity) {
+            bodyYaw = ((PathAwareEntity)getVehicle()).bodyYaw;
         }
     }
 
@@ -441,28 +466,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public void produceParticles(ParticleEffect parameters) {
         super.produceParticles(parameters);
-    }
-
-    private void onEachServerUpdate() {
-        // Natural regeneration every 10 seconds
-        if (age % 200 == 0 && getHealth() < getMaxHealth()) {
-            heal(1);
-        }
-
-        // Update age state for current entity growth
-        setAgeState(AgeState.byCurrentAge(getBreedingAge()));
-
-        residency.updateVillage();
-
-        if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
-            setProfession(API.randomProfession());
-        }
-
-        relations.tick(age);
-
-        // Brain and pregnancy depend on the above states, so we tick them last
-        // Every 1 second
-        mcaBrain.think();
     }
 
     @Nullable

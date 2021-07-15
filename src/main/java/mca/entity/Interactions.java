@@ -21,6 +21,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -86,16 +87,34 @@ public class Interactions {
                 });
                 stopInteracting();
                 break;
-            case "gui.button.ridehorse":
-                entity.world.getNonSpectatingEntities(HorseEntity.class, player.getBoundingBox().expand(10))
-                    .stream()
-                    .filter(horse -> !horse.hasPassengers() && horse.isSaddled())
-                    .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
-                    .findFirst().ifPresentOrElse(horse -> {
-                        entity.startRiding(horse, false);
-                        entity.sendChatMessage(player, "command.ride.success");
-                    }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
+            case "gui.button.pickup":
+                if (entity.hasVehicle()) {
+                    entity.stopRiding();
+                } else {
+                    entity.startRiding(player, true);
+                }
 
+                if (player instanceof ServerPlayerEntity) {
+                    ((ServerPlayerEntity)player).networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
+                }
+
+                stopInteracting();
+                break;
+            case "gui.button.ridehorse":
+                if (entity.hasVehicle()) {
+                    entity.stopRiding();
+                } else {
+                    entity.world.getNonSpectatingEntities(HorseEntity.class, player.getBoundingBox().expand(10))
+                        .stream()
+                        .filter(horse -> !horse.hasPassengers() && horse.isSaddled())
+                        .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
+                        .findFirst().ifPresentOrElse(horse -> {
+                            entity.startRiding(horse, false);
+                            entity.sendChatMessage(player, "command.ride.success");
+                        }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
+
+
+                }
                 stopInteracting();
                 break;
             case "gui.button.sethome":

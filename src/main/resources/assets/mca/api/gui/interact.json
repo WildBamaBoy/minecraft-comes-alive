@@ -104,5 +104,16 @@
     "targetServer": false,
     "constraints": "notyourkids|adults",
     "isInteraction": true
+  },
+  {
+    "id": 3,
+    "identifier": "gui.button.pickup",
+    "x": 140,
+    "y": 59,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
   }
 ]

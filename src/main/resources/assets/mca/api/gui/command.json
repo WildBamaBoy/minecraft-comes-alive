@@ -51,7 +51,6 @@
     "width": 65,
     "height": 20,
     "notifyServer": true,
-    "spouseOnly": false,
     "targetServer": false,
     "constraints": ""
   },
