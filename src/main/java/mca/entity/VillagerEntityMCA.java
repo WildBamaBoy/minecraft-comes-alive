@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -26,6 +27,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -314,25 +316,27 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         tickHandSwing();
         super.tickMovement();
 
-        // Natural regeneration every 10 seconds
-        if (age % 200 == 0 && getHealth() < getMaxHealth()) {
-            heal(1);
+        if (!world.isClient) {
+            // Natural regeneration every 10 seconds
+            if (age % 200 == 0 && getHealth() < getMaxHealth()) {
+                heal(1);
+            }
+
+            // Update age state for current entity growth
+            setAgeState(AgeState.byCurrentAge(getBreedingAge()));
+
+            residency.updateVillage();
+
+            if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
+                setProfession(API.randomProfession());
+            }
+
+            relations.tick(age);
+
+            // Brain and pregnancy depend on the above states, so we tick them last
+            // Every 1 second
+            mcaBrain.think();
         }
-
-        // Update age state for current entity growth
-        setAgeState(AgeState.byCurrentAge(getBreedingAge()));
-
-        residency.updateVillage();
-
-        if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
-            setProfession(API.randomProfession());
-        }
-
-        relations.tick(age);
-
-        // Brain and pregnancy depend on the above states, so we tick them last
-        // Every 1 second
-        mcaBrain.think();
     }
 
     @Override
@@ -356,6 +360,16 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (getVehicle() instanceof PathAwareEntity) {
             bodyYaw = ((PathAwareEntity)getVehicle()).bodyYaw;
         }
+    }
+
+    @Override
+    public double getHeightOffset() {
+        return -0.35;
+    }
+
+    @Override
+    public double getMountedHeightOffset() {
+        return super.getMountedHeightOffset();
     }
 
     @Override

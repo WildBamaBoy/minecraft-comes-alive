@@ -5,7 +5,6 @@ import mca.core.minecraft.MemoryModuleTypeMCA;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.Heightmap;

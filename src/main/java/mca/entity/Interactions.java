@@ -17,6 +17,7 @@ import mca.enums.Interaction;
 import mca.enums.MoveState;
 import mca.enums.Personality;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Saddleable;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.HorseEntity;
@@ -104,16 +105,14 @@ public class Interactions {
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {
-                    entity.world.getNonSpectatingEntities(HorseEntity.class, player.getBoundingBox().expand(10))
+                    entity.world.getOtherEntities(player, player.getBoundingBox().expand(10), e -> e instanceof Saddleable && ((Saddleable)e).isSaddled())
                         .stream()
-                        .filter(horse -> !horse.hasPassengers() && horse.isSaddled())
+                        .filter(horse -> !horse.hasPassengers())
                         .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
                         .findFirst().ifPresentOrElse(horse -> {
                             entity.startRiding(horse, false);
                             entity.sendChatMessage(player, "command.ride.success");
                         }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
-
-
                 }
                 stopInteracting();
                 break;
