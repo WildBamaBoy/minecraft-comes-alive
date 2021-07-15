@@ -19,6 +19,7 @@ import mca.enums.Personality;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -86,7 +87,15 @@ public class Interactions {
                 stopInteracting();
                 break;
             case "gui.button.ridehorse":
-//                toggleMount(player);
+                entity.world.getNonSpectatingEntities(HorseEntity.class, player.getBoundingBox().expand(10))
+                    .stream()
+                    .filter(horse -> !horse.hasPassengers() && horse.isSaddled())
+                    .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
+                    .findFirst().ifPresentOrElse(horse -> {
+                        entity.startRiding(horse, false);
+                        entity.sendChatMessage(player, "command.ride.success");
+                    }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
+
                 stopInteracting();
                 break;
             case "gui.button.sethome":
