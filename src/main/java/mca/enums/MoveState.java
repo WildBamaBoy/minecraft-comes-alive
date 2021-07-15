@@ -15,10 +15,8 @@ public enum MoveState {
     FOLLOW("following");
 
     private static final MoveState[] VALUES = values();
-    private static final Map<String, MoveState> REGISTRY = Stream.of(VALUES).collect(Collectors.toMap(
-            c -> c.friendlyName,
-            Function.identity())
-    );
+    private static final Map<String, MoveState> REGISTRY = Stream.of(VALUES).collect(Collectors.toMap(MoveState::name, Function.identity()));
+
     protected String friendlyName;
 
     MoveState(String friendlyName) {
@@ -30,7 +28,7 @@ public enum MoveState {
     }
 
     public static Optional<MoveState> byAction(String action) {
-        return Optional.ofNullable(REGISTRY.get(action.replace("gui.button.", "").toLowerCase()));
+        return Optional.ofNullable(REGISTRY.get(action.replace("gui.button.", "").toUpperCase()));
     }
 
     public static MoveState byId(int id) {
