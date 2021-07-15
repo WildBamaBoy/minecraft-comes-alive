@@ -27,6 +27,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -60,6 +61,11 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     public boolean hasNoGravity() {
         return true;
+    }
+
+    @Override
+    public SoundCategory getSoundCategory() {
+        return SoundCategory.HOSTILE;
     }
 
     @Override
@@ -221,7 +227,6 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     public void tick() {
         super.tick();
-        extinguish(); // No fire.
 
         //update bossinfo
         bossInfo.setPercent(this.getHealth() / this.getMaxHealth());

@@ -27,6 +27,7 @@ public interface EntitiesMCA {
     EntityType<GrimReaperEntity> GRIM_REAPER = register("grim_reaper", FabricEntityTypeBuilder
             .<GrimReaperEntity>create(SpawnGroup.MONSTER, GrimReaperEntity::new)
             .dimensions(EntityDimensions.fixed(1, 2.6F))
+            .fireImmune()
             .build()
     );
 
