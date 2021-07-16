@@ -32,7 +32,7 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     private final ServerWorld world;
 
     public static PlayerSaveData get(ServerWorld world, UUID uuid) {
-        return WorldUtils.loadData(world, nbt -> new PlayerSaveData(world, nbt), () -> new PlayerSaveData(world, uuid), "mca_village_" + uuid.toString());
+        return WorldUtils.loadData(world, nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_village_" + uuid.toString());
     }
 
     PlayerSaveData(ServerWorld world, UUID playerId) {

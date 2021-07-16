@@ -12,7 +12,6 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public interface WorldUtils {
     static List<Entity> getCloseEntities(World world, Entity e) {
@@ -36,8 +35,8 @@ public interface WorldUtils {
         return world.getNonSpectatingEntities(c, new Box(pos, pos).expand(range));
     }
 
-    static <T extends PersistentState> T loadData(ServerWorld world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
-        return world.getPersistentStateManager().getOrCreate(loader, factory, dataId);
+    static <T extends PersistentState> T loadData(ServerWorld world, Function<NbtCompound, T> loader, Function<ServerWorld, T> factory, String dataId) {
+        return world.getPersistentStateManager().getOrCreate(loader, () -> factory.apply(world), dataId);
     }
 
     static void spawnEntity(World world, Entity entity, SpawnReason reason) {

@@ -2,6 +2,7 @@ package mca.server.world.data;
 
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
+import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -14,19 +15,23 @@ import java.util.*;
 public class FamilyTree extends PersistentState {
     private static final String DATA_ID = "MCA-FamilyTree";
 
-    private final Map<UUID, FamilyTreeEntry> entries = new HashMap<>();
+    private final Map<UUID, FamilyTreeEntry> entries;
 
     public static FamilyTree get(ServerWorld world) {
         return WorldUtils.loadData(world, FamilyTree::new, FamilyTree::new, DATA_ID);
     }
 
-    FamilyTree() {}
+    FamilyTree(ServerWorld world) {
+        entries = new HashMap<>();
+    }
 
     FamilyTree(NbtCompound nbt) {
-        for (String uuid : nbt.getKeys()) {
-            FamilyTreeEntry entry = FamilyTreeEntry.fromCBNT(nbt.getCompound(uuid));
-            entries.put(UUID.fromString(uuid), entry);
-        }
+        entries = NbtHelper.toMap(nbt, UUID::fromString, element -> new FamilyTreeEntry((NbtCompound)element));
+    }
+
+    @Override
+    public NbtCompound writeNbt(NbtCompound nbt) {
+        return NbtHelper.fromMap(nbt, entries, UUID::toString, FamilyTreeEntry::save);
     }
 
     //in case the villager does not exist, add
@@ -52,7 +57,8 @@ public class FamilyTree extends PersistentState {
                 false,
                 villager.getGenetics().getGender(),
                 father,
-                mother
+                mother,
+                new ArrayList<>()
         ));
     }
 
@@ -69,9 +75,10 @@ public class FamilyTree extends PersistentState {
         entries.put(player.getUuid(), new FamilyTreeEntry(
                 player.getName().asString(),
                 true,
-                Gender.MALE, //TODO
+                Gender.MALE, //TODO player genders
                 father,
-                mother
+                mother,
+                new ArrayList<>()
         ));
     }
 
@@ -104,14 +111,6 @@ public class FamilyTree extends PersistentState {
 
     public boolean isRelative(UUID who, UUID with) {
         return getFamily(who).contains(with);
-    }
-
-    @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
-        for (Map.Entry<UUID, FamilyTreeEntry> entry : entries.entrySet()) {
-            nbt.put(entry.getKey().toString(), entry.getValue().save());
-        }
-        return nbt;
     }
 
     private void gatherParents(UUID current, Set<UUID> family, int depth) {

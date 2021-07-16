@@ -24,7 +24,7 @@ public class BabyBunker extends PersistentState {
         return WorldUtils.loadData(world, BabyBunker::new, BabyBunker::new, DATA_ID);
     }
 
-    BabyBunker() {
+    BabyBunker(ServerWorld world) {
         limbo = new HashMap<>();
     }
 

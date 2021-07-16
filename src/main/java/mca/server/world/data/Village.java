@@ -3,6 +3,7 @@ package mca.server.world.data;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Rank;
 import mca.resources.API;
+import mca.util.NbtHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
@@ -274,7 +275,6 @@ public class Village implements Serializable, Iterable<Building> {
 
     public NbtCompound save() {
         NbtCompound v = new NbtCompound();
-
         v.putInt("id", id);
         v.putString("name", name);
         v.putInt("centerX", centerX);
@@ -284,13 +284,7 @@ public class Village implements Serializable, Iterable<Building> {
         v.putInt("taxes", taxes);
         v.putInt("populationThreshold", populationThreshold);
         v.putInt("marriageThreshold", marriageThreshold);
-
-        NbtList buildingsList = new NbtList();
-        for (Building building : buildings.values()) {
-            buildingsList.add(building.save());
-        }
-        v.put("buildings", buildingsList);
-
+        v.put("buildings", NbtHelper.fromList(buildings.values(), Building::save));
         return v;
     }
 
@@ -307,15 +301,14 @@ public class Village implements Serializable, Iterable<Building> {
 
         NbtList b = v.getList("buildings", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < b.size(); i++) {
-            Building building = new Building();
-            building.load(b.getCompound(i));
+            Building building = new Building(b.getCompound(i));
             buildings.put(building.getId(), building);
         }
     }
 
-    public void addResident(VillagerEntityMCA villager, int building) {
+    public void addResident(VillagerEntityMCA villager, int buildingId) {
         lastMoveIn = villager.world.getTime();
-        buildings.get(building).addResident(villager);
+        buildings.get(buildingId).addResident(villager);
         VillageManagerData.get((ServerWorld)villager.world).markDirty();
     }
 }

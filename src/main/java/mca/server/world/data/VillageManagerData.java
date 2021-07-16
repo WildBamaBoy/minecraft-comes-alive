@@ -1,5 +1,6 @@
 package mca.server.world.data;
 
+import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -29,7 +30,7 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
         return WorldUtils.loadData(world, VillageManagerData::new, VillageManagerData::new, "mca_villages");
     }
 
-    VillageManagerData() {}
+    VillageManagerData(ServerWorld world) {}
 
     VillageManagerData(NbtCompound nbt) {
         lastBuildingId = nbt.getInt("lastBuildingId");
@@ -69,11 +70,7 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
     public NbtCompound writeNbt(NbtCompound nbt) {
         nbt.putInt("lastBuildingId", lastBuildingId);
         nbt.putInt("lastVillageId", lastVillageId);
-        NbtList villageList = new NbtList();
-        for (Village village : villages.values()) {
-            villageList.add(village.save());
-        }
-        nbt.put("villages", villageList);
+        nbt.put("villages", NbtHelper.fromList(villages.values(), Village::save));
         return nbt;
     }
 

@@ -2,6 +2,7 @@ package mca.server.world.data;
 
 import mca.resources.API;
 import mca.resources.data.BuildingType;
+import mca.util.NbtHelper;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -55,6 +56,56 @@ public class Building implements Serializable {
         pos1X = pos0X;
         pos1Y = pos0Y;
         pos1Z = pos0Z;
+    }
+
+    public Building(NbtCompound v) {
+        id = v.getInt("id");
+        size = v.getInt("size");
+        pos0X = v.getInt("pos0X");
+        pos0Y = v.getInt("pos0Y");
+        pos0Z = v.getInt("pos0Z");
+        pos1X = v.getInt("pos1X");
+        pos1Y = v.getInt("pos1Y");
+        pos1Z = v.getInt("pos1Z");
+        type = v.getString("type");
+
+        NbtList res = v.getList("residents", NbtElement.COMPOUND_TYPE);
+        for (int i = 0; i < res.size(); i++) {
+            NbtCompound c = res.getCompound(i);
+            residents.put(c.getUuid("uuid"), c.getString("name"));
+        }
+
+        NbtList bl = v.getList("blocks", NbtElement.COMPOUND_TYPE);
+        for (int i = 0; i < bl.size(); i++) {
+            NbtCompound c = bl.getCompound(i);
+            blocks.put(c.getString("name"), c.getInt("count"));
+        }
+    }
+
+    public NbtCompound save() {
+        NbtCompound v = new NbtCompound();
+        v.putInt("id", id);
+        v.putInt("size", size);
+        v.putInt("pos0X", pos0X);
+        v.putInt("pos0Y", pos0Y);
+        v.putInt("pos0Z", pos0Z);
+        v.putInt("pos1X", pos1X);
+        v.putInt("pos1Y", pos1Y);
+        v.putInt("pos1Z", pos1Z);
+        v.putString("type", type);
+        v.put("residents", NbtHelper.fromList(residents.entrySet(), resident -> {
+            NbtCompound entry = new NbtCompound();
+            entry.putUuid("uuid", resident.getKey());
+            entry.putString("name", resident.getValue());
+            return entry;
+        }));
+        v.put("blocks", NbtHelper.fromList(blocks.entrySet(), block -> {
+            NbtCompound entry = new NbtCompound();
+            entry.putString("name", block.getKey());
+            entry.putInt("count", block.getValue());
+            return entry;
+        }));
+        return v;
     }
 
     public boolean hasFreeSpace() {
@@ -289,63 +340,5 @@ public class Building implements Serializable {
 
     public int getSize() {
         return size;
-    }
-
-    public NbtCompound save() {
-        NbtCompound v = new NbtCompound();
-
-        v.putInt("id", id);
-        v.putInt("size", size);
-        v.putInt("pos0X", pos0X);
-        v.putInt("pos0Y", pos0Y);
-        v.putInt("pos0Z", pos0Z);
-        v.putInt("pos1X", pos1X);
-        v.putInt("pos1Y", pos1Y);
-        v.putInt("pos1Z", pos1Z);
-        v.putString("type", type);
-
-        NbtList residentsList = new NbtList();
-        for (Map.Entry<UUID, String> resident : residents.entrySet()) {
-            NbtCompound entry = new NbtCompound();
-            entry.putUuid("uuid", resident.getKey());
-            entry.putString("name", resident.getValue());
-            residentsList.add(entry);
-        }
-        v.put("residents", residentsList);
-
-        NbtList blockList = new NbtList();
-        for (Map.Entry<String, Integer> block : blocks.entrySet()) {
-            NbtCompound entry = new NbtCompound();
-            entry.putString("name", block.getKey());
-            entry.putInt("count", block.getValue());
-            blockList.add(entry);
-        }
-        v.put("blocks", blockList);
-
-        return v;
-    }
-
-    public void load(NbtCompound v) {
-        id = v.getInt("id");
-        size = v.getInt("size");
-        pos0X = v.getInt("pos0X");
-        pos0Y = v.getInt("pos0Y");
-        pos0Z = v.getInt("pos0Z");
-        pos1X = v.getInt("pos1X");
-        pos1Y = v.getInt("pos1Y");
-        pos1Z = v.getInt("pos1Z");
-        type = v.getString("type");
-
-        NbtList res = v.getList("residents", NbtElement.COMPOUND_TYPE);
-        for (int i = 0; i < res.size(); i++) {
-            NbtCompound c = res.getCompound(i);
-            residents.put(c.getUuid("uuid"), c.getString("name"));
-        }
-
-        NbtList bl = v.getList("blocks", NbtElement.COMPOUND_TYPE);
-        for (int i = 0; i < bl.size(); i++) {
-            NbtCompound c = bl.getCompound(i);
-            blocks.put(c.getString("name"), c.getInt("count"));
-        }
     }
 }

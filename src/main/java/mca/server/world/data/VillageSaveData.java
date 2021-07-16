@@ -9,7 +9,9 @@ public class VillageSaveData extends VillageManagerData {
         return WorldUtils.loadData(world, VillageSaveData::new, VillageSaveData::new, "mca_village");
     }
 
-    VillageSaveData() {}
+    VillageSaveData(ServerWorld world) {
+        super(world);
+    }
 
     VillageSaveData(NbtCompound nbt) {
         super(nbt);
