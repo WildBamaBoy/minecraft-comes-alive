@@ -433,21 +433,17 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
     }
 
-    // TODO: merge
-    /*public final ITextComponent getDisplayName() {
-        TextComponent name = new StringTextComponent((ProfessionsMCA.isRed(getProfession()) ? TextFormatting.RED : "") + villagerName.get());
-        if (this.brain.getMemory(MemoryModuleTypeMCA.STAYING).isPresent()) {
-            name.append(new StringTextComponent("(Staying)"));
-        }
-        return name;*/
-
     @Override
     public final Text getDisplayName() {
         Text name = super.getDisplayName();
 
         MoveState state = getVillagerBrain().getMoveState();
         if (state != MoveState.MOVE) {
-            return new LiteralText("").append(name).append(" (").append(getVillagerBrain().getMoveState().getName()).append(")").setStyle(name.getStyle());
+            name = name.shallowCopy().append(" (").append(getVillagerBrain().getMoveState().getName()).append(")");
+        }
+
+        if (getProfession() == ProfessionsMCA.OUTLAW) {
+            return name.shallowCopy().formatted(Formatting.RED);
         }
         return name;
     }
