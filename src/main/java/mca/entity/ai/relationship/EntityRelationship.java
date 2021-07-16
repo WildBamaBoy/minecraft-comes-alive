@@ -29,7 +29,7 @@ public interface EntityRelationship {
         }
 
         if (type == RelationshipType.SPOUSE) {
-            endMarriage();
+            endMarriage(MarriageState.WIDOW);
         }
 
         getParents().forEach(parent -> {
@@ -43,7 +43,7 @@ public interface EntityRelationship {
         });
     }
 
-    void endMarriage();
+    void endMarriage(MarriageState newState);
 
     MarriageState getMarriageState();
 
@@ -60,30 +60,5 @@ public interface EntityRelationship {
         }
 
         return Optional.empty();
-    }
-
-    enum RelationshipType {
-        STRANGER(1),
-        SIBLING(2),
-        SPOUSE(3),
-        PARENT(3),
-        CHILD(4);
-
-        private final int proximity;
-
-        RelationshipType(int proximity) {
-            this.proximity = proximity;
-        }
-
-        /**
-         * High proximity creates a smaller effect.
-         */
-        public int getInverseProximity() {
-            return this == STRANGER ? 5 : 1;
-        }
-
-        public int getProximityAmplifier() {
-            return proximity;
-        }
     }
 }

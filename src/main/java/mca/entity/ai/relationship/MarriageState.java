@@ -1,10 +1,26 @@
 package mca.entity.ai.relationship;
 
 public enum MarriageState {
-    NOT_MARRIED("notMarried"),
+    /**
+     * The default state. All entities when born are not married.
+     */
+    SINGLE("notMarried"),
+    /**
+     * Unused.
+     */
     ENGAGED("engaged"),
-    MARRIED("married"),
-    MARRIED_TO_PLAYER("marriedToPlayer");
+    /**
+     * Maried to another villager.
+     */
+    MARRIED_TO_VILLAGER("married"),
+    /**
+     * Married to a player.
+     */
+    MARRIED_TO_PLAYER("marriedToPlayer"),
+    /**
+     * Was once married but the spouse is dead.
+     */
+    WIDOW("widow");
 
     private static final MarriageState[] VALUES = values();
 
@@ -14,8 +30,8 @@ public enum MarriageState {
         this.icon = icon;
     }
 
-    public MarriageState base() {
-        return this == MARRIED_TO_PLAYER ? MARRIED : this;
+    public boolean isMarried() {
+        return this == MARRIED_TO_PLAYER || this == MARRIED_TO_VILLAGER;
     }
 
     public String getIcon() {
@@ -24,7 +40,7 @@ public enum MarriageState {
 
     public static MarriageState byId(int id) {
         if (id < 0 || id >= VALUES.length) {
-            return NOT_MARRIED;
+            return SINGLE;
         }
         return VALUES[id];
     }

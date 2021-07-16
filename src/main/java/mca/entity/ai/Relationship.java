@@ -13,6 +13,7 @@ import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
+import mca.entity.ai.relationship.RelationshipType;
 import mca.item.ItemsMCA;
 import mca.item.SpecialCaseGift;
 import mca.resources.API;
@@ -70,7 +71,7 @@ public class Relationship implements EntityRelationship {
         isProcreating = data.newBoolean("isProcreating");
         spouseName = data.newString("spouseName");
         spouseUUID = data.newUUID("spouseUUID");
-        marriageState = data.newEnum("marriageState", MarriageState.NOT_MARRIED);
+        marriageState = data.newEnum("marriageState", MarriageState.SINGLE);
         pregnancy = new Pregnancy(entity, data);
     }
 
@@ -195,14 +196,14 @@ public class Relationship implements EntityRelationship {
     public void marry(VillagerEntityMCA spouse) {
         spouseUUID.set(spouse.getUuid());
         spouseName.set(spouse.villagerName.get());
-        marriageState.set(MarriageState.MARRIED);
+        marriageState.set(MarriageState.MARRIED_TO_VILLAGER);
     }
 
     @Override
-    public void endMarriage() {
+    public void endMarriage(MarriageState newState) {
         spouseUUID.set(Util.NIL_UUID);
         spouseName.set("");
-        marriageState.set(MarriageState.NOT_MARRIED);
+        marriageState.set(newState);
     }
 
     public void giveGift(ServerPlayerEntity player, Memories memory) {

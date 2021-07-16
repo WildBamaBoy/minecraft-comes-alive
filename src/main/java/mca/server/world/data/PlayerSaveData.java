@@ -2,6 +2,7 @@ package mca.server.world.data;
 
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
+import mca.entity.ai.relationship.RelationshipType;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -71,9 +72,10 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     }
 
     @Override
-    public void endMarriage() {
+    public void endMarriage(MarriageState newState) {
         spouseUUID = Optional.empty();
         spouseName = "";
+        marriageState = newState;
         markDirty();
     }
 
@@ -130,7 +132,7 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     }
 
     public void reset() {
-        endMarriage();
+        endMarriage(MarriageState.SINGLE);
         setBabyPresent(false);
         markDirty();
     }

@@ -209,8 +209,8 @@ public class ServerInteractionManager {
             failMessage(spouse, sender.getEntityName() + " has ended their marriage with you.");
         }
 
-        senderData.endMarriage();
-        receiverData.endMarriage();
+        senderData.endMarriage(MarriageState.SINGLE);
+        receiverData.endMarriage(MarriageState.SINGLE);
 
         // Notify the ex if they are online.
     }
