@@ -34,6 +34,7 @@ import net.minecraft.util.Language;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import java.util.List;
+import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -96,58 +97,55 @@ public class BabyItem extends Item {
         }
 
         // Name is good and we're ready to grow
-        if (!world.isClient && isReadyToGrowUp(stack)) {
+        if (world.isClient || !isReadyToGrowUp(stack)) {
+            return TypedActionResult.pass(stack);
+        }
 
-            VillagerEntityMCA child = VillagerFactory.newVillager(world)
+        // assumes your child is from the player's current spouse
+        // as the father does not have any genes it just takes the one from the mother
+
+        PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)world, player.getUuid());
+        FamilyTree familyTree = playerData.getFamilyTree();
+
+        VillagerEntityMCA child = VillagerFactory.newVillager(world)
                 .withName(getBabyName(stack))
                 .withPosition(player.getPos())
                 .withGender(gender)
                 .withProfession(ProfessionsMCA.CHILD)
                 .build();
 
-            //make sure both parents are registered in the family tree
-            FamilyTree familyTree = child.getRelationships().getFamilyTree();
-            familyTree.addEntry(player);
-
-            //assumes your child is from the players current spouse
-            //as the father does not have any genes it just takes the one from the mother
-            //TODO: The player should be able to serve as the mother too!
-            PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)world, player.getUuid());
-            Entity spouse = ((ServerWorld) world).getEntity(playerData.getSpouseUUID());
-
-            if (spouse instanceof VillagerEntityMCA) {
-                VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
-                familyTree.addEntry(spouseVillager);
-                child.getGenetics().combine(spouseVillager.getGenetics(), spouseVillager.getGenetics());
-            } else {
-                child.getGenetics().randomize(child);
-            }
-
-            //add the child to the family tree
-            FamilyTreeEntry spouseEntry = familyTree.getEntry(playerData.getSpouseUUID());
-
-            if (spouseEntry != null && spouseEntry.gender() == Gender.FEMALE) {
-                familyTree.addEntry(child, player.getUuid(), playerData.getSpouseUUID());
-            } else {
-                familyTree.addEntry(child, playerData.getSpouseUUID(), player.getUuid());
-            }
-
-            WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
-
-            player.getStackInHand(hand).decrement(1);
-            playerData.setBabyPresent(false);
-
-            // set proper dialogue type
-            Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
-            memories.setDialogueType(DialogueType.CHILDP);
-            memories.setHearts(MCA.getConfig().childInitialHearts);
-
-            stack.decrement(1);
-
-            return TypedActionResult.success(stack);
+        Entity spouse = playerData.getSpouse().orElse(null);
+        if (spouse instanceof VillagerEntityMCA) {
+            VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
+            familyTree.getOrCreate(spouseVillager);
+            child.getGenetics().combine(spouseVillager.getGenetics(), spouseVillager.getGenetics());
+        } else {
+            child.getGenetics().randomize(child);
         }
 
-        return TypedActionResult.pass(stack);
+        //add the child to the family tree
+        UUID spouseId = playerData.getSpouseUUID();
+        FamilyTreeEntry spouseEntry = familyTree.getEntry(playerData.getSpouseUUID());
+
+        if (spouseEntry != null && spouseEntry.gender() == Gender.FEMALE) {
+            familyTree.addChild(player.getUuid(), spouseId, child);
+        } else {
+            familyTree.addChild(spouseId, player.getUuid(), child);
+        }
+
+        WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
+
+        player.getStackInHand(hand).decrement(1);
+        playerData.setBabyPresent(false);
+
+        // set proper dialogue type
+        Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
+        memories.setDialogueType(DialogueType.CHILDP);
+        memories.setHearts(MCA.getConfig().childInitialHearts);
+
+        stack.decrement(1);
+
+        return TypedActionResult.success(stack);
     }
 
     @Override

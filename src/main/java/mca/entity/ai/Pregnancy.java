@@ -5,7 +5,6 @@ import java.util.Optional;
 import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
-import mca.server.world.data.FamilyTree;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CBooleanParameter;
 import mca.util.network.datasync.CDataManager;
@@ -74,10 +73,7 @@ public class Pregnancy {
         child.getGenetics().combine(father.getGenetics(), mother.getGenetics());
 
         //add all 3 to the family tree
-        FamilyTree tree = mother.getRelationships().getFamilyTree();
-        tree.addEntry(father);
-        tree.addEntry(mother);
-        tree.addEntry(child, father.getUuid(), mother.getUuid());
+        mother.getRelationships().getFamilyTree().addChild(father, mother, child);
 
         //and yeet it into the world
         WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);

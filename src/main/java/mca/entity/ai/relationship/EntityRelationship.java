@@ -15,7 +15,7 @@ public interface EntityRelationship {
 
     FamilyTree getFamilyTree();
 
-    Optional<FamilyTreeEntry> getFamily();
+    FamilyTreeEntry getFamily();
 
     Stream<Entity> getParents();
 

@@ -4,6 +4,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
@@ -11,6 +12,11 @@ import net.minecraft.util.Util;
 import net.minecraft.world.PersistentState;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FamilyTree extends PersistentState {
     private static final String DATA_ID = "MCA-FamilyTree";
@@ -34,11 +40,43 @@ public class FamilyTree extends PersistentState {
         return NbtHelper.fromMap(nbt, entries, UUID::toString, FamilyTreeEntry::save);
     }
 
-    //in case the villager does not exist, add
-    public void addEntry(VillagerEntityMCA villager) {
-        if (!entries.containsKey(villager.getUuid())) {
-            addEntry(villager, Util.NIL_UUID, Util.NIL_UUID);
-        }
+    @Nullable
+    public FamilyTreeEntry getEntry(UUID uuid) {
+        return entries.get(uuid);
+    }
+
+    public Optional<FamilyTreeEntry> getOrEmpty(UUID id) {
+        return Optional.ofNullable(entries.get(id));
+    }
+
+    @NotNull
+    public FamilyTreeEntry getOrCreate(Entity entity) {
+        return entries.computeIfAbsent(entity.getUuid(), uuid -> {
+            return createEntry(entity, Util.NIL_UUID, Util.NIL_UUID);
+        });
+    }
+
+    public void addChild(Entity father, Entity mother, Entity child) {
+        getOrCreate(father);
+        getOrCreate(mother);
+        addChild(father.getUuid(), mother.getUuid(), child);
+    }
+
+    public void addChild(UUID father, UUID mother, Entity child) {
+        addChildToParent(child.getUuid(), father);
+        addChildToParent(child.getUuid(), mother);
+        entries.put(child.getUuid(), createEntry(child, father, mother));
+    }
+
+    private FamilyTreeEntry createEntry(Entity entity, UUID father, UUID mother) {
+        return new FamilyTreeEntry(
+                entity instanceof VillagerEntityMCA ? ((VillagerEntityMCA)entity).villagerName.get() : entity.getName().asString(),
+                entity instanceof PlayerEntity,
+                entity instanceof VillagerEntityMCA ? ((VillagerEntityMCA)entity).getGenetics().getGender() : Gender.MALE, //TODO player genders
+                father,
+                mother,
+                new HashSet<>()
+        );
     }
 
     private void addChildToParent(UUID child, UUID parent) {
@@ -46,52 +84,6 @@ public class FamilyTree extends PersistentState {
         if (entry != null) {
             entry.children().add(child);
         }
-    }
-
-    public void addEntry(VillagerEntityMCA villager, UUID father, UUID mother) {
-        addChildToParent(villager.getUuid(), father);
-        addChildToParent(villager.getUuid(), mother);
-
-        entries.put(villager.getUuid(), new FamilyTreeEntry(
-                villager.villagerName.get(),
-                false,
-                villager.getGenetics().getGender(),
-                father,
-                mother,
-                new ArrayList<>()
-        ));
-    }
-
-    public void addEntry(PlayerEntity player) {
-        if (!entries.containsKey(player.getUuid())) {
-            addEntry(player, Util.NIL_UUID, Util.NIL_UUID);
-        }
-    }
-
-    public void addEntry(PlayerEntity player, UUID father, UUID mother) {
-        addChildToParent(player.getUuid(), father);
-        addChildToParent(player.getUuid(), mother);
-
-        entries.put(player.getUuid(), new FamilyTreeEntry(
-                player.getName().asString(),
-                true,
-                Gender.MALE, //TODO player genders
-                father,
-                mother,
-                new ArrayList<>()
-        ));
-    }
-
-    public FamilyTreeEntry getEntry(VillagerEntityMCA villager) {
-        if (!entries.containsKey(villager.getUuid())) {
-            //a new villager appeared, parents are unknown
-            addEntry(villager, Util.NIL_UUID, Util.NIL_UUID);
-        }
-        return entries.get(villager.getUuid());
-    }
-
-    public FamilyTreeEntry getEntry(UUID uuid) {
-        return entries.get(uuid);
     }
 
     public boolean isParent(UUID who, UUID of) {
@@ -113,30 +105,6 @@ public class FamilyTree extends PersistentState {
         return getFamily(who).contains(with);
     }
 
-    private void gatherParents(UUID current, Set<UUID> family, int depth) {
-        if (depth > 0) {
-            FamilyTreeEntry entry = getEntry(current);
-            if (entry != null) {
-                family.add(entry.father());
-                family.add(entry.mother());
-                gatherParents(entry.father(), family, depth - 1);
-                gatherParents(entry.mother(), family, depth - 1);
-            }
-        }
-    }
-
-    private void gatherChildren(UUID current, Set<UUID> family, int depth) {
-        if (depth > 0) {
-            FamilyTreeEntry entry = getEntry(current);
-            if (entry != null) {
-                for (UUID child : entry.children()) {
-                    family.add(child);
-                    gatherChildren(child, family, depth - 1);
-                }
-            }
-        }
-    }
-
     public Set<UUID> getFamily(UUID uuid) {
         return getFamily(uuid, 3);
     }
@@ -152,25 +120,47 @@ public class FamilyTree extends PersistentState {
         gatherParents(uuid, family, parentDepth);
         gatherChildren(uuid, family, childrenDepth);
 
-        //zero UUIDs are no real members
-        family.remove(Util.NIL_UUID);
-
         //and the caller is not meant either
         family.remove(uuid);
 
         return family;
     }
 
-    //all persons who share at least one common parent
+    /**
+     * All persons who share at least one common parent
+     */
     public Set<UUID> getSiblings(UUID uuid) {
-        Set<UUID> siblings = new HashSet<>();
 
         FamilyTreeEntry entry = getEntry(uuid);
-        if (entry != null) {
-            gatherChildren(entry.father(), siblings, 1);
-            gatherChildren(entry.mother(), siblings, 1);
+
+        if (entry == null) {
+            return new HashSet<>();
         }
 
+        Set<UUID> siblings = new HashSet<>();
+
+        entry.parents().forEach(parent -> gatherChildren(parent, siblings, 1));
+
         return siblings;
+    }
+
+    private void gatherParents(UUID current, Set<UUID> family, int depth) {
+        gather(getEntry(current), family, depth, FamilyTreeEntry::parents);
+    }
+
+    private void gatherChildren(UUID current, Set<UUID> family, int depth) {
+        gather(getEntry(current), family, depth, FamilyTreeEntry::streamChildren);
+    }
+
+    private void gather(@Nullable FamilyTreeEntry entry, Set<UUID> output, int depth, Function<FamilyTreeEntry, Stream<UUID>> walker) {
+        if (entry == null || depth <= 0) {
+            return;
+        }
+        walker.apply(entry).forEach(id -> {
+            if (!Util.NIL_UUID.equals(id)) {
+                output.add(id); //zero UUIDs are no real members
+            }
+            gather(getEntry(id), output, depth - 1, walker);
+        });
     }
 }

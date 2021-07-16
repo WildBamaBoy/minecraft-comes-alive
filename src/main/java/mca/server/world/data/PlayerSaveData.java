@@ -105,18 +105,13 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     }
 
     @Override
-    public Optional<FamilyTreeEntry> getFamily() {
-        return Optional.ofNullable(getFamilyTree().getEntry(playerId));
+    public FamilyTreeEntry getFamily() {
+        return getFamilyTree().getOrCreate(world.getEntity(playerId));
     }
 
     @Override
     public Stream<Entity> getParents() {
-        return getFamily().map(entry -> {
-            return Stream.of(
-                    world.getEntity(entry.father()),
-                    world.getEntity(entry.mother())
-            ).filter(Objects::nonNull);
-        }).orElse(Stream.empty());
+        return getFamily().parents().map(world::getEntity).filter(Objects::nonNull);
     }
 
     @Override

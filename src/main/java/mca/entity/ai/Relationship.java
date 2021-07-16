@@ -102,19 +102,13 @@ public class Relationship implements EntityRelationship {
     }
 
     @Override
-    public Optional<FamilyTreeEntry> getFamily() {
-        return Optional.ofNullable(getFamilyTree().getEntry(entity));
+    public FamilyTreeEntry getFamily() {
+        return getFamilyTree().getOrCreate(entity);
     }
 
     @Override
     public Stream<Entity> getParents() {
-        return getFamily().map(entry -> {
-            ServerWorld serverWorld = (ServerWorld) entity.world;
-            return Stream.of(
-                    serverWorld.getEntity(entry.father()),
-                    serverWorld.getEntity(entry.mother())
-            ).filter(Objects::nonNull);
-        }).orElse(Stream.empty());
+        return getFamily().parents().map(((ServerWorld) entity.world)::getEntity).filter(Objects::nonNull);
     }
 
     @Override
@@ -145,7 +139,7 @@ public class Relationship implements EntityRelationship {
         } else {
             // TODO: Move this to the Pregnancy
             //make sure this villager is registered in the family tree
-            getFamilyTree().addEntry(entity);
+            getFamilyTree().getOrCreate(entity);
             getSpouse().ifPresent(spouse -> {
                 ItemStack stack = (random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL).getDefaultStack();
                 if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {

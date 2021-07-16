@@ -10,6 +10,7 @@ import net.minecraft.text.LiteralText;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class GuiFamilyTree extends Screen {
@@ -104,7 +105,7 @@ public class GuiFamilyTree extends Screen {
         }
 
         //children
-        List<UUID> children = family.get(uuid).children();
+        Set<UUID> children = family.get(uuid).children();
         if (children.size() > 0) {
             w = w * 4 / children.size();
             int x = width / 2 - w * (children.size() - 1) / 2;

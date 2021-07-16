@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,10 +33,10 @@ public class GetInteractDataRequest implements Message {
             Set<Constraint> constraints = Constraint.allMatching(villager, player);
 
             Relationship relationship = villager.getRelationships();
-            Optional<FamilyTreeEntry> family = relationship.getFamily();
+            FamilyTreeEntry family = relationship.getFamily();
 
-            String fatherName = family.map(f -> relationship.getFamilyTree().getEntry(f.father())).map(FamilyTreeEntry::name).orElse(null);
-            String motherName = family.map(f -> relationship.getFamilyTree().getEntry(f.mother())).map(FamilyTreeEntry::name).orElse(null);
+            String fatherName = relationship.getFamilyTree().getOrEmpty(family.father()).map(FamilyTreeEntry::name).orElse(null);
+            String motherName = relationship.getFamilyTree().getOrEmpty(family.mother()).map(FamilyTreeEntry::name).orElse(null);
 
             NetworkHandler.sendToPlayer(new GetInteractDataResponse(constraints, fatherName, motherName), (ServerPlayerEntity)player);
         }
