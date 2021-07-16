@@ -34,6 +34,10 @@ public enum MarriageState {
         return this == MARRIED_TO_PLAYER || this == MARRIED_TO_VILLAGER;
     }
 
+    public MarriageState base() {
+        return this == MARRIED_TO_PLAYER ? MARRIED_TO_VILLAGER : this;
+    }
+
     public String getIcon() {
         return icon;
     }
