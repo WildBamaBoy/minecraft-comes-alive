@@ -7,6 +7,7 @@ import java.util.UUID;
 import mca.server.world.data.VillageManagerData;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 
 class Residency {
     private static final Map<UUID, Integer> PLAYER_VILLAGE_POSITIONS = new HashMap<>();
@@ -20,13 +21,13 @@ class Residency {
                     int id = PLAYER_VILLAGE_POSITIONS.get(player.getUuid());
                     VillageManagerData.get(world).getOrEmpty(id).ifPresentOrElse(village -> {
                         if (!village.isWithinBorder(player)) {
-                            player.sendMessage(new TranslatableText("gui.village.left", village.getName()), true);
+                            player.sendMessage(new TranslatableText("gui.village.left", village.getName()).formatted(Formatting.GOLD), true);
                             PLAYER_VILLAGE_POSITIONS.remove(player.getUuid());
                         }
                     }, () -> PLAYER_VILLAGE_POSITIONS.remove(player.getUuid()));
                 } else {
                     VillageHelper.getNearestVillage(player).ifPresent(village -> {
-                        player.sendMessage(new TranslatableText("gui.village.welcome", village.getName()), true);
+                        player.sendMessage(new TranslatableText("gui.village.welcome", village.getName()).formatted(Formatting.GOLD), true);
                         PLAYER_VILLAGE_POSITIONS.put(player.getUuid(), village.getId());
                         Taxation.deliverTaxes(village, world);
                     });
