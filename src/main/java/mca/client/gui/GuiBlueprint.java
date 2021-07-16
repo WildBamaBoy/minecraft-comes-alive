@@ -1,14 +1,14 @@
 package mca.client.gui;
 
-import mca.api.API;
-import mca.api.types.BuildingType;
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.data.Building;
-import mca.entity.data.Village;
-import mca.enums.Rank;
+import mca.entity.ai.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
+import mca.resources.API;
+import mca.resources.data.BuildingType;
+import mca.server.world.data.Building;
+import mca.server.world.data.Village;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;

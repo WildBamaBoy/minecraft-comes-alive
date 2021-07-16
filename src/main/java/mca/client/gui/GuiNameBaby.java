@@ -1,9 +1,9 @@
 package mca.client.gui;
 
-import mca.api.API;
 import mca.cobalt.network.NetworkHandler;
-import mca.items.BabyItem;
+import mca.item.BabyItem;
 import mca.network.BabyNamingVillagerMessage;
+import mca.resources.API;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;

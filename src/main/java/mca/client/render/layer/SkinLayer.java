@@ -1,9 +1,9 @@
 package mca.client.render.layer;
 
-import mca.client.colors.SkinColors;
 import mca.client.model.VillagerEntityModelMCA;
+import mca.client.render.SkinColors;
 import mca.entity.VillagerEntityMCA;
-import mca.enums.Gender;
+import mca.entity.ai.relationship.Gender;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 
 public class SkinLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {

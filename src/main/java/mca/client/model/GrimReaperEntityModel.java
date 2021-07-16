@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import mca.entity.GrimReaperEntity;
-import mca.enums.ReaperAttackState;
+import mca.entity.ReaperAttackState;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;

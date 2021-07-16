@@ -5,7 +5,7 @@ import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
 import mca.cobalt.network.Message;
-import mca.items.BabyItem;
+import mca.item.BabyItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,7 @@
 package mca.network;
 
 import mca.cobalt.network.Message;
-import mca.items.BabyItem;
+import mca.item.BabyItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 

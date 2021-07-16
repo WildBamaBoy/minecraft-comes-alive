@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.7",
-  "package": "mca.core.mixin",
+  "package": "mca.mixin",
   "refmap": "mca.mixin.refmap.json",
   "compatibilityLevel": "JAVA_16",
   "mixins": [

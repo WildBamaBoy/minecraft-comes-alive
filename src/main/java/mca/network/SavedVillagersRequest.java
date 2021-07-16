@@ -2,7 +2,7 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.data.SavedVillagers;
+import mca.server.world.data.SavedVillagers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,8 +1,9 @@
 package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
-import mca.core.minecraft.MemoryModuleTypeMCA;
+
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.MemoryModuleTypeMCA;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;

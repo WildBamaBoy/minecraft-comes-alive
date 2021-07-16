@@ -1,8 +1,8 @@
 package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.data.FamilyTreeEntry;
 import mca.network.GetFamilyTreeRequest;
+import mca.server.world.data.FamilyTreeEntry;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;

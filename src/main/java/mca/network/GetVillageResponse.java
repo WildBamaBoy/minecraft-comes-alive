@@ -2,7 +2,7 @@ package mca.network;
 
 import mca.client.gui.GuiBlueprint;
 import mca.cobalt.network.Message;
-import mca.entity.data.Village;
+import mca.server.world.data.Village;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;

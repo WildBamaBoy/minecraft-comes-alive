@@ -2,8 +2,8 @@ package mca.client.gui;
 
 import java.util.Set;
 
-import mca.api.API;
-import mca.api.types.Button;
+import mca.resources.API;
+import mca.resources.data.Button;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;

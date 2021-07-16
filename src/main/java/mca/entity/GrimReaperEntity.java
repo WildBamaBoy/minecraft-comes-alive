@@ -1,16 +1,15 @@
 package mca.entity;
 
 
-import mca.cobalt.minecraft.network.datasync.CDataManager;
-import mca.cobalt.minecraft.network.datasync.CEnumParameter;
-import mca.core.MCA;
-import mca.core.minecraft.ItemsMCA;
-import mca.core.minecraft.SoundsMCA;
-import mca.entity.ai.GrimReaperIdleGoal;
-import mca.entity.ai.GrimReaperMeleeGoal;
-import mca.entity.ai.GrimReaperRestGoal;
-import mca.entity.ai.GrimReaperTargetGoal;
-import mca.enums.ReaperAttackState;
+import mca.MCA;
+import mca.SoundsMCA;
+import mca.entity.ai.goal.GrimReaperIdleGoal;
+import mca.entity.ai.goal.GrimReaperMeleeGoal;
+import mca.entity.ai.goal.GrimReaperRestGoal;
+import mca.entity.ai.goal.GrimReaperTargetGoal;
+import mca.item.ItemsMCA;
+import mca.util.network.datasync.CDataManager;
+import mca.util.network.datasync.CEnumParameter;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;

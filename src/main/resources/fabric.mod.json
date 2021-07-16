@@ -17,10 +17,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mca.core.MCA"
+      "mca.MCA"
     ],
     "client": [
-      "mca.core.MCAClient"
+      "mca.MCAClient"
     ]
   },
   "mixins": [

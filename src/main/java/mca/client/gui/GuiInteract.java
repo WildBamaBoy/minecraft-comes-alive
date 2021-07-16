@@ -1,17 +1,17 @@
 package mca.client.gui;
 
-import mca.api.API;
-import mca.api.types.Button;
-import mca.api.types.Icon;
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.Genetics;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Genetics;
+import mca.entity.ai.Memories;
 import mca.entity.ai.brain.VillagerBrain;
-import mca.entity.data.Memories;
-import mca.enums.MarriageState;
+import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
+import mca.resources.API;
+import mca.resources.data.Button;
+import mca.resources.data.Icon;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;

@@ -2,8 +2,8 @@ package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Chore;
 import mca.entity.ai.TaskUtils;
-import mca.enums.Chore;
 import mca.util.InventoryUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

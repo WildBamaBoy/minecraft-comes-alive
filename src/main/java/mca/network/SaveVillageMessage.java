@@ -1,8 +1,8 @@
 package mca.network;
 
 import mca.cobalt.network.Message;
-import mca.entity.data.Village;
-import mca.entity.data.VillageManagerData;
+import mca.server.world.data.Village;
+import mca.server.world.data.VillageManagerData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 

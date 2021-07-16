@@ -3,9 +3,9 @@ package mca.entity;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import mca.api.API;
-import mca.core.MCA;
-import mca.enums.Gender;
+import mca.MCA;
+import mca.entity.ai.relationship.Gender;
+import mca.resources.API;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;

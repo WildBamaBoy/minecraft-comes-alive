@@ -1,7 +1,7 @@
 package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
-import mca.core.minecraft.EntitiesMCA;
+import mca.entity.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.ReviveVillagerMessage;
 import mca.network.SavedVillagersRequest;

@@ -2,7 +2,7 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
-import mca.core.minecraft.entity.village.VillageHelper;
+import mca.server.world.village.VillageHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 

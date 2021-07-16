@@ -2,7 +2,7 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.data.SavedVillagers;
+import mca.server.world.data.SavedVillagers;
 import mca.util.WorldUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;

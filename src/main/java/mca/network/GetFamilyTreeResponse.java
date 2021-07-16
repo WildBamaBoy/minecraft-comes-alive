@@ -2,7 +2,7 @@ package mca.network;
 
 import mca.client.gui.GuiFamilyTree;
 import mca.cobalt.network.Message;
-import mca.entity.data.FamilyTreeEntry;
+import mca.server.world.data.FamilyTreeEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;

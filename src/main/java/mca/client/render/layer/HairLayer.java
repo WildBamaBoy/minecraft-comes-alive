@@ -1,7 +1,7 @@
 package mca.client.render.layer;
 
-import mca.client.colors.HairColors;
 import mca.client.model.VillagerEntityModelMCA;
+import mca.client.render.HairColors;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 

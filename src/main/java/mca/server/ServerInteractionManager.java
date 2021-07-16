@@ -1,9 +1,9 @@
 package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
-import mca.core.minecraft.ItemsMCA;
-import mca.entity.data.PlayerSaveData;
-import mca.enums.MarriageState;
+import mca.entity.ai.relationship.MarriageState;
+import mca.item.ItemsMCA;
+import mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;

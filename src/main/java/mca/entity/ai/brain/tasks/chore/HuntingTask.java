@@ -2,7 +2,7 @@ package mca.entity.ai.brain.tasks.chore;
 
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
-import mca.enums.Chore;
+import mca.entity.ai.Chore;
 import mca.util.InventoryUtils;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.EquipmentSlot;

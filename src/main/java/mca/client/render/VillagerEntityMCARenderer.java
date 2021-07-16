@@ -7,7 +7,7 @@ import mca.client.render.layer.FaceLayer;
 import mca.client.render.layer.HairLayer;
 import mca.client.render.layer.SkinLayer;
 import mca.entity.VillagerEntityMCA;
-import mca.enums.AgeState;
+import mca.entity.ai.relationship.AgeState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.TexturedModelData;

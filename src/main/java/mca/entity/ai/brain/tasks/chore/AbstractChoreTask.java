@@ -1,6 +1,6 @@
 package mca.entity.ai.brain.tasks.chore;
 
-import mca.core.MCA;
+import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;

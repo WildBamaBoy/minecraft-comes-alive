@@ -1,7 +1,7 @@
 package mca.client.gui;
 
-import mca.entity.Relationship;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Relationship;
 import net.minecraft.entity.Entity;
 
 import java.util.HashSet;

@@ -2,17 +2,28 @@ package mca.entity;
 
 import com.mojang.serialization.Dynamic;
 
-import mca.api.API;
-import mca.api.types.Hair;
-import mca.cobalt.minecraft.network.datasync.*;
-import mca.core.MCA;
-import mca.core.minecraft.*;
+import mca.MCA;
+import mca.ParticleTypesMCA;
+import mca.entity.ai.DialogueType;
+import mca.entity.ai.Genetics;
+import mca.entity.ai.Infectable;
+import mca.entity.ai.Interactions;
+import mca.entity.ai.Messenger;
+import mca.entity.ai.MoveState;
+import mca.entity.ai.ProfessionsMCA;
+import mca.entity.ai.Relationship;
+import mca.entity.ai.Residency;
 import mca.entity.ai.VillagerNavigation;
 import mca.entity.ai.brain.VillagerBrain;
-import mca.entity.data.*;
-import mca.entity.data.relationship.CompassionateEntity;
-import mca.enums.*;
+import mca.entity.ai.relationship.AgeState;
+import mca.entity.ai.relationship.CompassionateEntity;
+import mca.entity.ai.relationship.Gender;
+import mca.entity.ai.relationship.Personality;
+import mca.resources.API;
+import mca.resources.data.Hair;
+import mca.server.world.data.SavedVillagers;
 import mca.util.InventoryUtils;
+import mca.util.network.datasync.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -325,7 +336,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             // Update age state for current entity growth
             setAgeState(AgeState.byCurrentAge(getBreedingAge()));
 
-            residency.updateVillage();
+            residency.tick();
 
             if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
                 setProfession(API.randomProfession());

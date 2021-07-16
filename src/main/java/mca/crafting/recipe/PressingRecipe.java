@@ -4,7 +4,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonObject;
 
-import mca.core.minecraft.RecipesMCA;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;

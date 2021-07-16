@@ -1,7 +1,7 @@
 package mca.server;
 
-import mca.core.minecraft.EntitiesMCA;
-import mca.core.minecraft.SoundsMCA;
+import mca.SoundsMCA;
+import mca.entity.EntitiesMCA;
 import mca.entity.GrimReaperEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;

@@ -1,10 +1,11 @@
 package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
-import mca.core.MCA;
-import mca.entity.Relationship;
+
+import mca.MCA;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.data.Memories;
+import mca.entity.ai.Memories;
+import mca.entity.ai.Relationship;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
