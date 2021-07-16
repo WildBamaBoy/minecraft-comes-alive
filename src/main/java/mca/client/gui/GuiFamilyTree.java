@@ -70,7 +70,7 @@ public class GuiFamilyTree extends Screen {
         if (e != null) {
             addDrawableChild(new ButtonWidget(
                     x - 40, y - 10, 80, 20,
-                    new LiteralText(e.getName()),
+                    new LiteralText(e.name()),
                     (b) -> NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid)))
             );
         }
@@ -88,23 +88,23 @@ public class GuiFamilyTree extends Screen {
         addButton(uuid, width / 2, offset);
 
         //parents
-        UUID father = family.get(uuid).getFather();
-        UUID mother = family.get(uuid).getMother();
+        UUID father = family.get(uuid).father();
+        UUID mother = family.get(uuid).mother();
         addButton(father, width / 2 - w, offset - h, width / 2, offset);
         addButton(mother, width / 2 + w, offset - h, width / 2, offset);
 
         //grand parents
         if (family.containsKey(father)) {
-            addButton(family.get(father).getFather(), width / 2 - w - w / 2, offset - h * 2, width / 2 - w, offset - h);
-            addButton(family.get(father).getMother(), width / 2 - w + w / 2, offset - h * 2, width / 2 - w, offset - h);
+            addButton(family.get(father).father(), width / 2 - w - w / 2, offset - h * 2, width / 2 - w, offset - h);
+            addButton(family.get(father).mother(), width / 2 - w + w / 2, offset - h * 2, width / 2 - w, offset - h);
         }
         if (family.containsKey(mother)) {
-            addButton(family.get(mother).getFather(), width / 2 + w - w / 2, offset - h * 2, width / 2 + w, offset - h);
-            addButton(family.get(mother).getMother(), width / 2 + w + w / 2, offset - h * 2, width / 2 + w, offset - h);
+            addButton(family.get(mother).father(), width / 2 + w - w / 2, offset - h * 2, width / 2 + w, offset - h);
+            addButton(family.get(mother).mother(), width / 2 + w + w / 2, offset - h * 2, width / 2 + w, offset - h);
         }
 
         //children
-        List<UUID> children = family.get(uuid).getChildren();
+        List<UUID> children = family.get(uuid).children();
         if (children.size() > 0) {
             w = w * 4 / children.size();
             int x = width / 2 - w * (children.size() - 1) / 2;

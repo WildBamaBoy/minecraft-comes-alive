@@ -111,8 +111,8 @@ public class Relationship implements EntityRelationship {
         return getFamily().map(entry -> {
             ServerWorld serverWorld = (ServerWorld) entity.world;
             return Stream.of(
-                    serverWorld.getEntity(entry.getFather()),
-                    serverWorld.getEntity(entry.getMother())
+                    serverWorld.getEntity(entry.father()),
+                    serverWorld.getEntity(entry.mother())
             ).filter(Objects::nonNull);
         }).orElse(Stream.empty());
     }

@@ -36,8 +36,8 @@ public class GetInteractDataRequest implements Message {
             Relationship relationship = villager.getRelationships();
             Optional<FamilyTreeEntry> family = relationship.getFamily();
 
-            String fatherName = family.map(f -> relationship.getFamilyTree().getEntry(f.getFather())).map(FamilyTreeEntry::getName).orElse(null);
-            String motherName = family.map(f -> relationship.getFamilyTree().getEntry(f.getMother())).map(FamilyTreeEntry::getName).orElse(null);
+            String fatherName = family.map(f -> relationship.getFamilyTree().getEntry(f.father())).map(FamilyTreeEntry::name).orElse(null);
+            String motherName = family.map(f -> relationship.getFamilyTree().getEntry(f.mother())).map(FamilyTreeEntry::name).orElse(null);
 
             NetworkHandler.sendToPlayer(new GetInteractDataResponse(constraints, fatherName, motherName), (ServerPlayerEntity)player);
         }

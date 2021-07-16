@@ -44,7 +44,7 @@ public class FamilyTree extends PersistentState {
     private void addChildToParent(UUID child, UUID parent) {
         FamilyTreeEntry entry = getEntry(parent);
         if (entry != null) {
-            entry.getChildren().add(child);
+            entry.children().add(child);
         }
     }
 
@@ -96,17 +96,17 @@ public class FamilyTree extends PersistentState {
 
     public boolean isParent(UUID who, UUID of) {
         FamilyTreeEntry entry = getEntry(of);
-        return entry != null && (entry.getFather().equals(who) || entry.getMother().equals(who));
+        return entry != null && (entry.father().equals(who) || entry.mother().equals(who));
     }
 
     public boolean isGrandParent(UUID who, UUID of) {
         FamilyTreeEntry entry = getEntry(of);
-        return entry != null && (isParent(who, entry.getFather()) || isParent(who, entry.getMother()));
+        return entry != null && (isParent(who, entry.father()) || isParent(who, entry.mother()));
     }
 
     public boolean isUncle(UUID who, UUID of) {
         FamilyTreeEntry entry = getEntry(who);
-        return entry != null && (getSiblings(entry.getFather()).contains(of) || getSiblings(entry.getMother()).contains(of));
+        return entry != null && (getSiblings(entry.father()).contains(of) || getSiblings(entry.mother()).contains(of));
     }
 
     public boolean isRelative(UUID who, UUID with) {
@@ -117,10 +117,10 @@ public class FamilyTree extends PersistentState {
         if (depth > 0) {
             FamilyTreeEntry entry = getEntry(current);
             if (entry != null) {
-                family.add(entry.getFather());
-                family.add(entry.getMother());
-                gatherParents(entry.getFather(), family, depth - 1);
-                gatherParents(entry.getMother(), family, depth - 1);
+                family.add(entry.father());
+                family.add(entry.mother());
+                gatherParents(entry.father(), family, depth - 1);
+                gatherParents(entry.mother(), family, depth - 1);
             }
         }
     }
@@ -129,7 +129,7 @@ public class FamilyTree extends PersistentState {
         if (depth > 0) {
             FamilyTreeEntry entry = getEntry(current);
             if (entry != null) {
-                for (UUID child : entry.getChildren()) {
+                for (UUID child : entry.children()) {
                     family.add(child);
                     gatherChildren(child, family, depth - 1);
                 }
@@ -167,8 +167,8 @@ public class FamilyTree extends PersistentState {
 
         FamilyTreeEntry entry = getEntry(uuid);
         if (entry != null) {
-            gatherChildren(entry.getFather(), siblings, 1);
-            gatherChildren(entry.getMother(), siblings, 1);
+            gatherChildren(entry.father(), siblings, 1);
+            gatherChildren(entry.mother(), siblings, 1);
         }
 
         return siblings;

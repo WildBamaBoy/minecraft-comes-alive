@@ -9,25 +9,13 @@ import java.util.UUID;
 import mca.entity.ai.relationship.Gender;
 import mca.util.NbtHelper;
 
-public class FamilyTreeEntry implements Serializable {
-    private static final long serialVersionUID = -5088784719024378021L;
-
-    private final String name;
-    private final boolean isPlayer;
-    private final Gender gender;
-    private final UUID father;
-    private final UUID mother;
-    private final List<UUID> children;
-
-    public FamilyTreeEntry(String name, boolean isPlayer, Gender gender, UUID father, UUID mother, List<UUID> children) {
-        this.name = name;
-        this.isPlayer = isPlayer;
-        this.gender = gender;
-        this.father = father;
-        this.mother = mother;
-        this.children = children;
-    }
-
+public record FamilyTreeEntry (
+        String name,
+        boolean isPlayer,
+        Gender gender,
+        UUID father,
+        UUID mother,
+        List<UUID> children) implements Serializable {
     public FamilyTreeEntry(NbtCompound nbt) {
         this(
             nbt.getString("name"),
@@ -52,28 +40,5 @@ public class FamilyTreeEntry implements Serializable {
             return n;
         }));
         return nbt;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public boolean isPlayer() {
-        return isPlayer;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public UUID getFather() {
-        return father;
-    }
-
-    public UUID getMother() {
-        return mother;
-    }
-
-    public List<UUID> getChildren() {
-        return children;
     }
 }

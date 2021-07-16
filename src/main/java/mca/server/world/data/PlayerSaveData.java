@@ -113,8 +113,8 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     public Stream<Entity> getParents() {
         return getFamily().map(entry -> {
             return Stream.of(
-                    world.getEntity(entry.getFather()),
-                    world.getEntity(entry.getMother())
+                    world.getEntity(entry.father()),
+                    world.getEntity(entry.mother())
             ).filter(Objects::nonNull);
         }).orElse(Stream.empty());
     }

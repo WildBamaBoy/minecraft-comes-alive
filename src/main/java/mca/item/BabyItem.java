@@ -126,7 +126,7 @@ public class BabyItem extends Item {
             //add the child to the family tree
             FamilyTreeEntry spouseEntry = familyTree.getEntry(playerData.getSpouseUUID());
 
-            if (spouseEntry != null && spouseEntry.getGender() == Gender.FEMALE) {
+            if (spouseEntry != null && spouseEntry.gender() == Gender.FEMALE) {
                 familyTree.addEntry(child, player.getUuid(), playerData.getSpouseUUID());
             } else {
                 familyTree.addEntry(child, playerData.getSpouseUUID(), player.getUuid());

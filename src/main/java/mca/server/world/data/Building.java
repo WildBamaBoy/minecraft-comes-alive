@@ -38,6 +38,7 @@ public class Building implements Serializable {
     private final Map<String, Integer> blocks = new ConcurrentHashMap<>();
 
     private String type = "building";
+
     private int size;
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
