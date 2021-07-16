@@ -9,8 +9,8 @@ import mca.server.ReaperSpawner;
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
 import mca.server.command.MCACommand;
+import mca.server.world.data.BabyBunker;
 import mca.server.world.data.VillageManagerData;
-import mca.server.world.village.BabyBunker;
 import mca.server.world.village.VillageHelper;
 import mca.server.world.village.VillageSpawnQueue;
 import net.fabricmc.api.ModInitializer;
@@ -19,6 +19,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.server.world.ServerWorld;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,7 +59,9 @@ public final class MCA implements ModInitializer {
         });
 
         ServerPlayerEvents.AFTER_RESPAWN.register((old, neu, alive) -> {
-            BabyBunker.pop(neu);
+            if (!alive) {
+                BabyBunker.get((ServerWorld)old.world).pop(neu);
+            }
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {

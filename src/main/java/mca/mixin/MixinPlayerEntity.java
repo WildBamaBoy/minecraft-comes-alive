@@ -7,12 +7,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import mca.item.BabyItem;
-import mca.server.world.village.BabyBunker;
+import mca.server.world.data.BabyBunker;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 
 @Mixin(PlayerEntity.class)
 abstract class MixinPlayerEntity extends LivingEntity {
@@ -20,7 +21,9 @@ abstract class MixinPlayerEntity extends LivingEntity {
 
     @Inject(method = "onDeath(Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("HEAD"))
     private void onOnDeath(DamageSource cause, CallbackInfo info) {
-        BabyBunker.push((PlayerEntity)(Object)this);
+        if (!world.isClient) {
+            BabyBunker.get((ServerWorld)world).push((PlayerEntity)(Object)this);
+        }
     }
 
     @Inject(method = "dropSelectedItem(Z)Z",
