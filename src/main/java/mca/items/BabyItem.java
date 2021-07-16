@@ -112,7 +112,7 @@ public class BabyItem extends Item {
             //assumes your child is from the players current spouse
             //as the father does not have any genes it just takes the one from the mother
             //TODO: The player should be able to serve as the mother too!
-            PlayerSaveData playerData = PlayerSaveData.get(world, player.getUuid());
+            PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)world, player.getUuid());
             Entity spouse = ((ServerWorld) world).getEntity(playerData.getSpouseUUID());
 
             if (spouse instanceof VillagerEntityMCA) {

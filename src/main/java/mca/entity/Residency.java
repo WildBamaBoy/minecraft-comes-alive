@@ -63,7 +63,7 @@ public class Residency {
     }
 
     Optional<Village> getHomeVillage() {
-        return VillageManagerData.get(entity.world).getOrEmpty(village.get());
+        return VillageManagerData.get((ServerWorld)entity.world).getOrEmpty(village.get());
     }
 
     void updateVillage() {
@@ -97,7 +97,7 @@ public class Residency {
 
     //report potential buildings within this villagers reach
     private void reportBuildings() {
-        VillageManagerData manager = VillageManagerData.get(entity.world);
+        VillageManagerData manager = VillageManagerData.get((ServerWorld)entity.world);
 
         //fetch all near POIs
         Stream<BlockPos> stream = ((ServerWorld) entity.world).getPointOfInterestStorage().getPositions(

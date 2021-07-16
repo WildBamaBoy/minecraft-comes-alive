@@ -7,11 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.world.World;
 
 public class Taxation {
 
-    static void updateTaxes(World world) {
+    static void updateTaxes(ServerWorld world) {
         //TODO: Implement taxes
         // WIP and nobody can stop me implementing them hehe
 
@@ -21,7 +20,7 @@ public class Taxation {
             int emeraldCount = taxes / emeraldValue;
 
             village.storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
-            deliverTaxes(village, (ServerWorld) world);
+            deliverTaxes(village, world);
 
             Messenger.sendEventMessage(world, new TranslatableText("gui.village.taxes", village.getName()));
         }

@@ -6,6 +6,7 @@ import mca.entity.data.PlayerSaveData;
 import mca.enums.MarriageState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
@@ -104,7 +105,7 @@ public class ServerInteractionManager {
      */
     public void sendProposal(PlayerEntity sender, PlayerEntity receiver) {
         // Ensure the sender isn't already married.
-        if (PlayerSaveData.get(sender.world, sender.getUuid()).isMarried()) {
+        if (PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid()).isMarried()) {
             failMessage(sender, "You cannot send a proposal since you are already married or engaged.");
             return;
         }
@@ -163,8 +164,8 @@ public class ServerInteractionManager {
             successMessage(receiver, sender.getEntityName() + " has accepted your proposal!");
 
             // Set both player datas as married.
-            PlayerSaveData senderData = PlayerSaveData.get(sender.world, sender.getUuid());
-            PlayerSaveData receiverData = PlayerSaveData.get(receiver.world, receiver.getUuid());
+            PlayerSaveData senderData = PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid());
+            PlayerSaveData receiverData = PlayerSaveData.get((ServerWorld)receiver.world, receiver.getUuid());
             senderData.marry(receiver.getUuid(), receiver.getEntityName(), MarriageState.MARRIED_TO_PLAYER);
             receiverData.marry(sender.getUuid(), sender.getEntityName(), MarriageState.MARRIED_TO_PLAYER);
 
@@ -184,7 +185,7 @@ public class ServerInteractionManager {
      */
     public void endMarriage(PlayerEntity sender) {
         // Retrieve all data instances and an instance of the ex-spouse if they are present.
-        PlayerSaveData senderData = PlayerSaveData.get(sender.world, sender.getUuid());
+        PlayerSaveData senderData = PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid());
 
         // Ensure the sender is married
         if (!senderData.isMarried()) {
@@ -199,7 +200,7 @@ public class ServerInteractionManager {
             return;
         }
 
-        PlayerSaveData receiverData = PlayerSaveData.get(sender.world, senderData.getSpouseUUID());
+        PlayerSaveData receiverData = PlayerSaveData.get((ServerWorld)sender.world, senderData.getSpouseUUID());
 
         // Notify the sender of the success and end both marriages.
         successMessage(sender, "Your marriage to " + senderData.getSpouseName() + " has ended.");
@@ -221,7 +222,7 @@ public class ServerInteractionManager {
      */
     public void procreate(PlayerEntity sender) {
         // Ensure the sender is married.
-        PlayerSaveData senderData = PlayerSaveData.get(sender.world, sender.getUuid());
+        PlayerSaveData senderData = PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid());
         if (!senderData.isMarried()) {
             failMessage(sender, "You cannot procreate if you are not married.");
             return;
@@ -251,7 +252,7 @@ public class ServerInteractionManager {
                 successMessage(spouse, "Procreation successful!");
                 spouse.giveItemStack(new ItemStack(sender.world.getRandom().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
 
-                PlayerSaveData spouseData = PlayerSaveData.get(spouse.world, spouse.getUuid());
+                PlayerSaveData spouseData = PlayerSaveData.get((ServerWorld)spouse.world, spouse.getUuid());
                 spouseData.setBabyPresent(true);
                 senderData.setBabyPresent(true);
             }

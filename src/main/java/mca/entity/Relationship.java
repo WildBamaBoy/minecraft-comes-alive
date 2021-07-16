@@ -20,7 +20,7 @@ import mca.core.minecraft.ItemsMCA;
 import mca.entity.data.FamilyTree;
 import mca.entity.data.FamilyTreeEntry;
 import mca.entity.data.Memories;
-import mca.entity.data.PlayerSaveData;
+import mca.entity.data.relationship.EntityRelationship;
 import mca.enums.MarriageState;
 import mca.items.SpecialCaseGift;
 import mca.util.WorldUtils;
@@ -34,6 +34,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -43,7 +44,7 @@ import net.minecraft.util.math.MathHelper;
 /**
  * I know you, you know me, we're all a big happy family.
  */
-public class Relationship {
+public class Relationship implements EntityRelationship {
     public static final Predicate IS_MARRIED = (villager, player) -> villager.getRelationships().isMarriedTo(player);
     public static final Predicate IS_RELATIVE = (villager, player) -> villager.getRelationships().getFamilyTree().isRelative(villager.getUuid(), player);
     public static final Predicate IS_FAMILY = IS_MARRIED.or(IS_RELATIVE);
@@ -90,18 +91,22 @@ public class Relationship {
         return isMarried() ? Optional.ofNullable(spouseName.get()).map(LiteralText::new) : Optional.empty();
     }
 
+    @Override
     public Optional<Entity> getSpouse() {
         return spouseUUID.get().map(id -> ((ServerWorld) entity.world).getEntity(id));
     }
 
+    @Override
     public FamilyTree getFamilyTree() {
-        return FamilyTree.get(entity.world);
+        return FamilyTree.get((ServerWorld)entity.world);
     }
 
+    @Override
     public Optional<FamilyTreeEntry> getFamily() {
         return Optional.ofNullable(getFamilyTree().getEntry(entity));
     }
 
+    @Override
     public Stream<Entity> getParents() {
         return getFamily().map(entry -> {
             ServerWorld serverWorld = (ServerWorld) entity.world;
@@ -110,6 +115,16 @@ public class Relationship {
                     serverWorld.getEntity(entry.getMother())
             ).filter(Objects::nonNull);
         }).orElse(Stream.empty());
+    }
+
+    @Override
+    public Stream<Entity> getSiblings() {
+        return getFamilyTree()
+                .getSiblings(entity.getUuid())
+                .stream()
+                .map(id -> ((ServerWorld) entity.world).getEntity(id))
+                .filter(Objects::nonNull)
+                .filter(e -> !e.equals(entity)); // we exclude ourselves from the list of siblings
     }
 
     public void tick(int age) {
@@ -142,31 +157,33 @@ public class Relationship {
         }
     }
 
-    public void onDeath(DamageSource cause) {
-
-        //The death of a villager negatively modifies the mood of nearby villagers
+    public void onTragedy(DamageSource cause) {
+        // The death of a villager negatively modifies the mood of nearby strangers
         WorldUtils
             .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
-            .forEach(villager -> villager.getRelationships().onNeighbourDeath(cause));
+            .forEach(villager -> villager.getRelationships().onTragedy(cause, RelationshipType.STRANGER));
 
-        getSpouse().ifPresent(spouse -> {
-            // Notify spouse of the death
-            if (spouse instanceof VillagerEntityMCA) {
-                ((VillagerEntityMCA) spouse).getRelationships().endMarriage();
-            } else {
-                PlayerSaveData.get(entity.world, spouse.getUuid()).endMarriage();
-            }
-        });
+        onTragedy(cause, RelationshipType.SIBLING);
     }
 
-    public void onNeighbourDeath(DamageSource cause) {
-        entity.getVillagerBrain().modifyMoodLevel(-10);
+    @Override
+    public void onTragedy(DamageSource cause, RelationshipType type) {
+        int moodAffect = 10;
+
+        moodAffect /= type.getInverseProximity();
+        moodAffect *= type.getProximityAmplifier();
+
+        entity.getVillagerBrain().modifyMoodLevel(-moodAffect);
+
+        EntityRelationship.super.onTragedy(cause, type);
     }
 
+    @Override
     public MarriageState getMarriageState() {
         return marriageState.get();
     }
 
+    @Override
     public boolean isMarried() {
         return !spouseUUID.get().orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
     }
@@ -187,13 +204,14 @@ public class Relationship {
         marriageState.set(MarriageState.MARRIED);
     }
 
+    @Override
     public void endMarriage() {
         spouseUUID.set(Util.NIL_UUID);
         spouseName.set("");
         marriageState.set(MarriageState.NOT_MARRIED);
     }
 
-    public void giveGift(PlayerEntity player, Memories memory) {
+    public void giveGift(ServerPlayerEntity player, Memories memory) {
         ItemStack stack = player.getMainHandStack();
 
         if (!stack.isEmpty()) {
@@ -237,7 +255,7 @@ public class Relationship {
         }
     }
 
-    private boolean handleSpecialCaseGift(PlayerEntity player, ItemStack stack) {
+    private boolean handleSpecialCaseGift(ServerPlayerEntity player, ItemStack stack) {
         Item item = stack.getItem();
 
         if (item instanceof SpecialCaseGift) {

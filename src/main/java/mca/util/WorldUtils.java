@@ -36,8 +36,8 @@ public interface WorldUtils {
         return world.getNonSpectatingEntities(c, new Box(pos, pos).expand(range));
     }
 
-    static <T extends PersistentState> T loadData(World world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
-        return ((ServerWorld) world).getPersistentStateManager().getOrCreate(loader, factory, dataId);
+    static <T extends PersistentState> T loadData(ServerWorld world, Function<NbtCompound, T> loader, Supplier<T> factory, String dataId) {
+        return world.getPersistentStateManager().getOrCreate(loader, factory, dataId);
     }
 
     static void spawnEntity(World world, Entity entity, SpawnReason reason) {

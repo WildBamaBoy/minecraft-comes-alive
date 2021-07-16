@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 
 import java.util.UUID;
 
@@ -22,8 +23,8 @@ public class ReviveVillagerMessage implements Message {
 
     @Override
     public void receive(PlayerEntity player) {
-        SavedVillagers villagers = SavedVillagers.get(player.world);
-        NbtCompound nbt = SavedVillagers.get(player.world).getVillagerByUUID(uuid);
+        SavedVillagers villagers = SavedVillagers.get((ServerWorld)player.world);
+        NbtCompound nbt = villagers.getVillagerByUUID(uuid);
         if (nbt != null) {
             EntityType.getEntityFromNbt(nbt, player.world)
                 .filter(v -> v instanceof VillagerEntityMCA)

@@ -4,6 +4,7 @@ import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
@@ -24,7 +25,7 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
     private int lastBuildingId;
     private int lastVillageId;
 
-    public static VillageManagerData get(World world) {
+    public static VillageManagerData get(ServerWorld world) {
         return WorldUtils.loadData(world, VillageManagerData::new, VillageManagerData::new, "mca_villages");
     }
 

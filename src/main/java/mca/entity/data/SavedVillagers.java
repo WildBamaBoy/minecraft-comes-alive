@@ -3,8 +3,8 @@ package mca.entity.data;
 import mca.entity.VillagerEntityMCA;
 import mca.util.WorldUtils;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentState;
-import net.minecraft.world.World;
 
 import java.util.UUID;
 
@@ -13,7 +13,7 @@ public class SavedVillagers extends PersistentState {
 
     private final NbtCompound villagerData = new NbtCompound();
 
-    public static SavedVillagers get(World world) {
+    public static SavedVillagers get(ServerWorld world) {
         return WorldUtils.loadData(world, SavedVillagers::new, SavedVillagers::new, DATA_ID);
     }
 

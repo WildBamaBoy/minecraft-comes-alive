@@ -23,7 +23,7 @@ public class CUUIDParameter extends CDataParameter<Optional<UUID>> {
     }
 
     public void set(UUID v) {
-        data.set(param, Optional.of(v));
+        data.set(param, Optional.ofNullable(v));
     }
 
     @Override

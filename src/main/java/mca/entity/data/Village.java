@@ -316,6 +316,6 @@ public class Village implements Serializable, Iterable<Building> {
     public void addResident(VillagerEntityMCA villager, int building) {
         lastMoveIn = villager.world.getTime();
         buildings.get(building).addResident(villager);
-        VillageManagerData.get(villager.world).markDirty();
+        VillageManagerData.get((ServerWorld)villager.world).markDirty();
     }
 }

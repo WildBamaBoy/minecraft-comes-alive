@@ -10,6 +10,7 @@ import mca.core.minecraft.*;
 import mca.entity.ai.VillagerNavigation;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.data.*;
+import mca.entity.data.relationship.CompassionateEntity;
 import mca.enums.*;
 import mca.util.InventoryUtils;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,7 +20,6 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -27,7 +27,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -59,7 +58,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable, Messenger {
+public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
     private final CDataManager data = new CDataManager(this);
 
     private final Genetics genetics = Genetics.create(data);
@@ -126,6 +125,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         return genetics;
     }
 
+    @Override
     public Relationship getRelationships() {
         return relations;
     }
@@ -395,13 +395,9 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         InventoryUtils.dropAllItems(this, inventory);
 
-        relations.onDeath(cause);
+        relations.onTragedy(cause);
 
-        // Notify all parents of the death
-        // Entity[] parents = getBothParentEntities();
-        //TODO, optionally affect parents behavior
-
-        SavedVillagers.get(world).saveVillager(this);
+        SavedVillagers.get((ServerWorld)world).saveVillager(this);
     }
 
     @Override

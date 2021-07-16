@@ -3,21 +3,17 @@ package mca.core.minecraft.entity.village;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.server.world.ServerWorld;
 import java.util.*;
 
 public class VillageHelper {
     private static final int MOVE_IN_COOLDOWN = 6000;
 
     public static Optional<Village> getNearestVillage(Entity entity) {
-        return VillageManagerData.get(entity.world).findVillages(v -> v.isWithinBorder(entity)).findFirst();
+        return VillageManagerData.get((ServerWorld)entity.world).findVillages(v -> v.isWithinBorder(entity)).findFirst();
     }
 
-    public static void tick(World world) {
-        if (!world.isClient) {
-            return;
-        }
-
+    public static void tick(ServerWorld world) {
         //keep track on where player are currently in
         Residency.tick(world);
 

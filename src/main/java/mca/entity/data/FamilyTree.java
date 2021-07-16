@@ -5,9 +5,9 @@ import mca.enums.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
 import net.minecraft.world.PersistentState;
-import net.minecraft.world.World;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ public class FamilyTree extends PersistentState {
 
     private final Map<UUID, FamilyTreeEntry> entries = new HashMap<>();
 
-    public static FamilyTree get(World world) {
+    public static FamilyTree get(ServerWorld world) {
         return WorldUtils.loadData(world, FamilyTree::new, FamilyTree::new, DATA_ID);
     }
 

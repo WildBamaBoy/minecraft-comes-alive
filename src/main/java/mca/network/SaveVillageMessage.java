@@ -4,6 +4,7 @@ import mca.cobalt.network.Message;
 import mca.entity.data.Village;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 
 public class SaveVillageMessage implements Message {
     private static final long serialVersionUID = -4830365225086158551L;
@@ -22,7 +23,7 @@ public class SaveVillageMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        VillageManagerData.get(e.world).getOrEmpty(id).ifPresent(village -> {
+        VillageManagerData.get((ServerWorld)e.world).getOrEmpty(id).ifPresent(village -> {
             village.setTaxes(taxes);
             village.setPopulationThreshold(populationThreshold);
             village.setMarriageThreshold(marriageThreshold);

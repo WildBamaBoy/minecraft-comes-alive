@@ -20,10 +20,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Saddleable;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -70,7 +70,7 @@ public class Interactions {
     /**
      * Called on the server to respond to button events.
      */
-    public void handle(PlayerEntity player, String guiKey, String buttonId) {
+    public void handle(ServerPlayerEntity player, String guiKey, String buttonId) {
         Memories memory = entity.getVillagerBrain().getMemoriesForPlayer(player);
         Optional<Button> button = API.getScreenComponents().getButton(guiKey, buttonId);
         if (!button.isPresent()) {
@@ -96,7 +96,7 @@ public class Interactions {
                 }
 
                 if (player instanceof ServerPlayerEntity) {
-                    ((ServerPlayerEntity)player).networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
+                    player.networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
                 }
 
                 stopInteracting();
@@ -143,7 +143,7 @@ public class Interactions {
                 stopInteracting();
                 break;
             case "gui.button.procreate":
-                if (PlayerSaveData.get(entity.world, player.getUuid()).isBabyPresent()) {
+                if (PlayerSaveData.get((ServerWorld)entity.world, player.getUuid()).isBabyPresent()) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.hasbaby");
                 } else if (memory.getHearts() < 100) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.lowhearts");

@@ -3,7 +3,6 @@ package mca.network;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.data.FamilyTree;
 import mca.entity.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,12 +19,14 @@ public class GetVillagerRequest implements Message {
     public void receive(PlayerEntity player) {
         NbtCompound familyData = new NbtCompound();
 
+        PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
+
         //fetches all members
         //de-loaded members are excluded as can't teleport anyways
-        Set<UUID> family = FamilyTree.get(player.world).getFamily(player.getUuid());
+        Set<UUID> family = playerData.getFamilyTree().getFamily(player.getUuid());
 
         //spouse
-        PlayerSaveData playerData = PlayerSaveData.get(player.world, player.getUuid());
+
         family.add(playerData.getSpouseUUID());
 
         //pack information

@@ -7,16 +7,11 @@ import java.util.UUID;
 import mca.entity.data.VillageManagerData;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.world.World;
 
 public class Residency {
     private static final Map<UUID, Integer> PLAYER_VILLAGE_POSITIONS = new HashMap<>();
 
-    static void tick(World world) {
-        if (!world.isClient) {
-            return;
-        }
-
+    static void tick(ServerWorld world) {
         //keep track on where player are currently in
         if (world.getTimeOfDay() % 100 == 0) {
             world.getPlayers().forEach((player) -> {
@@ -33,7 +28,7 @@ public class Residency {
                     VillageHelper.getNearestVillage(player).ifPresent(village -> {
                         player.sendMessage(new TranslatableText("gui.village.welcome", village.getName()), true);
                         PLAYER_VILLAGE_POSITIONS.put(player.getUuid(), village.getId());
-                        Taxation.deliverTaxes(village, (ServerWorld) world);
+                        Taxation.deliverTaxes(village, world);
                     });
                 }
             });

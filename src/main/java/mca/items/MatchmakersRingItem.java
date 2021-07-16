@@ -3,8 +3,8 @@ package mca.items;
 import mca.entity.VillagerEntityMCA;
 import mca.enums.AgeState;
 import mca.util.WorldUtils;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
     }
 
     @Override
-    public boolean handle(PlayerEntity player, VillagerEntityMCA villager) {
+    public boolean handle(ServerPlayerEntity player, VillagerEntityMCA villager) {
         // ensure two rings are in the inventory
         if (player.getMainHandStack().getCount() < 2) {
             villager.sendChatMessage(player, "interaction.matchmaker.fail.needtwo");
