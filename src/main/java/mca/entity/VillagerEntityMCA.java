@@ -30,6 +30,8 @@ import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
+import net.minecraft.entity.ai.control.JumpControl;
+import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -38,6 +40,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -409,6 +412,38 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         relations.onTragedy(cause);
 
         SavedVillagers.get((ServerWorld)world).saveVillager(this);
+    }
+
+    @Override
+    public MoveControl getMoveControl() {
+        return isRidingHorse() ? moveControl : super.getMoveControl();
+    }
+
+    @Override
+    public JumpControl getJumpControl() {
+        return jumpControl;
+    }
+
+    @Override
+    public EntityNavigation getNavigation() {
+        return isRidingHorse() ? navigation : super.getNavigation();
+    }
+
+    protected boolean isRidingHorse() {
+        return hasVehicle() && getVehicle() instanceof HorseBaseEntity;
+    }
+
+    @Override
+    public void requestTeleport(double destX, double destY, double destZ) {
+        if (hasVehicle()) {
+            Entity rootVehicle = getRootVehicle();
+            if (rootVehicle instanceof MobEntity) {
+                rootVehicle.requestTeleport(destX, destY, destZ);
+                return; // villagers can travel by teleporting, so make sure they take their mount with
+            }
+        }
+
+        super.requestTeleport(destX, destY, destZ);
     }
 
     @Override
