@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import mca.item.BabyItem;
-import mca.server.world.data.BabyBunker;
+import mca.server.world.data.VillageManager;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -22,7 +22,7 @@ abstract class MixinPlayerEntity extends LivingEntity {
     @Inject(method = "onDeath(Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("HEAD"))
     private void onOnDeath(DamageSource cause, CallbackInfo info) {
         if (!world.isClient) {
-            BabyBunker.get((ServerWorld)world).push((PlayerEntity)(Object)this);
+            VillageManager.get((ServerWorld)world).getBabyBunker().push((PlayerEntity)(Object)this);
         }
     }
 

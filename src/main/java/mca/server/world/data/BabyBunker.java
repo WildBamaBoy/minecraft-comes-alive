@@ -7,32 +7,26 @@ import java.util.UUID;
 
 import mca.item.BabyItem;
 import mca.util.NbtHelper;
-import mca.util.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.PersistentState;
 
-public class BabyBunker extends PersistentState {
-    private static final String DATA_ID = "MCA-BabyBunker";
-
+public class BabyBunker {
     // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
     private final Map<UUID, List<ItemStack>> limbo;
 
-    public static BabyBunker get(ServerWorld world) {
-        return WorldUtils.loadData(world, BabyBunker::new, BabyBunker::new, DATA_ID);
-    }
+    private final VillageManager manager;
 
-    BabyBunker(ServerWorld world) {
+    BabyBunker(VillageManager manager) {
+        this.manager = manager;
         limbo = new HashMap<>();
     }
 
-    BabyBunker(NbtCompound nbt) {
+    BabyBunker(VillageManager manager, NbtCompound nbt) {
+        this.manager = manager;
         limbo = NbtHelper.toMap(nbt, UUID::fromString, element -> NbtHelper.toList(element, i -> ItemStack.fromNbt((NbtCompound)i)));
     }
 
-    @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         return NbtHelper.fromMap(nbt, limbo, UUID::toString, stacks -> NbtHelper.fromList(stacks, stack -> stack.writeNbt(new NbtCompound())));
     }
@@ -48,6 +42,7 @@ public class BabyBunker extends PersistentState {
                     player.dropStack(bab, 0);
                 }
             });
+            manager.markDirty();
         }
     }
 
@@ -59,6 +54,7 @@ public class BabyBunker extends PersistentState {
 
         if (!babies.isEmpty()) {
             limbo.put(player.getUuid(), babies);
+            manager.markDirty();
         }
     }
 }

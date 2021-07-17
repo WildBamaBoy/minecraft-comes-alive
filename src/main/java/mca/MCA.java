@@ -8,7 +8,6 @@ import mca.resources.ApiReloadListener;
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
 import mca.server.command.MCACommand;
-import mca.server.world.data.BabyBunker;
 import mca.server.world.data.VillageManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -51,7 +50,7 @@ public final class MCA implements ModInitializer {
 
         ServerPlayerEvents.AFTER_RESPAWN.register((old, neu, alive) -> {
             if (!alive) {
-                BabyBunker.get((ServerWorld)old.world).pop(neu);
+                VillageManager.get((ServerWorld)old.world).getBabyBunker().pop(neu);
             }
         });
 
