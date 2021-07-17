@@ -11,7 +11,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.item.BabyItem;
 import mca.server.world.data.PlayerSaveData;
 import mca.server.world.data.Village;
-import mca.server.world.data.VillageManagerData;
+import mca.server.world.data.VillageManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,7 +50,7 @@ public class AdminCommand {
     }
 
     private static int listVillages(CommandContext<ServerCommandSource> ctx) {
-        for (Village village : VillageManagerData.get(ctx.getSource().getWorld())) {
+        for (Village village : VillageManager.get(ctx.getSource().getWorld())) {
             success(String.format("%d: %s with %d buildings and %d/%d villager",
                     village.getId(),
                     village.getName(),
@@ -64,7 +64,7 @@ public class AdminCommand {
 
     private static int removeVillage(CommandContext<ServerCommandSource> ctx) {
         int id = IntegerArgumentType.getInteger(ctx, "id");
-        if (VillageManagerData.get(ctx.getSource().getWorld()).removeVillage(id)) {
+        if (VillageManager.get(ctx.getSource().getWorld()).removeVillage(id)) {
             success("Village deleted.", ctx);
         } else {
             fail(ctx);

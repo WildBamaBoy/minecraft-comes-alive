@@ -6,12 +6,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import mca.server.world.village.VillageReaperPlacer;
+import mca.server.world.data.VillageManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,6 +25,8 @@ abstract class MixinBlockItem extends Item {
         at = @At("RETURN")
     )
     private void postPlacement(BlockPos pos, World world, @Nullable PlayerEntity player, ItemStack stack, BlockState state, CallbackInfoReturnable<Boolean> info) {
-        VillageReaperPlacer.getInstance().trySpawnReaper(world, state, pos);
+        if (!world.isClient) {
+            VillageManager.get((ServerWorld)world).getReaperSpawner().trySpawnReaper(world, state, pos);
+        }
     }
 }

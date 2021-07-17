@@ -6,8 +6,12 @@ import mca.entity.ai.relationship.RelationshipType;
 import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.world.PersistentState;
 
@@ -32,6 +36,8 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
 
     private final ServerWorld world;
 
+    private Optional<Integer> lastSeenVillage = Optional.empty();
+
     public static PlayerSaveData get(ServerWorld world, UUID uuid) {
         return WorldUtils.loadData(world, nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_village_" + uuid.toString());
     }
@@ -44,6 +50,7 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     PlayerSaveData(ServerWorld world, NbtCompound nbt) {
         this.world = world;
         playerId = nbt.getUuid("playerId");
+        lastSeenVillage = nbt.contains("lastSeenVillage", NbtElement.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
         spouseUUID = Optional.ofNullable(nbt.getUuid("spouseUUID"));
         spouseName = nbt.getString("spouseName");
         babyPresent = nbt.getBoolean("babyPresent");
@@ -57,6 +64,38 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
         }
 
         EntityRelationship.super.onTragedy(cause, type);
+    }
+
+    public void updateLastSeenVillage(VillageManager manager, PlayerEntity self) {
+        Optional<Village> prevVillage = lastSeenVillage.flatMap(manager::getOrEmpty);
+        Optional<Village> nextVillage = prevVillage
+                .filter(v -> v.isWithinBorder(self))
+                .or(() -> manager.findNearestVillage(self));
+
+        setLastSeenVillage(self, prevVillage.orElse(null), nextVillage.orElse(null));
+    }
+
+    public void setLastSeenVillage(PlayerEntity self, Village oldVillage, @Nullable Village newVillage) {
+        lastSeenVillage = Optional.ofNullable(newVillage).map(Village::getId);
+        markDirty();
+
+        if (oldVillage != newVillage) {
+            if (oldVillage != null) {
+                onLeave(self, oldVillage);
+            }
+            if (newVillage != null) {
+                onEnter(self, newVillage);
+            }
+        }
+    }
+
+    protected void onLeave(PlayerEntity self, Village village) {
+        self.sendMessage(new TranslatableText("gui.village.left", village.getName()).formatted(Formatting.GOLD), true);
+    }
+
+    protected void onEnter(PlayerEntity self, Village village) {
+        self.sendMessage(new TranslatableText("gui.village.welcome", village.getName()).formatted(Formatting.GOLD), true);
+        village.deliverTaxes(world);
     }
 
     @Override
@@ -140,6 +179,7 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         spouseUUID.ifPresent(id -> nbt.putUuid("spouseUUID", id));
+        lastSeenVillage.ifPresent(id -> nbt.putInt("lastSeenVillage", id));
         nbt.putString("spouseName", spouseName);
         nbt.putBoolean("babyPresent", babyPresent);
         return nbt;

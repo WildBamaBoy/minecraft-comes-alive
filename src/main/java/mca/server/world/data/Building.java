@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static net.minecraft.tag.BlockTags.LEAVES;
 
-public class Building implements Serializable {
+public class Building implements Serializable, Iterable<UUID> {
     private static final long serialVersionUID = -1106627083469687307L;
     private static final Direction[] directions = {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
@@ -303,6 +303,12 @@ public class Building implements Serializable {
 
     public Map<UUID, String> getResidents() {
         return residents;
+    }
+
+
+    @Override
+    public Iterator<UUID> iterator() {
+        return residents.keySet().iterator();
     }
 
     public boolean hasResident(UUID id) {

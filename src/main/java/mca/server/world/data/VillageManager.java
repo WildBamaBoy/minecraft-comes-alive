@@ -1,21 +1,23 @@
 package mca.server.world.data;
 
+import mca.server.ReaperSpawner;
+import mca.server.SpawnQueue;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
-import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class VillageManagerData extends PersistentState implements Iterable<Village> {
+public class VillageManager extends PersistentState implements Iterable<Village> {
 
     private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
 
@@ -26,15 +28,24 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
     private int lastBuildingId;
     private int lastVillageId;
 
-    public static VillageManagerData get(ServerWorld world) {
-        return WorldUtils.loadData(world, VillageManagerData::new, VillageManagerData::new, "mca_villages");
+    private final ServerWorld world;
+
+    private final ReaperSpawner reaperSpawner;
+
+    public static VillageManager get(ServerWorld world) {
+        return WorldUtils.loadData(world, nbt -> new VillageManager(world, nbt), VillageManager::new, "mca_villages");
     }
 
-    VillageManagerData(ServerWorld world) {}
+    VillageManager(ServerWorld world) {
+        this.world = world;
+        reaperSpawner = new ReaperSpawner(this);
+    }
 
-    VillageManagerData(NbtCompound nbt) {
+    VillageManager(ServerWorld world, NbtCompound nbt) {
+        this.world = world;
         lastBuildingId = nbt.getInt("lastBuildingId");
         lastVillageId = nbt.getInt("lastVillageId");
+        reaperSpawner = nbt.contains("reapers") ? new ReaperSpawner(this, nbt.getCompound("reapers")) : new ReaperSpawner(this);
 
         NbtList v = nbt.getList("villages", NbtElement.COMPOUND_TYPE);
         for (int i = 0; i < v.size(); i++) {
@@ -44,6 +55,9 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
         }
     }
 
+    public ReaperSpawner getReaperSpawner() {
+        return reaperSpawner;
+    }
 
     public Optional<Village> getOrEmpty(int id) {
         return Optional.ofNullable(villages.get(id));
@@ -66,12 +80,43 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
         return villages.values().stream().filter(predicate);
     }
 
+    public Optional<Village> findNearestVillage(Entity entity) {
+        return findVillages(v -> v.isWithinBorder(entity)).findFirst();
+    }
+
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         nbt.putInt("lastBuildingId", lastBuildingId);
         nbt.putInt("lastVillageId", lastVillageId);
         nbt.put("villages", NbtHelper.fromList(villages.values(), Village::save));
+        nbt.put("reapers", reaperSpawner.writeNbt());
         return nbt;
+    }
+
+    /**
+     * Updates all of the villages in the world.
+     */
+    public void tick() {
+      //keep track of where player are currently
+        if (world.getTimeOfDay() % 100 == 0) {
+            world.getPlayers().forEach(player -> {
+                PlayerSaveData.get(world, player.getUuid()).updateLastSeenVillage(this, player);
+            });
+        }
+
+        long time = world.getTime();
+
+        for (Village v : this) {
+            v.tick(world, time);
+        }
+
+        //process a single building
+        if (time % 21 == 0 && !buildingQueue.isEmpty()) {
+            processBuilding(buildingQueue.remove(0));
+        }
+
+        reaperSpawner.tick(world);
+        SpawnQueue.getInstance().tick();
     }
 
     //adds a potential block to the processing queue
@@ -82,16 +127,8 @@ public class VillageManagerData extends PersistentState implements Iterable<Vill
         buildingQueue.add(pos);
     }
 
-    //process a single building
-    public void processNextBuildings(World world) {
-        if (!buildingQueue.isEmpty()) {
-            BlockPos pos = buildingQueue.remove(0);
-            processBuilding(world, pos);
-        }
-    }
-
     //processed a building at given position
-    public void processBuilding(World world, BlockPos pos) {
+    public void processBuilding(BlockPos pos) {
         Village village = null;
         Building withinBuilding = null;
 

@@ -2,7 +2,7 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.server.world.data.Village;
-import mca.server.world.data.VillageManagerData;
+import mca.server.world.data.VillageManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
@@ -23,7 +23,7 @@ public class SaveVillageMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        VillageManagerData.get((ServerWorld)e.world).getOrEmpty(id).ifPresent(village -> {
+        VillageManager.get((ServerWorld)e.world).getOrEmpty(id).ifPresent(village -> {
             village.setTaxes(taxes);
             village.setPopulationThreshold(populationThreshold);
             village.setMarriageThreshold(marriageThreshold);

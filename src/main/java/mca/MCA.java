@@ -5,14 +5,11 @@ import mca.entity.EntitiesMCA;
 import mca.item.ItemsMCA;
 import mca.network.MessagesMCA;
 import mca.resources.ApiReloadListener;
-import mca.server.ReaperSpawner;
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
 import mca.server.command.MCACommand;
 import mca.server.world.data.BabyBunker;
-import mca.server.world.data.VillageManagerData;
-import mca.server.world.village.VillageHelper;
-import mca.server.world.village.VillageSpawnQueue;
+import mca.server.world.data.VillageManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -46,16 +43,10 @@ public final class MCA implements ModInitializer {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ApiReloadListener());
 
         ServerTickEvents.END_WORLD_TICK.register(w -> {
-            VillageHelper.tick(w);
-
-            if (w.getTime() % 21 == 0) {
-                VillageManagerData.get(w).processNextBuildings(w);
-            }
+            VillageManager.get(w).tick();
         });
         ServerTickEvents.END_SERVER_TICK.register(s -> {
-            ReaperSpawner.tick();
             ServerInteractionManager.getInstance().tick();
-            VillageSpawnQueue.getInstance().tick();
         });
 
         ServerPlayerEvents.AFTER_RESPAWN.register((old, neu, alive) -> {

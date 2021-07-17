@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import mca.server.world.village.VillageSpawnQueue;
+import mca.server.SpawnQueue;
 import net.minecraft.server.world.ServerEntityManager;
 import net.minecraft.world.entity.EntityLike;
 
@@ -14,7 +14,7 @@ abstract class MixinServerEntityManager<T extends EntityLike> implements AutoClo
     @Inject(method = "addEntityUuid(Lnet/minecraft/world/entity/EntityLike;)Z", at = @At("HEAD"), cancellable = true)
     private void onAddEntityUuid(T entity, CallbackInfoReturnable<Boolean> info) {
 
-        if (VillageSpawnQueue.getInstance().addVillager(entity)) {
+        if (SpawnQueue.getInstance().addVillager(entity)) {
             info.setReturnValue(false);
         }
     }

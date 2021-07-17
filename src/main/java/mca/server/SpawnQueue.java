@@ -1,11 +1,7 @@
-package mca.server.world.village;
+package mca.server;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
@@ -13,18 +9,15 @@ import mca.util.WorldUtils;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.entity.EntityLike;
 
-public class VillageSpawnQueue {
-    private static final VillageSpawnQueue INSTANCE = new VillageSpawnQueue();
+public class SpawnQueue {
+    private static final SpawnQueue INSTANCE = new SpawnQueue();
 
-    public static VillageSpawnQueue getInstance() {
+    public static SpawnQueue getInstance() {
         return INSTANCE;
     }
 
-    // Maps a player UUID to the itemstack of their held ItemBaby. Filled when a player dies so the baby is never lost.
-    public final Map<UUID, ItemStack> limbo = new HashMap<>();
     private final List<VillagerEntity> spawnQueue = new LinkedList<>();
 
     public void tick() {

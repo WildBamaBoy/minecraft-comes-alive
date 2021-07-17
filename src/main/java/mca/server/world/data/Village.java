@@ -1,8 +1,13 @@
 package mca.server.world.data;
 
+import mca.MCA;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Messenger;
+import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.Rank;
+import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
+import mca.resources.PoolUtil;
 import mca.util.NbtHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,19 +18,27 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import java.io.Serializable;
 import java.util.*;
-
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.Nullable;
 
 public class Village implements Serializable, Iterable<Building> {
+
+    private static final int MOVE_IN_COOLDOWN = 6000;
+
     private static final long serialVersionUID = -5484691612873839269L;
+
+    public static Optional<Village> findNearest(Entity entity) {
+        return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
+    }
 
     //TODO: move tasks to own class
     private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "bePatient"};
@@ -169,7 +182,7 @@ public class Village implements Serializable, Iterable<Building> {
         return Optional.ofNullable(buildings.get(id));
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -229,17 +242,14 @@ public class Village implements Serializable, Iterable<Building> {
         return residents;
     }
 
-    public List<VillagerEntityMCA> getResidents(World world) {
-        List<VillagerEntityMCA> residents = new LinkedList<>();
-        for (Building b : buildings.values()) {
-            for (UUID uuid : b.getResidents().keySet()) {
-                Entity v = ((ServerWorld) world).getEntity(uuid);
-                if (v instanceof VillagerEntityMCA) {
-                    residents.add((VillagerEntityMCA) v);
-                }
-            }
-        }
-        return residents;
+    public List<VillagerEntityMCA> getResidents(ServerWorld world) {
+        return getBuildings().values()
+            .stream()
+            .flatMap(building -> building.getResidents().keySet().stream())
+            .map(world::getEntity)
+            .filter(v -> v instanceof VillagerEntityMCA)
+            .map(VillagerEntityMCA.class::cast)
+            .toList();
     }
 
     public int getMaxPopulation() {
@@ -275,6 +285,116 @@ public class Village implements Serializable, Iterable<Building> {
             }
         }
         return null;
+    }
+
+    public void tick(ServerWorld world, long time) {
+        boolean isTaxSeason = time % 24000 == 0;
+        boolean isVillageUpdateTime = time % MOVE_IN_COOLDOWN == 0;
+
+
+        if (isTaxSeason) {
+            int taxes = getPopulation() * getTaxes() + world.random.nextInt(100);
+            int emeraldValue = 100;
+            int emeraldCount = taxes / emeraldValue;
+
+            storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
+            deliverTaxes(world);
+
+            Messenger.sendEventMessage(world, new TranslatableText("gui.village.taxes", getName()));
+        }
+
+        if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time) {
+            spawnGuards(world);
+            procreate(world);
+            marry(world);
+        }
+    }
+
+    public void deliverTaxes(ServerWorld world) {
+        //TODO: Implement taxes
+        // WIP and nobody can stop me implementing them hehe
+        if (hasStoredResource()) {
+            getBuildings().values()
+                .stream()
+                .filter(b -> b.getType().equals("inn") && world.canSetBlock(b.getCenter()))
+                .forEach(building -> {
+                    // TODO: noop
+            });
+        }
+    }
+
+    private void spawnGuards(ServerWorld world) {
+        int guardCapacity = getPopulation() / MCA.getConfig().guardSpawnRate;
+
+        // Count up the guards
+        int guards = 0;
+        List<VillagerEntityMCA> villagers = getResidents(world);
+        for (VillagerEntityMCA villager : villagers) {
+            if (villager.getProfession() == ProfessionsMCA.GUARD) {
+                guards++;
+            }
+        }
+
+        // Spawn a new guard if we don't have enough
+        if (villagers.size() > 0 && guards < guardCapacity) {
+            VillagerEntityMCA villager = villagers.get(world.random.nextInt(villagers.size()));
+            if (!villager.isBaby()) {
+                villager.setProfession(ProfessionsMCA.GUARD);
+            }
+        }
+    }
+
+    // if the population is low, find a couple and let them have a child
+    public void procreate(ServerWorld world) {
+        if (world.random.nextFloat() >= MCA.getConfig().childrenChance / 100F) {
+            return;
+        }
+
+        int population = getPopulation();
+        int maxPopulation = getMaxPopulation();
+        if (population >= maxPopulation * MCA.getConfig().childrenLimit / 100F) {
+            return;
+        }
+
+        // look for married women without baby
+        PoolUtil.pick(getResidents(world), world.random)
+            .filter(villager -> villager.getGenetics().getGender() == Gender.FEMALE)
+            .filter(villager -> villager.getRelationships().getPregnancy().tryStartGestation())
+            .ifPresent(villager -> {
+                villager.getRelationships().getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
+            });
+    }
+
+    // if the amount of couples is low, let them marry
+    public void marry(ServerWorld world) {
+        if (world.random.nextFloat() >= MCA.getConfig().marriageChance / 100f) {
+            return;
+        }
+
+        //list all and lonely villagers
+        List<VillagerEntityMCA> allVillagers = getResidents(world);
+        List<VillagerEntityMCA> availableVillagers = allVillagers.stream()
+                .filter(v -> !v.getRelationships().isMarried() && !v.isBaby())
+                .collect(Collectors.toList());
+
+        if (availableVillagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
+            return; // The village is too small.
+        }
+
+        // pick a random villager
+        PoolUtil.pop(availableVillagers, world.random).ifPresent(suitor -> {
+            // Find a potential mate
+            PoolUtil.pop(availableVillagers.stream()
+                    .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
+                    .toList(), world.random).ifPresent(mate -> {
+                // smash their bodies together like nobody's business!
+                suitor.getRelationships().marry(mate);
+                mate.getRelationships().marry(suitor);
+
+                // tell everyone about it
+                suitor.sendEventMessage(new TranslatableText("events.marry", suitor.getName(), mate.getName()));
+            });
+        });
     }
 
     public NbtCompound save() {
@@ -313,6 +433,6 @@ public class Village implements Serializable, Iterable<Building> {
     public void addResident(VillagerEntityMCA villager, int buildingId) {
         lastMoveIn = villager.world.getTime();
         buildings.get(buildingId).addResident(villager);
-        VillageManagerData.get((ServerWorld)villager.world).markDirty();
+        VillageManager.get((ServerWorld)villager.world).markDirty();
     }
 }

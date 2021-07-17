@@ -9,8 +9,7 @@ import java.util.stream.Stream;
 import mca.entity.VillagerEntityMCA;
 import mca.server.world.data.Building;
 import mca.server.world.data.Village;
-import mca.server.world.data.VillageManagerData;
-import mca.server.world.village.VillageHelper;
+import mca.server.world.data.VillageManager;
 import mca.util.network.datasync.BlockPosParameter;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CIntegerParameter;
@@ -64,7 +63,7 @@ public class Residency {
     }
 
     public Optional<Village> getHomeVillage() {
-        return VillageManagerData.get((ServerWorld)entity.world).getOrEmpty(village.get());
+        return VillageManager.get((ServerWorld)entity.world).getOrEmpty(village.get());
     }
 
     public void tick() {
@@ -73,7 +72,7 @@ public class Residency {
 
             //poor villager has no village
             if (village.get() == -1) {
-                VillageHelper.getNearestVillage(entity).map(Village::getId).ifPresent(village::set);
+                Village.findNearest(entity).map(Village::getId).ifPresent(village::set);
             }
 
             //and no house
@@ -98,7 +97,7 @@ public class Residency {
 
     //report potential buildings within this villagers reach
     private void reportBuildings() {
-        VillageManagerData manager = VillageManagerData.get((ServerWorld)entity.world);
+        VillageManager manager = VillageManager.get((ServerWorld)entity.world);
 
         //fetch all near POIs
         Stream<BlockPos> stream = ((ServerWorld) entity.world).getPointOfInterestStorage().getPositions(
