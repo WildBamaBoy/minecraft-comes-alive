@@ -15,6 +15,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
@@ -22,6 +26,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +43,7 @@ import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -209,12 +215,40 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
     }
 
     protected boolean hasEntity(BlockView world, BlockPos pos) {
-        return Optional.ofNullable(world.getBlockEntity(pos)).filter(p -> p instanceof Data).map(Data.class::cast).map(Data::hasEntity).orElse(false);
+        return getData(world, pos).map(Data::hasEntity).orElse(false);
+    }
+
+    protected Optional<Data> getData(BlockView world, BlockPos pos) {
+        return Optional.ofNullable(world.getBlockEntity(pos)).filter(p -> p instanceof Data).map(Data.class::cast);
     }
 
     @Override
     public boolean emitsRedstonePower(BlockState state) {
        return true;
+    }
+
+    @Override
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+
+        BlockPos pos = new BlockPos(builder.get(LootContextParameters.ORIGIN));
+        ServerWorld world = builder.getWorld();
+
+        List<ItemStack> stacks = super.getDroppedStacks(state, builder);
+
+        getData(world, pos)
+            .flatMap(Data::getEntityName)
+            .ifPresent(name -> {
+            stacks.stream().filter(TombstoneBlock::isRemains).forEach(stack -> {
+                stack.removeCustomName();
+                stack.setCustomName(new TranslatableText("block.mca.tombstone.remains", stack.getName(), name));
+            });
+        });
+
+        return stacks;
+    }
+
+    static boolean isRemains(ItemStack stack) {
+        return stack.isOf(Items.BONE) || stack.isOf(Items.SKELETON_SKULL);
     }
 
     public static class Data extends BlockEntity implements BlockEntityClientSerializable {
@@ -259,13 +293,13 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             return entityData.map(e -> e.gender).orElse(Gender.MALE);
         }
 
-        public Text getEntityName() {
-            return entityData.map(e -> e.name).orElse(LiteralText.EMPTY);
+        public Optional<Text> getEntityName() {
+            return entityData.map(e -> e.name);
         }
 
         public FlowingText getOrCreateEntityName(Function<Text, FlowingText> factory) {
             if (computedName == null) {
-                computedName = factory.apply(getEntityName());
+                computedName = factory.apply(getEntityName().orElse(LiteralText.EMPTY));
             }
             return computedName;
         }
