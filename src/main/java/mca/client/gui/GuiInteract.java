@@ -9,9 +9,6 @@ import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
-import mca.resources.API;
-import mca.resources.data.Button;
-import mca.resources.data.Icon;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,12 +31,9 @@ public class GuiInteract extends AbstractDynamicScreen {
 
     private final VillagerEntityMCA villager;
     private final PlayerEntity player;
-    private final float iconScale = 1.5f;
 
     private boolean inGiftMode;
     private int timeSinceLastClick;
-    private int mouseX;
-    private int mouseY;
 
     private String father;
     private String mother;
@@ -86,9 +80,6 @@ public class GuiInteract extends AbstractDynamicScreen {
         drawIcons(transform);
         drawTextPopups(transform);
 
-        mouseX = (int) (client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
-        mouseY = (int) (client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
-
         if (getActiveScreen().equals("divorce")) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.divorceConfirmation"), width / 2, 105, 0xFFFFFF);
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.divorcePaperWarning"), width / 2, 160, 0xFFFFFF);
@@ -132,21 +123,6 @@ public class GuiInteract extends AbstractDynamicScreen {
             return true;
         }
         return false;
-    }
-
-    private void drawIcon(MatrixStack transform, String key) {
-        Icon icon = API.getScreenComponents().getIcon(key);
-        this.drawTexture(transform, (int) (icon.x() / iconScale), (int) (icon.y() / iconScale), icon.u(), icon.v(), 16, 16);
-    }
-
-    private void drawHoveringIconText(MatrixStack transform, Text text, String key) {
-        Icon icon = API.getScreenComponents().getIcon(key);
-        renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
-    }
-
-    private void drawHoveringIconText(MatrixStack transform, List<Text> text, String key) {
-        Icon icon = API.getScreenComponents().getIcon(key);
-        renderTooltip(transform, text, icon.x() + 16, icon.y() + 20);
     }
 
     private void drawIcons(MatrixStack transform) {
@@ -251,17 +227,6 @@ public class GuiInteract extends AbstractDynamicScreen {
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }
-    }
-
-    //checks if the mouse hovers over a specified button
-    private boolean hoveringOverIcon(String key) {
-        Icon icon = API.getScreenComponents().getIcon(key);
-        return hoveringOver(icon.x(), icon.y(), (int) (16 * iconScale), (int) (16 * iconScale));
-    }
-
-    //checks if the mouse hovers over a rectangle
-    private boolean hoveringOver(int x, int y, int w, int h) {
-        return mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h;
     }
 
     //checks if the mouse hovers over a tooltip

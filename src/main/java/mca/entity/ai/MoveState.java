@@ -27,8 +27,8 @@ public enum MoveState {
         return new TranslatableText("gui.label." + friendlyName);
     }
 
-    public static Optional<MoveState> byAction(String action) {
-        return Optional.ofNullable(REGISTRY.get(action.replace("gui.button.", "").toUpperCase()));
+    public static Optional<MoveState> byCommand(String action) {
+        return Optional.ofNullable(REGISTRY.get(action.toUpperCase()));
     }
 
     public static MoveState byId(int id) {

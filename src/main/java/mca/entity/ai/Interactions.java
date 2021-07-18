@@ -5,14 +5,12 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import mca.MCA;
 import mca.client.gui.GuiInteract;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.resources.API;
-import mca.resources.data.Button;
 import mca.server.world.data.PlayerSaveData;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Saddleable;
@@ -70,25 +68,32 @@ public class Interactions {
     /**
      * Called on the server to respond to button events.
      */
-    public void handle(ServerPlayerEntity player, String guiKey, String buttonId) {
+    public boolean handle(ServerPlayerEntity player, String command) {
         Memories memory = entity.getVillagerBrain().getMemoriesForPlayer(player);
-        Optional<Button> button = API.getScreenComponents().getButton(guiKey, buttonId);
-        if (!button.isPresent()) {
-            MCA.logger.info("Button not found for key and ID: " + guiKey + ", " + buttonId);
-        } else if (button.get().isInteraction()) {
-            handleInteraction(player, memory, button.get());
+
+        if (Interaction.byCommand(command).filter(interaction -> {
+            handleInteraction(player, memory, interaction);
+            return true;
+        }).isPresent()) {
+            return true;
         }
 
-        switch (buttonId) {
-            case "gui.button.move":
-            case "gui.button.stay":
-            case "gui.button.follow":
-                MoveState.byAction(buttonId).ifPresent(state -> {
-                    entity.getVillagerBrain().setMoveState(state, player);
-                });
-                stopInteracting();
-                break;
-            case "gui.button.pickup":
+        if (MoveState.byCommand(command).filter(state -> {
+            entity.getVillagerBrain().setMoveState(state, player);
+            return true;
+        }).isPresent()) {
+            return true;
+        }
+
+        if (Chore.byCommand(command).filter(chore -> {
+            entity.getVillagerBrain().assignJob(chore, player);
+            return true;
+        }).isPresent()) {
+            return true;
+        }
+
+        switch (command) {
+            case "pickup":
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {
@@ -99,9 +104,8 @@ public class Interactions {
                     player.networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
                 }
 
-                stopInteracting();
-                break;
-            case "gui.button.ridehorse":
+                return true;
+            case "ridehorse":
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {
@@ -114,35 +118,30 @@ public class Interactions {
                             entity.sendChatMessage(player, "command.ride.success");
                         }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
                 }
-                stopInteracting();
-                break;
-            case "gui.button.sethome":
+                return true;
+            case "sethome":
                 entity.getResidency().setHome(player);
-                stopInteracting();
-                break;
-            case "gui.button.gohome":
+                return true;
+            case "gohome":
                 entity.getResidency().goHome(player);
                 stopInteracting();
                 break;
-            case "gui.button.setworkplace":
+            case "setworkplace":
                 entity.getResidency().setWorkplace(player);
-                stopInteracting();
-                break;
-            case "gui.button.sethangout":
+                return true;
+            case "sethangout":
                 entity.getResidency().setHangout(player);
-                stopInteracting();
-                break;
-            case "gui.button.trade":
+                return true;
+            case "trade":
                 prepareOffersFor(player);
                 break;
-            case "gui.button.inventory":
+            case "inventory":
                 player.openHandledScreen(entity);
                 break;
-            case "gui.button.gift":
+            case "gift":
                 entity.getRelationships().giveGift(player, memory);
-                stopInteracting();
-                break;
-            case "gui.button.procreate":
+                return true;
+            case "procreate":
                 if (PlayerSaveData.get((ServerWorld)entity.world, player.getUuid()).isBabyPresent()) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.hasbaby");
                 } else if (memory.getHearts() < 100) {
@@ -150,14 +149,12 @@ public class Interactions {
                 } else {
                     entity.getRelationships().startProcreating();
                 }
-                stopInteracting();
-                break;
-            case "gui.button.divorcePapers":
+                return true;
+            case "divorcePapers":
                 player.getInventory().insertStack(new ItemStack(ItemsMCA.DIVORCE_PAPERS));
                 entity.sendChatMessage(player, "cleric.divorcePapers");
-                stopInteracting();
-                break;
-            case "gui.button.divorceConfirm":
+                return true;
+            case "divorceConfirm":
                 //this lambda is meh
 
                 int divorcePaper = player.getInventory().indexOf(ItemsMCA.DIVORCE_PAPERS.getDefaultStack());
@@ -176,55 +173,43 @@ public class Interactions {
                 PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
                 playerData.endMarriage(MarriageState.SINGLE);
 
-                stopInteracting();
-                break;
-            case "gui.button.execute":
+                return true;
+            case "execute":
                 entity.setProfession(ProfessionsMCA.OUTLAW);
-                stopInteracting();
-                break;
-            case "gui.button.pardon":
+                return true;
+            case "pardon":
                 entity.setProfession(VillagerProfession.NONE);
-                stopInteracting();
-                break;
-            case "gui.button.infected":
+                return true;
+            case "infected":
                 entity.setInfected(!entity.isInfected());
                 break;
-            case "gui.button.clothing.randClothing":
+            case "clothing.randClothing":
                 entity.clothes.set(API.getClothingPool().pickOne(entity));
                 break;
-            case "gui.button.clothing.prevClothing":
+            case "clothing.prevClothing":
                 entity.clothes.set(API.getClothingPool().pickNext(entity, entity.clothes.get(), -1));
                 break;
-            case "gui.button.clothing.nextClothing":
+            case "clothing.nextClothing":
                 entity.clothes.set(API.getClothingPool().pickNext(entity, entity.clothes.get(), 1));
                 break;
-            case "gui.button.clothing.randHair":
+            case "clothing.randHair":
                 entity.setHair(API.getHairPool().pickOne(entity));
                 break;
-            case "gui.button.clothing.prevHair":
+            case "clothing.prevHair":
                 entity.setHair(API.getHairPool().pickNext(entity, entity.getHair(), -1));
                 break;
-            case "gui.button.clothing.nextHair":
+            case "clothing.nextHair":
                 entity.setHair(API.getHairPool().pickNext(entity, entity.getHair(), 1));
                 break;
-            case "gui.button.profession":
+            case "profession":
                 entity.setProfession(ProfessionsMCA.randomProfession());
                 break;
-            case "gui.button.prospecting":
-            case "gui.button.hunting":
-            case "gui.button.fishing":
-            case "gui.button.chopping":
-            case "gui.button.harvesting":
-                Chore.byAction(buttonId).ifPresent(chore -> {
-                    entity.getVillagerBrain().assignJob(chore, player);
-                });
-                stopInteracting();
-                break;
-            case "gui.button.stopworking":
+            case "stopworking":
                 entity.getVillagerBrain().abandonJob();
-                stopInteracting();
-                break;
+                return true;
         }
+
+        return false;
     }
 
     void prepareOffersFor(PlayerEntity player) {
@@ -254,11 +239,7 @@ public class Interactions {
         entity.setCurrentCustomer(player);
     }
 
-    private void handleInteraction(PlayerEntity player, Memories memory, Button button) {
-        //interaction
-        String interactionName = button.identifier().replace("gui.button.", "");
-        Interaction interaction = Interaction.fromName(interactionName);
-
+    private void handleInteraction(PlayerEntity player, Memories memory, Interaction interaction) {
         //success chance and hearts
         float successChance = 0.85F;
         int heartsBoost = 5;
@@ -284,9 +265,7 @@ public class Interactions {
         memory.modInteractionFatigue(1);
         memory.modHearts(succeeded ? heartsBoost : -heartsBoost);
         entity.getVillagerBrain().modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
-
-        entity.sendChatMessage(player, String.format("%s.%s", interactionName, succeeded ? "success" : "fail"));
-        stopInteracting();
+        entity.sendChatMessage(player, String.format("%s.%s", interaction.name().toLowerCase(), succeeded ? "success" : "fail"));
     }
 
 }

@@ -21,10 +21,6 @@ public class API {
         return instance.hair;
     }
 
-    public static GuiComponents getScreenComponents() {
-        return instance.guiComponents;
-    }
-
     public static GiftList getGiftPool() {
         return instance.gifts;
     }
@@ -53,7 +49,6 @@ public class API {
         final ClothingList clothing = new ClothingList(rng);
         final HairList hair = new HairList(rng);
 
-        final GuiComponents guiComponents = new GuiComponents();
         final VillageComponents villageComponents = new VillageComponents(rng);
 
         private final List<String> supporters = new ArrayList<>();
@@ -63,7 +58,6 @@ public class API {
                 clothing.load();
                 hair.load();
                 villageComponents.load();
-                guiComponents.load();
                 gifts.load();
 
                 supporters.addAll(List.of(Resources.read("api/supporters.json", String[].class)));

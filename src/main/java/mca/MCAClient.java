@@ -1,6 +1,7 @@
 package mca;
 
 import mca.block.BlockEntityTypesMCA;
+import mca.client.gui.MCAScreens;
 import mca.client.particle.InteractionParticle;
 import mca.client.render.GrimReaperRenderer;
 import mca.client.render.TombstoneBlockEntityRenderer;
@@ -10,6 +11,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.resource.ResourceType;
 
 public final class MCAClient implements ClientModInitializer {
     @Override
@@ -22,6 +25,8 @@ public final class MCAClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ParticleTypesMCA.POS_INTERACTION, InteractionParticle.Factory::new);
 
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntityTypesMCA.TOMBSTONE, TombstoneBlockEntityRenderer::new);
+
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(MCAScreens.getInstance());
     }
 }
 

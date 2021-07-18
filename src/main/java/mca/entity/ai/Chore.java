@@ -45,8 +45,8 @@ public enum Chore {
         return toolType;
     }
 
-    public static Optional<Chore> byAction(String action) {
-        return Optional.ofNullable(REGISTRY.get(action.replace("gui.button.", "").toLowerCase()));
+    public static Optional<Chore> byCommand(String action) {
+        return Optional.ofNullable(REGISTRY.get(action.toLowerCase()));
     }
 
     public static Chore byId(int id) {

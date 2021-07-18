@@ -1,9 +1,7 @@
-package mca.resources.data;
+package mca.client.gui;
 
 import java.util.Set;
 import java.util.stream.Stream;
-
-import mca.client.gui.Constraint;
 
 /**
  * Button is a button defined in assets/mca/api/gui/*
@@ -12,10 +10,6 @@ import mca.client.gui.Constraint;
  * and processing interactions.
  */
 public record Button (
-    /**
-     * Unused.
-     */
-    int id,
     /**
      * The text and action to perform for this button
      */
