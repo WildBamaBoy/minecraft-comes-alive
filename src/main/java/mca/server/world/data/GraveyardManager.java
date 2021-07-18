@@ -45,7 +45,7 @@ public class GraveyardManager extends PersistentState {
             vv.getKeys().forEach(key -> {
                 map.put((long)Long.valueOf(key), new Chunk((NbtList)vv.get(key)));
             });
-            return null;
+            return map;
         }));
     }
 
