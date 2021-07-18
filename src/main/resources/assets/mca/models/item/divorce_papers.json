@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "mca:items/divorce_papers"
+    "layer0": "mca:item/divorce_papers"
   }
 }
