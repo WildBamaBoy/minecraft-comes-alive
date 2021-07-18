@@ -11,6 +11,7 @@ import java.util.Random;
 
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
+import mca.resources.Resources.BrokenResourceException;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
@@ -24,7 +25,7 @@ public class ClothingList {
         this.rng = rng;
     }
 
-    void load() {
+    void load() throws BrokenResourceException {
         // Load skins
         // Skins are stored in a <Gender, <Profession, List of paths>> map, which is generic enough to allow custom skins etc
 

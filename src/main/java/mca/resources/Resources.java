@@ -2,6 +2,7 @@ package mca.resources;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 
 import mca.MCA;
 
@@ -17,24 +18,27 @@ public interface Resources {
             .registerTypeAdapterFactory(RecordTypeAdapterFactory.INSTANCE)
             .create();
 
-    static String read(String path) {
-        String data;
-        String location = RESOURCE_PREFIX + path;
+    static String read(String path) throws IOException {
+        return IOUtils.toString(new InputStreamReader(MCA.class.getClassLoader().getResourceAsStream(RESOURCE_PREFIX + path)));
+    }
 
+    static <T> T read(String path, Type type) throws BrokenResourceException {
         try {
-            data = IOUtils.toString(new InputStreamReader(MCA.class.getClassLoader().getResourceAsStream(location)));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read resource from JAR: " + location);
+            return GSON.fromJson(Resources.read(path), type);
+        } catch (IOException | JsonParseException e) {
+            throw new BrokenResourceException(path, e);
         }
-
-        return data;
     }
 
-    static <T> T read(String path, Type type) {
-        return GSON.fromJson(Resources.read(path), type);
+    static <T> T read(String path, Class<T> type) throws BrokenResourceException {
+        return read(path, (Type)type);
     }
 
-    static <T> T read(String path, Class<T> type) {
-        return GSON.fromJson(Resources.read(path), type);
+    class BrokenResourceException extends Exception {
+        private static final long serialVersionUID = -7371322414731622879L;
+
+        BrokenResourceException(String path, Throwable cause) {
+            super("Unable to load resource from path " + path, cause);
+        }
     }
 }

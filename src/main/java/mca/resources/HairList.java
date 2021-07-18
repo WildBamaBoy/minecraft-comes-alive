@@ -8,6 +8,7 @@ import java.util.Random;
 
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
+import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.Hair;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
@@ -21,7 +22,7 @@ public class HairList {
         this.rng = rng;
     }
 
-    void load() {
+    void load() throws BrokenResourceException {
         for (HairGroup hg : Resources.read("api/hair.json", HairGroup[].class)) {
             for (Gender g : Gender.values()) {
                 if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {

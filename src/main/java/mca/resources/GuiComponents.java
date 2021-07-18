@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.google.gson.reflect.TypeToken;
 
 import mca.MCA;
+import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.Button;
 import mca.resources.data.Icon;
 
@@ -16,7 +17,7 @@ public class GuiComponents {
     private final Map<String, Button[]> buttons = new HashMap<>();
     private final Map<String, Icon> icons = new HashMap<>();
 
-    void load() {
+    void load() throws BrokenResourceException {
         // Read in buttons
         buttons.put("main", Resources.read("api/gui/main.json", Button[].class));
         buttons.put("interact", Resources.read("api/gui/interact.json", Button[].class));

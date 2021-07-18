@@ -15,13 +15,16 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.base.Charsets;
 
 import mca.entity.ai.relationship.Gender;
+import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.BuildingType;
 import mca.resources.data.NameSet;
 import net.minecraft.util.ChatUtil;
 
 public class VillageComponents implements Iterable<BuildingType> {
     private final Map<String, BuildingType> buildingTypes = new HashMap<>();
-    private final Map<String, NameSet> nameSets = new HashMap<>();
+
+    private final Map<String, NameSet> namePool = new HashMap<>();
+
     private final Map<Gender, List<String>> villagerNames = new EnumMap<>(Gender.class);
 
     private final Random rng;
@@ -30,17 +33,17 @@ public class VillageComponents implements Iterable<BuildingType> {
         this.rng = rng;
     }
 
-    void load() {
+    void load() throws BrokenResourceException {
         for (BuildingType bt : Resources.read("api/buildingTypes.json", BuildingType[].class)) {
             buildingTypes.put(bt.name(), bt);
         }
 
-        nameSets.put("village", Resources.read("api/names/village.json", NameSet.class));
+        namePool.put("village", Resources.read("api/names/village.json", NameSet.class));
 
         loadResidentNames();
     }
 
-    void loadResidentNames() {
+    void loadResidentNames() throws BrokenResourceException {
         // Load names
         // TODO: We don't use lang files any more. Convert this to json.
         // TODO: Procedurally-generated names using linguistic patterns.
@@ -69,7 +72,7 @@ public class VillageComponents implements Iterable<BuildingType> {
 
     //returns a random generated name for a given name set
     public String pickVillageName(String from) {
-        return nameSets.getOrDefault(from, NameSet.DEFAULT).toName(rng);
+        return namePool.getOrDefault(from, NameSet.DEFAULT).toName(rng);
     }
 
     public Map<String, BuildingType> getBuildingTypes() {

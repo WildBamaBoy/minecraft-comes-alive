@@ -3,7 +3,9 @@ package mca.resources;
 import net.minecraft.village.VillagerProfession;
 import java.util.*;
 
+import mca.MCA;
 import mca.entity.ai.ProfessionsMCA;
+import mca.resources.Resources.BrokenResourceException;
 
 /**
  * Class API handles interaction with MCAs configurable options via JSON in the resources folder
@@ -57,13 +59,17 @@ public class API {
         private final List<String> supporters = new ArrayList<>();
 
         void init() {
-            clothing.load();
-            hair.load();
-            villageComponents.load();
-            guiComponents.load();
-            gifts.load();
+            try {
+                clothing.load();
+                hair.load();
+                villageComponents.load();
+                guiComponents.load();
+                gifts.load();
 
-            supporters.addAll(List.of(Resources.read("api/supporters.json", String[].class)));
+                supporters.addAll(List.of(Resources.read("api/supporters.json", String[].class)));
+            } catch (BrokenResourceException e) {
+                MCA.logger.error("Could not load MCA resources", e);
+            }
         }
 
         public String pickSupporter() {

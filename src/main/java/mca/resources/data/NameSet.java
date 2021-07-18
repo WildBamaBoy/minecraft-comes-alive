@@ -2,6 +2,8 @@ package mca.resources.data;
 
 import java.util.Random;
 
+import com.google.common.base.Strings;
+
 import mca.resources.PoolUtil;
 
 public record NameSet (
@@ -15,7 +17,11 @@ public record NameSet (
         String first = PoolUtil.pickOne(first(), null, rng);
         String second = PoolUtil.pickOne(second(), null, rng);
 
-        return toTitleCase(first) + separator() + toTitleCase(second);
+        if (Strings.isNullOrEmpty(separator)) {
+            return toTitleCase(first + second);
+        }
+
+        return toTitleCase(first) + separator + toTitleCase(second);
     }
 
     static String toTitleCase(String s) {
