@@ -1,13 +1,13 @@
 {
   "display": {
     "title": {
-      "text": "A Loving Parent (For Two!)"
+      "text": "advantement.mca.player_first_twins"
     },
     "description": {
-      "text": "Have two babies for the twice of one!"
+      "text": "advantement.mca.player_first_twins.description"
     },
     "icon": {
-      "item": "mca:baby_girl.png"
+      "item": "mca:items/baby_girl"
     },
     "frame": "task",
     "show_toast": true,
@@ -15,12 +15,14 @@
     "hidden": false
   },
   "criteria": {
-    "first_baby1": {
+    "first_baby": {
+      "__comment": "TODO: We really need our own trigger for this",
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "mca:items/baby_boy"
+            "tag": "mca:babies",
+            "count": 2
           }
         ]
       }
