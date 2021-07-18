@@ -163,7 +163,7 @@ public class GuiBlueprint extends Screen {
                     int i = 0;
                     for (Map.Entry<String, Integer> b : bt.blocks().entrySet()) {
                         i++;
-                        drawCenteredText(transform, textRenderer, b.getValue() + " x " + getBlockName(b.getKey()), x, y - 12 + 12 * i, 0xffffffff);
+                        drawCenteredText(transform, textRenderer, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y - 12 + 12 * i, 0xffffffff);
                     }
 
                     col++;
