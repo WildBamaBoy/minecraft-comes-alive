@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import net.minecraft.nbt.NbtCompound;
@@ -11,6 +12,14 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 
 public interface NbtHelper {
+
+    @SuppressWarnings("unchecked")
+    static <T extends NbtElement> T computeIfAbsent(NbtCompound nbt, String key, int type, Supplier<T> factory) {
+        if (!nbt.contains(key, type)) {
+            nbt.put(key, factory.get());
+        }
+        return (T)nbt.get(key);
+    }
 
     static NbtCompound copyTo(NbtCompound from, NbtCompound to) {
         from.getKeys().forEach(key -> to.put(key, from.get(key)));
