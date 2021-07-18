@@ -10,11 +10,11 @@ import net.minecraft.entity.player.PlayerEntity;
 public class GetVillageResponse implements Message {
     private static final long serialVersionUID = 4882425683460617550L;
 
-    private final Village data;
+    private final CNBT data;
     private final int reputation;
 
     public GetVillageResponse(Village data, int reputation) {
-        this.data = data;
+        this.data = CNBT.wrap(data.save());
         this.reputation = reputation;
     }
 
@@ -23,7 +23,10 @@ public class GetVillageResponse implements Message {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof GuiBlueprint) {
             GuiBlueprint gui = (GuiBlueprint) screen;
-            gui.setVillage(data);
+            Village village = new Village();
+            village.load(data.upwrap());
+
+            gui.setVillage(village);
             gui.setReputation(reputation);
         }
     }
