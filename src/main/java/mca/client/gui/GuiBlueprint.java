@@ -8,6 +8,7 @@ import mca.network.SaveVillageMessage;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.world.data.Building;
+import mca.server.world.data.BuildingTasks;
 import mca.server.world.data.Village;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -192,7 +193,7 @@ public class GuiBlueprint extends Screen {
             buttonMarriage[0].setMessage(new LiteralText(village.getMarriageThreshold() + "%"));
 
             //rank
-            Rank rank = village.getRank(reputation);
+            Rank rank = village.getTasks().getRank(reputation);
             Text rankStr = new TranslatableText("gui.village.rank." + rank.ordinal());
             int rankColor = rank.ordinal() == 0 ? 0xffff0000 : 0xffffff00;
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
@@ -201,9 +202,12 @@ public class GuiBlueprint extends Screen {
             //tasks
             Text str = new TranslatableText("task.reputation", String.valueOf(rank.getReputation()));
             drawCenteredText(transform, textRenderer, str, width / 2 - fromCenter, height / 2 - 22, reputation >= rank.getReputation() ? 0xff00ff00 : 0xffff0000);
-            for (int i = 0; i < Village.getTaskNames().length; i++) {
-                Text task = new TranslatableText("task." + Village.getTaskNames()[i]);
-                drawCenteredText(transform, textRenderer, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks()[i] ? 0xff00ff00 : 0xffdddddd);
+
+            int i = 0;
+            for (String name : BuildingTasks.NAMES) {
+                Text task = new TranslatableText("task." + name);
+                drawCenteredText(transform, textRenderer, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks().isCompleted(name) ? 0xff00ff00 : 0xffdddddd);
+                i++;
             }
 
             //taxes

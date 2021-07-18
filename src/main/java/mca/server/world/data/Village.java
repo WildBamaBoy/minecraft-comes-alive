@@ -25,47 +25,40 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.Nullable;
 
-public class Village implements Serializable, Iterable<Building> {
+public class Village implements Iterable<Building> {
 
     private static final int MOVE_IN_COOLDOWN = 6000;
-
-    private static final long serialVersionUID = -5484691612873839269L;
 
     public static Optional<Village> findNearest(Entity entity) {
         return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
     }
 
-    //TODO: move tasks to own class
-    private static final String[] taskNames = {"buildBigHouse", "buildStorage", "buildInn", "bePatient"};
+    private String name = API.getVillagePool().pickVillageName("village");
 
     public final List<ItemStack> storageBuffer = new LinkedList<>();
     private final Map<Integer, Building> buildings = new HashMap<>();
+
+    private final BuildingTasks.Tasks tasks = new BuildingTasks.Tasks(this);
+
     public long lastMoveIn;
     private int id;
-    private String name = API.getVillagePool().pickVillageName("village");
+
     private int centerX, centerY, centerZ;
     private int size = 32;
+
     private int taxes;
+
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
-    private boolean[] tasks;
 
-    public Village() {
-        checkTasks();
-    }
+    public Village() {}
 
     public Village(int id) {
-        this();
         this.id = id;
-    }
-
-    public static String[] getTaskNames() {
-        return taskNames;
     }
 
     public boolean isWithinBorder(Entity entity) {
@@ -81,25 +74,16 @@ public class Village implements Serializable, Iterable<Building> {
     public void addBuilding(Building building) {
         buildings.put(building.getId(), building);
         calculateDimensions();
-        checkTasks();
     }
 
     public void removeBuilding(int id) {
         buildings.remove(id);
         calculateDimensions();
-        checkTasks();
-    }
-
-    private void checkTasks() {
-        tasks = new boolean[8];
-
-        //big house
-        tasks[0] = buildings.values().stream().anyMatch((b) -> b.getType().equals("bigHouse"));
-        tasks[1] = buildings.values().stream().anyMatch((b) -> b.getType().equals("storage"));
-        tasks[2] = buildings.values().stream().anyMatch((b) -> b.getType().equals("inn"));
     }
 
     private void calculateDimensions() {
+        tasks.init();
+
         if (buildings.size() == 0) {
             return;
         }
@@ -186,15 +170,15 @@ public class Village implements Serializable, Iterable<Building> {
         return id;
     }
 
-    public boolean[] getTasks() {
+    public BuildingTasks.Tasks getTasks() {
         return tasks;
     }
 
     public int getReputation(PlayerEntity player) {
         int sum = 0;
         int residents = 5; //we slightly favor bigger villages
-        for (Building b : buildings.values()) {
-            for (UUID v : b.getResidents().keySet()) {
+        for (Building b : this) {
+            for (UUID v : b) {
                 Entity entity = ((ServerWorld) player.world).getEntity(v);
                 if (entity instanceof VillagerEntityMCA) {
                     VillagerEntityMCA villager = (VillagerEntityMCA) entity;
@@ -206,37 +190,13 @@ public class Village implements Serializable, Iterable<Building> {
         return sum / residents;
     }
 
-    /**
-     * Returns the index of the first incomplete task.
-     */
-    public int tasksCompleted() {
-        for (int i = 0; i < tasks.length; i++) {
-            if (!tasks[i]) {
-                return i + 1;
-            }
-        }
-        return tasks.length;
-    }
-
     public Rank getRank(PlayerEntity player) {
-        return getRank(getReputation(player));
-    }
-
-    public Rank getRank(int reputation) {
-        Rank rank = Rank.fromReputation(reputation);
-        int t = tasksCompleted();
-        for (int i = 0; i <= rank.ordinal(); i++) {
-            Rank r = Rank.fromRank(i);
-            if (t < r.getTasks()) {
-                return r;
-            }
-        }
-        return rank;
+        return tasks.getRank(getReputation(player));
     }
 
     public int getPopulation() {
         int residents = 0;
-        for (Building b : buildings.values()) {
+        for (Building b : this) {
             residents += b.getResidents().size();
         }
         return residents;
@@ -254,7 +214,7 @@ public class Village implements Serializable, Iterable<Building> {
 
     public int getMaxPopulation() {
         int residents = 0;
-        for (Building b : buildings.values()) {
+        for (Building b : this) {
             if (b.getBlocks().containsKey("bed")) {
                 residents += b.getBlocks().get("bed");
             }
@@ -408,6 +368,7 @@ public class Village implements Serializable, Iterable<Building> {
         v.putInt("taxes", taxes);
         v.putInt("populationThreshold", populationThreshold);
         v.putInt("marriageThreshold", marriageThreshold);
+        tasks.save(v);
         v.put("buildings", NbtHelper.fromList(buildings.values(), Building::save));
         return v;
     }
@@ -428,6 +389,7 @@ public class Village implements Serializable, Iterable<Building> {
             Building building = new Building(b.getCompound(i));
             buildings.put(building.getId(), building);
         }
+        tasks.load(v);
     }
 
     public void addResident(VillagerEntityMCA villager, int buildingId) {

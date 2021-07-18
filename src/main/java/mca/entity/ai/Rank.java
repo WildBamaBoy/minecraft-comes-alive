@@ -26,23 +26,31 @@ public enum Rank {
         return tasks;
     }
 
-    public static Rank fromRank(int id) {
-        if (id < 0 || id >= VALUES.length) {
-            return OUTLAW;
-        }
-        return VALUES[id];
-    }
-
     /**
      * Returns the highest available rank for a given reputation.
      */
-    public static Rank fromReputation(int rep) {
+    private static Rank fromReputation(int rep) {
         for (int i = VALUES.length - 1; i >= 0; i--) {
             if (VALUES[i].reputation >= rep) {
                 return VALUES[i];
             }
         }
         return OUTLAW;
+    }
+
+    public static Rank getClamped(int completedTasks, int reputation) {
+        Rank maxRank = fromReputation(reputation);
+
+        // searches all ranks below the maximum
+        for (int i = 0; i <= maxRank.ordinal(); i++) {
+            Rank r = VALUES[i];
+
+            if (completedTasks < r.getTasks()) {
+                return r; // finds the first one with a higher task count that is completed
+            }
+        }
+
+        return maxRank;
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -27,7 +28,11 @@ public interface NbtHelper {
     }
 
     static <V> List<V> toList(NbtElement nbt, Function<NbtElement, V> valueMapper) {
-        return ((NbtList)nbt).stream().map(valueMapper).collect(Collectors.toList());
+        return toStream(nbt, valueMapper).collect(Collectors.toList());
+    }
+
+    static <V> Stream<V> toStream(NbtElement nbt, Function<NbtElement, V> valueMapper) {
+        return ((NbtList)nbt).stream().map(valueMapper);
     }
 
     static <K, V> Map<K, V> toMap(NbtCompound nbt, Function<String, K> keyMapper, Function<NbtElement, V> valueMapper) {
