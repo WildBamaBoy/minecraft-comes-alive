@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "mca:upright_headstone",
+    "mca:slanted_headstone",
+    "mca:cross_headstone"
+  ]
+}

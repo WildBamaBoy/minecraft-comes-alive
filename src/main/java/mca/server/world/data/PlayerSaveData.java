@@ -49,9 +49,9 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
 
     PlayerSaveData(ServerWorld world, NbtCompound nbt) {
         this.world = world;
-        playerId = nbt.getUuid("playerId");
+        playerId = nbt.contains("playerId", NbtElement.INT_TYPE) ? nbt.getUuid("playerId") : null;
         lastSeenVillage = nbt.contains("lastSeenVillage", NbtElement.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
-        spouseUUID = Optional.ofNullable(nbt.getUuid("spouseUUID"));
+        spouseUUID = nbt.contains("spouseUUID", NbtElement.INT_TYPE) ? Optional.of(nbt.getUuid("spouseUUID")) : Optional.empty();
         spouseName = nbt.getString("spouseName");
         babyPresent = nbt.getBoolean("babyPresent");
     }

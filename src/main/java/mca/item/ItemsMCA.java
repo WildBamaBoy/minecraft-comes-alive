@@ -46,7 +46,10 @@ public interface ItemsMCA {
 
     Item VILLAGER_SPAWNER = register("villager_spawner", new BlockItem(BlocksMCA.VILLAGER_SPAWNER, baseProps()));
     Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
-    Item TOMBSTONE = register("tombstone", new BlockItem(BlocksMCA.TOMBSTONE, baseProps()));
+
+    Item UPRIGHT_HEADSTONE = register("upright_headstone", new BlockItem(BlocksMCA.UPRIGHT_HEADSTONE, baseProps()));
+    Item SLANTED_HEADSTONE = register("slanted_headstone", new BlockItem(BlocksMCA.SLANTED_HEADSTONE, baseProps()));
+    Item CROSS_HEADSTONE = register("cross_headstone", new BlockItem(BlocksMCA.CROSS_HEADSTONE, baseProps()));
 
     static void bootstrap() {
         TagsMCA.Blocks.bootstrap();

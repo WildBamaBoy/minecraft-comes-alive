@@ -13,6 +13,10 @@ import net.minecraft.server.world.ServerWorld;
 
 public interface EntityRelationship {
 
+    default Gender getGender() {
+        return Gender.MALE;
+    }
+
     FamilyTree getFamilyTree();
 
     FamilyTreeEntry getFamily();

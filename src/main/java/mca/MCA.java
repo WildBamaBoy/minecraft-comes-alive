@@ -50,7 +50,7 @@ public final class MCA implements ModInitializer {
 
         ServerPlayerEvents.AFTER_RESPAWN.register((old, neu, alive) -> {
             if (!alive) {
-                VillageManager.get((ServerWorld)old.world).getBabyBunker().pop(neu);
+                VillageManager.get((ServerWorld)old.world).getBabies().pop(neu);
             }
         });
 

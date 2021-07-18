@@ -10,6 +10,7 @@ import net.minecraft.block.Material;
 import net.minecraft.block.OreBlock;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerData;
 
@@ -33,11 +34,24 @@ public interface BlocksMCA {
             .sounds(BlockSoundGroup.METAL)));
 
     // TODO: <Block> JEWELER_WORKBENCH -> profession of a jeweler
-    Block JEWELER_WORKBENCH = register("jeweler_workbench", new Block(Block.Settings.of(Material.WOOD)
+    Block JEWELER_WORKBENCH = register("jeweler_workbench", new JewelerWorkbench(Block.Settings.of(Material.WOOD)
             .sounds(BlockSoundGroup.WOOD)));
 
-    Block TOMBSTONE = register("tombstone", new Block(Block.Settings.of(Material.STONE)
-            .sounds(BlockSoundGroup.STONE)));
+    Block UPRIGHT_HEADSTONE = register("upright_headstone", new TombstoneBlock(Block.Settings.of(Material.STONE)
+            .mapColor(MapColor.GRAY)
+            .nonOpaque()
+            .strength(12)
+            .sounds(BlockSoundGroup.STONE), 90, 50, new Vec3d(0, -55, 23), TombstoneBlock.UPRIGHT_SHAPE));
+    Block SLANTED_HEADSTONE = register("slanted_headstone", new TombstoneBlock(Block.Settings.of(Material.STONE)
+            .mapColor(MapColor.GRAY)
+            .nonOpaque()
+            .strength(12)
+            .sounds(BlockSoundGroup.STONE), 100, 15, new Vec3d(0, -30, 10), TombstoneBlock.SLANTED_SHAPE));
+    Block CROSS_HEADSTONE = register("cross_headstone", new TombstoneBlock(Block.Settings.of(Material.STONE)
+            .mapColor(MapColor.GRAY)
+            .nonOpaque()
+            .strength(12)
+            .sounds(BlockSoundGroup.STONE), 80, 15, new Vec3d(0, -13, 15), TombstoneBlock.CROSS_SHAPE));
 
     static void bootstrap() {
         TagsMCA.Blocks.bootstrap();

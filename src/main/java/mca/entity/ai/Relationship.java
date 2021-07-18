@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
+import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
 import mca.item.ItemsMCA;
@@ -73,6 +74,11 @@ public class Relationship implements EntityRelationship {
         spouseUUID = data.newUUID("spouseUUID");
         marriageState = data.newEnum("marriageState", MarriageState.SINGLE);
         pregnancy = new Pregnancy(entity, data);
+    }
+
+    @Override
+    public Gender getGender() {
+        return entity.getGenetics().getGender();
     }
 
     public Pregnancy getPregnancy() {

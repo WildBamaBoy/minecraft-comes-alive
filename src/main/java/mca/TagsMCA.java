@@ -11,6 +11,7 @@ public interface TagsMCA {
         Tag<Block> ORES_ROSE_GOLD = forge("ores/rose_gold");
 
         Tag<Block> STORAGE_BLOCKS_ROSE_GOLD = forge("storage_blocks/rose_gold");
+        Tag<Block> TOMBSTONES = mca("tombstones");
         Tag<Block> STORAGE_BLOCKS_VILLAGER_SPAWNER = mca("storage_blocks/villager_spawner");
         Tag<Block> STORAGE_BLOCKS_TOMBSTONE = mca("storage_blocks/tombstone");
         Tag<Block> STORAGE_BLOCKS_JEWELER_WORKBENCH = mca("storage_blocks/jeweler_workbench");

@@ -2,6 +2,7 @@ package mca.util;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,9 +22,16 @@ public interface NbtHelper {
     }
 
     static <K, V> Map<K, V> toMap(NbtCompound nbt, Function<String, K> keyMapper, Function<NbtElement, V> valueMapper) {
-        return nbt.getKeys().stream().collect(Collectors.toMap(
-                keyMapper,
-                v -> valueMapper.apply(nbt.get(v)))
+        return nbt.getKeys().stream()
+                .map(e -> {
+                    K k = keyMapper.apply(e);
+                    if (k == null) return null;
+                    V v = valueMapper.apply(nbt.get(e));
+                    if (v == null) return null;
+                    return k == null ? null : Map.entry(k, v);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
         );
     }
 

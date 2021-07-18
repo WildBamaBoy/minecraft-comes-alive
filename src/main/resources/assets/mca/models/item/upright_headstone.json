@@ -1,0 +1,29 @@
+{
+    "parent": "mca:block/monument_upright",
+    "display": {
+        "gui": {
+            "rotation": [ 30, 225, 0 ],
+            "translation": [ 0, -1, 0],
+            "scale":[ 0.5, 0.5, 0.5 ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 6, 0],
+            "scale":[ 0.5, 0.5, 0.5 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0],
+            "scale":[ 0.5, 0.5, 0.5 ]
+        },
+        "thirdperson_righthand": {
+            "rotation": [ 45, -45, -15 ],
+            "translation": [4.5, 2, 0],
+            "scale":[ 0.7, 0.7, 0.7 ]
+        },
+        "firstperson_righthand": {
+            "translation": [0, 6, 0],
+            "scale":[ 0.5, 0.5, 0.5 ]
+        }
+    }
+}
