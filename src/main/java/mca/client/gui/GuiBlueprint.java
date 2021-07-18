@@ -9,6 +9,7 @@ import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.world.data.Building;
 import mca.server.world.data.Village;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -17,6 +18,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.LinkedList;
@@ -285,7 +287,7 @@ public class GuiBlueprint extends Screen {
 
                 //present blocks
                 for (Map.Entry<String, Integer> block : hoverBuilding.getBlocks().entrySet()) {
-                    lines.add(new LiteralText(block.getValue() + " x " + getBlockName(block.getKey())));
+                    lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())));
                 }
 
                 //render
@@ -298,7 +300,12 @@ public class GuiBlueprint extends Screen {
 
     private Text getBlockName(String key) {
         //dis some hacking, no time to fix tho
-        return new TranslatableText("block." + key.replace(":", "."));
+        // TODO: This needs to be fixed on the backend
+        Identifier id = new Identifier(key);
+        if ("bed".equals(key)) {
+            return Blocks.RED_BED.getName();
+        }
+        return new TranslatableText("block." + id.getNamespace() + "." + id.getPath().replace('/', '.'));
     }
 
     private void toggleButtons(ButtonWidget[] buttons, boolean active) {
