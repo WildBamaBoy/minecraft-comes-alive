@@ -24,6 +24,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.LiteralText;
@@ -285,6 +287,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             markDirty();
 
             if (hasWorld()) {
+                world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 1, 1);
                 world.syncWorldEvent(WorldEventsCompat.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
                 // TODO: 1.17
                 // world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos);
