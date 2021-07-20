@@ -3,17 +3,18 @@ package mca.server.world.data;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
+import mca.util.NbtElementCompat;
 import mca.util.WorldUtils;
+import mca.util.compat.OptionalCompat;
+import mca.util.compat.PersistentStateCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
-import net.minecraft.world.PersistentState;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -22,7 +23,7 @@ import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerSaveData extends PersistentState implements EntityRelationship {
+public class PlayerSaveData extends PersistentStateCompat implements EntityRelationship {
     @Nullable
     private final UUID playerId;
 
@@ -49,9 +50,9 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
 
     PlayerSaveData(ServerWorld world, NbtCompound nbt) {
         this.world = world;
-        playerId = nbt.contains("playerId", NbtElement.INT_TYPE) ? nbt.getUuid("playerId") : null;
-        lastSeenVillage = nbt.contains("lastSeenVillage", NbtElement.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
-        spouseUUID = nbt.contains("spouseUUID", NbtElement.INT_TYPE) ? Optional.of(nbt.getUuid("spouseUUID")) : Optional.empty();
+        playerId = nbt.contains("playerId", NbtElementCompat.INT_TYPE) ? nbt.getUuid("playerId") : null;
+        lastSeenVillage = nbt.contains("lastSeenVillage", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
+        spouseUUID = nbt.contains("spouseUUID", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getUuid("spouseUUID")) : Optional.empty();
         spouseName = nbt.getString("spouseName");
         babyPresent = nbt.getBoolean("babyPresent");
     }
@@ -68,9 +69,9 @@ public class PlayerSaveData extends PersistentState implements EntityRelationshi
 
     public void updateLastSeenVillage(VillageManager manager, PlayerEntity self) {
         Optional<Village> prevVillage = lastSeenVillage.flatMap(manager::getOrEmpty);
-        Optional<Village> nextVillage = prevVillage
+        Optional<Village> nextVillage = OptionalCompat.or(prevVillage
                 .filter(v -> v.isWithinBorder(self))
-                .or(() -> manager.findNearestVillage(self));
+                , () -> manager.findNearestVillage(self));
 
         setLastSeenVillage(self, prevVillage.orElse(null), nextVillage.orElse(null));
     }

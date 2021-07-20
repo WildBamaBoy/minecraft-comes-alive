@@ -10,6 +10,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.server.world.data.Building;
 import mca.server.world.data.Village;
 import mca.server.world.data.VillageManager;
+import mca.util.compat.OptionalCompat;
 import mca.util.network.datasync.BlockPosParameter;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CIntegerParameter;
@@ -77,13 +78,13 @@ public class Residency {
 
             //and no house
             if (building.get() == -1) {
-                getHomeVillage().ifPresentOrElse(this::seekNewHome, () -> village.set(-1));
+                OptionalCompat.ifPresentOrElse(getHomeVillage(), this::seekNewHome, () -> village.set(-1));
             }
         }
 
         if (entity.age % 6000 == 0) {
-            getHomeVillage().ifPresentOrElse(village -> {
-                if (village.getBuilding(building.get()).filter(building -> building.hasResident(entity.getUuid())).isEmpty()) {
+            OptionalCompat.ifPresentOrElse(getHomeVillage(), village -> {
+                if (!village.getBuilding(building.get()).filter(building -> building.hasResident(entity.getUuid())).isPresent()) {
                     building.set(-1);
                     clearHome();
                 }
@@ -103,7 +104,7 @@ public class Residency {
         Stream<BlockPos> stream = ((ServerWorld) entity.world).getPointOfInterestStorage().getPositions(
                 PointOfInterestType.ALWAYS_TRUE,
                 (p) -> !manager.cache.contains(p),
-                entity.getLandingPos(),
+                entity.getBlockPos(),
                 48,
                 PointOfInterestStorage.OccupationStatus.ANY);
 
@@ -146,10 +147,10 @@ public class Residency {
     }
 
     void goHome(PlayerEntity player) {
-        entity.getBrain()
+        OptionalCompat.ifPresentOrElse(entity.getBrain()
             .getOptionalMemory(MemoryModuleType.HOME)
             .filter(p -> p.getDimension() == entity.world.getRegistryKey())
-            .ifPresentOrElse(home -> {
+            , home -> {
             entity.moveTowards(home.getPos());
             entity.sendChatMessage(player, "interaction.gohome.success");
         }, () -> entity.sendChatMessage(player, "interaction.gohome.fail"));

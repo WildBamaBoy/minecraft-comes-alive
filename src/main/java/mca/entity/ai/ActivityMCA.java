@@ -17,12 +17,12 @@ public interface ActivityMCA {
 
     static void bootstrap() { }
 
-    private static Activity activity(String name) {
+    static Activity activity(String name) {
         return Activity.register(new Identifier(MCA.MOD_ID, name).toString());
     }
 
 
-    private static <T extends Sensor<?>> SensorType<T> sensor(String name, Supplier<T> factory) {
+    static <T extends Sensor<?>> SensorType<T> sensor(String name, Supplier<T> factory) {
         return MixinSensorType.register(new Identifier(MCA.MOD_ID, name).toString(), factory);
     }
 }

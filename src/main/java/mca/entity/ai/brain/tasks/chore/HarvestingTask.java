@@ -5,6 +5,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
 import mca.entity.ai.TaskUtils;
 import mca.util.InventoryUtils;
+import mca.util.compat.BlockCompat;
 import net.minecraft.block.*;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -213,21 +214,21 @@ public class HarvestingTask extends AbstractChoreTask {
             if (!itemstack.isEmpty()) {
                 // TODO: Use an ItemTag for this
                 if (itemstack.getItem() == Items.WHEAT_SEEDS) {
-                    world.setBlockState(target, Blocks.WHEAT.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
+                    world.setBlockState(target, Blocks.WHEAT.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
                     flag = true;
                 } else if (itemstack.getItem() == Items.POTATO) {
-                    world.setBlockState(target, Blocks.POTATOES.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
+                    world.setBlockState(target, Blocks.POTATOES.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
                     flag = true;
                 } else if (itemstack.getItem() == Items.CARROT) {
-                    world.setBlockState(target, Blocks.CARROTS.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
+                    world.setBlockState(target, Blocks.CARROTS.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
                     flag = true;
                 } else if (itemstack.getItem() == Items.BEETROOT_SEEDS) {
-                    world.setBlockState(target, Blocks.BEETROOTS.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
+                    world.setBlockState(target, Blocks.BEETROOTS.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
                     flag = true;
                 }// else if (itemstack.getItem() instanceof IPlantable) {
                     // TODO: Use an ItemTag for this too
                     /*if (((IPlantable) itemstack.getItem()).getPlantType(world, target) == net.minecraftforge.common.PlantType.CROP) {
-                        world.setBlockState(target, ((IPlantable) itemstack.getItem()).getPlant(world, target), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
+                        world.setBlockState(target, ((IPlantable) itemstack.getItem()).getPlant(world, target), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
                         flag = true;
                     }
                 }*/

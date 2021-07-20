@@ -19,7 +19,7 @@ public interface SoundsMCA {
 
     static void bootstrap() { }
 
-    private static SoundEvent register(String sound) {
+    static SoundEvent register(String sound) {
         Identifier id = new Identifier(MCA.MOD_ID, sound);
         return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(id));
     }

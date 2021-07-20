@@ -3,7 +3,7 @@
   "minVersion": "0.7",
   "package": "mca.mixin",
   "refmap": "mca.mixin.refmap.json",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinBlockItem",
     "MixinHorseBaseEntity",

@@ -54,10 +54,26 @@ public class GiftList {
         return "saturatedGift";
     }
 
-    public record Gift (
-            String type,
-            String name,
-            int value) {
+    public final class Gift {
+        private final String type;
+        private final String name;
+        private final int value;
+
+        public Gift(String type, String name, int value) {
+            this.type = type;
+            this.name = name;
+            this.value = value;
+        }
+
+        public String type() {
+            return type;
+        }
+        public String name() {
+            return name;
+        }
+        public int value() {
+            return value;
+        }
 
         /**
          * Used for verifying if a given gift exists in the game's registries.

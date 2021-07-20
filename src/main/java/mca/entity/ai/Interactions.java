@@ -12,6 +12,7 @@ import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.server.world.data.PlayerSaveData;
+import mca.util.compat.OptionalCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Saddleable;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -109,11 +110,11 @@ public class Interactions {
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {
-                    entity.world.getOtherEntities(player, player.getBoundingBox().expand(10), e -> e instanceof Saddleable && ((Saddleable)e).isSaddled())
+                    OptionalCompat.ifPresentOrElse(entity.world.getOtherEntities(player, player.getBoundingBox().expand(10), e -> e instanceof Saddleable && ((Saddleable)e).isSaddled())
                         .stream()
                         .filter(horse -> !horse.hasPassengers())
                         .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
-                        .findFirst().ifPresentOrElse(horse -> {
+                        .findFirst(), horse -> {
                             entity.startRiding(horse, false);
                             entity.sendChatMessage(player, "command.ride.success");
                         }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
@@ -151,17 +152,17 @@ public class Interactions {
                 }
                 return true;
             case "divorcePapers":
-                player.getInventory().insertStack(new ItemStack(ItemsMCA.DIVORCE_PAPERS));
+                player.inventory.insertStack(new ItemStack(ItemsMCA.DIVORCE_PAPERS));
                 entity.sendChatMessage(player, "cleric.divorcePapers");
                 return true;
             case "divorceConfirm":
                 //this lambda is meh
 
-                int divorcePaper = player.getInventory().indexOf(ItemsMCA.DIVORCE_PAPERS.getDefaultStack());
+                ItemStack papers = ItemsMCA.DIVORCE_PAPERS.getDefaultStack();
                 Memories memories = entity.getVillagerBrain().getMemoriesForPlayer(player);
-                if (divorcePaper >= 0) {
+                if (player.inventory.contains(papers)) {
                     entity.sendChatMessage(player, "divorcePaper");
-                    player.getInventory().getStack(divorcePaper).decrement(1);
+                    player.inventory.removeOne(papers);
                     memories.modHearts(-20);
                 } else {
                     entity.sendChatMessage(player, "divorce");

@@ -2,22 +2,22 @@ package mca.server.world.data;
 
 import mca.server.ReaperSpawner;
 import mca.server.SpawnQueue;
+import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
+import mca.util.compat.PersistentStateCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.PersistentState;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class VillageManager extends PersistentState implements Iterable<Village> {
+public class VillageManager extends PersistentStateCompat implements Iterable<Village> {
 
     private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
 
@@ -47,10 +47,10 @@ public class VillageManager extends PersistentState implements Iterable<Village>
         this.world = world;
         lastBuildingId = nbt.getInt("lastBuildingId");
         lastVillageId = nbt.getInt("lastVillageId");
-        reapers = nbt.contains("reapers", NbtElement.COMPOUND_TYPE) ? new ReaperSpawner(this, nbt.getCompound("reapers")) : new ReaperSpawner(this);
-        babies = nbt.contains("babies", NbtElement.COMPOUND_TYPE) ? new BabyBunker(this, nbt.getCompound("babies")) : new BabyBunker(this);
+        reapers = nbt.contains("reapers", NbtElementCompat.COMPOUND_TYPE) ? new ReaperSpawner(this, nbt.getCompound("reapers")) : new ReaperSpawner(this);
+        babies = nbt.contains("babies", NbtElementCompat.COMPOUND_TYPE) ? new BabyBunker(this, nbt.getCompound("babies")) : new BabyBunker(this);
 
-        NbtList v = nbt.getList("villages", NbtElement.COMPOUND_TYPE);
+        NbtList v = nbt.getList("villages", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < v.size(); i++) {
             Village village = new Village();
             village.load(v.getCompound(i));

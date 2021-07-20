@@ -4,12 +4,12 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
+import mca.util.compat.PersistentStateCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
-import net.minecraft.world.PersistentState;
 
 import java.util.*;
 import java.util.function.Function;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FamilyTree extends PersistentState {
+public class FamilyTree extends PersistentStateCompat {
     private static final String DATA_ID = "MCA-FamilyTree";
 
     private final Map<UUID, FamilyTreeEntry> entries;

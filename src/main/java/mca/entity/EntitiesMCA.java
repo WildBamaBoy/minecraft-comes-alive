@@ -43,7 +43,7 @@ public interface EntitiesMCA {
         FabricDefaultAttributeRegistry.register(GRIM_REAPER, GrimReaperEntity.createAttributes());
     }
 
-    private static <T extends Entity> EntityType<T> register(String name, EntityType<T> builder) {
+    static <T extends Entity> EntityType<T> register(String name, EntityType<T> builder) {
         return Registry.register(Registry.ENTITY_TYPE, new Identifier(MCA.MOD_ID, name), builder);
     }
 }

@@ -5,12 +5,13 @@ import java.util.List;
 import mca.block.BlocksMCA;
 import mca.block.TombstoneBlock;
 import mca.block.TombstoneBlock.Data;
+import mca.util.compat.TextRendererCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.OrderedText;
@@ -19,11 +20,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
-public class TombstoneBlockEntityRenderer implements BlockEntityRenderer<TombstoneBlock.Data> {
-    private final TextRenderer text;
+public class TombstoneBlockEntityRenderer extends BlockEntityRenderer<TombstoneBlock.Data> {
 
-    public TombstoneBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-        text = context.getTextRenderer();
+    public TombstoneBlockEntityRenderer(BlockEntityRenderDispatcher context) {
+        super(context);
     }
 
     @Override
@@ -56,7 +56,9 @@ public class TombstoneBlockEntityRenderer implements BlockEntityRenderer<Tombsto
 
         int maxLineWidth = block.getLineWidth();
 
-        float y = drawText(text.wrapLines(new TranslatableText("block.mca.tombstone.header"), maxLineWidth), 0, matrices, vertexConsumers, light);
+        TextRenderer text = dispatcher.getTextRenderer();
+
+        float y = drawText(text, text.wrapLines(new TranslatableText("block.mca.tombstone.header"), maxLineWidth), 0, matrices, vertexConsumers, light);
 
         y += 5;
 
@@ -65,22 +67,22 @@ public class TombstoneBlockEntityRenderer implements BlockEntityRenderer<Tombsto
         matrices.push();
         matrices.scale(name.scale(), name.scale(), name.scale());
 
-        y = drawText(name.lines(), y / name.scale(), matrices, vertexConsumers, light) * name.scale();
+        y = drawText(text, name.lines(), y / name.scale(), matrices, vertexConsumers, light) * name.scale();
 
         matrices.pop();
 
         y += 5;
 
-        drawText(text.wrapLines(new TranslatableText("block.mca.tombstone.footer." + entity.getGender().binary().getStrName()), maxLineWidth), y, matrices, vertexConsumers, light);
+        drawText(text, text.wrapLines(new TranslatableText("block.mca.tombstone.footer." + entity.getGender().binary().getStrName()), maxLineWidth), y, matrices, vertexConsumers, light);
 
         matrices.pop();
     }
 
-    private float drawText(List<OrderedText> lines, float y, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    private float drawText(TextRenderer text, List<OrderedText> lines, float y, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         for (OrderedText line : lines) {
             float x = -text.getWidth(line) / 2F;
 
-            text.method_37296(line, x, y, 0xFFFFFF, 0x000000, matrices.peek().getModel(), vertexConsumers, light);
+            TextRendererCompat.drawWithOutline(text, line, x, y, 0xFFFFFF, 0x000000, matrices.peek().getModel(), vertexConsumers, light);
 
             y += 10;
         }

@@ -69,7 +69,7 @@ public class GuiFamilyTree extends Screen {
     private void addButton(UUID uuid, int x, int y) {
         FamilyTreeEntry e = family.get(uuid);
         if (e != null) {
-            addDrawableChild(new ButtonWidget(
+            addButton(new ButtonWidget(
                     x - 40, y - 10, 80, 20,
                     new LiteralText(e.name()),
                     (b) -> NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid)))
@@ -78,7 +78,7 @@ public class GuiFamilyTree extends Screen {
     }
 
     private void rebuildTree() {
-        clearChildren();
+        buttons.clear();
         lines.clear();
 
         int w = 100;

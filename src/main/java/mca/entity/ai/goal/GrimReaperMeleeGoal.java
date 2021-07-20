@@ -70,13 +70,13 @@ public class GrimReaperMeleeGoal extends Goal {
                 reaper.requestTeleport(player.getX() - (dX * 2), player.getY() + 2, reaper.getZ() - (dZ * 2));
 
                 if (!reaper.world.isClient && reaper.getRandom().nextFloat() >= 0.20F) {
-                    int currentItem = player.getInventory().selectedSlot;
+                    int currentItem = player.inventory.selectedSlot;
                     int randomItem = reaper.getRandom().nextInt(9);
-                    ItemStack currentItemStack = player.getInventory().getStack(currentItem);
-                    ItemStack randomItemStack = player.getInventory().getStack(randomItem);
+                    ItemStack currentItemStack = player.inventory.getStack(currentItem);
+                    ItemStack randomItemStack = player.inventory.getStack(randomItem);
 
-                    player.getInventory().setStack(currentItem, randomItemStack);
-                    player.getInventory().setStack(randomItem, currentItemStack);
+                    player.inventory.setStack(currentItem, randomItemStack);
+                    player.inventory.setStack(randomItem, currentItemStack);
 
                     entityToAttack.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 200));
                 }

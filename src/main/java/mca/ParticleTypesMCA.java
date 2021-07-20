@@ -12,7 +12,7 @@ public interface ParticleTypesMCA {
 
     static void bootstrap() { }
 
-    private static <T extends ParticleType<?>> T register(String name, T type) {
+    static <T extends ParticleType<?>> T register(String name, T type) {
         return Registry.register(Registry.PARTICLE_TYPE, new Identifier(MCA.MOD_ID, name), type);
     }
 }

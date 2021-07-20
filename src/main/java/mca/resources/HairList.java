@@ -72,7 +72,22 @@ public class HairList {
         return pickOne(villager);
     }
 
-    public record HairGroup(String gender, int count) {
+    public final class HairGroup {
+        private final String gender;
+        private final int count;
+
+        public HairGroup(String gender, int count) {
+            this.gender = gender;
+            this.count = count;
+        }
+
+        public String gender() {
+            return gender;
+        }
+        public int count() {
+            return count;
+        }
+
         public Gender getGender() {
             return Gender.byName(gender);
         }

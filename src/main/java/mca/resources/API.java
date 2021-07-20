@@ -60,7 +60,7 @@ public class API {
                 villageComponents.load();
                 gifts.load();
 
-                supporters.addAll(List.of(Resources.read("api/supporters.json", String[].class)));
+                supporters.addAll(Arrays.asList(Resources.read("api/supporters.json", String[].class)));
             } catch (BrokenResourceException e) {
                 MCA.logger.error("Could not load MCA resources", e);
             }

@@ -18,7 +18,7 @@ public class BabyNamingVillagerMessage implements Message {
 
     @Override
     public void receive(PlayerEntity player) {
-        ItemStack item = player.getInventory().getStack(selected);
+        ItemStack item = player.inventory.getStack(selected);
         if (item.getItem() instanceof BabyItem) {
             BabyItem.setBabyName(item, name);
         }

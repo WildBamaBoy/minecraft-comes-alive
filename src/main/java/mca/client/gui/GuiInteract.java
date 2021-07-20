@@ -9,6 +9,7 @@ import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
+import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,8 +20,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import org.lwjgl.glfw.GLFW;
-
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -89,9 +88,9 @@ public class GuiInteract extends AbstractDynamicScreen {
     @Override
     public boolean mouseScrolled(double x, double y, double d) {
         if (d < 0) {
-            player.getInventory().selectedSlot = player.getInventory().selectedSlot == 8 ? 0 : player.getInventory().selectedSlot + 1;
+            player.inventory.selectedSlot = player.inventory.selectedSlot == 8 ? 0 : player.inventory.selectedSlot + 1;
         } else if (d > 0) {
-            player.getInventory().selectedSlot = player.getInventory().selectedSlot == 0 ? 8 : player.getInventory().selectedSlot - 1;
+            player.inventory.selectedSlot = player.inventory.selectedSlot == 0 ? 8 : player.inventory.selectedSlot - 1;
         }
 
         return super.mouseScrolled(x, y, d);
@@ -133,7 +132,7 @@ public class GuiInteract extends AbstractDynamicScreen {
         transform.push();
         transform.scale(iconScale, iconScale, iconScale);
 
-        RenderSystem.setShaderTexture(0, ICON_TEXTURES);
+        RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
         drawIcon(transform, marriageState.getIcon());
         drawIcon(transform, memory.getHearts() < 0 ? "blackHeart" : memory.getHearts() >= 100 ? "goldHeart" : "redHeart");

@@ -13,16 +13,13 @@ import mca.server.world.data.PlayerSaveData;
 import mca.server.world.data.Village;
 import mca.server.world.data.VillageManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.TypeFilter;
 import net.minecraft.util.Util;
 import java.util.ArrayList;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static net.minecraft.util.Formatting.*;
@@ -130,16 +127,15 @@ public class AdminCommand {
         prevVillagersRemoved.clear();
         getLoadedVillagers(ctx).forEach(v -> {
             prevVillagersRemoved.add(v);
-            v.remove(RemovalReason.KILLED);
+            v.remove();
         });
 
         success("Removed loaded villagers.", ctx);
         return 0;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static Stream<VillagerEntityMCA> getLoadedVillagers(final CommandContext<ServerCommandSource> ctx) {
-        return ctx.getSource().getWorld().getEntitiesByType(TypeFilter.instanceOf(VillagerEntityMCA.class), (Predicate)t -> true).stream();
+        return ctx.getSource().getWorld().getEntitiesByType(null, e -> e instanceof VillagerEntityMCA).stream().map(VillagerEntityMCA.class::cast);
     }
 
     private static void success(String message, CommandContext<ServerCommandSource> ctx) {

@@ -56,15 +56,15 @@ public interface ItemsMCA {
         RecipesMCA.bootstrap();
     }
 
-    private static Item register(String name, Item item) {
+    static Item register(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(MCA.MOD_ID, name), item);
     }
 
-    private static Item.Settings baseProps() {
+    static Item.Settings baseProps() {
         return new Item.Settings().group(ItemGroupMCA.MCA_GROUP);
     }
 
-    private static Item.Settings unstackableProps() {
+    static Item.Settings unstackableProps() {
         return baseProps().maxCount(1);
     }
 }

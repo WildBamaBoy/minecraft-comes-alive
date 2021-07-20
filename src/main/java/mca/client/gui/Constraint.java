@@ -42,9 +42,9 @@ public enum Constraint implements BiPredicate<VillagerEntityMCA, Entity> {
         }).isPresent();
     }),
     NOT_PEASANT("!peasant", (villager, player) -> {
-        return !(player instanceof PlayerEntity) || villager.getResidency().getHomeVillage().filter(village -> {
+        return !(player instanceof PlayerEntity) || !villager.getResidency().getHomeVillage().filter(village -> {
             return village.getRank((PlayerEntity)player).getReputation() >= Rank.PEASANT.getReputation();
-        }).isEmpty();
+        }).isPresent();
     });
 
     public static final Map<String, Constraint> REGISTRY = Stream.of(values()).collect(Collectors.toMap(a -> a.id, Function.identity()));

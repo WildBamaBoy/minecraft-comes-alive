@@ -7,7 +7,7 @@ import mca.SoundsMCA;
 import mca.entity.EntitiesMCA;
 import mca.entity.GrimReaperEntity;
 import mca.server.world.data.VillageManager;
-import net.minecraft.block.Block;
+import mca.util.compat.BlockCompat;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -58,8 +58,8 @@ public class ReaperSpawner {
 
         EntityType.LIGHTNING_BOLT.spawn((ServerWorld)world, null, null, null, pos, SpawnReason.STRUCTURE, false, false);
 
-        world.setBlockState(pos, Blocks.SOUL_SOIL.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
-        world.setBlockState(pos.up(), Blocks.SOUL_FIRE.getDefaultState(), Block.NOTIFY_NEIGHBORS | Block.NOTIFY_LISTENERS);
+        world.setBlockState(pos, Blocks.SOUL_SOIL.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
+        world.setBlockState(pos.up(), Blocks.SOUL_FIRE.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
     }
 
     private void start(BlockPos pos) {

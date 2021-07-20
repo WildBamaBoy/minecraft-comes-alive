@@ -1,6 +1,7 @@
 package mca.util.localization;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class PooledTranslationStorage {
 
     @NotNull
     private List<String> getOptions(String key) {
-        return multiTranslations.getOrDefault(key, List.of());
+        return multiTranslations.getOrDefault(key, Collections.emptyList());
     }
 
     @Nullable

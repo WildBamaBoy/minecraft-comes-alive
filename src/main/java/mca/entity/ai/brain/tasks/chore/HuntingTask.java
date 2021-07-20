@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
 import mca.util.InventoryUtils;
-import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -98,7 +97,7 @@ public class HuntingTask extends AbstractChoreTask {
                 // search for EntityItems around the target and grab them
                 villager.world.getNonSpectatingEntities(ItemEntity.class, villager.getBoundingBox().expand(15, 3, 15)).forEach((item) -> {
                     villager.getInventory().addStack(item.getStack());
-                    item.remove(RemovalReason.DISCARDED);
+                    item.remove();
                 });
                 target = null;
             } else if (villager.squaredDistanceTo(target) <= 12.25F) {

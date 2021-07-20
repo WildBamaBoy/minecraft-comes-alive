@@ -18,11 +18,11 @@ public interface TagsMCA {
 
         static void bootstrap() {}
 
-        private static Tag<Block> forge(String path) {
+        static Tag<Block> forge(String path) {
             return TagRegistry.block(new Identifier("forge", path));
         }
 
-        private static Tag<Block> mca(String path) {
+        static Tag<Block> mca(String path) {
             return TagRegistry.block(new Identifier(MCA.MOD_ID, path));
         }
     }
@@ -62,11 +62,11 @@ public interface TagsMCA {
 
         static void bootstrap() {}
 
-        private static Tag<Item> forge(String path) {
+        static Tag<Item> forge(String path) {
             return TagRegistry.item(new Identifier("forge", path));
         }
 
-        private static Tag<Item> mca(String path) {
+        static Tag<Item> mca(String path) {
             return TagRegistry.item(new Identifier(MCA.MOD_ID, path));
         }
     }

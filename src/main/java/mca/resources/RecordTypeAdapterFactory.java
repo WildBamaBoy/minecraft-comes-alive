@@ -1,3 +1,4 @@
+/*
 package mca.resources;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import net.minecraft.util.Util;
 
 /**
  * https://github.com/google/gson/issues/1794
- */
+ * /
 final class RecordTypeAdapterFactory implements TypeAdapterFactory {
     public static final TypeAdapterFactory INSTANCE = new RecordTypeAdapterFactory();
 
@@ -131,3 +132,4 @@ final class RecordTypeAdapterFactory implements TypeAdapterFactory {
     }
 
 }
+*/

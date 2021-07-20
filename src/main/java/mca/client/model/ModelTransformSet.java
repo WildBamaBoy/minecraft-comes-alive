@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 
+import mca.util.compat.model.ModelTransform;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.ModelTransform;
 import net.minecraft.util.math.MathHelper;
 
 public interface ModelTransformSet {

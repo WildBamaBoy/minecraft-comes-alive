@@ -52,7 +52,7 @@ public class GuiWhistle extends Screen {
     public void init() {
         NetworkHandler.sendToServer(new GetVillagerRequest());
 
-        selectionLeftButton = addDrawableChild(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> {
+        selectionLeftButton = addButton(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> {
             if (selectedIndex == 0) {
                 selectedIndex = keys.size() - 1;
             } else {
@@ -60,7 +60,7 @@ public class GuiWhistle extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
-        selectionRightButton = addDrawableChild(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> {
+        selectionRightButton = addButton(new ButtonWidget(width / 2 + 103, height / 2 + 65, 20, 20, new LiteralText(">>"), b -> {
             if (selectedIndex == keys.size() - 1) {
                 selectedIndex = 0;
             } else {
@@ -68,14 +68,14 @@ public class GuiWhistle extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
-        villagerNameButton = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
+        villagerNameButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
 
-        callButton = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.call"), (b) -> {
+        callButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.call"), (b) -> {
             NetworkHandler.sendToServer(new CallToPlayerMessage(UUID.fromString(keys.get(selectedIndex))));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
 
-        addDrawableChild(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
+        addButton(new ButtonWidget(width / 2 + 40, height / 2 + 90, 60, 20, new TranslatableText("gui.button.exit"), b -> Objects.requireNonNull(this.client).openScreen(null)));
 
         toggleButtons(false);
     }

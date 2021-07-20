@@ -6,12 +6,31 @@ import com.google.common.base.Strings;
 
 import mca.resources.PoolUtil;
 
-public record NameSet (
-        String separator,
-        String[] first,
-        String[] second) {
+public final class NameSet {
 
     public static final NameSet DEFAULT = new NameSet(" ", new String[] {"unknown"}, new String[] {"names"});
+
+    private final String separator;
+    private final String[] first;
+    private final String[] second;
+
+    public String separator() {
+        return separator;
+    }
+
+    public String[] first() {
+        return first;
+    }
+
+    public String[] second() {
+        return second;
+    }
+
+    public NameSet(String separator, String[] first, String[] second) {
+        this.separator = separator;
+        this.first = first;
+        this.second = second;
+    }
 
     public String toName(Random rng) {
         String first = PoolUtil.pickOne(first(), null, rng);

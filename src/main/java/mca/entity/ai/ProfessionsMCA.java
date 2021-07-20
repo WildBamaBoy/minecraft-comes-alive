@@ -21,7 +21,7 @@ public interface ProfessionsMCA {
         PointOfInterestTypeMCA.bootstrap();
     }
 
-    private static VillagerProfession register(String name, VillagerProfessionBuilder builder) {
+    static VillagerProfession register(String name, VillagerProfessionBuilder builder) {
         Identifier id = new Identifier(MCA.MOD_ID, name);
         return Registry.register(Registry.VILLAGER_PROFESSION, id, builder.id(id).build());
     }

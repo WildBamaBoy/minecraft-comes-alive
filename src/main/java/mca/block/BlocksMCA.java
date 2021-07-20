@@ -32,7 +32,7 @@ public interface BlocksMCA {
         BlockEntityTypesMCA.bootstrap();
     }
 
-    private static <T extends Block> T register(String name, T block) {
+    static <T extends Block> T register(String name, T block) {
         return Registry.register(Registry.BLOCK, new Identifier(MCA.MOD_ID, name), block);
     }
 }

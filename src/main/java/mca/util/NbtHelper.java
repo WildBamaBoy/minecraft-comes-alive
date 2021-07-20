@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -42,10 +44,10 @@ public interface NbtHelper {
                     if (k == null) return null;
                     V v = valueMapper.apply(nbt.get(e));
                     if (v == null) return null;
-                    return k == null ? null : Map.entry(k, v);
+                    return k == null ? null : new Pair<>(k, v);
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
+                .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)
         );
     }
 

@@ -11,7 +11,7 @@
     "sources": "https://github.com/Luke100000/minecraft-comes-alive",
     "issues": "https://github.com/Luke100000/minecraft-comes-alive/issues"
   },
-  "license": "MIT",
+  "license": "GNU",
   "icon": "mca.png",
   "accessWidener": "mca.aw",
   "environment": "*",
@@ -28,7 +28,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.11.3",
-    "java": ">=16",
+    "java": ">=8",
     "fabric-api-base": ">=0.1.0"
   }
 }

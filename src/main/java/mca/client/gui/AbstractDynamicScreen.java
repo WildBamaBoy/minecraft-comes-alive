@@ -1,5 +1,6 @@
 package mca.client.gui;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public abstract class AbstractDynamicScreen extends Screen {
     private int mouseX;
     private int mouseY;
 
-    private Set<Constraint> constraints = Set.of();
+    private Set<Constraint> constraints = new HashSet<>();
 
     protected AbstractDynamicScreen(Text title) {
         super(title);
@@ -89,13 +90,12 @@ public abstract class AbstractDynamicScreen extends Screen {
     public void setLayout(String guiKey) {
         activeScreen = guiKey;
 
-        clearChildren();
+        children.clear();
         MCAScreens.getInstance().getScreen(guiKey).ifPresent(buttons -> {
             for (Button b : buttons) {
-                addDrawableChild(new ButtonEx(b, this));
+                addButton(new ButtonEx(b, this));
             }
         });
-
     }
 
     protected void drawIcon(MatrixStack transform, String key) {

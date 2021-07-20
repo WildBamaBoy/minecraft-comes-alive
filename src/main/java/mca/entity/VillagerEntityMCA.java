@@ -235,14 +235,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         if (damageDealt) {
             if (knockback > 0 && target instanceof LivingEntity) {
                 ((LivingEntity) target).takeKnockback(
-                        knockback / 2, MathHelper.sin(getYaw() * ((float)Math.PI / 180F)),
-                        -MathHelper.cos(this.getYaw() * ((float) Math.PI / 180F))
+                        knockback / 2, MathHelper.sin(yaw * ((float)Math.PI / 180F)),
+                        -MathHelper.cos(yaw * ((float) Math.PI / 180F))
                 );
 
                 setVelocity(getVelocity().multiply(0.6D, 1, 0.6));
             }
 
-            applyDamageEffects(this, target);
+            dealDamage(this, target);
             onAttacking(target);
         }
 

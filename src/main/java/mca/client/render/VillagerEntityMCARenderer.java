@@ -7,12 +7,13 @@ import mca.client.render.layer.FaceLayer;
 import mca.client.render.layer.HairLayer;
 import mca.client.render.layer.SkinLayer;
 import mca.entity.VillagerEntityMCA;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.Dilation;
-import net.minecraft.client.model.TexturedModelData;
+import mca.util.compat.model.Dilation;
+import mca.util.compat.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -20,7 +21,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
 
 public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
-    public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx) {
+    public VillagerEntityMCARenderer(EntityRenderDispatcher ctx, EntityRendererRegistry.Context context) {
         super(ctx, createModel(0, 0, false, false), 0.5F);
 
         this.addFeature(new SkinLayer(this, createModel(0.0f, 0.0f, false, true)));

@@ -5,11 +5,8 @@ plugins {
     id 'org.ajoberstar.reckon' version '0.13.0'
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(16)
-    }
-}
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 group = project.group
 description = project.displayname
@@ -28,9 +25,13 @@ reckon {
 repositories {
     mavenLocal()
     maven {
+        name = 'modmenu-backup'
+        url = 'https://maven.kotlindiscord.com/repository/terraformers'
+    }
+    /*maven {
         name = 'modmenu'
         url = 'https://maven.terraformersmc.com/releases'
-    }
+    }*/
 }
 
 dependencies {
@@ -40,7 +41,9 @@ dependencies {
     modApi "net.fabricmc:fabric-loader:${project.loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}")
+    modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}") {
+        transitive = false
+    }
 }
 
 processResources {

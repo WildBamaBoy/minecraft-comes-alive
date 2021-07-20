@@ -6,14 +6,14 @@ import mca.entity.VillagerEntityMCA;
 import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
+import mca.util.compat.PersistentStateCompat;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.PersistentState;
 
 import java.util.UUID;
 
-public class SavedVillagers extends PersistentState {
+public class SavedVillagers extends PersistentStateCompat {
     private static final String DATA_ID = "MCA-Villagers";
 
     private final NbtCompound villagerData;
@@ -44,7 +44,7 @@ public class SavedVillagers extends PersistentState {
     }
 
     public void saveVillager(VillagerEntityMCA villager) {
-        if (GraveyardManager.get(world).findNearest(villager.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
+        if (!GraveyardManager.get(world).findNearest(villager.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
             if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
                 BlockEntity be = world.getBlockEntity(pos);
                 if (be instanceof TombstoneBlock.Data) {
@@ -53,7 +53,7 @@ public class SavedVillagers extends PersistentState {
                 }
             }
             return false;
-        }).isEmpty()) {
+        }).isPresent()) {
             NbtCompound nbt = new NbtCompound();
             villager.saveNbt(nbt);
             villagerData.put(villager.getUuid().toString(), nbt);

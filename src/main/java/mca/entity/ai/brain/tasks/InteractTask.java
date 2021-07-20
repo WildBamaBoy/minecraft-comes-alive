@@ -3,6 +3,7 @@ package mca.entity.ai.brain.tasks;
 import com.google.common.collect.ImmutableMap;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
+import mca.util.compat.OptionalCompat;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.EntityLookTarget;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -61,7 +62,7 @@ public class InteractTask extends Task<VillagerEntityMCA> {
     private void followPlayer(VillagerEntityMCA villager) {
         Brain<?> brain = villager.getBrain();
 
-        villager.getInteractions().getInteractingPlayer().ifPresentOrElse(player -> {
+        OptionalCompat.ifPresentOrElse(villager.getInteractions().getInteractingPlayer(), player -> {
             brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(new EntityLookTarget(player, false), this.speedModifier, 2));
             brain.remember(MemoryModuleType.LOOK_TARGET, new EntityLookTarget(player, true));
         }, () -> {

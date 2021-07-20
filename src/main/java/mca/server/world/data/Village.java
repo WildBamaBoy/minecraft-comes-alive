@@ -8,6 +8,7 @@ import mca.entity.ai.Rank;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
 import mca.resources.PoolUtil;
+import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -20,7 +21,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
@@ -209,7 +209,7 @@ public class Village implements Iterable<Building> {
             .map(world::getEntity)
             .filter(v -> v instanceof VillagerEntityMCA)
             .map(VillagerEntityMCA.class::cast)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     public int getMaxPopulation() {
@@ -235,7 +235,7 @@ public class Village implements Iterable<Building> {
     private Inventory getInventoryAt(ServerWorld world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         Block block = blockState.getBlock();
-        if (blockState.hasBlockEntity() && block instanceof ChestBlock) {
+        if (block.hasBlockEntity() && block instanceof ChestBlock) {
             BlockEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof Inventory) {
                 Inventory inventory = (Inventory) tileentity;
@@ -346,7 +346,7 @@ public class Village implements Iterable<Building> {
             // Find a potential mate
             PoolUtil.pop(availableVillagers.stream()
                     .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
-                    .toList(), world.random).ifPresent(mate -> {
+                    .collect(Collectors.toList()), world.random).ifPresent(mate -> {
                 // smash their bodies together like nobody's business!
                 suitor.getRelationships().marry(mate);
                 mate.getRelationships().marry(suitor);
@@ -384,7 +384,7 @@ public class Village implements Iterable<Building> {
         populationThreshold = v.getInt("populationThreshold");
         marriageThreshold = v.getInt("marriageThreshold");
 
-        NbtList b = v.getList("buildings", NbtElement.COMPOUND_TYPE);
+        NbtList b = v.getList("buildings", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < b.size(); i++) {
             Building building = new Building(b.getCompound(i));
             buildings.put(building.getId(), building);

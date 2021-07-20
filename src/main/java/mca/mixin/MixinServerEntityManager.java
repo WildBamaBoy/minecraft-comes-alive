@@ -6,14 +6,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import mca.server.SpawnQueue;
-import net.minecraft.server.world.ServerEntityManager;
-import net.minecraft.world.entity.EntityLike;
+import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 
-@Mixin(ServerEntityManager.class)
-abstract class MixinServerEntityManager<T extends EntityLike> implements AutoCloseable {
-    @Inject(method = "addEntityUuid(Lnet/minecraft/world/entity/EntityLike;)Z", at = @At("HEAD"), cancellable = true)
-    private void onAddEntityUuid(T entity, CallbackInfoReturnable<Boolean> info) {
-
+@Mixin(ServerWorld.class)
+abstract class MixinServerEntityManager<T extends Entity> implements AutoCloseable {
+    @Inject(method = "addEntity(Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
+    private void onAddEntity(T entity, CallbackInfoReturnable<Boolean> info) {
         if (SpawnQueue.getInstance().addVillager(entity)) {
             info.setReturnValue(false);
         }

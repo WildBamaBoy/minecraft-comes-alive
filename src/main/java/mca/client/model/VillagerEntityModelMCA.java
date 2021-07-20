@@ -2,14 +2,15 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.client.model.Dilation;
-import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.ModelPartData;
-import net.minecraft.client.model.ModelTransform;
+import mca.util.compat.model.ModelTransform;
+import mca.util.compat.model.PlayerEntityModelCompat;
+import mca.util.compat.model.Dilation;
+import mca.util.compat.model.EntityModelPartNames;
+import mca.util.compat.model.ModelData;
+import mca.util.compat.model.ModelPartCompat;
+import mca.util.compat.model.ModelPartData;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelPartNames;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
 
 public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends VillagerEntityBaseModelMCA<T> {
     protected static final String BREASTPLATE = "breastplate";
@@ -21,7 +22,7 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
     public final ModelPart rightLegwear;
     public final ModelPart bodyWear;
 
-    public VillagerEntityModelMCA(ModelPart tree, boolean clothing, boolean hideWear) {
+    public VillagerEntityModelMCA(ModelPartCompat tree, boolean clothing, boolean hideWear) {
         super(tree, clothing);
 
         bodyWear = tree.getChild(EntityModelPartNames.JACKET);
@@ -42,7 +43,7 @@ public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends Village
     }
 
     public static ModelData getModelData(Dilation dilation, boolean clothing) {
-        ModelData modelData = PlayerEntityModel.getTexturedModelData(dilation, false);
+        ModelData modelData = PlayerEntityModelCompat.getTexturedModelData(dilation, false);
         ModelPartData data = modelData.getRoot();
         data.addChild(BREASTS, newBreasts(dilation, clothing, 0), ModelTransform.NONE);
         data.addChild(BREASTPLATE, newBreasts(dilation.add(0.25F), clothing, 0), ModelTransform.NONE);

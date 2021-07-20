@@ -1,8 +1,8 @@
 package mca.entity.ai.brain.sensor;
 
+import mca.util.compat.NearestVisibleLivingEntitySensor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.NearestVisibleLivingEntitySensor;
 import net.minecraft.entity.mob.CreeperEntity;
 
 public class ExplodingCreeperSensor extends NearestVisibleLivingEntitySensor {

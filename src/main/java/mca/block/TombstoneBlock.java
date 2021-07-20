@@ -21,7 +21,6 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.server.world.ServerWorld;
@@ -41,9 +40,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldEvents;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.event.GameEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,8 +55,11 @@ import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.GraveyardManager.TombstoneState;
+import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import mca.util.VoxelShapeUtil;
+import mca.util.compat.ItemStackCompat;
+import mca.util.compat.WorldEventsCompat;
 import mca.util.localization.FlowingText;
 
 public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
@@ -165,8 +165,8 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new Data(pos, state);
+    public BlockEntity createBlockEntity(BlockView world) {
+        return new Data();
     }
 
     @Override
@@ -254,14 +254,14 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
         });
         data.ifPresent(be -> {
-            stacks.stream().filter(s -> s.isOf(asItem())).findFirst().ifPresent(be::writeToStack);
+            stacks.stream().filter(s -> s.getItem() == asItem()).findFirst().ifPresent(be::writeToStack);
         });
 
         return stacks;
     }
 
     static boolean isRemains(ItemStack stack) {
-        return stack.isOf(Items.BONE) || stack.isOf(Items.SKELETON_SKULL);
+        return stack.getItem() == Items.BONE || stack.getItem() == Items.SKELETON_SKULL;
     }
 
     public static class Data extends BlockEntity implements BlockEntityClientSerializable {
@@ -271,8 +271,8 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         @Nullable
         private FlowingText computedName;
 
-        public Data(BlockPos pos, BlockState state) {
-            super(BlockEntityTypesMCA.TOMBSTONE, pos, state);
+        public Data() {
+            super(BlockEntityTypesMCA.TOMBSTONE);
         }
 
         public void setEntity(@Nullable Entity entity) {
@@ -285,8 +285,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             markDirty();
 
             if (hasWorld()) {
-                world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
-                world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos);
+                world.syncWorldEvent(WorldEventsCompat.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
+                // TODO: 1.17
+                // world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos);
                 ((TombstoneBlock)getCachedState().getBlock()).updateNeighbors(this.getCachedState(), world, pos);
 
                 if (!world.isClient) {
@@ -336,7 +337,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
         @Override
         public void fromClientTag(NbtCompound tag) {
-            readNbt(tag);
+            entityData = tag.contains("entityData", NbtElementCompat.COMPOUND_TYPE) ? Optional.of(new EntityData(tag)) : Optional.empty();
         }
 
         @Override
@@ -345,8 +346,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         }
 
         @Override
-        public void readNbt(NbtCompound nbt) {
-            entityData = nbt.contains("entityData", NbtElement.COMPOUND_TYPE) ? Optional.of(new EntityData(nbt)) : Optional.empty();
+        public void fromTag(BlockState state, NbtCompound nbt) {
+            super.fromTag(state, nbt);
+            fromClientTag(nbt);
         }
 
         @Override
@@ -364,8 +366,8 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                 data.writeNbt(stack.getOrCreateSubTag("entityData"));
                 getEntityName().ifPresent(name -> {
                     NbtHelper.computeIfAbsent(
-                            stack.getOrCreateSubTag(ItemStack.DISPLAY_KEY),
-                            ItemStack.LORE_KEY, NbtElement.LIST_TYPE, NbtList::new)
+                            stack.getOrCreateSubTag(ItemStackCompat.DISPLAY_KEY),
+                            ItemStackCompat.LORE_KEY, NbtElementCompat.LIST_TYPE, NbtList::new)
                         .add(0, NbtString.of(name.asString()));
                 });
             });
@@ -375,10 +377,19 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             return Optional.ofNullable(be).filter(p -> p instanceof Data).map(Data.class::cast);
         }
 
-        static record EntityData(
-                NbtCompound nbt,
-                Text name,
-                Gender gender) {
+        static final class EntityData {
+
+            private final NbtCompound nbt;
+            private final Text name;
+            private final Gender gender;
+
+            public EntityData( NbtCompound nbt,
+            Text name,
+            Gender gender) {
+                this.nbt = nbt;
+                this.name = name;
+                this.gender = gender;
+            }
 
             EntityData(NbtCompound nbt) {
                 this(

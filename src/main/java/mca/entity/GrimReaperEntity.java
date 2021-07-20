@@ -89,7 +89,7 @@ public class GrimReaperEntity extends PathAwareEntity {
     @Override
     public void checkDespawn() {
         if (this.world.getDifficulty() == Difficulty.PEACEFUL && this.isDisallowedInPeaceful()) {
-            this.remove(RemovalReason.DISCARDED);
+            this.remove();
         }
     }
 
@@ -195,7 +195,7 @@ public class GrimReaperEntity extends PathAwareEntity {
 
                     requestTeleport(newX, owner.getY(), newZ);
                 }
-                arrow.remove(RemovalReason.DISCARDED);
+                arrow.remove();
             }
             return false;
         }
@@ -231,7 +231,7 @@ public class GrimReaperEntity extends PathAwareEntity {
         bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 
         if (!MCA.getConfig().allowGrimReaper) {
-            remove(RemovalReason.KILLED);
+            remove();
         }
 
         // Prevent flying off into oblivion on death...

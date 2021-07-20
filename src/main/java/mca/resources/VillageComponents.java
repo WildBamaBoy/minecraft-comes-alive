@@ -2,6 +2,7 @@ package mca.resources;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,7 +68,7 @@ public class VillageComponents implements Iterable<BuildingType> {
      * @return A gender appropriate name based on the provided gender.
      */
     public String pickCitizenName(@NotNull Gender gender) {
-        return PoolUtil.pickOne(villagerNames.getOrDefault(gender, List.of()), "", rng);
+        return PoolUtil.pickOne(villagerNames.getOrDefault(gender, Collections.emptyList()), "", rng);
     }
 
     //returns a random generated name for a given name set

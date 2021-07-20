@@ -18,7 +18,7 @@ public interface MemoryModuleTypeMCA {
 
     static void bootstrap() { }
 
-    private static <U> MemoryModuleType<U> register(String name, Optional<Codec<U>> codec) {
+    static <U> MemoryModuleType<U> register(String name, Optional<Codec<U>> codec) {
         return Registry.register(Registry.MEMORY_MODULE_TYPE, new Identifier(MCA.MOD_ID, name), new MemoryModuleType<>(codec));
     }
 }

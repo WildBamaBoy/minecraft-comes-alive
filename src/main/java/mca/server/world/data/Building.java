@@ -2,6 +2,7 @@ package mca.server.world.data;
 
 import mca.resources.API;
 import mca.resources.data.BuildingType;
+import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
@@ -10,7 +11,6 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
@@ -70,13 +70,13 @@ public class Building implements Serializable, Iterable<UUID> {
         pos1Z = v.getInt("pos1Z");
         type = v.getString("type");
 
-        NbtList res = v.getList("residents", NbtElement.COMPOUND_TYPE);
+        NbtList res = v.getList("residents", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < res.size(); i++) {
             NbtCompound c = res.getCompound(i);
             residents.put(c.getUuid("uuid"), c.getString("name"));
         }
 
-        NbtList bl = v.getList("blocks", NbtElement.COMPOUND_TYPE);
+        NbtList bl = v.getList("blocks", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < bl.size(); i++) {
             NbtCompound c = bl.getCompound(i);
             blocks.put(c.getString("name"), c.getInt("count"));

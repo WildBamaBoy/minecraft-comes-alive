@@ -1,6 +1,6 @@
 package mca.entity.ai.brain.tasks;
 
-import net.minecraft.entity.ai.FuzzyPositions;
+import mca.util.compat.FuzzyPositionsCompat;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
@@ -29,12 +29,12 @@ public class WanderOrTeleportToTargetTask extends WanderAroundTask {
             // If the target is more than 10 blocks away, teleport to it immediately.
             // The target location is fuzzed and then adjusted to ensure the entity doesn't land in any walls.
             Vec3d pos = Vec3d.ofBottomCenter(
-                    FuzzyPositions.upWhile(targetPos
-                            .add(FuzzyPositions.localFuzz(world.random, 5, 0)
-                    ), world.getTopY(), p -> world.getBlockState(p).shouldSuffocate(world, p))
+                    FuzzyPositionsCompat.upWhile(targetPos
+                            .add(FuzzyPositionsCompat.localFuzz(world.random, 5, 0)
+                    ), world.getHeight(), p -> world.getBlockState(p).shouldSuffocate(world, p))
             );
 
-            entity.requestTeleportAndDismount(pos.getX(), pos.getY(), pos.getZ());
+            entity.requestTeleport(pos.getX(), pos.getY(), pos.getZ());
         }
 
        super.keepRunning(world, entity, l);

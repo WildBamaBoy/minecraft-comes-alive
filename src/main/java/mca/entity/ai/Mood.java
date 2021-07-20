@@ -1,9 +1,9 @@
 package mca.entity.ai;
 
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import mca.resources.API;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.IntRange;
 import net.minecraft.util.math.MathHelper;
 
 public enum Mood {
@@ -34,11 +34,11 @@ public enum Mood {
     public final static int absoluteMinLevel = -100;
     public final static int maxLevel = 15;
 
-    private final UniformIntProvider level;
+    private final IntRange level;
     private final MoodGroup moodGroup;
 
     Mood(int min, int max, MoodGroup moodGroup) {
-        this.level = UniformIntProvider.create(min, max);
+        this.level = IntRange.between(min, max);
         this.moodGroup = moodGroup;
     }
 
@@ -69,11 +69,11 @@ public enum Mood {
             case JOKE:
             case TELL_STORY:
             case HUG:
-                return level.get(API.getRng()) / 20;
+                return level.choose(API.getRng()) / 20;
             case SHAKE_HAND:
             case FLIRT:
             case KISS:
-                return -level.get(API.getRng()) / 20;
+                return -level.choose(API.getRng()) / 20;
             default:
                 return 0;
         }

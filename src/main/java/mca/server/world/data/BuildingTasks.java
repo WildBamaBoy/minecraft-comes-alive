@@ -1,5 +1,6 @@
 package mca.server.world.data;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -7,15 +8,17 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.ImmutableMap;
+
 import mca.entity.ai.Rank;
+import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
 
 public class BuildingTasks {
-    public static final List<String> NAMES = List.of("buildBigHouse", "buildStorage", "buildInn", "bePatient");
-    private static final Map<String, String> TASK_BUILDINGS = Map.of(
+    public static final List<String> NAMES = Arrays.asList("buildBigHouse", "buildStorage", "buildInn", "bePatient");
+    private static final Map<String, String> TASK_BUILDINGS = ImmutableMap.of(
             "bigHouse", "buildBigHouse",
             "storage", "buildStorage",
             "inn", "buildInn"
@@ -63,8 +66,8 @@ public class BuildingTasks {
         }
 
         public void load(NbtCompound nbt) {
-            if (nbt.contains("tasks", NbtElement.LIST_TYPE)) {
-                completedTasks = NbtHelper.toStream(nbt.getList("tasks", NbtElement.STRING_TYPE), i -> ((NbtString)i).asString()).collect(Collectors.toSet());
+            if (nbt.contains("tasks", NbtElementCompat.LIST_TYPE)) {
+                completedTasks = NbtHelper.toStream(nbt.getList("tasks", NbtElementCompat.STRING_TYPE), i -> ((NbtString)i).asString()).collect(Collectors.toSet());
             }
         }
 

@@ -1,6 +1,17 @@
 package mca.resources.data;
 
-public record Hair (String texture, String overlay) {
+public final class Hair {
+
+    private final String texture;
+    private final String overlay;
+
+    public String texture() {
+        return texture;
+    }
+
+    public String overlay() {
+        return overlay;
+    }
 
     public Hair() {
         this("", "");

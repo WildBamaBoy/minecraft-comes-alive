@@ -7,9 +7,8 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.WorldUtils;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.Entity.RemovalReason;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.world.entity.EntityLike;
 
 public class SpawnQueue {
     private static final SpawnQueue INSTANCE = new SpawnQueue();
@@ -25,7 +24,7 @@ public class SpawnQueue {
         if (!spawnQueue.isEmpty()) {
             VillagerEntity e = spawnQueue.remove(0);
             if (e.world.canSetBlock(e.getBlockPos())) {
-                e.remove(RemovalReason.DISCARDED);
+                e.remove();
 
                 VillagerEntityMCA newVillager = Gender.getRandom().getVillagerType().create(e.world);
                 newVillager.setPosition(e.getX(), e.getY(), e.getZ());
@@ -38,7 +37,7 @@ public class SpawnQueue {
         }
     }
 
-    public boolean addVillager(EntityLike entity) {
+    public boolean addVillager(Entity entity) {
         if (!MCA.getConfig().overwriteOriginalVillagers) return false;
 
         return entity.getClass().equals(VillagerEntity.class)

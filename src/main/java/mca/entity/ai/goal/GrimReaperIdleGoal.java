@@ -1,7 +1,7 @@
 package mca.entity.ai.goal;
 
 import mca.entity.GrimReaperEntity;
-import net.minecraft.entity.ai.NoWaterTargeting;
+import net.minecraft.entity.ai.TargetFinder;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.Vec3d;
 import java.util.EnumSet;
@@ -51,7 +51,7 @@ public class GrimReaperIdleGoal extends Goal {
         if (reaper.getTarget() != null) {
             return reaper.getTarget().getPos();
         } else {
-            return NoWaterTargeting.find(this.reaper, 8, 6, -2, Vec3d.ofBottomCenter(reaper.getBlockPos()), 1.0F);
+            return TargetFinder.findGroundTarget(this.reaper, 8, 6, -2, Vec3d.ofBottomCenter(reaper.getBlockPos()), 1.0F);
         }
     }
 

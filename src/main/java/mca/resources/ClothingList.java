@@ -1,5 +1,6 @@
 package mca.resources;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -48,18 +49,18 @@ public class ClothingList {
     }
 
     private Map<Identifier, Optional<List<WeightedEntry>>> getClothingForGender(Gender gender) {
-        return clothing.getOrDefault(gender, Map.of());
+        return clothing.getOrDefault(gender, Collections.emptyMap());
     }
 
     //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
     private List<WeightedEntry> getClothing(VillagerEntityMCA villager) {
-        var clothing = getClothingForGender(villager.getGenetics().getGender());
+        Map<Identifier, Optional<List<WeightedEntry>>> clothing = getClothingForGender(villager.getGenetics().getGender());
         Identifier id = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession()));
 
         return clothing.getOrDefault(id, Optional.empty()).orElseGet(() -> {
             Identifier fallback = Registry.VILLAGER_PROFESSION.getId(VillagerProfession.NONE);
 
-            return clothing.getOrDefault(fallback, Optional.empty()).orElse(List.of());
+            return clothing.getOrDefault(fallback, Optional.empty()).orElse(Collections.emptyList());
         });
     }
 
@@ -106,11 +107,32 @@ public class ClothingList {
         return pickOne(villager);
     }
 
-    public record ClothingGroup (
-        String gender,
-        String profession,
-        int count,
-        float chance) {
+    public final class ClothingGroup {
+
+        private final String gender;
+        private final String profession;
+        private final int count;
+        private final float chance;
+
+        public String gender() {
+            return gender;
+        }
+        public String profession() {
+            return profession;
+        }
+        public int count() {
+            return count;
+        }
+        public float chance() {
+            return chance;
+        }
+
+        public ClothingGroup(String gender, String profession, int count, float chance) {
+            this.gender = gender;
+            this.profession = profession;
+            this.count = count;
+            this.chance = chance;
+        }
 
         public ClothingGroup() {
             this("", "", 0, 1);
