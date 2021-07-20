@@ -29,7 +29,7 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
     public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new VillagerEntityModelMCA<>(
                 TexturedModelData.of(
-                        VillagerEntityModelMCA.getModelData(new Dilation(1), 1, true), 64, 64)
+                        VillagerEntityModelMCA.getModelData(Dilation.NONE, false), 64, 64)
                 .createModel(), true, false), 0.5F);
 
         this.addFeature(new SkinLayer(this, createModel(0.0f, 0.0f, false, true)));
@@ -45,7 +45,7 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
     private VillagerEntityModelMCA<VillagerEntityMCA> createModel(float modelSize, float headSize, boolean cloth, boolean hideWear) {
         VillagerEntityModelMCA<VillagerEntityMCA> m = new VillagerEntityModelMCA<>(
                 TexturedModelData.of(
-                        VillagerEntityModelMCA.getModelData(new Dilation(modelSize), headSize, cloth), 64, 64)
+                        VillagerEntityModelMCA.getModelData(new Dilation(modelSize), cloth), 64, 64)
                 .createModel(), cloth, hideWear);
         models.add(m);
         return m;
