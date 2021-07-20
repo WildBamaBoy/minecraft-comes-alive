@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "identifier": "gui.button.backarrow",
     "x": 140,
     "y": -115,
@@ -11,7 +10,6 @@
     "constraints": ""
   },
   {
-    "id": 2,
     "identifier": "gui.button.fishing",
     "x": 140,
     "y": -93,
@@ -22,7 +20,6 @@
     "constraints": ""
   },
   {
-    "id": 3,
     "identifier": "gui.button.harvesting",
     "x": 140,
     "y": -71,
@@ -33,7 +30,6 @@
     "constraints": ""
   },
   {
-    "id": 4,
     "identifier": "gui.button.hunting",
     "x": 140,
     "y": -49,
@@ -44,7 +40,6 @@
     "constraints": ""
   },
   {
-    "id": 5,
     "identifier": "gui.button.chopping",
     "x": 140,
     "y": -5,
@@ -55,7 +50,6 @@
     "constraints": ""
   },
   {
-    "id": 6,
     "identifier": "gui.button.stopworking",
     "x": 140,
     "y": 17,

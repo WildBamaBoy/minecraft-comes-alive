@@ -46,10 +46,10 @@ public class VillagerEntityMCARenderer extends BipedEntityRenderer<VillagerEntit
     }
 
     @Override
-    protected void scale(VillagerEntityMCA villager, MatrixStack matrixStackIn, float partialTickTime) {
+    protected void scale(VillagerEntityMCA villager, MatrixStack matrices, float tickDelta) {
         float height = villager.getScaleFactor();
         float width = villager.getHorizontalScaleFactor();
-        matrixStackIn.scale(width, height, width);
+        matrices.scale(width, height, width);
     }
 
     @Nullable

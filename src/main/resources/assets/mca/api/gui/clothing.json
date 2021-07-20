@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "identifier": "gui.button.backarrow",
     "x": 85,
     "y": -115,
@@ -11,7 +10,6 @@
     "constraints": ""
   },
   {
-    "id": 2,
     "identifier": "gui.button.clothing.randClothing",
     "x": 110,
     "y": -115,
@@ -22,7 +20,6 @@
     "constraints": ""
   },
   {
-    "id": 3,
     "identifier": "gui.button.clothing.prevClothing",
     "x": 110,
     "y": -93,
@@ -33,7 +30,6 @@
     "constraints": ""
   },
   {
-    "id": 4,
     "identifier": "gui.button.clothing.nextClothing",
     "x": 165,
     "y": -93,
@@ -44,7 +40,6 @@
     "constraints": ""
   },
   {
-    "id": 5,
     "identifier": "gui.button.clothing.randHair",
     "x": 110,
     "y": -66,
@@ -55,7 +50,6 @@
     "constraints": ""
   },
   {
-    "id": 6,
     "identifier": "gui.button.clothing.prevHair",
     "x": 110,
     "y": -44,
@@ -66,7 +60,6 @@
     "constraints": ""
   },
   {
-    "id": 7,
     "identifier": "gui.button.clothing.nextHair",
     "x": 165,
     "y": -44,

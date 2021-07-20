@@ -213,9 +213,6 @@ public class Interactions {
     }
 
     void prepareOffersFor(PlayerEntity player) {
-        entity.sendOffers(player, entity.getDisplayName(), entity.getVillagerData().getLevel());
-
-
         int i = entity.getReputation(player);
         if (i != 0) {
             for (TradeOffer merchantoffer : entity.getOffers()) {
@@ -237,6 +234,7 @@ public class Interactions {
         }
 
         entity.setCurrentCustomer(player);
+        entity.sendOffers(player, entity.getDisplayName(), entity.getVillagerData().getLevel());
     }
 
     private void handleInteraction(PlayerEntity player, Memories memory, Interaction interaction) {

@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "identifier": "gui.button.backarrow",
     "x": 115,
     "y": -115,
@@ -11,7 +10,6 @@
     "constraints": ""
   },
   {
-    "id": 2,
     "identifier": "gui.button.sethome",
     "x": 140,
     "y": -115,
@@ -22,7 +20,6 @@
     "constraints": ""
   },
   {
-    "id": 3,
     "identifier": "gui.button.setworkplace",
     "x": 140,
     "y": -93,
@@ -33,7 +30,6 @@
     "constraints": ""
   },
   {
-    "id": 4,
     "identifier": "gui.button.sethangout",
     "x": 140,
     "y": -71,

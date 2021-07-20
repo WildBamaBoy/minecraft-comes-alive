@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "identifier": "gui.button.divorceConfirm",
     "x": -85,
     "y": 0,
@@ -11,7 +10,6 @@
     "constraints": ""
   },
   {
-    "id": 2,
     "identifier": "gui.button.divorceCancel",
     "x": 20,
     "y": 0,

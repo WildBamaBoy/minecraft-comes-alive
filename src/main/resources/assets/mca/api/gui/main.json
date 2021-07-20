@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "identifier": "gui.button.interact",
     "x": 140,
     "y": -115,
@@ -11,7 +10,6 @@
     "constraints": ""
   },
   {
-    "id": 2,
     "identifier": "gui.button.trade",
     "x": 140,
     "y": -93,
@@ -23,7 +21,6 @@
     "hideOnFail": true
   },
   {
-    "id": 3,
     "identifier": "gui.button.inventory",
     "x": 140,
     "y": -93,
@@ -35,7 +32,6 @@
     "hideOnFail": true
   },
   {
-    "id": 4,
     "identifier": "gui.button.locations",
     "x": 140,
     "y": -71,
@@ -46,7 +42,6 @@
     "constraints": ""
   },
   {
-    "id": 5,
     "identifier": "gui.button.command",
     "x": 140,
     "y": -49,
@@ -57,7 +52,6 @@
     "constraints": ""
   },
   {
-    "id": 5,
     "identifier": "gui.button.clothing",
     "x": 140,
     "y": -27,
@@ -68,7 +62,6 @@
     "constraints": ""
   },
   {
-    "id": 5,
     "identifier": "gui.button.work",
     "x": 140,
     "y": -5,
@@ -80,7 +73,6 @@
     "hideOnFail": true
   },
   {
-    "id": 6,
     "identifier": "gui.button.procreate",
     "x": 140,
     "y": 17,
@@ -92,7 +84,6 @@
     "hideOnFail": true
   },
   {
-    "id": 7,
     "identifier": "gui.button.familyTree",
     "x": 140,
     "y": 39,
@@ -103,7 +94,6 @@
     "constraints": ""
   },
   {
-    "id": 8,
     "identifier": "gui.button.divorceInitiate",
     "x": 140,
     "y": 61,
@@ -116,7 +106,6 @@
     "hideOnFail": true
   },
   {
-    "id": 9,
     "identifier": "gui.button.divorcePapers",
     "x": 100,
     "y": 61,
