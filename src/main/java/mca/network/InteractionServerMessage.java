@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 public class InteractionServerMessage implements Message {
     private static final long serialVersionUID = -7968792276814434450L;
 
-    public InteractionServerMessage(String page, String id) {
+    public InteractionServerMessage(String command) {
     }
 
     @Override

@@ -8,7 +8,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.village.VillagerProfession;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -70,13 +72,14 @@ public enum Constraint implements BiPredicate<VillagerEntityMCA, Entity> {
         return Stream.of(values()).filter(c -> c.test(villager, player)).collect(Collectors.toSet());
     }
 
-    public static Stream<Constraint> fromStringList(String constraints) {
+    public static List<Constraint> fromStringList(String constraints) {
         if (constraints == null || constraints.isEmpty()) {
-            return Stream.empty();
+            return new ArrayList<>();
         }
         return Stream.of(constraints.split("\\,"))
                 .map(REGISTRY::get)
-                .filter(Objects::nonNull);
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 }
 

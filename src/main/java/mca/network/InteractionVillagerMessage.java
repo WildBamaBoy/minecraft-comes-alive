@@ -10,11 +10,11 @@ import java.util.UUID;
 public class InteractionVillagerMessage implements Message {
     private static final long serialVersionUID = 2563941495766992462L;
 
-    private final String id;
+    private final String command;
     private final UUID villagerUUID;
 
-    public InteractionVillagerMessage(String page, String id, UUID villagerUUID) {
-        this.id = id.replace("gui.button.", "");
+    public InteractionVillagerMessage(String command, UUID villagerUUID) {
+        this.command = command;
         this.villagerUUID = villagerUUID;
     }
 
@@ -22,7 +22,7 @@ public class InteractionVillagerMessage implements Message {
     public void receive(PlayerEntity player) {
         VillagerEntityMCA villager = (VillagerEntityMCA) ((ServerWorld) player.world).getEntity(villagerUUID);
         if (villager != null) {
-            if (villager.getInteractions().handle((ServerPlayerEntity)player, id)) {
+            if (villager.getInteractions().handle((ServerPlayerEntity)player, command)) {
                 villager.getInteractions().stopInteracting();
             }
         }

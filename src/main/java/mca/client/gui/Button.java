@@ -90,7 +90,7 @@ public final class Button {
     }
 
     public Stream<Constraint> getConstraints() {
-        return Constraint.fromStringList(constraints);
+        return Constraint.fromStringList(constraints).stream();
     }
 
     //checks if a map of given evaluated constraints apply to this button

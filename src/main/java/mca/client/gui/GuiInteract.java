@@ -102,7 +102,7 @@ public class GuiInteract extends AbstractDynamicScreen {
 
         // Right mouse button
         if (inGiftMode && button == 1) {
-            NetworkHandler.sendToServer(new InteractionVillagerMessage(getActiveScreen(), "gui.button.gift", villager.getUuid()));
+            NetworkHandler.sendToServer(new InteractionVillagerMessage("gui.button.gift", villager.getUuid()));
             return true;
         } else {
             return false;
@@ -281,9 +281,9 @@ public class GuiInteract extends AbstractDynamicScreen {
             /* Anything that should notify the server is handled here */
 
             if (button.targetServer()) {
-                NetworkHandler.sendToServer(new InteractionServerMessage(getActiveScreen(), id));
+                NetworkHandler.sendToServer(new InteractionServerMessage(id));
             } else {
-                NetworkHandler.sendToServer(new InteractionVillagerMessage(getActiveScreen(), id, villager.getUuid()));
+                NetworkHandler.sendToServer(new InteractionVillagerMessage(id, villager.getUuid()));
             }
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;
