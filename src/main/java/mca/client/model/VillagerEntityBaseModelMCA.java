@@ -2,6 +2,7 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.AgeState;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
@@ -84,6 +85,11 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
             this.rightArm.pitch = -armRaise;
             this.rightArm.roll = waveSideways;
         }
+
+        AgeState ageState = entity.getAgeState();
+        headSize = ageState.getHead();
+        headWidth = headSize / ageState.getWidth();
+        breastSize = entity.getGenetics().getBreastSize() * ageState.getBreasts();
 
         breasts.copyTransform(body);
     }
