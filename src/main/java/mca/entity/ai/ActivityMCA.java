@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 
 public interface ActivityMCA {
     Activity CHORE = activity("chore");
+    Activity GRIEVE = activity("grieve");
 
     SensorType<ExplodingCreeperSensor> EXPLODING_CREEPER = sensor("exploding_creeper", ExplodingCreeperSensor::new);
 

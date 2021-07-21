@@ -15,6 +15,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -58,13 +59,13 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     }
 
     @Override
-    public void onTragedy(DamageSource cause, RelationshipType type) {
+    public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite, RelationshipType type) {
 
         if (playerId == null) {
             return; // legacy: old saves will not have this
         }
 
-        EntityRelationship.super.onTragedy(cause, type);
+        EntityRelationship.super.onTragedy(cause, burialSite, type);
     }
 
     public void updateLastSeenVillage(VillageManager manager, PlayerEntity self) {

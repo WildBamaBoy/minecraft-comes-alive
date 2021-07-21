@@ -51,6 +51,22 @@ public class VillagerTasksMCA {
         );
     }
 
+    public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGrievingPackage() {
+        return ImmutableList.of(
+                Pair.of(0, new CompositeTask<>(
+                        ImmutableMap.of(),
+                        ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
+                        CompositeTask.Order.ORDERED,
+                        CompositeTask.RunMode.RUN_ONE,
+                        ImmutableList.of(
+                                Pair.of(new FindWalkTargetTask(1.5F), 1),
+                                Pair.of(new WaitTask(80, 180), 2)
+                        )
+                )),
+                Pair.of(99, new ScheduleActivityTask())
+        );
+    }
+
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getWorkPackage(VillagerProfession profession, float speedModifier) {
         VillagerWorkTask spawngolemtask;
         if (profession == VillagerProfession.FARMER) {
@@ -101,11 +117,13 @@ public class VillagerTasksMCA {
                 Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.HOME, speedModifier, 1, 150, 1200)),
                 Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.HOME, MemoryModuleType.HOME)), // stops from trying to reach a bed when it stops being available.
                 Pair.of(3, new SleepTask()),
-                Pair.of(5, new RandomTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_ABSENT), ImmutableList.of(
-                        Pair.of(new WalkHomeTask(speedModifier), 1),
-                        Pair.of(new WanderIndoorsTask(speedModifier), 4),
-                        Pair.of(new GoToPointOfInterestTask(speedModifier, 4), 2),
-                        Pair.of(new WaitTask(20, 40), 2))
+                Pair.of(5, new RandomTask<>(
+                        ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_ABSENT),
+                        ImmutableList.of(
+                            Pair.of(new WalkHomeTask(speedModifier), 1),
+                            Pair.of(new WanderIndoorsTask(speedModifier), 4),
+                            Pair.of(new GoToPointOfInterestTask(speedModifier, 4), 2),
+                            Pair.of(new WaitTask(20, 40), 2))
                 )),
                 getMinimalLookBehavior(),
                 Pair.of(99, new ScheduleActivityTask())
@@ -141,15 +159,19 @@ public class VillagerTasksMCA {
                     Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
                     Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
                     Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
-                    Pair.of(new FindWalkTargetTask(speedModifier), 1), Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
-                    Pair.of(new JumpInBedTask(speedModifier), 1), Pair.of(new WaitTask(30, 60), 1))
+                    Pair.of(new FindWalkTargetTask(speedModifier), 1),
+                    Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
+                    Pair.of(new JumpInBedTask(speedModifier), 1),
+                    Pair.of(new WaitTask(30, 60), 1))
                 )),
                 Pair.of(3, new GiveGiftsToHeroTask(100)),
                 Pair.of(3, new FindInteractionTargetTask(EntityType.PLAYER, 4)),
                 Pair.of(3, new HoldTradeOffersTask(400, 1600)),
                 Pair.of(3, new CompositeTask<>(ImmutableMap.of(),
                     ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
-                    CompositeTask.Order.ORDERED, CompositeTask.RunMode.RUN_ONE, ImmutableList.of(
+                    CompositeTask.Order.ORDERED,
+                    CompositeTask.RunMode.RUN_ONE,
+                    ImmutableList.of(
                             Pair.of(new GatherItemsVillagerTask(), 1))
                 )),
                 Pair.of(3, new CompositeTask<>(ImmutableMap.of(),

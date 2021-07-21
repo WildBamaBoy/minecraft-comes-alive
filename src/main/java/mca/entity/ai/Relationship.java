@@ -9,6 +9,8 @@ import java.util.UUID;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
+import org.jetbrains.annotations.Nullable;
+
 import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
@@ -27,6 +29,9 @@ import mca.util.network.datasync.CEnumParameter;
 import mca.util.network.datasync.CStringParameter;
 import mca.util.network.datasync.CUUIDParameter;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.brain.BlockPosLookTarget;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -41,6 +46,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -158,25 +164,32 @@ public class Relationship implements EntityRelationship {
         }
     }
 
-    public void onTragedy(DamageSource cause) {
+    public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite) {
         // The death of a villager negatively modifies the mood of nearby strangers
         WorldUtils
             .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
-            .forEach(villager -> villager.getRelationships().onTragedy(cause, RelationshipType.STRANGER));
+            .forEach(villager -> villager.getRelationships().onTragedy(cause, burialSite, RelationshipType.STRANGER));
 
-        onTragedy(cause, RelationshipType.SIBLING);
+        onTragedy(cause, burialSite, RelationshipType.SIBLING);
     }
 
     @Override
-    public void onTragedy(DamageSource cause, RelationshipType type) {
+    public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite, RelationshipType type) {
         int moodAffect = 10;
 
         moodAffect /= type.getInverseProximity();
         moodAffect *= type.getProximityAmplifier();
 
+
+        entity.produceParticles(ParticleTypes.DAMAGE_INDICATOR);
         entity.getVillagerBrain().modifyMoodLevel(-moodAffect);
 
-        EntityRelationship.super.onTragedy(cause, type);
+        if (burialSite != null && type != RelationshipType.STRANGER) {
+            entity.getBrain().doExclusively(ActivityMCA.GRIEVE);
+            entity.getBrain().remember(MemoryModuleType.WALK_TARGET, new WalkTarget(burialSite, 1, 1));
+            entity.getBrain().remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(burialSite));
+        }
+        EntityRelationship.super.onTragedy(cause, burialSite, type);
     }
 
     @Override

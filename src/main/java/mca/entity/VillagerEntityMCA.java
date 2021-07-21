@@ -4,6 +4,8 @@ import com.mojang.serialization.Dynamic;
 
 import mca.MCA;
 import mca.ParticleTypesMCA;
+import mca.TagsMCA;
+import mca.block.TombstoneBlock;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Infectable;
@@ -21,9 +23,12 @@ import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.resources.API;
 import mca.resources.data.Hair;
+import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.SavedVillagers;
+import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -409,9 +414,23 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         InventoryUtils.dropAllItems(this, inventory);
 
-        relations.onTragedy(cause);
 
-        SavedVillagers.get((ServerWorld)world).saveVillager(this);
+
+        if (!GraveyardManager.get((ServerWorld)world).findNearest(getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
+            if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
+                BlockEntity be = world.getBlockEntity(pos);
+                if (be instanceof TombstoneBlock.Data) {
+                    ((TombstoneBlock.Data)be).setEntity(this);
+
+                    relations.onTragedy(cause, pos);
+                    return true;
+                }
+            }
+            return false;
+        }).isPresent()) {
+            SavedVillagers.get((ServerWorld)world).saveVillager(this);
+            relations.onTragedy(cause, null);
+        }
     }
 
     @Override

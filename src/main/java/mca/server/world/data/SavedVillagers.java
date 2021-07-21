@@ -1,13 +1,9 @@
 package mca.server.world.data;
 
-import mca.TagsMCA;
-import mca.block.TombstoneBlock;
 import mca.entity.VillagerEntityMCA;
-import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import mca.util.compat.PersistentStateCompat;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 
@@ -18,19 +14,15 @@ public class SavedVillagers extends PersistentStateCompat {
 
     private final NbtCompound villagerData;
 
-    private final ServerWorld world;
-
     public static SavedVillagers get(ServerWorld world) {
-        return WorldUtils.loadData(world, nbt -> new SavedVillagers(world, nbt), SavedVillagers::new, DATA_ID);
+        return WorldUtils.loadData(world, SavedVillagers::new, SavedVillagers::new, DATA_ID);
     }
 
     SavedVillagers(ServerWorld world) {
-        this.world = world;
         villagerData = new NbtCompound();
     }
 
-    SavedVillagers(ServerWorld world, NbtCompound nbt) {
-        this.world = world;
+    SavedVillagers(NbtCompound nbt) {
         villagerData = nbt.copy();
     }
 
@@ -44,21 +36,10 @@ public class SavedVillagers extends PersistentStateCompat {
     }
 
     public void saveVillager(VillagerEntityMCA villager) {
-        if (!GraveyardManager.get(world).findNearest(villager.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
-            if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
-                BlockEntity be = world.getBlockEntity(pos);
-                if (be instanceof TombstoneBlock.Data) {
-                    ((TombstoneBlock.Data)be).setEntity(villager);
-                    return true;
-                }
-            }
-            return false;
-        }).isPresent()) {
-            NbtCompound nbt = new NbtCompound();
-            villager.saveNbt(nbt);
-            villagerData.put(villager.getUuid().toString(), nbt);
-            markDirty();
-        }
+        NbtCompound nbt = new NbtCompound();
+        villager.saveNbt(nbt);
+        villagerData.put(villager.getUuid().toString(), nbt);
+        markDirty();
     }
 
     public void removeVillager(UUID uuid) {

@@ -111,6 +111,7 @@ public class VillagerBrain {
         brain.setTaskList(Activity.RAID, VillagerTasksMCA.getRaidPackage(profession, 0.5F));
         brain.setTaskList(Activity.HIDE, VillagerTasksMCA.getHidePackage(profession, 0.5F));
         brain.setTaskList(ActivityMCA.CHORE, VillagerTasksMCA.getChorePackage(profession, 0.5F));
+        brain.setTaskList(ActivityMCA.GRIEVE, VillagerTasksMCA.getGrievingPackage());
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.doExclusively(Activity.IDLE);
