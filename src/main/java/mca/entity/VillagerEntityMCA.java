@@ -54,6 +54,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -368,7 +369,13 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             }
 
             if (age % 20 == 0) {
-                mcaBrain.clientTick();
+                if (world.random.nextBoolean()) {
+                    if (mcaBrain.getMoodLevel() <= -15) {
+                        mcaBrain.getPersonality().getMoodGroup().getParticles().ifPresent(this::produceParticles);
+                    } else if (mcaBrain.getMoodLevel() >= 15) {
+                        produceParticles(ParticleTypes.HAPPY_VILLAGER);
+                    }
+                }
             }
         }
     }
@@ -413,8 +420,6 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
 
         InventoryUtils.dropAllItems(this, inventory);
-
-
 
         if (!GraveyardManager.get((ServerWorld)world).findNearest(getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
             if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
@@ -618,12 +623,18 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public void handleStatus(byte id) {
-        if (id == 15) {
-            this.world.addImportantParticle(ParticleTypesMCA.NEG_INTERACTION, true, this.getX(), this.getEyeY() + 0.5, this.getZ(), 0, 0, 0);
-        } else if (id == 16) {
-            this.world.addImportantParticle(ParticleTypesMCA.POS_INTERACTION, true, this.getX(), this.getEyeY() + 0.5, this.getZ(), 0, 0, 0);
-        } else {
-            super.handleStatus(id);
+        switch (id) {
+            case Status.MCA_VILLAGER_NEG_INTERACTION:
+                world.addImportantParticle(ParticleTypesMCA.NEG_INTERACTION, true, getX(), getEyeY() + 0.5, getZ(), 0, 0, 0);
+                break;
+            case Status.MCA_VILLAGER_POS_INTERACTION:
+                world.addImportantParticle(ParticleTypesMCA.POS_INTERACTION, true, getX(), getEyeY() + 0.5, getZ(), 0, 0, 0);
+                break;
+            case Status.MCA_VILLAGER_TRAGEDY:
+                this.produceParticles(ParticleTypes.DAMAGE_INDICATOR);
+                break;
+            default:
+                super.handleStatus(id);
         }
     }
 

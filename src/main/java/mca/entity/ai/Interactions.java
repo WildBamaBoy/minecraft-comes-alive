@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import mca.client.gui.GuiInteract;
+import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.Personality;
@@ -251,9 +252,9 @@ public class Interactions {
 
         //spawn particles
         if (succeeded) {
-            entity.world.sendEntityStatus(entity, (byte) 16);
+            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
         } else {
-            entity.world.sendEntityStatus(entity, (byte) 15);
+            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
 
             //sensitive people doubles the loss
             if (entity.getVillagerBrain().getPersonality() == Personality.SENSITIVE) {

@@ -32,7 +32,6 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Util;
 import net.minecraft.village.VillagerProfession;
 
@@ -142,16 +141,6 @@ public class VillagerBrain {
         activeChore = data.newEnum("activeChore", Chore.NONE);
         panicking = data.newBoolean("isPanicking");
         choreAssigningPlayer = data.newUUID("choreAssigningPlayer");
-    }
-
-    public void clientTick() {
-        if (entity.world.random.nextBoolean()) {
-            if (getMoodLevel() <= -15) {
-                getPersonality().getMoodGroup().getParticles().ifPresent(entity::produceParticles);
-            } else if (getMoodLevel() >= 15) {
-                entity.produceParticles(ParticleTypes.HAPPY_VILLAGER);
-            }
-        }
     }
 
     public void think() {

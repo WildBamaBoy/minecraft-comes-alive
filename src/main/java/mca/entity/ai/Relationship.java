@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.jetbrains.annotations.Nullable;
 
 import mca.MCA;
+import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
@@ -40,7 +41,6 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
@@ -148,7 +148,7 @@ public class Relationship implements EntityRelationship {
         if (procreateTick > 0) {
             procreateTick--;
             entity.getNavigation().stop();
-            entity.world.sendEntityStatus(entity, (byte) 12);
+            entity.world.sendEntityStatus(entity, Status.VILLAGER_HEARTS);
         } else {
             // TODO: Move this to the Pregnancy
             //make sure this villager is registered in the family tree
@@ -180,8 +180,7 @@ public class Relationship implements EntityRelationship {
         moodAffect /= type.getInverseProximity();
         moodAffect *= type.getProximityAmplifier();
 
-
-        entity.produceParticles(ParticleTypes.DAMAGE_INDICATOR);
+        ((ServerWorld)entity.world).sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
         entity.getVillagerBrain().modifyMoodLevel(-moodAffect);
 
         if (burialSite != null && type != RelationshipType.STRANGER) {
@@ -262,9 +261,9 @@ public class Relationship implements EntityRelationship {
             //particles
             if (giftValue > 0) {
                 player.getMainHandStack().decrement(1);
-                entity.world.sendEntityStatus(entity, (byte) 16);
+                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
             } else {
-                entity.world.sendEntityStatus(entity, (byte) 15);
+                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
             }
         }
     }
@@ -280,7 +279,7 @@ public class Relationship implements EntityRelationship {
         } else if (item == Items.CAKE) {
             if (isMarried() && !entity.isBaby()) {
                 if (pregnancy.tryStartGestation()) {
-                    entity.produceParticles(ParticleTypes.HEART);
+                    ((ServerWorld)player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
                     entity.sendChatMessage(player, "gift.cake.success");
                 } else {
                     entity.sendChatMessage(player, "gift.cake.fail");

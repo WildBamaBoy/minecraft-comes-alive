@@ -1,5 +1,6 @@
 package mca.item;
 
+import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.AgeState;
 import mca.util.WorldUtils;
@@ -47,7 +48,7 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
         spouse.getRelationships().marry(villager);
 
         // show a reaction
-        player.world.sendEntityStatus(villager, (byte) 12);
+        player.world.sendEntityStatus(villager, Status.VILLAGER_HEARTS);
 
         // remove the rings for survival mode
         if (!player.isCreative()) {
