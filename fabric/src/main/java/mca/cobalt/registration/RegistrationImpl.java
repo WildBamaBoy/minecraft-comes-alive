@@ -74,9 +74,7 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public <U> BiFunction<Identifier, Optional<Codec<U>>, MemoryModuleType<U>> memoryModule() {
-        return (id, codec) -> codec
-                .map(c -> MixinMemoryModuleType.register(id.toString(), c))
-                .orElseGet(() -> MixinMemoryModuleType.register(id.toString()));
+        return (id, codec) -> register(Registry.MEMORY_MODULE_TYPE, id, MixinMemoryModuleType.register(codec));
     }
 
     @Override

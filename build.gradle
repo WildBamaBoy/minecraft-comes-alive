@@ -21,7 +21,7 @@ subprojects {
   apply plugin: 'dev.architectury.loom'
 
   loom {
-    mixinConfig "mixin.mca.json"
+    mixinConfig "mca.mixin.json"
   }
 
   dependencies {
