@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-import mca.MCA;
+import mca.Config;
 import mca.entity.ai.relationship.Gender;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CEnumParameter;
@@ -107,8 +107,9 @@ public class Genetics implements Iterable<Genetics.Gene> {
         // temperature
         float temp = entity.world.getBiome(entity.getBlockPos()).getTemperature();
 
+        // TODO: that's racist
         // immigrants
-        if (random.nextInt(100) < MCA.getConfig().immigrantChance) {
+        if (random.nextInt(100) < Config.getInstance().immigrantChance) {
             temp = random.nextFloat() * 2.0f - 0.5f;
         }
 

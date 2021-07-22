@@ -1,6 +1,6 @@
 package mca.item;
 
-import mca.MCA;
+import mca.Config;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
@@ -141,7 +141,7 @@ public class BabyItem extends Item {
         // set proper dialogue type
         Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
         memories.setDialogueType(DialogueType.CHILDP);
-        memories.setHearts(MCA.getConfig().childInitialHearts);
+        memories.setHearts(Config.getInstance().childInitialHearts);
 
         stack.decrement(1);
 
@@ -188,7 +188,7 @@ public class BabyItem extends Item {
     }
 
     private static boolean isReadyToGrowUp(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().getInt("age") >= MCA.getConfig().babyGrowUpTime;
+        return stack.hasTag() && stack.getTag().getInt("age") >= Config.getInstance().babyGrowUpTime;
     }
 
     public static String getBabyName(ItemStack stack) {

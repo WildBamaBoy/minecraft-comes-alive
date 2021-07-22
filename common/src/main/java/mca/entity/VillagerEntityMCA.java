@@ -2,7 +2,7 @@ package mca.entity;
 
 import com.mojang.serialization.Dynamic;
 
-import mca.MCA;
+import mca.Config;
 import mca.ParticleTypesMCA;
 import mca.TagsMCA;
 import mca.block.TombstoneBlock;
@@ -309,8 +309,8 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
             if (source.getSource() instanceof ZombieEntity
                     && getProfession() != ProfessionsMCA.GUARD
-                    && MCA.getConfig().enableInfection
-                    && random.nextFloat() < MCA.getConfig().infectionChance / 100.0) {
+                    && Config.getInstance().enableInfection
+                    && random.nextFloat() < Config.getInstance().infectionChance / 100.0) {
                 isInfected.set(true);
             }
         }

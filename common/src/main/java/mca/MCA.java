@@ -5,12 +5,10 @@ import org.apache.logging.log4j.Logger;
 
 public final class MCA {
     public static final String MOD_ID = "mca";
-    public static final Logger logger = LogManager.getLogger();
-
-    private static Config config = new Config();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public static Config getConfig() {
-        return config;
+        return Config.getInstance();
     }
 }
 

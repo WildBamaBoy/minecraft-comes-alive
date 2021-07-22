@@ -2,7 +2,8 @@ package mca.server;
 
 import java.util.LinkedList;
 import java.util.List;
-import mca.MCA;
+
+import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.WorldUtils;
@@ -38,7 +39,7 @@ public class SpawnQueue {
     }
 
     public boolean addVillager(Entity entity) {
-        if (!MCA.getConfig().overwriteOriginalVillagers) return false;
+        if (!Config.getInstance().overwriteOriginalVillagers) return false;
 
         return entity.getClass().equals(VillagerEntity.class)
                 && !spawnQueue.contains(entity)

@@ -2,7 +2,7 @@ package mca.entity.ai;
 
 import java.util.Optional;
 
-import mca.MCA;
+import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.WorldUtils;
@@ -36,7 +36,7 @@ public class Pregnancy {
         babyAge.set(babyAge.get() + 1);
 
         // grow up time is in minutes and we measure age in seconds
-        if (babyAge.get() < MCA.getConfig().babyGrowUpTime * 60) {
+        if (babyAge.get() < Config.getInstance().babyGrowUpTime * 60) {
             return;
         }
 

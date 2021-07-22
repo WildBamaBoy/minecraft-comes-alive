@@ -21,7 +21,7 @@ public abstract class AbstractChoreTask extends Task<VillagerEntityMCA> {
     @Override
     protected void keepRunning(ServerWorld world, VillagerEntityMCA entity, long time) {
         if (!getAssigningPlayer().isPresent()) {
-            MCA.logger.info("Force-stopped chore because assigning player was not present.");
+            MCA.LOGGER.info("Force-stopped chore because assigning player was not present.");
             villager.getVillagerBrain().abandonJob();
         }
     }

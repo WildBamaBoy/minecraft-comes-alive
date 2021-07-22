@@ -1,6 +1,6 @@
 package mca.item;
 
-import mca.MCA;
+import mca.Config;
 import mca.cobalt.network.NetworkHandler;
 import mca.network.OpenGuiRequest;
 import net.minecraft.client.item.TooltipContext;
@@ -29,7 +29,7 @@ public class StaffOfLifeItem extends Item {
     public final TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
 
-        if (!MCA.getConfig().enableRevivals) {
+        if (!Config.getInstance().enableRevivals) {
             player.sendMessage(new TranslatableText("notify.revival.disabled"), true);
             return TypedActionResult.fail(stack);
         }

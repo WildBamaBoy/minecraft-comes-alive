@@ -2,7 +2,7 @@ package mca.entity.ai;
 
 import java.util.stream.Stream;
 
-import mca.MCA;
+import mca.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -40,7 +40,7 @@ public interface Messenger {
             message = message.formatted(Formatting.OBFUSCATED);
         }
 
-        receiver.sendSystemMessage(new LiteralText(MCA.getConfig().villagerChatPrefix).append(asEntity().getDisplayName()).append(": ").append(message), receiver.getUuid());
+        receiver.sendSystemMessage(new LiteralText(Config.getInstance().villagerChatPrefix).append(asEntity().getDisplayName()).append(": ").append(message), receiver.getUuid());
 
         playSpeechEffect();
     }

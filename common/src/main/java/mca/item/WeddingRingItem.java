@@ -1,6 +1,6 @@
 package mca.item;
 
-import mca.MCA;
+import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
@@ -26,7 +26,7 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
     }
 
     protected int getHeartsRequired() {
-        return MCA.getConfig().marriageHeartsRequirement;
+        return Config.getInstance().marriageHeartsRequirement;
     }
 
     @Override

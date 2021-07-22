@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import mca.MCA;
+import mca.Config;
 
 public class EngagementRingItem extends WeddingRingItem {
     public EngagementRingItem(Item.Settings properties) {
@@ -20,7 +20,7 @@ public class EngagementRingItem extends WeddingRingItem {
 
     @Override
     protected int getHeartsRequired() {
-        return MCA.getConfig().marriageHeartsRequirement / 2;
+        return Config.getInstance().marriageHeartsRequirement / 2;
     }
 
     @Override

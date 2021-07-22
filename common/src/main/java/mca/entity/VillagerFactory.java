@@ -79,7 +79,7 @@ public class VillagerFactory {
 
     public VillagerFactory spawn(SpawnReason reason) {
         if (!position.isPresent()) {
-            MCA.logger.info("Attempted to spawn villager without a position being set!");
+            MCA.LOGGER.info("Attempted to spawn villager without a position being set!");
         }
 
         WorldUtils.spawnEntity(world, build(), reason);

@@ -1,7 +1,7 @@
 package mca.entity;
 
 
-import mca.MCA;
+import mca.Config;
 import mca.SoundsMCA;
 import mca.entity.ai.goal.GrimReaperIdleGoal;
 import mca.entity.ai.goal.GrimReaperMeleeGoal;
@@ -230,7 +230,7 @@ public class GrimReaperEntity extends PathAwareEntity {
         //update bossinfo
         bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 
-        if (!MCA.getConfig().allowGrimReaper) {
+        if (!Config.getInstance().allowGrimReaper) {
             remove();
         }
 

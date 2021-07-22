@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 
-import mca.MCA;
+import mca.Config;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
@@ -239,7 +239,7 @@ public class Relationship implements EntityRelationship {
                     long occurrences = giftDesaturation.stream().filter(id::equals).count();
 
                     //check if desaturation fail happen
-                    if (entity.getRandom().nextInt(100) < occurrences * MCA.getConfig().giftDesaturationPenalty) {
+                    if (entity.getRandom().nextInt(100) < occurrences * Config.getInstance().giftDesaturationPenalty) {
                         giftValue = -giftValue / 2;
                         entity.sendChatMessage(player, API.getGiftPool().getResponseForSaturatedGift(stack));
                     } else {
@@ -254,7 +254,7 @@ public class Relationship implements EntityRelationship {
 
             //add to desaturation queue
             giftDesaturation.add(stack.getTranslationKey());
-            while (giftDesaturation.size() > MCA.getConfig().giftDesaturationQueueLength) {
+            while (giftDesaturation.size() > Config.getInstance().giftDesaturationQueueLength) {
                 giftDesaturation.remove(0);
             }
 

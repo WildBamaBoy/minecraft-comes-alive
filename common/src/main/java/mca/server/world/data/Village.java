@@ -1,6 +1,6 @@
 package mca.server.world.data;
 
-import mca.MCA;
+import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.ProfessionsMCA;
@@ -284,7 +284,7 @@ public class Village implements Iterable<Building> {
     }
 
     private void spawnGuards(ServerWorld world) {
-        int guardCapacity = getPopulation() / MCA.getConfig().guardSpawnRate;
+        int guardCapacity = getPopulation() / Config.getInstance().guardSpawnRate;
 
         // Count up the guards
         int guards = 0;
@@ -306,13 +306,13 @@ public class Village implements Iterable<Building> {
 
     // if the population is low, find a couple and let them have a child
     public void procreate(ServerWorld world) {
-        if (world.random.nextFloat() >= MCA.getConfig().childrenChance / 100F) {
+        if (world.random.nextFloat() >= Config.getInstance().childrenChance / 100F) {
             return;
         }
 
         int population = getPopulation();
         int maxPopulation = getMaxPopulation();
-        if (population >= maxPopulation * MCA.getConfig().childrenLimit / 100F) {
+        if (population >= maxPopulation * Config.getInstance().childrenLimit / 100F) {
             return;
         }
 
@@ -327,7 +327,7 @@ public class Village implements Iterable<Building> {
 
     // if the amount of couples is low, let them marry
     public void marry(ServerWorld world) {
-        if (world.random.nextFloat() >= MCA.getConfig().marriageChance / 100f) {
+        if (world.random.nextFloat() >= Config.getInstance().marriageChance / 100f) {
             return;
         }
 
@@ -337,7 +337,7 @@ public class Village implements Iterable<Building> {
                 .filter(v -> !v.getRelationships().isMarried() && !v.isBaby())
                 .collect(Collectors.toList());
 
-        if (availableVillagers.size() < allVillagers.size() * MCA.getConfig().marriageLimit / 100f) {
+        if (availableVillagers.size() < allVillagers.size() * Config.getInstance().marriageLimit / 100f) {
             return; // The village is too small.
         }
 

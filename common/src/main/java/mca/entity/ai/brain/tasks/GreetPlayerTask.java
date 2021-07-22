@@ -2,7 +2,7 @@ package mca.entity.ai.brain.tasks;
 
 import com.google.common.collect.ImmutableMap;
 
-import mca.MCA;
+import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Memories;
 import mca.entity.ai.Relationship;
@@ -70,7 +70,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
                     int day = (int) (villager.world.getTimeOfDay() / 24000L);
                     memories.setLastSeen(day);
 
-                    String phrase = memories.getHearts() <= MCA.getConfig().greetHeartsThreshold ? "welcomeFoe" : "welcome";
+                    String phrase = memories.getHearts() <= Config.getInstance().greetHeartsThreshold ? "welcomeFoe" : "welcome";
                     villager.sendChatMessage(player, phrase, player.getName());
                     talked = true;
                     talking = MAX_COOLDOWN;
@@ -107,10 +107,10 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
         // first check relationships, only family, friends and foes will greet you
         if (!Relationship.IS_MARRIED.test(villager, player)
                 || Relationship.IS_RELATIVE.test(villager, player)
-                || Math.abs(memories.getHearts()) >= MCA.getConfig().greetHeartsThreshold) {
+                || Math.abs(memories.getHearts()) >= Config.getInstance().greetHeartsThreshold) {
             long diff = day - memories.getLastSeen();
 
-            if (diff > MCA.getConfig().greetAfterDays && memories.getLastSeen() > 0) {
+            if (diff > Config.getInstance().greetAfterDays && memories.getLastSeen() > 0) {
                 return true;
             }
 

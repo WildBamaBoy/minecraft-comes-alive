@@ -5,6 +5,12 @@ import java.io.Serializable;
 public final class Config implements Serializable {
     private static final long serialVersionUID = 956221997003825933L;
 
+    private static Config INSTANCE = new Config();
+
+    public static Config getInstance() {
+        return INSTANCE;
+    }
+
     public boolean overwriteOriginalVillagers = true;
     public boolean enableDiminishingReturns = true;
     public boolean enableInfection = true;
