@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import com.mojang.serialization.Codec;
 
 import mca.cobalt.registration.Registration.PoiFactory;
+import mca.cobalt.registration.Registration.ProfessionFactory;
 import mca.mixin.MixinSensorType;
 import mca.mixin.MixinActivity;
 import mca.mixin.MixinMemoryModuleType;
@@ -29,7 +30,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -93,7 +93,7 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     @Override
-    public BiFunction<PointOfInterestType, SoundEvent, VillagerProfession> profession() {
-        return (workStation, workSound) -> VillagerProfessionBuilder.create().workstation(workStation).workSound(workSound).build();
+    public ProfessionFactory<VillagerProfession> profession() {
+        return (id, poi, sound, items, sites) -> VillagerProfessionBuilder.create().id(id).workstation(poi).workSound(sound).harvestableItems(items).secondaryJobSites(sites).build();
     }
 }

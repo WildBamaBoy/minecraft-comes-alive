@@ -89,8 +89,8 @@ public class Registration {
         }
 
         public static class Profession {
-            public static VillagerProfession create(PointOfInterestType workStation, @Nullable SoundEvent workSound) {
-                return INSTANCE.profession().apply(workStation, workSound);
+            public static ProfessionFactory<VillagerProfession> creator() {
+                return INSTANCE.profession();
             }
         }
     }
@@ -120,10 +120,16 @@ public class Registration {
 
         public abstract PoiFactory<PointOfInterestType> poi();
 
-        public abstract BiFunction<PointOfInterestType, SoundEvent, VillagerProfession> profession();
+        public abstract ProfessionFactory<VillagerProfession> profession();
     }
 
     protected interface PoiFactory<T> {
         T apply(Identifier id, int ticketCount, int searchDistance, Block...blocks);
+    }
+
+    public interface ProfessionFactory<T> {
+        T apply(Identifier id, PointOfInterestType workStation, @Nullable SoundEvent workSound,
+                Iterable<Item> gatherableItems,
+                Iterable<Block> secondaryJobSites);
     }
 }
