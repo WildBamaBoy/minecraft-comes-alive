@@ -1,0 +1,68 @@
+plugins {
+  id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+configurations {
+  shadowCommon
+}
+
+architectury {
+  platformSetupLoomIde()
+  fabric()
+}
+
+minecraft {
+  refmapName = 'mca.mixin.refmap.json'
+  accessWidener 'src/main/resources/mca.aw'
+}
+
+dependencies {
+  modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+  modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
+  modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
+
+  implementation(project(path: ":common")) {
+    transitive = false
+  }
+  developmentFabric(project(path: ":common")) {
+    transitive = false
+  }
+  shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
+    transitive = false
+  }
+}
+
+processResources {
+  inputs.property "version", project.version.toString()
+
+  filesMatching("fabric.mod.json") {
+    expand "version": project.version.toString()
+  }
+
+  from 'LICENSE'
+}
+
+shadowJar {
+  configurations = [project.configurations.shadowCommon]
+  classifier "dev-shadow"
+}
+
+remapJar {
+  input.set shadowJar.archiveFile
+  dependsOn shadowJar
+  classifier "fabric"
+}
+
+jar {
+    classifier "dev"
+}
+
+java {
+    withSourcesJar()
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}

@@ -1,66 +1,46 @@
 plugins {
-    id 'java-library'
-    id 'fabric-loom' version '0.8-SNAPSHOT'
-    id 'maven-publish'
-    id 'org.ajoberstar.reckon' version '0.13.0'
+  id 'java-library'
+  id 'architectury-plugin' version '3.2-SNAPSHOT'
+  id 'dev.architectury.loom' version '0.7.2-SNAPSHOT' apply false
+  id 'org.ajoberstar.reckon' version '0.13.0'
 }
 
 targetCompatibility = JavaVersion.VERSION_1_8
 sourceCompatibility = JavaVersion.VERSION_1_8
 
-group = project.group
-description = project.displayname
-archivesBaseName = project.name
-
-minecraft {
-    refmapName = 'mca.mixin.refmap.json'
-    accessWidener 'src/main/resources/mca.aw'
+architectury {
+  minecraft = rootProject.minecraft_version
 }
 
 reckon {
-    scopeFromProp()
-    stageFromProp('beta', 'rc', 'final')
+  scopeFromProp()
+  stageFromProp('beta', 'rc', 'final')
 }
 
-repositories {
-    mavenLocal()
-    maven {
-        name = 'modmenu-backup'
-        url = 'https://maven.kotlindiscord.com/repository/terraformers'
-    }
-    /*maven {
-        name = 'modmenu'
-        url = 'https://maven.terraformersmc.com/releases'
-    }*/
-}
+subprojects {
+  apply plugin: 'dev.architectury.loom'
 
-dependencies {
+  loom {
+    mixinConfig "mixin.mca.json"
+  }
+
+  dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-
-    modApi "net.fabricmc:fabric-loader:${project.loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}") {
-        transitive = false
-    }
+  }
 }
 
-processResources {
-    inputs.property "version", project.version.toString()
+allprojects {
+  apply plugin: "architectury-plugin"
 
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version.toString()
-    }
+  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_1_8
 
-    from 'LICENSE'
-}
+  group = rootProject.group
+  description = rootProject.displayname
+  archivesBaseName = rootProject.name
 
-tasks.withType(JavaCompile) {
+  tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
-    from sourceSets.main.allSource
+  }
 }
