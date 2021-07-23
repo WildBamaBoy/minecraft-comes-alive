@@ -7,6 +7,6 @@
     "east": "mca:block/jeweler_workbench_side",
     "west": "mca:block/jeweler_workbench_front",
     "up": "mca:block/jeweler_workbench_top",
-    "down": "mca:block/oak_planks"
+    "down": "minecraft:block/oak_planks"
   }
 }
