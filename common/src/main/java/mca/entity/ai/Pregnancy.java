@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import mca.Config;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CBooleanParameter;
@@ -43,7 +44,10 @@ public class Pregnancy {
         hasBaby.set(false);
         babyAge.set(0);
 
-        birthChild();
+        VillagerEntityMCA child = createChild(getFather().orElse(mother), isBabyMale.get() ? Gender.MALE : Gender.FEMALE);
+
+        child.setPosition(mother.getX(), mother.getY(), mother.getZ());
+        WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
     }
 
     public boolean tryStartGestation() {
@@ -64,19 +68,20 @@ public class Pregnancy {
         }).orElse(false);
     }
 
-    public void birthChild() {
-        VillagerEntityMCA father = getFather().orElse(mother);
-        //create child
-        VillagerEntityMCA child = (isBabyMale.get() ? Gender.MALE : Gender.FEMALE).getVillagerType().create(mother.world);
+    public VillagerEntityMCA createChild(VillagerEntityMCA partner, Gender gender) {
+        VillagerEntityMCA child = gender.getVillagerType().create(mother.world);
 
-        child.setPosition(mother.getX(), mother.getY(), mother.getZ());
-        child.getGenetics().combine(father.getGenetics(), mother.getGenetics());
+        child.getGenetics().combine(partner.getGenetics(), mother.getGenetics());
+        child.setBaby(true);
+        child.setAgeState(AgeState.TODDLER);
 
-        //add all 3 to the family tree
-        mother.getRelationships().getFamilyTree().addChild(father, mother, child);
+        mother.getRelationships().getFamilyTree().addChild(partner, mother, child);
 
-        //and yeet it into the world
-        WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
+        return child;
+    }
+
+    public VillagerEntityMCA createSoloChild(Gender gender) {
+        return createChild(mother, gender);
     }
 
     private Optional<VillagerEntityMCA> getFather() {

@@ -116,10 +116,12 @@ public class BabyItem extends Item {
 
         Entity spouse = playerData.getSpouse().orElse(null);
         if (spouse instanceof VillagerEntityMCA) {
+            // player - villager
             VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
             familyTree.getOrCreate(spouseVillager);
             child.getGenetics().combine(spouseVillager.getGenetics(), spouseVillager.getGenetics());
         } else {
+            // player - player
             child.getGenetics().randomize(child);
         }
 

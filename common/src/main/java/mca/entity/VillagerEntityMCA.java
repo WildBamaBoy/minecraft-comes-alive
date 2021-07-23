@@ -21,6 +21,7 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
+import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.data.Hair;
 import mca.server.world.data.GraveyardManager;
@@ -46,6 +47,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -71,6 +73,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.village.VillagerType;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -257,7 +260,40 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-        return interactions.interactAt(player, pos, hand);
+
+        ItemStack stack = player.getStackInHand(hand);
+
+        if (stack.getItem() != ItemsMCA.EGG_MALE && stack.getItem() != ItemsMCA.EGG_FEMALE) {
+            return interactions.interactAt(player, pos, hand);
+        }
+        return super.interactAt(player, pos, hand);
+    }
+
+    @Override
+    public VillagerEntityMCA createChild(ServerWorld world, PassiveEntity partner) {
+
+        VillagerEntityMCA child = partner instanceof VillagerEntityMCA
+                ? relations.getPregnancy().createChild((VillagerEntityMCA)partner, Gender.getRandom())
+                : relations.getPregnancy().createSoloChild(Gender.getRandom());
+
+        child.setVillagerData(child.getVillagerData().withType(getRandomType(partner)));
+
+        child.initialize(world, world.getLocalDifficulty(child.getBlockPos()), SpawnReason.BREEDING, null, null);
+        return child;
+    }
+
+    private VillagerType getRandomType(PassiveEntity partner) {
+        double d = random.nextDouble();
+
+        if (d < 0.5D) {
+            return VillagerType.forBiome(world.getBiomeKey(getBlockPos()));
+        }
+
+        if (d < 0.75D) {
+            return getVillagerData().getType();
+        }
+
+        return ((VillagerEntity)partner).getVillagerData().getType();
     }
 
     @Override
