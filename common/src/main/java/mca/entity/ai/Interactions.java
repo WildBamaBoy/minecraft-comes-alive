@@ -117,8 +117,8 @@ public class Interactions {
                         .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
                         .findFirst(), horse -> {
                             entity.startRiding(horse, false);
-                            entity.sendChatMessage(player, "command.ride.success");
-                        }, () -> entity.sendChatMessage(player, "command.ride.fail.no_horse"));
+                            entity.sendChatMessage(player, "interaction.ridehorse.success");
+                        }, () -> entity.sendChatMessage(player, "interaction.ridehorse.fail.notnearby"));
                 }
                 return true;
             case "sethome":

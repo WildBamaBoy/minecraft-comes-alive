@@ -153,7 +153,7 @@ public class Residency {
             , home -> {
             entity.moveTowards(home.getPos());
             entity.sendChatMessage(player, "interaction.gohome.success");
-        }, () -> entity.sendChatMessage(player, "interaction.gohome.fail"));
+        }, () -> entity.sendChatMessage(player, "interaction.gohome.fail.nohome"));
     }
 
     private void clearHome() {
