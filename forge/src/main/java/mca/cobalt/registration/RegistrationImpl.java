@@ -37,7 +37,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistry;
@@ -50,15 +52,15 @@ import net.minecraftforge.registries.RegistryManager;
 public class RegistrationImpl extends Registration.Impl {
     public static final RegistrationImpl IMPL = new RegistrationImpl();
 
-    public static final Map<EntityType<? extends LivingEntity>, Builder> ENTITY_ATTRIBUTES = new HashMap<>();
+    public static final Map<EntityType<? extends LivingEntity>, Supplier<Builder>> ENTITY_ATTRIBUTES = new HashMap<>();
 
     private final Map<String, RegistryRepo> repos = new HashMap<>();
 
     public static void bootstrap() {}
 
-    public void apply() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        repos.values().forEach(repo -> repo.apply(bus));
+    @SubscribeEvent
+    public static void handleEvent(RegistryEvent.Register<Block> event) {
+
     }
 
     private RegistryRepo getRepo(String namespace) {
@@ -68,13 +70,13 @@ public class RegistrationImpl extends Registration.Impl {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public <T> T register(Registry<? super T> registry, Identifier id, T obj) {
-        if (obj instanceof IForgeRegistryEntry<?>) {
-            ((IForgeRegistryEntry<?>)obj).setRegistryName(id);
-        }
         DeferredRegister reg = getRepo(id.getNamespace()).get(registry);
         if (reg != null) {
             reg.register(id.getPath(), () -> obj);
         } else {
+            if (obj instanceof IForgeRegistryEntry<?>) {
+                ((IForgeRegistryEntry<?>)obj).setRegistryName(id);
+            }
             Registry.register(registry, id, obj);
         }
         return obj;
@@ -97,12 +99,12 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public Function<Identifier, Tag<Block>> blockTag() {
-        return id -> BlockTags.register(id.toString());
+        return id -> new TagReg<>(id, BlockTags::getTagGroup);
     }
 
     @Override
     public Function<Identifier, Tag<Item>> itemTag() {
-        return id -> ItemTags.register(id.toString());
+        return id -> new TagReg<>(id, ItemTags::getTagGroup);
     }
 
     @SuppressWarnings("deprecation")
@@ -126,7 +128,7 @@ public class RegistrationImpl extends Registration.Impl {
     @Override
     public <T extends LivingEntity> BiFunction<EntityType<T>, Supplier<Builder>, EntityType<T>> defaultEntityAttributes() {
         return (type, attributes) -> {
-            ENTITY_ATTRIBUTES.put(type, attributes.get());
+            ENTITY_ATTRIBUTES.put(type, attributes);
             return type;
         };
     }
@@ -164,7 +166,12 @@ public class RegistrationImpl extends Registration.Impl {
                     skipped.add(id);
                     return null;
                 }
-                registries.put(id, DeferredRegister.create(Objects.requireNonNull(reg, "Registry=" + id), namespace));
+
+                DeferredRegister def = DeferredRegister.create(Objects.requireNonNull(reg, "Registry=" + id), namespace);
+
+                def.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+                registries.put(id, def);
             }
 
             return registries.get(id);
