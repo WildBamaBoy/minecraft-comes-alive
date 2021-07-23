@@ -20,19 +20,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.world.ServerWorld;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public final class MCAFabric implements ModInitializer {
-    public static final String MOD_ID = "mca";
-    public static final Logger logger = LogManager.getLogger();
-
-    private static Config config = new Config();
-
-    public static Config getConfig() {
-        return config;
-    }
-
     @Override
     public void onInitialize() {
         new RegistrationImpl();

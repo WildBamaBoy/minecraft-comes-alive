@@ -17,7 +17,7 @@ public abstract class NetworkHandler {
         INSTANCE.sendToPlayer(m, e);
     }
 
-    abstract static class Impl {
+    public abstract static class Impl {
         protected Impl() {
             INSTANCE = this;
         }

@@ -33,7 +33,10 @@ public interface EntitiesMCA {
         ActivityMCA.bootstrap();
         SchedulesMCA.bootstrap();
         ProfessionsMCA.bootstrap();
+        bootstrapAttributes();
+    }
 
+    static void bootstrapAttributes() {
         Registration.ObjectBuilders.DefaultEntityAttributes.add(MALE_VILLAGER, VillagerEntityMCA::createVillagerAttributes);
         Registration.ObjectBuilders.DefaultEntityAttributes.add(FEMALE_VILLAGER, VillagerEntityMCA::createVillagerAttributes);
         Registration.ObjectBuilders.DefaultEntityAttributes.add(GRIM_REAPER, GrimReaperEntity::createAttributes);
