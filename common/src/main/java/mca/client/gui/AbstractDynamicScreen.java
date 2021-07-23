@@ -91,6 +91,7 @@ public abstract class AbstractDynamicScreen extends Screen {
         activeScreen = guiKey;
 
         children.clear();
+        buttons.clear();
         MCAScreens.getInstance().getScreen(guiKey).ifPresent(buttons -> {
             for (Button b : buttons) {
                 addButton(new ButtonEx(b, this));

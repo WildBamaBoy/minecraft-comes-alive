@@ -40,7 +40,6 @@ public class MCAScreens extends JsonDataLoader implements ResourceReloader {
         buttons.clear();
         icons.clear();
         data.forEach(this::loadScreen);
-
     }
 
     private void loadScreen(Identifier id, JsonElement element) {
