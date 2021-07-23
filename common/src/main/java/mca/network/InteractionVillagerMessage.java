@@ -14,7 +14,7 @@ public class InteractionVillagerMessage implements Message {
     private final UUID villagerUUID;
 
     public InteractionVillagerMessage(String command, UUID villagerUUID) {
-        this.command = command;
+        this.command = command.replace("gui.button.", "");
         this.villagerUUID = villagerUUID;
     }
 
