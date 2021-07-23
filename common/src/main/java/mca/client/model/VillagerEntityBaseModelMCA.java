@@ -3,6 +3,7 @@ package mca.client.model;
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.AgeState;
+import mca.entity.ai.relationship.Gender;
 import net.minecraft.client.model.ModelPart;
 import mca.util.compat.model.ModelTransform;
 import mca.util.compat.model.BipedEntityModelCompat;
@@ -23,9 +24,8 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
 
     protected final ModelPart breasts;
 
-    public float breastSize = 1;
-    public float headSize = 1;
-    public float headWidth = 1;
+    private float breastSize;
+    private AgeState ageState;
 
     public VillagerEntityBaseModelMCA(ModelPartCompat root, boolean clothing) {
         super(0, 0, 64, 64);
@@ -88,11 +88,10 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
             this.rightArm.roll = waveSideways;
         }
 
-        AgeState ageState = entity.getAgeState();
-        headSize = ageState.getHead();
-        headWidth = headSize / ageState.getWidth();
-        breastSize = entity.getGenetics().getBreastSize() * ageState.getBreasts();
+        ageState = entity.getAgeState();
+        breastSize = entity.getGenetics().getBreastSize();
 
+        breasts.visible = entity.getGenetics().getGender() == Gender.FEMALE;
         breasts.copyTransform(body);
     }
 
@@ -101,13 +100,20 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
         super.setAttributes(target);
 
         if (target instanceof VillagerEntityBaseModelMCA) {
-            ((VillagerEntityBaseModelMCA<T>)target).breasts.copyTransform(breasts);
+            VillagerEntityBaseModelMCA<T> m = (VillagerEntityBaseModelMCA<T>)target;
+            m.ageState = ageState;
+            m.breastSize = breastSize;
+            m.breasts.visible = breasts.visible;
+            m.breasts.copyTransform(breasts);
         }
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         //head
+        float headSize = ageState.getHead();
+        float headWidth = headSize / ageState.getWidth();
+
         matrices.push();
         matrices.scale(headWidth, headSize, headWidth);
         this.getHeadParts().forEach(a -> a.render(matrices, vertices, light, overlay, red, green, blue, alpha));
@@ -116,17 +122,20 @@ public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends Bip
         //body
         this.getBodyParts().forEach(a -> a.render(matrices, vertices, light, overlay, red, green, blue, alpha));
 
-        //breasts
-        if (breastSize > 0) {
-            matrices.push();
-            matrices.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + breastSize * 0.1, -0.11D);
-            matrices.scale(cloth ? 1.166666f : 1.0f, 1.0f, 0.75f + breastSize * 0.5f);
-            matrices.scale(breastSize * 0.3f + 0.85f, breastSize * 0.75f + 0.75f, breastSize * 0.75f + 0.75f);
-            for (ModelPart part : breastsParts()) {
-                part.pitch = (float) Math.PI * 0.3f;//TODO this will cause minor distortion
-                part.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        if (breasts.visible) {
+            float breastSize = this.breastSize * ageState.getBreasts();
+
+            if (breastSize > 0) {
+                matrices.push();
+                matrices.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + breastSize * 0.1, -0.11D);
+                matrices.scale(cloth ? 1.166666f : 1.0f, 1.0f, 0.75f + breastSize * 0.5f);
+                matrices.scale(breastSize * 0.3f + 0.85f, breastSize * 0.75f + 0.75f, breastSize * 0.75f + 0.75f);
+                for (ModelPart part : breastsParts()) {
+                    part.pitch = (float) Math.PI * 0.3f;//TODO this will cause minor distortion
+                    part.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+                }
+                matrices.pop();
             }
-            matrices.pop();
         }
     }
 }
