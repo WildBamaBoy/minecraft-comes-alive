@@ -5,6 +5,7 @@ import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Relationship;
+import mca.network.client.GetInteractDataResponse;
 import mca.server.world.data.FamilyTreeEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

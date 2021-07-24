@@ -5,6 +5,7 @@ import mca.entity.ai.relationship.Gender;
 import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.BuildingType;
 import mca.resources.data.NameSet;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.ChatUtil;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public class VillageComponents implements Iterable<BuildingType> {
         this.rng = rng;
     }
 
-    void load() throws BrokenResourceException {
+    void load(ResourceManager manager) throws BrokenResourceException {
         for (BuildingType bt : Resources.read("api/buildingTypes.json", BuildingType[].class)) {
             buildingTypes.put(bt.name(), bt);
         }

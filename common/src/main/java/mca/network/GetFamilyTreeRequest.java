@@ -2,6 +2,7 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
+import mca.network.client.GetFamilyTreeResponse;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import net.minecraft.entity.player.PlayerEntity;

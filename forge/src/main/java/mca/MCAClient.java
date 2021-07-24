@@ -24,6 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 public final class MCAClient {
     @SubscribeEvent
     public static void data(FMLConstructModEvent event) {
+        new ClientProxyImpl();
         ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new MCAScreens());
     }
 

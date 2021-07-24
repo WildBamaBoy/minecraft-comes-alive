@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import mca.resources.Resources.BrokenResourceException;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -15,7 +16,7 @@ public class GiftList {
     private static final Type MAP_TYPE = new TypeToken<Map<String, Integer>>() {}.getType();
     private final Map<String, Integer> gifts = new HashMap<>();
 
-    void load() throws BrokenResourceException {
+    void load(ResourceManager manager) throws BrokenResourceException {
         gifts.putAll(Resources.read("api/gifts.json", MAP_TYPE));
     }
 

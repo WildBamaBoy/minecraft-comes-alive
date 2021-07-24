@@ -1,15 +1,15 @@
 package mca.entity.ai;
 
-import mca.client.gui.GuiInteract;
+import mca.cobalt.network.NetworkHandler;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
+import mca.network.client.OpenGuiRequest;
 import mca.resources.API;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.compat.OptionalCompat;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Saddleable;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -54,17 +54,11 @@ public class Interactions {
     }
 
     public ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-        if (entity.world.isClient) {
-            openScreen(player);
-            return ActionResult.SUCCESS;
-        } else {
-            interactingPlayer = player;
-            return ActionResult.PASS;
+        if (!entity.world.isClient) {
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.INTERACT, entity), (ServerPlayerEntity)player);
         }
-    }
-
-    private void openScreen(PlayerEntity player) {
-        MinecraftClient.getInstance().openScreen(new GuiInteract(entity, player));
+        interactingPlayer = player;
+        return ActionResult.SUCCESS;
     }
 
     /**

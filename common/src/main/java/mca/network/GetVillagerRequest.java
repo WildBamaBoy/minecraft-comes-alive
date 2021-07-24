@@ -3,6 +3,7 @@ package mca.network;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
+import mca.network.client.GetVillagerResponse;
 import mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

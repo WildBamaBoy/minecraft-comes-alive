@@ -10,7 +10,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.Hair;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
 public class HairList {
@@ -22,21 +22,21 @@ public class HairList {
         this.rng = rng;
     }
 
-    void load() throws BrokenResourceException {
+    void load(ResourceManager manager) throws BrokenResourceException {
         for (HairGroup hg : Resources.read("api/hair.json", HairGroup[].class)) {
             for (Gender g : Gender.values()) {
                 if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
                     for (int i = 0; i < hg.count(); i++) {
-                        hair.computeIfAbsent(g, o -> new ArrayList<>()).add(getHair(hg, i));
+                        hair.computeIfAbsent(g, o -> new ArrayList<>()).add(getHair(manager, hg, i));
                     }
                 }
             }
         }
     }
 
-    private Hair getHair(HairGroup g, int i) {
+    private Hair getHair(ResourceManager manager, HairGroup g, int i) {
         String overlay = String.format("mca:skins/hair/%s/%d_overlay.png", g.getGender().getStrName(), i);
-        boolean hasOverlay = MinecraftClient.getInstance().getResourceManager().containsResource(new Identifier(overlay));
+        boolean hasOverlay = manager.containsResource(new Identifier(overlay));
         return new Hair(
                 String.format("mca:skins/hair/%s/%d.png", g.getGender().getStrName(), i),
                 hasOverlay ? overlay : ""

@@ -3,6 +3,7 @@ package mca.resources;
 import mca.MCA;
 import mca.entity.ai.ProfessionsMCA;
 import mca.resources.Resources.BrokenResourceException;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.village.VillagerProfession;
 
 import java.util.ArrayList;
@@ -62,12 +63,12 @@ public class API {
 
         private final List<String> zombieWords = new ArrayList<>();
 
-        void init() {
+        void init(ResourceManager manager) {
             try {
-                clothing.load();
-                hair.load();
-                villageComponents.load();
-                gifts.load();
+                clothing.load(manager);
+                hair.load(manager);
+                villageComponents.load(manager);
+                gifts.load(manager);
 
                 supporters.addAll(Arrays.asList(Resources.read("api/supporters.json", String[].class)));
                 zombieWords.addAll(Arrays.asList(Resources.read("api/zombieWords.json", String[].class)));

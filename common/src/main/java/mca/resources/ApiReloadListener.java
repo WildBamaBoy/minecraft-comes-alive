@@ -10,6 +10,6 @@ public class ApiReloadListener implements SynchronousResourceReloader {
     @Override
     public void reload(ResourceManager manager) {
         API.instance = new API.Data();
-        API.instance.init();
+        API.instance.init(manager);
     }
 }

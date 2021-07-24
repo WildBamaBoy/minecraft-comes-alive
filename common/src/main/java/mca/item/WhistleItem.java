@@ -1,7 +1,7 @@
 package mca.item;
 
 import mca.cobalt.network.NetworkHandler;
-import mca.network.OpenGuiRequest;
+import mca.network.client.OpenGuiRequest;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -27,7 +27,7 @@ public class WhistleItem extends Item {
         ItemStack stack = player.getStackInHand(hand);
 
         if (player instanceof ServerPlayerEntity) {
-            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.WHISTLE), (ServerPlayerEntity) player);
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.WHISTLE), (ServerPlayerEntity) player);
         }
 
         return TypedActionResult.success(stack);

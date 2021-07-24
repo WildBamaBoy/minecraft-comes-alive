@@ -2,6 +2,7 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
+import mca.network.client.GetVillageResponse;
 import mca.server.world.data.Village;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

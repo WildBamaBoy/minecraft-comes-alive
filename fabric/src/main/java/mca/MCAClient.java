@@ -12,9 +12,11 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceType;
 
-public final class MCAClient implements ClientModInitializer {
+public final class MCAClient extends ClientProxyAbstractImpl implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.INSTANCE.register(EntitiesMCA.MALE_VILLAGER, (dispatcher, ctx) -> new VillagerEntityMCARenderer(dispatcher));
@@ -27,5 +29,10 @@ public final class MCAClient implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntityTypesMCA.TOMBSTONE, TombstoneBlockEntityRenderer::new);
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricMCAScreens());
+    }
+
+    @Override
+    public PlayerEntity getClientPlayer() {
+        return MinecraftClient.getInstance().player;
     }
 }

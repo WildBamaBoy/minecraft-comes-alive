@@ -1,5 +1,6 @@
 package mca.item;
 
+import mca.ClientProxy;
 import mca.Config;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
@@ -8,12 +9,11 @@ import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.Gender;
-import mca.network.OpenGuiRequest;
+import mca.network.client.OpenGuiRequest;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.WorldUtils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
@@ -90,7 +90,7 @@ public class BabyItem extends Item {
         // Right-clicking an unnamed baby allows you to name it
         if (getBabyName(stack).equals("")) {
             if (player instanceof ServerPlayerEntity) {
-                NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.gui.BABY_NAME), (ServerPlayerEntity) player);
+                NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.BABY_NAME), (ServerPlayerEntity) player);
             }
 
             return TypedActionResult.pass(stack);
@@ -153,7 +153,7 @@ public class BabyItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
         if (stack.hasTag()) {
-            PlayerEntity player = MinecraftClient.getInstance().player;
+            PlayerEntity player = ClientProxy.getClientPlayer();
             NbtCompound nbt = stack.getTag();
 
             String babyName = getBabyName(stack);
