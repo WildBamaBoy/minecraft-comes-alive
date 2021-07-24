@@ -1,10 +1,5 @@
 package mca.entity.ai;
 
-import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import mca.client.gui.GuiInteract;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
@@ -29,6 +24,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.VillagerProfession;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Comparator;
+import java.util.Optional;
 
 public class Interactions {
     private final VillagerEntityMCA entity;
@@ -47,7 +47,7 @@ public class Interactions {
     public void stopInteracting() {
         if (!entity.world.isClient) {
             if (interactingPlayer instanceof ServerPlayerEntity) {
-                ((ServerPlayerEntity)interactingPlayer).closeHandledScreen();
+                ((ServerPlayerEntity) interactingPlayer).closeHandledScreen();
             }
         }
         interactingPlayer = null;
@@ -102,23 +102,21 @@ public class Interactions {
                     entity.startRiding(player, true);
                 }
 
-                if (player instanceof ServerPlayerEntity) {
-                    player.networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
-                }
+                player.networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
 
                 return true;
             case "ridehorse":
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {
-                    OptionalCompat.ifPresentOrElse(entity.world.getOtherEntities(player, player.getBoundingBox().expand(10), e -> e instanceof Saddleable && ((Saddleable)e).isSaddled())
-                        .stream()
-                        .filter(horse -> !horse.hasPassengers())
-                        .sorted((a, b) -> Double.compare(a.squaredDistanceTo(entity), b.squaredDistanceTo(entity)))
-                        .findFirst(), horse -> {
-                            entity.startRiding(horse, false);
-                            entity.sendChatMessage(player, "interaction.ridehorse.success");
-                        }, () -> entity.sendChatMessage(player, "interaction.ridehorse.fail.notnearby"));
+                    OptionalCompat.ifPresentOrElse(entity.world.getOtherEntities(player, player.getBoundingBox()
+                            .expand(10), e -> e instanceof Saddleable && ((Saddleable) e).isSaddled())
+                            .stream()
+                            .filter(horse -> !horse.hasPassengers())
+                            .min(Comparator.comparingDouble(a -> a.squaredDistanceTo(entity))), horse -> {
+                        entity.startRiding(horse, false);
+                        entity.sendChatMessage(player, "interaction.ridehorse.success");
+                    }, () -> entity.sendChatMessage(player, "interaction.ridehorse.fail.notnearby"));
                 }
                 return true;
             case "sethome":
@@ -144,7 +142,7 @@ public class Interactions {
                 entity.getRelationships().giveGift(player, memory);
                 return true;
             case "procreate":
-                if (PlayerSaveData.get((ServerWorld)entity.world, player.getUuid()).isBabyPresent()) {
+                if (PlayerSaveData.get((ServerWorld) entity.world, player.getUuid()).isBabyPresent()) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.hasbaby");
                 } else if (memory.getHearts() < 100) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.lowhearts");
@@ -172,7 +170,7 @@ public class Interactions {
                 entity.getVillagerBrain().modifyMoodLevel(-5);
                 entity.getRelationships().endMarriage(MarriageState.SINGLE);
 
-                PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
+                PlayerSaveData playerData = PlayerSaveData.get((ServerWorld) player.world, player.getUuid());
                 playerData.endMarriage(MarriageState.SINGLE);
 
                 return true;

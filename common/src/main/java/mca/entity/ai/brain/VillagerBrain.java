@@ -1,32 +1,13 @@
 package mca.entity.ai.brain;
 
-import java.util.Optional;
-
-import org.jetbrains.annotations.Nullable;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-
 import mca.entity.VillagerEntityMCA;
-import mca.entity.ai.ActivityMCA;
-import mca.entity.ai.Chore;
-import mca.entity.ai.Memories;
-import mca.entity.ai.MemoryModuleTypeMCA;
-import mca.entity.ai.Mood;
-import mca.entity.ai.MoveState;
+import mca.entity.ai.*;
 import mca.entity.ai.relationship.Personality;
-import mca.util.network.datasync.CBooleanParameter;
-import mca.util.network.datasync.CDataManager;
-import mca.util.network.datasync.CEnumParameter;
-import mca.util.network.datasync.CIntegerParameter;
-import mca.util.network.datasync.CTagParameter;
-import mca.util.network.datasync.CUUIDParameter;
-import net.minecraft.entity.ai.brain.Activity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.Schedule;
+import mca.util.network.datasync.*;
+import net.minecraft.entity.ai.brain.*;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -34,6 +15,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Util;
 import net.minecraft.village.VillagerProfession;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 /**
  * Handles memory and complex bodily functions. Such as walking, and not being a nitwit.
@@ -201,7 +185,7 @@ public class VillagerBrain {
     }
 
     public void updateMemories(Memories memories) {
-        NbtCompound nbt = this.memories.get();
+        NbtCompound nbt = this.memories.get().copy();
         nbt.put(memories.getPlayerUUID().toString(), memories.toCNBT());
         this.memories.set(nbt);
     }
