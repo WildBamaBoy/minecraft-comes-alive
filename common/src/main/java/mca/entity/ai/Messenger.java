@@ -38,7 +38,7 @@ public interface Messenger {
 
     default void sendChatMessage(MutableText message, Entity receiver) {
         // Infected villagers do not speak
-        if (isInfected() || true) {
+        if (isInfected()) {
             String str = message.getString();
             int wordCount = str.split(" ").length;
 
@@ -54,7 +54,7 @@ public interface Messenger {
             if (last == '!' || last == '?' || last == '.') {
                 concat += last;
             }
-            
+
             message = new TranslatableText(concat);
         }
 
