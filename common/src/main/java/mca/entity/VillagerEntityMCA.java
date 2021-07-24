@@ -327,8 +327,8 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         //set speed
         float speed = mcaBrain.getPersonality().getSpeedModifier();
 
-        speed /= genetics.getGene(Genetics.WIDTH, 1);
-        speed *= genetics.getGene(Genetics.SIZE, 1);
+        speed /= genetics.getGene(Genetics.WIDTH);
+        speed *= genetics.getGene(Genetics.SIZE);
 
         setMovementSpeed(speed);
         InventoryUtils.readFromNBT(inventory, nbt);

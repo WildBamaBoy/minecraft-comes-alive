@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
@@ -52,11 +51,11 @@ public class Genetics implements Iterable<Genetics.Gene> {
     }
 
     public float getVerticalScaleFactor() {
-        return 0.75F + getGene(SIZE, 0) / 2;
+        return 0.75F + getGene(SIZE) / 2;
     }
 
     public float getHorizontalScaleFactor() {
-        return 0.75F + getGene(WIDTH, 0) / 2;
+        return 0.75F + getGene(WIDTH) / 2;
     }
 
     public void setGender(Gender gender) {
@@ -68,14 +67,8 @@ public class Genetics implements Iterable<Genetics.Gene> {
     }
 
     public float getBreastSize() {
-        return getGender() == Gender.FEMALE ? getGene(BREAST, 0) : 0;
+        return getGender() == Gender.FEMALE ? getGene(BREAST) : 0;
     }
-
-    //returns a float between 0 and 1, weighted at 0.5
-    private float centeredRandom() {
-        return (float) Math.min(1.0, Math.max(0.0, (random.nextFloat() - 0.5f) * (random.nextFloat() - 0.5f) + 0.5f));
-    }
-
 
     @Override
     public Iterator<Gene> iterator() {
@@ -83,20 +76,22 @@ public class Genetics implements Iterable<Genetics.Gene> {
     }
 
     public void setGene(GeneType type, float value) {
-        genes.computeIfAbsent(type, Gene::new).set(value);
+        getGenome(type).set(value);
     }
 
-    public float getGene(GeneType type, float def) {
-        return getGene(type).map(Gene::get).orElse(def);
+    public float getGene(GeneType type) {
+        return getGenome(type).get();
     }
 
-    public Optional<Gene> getGene(GeneType key) {
-        return Optional.ofNullable(genes.get(key));
+    public Gene getGenome(GeneType type) {
+        return genes.computeIfAbsent(type, Gene::new);
     }
 
     //initializes the genes with random numbers
     public void randomize(Entity entity) {
-        genes.values().forEach(Gene::randomize);
+        for (GeneType type : GENOMES) {
+            getGenome(type).randomize();
+        }
 
         // size is more centered
         setGene(SIZE, centeredRandom());
@@ -108,21 +103,30 @@ public class Genetics implements Iterable<Genetics.Gene> {
         // TODO: that's racist
         // immigrants
         if (random.nextInt(100) < Config.getInstance().immigrantChance) {
-            temp = random.nextFloat() * 2.0f - 0.5f;
+            temp = random.nextFloat() * 2 - 0.5F;
         }
 
         // melanin
-        setGene(MELANIN, MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
-        setGene(HEMOGLOBIN, MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
+        setGene(MELANIN, temperatureBaseRandom(temp));
+        setGene(HEMOGLOBIN, temperatureBaseRandom(temp));
 
         // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
         setGene(EUMELANIN, random.nextFloat());
         setGene(PHEOMELANIN, random.nextFloat());
     }
 
+    //returns a float between 0 and 1, weighted at 0.5
+    private float centeredRandom() {
+        return Math.min(1, Math.max(0, (random.nextFloat() - 0.5F) * (random.nextFloat() - 0.5F) + 0.5F));
+    }
+
+    private float temperatureBaseRandom(float temp) {
+        return MathHelper.clamp((random.nextFloat() - 0.5F) * 0.5F + temp * 0.4F + 0.1F, 0, 1);
+    }
+
     public void combine(Genetics mother, Genetics father) {
-        for (Gene i : genes.values()) {
-            i.mutate(mother, father);
+        for (GeneType type : GENOMES) {
+            getGenome(type).mutate(mother, father);
         }
     }
 
@@ -150,8 +154,8 @@ public class Genetics implements Iterable<Genetics.Gene> {
         }
 
         public void mutate(Genetics mother, Genetics father) {
-            float m = mother.getGene(type).map(Gene::get).orElse(0F);
-            float f = father.getGene(type).map(Gene::get).orElse(0F);
+            float m = mother.getGene(type);
+            float f = father.getGene(type);
             float interpolation = random.nextFloat();
             float mutation = (random.nextFloat() - 0.5f) * 0.2f;
             float g = m * interpolation + f * (1.0f - interpolation) + mutation;
