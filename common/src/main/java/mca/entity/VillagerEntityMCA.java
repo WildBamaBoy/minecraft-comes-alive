@@ -24,6 +24,7 @@ import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.resources.API;
+import mca.resources.ClothingList;
 import mca.resources.data.Hair;
 import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.SavedVillagers;
@@ -227,7 +228,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     @Override
     public void setVillagerData(VillagerData data) {
         if (getProfession() != data.getProfession()) {
-            setTrackedValue(CLOTHES, API.getClothingPool().pickOne(this));
+            setTrackedValue(CLOTHES, ClothingList.getInstance().getPool(this).pickOne());
         }
         super.setVillagerData(data);
     }
@@ -342,7 +343,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     }
 
     private void initializeSkin() {
-        setClothes(API.getClothingPool().pickOne(this));
+        setClothes(ClothingList.getInstance().getPool(this).pickOne());
         setHair(API.getHairPool().pickOne(this));
     }
 

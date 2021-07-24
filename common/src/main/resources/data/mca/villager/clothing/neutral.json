@@ -1,0 +1,17 @@
+{
+  "minecraft:none": { "count": 42, "chance": 0.15 },
+  "minecraft:armorer": { "count": 3 },
+  
+  "minecraft:cartographer": { "count": 3 },
+  "minecraft:cleric": { "count": 0 },
+  "minecraft:farmer": { "count": 3 },
+  "minecraft:fisherman": { "count": 1 },
+  "minecraft:fletcher": { "count": 2 },
+  "minecraft:leatherworker": { "count": 1 },
+  "minecraft:librarian": { "count": 6 },
+  "minecraft:mason": { "count": 3 },
+  
+  "minecraft:shepherd": { "count": 4 },
+  "minecraft:toolsmith": { "count": 1 },
+  "minecraft:weaponsmith": { "count": 4 }
+}

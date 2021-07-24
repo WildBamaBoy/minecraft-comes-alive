@@ -15,10 +15,11 @@ import java.util.Random;
  * Class API handles interaction with MCAs configurable options via JSON in the resources folder
  */
 public class API {
+    static final Random rng = new Random();
     static Data instance = new Data();
 
     public static ClothingList getClothingPool() {
-        return instance.clothing;
+        return ClothingList.getInstance();
     }
 
     public static HairList getHairPool() {
@@ -46,16 +47,13 @@ public class API {
     }
 
     public static Random getRng() {
-        return instance.rng;
+        return rng;
     }
 
     static class Data {
-        final Random rng = new Random();
-
         final GiftList gifts = new GiftList();
 
-        final ClothingList clothing = new ClothingList(rng);
-        final HairList hair = new HairList(rng);
+        final HairList hair = new HairList();
 
         final VillageComponents villageComponents = new VillageComponents(rng);
 
@@ -65,13 +63,12 @@ public class API {
 
         void init(ResourceManager manager) {
             try {
-                clothing.load(manager);
                 hair.load(manager);
                 villageComponents.load(manager);
                 gifts.load(manager);
 
-                supporters.addAll(Arrays.asList(Resources.read("api/supporters.json", String[].class)));
-                zombieWords.addAll(Arrays.asList(Resources.read("api/zombieWords.json", String[].class)));
+                supporters.addAll(Arrays.asList(Resources.read("api/names/supporters.json", String[].class)));
+                zombieWords.addAll(Arrays.asList(Resources.read("api/names/zombie_words.json", String[].class)));
             } catch (BrokenResourceException e) {
                 MCA.LOGGER.error("Could not load MCA resources", e);
             }

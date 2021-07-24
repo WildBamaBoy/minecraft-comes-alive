@@ -13,11 +13,10 @@ import mca.client.resources.Icon;
 import mca.resources.Resources;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceReloader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
-public class MCAScreens extends JsonDataLoader implements ResourceReloader {
+public class MCAScreens extends JsonDataLoader {
     protected static final Identifier ID = new Identifier("mca", "screens");
     private static final Type ICONS_TYPE = new TypeToken<Map<String, Icon>>() {}.getType();
 

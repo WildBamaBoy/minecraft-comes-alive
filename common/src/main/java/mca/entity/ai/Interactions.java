@@ -8,6 +8,7 @@ import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.network.client.OpenGuiRequest;
 import mca.resources.API;
+import mca.resources.ClothingList;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.compat.OptionalCompat;
 import net.minecraft.entity.Saddleable;
@@ -178,13 +179,13 @@ public class Interactions {
                 entity.setInfected(!entity.isInfected());
                 break;
             case "clothing.randClothing":
-                entity.setClothes(API.getClothingPool().pickOne(entity));
+                entity.setClothes(ClothingList.getInstance().getPool(entity).pickOne());
                 break;
             case "clothing.prevClothing":
-                entity.setClothes(API.getClothingPool().pickNext(entity, entity.getClothes(), -1));
+                entity.setClothes(ClothingList.getInstance().getPool(entity).pickNext(entity.getClothes(), -1));
                 break;
             case "clothing.nextClothing":
-                entity.setClothes(API.getClothingPool().pickNext(entity, entity.getClothes(), 1));
+                entity.setClothes(ClothingList.getInstance().getPool(entity).pickNext(entity.getClothes(), 1));
                 break;
             case "clothing.randHair":
                 entity.setHair(API.getHairPool().pickOne(entity));

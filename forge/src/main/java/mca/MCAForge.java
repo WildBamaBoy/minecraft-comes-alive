@@ -7,6 +7,7 @@ import mca.entity.EntitiesMCA;
 import mca.item.ItemsMCA;
 import mca.network.MessagesMCA;
 import mca.resources.ApiReloadListener;
+import mca.resources.ClothingList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -32,6 +33,7 @@ public final class MCAForge {
 
     private void onAddReloadListener(AddReloadListenerEvent event) {
         event.addListener(new ApiReloadListener());
+        event.addListener(new ClothingList());
     }
 
     @SubscribeEvent

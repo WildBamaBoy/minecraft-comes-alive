@@ -43,6 +43,14 @@ public enum Gender {
         return name().toLowerCase();
     }
 
+    public boolean isNonBinary() {
+        return this == NEUTRAL || this == UNASSIGNED;
+    }
+
+    public Stream<Gender> getTransients() {
+        return isNonBinary() ? Stream.of(MALE, FEMALE) : Stream.of(this);
+    }
+
     public Gender binary() {
         return this == FEMALE ? FEMALE : MALE;
     }
@@ -51,8 +59,7 @@ public enum Gender {
      * Checks whether this gender is attracted to another.
      */
     public boolean isAttractedTo(Gender other) {
-        return other == UNASSIGNED
-                && (other != this || this == NEUTRAL);
+        return other == UNASSIGNED && (other != this || this == NEUTRAL);
     }
 
     /**

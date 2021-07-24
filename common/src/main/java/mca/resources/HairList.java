@@ -1,11 +1,7 @@
 package mca.resources;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.Resources.BrokenResourceException;
@@ -14,20 +10,14 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
 public class HairList {
-    private final Map<Gender, List<Hair>> hair = new EnumMap<>(Gender.class);
-
-    private final Random rng;
-
-    HairList(Random rng) {
-        this.rng = rng;
-    }
+    private final Map<Gender, WeightedPool.Mutable<Hair>> hair = new EnumMap<>(Gender.class);
 
     void load(ResourceManager manager) throws BrokenResourceException {
         for (HairGroup hg : Resources.read("api/hair.json", HairGroup[].class)) {
             for (Gender g : Gender.values()) {
                 if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
                     for (int i = 0; i < hg.count(); i++) {
-                        hair.computeIfAbsent(g, o -> new ArrayList<>()).add(getHair(manager, hg, i));
+                        hair.computeIfAbsent(g, o -> new WeightedPool.Mutable<>(new Hair())).add(getHair(manager, hg, i), 1);
                     }
                 }
             }
@@ -50,26 +40,12 @@ public class HairList {
      * @return String location of the random skin
      */
     public Hair pickOne(VillagerEntityMCA villager) {
-        List<Hair> hairs = hair.get(villager.getGenetics().getGender());
-        if (hairs.isEmpty()) {
-            return new Hair();
-        }
-        return hairs.get(rng.nextInt(hairs.size()));
+        return hair.get(villager.getGenetics().getGender()).pickOne();
     }
 
     //returns the next clothing with given offset to current
     public Hair pickNext(VillagerEntityMCA villager, Hair current, int next) {
-        List<Hair> hairs = hair.get(villager.getGenetics().getGender());
-
-        //look for the current one
-        for (int i = 0; i < hairs.size(); i++) {
-            if (hairs.get(i).texture().equals(current.texture())) {
-                return hairs.get(Math.floorMod(i + next, hairs.size()));
-            }
-        }
-
-        //fallback
-        return pickOne(villager);
+        return hair.get(villager.getGenetics().getGender()).pickNext(current, next);
     }
 
     public final class HairGroup {
