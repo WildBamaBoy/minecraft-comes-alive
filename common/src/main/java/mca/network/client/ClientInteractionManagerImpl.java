@@ -32,7 +32,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             client.openScreen(new GuiBlueprint());
             break;
         case INTERACT:
-            client.openScreen(new GuiInteract((VillagerEntityMCA)client.world.getEntityById(message.villager), e));
+            client.openScreen(new GuiInteract((VillagerEntityMCA)client.world.getEntityById(message.villager)));
             break;
         case BABY_NAME:
             if (client.player != null) {

@@ -50,6 +50,10 @@ public enum Mood {
         return this.moodGroup;
     }
 
+    public int getMiddleLevel() {
+        return (int)MathHelper.lerp(0.5F, level.getMin(), level.getMax());
+    }
+
     public boolean isInRange(int level) {
         return this.level.getMax() >= level && this.level.getMin() <= level;
     }

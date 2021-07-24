@@ -24,11 +24,10 @@ import mca.resources.API;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import mca.util.WorldUtils;
-import mca.util.network.datasync.CBooleanParameter;
 import mca.util.network.datasync.CDataManager;
+import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CEnumParameter;
-import mca.util.network.datasync.CStringParameter;
-import mca.util.network.datasync.CUUIDParameter;
+import mca.util.network.datasync.CParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -58,28 +57,29 @@ public class Relationship implements EntityRelationship {
     public static final Predicate IS_FAMILY = IS_MARRIED.or(IS_RELATIVE);
     public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyTree().isParent(villager.getUuid(), player);
 
+    private static final CDataParameter<Boolean> IS_PROCREATING = CParameter.create("isProcreating", false);
+    private static final CDataParameter<String> SPOUSE_NAME = CParameter.create("spouseName", "");
+    private static final CDataParameter<Optional<UUID>> SPOUSE_UUID = CParameter.create("spouseUUID", Optional.empty());
+    private static final CEnumParameter<MarriageState> MARRIAGE_STATE = CParameter.create("marriageState", MarriageState.SINGLE);
+
+    public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
+        return builder
+                .addAll(IS_PROCREATING, SPOUSE_NAME, SPOUSE_UUID, MARRIAGE_STATE)
+                .add(Pregnancy::createTrackedData);
+    }
+
     private final VillagerEntityMCA entity;
 
     //gift desaturation queue
     final List<String> giftDesaturation = new LinkedList<>();
 
-    private final CBooleanParameter isProcreating;
     private int procreateTick = -1;
-
-    private final CStringParameter spouseName;
-    private final CUUIDParameter spouseUUID;
-
-    private final CEnumParameter<MarriageState> marriageState;
 
     private final Pregnancy pregnancy;
 
-    public Relationship(VillagerEntityMCA entity, CDataManager data) {
+    public Relationship(VillagerEntityMCA entity) {
         this.entity = entity;
-        isProcreating = data.newBoolean("isProcreating");
-        spouseName = data.newString("spouseName");
-        spouseUUID = data.newUUID("spouseUUID");
-        marriageState = data.newEnum("marriageState", MarriageState.SINGLE);
-        pregnancy = new Pregnancy(entity, data);
+        pregnancy = new Pregnancy(entity);
     }
 
     @Override
@@ -92,21 +92,21 @@ public class Relationship implements EntityRelationship {
     }
 
     public boolean isProcreating() {
-        return isProcreating.get();
+        return entity.getTrackedValue(IS_PROCREATING);
     }
 
     public void startProcreating() {
         procreateTick = 60;
-        isProcreating.set(true);
+        entity.setTrackedValue(IS_PROCREATING, true);
     }
 
     public Optional<Text> getSpouseName() {
-        return isMarried() ? Optional.ofNullable(spouseName.get()).map(LiteralText::new) : Optional.empty();
+        return isMarried() ? Optional.ofNullable(entity.getTrackedValue(SPOUSE_NAME)).map(LiteralText::new) : Optional.empty();
     }
 
     @Override
     public Optional<Entity> getSpouse() {
-        return spouseUUID.get().map(id -> ((ServerWorld) entity.world).getEntity(id));
+        return entity.getTrackedValue(SPOUSE_UUID).map(id -> ((ServerWorld) entity.world).getEntity(id));
     }
 
     @Override
@@ -160,7 +160,7 @@ public class Relationship implements EntityRelationship {
                 }
             });
 
-            isProcreating.set(false);
+            entity.setTrackedValue(IS_PROCREATING, false);
         }
     }
 
@@ -193,35 +193,35 @@ public class Relationship implements EntityRelationship {
 
     @Override
     public MarriageState getMarriageState() {
-        return marriageState.get();
+        return entity.getTrackedValue(MARRIAGE_STATE);
     }
 
     @Override
     public boolean isMarried() {
-        return !spouseUUID.get().orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
+        return !entity.getTrackedValue(SPOUSE_UUID).orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
     }
 
     public boolean isMarriedTo(UUID uuid) {
-        return spouseUUID.get().orElse(Util.NIL_UUID).equals(uuid);
+        return entity.getTrackedValue(SPOUSE_UUID).orElse(Util.NIL_UUID).equals(uuid);
     }
 
     public void marry(PlayerEntity player) {
-        spouseUUID.set(player.getUuid());
-        spouseName.set(player.getName().asString());
-        marriageState.set(MarriageState.MARRIED_TO_PLAYER);
+        entity.setTrackedValue(SPOUSE_UUID, Optional.of(player.getUuid()));
+        entity.setTrackedValue(SPOUSE_NAME, player.getName().getString());
+        entity.setTrackedValue(MARRIAGE_STATE, MarriageState.MARRIED_TO_PLAYER);
     }
 
     public void marry(VillagerEntityMCA spouse) {
-        spouseUUID.set(spouse.getUuid());
-        spouseName.set(spouse.villagerName.get());
-        marriageState.set(MarriageState.MARRIED_TO_VILLAGER);
+        entity.setTrackedValue(SPOUSE_UUID, Optional.of(spouse.getUuid()));
+        entity.setTrackedValue(SPOUSE_NAME, spouse.getName().getString());
+        entity.setTrackedValue(MARRIAGE_STATE, MarriageState.MARRIED_TO_VILLAGER);
     }
 
     @Override
     public void endMarriage(MarriageState newState) {
-        spouseUUID.set(Util.NIL_UUID);
-        spouseName.set("");
-        marriageState.set(newState);
+        entity.setTrackedValue(SPOUSE_UUID, Optional.empty());
+        entity.setTrackedValue(SPOUSE_NAME, "");
+        entity.setTrackedValue(MARRIAGE_STATE, newState);
     }
 
     public void giveGift(ServerPlayerEntity player, Memories memory) {

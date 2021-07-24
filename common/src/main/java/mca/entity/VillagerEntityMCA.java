@@ -17,6 +17,7 @@ import mca.entity.ai.Relationship;
 import mca.entity.ai.Residency;
 import mca.entity.ai.VillagerNavigation;
 import mca.entity.ai.brain.VillagerBrain;
+import mca.entity.ai.brain.VillagerTasksMCA;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
@@ -81,25 +82,38 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
-    private final CDataManager data = new CDataManager(this);
+public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<VillagerEntityMCA>, NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
+    private static final CDataParameter<String> VILLAGER_NAME = CParameter.create("villagerName", "");
+    private static final CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
+    private static final CDataParameter<String> HAIR = CParameter.create("hair", "");
+    private static final CDataParameter<String> HAIR_OVERLAY = CParameter.create("hairOverlay", "");
+    private static final CEnumParameter<AgeState> AGE_STATE = CParameter.create("ageState", AgeState.UNASSIGNED);
+    private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
 
-    private final Genetics genetics = Genetics.create(data);
-    private final Residency residency = new Residency(this, data);
-    private final VillagerBrain mcaBrain = new VillagerBrain(this, data);
+    private static final CDataManager<VillagerEntityMCA> DATA = createTrackedData(VillagerEntityMCA.class).build();
+
+    public static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
+        return new CDataManager.Builder<>(type)
+                .addAll(VILLAGER_NAME, CLOTHES, HAIR, HAIR_OVERLAY, AGE_STATE, IS_INFECTED)
+                .add(Genetics::createTrackedData)
+                .add(Residency::createTrackedData)
+                .add(VillagerBrain::createTrackedData)
+                .add(Relationship::createTrackedData);
+    }
+
+    public static DefaultAttributeContainer.Builder createVillagerAttributes() {
+        return MobEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48);
+    }
+
+    private final Genetics genetics = new Genetics(this);
+    private final Residency residency = new Residency(this);
+    private final VillagerBrain mcaBrain = new VillagerBrain(this);
     private final Interactions interactions = new Interactions(this);
-    private final Relationship relations = new Relationship(this, data);
+    private final Relationship relations = new Relationship(this);
 
     private final SimpleInventory inventory = new SimpleInventory(27);
-
-    public final CStringParameter villagerName = data.newString("villagerName");
-    public final CStringParameter clothes = data.newString("clothes");
-    public final CStringParameter hair = data.newString("hair");
-    public final CStringParameter hairOverlay = data.newString("hairOverlay");
-
-    public final CEnumParameter<AgeState> ageState = data.newEnum("ageState", AgeState.UNASSIGNED);
-
-    private final CBooleanParameter isInfected = data.newBoolean("isInfected");
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
@@ -107,17 +121,16 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
         //register has to be here, not in initialize, since the super call is called before the field init
         // and the data manager requires those fields
-        data.register();
-        this.genetics.setGender(gender);
+        getTypeDataManager().register(this);
+        genetics.setGender(gender);
 
         // TODO: sounds
-        this.setSilent(true);
+        setSilent(true);
     }
 
-    public static DefaultAttributeContainer.Builder createVillagerAttributes() {
-        return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48);
+    @Override
+    public CDataManager<VillagerEntityMCA> getTypeDataManager() {
+        return DATA;
     }
 
     @Override
@@ -127,7 +140,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
-        return VillagerBrain.initializeTasks(this, VillagerBrain.createProfile().deserialize(dynamic));
+        return VillagerTasksMCA.initializeTasks(this, VillagerTasksMCA.createProfile().deserialize(dynamic));
     }
 
     @Override
@@ -136,7 +149,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         brain.stopAllTasks(world, this);
         //copyWithoutBehaviors will copy the memories of the old brain to the new brain
         this.brain = brain.copy();
-        VillagerBrain.initializeTasks(this, getMCABrain());
+        VillagerTasksMCA.initializeTasks(this, getMCABrain());
     }
 
     @SuppressWarnings("unchecked")
@@ -179,7 +192,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                 }
             }
 
-            villagerName.set(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
 
             initializeSkin();
 
@@ -189,6 +202,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         calculateDimensions();
 
         return data;
+    }
+
+    public String getClothes() {
+        return getTrackedValue(CLOTHES);
+    }
+
+    public void setClothes(String clothes) {
+        setTrackedValue(CLOTHES, clothes);
     }
 
     public final VillagerProfession getProfession() {
@@ -206,7 +227,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public void setVillagerData(VillagerData data) {
         if (getProfession() != data.getProfession()) {
-            clothes.set(API.getClothingPool().pickOne(this));
+            setTrackedValue(CLOTHES, API.getClothingPool().pickOne(this));
         }
         super.setVillagerData(data);
     }
@@ -299,15 +320,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        data.load(nbt);
+        getTypeDataManager().load(this, nbt);
         relations.readFromNbt(nbt);
 
         //set speed
         float speed = mcaBrain.getPersonality().getSpeedModifier();
 
-        //width and size impact
-        speed /= genetics.width.get();
-        speed *= genetics.skin.get();
+        speed /= genetics.getGene(Genetics.WIDTH, 1);
+        speed *= genetics.getGene(Genetics.SIZE, 1);
 
         setMovementSpeed(speed);
         InventoryUtils.readFromNBT(inventory, nbt);
@@ -316,17 +336,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     @Override
     public final void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        data.save(nbt);
+        getTypeDataManager().save(this, nbt);
         relations.writeToNbt(nbt);
         InventoryUtils.saveToNBT(inventory, nbt);
     }
 
     private void initializeSkin() {
-        clothes.set(API.getClothingPool().pickOne(this));
-
-        Hair h = API.getHairPool().pickOne(this);
-        hair.set(h.texture());
-        hairOverlay.set(h.overlay());
+        setClothes(API.getClothingPool().pickOne(this));
+        setHair(API.getHairPool().pickOne(this));
     }
 
     @Override
@@ -347,7 +364,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
                     && getProfession() != ProfessionsMCA.GUARD
                     && Config.getInstance().enableInfection
                     && random.nextFloat() < Config.getInstance().infectionChance / 100.0) {
-                isInfected.set(true);
+                setInfected(true);
             }
         }
 
@@ -528,6 +545,10 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
     }
 
+    public void setName(String name) {
+        setTrackedValue(VILLAGER_NAME, name);
+    }
+
     @Override
     public final Text getDisplayName() {
         Text name = super.getDisplayName();
@@ -545,17 +566,17 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public final Text getDefaultName() {
-        return new LiteralText(villagerName.get());
+        return new LiteralText(getTrackedValue(VILLAGER_NAME));
     }
 
     @Override
     public boolean isInfected() {
-        return isInfected.get();
+        return getTrackedValue(IS_INFECTED);
     }
 
     @Override
     public void setInfected(boolean infected) {
-        isInfected.set(infected);
+        setTrackedValue(IS_INFECTED, infected);
     }
 
     @Override
@@ -574,12 +595,12 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public Hair getHair() {
-        return new Hair(hair.get(), hairOverlay.get());
+        return new Hair(getTrackedValue(HAIR), getTrackedValue(HAIR_OVERLAY));
     }
 
     public void setHair(Hair hair) {
-        this.hair.set(hair.texture());
-        this.hairOverlay.set(hair.overlay());
+        setTrackedValue(HAIR, hair.texture());
+        setTrackedValue(HAIR_OVERLAY, hair.overlay());
     }
 
     // we make it public here
@@ -595,7 +616,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
     }
 
     public AgeState getAgeState() {
-        return ageState.get();
+        return getTrackedValue(AGE_STATE);
     }
 
     public void setAgeState(AgeState state) {
@@ -603,14 +624,14 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
             return;
         }
 
-        ageState.set(state);
+        setTrackedValue(AGE_STATE, state);
         calculateDimensions();
 
         if (state == AgeState.ADULT) {
             // Notify player parents of the age up and set correct dialogue type.
             relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
                 mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                sendEventMessage(new TranslatableText("notify.child.grownup", villagerName.get()), p);
+                sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
             });
         }
     }
@@ -632,7 +653,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
 
     @Override
     public void onTrackedDataSet(TrackedData<?> par) {
-        if (ageState != null && (ageState.getParam().equals(par) || genetics.size.equals(par))) {
+        if (getTypeDataManager().isParam(AGE_STATE, par) || getTypeDataManager().isParam(Genetics.SIZE.getParam(), par)) {
             calculateDimensions();
         }
 

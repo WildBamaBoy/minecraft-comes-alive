@@ -70,7 +70,7 @@ public class FamilyTree extends PersistentStateCompat {
 
     private FamilyTreeEntry createEntry(Entity entity, UUID father, UUID mother) {
         return new FamilyTreeEntry(
-                entity instanceof VillagerEntityMCA ? ((VillagerEntityMCA)entity).villagerName.get() : entity.getName().asString(),
+                entity.getName().getString(),
                 entity instanceof PlayerEntity,
                 entity instanceof VillagerEntityMCA ? ((VillagerEntityMCA)entity).getGenetics().getGender() : Gender.MALE, //TODO player genders
                 father,

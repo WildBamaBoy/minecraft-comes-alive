@@ -29,7 +29,7 @@ public class GuiInteract extends AbstractDynamicScreen {
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
 
     private final VillagerEntityMCA villager;
-    private final PlayerEntity player;
+    private final PlayerEntity player = MinecraftClient.getInstance().player;
 
     private boolean inGiftMode;
     private int timeSinceLastClick;
@@ -37,11 +37,9 @@ public class GuiInteract extends AbstractDynamicScreen {
     private String father;
     private String mother;
 
-    public GuiInteract(VillagerEntityMCA villager, PlayerEntity player) {
+    public GuiInteract(VillagerEntityMCA villager) {
         super(new LiteralText("Interact"));
-
         this.villager = villager;
-        this.player = player;
     }
 
     public void setParents(String father, String mother) {
@@ -73,15 +71,15 @@ public class GuiInteract extends AbstractDynamicScreen {
     }
 
     @Override
-    public void render(MatrixStack transform, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        super.render(transform, p_230430_2_, p_230430_3_, p_230430_4_);
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float tickDelta) {
+        super.render(matrices, mouseX, mouseY, tickDelta);
 
-        drawIcons(transform);
-        drawTextPopups(transform);
+        drawIcons(matrices);
+        drawTextPopups(matrices);
 
         if (getActiveScreen().equals("divorce")) {
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.divorceConfirmation"), width / 2, 105, 0xFFFFFF);
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.divorcePaperWarning"), width / 2, 160, 0xFFFFFF);
+            drawCenteredText(matrices, textRenderer, new TranslatableText("gui.village.divorceConfirmation"), width / 2, 105, 0xFFFFFF);
+            drawCenteredText(matrices, textRenderer, new TranslatableText("gui.village.divorcePaperWarning"), width / 2, 160, 0xFFFFFF);
         }
     }
 
@@ -211,7 +209,7 @@ public class GuiInteract extends AbstractDynamicScreen {
             lines.add(new LiteralText("Genes"));
 
             for (Genetics.Gene gene : villager.getGenetics()) {
-                String key = gene.key().replace("_", ".");
+                String key = gene.getType().key().replace("_", ".");
                 int value = (int) (gene.get() * 100);
                 lines.add(new TranslatableText("gene.tooltip", new TranslatableText(key), value));
             }

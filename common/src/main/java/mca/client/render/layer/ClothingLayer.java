@@ -11,6 +11,6 @@ public class ClothingLayer extends VillagerLayer<VillagerEntityMCA, VillagerEnti
 
     @Override
     protected String getSkin(VillagerEntityMCA villager) {
-        return villager.clothes.get();
+        return villager.getClothes();
     }
 }

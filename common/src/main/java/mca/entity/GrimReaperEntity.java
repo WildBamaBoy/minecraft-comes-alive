@@ -10,6 +10,8 @@ import mca.entity.ai.goal.GrimReaperTargetGoal;
 import mca.item.ItemsMCA;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CEnumParameter;
+import mca.util.network.datasync.CParameter;
+import mca.util.network.datasync.CTrackedEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -34,20 +36,24 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class GrimReaperEntity extends PathAwareEntity {
-    public final CDataManager data = new CDataManager(this);
+public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<GrimReaperEntity> {
+    public static final CEnumParameter<ReaperAttackState> ATTACK_STAGE = CParameter.create("attackStage", ReaperAttackState.IDLE);
 
+    public static final CDataManager<GrimReaperEntity> DATA = new CDataManager.Builder<>(GrimReaperEntity.class).addAll(ATTACK_STAGE).build();
 
-    private final CEnumParameter<ReaperAttackState> attackStage = data.newEnum("attackStage", ReaperAttackState.IDLE);
-
-    private final ServerBossBar bossInfo = (ServerBossBar) (new ServerBossBar(this.getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true);
+    private final ServerBossBar bossInfo = (ServerBossBar) new ServerBossBar(getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS).setDarkenSky(true);
 
     public GrimReaperEntity(EntityType<? extends GrimReaperEntity> type, World world) {
         super(type, world);
 
         this.experiencePoints = 100;
 
-        data.register();
+        getTypeDataManager().register(this);
+    }
+
+    @Override
+    public CDataManager<GrimReaperEntity> getTypeDataManager() {
+        return DATA;
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
@@ -127,7 +133,7 @@ public class GrimReaperEntity extends PathAwareEntity {
     }
 
     public ReaperAttackState getAttackState() {
-        return attackStage.get();
+        return getTrackedValue(ATTACK_STAGE);
     }
 
     public void setAttackState(ReaperAttackState state) {
@@ -136,7 +142,7 @@ public class GrimReaperEntity extends PathAwareEntity {
             return;
         }
 
-        attackStage.set(state);
+        setTrackedValue(ATTACK_STAGE, state);
 
         switch (state) {
             case PRE:

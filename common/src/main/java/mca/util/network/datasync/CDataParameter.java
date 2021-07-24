@@ -5,38 +5,59 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.nbt.NbtCompound;
+import java.util.function.BiFunction;
 
-import java.util.HashMap;
-import java.util.Map;
+public class CDataParameter<T> implements CParameter<T, T> {
+    private final String id;
 
-abstract public class CDataParameter<T> {
-    private final static Map<Class<? extends Entity>, Map<String, Object>> params = new HashMap<>();
-    protected final String id;
-    protected final TrackedData<T> param;
+    private final T defaultValue;
 
-    @SuppressWarnings("unchecked")
-    protected CDataParameter(String id, Class<? extends Entity> e, TrackedDataHandler<T> s) {
+    private final TrackedDataHandler<T> valueType;
+
+    private final BiFunction<NbtCompound, String, T> load;
+    private final TriConsumer<NbtCompound, String, ? super T> save;
+
+    protected CDataParameter(String id, TrackedDataHandler<T> valueType, T defaultValue,
+            BiFunction<NbtCompound, String, T> load,
+            TriConsumer<NbtCompound, String, ? super T> save) {
         this.id = id;
-
-        if (!params.containsKey(e)) {
-            params.put(e, new HashMap<>());
-        }
-
-        Map<String, Object> m = params.get(e);
-        if (!m.containsKey(id)) {
-            m.put(id, DataTracker.registerData(e, s));
-        }
-
-        param = (TrackedData<T>) m.get(id);
+        this.defaultValue = defaultValue;
+        this.valueType = valueType;
+        this.load = load;
+        this.save = save;
     }
 
-    public abstract void register();
+    @Override
+    public T getDefault() {
+        return defaultValue;
+    }
 
-    public abstract void load(NbtCompound nbt);
+    @Override
+    public T get(TrackedData<T> param, DataTracker tracker) {
+        return tracker.get(param);
+    }
 
-    public abstract void save(NbtCompound nbt);
+    @Override
+    public void set(TrackedData<T> param, DataTracker tracker, T v) {
+        tracker.set(param, v);
+    }
 
-    public TrackedData<T> getParam() {
-        return param;
+    @Override
+    public T load(NbtCompound nbt) {
+        return load.apply(nbt, id);
+    }
+
+    @Override
+    public void save(NbtCompound nbt, T value) {
+        save.accept(nbt, id, value);
+    }
+
+    @Override
+    public TrackedData<T> createParam(Class<? extends Entity> type) {
+        return DataTracker.registerData(type, valueType);
+    }
+
+    public interface TriConsumer<A, B, C> {
+        void accept(A a, B b, C c);
     }
 }

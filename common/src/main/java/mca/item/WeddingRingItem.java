@@ -56,7 +56,7 @@ public class WeddingRingItem extends Item implements SpecialCaseGift {
             response = "interaction.marry.fail.lowhearts";
         } else {
             response = "interaction.marry.success";
-            playerData.marry(villager.getUuid(), villager.villagerName.get(), MarriageState.MARRIED_TO_VILLAGER);
+            playerData.marry(villager.getUuid(), villager.getName().getString(), MarriageState.MARRIED_TO_VILLAGER);
             villager.getVillagerBrain().getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
             villager.getRelationships().marry(player);
             villager.getVillagerBrain().modifyMoodLevel(15);

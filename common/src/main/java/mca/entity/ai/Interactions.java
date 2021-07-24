@@ -178,13 +178,13 @@ public class Interactions {
                 entity.setInfected(!entity.isInfected());
                 break;
             case "clothing.randClothing":
-                entity.clothes.set(API.getClothingPool().pickOne(entity));
+                entity.setClothes(API.getClothingPool().pickOne(entity));
                 break;
             case "clothing.prevClothing":
-                entity.clothes.set(API.getClothingPool().pickNext(entity, entity.clothes.get(), -1));
+                entity.setClothes(API.getClothingPool().pickNext(entity, entity.getClothes(), -1));
                 break;
             case "clothing.nextClothing":
-                entity.clothes.set(API.getClothingPool().pickNext(entity, entity.clothes.get(), 1));
+                entity.setClothes(API.getClothingPool().pickNext(entity, entity.getClothes(), 1));
                 break;
             case "clothing.randHair":
                 entity.setHair(API.getHairPool().pickOne(entity));

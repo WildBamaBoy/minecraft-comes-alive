@@ -1,84 +1,74 @@
 package mca.entity.ai;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 import mca.Config;
+import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.network.datasync.CDataManager;
+import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CEnumParameter;
-import mca.util.network.datasync.CFloatParameter;
+import mca.util.network.datasync.CParameter;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.data.TrackedData;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * Villagerized Genetic Diversity.
  */
 public class Genetics implements Iterable<Genetics.Gene> {
+    private static final Set<GeneType> GENOMES = new HashSet<>();
 
-    public static Genetics create(CDataManager data) {
-        return new Genetics(data);
+    public static final GeneType SIZE = new GeneType("gene_size");
+    public static final GeneType WIDTH = new GeneType("gene_width");
+    public static final GeneType BREAST = new GeneType("gene_breast");
+    public static final GeneType MELANIN = new GeneType("gene_melanin");
+    public static final GeneType HEMOGLOBIN = new GeneType("gene_hemoglobin");
+    public static final GeneType EUMELANIN = new GeneType("gene_eumelanin");
+    public static final GeneType PHEOMELANIN = new GeneType("gene_pheomelanin");
+    public static final GeneType SKIN = new GeneType("gene_skin");
+    public static final GeneType FACE = new GeneType("gene_face");
+
+    private static final CEnumParameter<Gender> GENDER = CParameter.create("gender", Gender.UNASSIGNED);
+
+    public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
+        GENOMES.forEach(g -> builder.addAll(g.getParam()));
+        return builder.addAll(GENDER);
     }
 
     private final Random random = new Random();
 
-    private final CDataManager data;
+    private final Map<GeneType, Gene> genes = new HashMap<>();
 
-    private final Map<String, Gene> genes = new HashMap<>();
+    private final VillagerEntityMCA entity;
 
-    // genes
-    public final Gene size;
-    public final Gene width;
-    public final Gene breast;
-    public final Gene melanin;
-    public final Gene hemoglobin;
-    public final Gene eumelanin;
-    public final Gene pheomelanin;
-    public final Gene skin;
-    public final Gene face;
-
-    public final CEnumParameter<Gender> gender;
-
-    private Genetics(CDataManager data) {
-        this.data = data;
-        size = withGene("gene_size");
-        width = withGene("gene_width");
-        breast = withGene("gene_breast");
-        melanin = withGene("gene_melanin");
-        hemoglobin = withGene("gene_hemoglobin");
-        eumelanin = withGene("gene_eumelanin");
-        pheomelanin = withGene("gene_pheomelanin");
-        skin = withGene("gene_skin");
-        face = withGene("gene_face");
-        gender = data.newEnum("gender", Gender.UNASSIGNED);
-    }
-
-    protected Gene withGene(String key) {
-        return new Gene(key);
+    public Genetics(VillagerEntityMCA entity) {
+        this.entity = entity;
     }
 
     public float getVerticalScaleFactor() {
-        return 0.75F + size.get() / 2;
+        return 0.75F + getGene(SIZE, 0) / 2;
     }
 
     public float getHorizontalScaleFactor() {
-        return 0.75F + width.get() / 2;
+        return 0.75F + getGene(WIDTH, 0) / 2;
     }
 
     public void setGender(Gender gender) {
-        this.gender.set(gender);
+        entity.setTrackedValue(GENDER, gender);
     }
 
     public Gender getGender() {
-        return gender.get();
+        return entity.getTrackedValue(GENDER);
     }
 
     public float getBreastSize() {
-        return getGender() == Gender.FEMALE ? breast.get() : 0;
+        return getGender() == Gender.FEMALE ? getGene(BREAST, 0) : 0;
     }
 
     //returns a float between 0 and 1, weighted at 0.5
@@ -92,7 +82,15 @@ public class Genetics implements Iterable<Genetics.Gene> {
         return genes.values().iterator();
     }
 
-    public Optional<Gene> getGene(String key) {
+    public void setGene(GeneType type, float value) {
+        genes.computeIfAbsent(type, Gene::new).set(value);
+    }
+
+    public float getGene(GeneType type, float def) {
+        return getGene(type).map(Gene::get).orElse(def);
+    }
+
+    public Optional<Gene> getGene(GeneType key) {
         return Optional.ofNullable(genes.get(key));
     }
 
@@ -101,8 +99,8 @@ public class Genetics implements Iterable<Genetics.Gene> {
         genes.values().forEach(Gene::randomize);
 
         // size is more centered
-        size.set(centeredRandom());
-        width.set(centeredRandom());
+        setGene(SIZE, centeredRandom());
+        setGene(WIDTH, centeredRandom());
 
         // temperature
         float temp = entity.world.getBiome(entity.getBlockPos()).getTemperature();
@@ -114,12 +112,12 @@ public class Genetics implements Iterable<Genetics.Gene> {
         }
 
         // melanin
-        melanin.set(MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
-        hemoglobin.set(MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
+        setGene(MELANIN, MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
+        setGene(HEMOGLOBIN, MathHelper.clamp((random.nextFloat() - 0.5f) * 0.5f + temp * 0.4f + 0.1f, 0, 1));
 
         // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
-        eumelanin.set(random.nextFloat());
-        pheomelanin.set(random.nextFloat());
+        setGene(EUMELANIN, random.nextFloat());
+        setGene(PHEOMELANIN, random.nextFloat());
     }
 
     public void combine(Genetics mother, Genetics father) {
@@ -129,43 +127,70 @@ public class Genetics implements Iterable<Genetics.Gene> {
     }
 
     public class Gene {
-        private final String key;
-        private final CFloatParameter parameter;
+        private final GeneType type;
 
-        Gene(String key) {
-            this.key = key;
-            parameter = data.newFloat(key);
-            genes.put(key, this);
+        public Gene(GeneType type) {
+            this.type = type;
         }
 
-        public boolean equals(TrackedData<?> par) {
-            return parameter.getParam().equals(par);
+        public GeneType getType() {
+            return type;
+        }
+
+        public float get() {
+            return entity.getTrackedValue(type.parameter);
+        }
+
+        public void set(float value) {
+            entity.setTrackedValue(type.parameter, value);
+        }
+
+        public void randomize() {
+            set(random.nextFloat());
+        }
+
+        public void mutate(Genetics mother, Genetics father) {
+            float m = mother.getGene(type).map(Gene::get).orElse(0F);
+            float f = father.getGene(type).map(Gene::get).orElse(0F);
+            float interpolation = random.nextFloat();
+            float mutation = (random.nextFloat() - 0.5f) * 0.2f;
+            float g = m * interpolation + f * (1.0f - interpolation) + mutation;
+
+            set((float) Math.min(1.0, Math.max(0.0, g)));
+        }
+    }
+
+    public static class GeneType implements Comparable<GeneType> {
+        private final String key;
+        private final CDataParameter<Float> parameter;
+
+        GeneType(String key) {
+            this.key = key;
+            parameter = CParameter.create(key, 0F);
+            GENOMES.add(this);
         }
 
         public String key() {
             return key;
         }
 
-        public float get() {
-            return parameter.get();
+        public CDataParameter<Float> getParam() {
+            return parameter;
         }
 
-        public void set(float value) {
-            parameter.set(value);
+        @Override
+        public int compareTo(GeneType o) {
+            return key().compareTo(o.key());
         }
 
-        public void randomize() {
-            parameter.set(random.nextFloat());
+        @Override
+        public int hashCode() {
+            return key.hashCode();
         }
 
-        public void mutate(Genetics mother, Genetics father) {
-            float m = mother.getGene(key).map(Gene::get).orElse(0F);
-            float f = father.getGene(key).map(Gene::get).orElse(0F);
-            float interpolation = random.nextFloat();
-            float mutation = (random.nextFloat() - 0.5f) * 0.2f;
-            float g = m * interpolation + f * (1.0f - interpolation) + mutation;
-
-            set((float) Math.min(1.0, Math.max(0.0, g)));
+        @Override
+        public boolean equals(Object o) {
+            return o != null && o instanceof GeneType && ((GeneType)o).key().equals(key());
         }
     }
 }

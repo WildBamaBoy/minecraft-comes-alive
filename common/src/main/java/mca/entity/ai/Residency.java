@@ -11,9 +11,10 @@ import mca.server.world.data.Building;
 import mca.server.world.data.Village;
 import mca.server.world.data.VillageManager;
 import mca.util.compat.OptionalCompat;
-import mca.util.network.datasync.BlockPosParameter;
 import mca.util.network.datasync.CDataManager;
-import mca.util.network.datasync.CIntegerParameter;
+import mca.util.network.datasync.CDataParameter;
+import mca.util.network.datasync.CParameter;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -28,18 +29,18 @@ import net.minecraft.world.poi.PointOfInterestType;
  * Villagers need a place to live too.
  */
 public class Residency {
+    private static final CDataParameter<Integer> VILLAGE = CParameter.create("village", -1);
+    private static final CDataParameter<Integer> BUILDING = CParameter.create("buildings", -1);
+    private static final CDataParameter<BlockPos> HANGOUT = CParameter.create("hangoutPos", BlockPos.ORIGIN);
+
+    public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
+        return builder.addAll(VILLAGE, BUILDING, HANGOUT);
+    }
+
     private final VillagerEntityMCA entity;
 
-    private final CIntegerParameter village;
-    private final CIntegerParameter building;
-
-    private final BlockPosParameter hangoutPos;
-
-    public Residency(VillagerEntityMCA entity, CDataManager data) {
+    public Residency(VillagerEntityMCA entity) {
         this.entity = entity;
-        village = data.newInteger("village", -1);
-        building = data.newInteger("buildings", -1);
-        hangoutPos = data.newPos("hangoutPos");
     }
 
     public BlockPos getWorkplace() {
@@ -55,16 +56,24 @@ public class Residency {
     }
 
     public BlockPos getHangout() {
-        return hangoutPos.get();
+        return entity.getTrackedValue(HANGOUT);
     }
 
     public void setHangout(PlayerEntity player) {
         entity.sendChatMessage(player, "interaction.sethangout.success");
-        hangoutPos.set(player.getBlockPos());
+        entity.setTrackedValue(HANGOUT, player.getBlockPos());
+    }
+
+    public void setBuildingId(int id) {
+        entity.setTrackedValue(BUILDING, id);
+    }
+
+    public void setVillageId(int id) {
+        entity.setTrackedValue(VILLAGE, id);
     }
 
     public Optional<Village> getHomeVillage() {
-        return VillageManager.get((ServerWorld)entity.world).getOrEmpty(village.get());
+        return VillageManager.get((ServerWorld)entity.world).getOrEmpty(entity.getTrackedValue(VILLAGE));
     }
 
     public void tick() {
@@ -72,25 +81,25 @@ public class Residency {
             reportBuildings();
 
             //poor villager has no village
-            if (village.get() == -1) {
-                Village.findNearest(entity).map(Village::getId).ifPresent(village::set);
+            if (entity.getTrackedValue(VILLAGE) == -1) {
+                Village.findNearest(entity).map(Village::getId).ifPresent(this::setVillageId);
             }
 
             //and no house
-            if (building.get() == -1) {
-                OptionalCompat.ifPresentOrElse(getHomeVillage(), this::seekNewHome, () -> village.set(-1));
+            if (entity.getTrackedValue(BUILDING) == -1) {
+                OptionalCompat.ifPresentOrElse(getHomeVillage(), this::seekNewHome, () -> setVillageId(-1));
             }
         }
 
         if (entity.age % 6000 == 0) {
             OptionalCompat.ifPresentOrElse(getHomeVillage(), village -> {
-                if (!village.getBuilding(building.get()).filter(building -> building.hasResident(entity.getUuid())).isPresent()) {
-                    building.set(-1);
+                if (!village.getBuilding(entity.getTrackedValue(BUILDING)).filter(building -> building.hasResident(entity.getUuid())).isPresent()) {
+                    setBuildingId(-1);
                     clearHome();
                 }
             }, () -> {
-                village.set(-1);
-                building.set(-1);
+                setBuildingId(-1);
+                setVillageId(-1);
                 clearHome();
             });
         }
@@ -130,7 +139,7 @@ public class Residency {
                 setHome(bed.get(), entity.world);
 
                 //add to residents
-                building.set(b.getId());
+                setBuildingId(b.getId());
                 village.addResident(entity, b.getId());
                 return;
             }
