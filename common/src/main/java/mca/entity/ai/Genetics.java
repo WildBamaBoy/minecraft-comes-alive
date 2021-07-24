@@ -106,16 +106,16 @@ public class Genetics implements Iterable<Genetics.Gene> {
             temp = random.nextFloat() * 2 - 0.5F;
         }
 
-        // melanin
         setGene(MELANIN, temperatureBaseRandom(temp));
         setGene(HEMOGLOBIN, temperatureBaseRandom(temp));
 
-        // TODO hair tend to have similar values than hair, but the used LUT is a little bit random
         setGene(EUMELANIN, random.nextFloat());
         setGene(PHEOMELANIN, random.nextFloat());
     }
 
-    //returns a float between 0 and 1, weighted at 0.5
+    /**
+     * Produces a float between 0 and 1, weighted at 0.5
+     */
     private float centeredRandom() {
         return Math.min(1, Math.max(0, (random.nextFloat() - 0.5F) * (random.nextFloat() - 0.5F) + 0.5F));
     }
