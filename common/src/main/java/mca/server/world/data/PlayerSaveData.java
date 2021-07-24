@@ -16,13 +16,12 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
-
-import org.jetbrains.annotations.Nullable;
 
 public class PlayerSaveData extends PersistentStateCompat implements EntityRelationship {
     @Nullable
@@ -71,7 +70,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     public void updateLastSeenVillage(VillageManager manager, PlayerEntity self) {
         Optional<Village> prevVillage = lastSeenVillage.flatMap(manager::getOrEmpty);
         Optional<Village> nextVillage = OptionalCompat.or(prevVillage
-                .filter(v -> v.isWithinBorder(self))
+                        .filter(v -> v.isWithinBorder(self))
                 , () -> manager.findNearestVillage(self));
 
         setLastSeenVillage(self, prevVillage.orElse(null), nextVillage.orElse(null));

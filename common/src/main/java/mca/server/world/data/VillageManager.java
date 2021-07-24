@@ -104,7 +104,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
      * Updates all of the villages in the world.
      */
     public void tick() {
-      //keep track of where player are currently
+        //keep track of where player are currently
         if (world.getTimeOfDay() % 100 == 0) {
             world.getPlayers().forEach(player -> {
                 PlayerSaveData.get(world, player.getUuid()).updateLastSeenVillage(this, player);

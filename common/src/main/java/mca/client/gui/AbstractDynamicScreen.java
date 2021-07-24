@@ -85,7 +85,6 @@ public abstract class AbstractDynamicScreen extends Screen {
      * Adds API buttons to the GUI screen provided.
      *
      * @param guiKey String key for the GUI's buttons
-     * @param screen Screen instance the buttons should be added to
      */
     public void setLayout(String guiKey) {
         activeScreen = guiKey;

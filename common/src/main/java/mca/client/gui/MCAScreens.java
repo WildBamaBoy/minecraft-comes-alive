@@ -19,7 +19,7 @@ import net.minecraft.util.profiler.Profiler;
 
 public class MCAScreens extends JsonDataLoader implements ResourceReloader {
     protected static final Identifier ID = new Identifier("mca", "screens");
-    private static final Type BUTTONS_TYPE = new TypeToken<Map<String, Icon>>() {}.getType();
+    private static final Type ICONS_TYPE = new TypeToken<Map<String, Icon>>() {}.getType();
 
     private static MCAScreens INSTANCE;
 
@@ -44,7 +44,7 @@ public class MCAScreens extends JsonDataLoader implements ResourceReloader {
 
     private void loadScreen(Identifier id, JsonElement element) {
         if (element.isJsonObject()) {
-            icons.putAll(Resources.GSON.fromJson(element, BUTTONS_TYPE));
+            icons.putAll(Resources.GSON.fromJson(element, ICONS_TYPE));
         } else {
             buttons.put(id, Resources.GSON.fromJson(element, Button[].class));
         }

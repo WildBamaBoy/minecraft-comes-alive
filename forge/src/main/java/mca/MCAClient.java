@@ -18,9 +18,15 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 
 @Mod.EventBusSubscriber(modid = mca.MCA.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
 public final class MCAClient {
+    @SubscribeEvent
+    public static void data(FMLConstructModEvent event) {
+        ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new MCAScreens());
+    }
+
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
         RegistrationImpl.bootstrap();
@@ -29,8 +35,6 @@ public final class MCAClient {
         RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.GRIM_REAPER, GrimReaperRenderer::new);
 
         ClientRegistry.bindTileEntityRenderer(BlockEntityTypesMCA.TOMBSTONE, TombstoneBlockEntityRenderer::new);
-
-        ((ReloadableResourceManager)event.getMinecraftSupplier().get().getResourceManager()).registerReloader(new MCAScreens());
     }
 
     @SubscribeEvent

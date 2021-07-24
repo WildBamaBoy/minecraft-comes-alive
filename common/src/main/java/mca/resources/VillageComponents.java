@@ -1,25 +1,16 @@
 package mca.resources;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.NotNull;
-
 import com.google.common.base.Charsets;
-
 import mca.entity.ai.relationship.Gender;
 import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.BuildingType;
 import mca.resources.data.NameSet;
 import net.minecraft.util.ChatUtil;
+import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.InputStream;
+import java.util.*;
 
 public class VillageComponents implements Iterable<BuildingType> {
     private final Map<String, BuildingType> buildingTypes = new HashMap<>();
@@ -44,7 +35,7 @@ public class VillageComponents implements Iterable<BuildingType> {
         loadResidentNames();
     }
 
-    void loadResidentNames() throws BrokenResourceException {
+    void loadResidentNames() {
         // Load names
         // TODO: We don't use lang files any more. Convert this to json.
         // TODO: Procedurally-generated names using linguistic patterns.
