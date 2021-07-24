@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "mca:upright_headstone",
+      "mca:slanted_headstone",
+      "mca:cross_headstone"
+    ]
+  },
+  "criteria": {
+    "has_ingredients": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "tag": "minecraft:cobblestone" }
+        ]
+      }
+    },
+    "has_the_upright_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "mca:upright_headstone"
+      }
+    },
+    "has_the_slanted_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "mca:slanted_headstone"
+      }
+    },
+    "has_the_cross_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "mca:cross_headstone"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ingredients",
+      "has_the_upright_recipe",
+      "has_the_slanted_recipe",
+      "has_the_cross_recipe"
+    ]
+  ]
+}

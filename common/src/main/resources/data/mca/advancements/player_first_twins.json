@@ -1,0 +1,31 @@
+{
+  "display": {
+    "title": {
+      "text": "advantement.mca.player_first_twins"
+    },
+    "description": {
+      "text": "advantement.mca.player_first_twins.description"
+    },
+    "icon": {
+      "item": "mca:items/baby_girl"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "first_baby": {
+      "__comment": "TODO: We really need our own trigger for this",
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "mca:babies",
+            "count": 2
+          }
+        ]
+      }
+    }
+  }
+}

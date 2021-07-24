@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": { "item": "minecraft:cobblestone" }
+  },
+  "result": {
+    "item": "mca:upright_headstone"
+  }
+}

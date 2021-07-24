@@ -1,0 +1,59 @@
+{
+	"textures": {
+		"headstone": "minecraft:block/cobblestone",
+		"trim": "minecraft:block/stone",
+		"particle": "minecraft:block/cobblestone"
+	},
+	"elements": [
+		{
+			"name": "headstone_topper",
+			"from": [3, 19, 12],
+			"to": [13, 20, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 10, 1], "texture": "#trim"},
+				"east": {"uv": [0, 0, 2, 1], "texture": "#trim"},
+				"south": {"uv": [0, 0, 10, 1], "texture": "#trim"},
+				"west": {"uv": [0, 0, 2, 1], "texture": "#trim"},
+				"up": {"uv": [0, 0, 10, 2], "texture": "#trim"},
+				"down": {"uv": [0, 0, 10, 2], "texture": "#trim"}
+			}
+		},
+		{
+			"name": "headstone",
+			"from": [2, 1, 12],
+			"to": [14, 19, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 16], "texture": "#headstone"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#headstone"},
+				"south": {"uv": [0, 0, 12, 16], "texture": "#headstone"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#headstone"},
+				"up": {"uv": [0, 0, 12, 2], "texture": "#headstone"},
+				"down": {"uv": [0, 0, 12, 2], "texture": "#headstone"}
+			}
+		},
+		{
+			"from": [1, 1, 12],
+			"to": [2, 18, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 16], "texture": "#trim"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#trim"},
+				"south": {"uv": [0, 0, 1, 16], "texture": "#trim"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#trim"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#trim"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#trim"}
+			}
+		},
+		{
+			"from": [14, 1, 12],
+			"to": [15, 18, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 16], "texture": "#trim"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#trim"},
+				"south": {"uv": [0, 0, 1, 16], "texture": "#trim"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#trim"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#trim"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#trim"}
+			}
+		}
+	]
+}

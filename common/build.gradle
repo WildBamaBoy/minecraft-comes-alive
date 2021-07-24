@@ -1,0 +1,15 @@
+dependencies {
+  modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+}
+
+architectury {
+  common()
+}
+
+minecraft {
+  accessWidener 'src/main/resources/mca.aw'
+}
+
+java {
+  withSourcesJar()
+}

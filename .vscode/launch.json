@@ -1,0 +1,61 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Minecraft Client (:fabric)",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "dev.architectury.transformer.TransformerRuntime",
+      "vmArgs": "-Dfabric.dli.config\u003dC:\\dev\\gradle@@00201.9\\minecraft-comes-alive\\fabric\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dclient -Dfabric.dli.main\u003dnet.fabricmc.loader.launch.knot.KnotClient -Darchitectury.main.class\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\fabric\\.gradle\\architectury\\.main_class\" -Darchitectury.runtime.transformer\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\fabric\\.gradle\\architectury\\.transforms\" -Darchitectury.properties\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\fabric\\.gradle\\architectury\\.properties\" -Djdk.attach.allowAttachSelf\u003dtrue -javaagent:\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\.gradle\\architectury\\architectury-transformer-agent.jar\"",
+      "args": "",
+      "env": {},
+      "projectName": ":fabric"
+    },
+    {
+      "type": "java",
+      "name": "Minecraft Server (:fabric)",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "dev.architectury.transformer.TransformerRuntime",
+      "vmArgs": "-Dfabric.dli.config\u003dC:\\dev\\gradle@@00201.9\\minecraft-comes-alive\\fabric\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dserver -Dfabric.dli.main\u003dnet.fabricmc.loader.launch.knot.KnotServer -Darchitectury.main.class\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\fabric\\.gradle\\architectury\\.main_class\" -Darchitectury.runtime.transformer\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\fabric\\.gradle\\architectury\\.transforms\" -Darchitectury.properties\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\fabric\\.gradle\\architectury\\.properties\" -Djdk.attach.allowAttachSelf\u003dtrue -javaagent:\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\.gradle\\architectury\\architectury-transformer-agent.jar\"",
+      "args": "nogui",
+      "env": {},
+      "projectName": ":fabric"
+    },
+    {
+      "type": "java",
+      "name": "Minecraft Client (:forge)",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "dev.architectury.transformer.TransformerRuntime",
+      "vmArgs": "-Dfabric.dli.config\u003dC:\\dev\\gradle@@00201.9\\minecraft-comes-alive\\forge\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dclient -Dfabric.dli.main\u003dnet.minecraftforge.userdev.LaunchTesting -Darchitectury.main.class\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\.gradle\\architectury\\.main_class\" -Darchitectury.runtime.transformer\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\.gradle\\architectury\\.transforms\" -Darchitectury.properties\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\.gradle\\architectury\\.properties\" -Djdk.attach.allowAttachSelf\u003dtrue -javaagent:\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\.gradle\\architectury\\architectury-transformer-agent.jar\"",
+      "args": "",
+      "env": {
+        "MOD_CLASSES": "main_a95852f%%C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\build\\resources\\main;main_a95852f%%C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\build\\classes\\java\\main"
+      },
+      "projectName": ":forge"
+    },
+    {
+      "type": "java",
+      "name": "Minecraft Server (:forge)",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "dev.architectury.transformer.TransformerRuntime",
+      "vmArgs": "-Dfabric.dli.config\u003dC:\\dev\\gradle@@00201.9\\minecraft-comes-alive\\forge\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003dserver -Dfabric.dli.main\u003dnet.minecraftforge.userdev.LaunchTesting -Darchitectury.main.class\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\.gradle\\architectury\\.main_class\" -Darchitectury.runtime.transformer\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\.gradle\\architectury\\.transforms\" -Darchitectury.properties\u003d\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\.gradle\\architectury\\.properties\" -Djdk.attach.allowAttachSelf\u003dtrue -javaagent:\"C:\\dev\\gradle 1.9\\minecraft-comes-alive\\.gradle\\architectury\\architectury-transformer-agent.jar\"",
+      "args": "nogui",
+      "env": {
+        "MOD_CLASSES": "main_b3f550b%%C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\build\\resources\\main;main_b3f550b%%C:\\dev\\gradle 1.9\\minecraft-comes-alive\\forge\\build\\classes\\java\\main"
+      },
+      "projectName": ":forge"
+    }
+  ]
+}

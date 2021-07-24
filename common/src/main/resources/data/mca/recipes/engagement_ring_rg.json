@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GDG",
+    "G G",
+    "GGG"
+  ],
+  "key": {
+    "G": [
+      { "item": "mca:rose_gold_ingot" }
+    ],
+    "D": [
+      { "item": "minecraft:diamond" }
+    ]
+  },
+  "result": {
+    "item": "mca:engagement_ring_rg"
+  }
+}

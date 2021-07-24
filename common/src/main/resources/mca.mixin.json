@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "mca.mixin",
+  "refmap": "mca.mixin.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  	"MixinActivity",
+    "MixinBlockItem",
+    "MixinHorseBaseEntity",
+    "MixinMemoryModuleType",
+    "MixinPlayerEntity",
+    "MixinSensorType",
+    "MixinServerEntityManager",
+    "MixinTargetPredicate"
+  ],
+  "client": [
+    "client.MixinClientPlayerEntity",
+    "client.MixinTextRenderer",
+    "client.MixinTextRenderer_Drawer",
+    "client.MixinTranslationStorage"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

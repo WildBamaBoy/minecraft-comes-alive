@@ -1,0 +1,120 @@
+[
+  {
+    "identifier": "gui.button.interact",
+    "x": 140,
+    "y": -115,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.trade",
+    "x": 140,
+    "y": -93,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!family",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.inventory",
+    "x": 140,
+    "y": -93,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "family",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.locations",
+    "x": 140,
+    "y": -71,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.command",
+    "x": 140,
+    "y": -49,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.clothing",
+    "x": 140,
+    "y": -27,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.work",
+    "x": 140,
+    "y": -5,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": "family",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.procreate",
+    "x": 140,
+    "y": 17,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "spouse",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.familyTree",
+    "x": 140,
+    "y": 39,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.divorceInitiate",
+    "x": 140,
+    "y": 61,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": "spouse",
+    "isInteraction": true,
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.divorcePapers",
+    "x": 100,
+    "y": 61,
+    "width": 105,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "cleric,!spouse",
+    "isInteraction": true,
+    "hideOnFail": true
+  }
+]

@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "[35,)"
+#issueTrackerURL = ""
+license = "GNU"
+
+[[mods]]
+modId = "mca"
+version = "${version}"
+displayName = "Minecraft Comes Alive"
+authors = "WildBamaBoy, SheWolfDeadly"
+description = '''
+No more squidward-villagers! Interact with male and female human villagers and raise a family.
+'''
+#logoFile = "mca.png"
+
+[[dependencies.mca]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.mca]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,110 @@
+[
+  {
+    "identifier": "gui.button.backarrow",
+    "x": 115,
+    "y": -115,
+    "width": 20,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.chat",
+    "x": 140,
+    "y": -115,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.joke",
+    "x": 140,
+    "y": -93,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.gift",
+    "x": 140,
+    "y": -71,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.shakehand",
+    "x": 140,
+    "y": -49,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.tellstory",
+    "x": 140,
+    "y": -27,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.flirt",
+    "x": 140,
+    "y": -5,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!kids,adult",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.hug",
+    "x": 140,
+    "y": 17,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!kids,adult",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.kiss",
+    "x": 140,
+    "y": 39,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!kids,adult",
+    "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.pickup",
+    "x": 140,
+    "y": 61,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!adult",
+    "isInteraction": true
+  }
+]
