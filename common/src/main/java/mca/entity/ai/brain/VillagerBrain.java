@@ -180,7 +180,6 @@ public class VillagerBrain {
 
     public void randomize() {
         personality.set(Personality.getRandom());
-        //since minLevel is -100 and it makes no
         mood.set(Mood.getLevel(entity.world.random.nextInt(Mood.maxLevel - Mood.normalMinLevel + 1) + Mood.normalMinLevel));
     }
 

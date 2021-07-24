@@ -1,21 +1,23 @@
 package mca.entity.ai;
 
-import java.util.stream.Stream;
-
 import mca.Config;
+import mca.resources.API;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public interface Messenger {
 
     default Entity asEntity() {
-        return (Entity)this;
+        return (Entity) this;
     }
 
     default boolean isInfected() {
@@ -36,8 +38,24 @@ public interface Messenger {
 
     default void sendChatMessage(MutableText message, Entity receiver) {
         // Infected villagers do not speak
-        if (isInfected()) {
-            message = message.formatted(Formatting.OBFUSCATED);
+        if (isInfected() || true) {
+            String str = message.getString();
+            int wordCount = str.split(" ").length;
+
+            // create zombie sentence
+            List<String> words = new LinkedList<>();
+            for (int i = 0; i < wordCount; i++) {
+                words.add(API.getRandomZombieWord());
+            }
+            String concat = String.join(" ", words);
+
+            // add !?.
+            char last = str.charAt(str.length() - 1);
+            if (last == '!' || last == '?' || last == '.') {
+                concat += last;
+            }
+            
+            message = new TranslatableText(concat);
         }
 
         receiver.sendSystemMessage(new LiteralText(Config.getInstance().villagerChatPrefix).append(asEntity().getDisplayName()).append(": ").append(message), receiver.getUuid());
@@ -53,7 +71,7 @@ public interface Messenger {
         if (!(this instanceof Entity)) {
             return; // Can't tell all
         }
-        sendEventMessage(((Entity)this).world, message);
+        sendEventMessage(((Entity) this).world, message);
     }
 
     static void sendEventMessage(World world, Text message) {

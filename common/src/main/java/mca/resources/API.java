@@ -1,11 +1,14 @@
 package mca.resources;
 
-import net.minecraft.village.VillagerProfession;
-import java.util.*;
-
 import mca.MCA;
 import mca.entity.ai.ProfessionsMCA;
 import mca.resources.Resources.BrokenResourceException;
+import net.minecraft.village.VillagerProfession;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Class API handles interaction with MCAs configurable options via JSON in the resources folder
@@ -37,6 +40,10 @@ public class API {
         return instance.pickSupporter();
     }
 
+    public static String getRandomZombieWord() {
+        return instance.pickZombieWord();
+    }
+
     public static Random getRng() {
         return instance.rng;
     }
@@ -53,6 +60,8 @@ public class API {
 
         private final List<String> supporters = new ArrayList<>();
 
+        private final List<String> zombieWords = new ArrayList<>();
+
         void init() {
             try {
                 clothing.load();
@@ -61,6 +70,7 @@ public class API {
                 gifts.load();
 
                 supporters.addAll(Arrays.asList(Resources.read("api/supporters.json", String[].class)));
+                zombieWords.addAll(Arrays.asList(Resources.read("api/zombieWords.json", String[].class)));
             } catch (BrokenResourceException e) {
                 MCA.LOGGER.error("Could not load MCA resources", e);
             }
@@ -68,6 +78,10 @@ public class API {
 
         public String pickSupporter() {
             return PoolUtil.pickOne(supporters, "nobody", rng);
+        }
+
+        public String pickZombieWord() {
+            return PoolUtil.pickOne(zombieWords, "?", rng);
         }
     }
 }

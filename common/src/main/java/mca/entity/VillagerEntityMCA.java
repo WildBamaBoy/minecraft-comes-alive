@@ -615,6 +615,7 @@ public class VillagerEntityMCA extends VillagerEntity implements NamedScreenHand
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
         return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getAgeState().getHeight();
