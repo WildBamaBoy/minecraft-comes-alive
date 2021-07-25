@@ -1,0 +1,67 @@
+{
+	"textures": {
+		"0": "mca:entity/grimreaper",
+		"particle": "mca:entity/grimreaper"
+	},
+	"elements": [
+		{
+			"from": [8, 0, 7],
+			"to": [9, 19, 8],
+			"faces": {
+				"north": {"uv": [9, 16, 9.5, 8.25], "texture": "#0"},
+				"east": {"uv": [9, 8, 10, 16], "texture": "#0"},
+				"south": {"uv": [9, 8, 10, 16], "texture": "#0"},
+				"west": {"uv": [9, 8, 10, 16], "texture": "#0"},
+				"up": {"uv": [9, 8, 10, 9], "texture": "#0"},
+				"down": {"uv": [9, 15, 10, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2, 10, 7.5],
+			"to": [7, 18, 7.5],
+			"rotation": {"angle": -45, "axis": "z", "origin": [7, 15, 7.5], "rescale": true},
+			"faces": {
+				"north": {"uv": [0, 8, 3, 12], "texture": "#0"},
+				"south": {"uv": [3, 8, 0, 12], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [21, 0, 18],
+			"translation": [-5, 8.5, 4],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [23, 0, 18],
+			"translation": [-5, 8.5, 4],
+			"scale": [-1.5, 1.5, 1.5]
+		},
+		"firstperson_righthand": {
+			"rotation": [-33, -44, 0],
+			"translation": [0, 6.25, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-33, -44, 0],
+			"translation": [0, 6.25, 0],
+			"scale": [-1.5, 1.5, 1.5]
+		},
+		"ground": {
+			"rotation": [-56, 0, 0]
+		},
+		"gui": {
+			"rotation": [0, 0, 46],
+			"translation": [-0.25, -2, 0],
+			"scale": [-0.8, 0.8, 0.8]
+		},
+		"head": {
+			"translation": [0, 21, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"fixed": {
+			"rotation": [0, 0, -54],
+			"translation": [-1, -2.75, 0]
+		}
+	}
+}
