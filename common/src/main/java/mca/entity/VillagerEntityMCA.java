@@ -1,21 +1,11 @@
 package mca.entity;
 
 import com.mojang.serialization.Dynamic;
-
 import mca.Config;
 import mca.ParticleTypesMCA;
 import mca.TagsMCA;
 import mca.block.TombstoneBlock;
-import mca.entity.ai.DialogueType;
-import mca.entity.ai.Genetics;
-import mca.entity.ai.Infectable;
-import mca.entity.ai.Interactions;
-import mca.entity.ai.Messenger;
-import mca.entity.ai.MoveState;
-import mca.entity.ai.ProfessionsMCA;
-import mca.entity.ai.Relationship;
-import mca.entity.ai.Residency;
-import mca.entity.ai.VillagerNavigation;
+import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
 import mca.entity.ai.relationship.AgeState;
@@ -27,8 +17,8 @@ import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.data.Hair;
 import mca.server.world.data.GraveyardManager;
-import mca.server.world.data.SavedVillagers;
 import mca.server.world.data.GraveyardManager.TombstoneState;
+import mca.server.world.data.SavedVillagers;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -56,7 +46,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -68,7 +58,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -79,9 +71,8 @@ import net.minecraft.village.VillagerType;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<VillagerEntityMCA>, NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
     private static final CDataParameter<String> VILLAGER_NAME = CParameter.create("villagerName", "");
@@ -227,10 +218,11 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
     @Override
     public void setVillagerData(VillagerData data) {
-        if (getProfession() != data.getProfession()) {
+        VillagerProfession old = getProfession();
+        super.setVillagerData(data);
+        if (old != data.getProfession()) {
             setTrackedValue(CLOTHES, ClothingList.getInstance().getPool(this).pickOne());
         }
-        super.setVillagerData(data);
     }
 
     @Override
@@ -266,7 +258,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         if (damageDealt) {
             if (knockback > 0 && target instanceof LivingEntity) {
                 ((LivingEntity) target).takeKnockback(
-                        knockback / 2, MathHelper.sin(yaw * ((float)Math.PI / 180F)),
+                        knockback / 2, MathHelper.sin(yaw * ((float) Math.PI / 180F)),
                         -MathHelper.cos(yaw * ((float) Math.PI / 180F))
                 );
 
@@ -295,7 +287,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     public VillagerEntityMCA createChild(ServerWorld world, PassiveEntity partner) {
 
         VillagerEntityMCA child = partner instanceof VillagerEntityMCA
-                ? relations.getPregnancy().createChild((VillagerEntityMCA)partner, Gender.getRandom())
+                ? relations.getPregnancy().createChild((VillagerEntityMCA) partner, Gender.getRandom())
                 : relations.getPregnancy().createSoloChild(Gender.getRandom());
 
         child.setVillagerData(child.getVillagerData().withType(getRandomType(partner)));
@@ -315,7 +307,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
             return getVillagerData().getType();
         }
 
-        return ((VillagerEntity)partner).getVillagerData().getType();
+        return ((VillagerEntity) partner).getVillagerData().getType();
     }
 
     @Override
@@ -358,7 +350,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
-                sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
+                sendChatMessage((PlayerEntity) source.getAttacker(), "villager.hurt");
             }
 
             if (source.getSource() instanceof ZombieEntity
@@ -438,7 +430,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     public void tickRiding() {
         super.tickRiding();
         if (getVehicle() instanceof PathAwareEntity) {
-            bodyYaw = ((PathAwareEntity)getVehicle()).bodyYaw;
+            bodyYaw = ((PathAwareEntity) getVehicle()).bodyYaw;
         }
     }
 
@@ -475,11 +467,11 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
         InventoryUtils.dropAllItems(this, inventory);
 
-        if (!GraveyardManager.get((ServerWorld)world).findNearest(getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
+        if (!GraveyardManager.get((ServerWorld) world).findNearest(getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
             if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
                 BlockEntity be = world.getBlockEntity(pos);
                 if (be instanceof TombstoneBlock.Data) {
-                    ((TombstoneBlock.Data)be).setEntity(this);
+                    ((TombstoneBlock.Data) be).setEntity(this);
 
                     relations.onTragedy(cause, pos);
                     return true;
@@ -487,7 +479,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
             }
             return false;
         }).isPresent()) {
-            SavedVillagers.get((ServerWorld)world).saveVillager(this);
+            SavedVillagers.get((ServerWorld) world).saveVillager(this);
             relations.onTragedy(cause, null);
         }
     }
