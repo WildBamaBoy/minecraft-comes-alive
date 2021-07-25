@@ -218,11 +218,10 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
     @Override
     public void setVillagerData(VillagerData data) {
-        VillagerProfession old = getProfession();
-        super.setVillagerData(data);
-        if (old != data.getProfession()) {
-            setTrackedValue(CLOTHES, ClothingList.getInstance().getPool(this).pickOne());
+        if (getProfession() != data.getProfession() && data.getProfession() != ProfessionsMCA.OUTLAW) {
+            setTrackedValue(CLOTHES, ClothingList.getInstance().byGender(getGenetics().getGender()).byProfession(data.getProfession()).pickOne());
         }
+        super.setVillagerData(data);
     }
 
     @Override

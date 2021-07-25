@@ -21,7 +21,7 @@ import net.minecraft.village.VillagerProfession;
 public class ClothingList extends JsonDataLoader {
     protected static final Identifier ID = new Identifier("mca", "villager/clothing");
 
-    private final Map<Gender, GenderedPool> clothing = new EnumMap<>(Gender.class);
+    private final Map<Gender, ProfessionedPool> clothing = new EnumMap<>(Gender.class);
 
     private static ClothingList INSTANCE;
 
@@ -45,7 +45,7 @@ public class ClothingList extends JsonDataLoader {
             }
 
             // adds the skins to all respective pools.
-            gender.getTransients().map(this::getPool).forEach(pool -> {
+            gender.getTransients().map(this::byGender).forEach(pool -> {
                 JsonHelper.asObject(file, "root").getAsJsonObject().entrySet().forEach(entry -> {
                     pool.addToPool(
                         gender,
@@ -58,23 +58,26 @@ public class ClothingList extends JsonDataLoader {
         });
     }
 
-    private GenderedPool getPool(Gender gender) {
-        return clothing.computeIfAbsent(gender, GenderedPool::new);
+    /**
+     * Gets a pool of clothing options based on a specific gender.
+     */
+    public ProfessionedPool byGender(Gender gender) {
+        return clothing.computeIfAbsent(gender, ProfessionedPool::new);
     }
 
     /**
-     * Gets a pool of clothing options valid for this entity.
+     * Gets a pool of clothing options valid for this entity's gender and profession.
      */
     public WeightedPool<String> getPool(VillagerEntityMCA villager) {
-        return getPool(villager.getGenetics().getGender()).getOptions(villager);
+        return byGender(villager.getGenetics().getGender()).byProfession(villager.getProfession());
     }
 
-    private static class GenderedPool {
+    public static class ProfessionedPool {
         private static final WeightedPool<String> EMPTY = new WeightedPool<>("");
 
         private final Map<Identifier, WeightedPool.Mutable<String>> entries = new HashMap<>();
 
-        GenderedPool(Gender gender) { }
+        ProfessionedPool(Gender gender) { }
 
         public void addToPool(Gender gender, Identifier profession, int count, float chance) {
             if (count <= 0) {
@@ -88,15 +91,17 @@ public class ClothingList extends JsonDataLoader {
             }
         }
 
-        private Optional<WeightedPool<String>> getOptions(Identifier profession) {
-            return Optional.ofNullable(entries.get(profession));
+        private Optional<WeightedPool<String>> getOptions(VillagerProfession profession) {
+            return Optional.ofNullable(entries.get(Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(profession))));
         }
 
-        //returns the clothing group based of gender and profession, or a random one in case of an unknown clothing group
-        public WeightedPool<String> getOptions(VillagerEntityMCA villager) {
-            Identifier id = Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(villager.getProfession()));
-
-            return getOptions(id).orElseGet(() -> getOptions(Registry.VILLAGER_PROFESSION.getId(VillagerProfession.NONE)).orElse(EMPTY));
+        /**
+         * Gets a pool of clothing options based on a specific profession.
+         * <p>
+         * Falls back to the NONE pool if a profession has no assigned textures, and an empty pool as a last resort.
+         */
+        public WeightedPool<String> byProfession(VillagerProfession profession) {
+            return getOptions(profession).orElseGet(() -> getOptions(VillagerProfession.NONE).orElse(EMPTY));
         }
     }
 }
