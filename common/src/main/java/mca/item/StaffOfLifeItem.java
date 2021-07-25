@@ -12,6 +12,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-public class StaffOfLifeItem extends Item {
+public class StaffOfLifeItem extends TooltippedItem {
 
     public StaffOfLifeItem(Item.Settings properties) {
         super(properties);
@@ -42,15 +43,19 @@ public class StaffOfLifeItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
-        tooltip.add(new LiteralText("Uses left: " + (stack.getMaxDamage() - stack.getDamage() + 1)));
-        tooltip.add(new LiteralText("Use to revive a previously dead"));
-        tooltip.add(new LiteralText("villager, but all of their memories"));
-        tooltip.add(new LiteralText("will be forgotten."));
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(new TranslatableText(getTranslationKey(stack) + ".uses", stack.getMaxDamage() - stack.getDamage() + 1));
+        tooltip.add(LiteralText.EMPTY);
+        super.appendTooltip(stack, world, tooltip, context);
     }
 
     @Override
     public boolean hasGlint(ItemStack stack) {
         return true;
+    }
+
+    @Override
+    public Rarity getRarity(ItemStack stack) {
+        return Rarity.RARE;
     }
 }

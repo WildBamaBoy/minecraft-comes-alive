@@ -16,32 +16,58 @@
   "entity.mca.grim_reaper": "Grim Reaper",
 
   "item.mca.wedding_ring": "Wedding Ring",
+  "item.mca.wedding_ring.tooltip": "Marry someone with this if you meet the heart requirements.",
   "item.mca.wedding_ring_rg": "Rose Gold Wedding Ring",
+  "item.mca.wedding_ring_rg.tooltip": "(RG) Marry someone with this if you meet the heart requirements.",
+
   "item.mca.engagement_ring": "Engagement Ring",
+  "item.mca.engagement_ring.tooltip": "Halves the hearts required to marry someone.",
   "item.mca.engagement_ring_rg": "Rose Gold Engagement Ring",
+  "item.mca.engagement_ring_rg.tooltip": "(RG) Halves the hearts required to marry someone.",
+
   "item.mca.matchmakers_ring": "Matchmaker's Ring",
+
   "item.mca.baby_boy": "Baby Boy",
   "item.mca.baby_girl": "Baby Girl",
+  "item.mca.baby.state.infected": "Infected!",
+  "item.mca.baby.state.ready": "Ready to grow!",
+  "item.mca.baby.age": "Age: %s minute",
+  "item.mca.baby.age.plural": "Age: %s minutes",
+  "item.mca.baby.name": "Name: %s",
+  "item.mca.baby.owner": "Parent: %s",
+  "item.mca.baby.owner.you": "You",
+  "item.mca.baby.give_name": "Right-click to name",
   "item.mca.baby.no_drop1": "You cannot drop a baby, you monster",
   "item.mca.baby.no_drop2": "I'm watching you, mister",
   "item.mca.baby.no_drop3": "Please don't drop the baby!",
-  "item.mca.egg_male": "Spawn Male Villager",
-  "item.mca.egg_female": "Spawn Female Villager",
+
+  "item.mca.egg_male": "Male Villager Spawn Egg",
+  "item.mca.egg_female": "Female Villager Spawn Egg",
+  "item.mca.egg_grim_reaper": "Grim Reaper Spawn Egg",
+  
   "item.mca.divorce_papers": "Divorce Papers",
+  "item.mca.divorce_papers.tooltip": "Give to a Cleric to end any (un)happy marriage",
   "item.mca.rose_gold_ingot": "Rose Gold Ingot",
   "item.mca.new_outfit": "New Outfit",
   "item.mca.rose_gold_dust": "Rose Gold Dust",
   "item.mca.gold_dust": "Gold Dust",
-  "item.mca.whistle": "Whistle",
   "item.mca.villager_editor": "Villager Editor",
-  "item.mca.egg_grim_reaper": "Spawn Grim Reaper",
+
+  "item.mca.whistle": "Whistle",
+  "item.mca.whistle.tooltip": "Right-click call your family to your current location",
+
   "item.mca.staff_of_life": "Staff of Life",
+  "item.mca.staff_of_life.uses": "Uses left: %s",
+  "item.mca.staff_of_life.tooltip": "Right-click to revive a dead villager, but all of their memories will be forgotten",
+
   "item.mca.book_death": "Death, and How to Cure It!",
   "item.mca.book_romance": "Relationships and You",
   "item.mca.book_family": "Managing Your Family Vol. XI",
   "item.mca.book_rose_gold": "On Rose Gold",
   "item.mca.book_infection": "Beware the Infection!",
+
   "item.mca.blueprint": "Blueprint",
+  "item.mca.blueprint.tooltip": "Right-click to manage the village you are currently in",
 
   "block.mca.villager_spawner": "Villager Spawner",
   "block.mca.rose_gold_block": "Rose Gold Block",
@@ -148,12 +174,14 @@
 
   "gui.building.size": "size: %1$s blocks",
   "gui.building.anySize": "size: any",
+
   "gui.village.rank.0": "Outlaw",
   "gui.village.rank.1": "Peasant",
   "gui.village.rank.2": "Merchant",
   "gui.village.rank.3": "Noble",
   "gui.village.rank.4": "Mayor",
   "gui.village.rank.5": "King",
+
   "gui.button.debug.startraid": "Start Raid",
   "gui.button.debug.spawnguards": "Spawn Guards",
   "gui.button.debug.selectnearestvillager": "Get Nearest Villager",
@@ -235,6 +263,7 @@
   "gui.button.stopworking": "Stop Work",
   "gui.button.call": "Call",
   "gui.button.familyTree": "Family Tree",
+  
   "gui.title.namebaby.male": "It's a boy!",
   "gui.title.namebaby.female": "It's a girl!",
   "gui.title.namebaby": "Name your baby\\:",
@@ -242,19 +271,8 @@
   "gui.title.editor": "Villager Editor",
   "gui.title.whistle": "Call Family Member",
   "gui.title.staffoflife": "Select a Villager to Revive",
-  "gui.label.you": "You",
-  "gui.label.readytogrow": "Ready to grow!",
-  "gui.label.owner": "Owner",
-  "gui.label.infected": "Infected!",
+
   "gui.label": "Name:",
-  "gui.label.unnamed": "Unnamed",
-  "gui.label.rightclicktoname": "Right-click to name",
-  "gui.label.name": "Name:",
-  "gui.label.age": "Age:",
-  "gui.label.minute": "Minute",
-  "gui.label.minutes": "Minutes",
-  "gui.label.parent": "Parent:",
-  "gui.label.parentUnknown": "unknown",
   "gui.label.male": "Male",
   "gui.label.female": "Female",
   "gui.label.prospecting": "Prospecting",
@@ -264,8 +282,10 @@
   "gui.label.fishing": "Fishing",
   "gui.label.staying": "Staying",
   "gui.label.following": "Following",
+
   "gui.info.gift.line1": "Gift Available",
   "gui.info.gift.line2": "(Click to take)",
+
   "gui.interact.label.married": "Married to %1$s",
   "gui.interact.label.engaged": "Engaged to %1$s",
   "gui.interact.label.notmarried": "Not married",

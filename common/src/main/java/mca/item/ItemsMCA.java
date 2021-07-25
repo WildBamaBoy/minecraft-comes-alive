@@ -20,9 +20,9 @@ public interface ItemsMCA {
     Item BABY_GIRL = register("baby_girl", new BabyItem(Gender.FEMALE, baseProps().maxCount(1)));
 
     Item WEDDING_RING = register("wedding_ring", new WeddingRingItem(unstackableProps()));
-    Item WEDDING_RING_RG = register("wedding_ring_rg", new WeddingRingRGItem(unstackableProps()));
-    Item ENGAGEMENT_RING = register("engagement_ring", new EngagementRingItem(unstackableProps()));
-    Item ENGAGEMENT_RING_RG = register("engagement_ring_rg", new EngagementRingRGItem(unstackableProps()));
+    Item WEDDING_RING_RG = register("wedding_ring_rg", new WeddingRingItem(unstackableProps()));
+    Item ENGAGEMENT_RING = register("engagement_ring", new WeddingRingItem(unstackableProps(), 0.5F));
+    Item ENGAGEMENT_RING_RG = register("engagement_ring_rg", new WeddingRingItem(unstackableProps(), 0.5F));
     Item MATCHMAKERS_RING = register("matchmakers_ring", new MatchmakersRingItem(baseProps().maxCount(2)));
 
     Item VILLAGER_EDITOR = register("villager_editor", new Item(baseProps()));
@@ -40,7 +40,7 @@ public interface ItemsMCA {
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_INGOT = register("rose_gold_ingot", new Item(baseProps()));
 
-    Item DIVORCE_PAPERS = register("divorce_papers", new Item(baseProps()));
+    Item DIVORCE_PAPERS = register("divorce_papers", new TooltippedItem(baseProps()));
 
     Item ROSE_GOLD_BLOCK = register("rose_gold_block", new BlockItem(BlocksMCA.ROSE_GOLD_BLOCK, baseProps()));
     Item ROSE_GOLD_ORE = register("rose_gold_ore", new BlockItem(BlocksMCA.ROSE_GOLD_ORE, baseProps()));
