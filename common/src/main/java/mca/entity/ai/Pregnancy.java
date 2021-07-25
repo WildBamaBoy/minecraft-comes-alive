@@ -96,6 +96,7 @@ public class Pregnancy {
         child.getGenetics().combine(partner.getGenetics(), mother.getGenetics());
         child.setBaby(true);
         child.setAgeState(AgeState.TODDLER);
+        child.setProfession(ProfessionsMCA.CHILD);
 
         mother.getRelationships().getFamilyTree().addChild(partner, mother, child);
 

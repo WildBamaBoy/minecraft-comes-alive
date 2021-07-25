@@ -135,7 +135,6 @@ public class Relationship implements EntityRelationship {
     }
 
     public void tick(int age) {
-
         if (age % 20 == 0) {
             pregnancy.tick();
         }

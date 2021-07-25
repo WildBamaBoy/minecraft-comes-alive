@@ -393,6 +393,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
             residency.tick();
 
+            // Grow up
             if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
                 setProfession(API.randomProfession());
             }
@@ -704,7 +705,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
     @Override
     public void setBaby(boolean isBaby) {
-        this.setBreedingAge(isBaby ? -AgeState.startingAge : 0);
+        this.setBreedingAge(isBaby ? AgeState.startingAge : 0);
     }
 
     //TODO: Reputation

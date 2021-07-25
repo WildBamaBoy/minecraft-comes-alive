@@ -8,6 +8,7 @@ import mca.entity.VillagerFactory;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.network.client.OpenGuiRequest;
 import mca.server.world.data.FamilyTree;
@@ -112,6 +113,7 @@ public class BabyItem extends Item {
                 .withPosition(player.getPos())
                 .withGender(gender)
                 .withProfession(ProfessionsMCA.CHILD)
+                .withAge(AgeState.startingAge)
                 .build();
 
         Entity spouse = playerData.getSpouse().orElse(null);
