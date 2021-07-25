@@ -7,32 +7,25 @@ import mca.entity.ai.Memories;
 import mca.entity.ai.Relationship;
 import mca.entity.ai.relationship.MarriageState;
 import mca.server.world.data.PlayerSaveData;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
 
-import java.util.List;
+public class WeddingRingItem extends TooltippedItem implements SpecialCaseGift {
 
-import org.jetbrains.annotations.Nullable;
+    private final float heartsModifier;
 
-public class WeddingRingItem extends Item implements SpecialCaseGift {
     public WeddingRingItem(Item.Settings properties) {
+        this(properties, 1);
+    }
+
+    public WeddingRingItem(Item.Settings properties, float modifier) {
         super(properties);
+        heartsModifier = modifier;
     }
 
-    protected int getHeartsRequired() {
-        return Config.getInstance().marriageHeartsRequirement;
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext flag) {
-        // TODO: Translation string
-        tooltip.add(new LiteralText("Halves the hearts required to marry someone."));
+    protected float getHeartsRequired() {
+        return Config.getInstance().marriageHeartsRequirement * heartsModifier;
     }
 
     @Override

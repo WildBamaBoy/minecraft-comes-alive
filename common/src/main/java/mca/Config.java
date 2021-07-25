@@ -18,7 +18,7 @@ public final class Config implements Serializable {
     public boolean allowGrimReaper = true;
     public int guardSpawnRate = 6;
     public int chanceToHaveTwins = 2;
-    public int marriageHeartsRequirement = 100;
+    public float marriageHeartsRequirement = 100;
     public int roseGoldSpawnWeight = 6;
     public int babyGrowUpTime = 20;
     public int childGrowUpTime = 60;

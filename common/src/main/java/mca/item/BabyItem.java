@@ -159,34 +159,29 @@ public class BabyItem extends Item {
             NbtCompound nbt = stack.getTag();
 
             String babyName = getBabyName(stack);
-            boolean unnamed = Strings.isNullOrEmpty(babyName);
 
-            tooltip.add(new TranslatableText("gui.label.name")
-                    .formatted(gender.getColor())
-                    .append(" ")
-                    .append(unnamed ? new TranslatableText("gui.label.unnamed") : new LiteralText(babyName))
-            );
+            if (Strings.isNullOrEmpty(babyName)) {
+                tooltip.add(new TranslatableText("item.mca.baby.give_name").formatted(Formatting.YELLOW));
+            } else {
+                tooltip.add(new TranslatableText("item.mca.baby.name", new LiteralText(babyName)).formatted(gender.getColor()));
+            }
+
+            tooltip.add(LiteralText.EMPTY);
 
             int ageInMinutes = nbt.getInt("age");
-            tooltip.add(new TranslatableText("gui.label.age")
-                    .append(" ").append(String.valueOf(ageInMinutes))
-                    .append(" ").append(new TranslatableText("gui.label.minute" + (ageInMinutes == 1 ? "s" : "")))
-            );
+            tooltip.add(new TranslatableText("item.mca.baby.age" + (ageInMinutes == 1 ? ".plural" : ""), ageInMinutes).formatted(Formatting.GRAY));
 
-            tooltip.add(new TranslatableText("gui.label.parent")
-                    .append(" ")
-                    .append(nbt.getUuid("ownerUUID").equals(player.getUuid()) ? new TranslatableText("gui.label.you") : new LiteralText(nbt.getString("ownerName"))));
+            tooltip.add(new TranslatableText("item.mca.baby.owner", player != null && nbt.getUuid("ownerUUID").equals(player.getUuid())
+                    ? new TranslatableText("item.mca.baby.owner.you")
+                    : nbt.getString("ownerName")
+            ).formatted(Formatting.GRAY));
 
             if (nbt.getBoolean("isInfected")) {
-                tooltip.add(new TranslatableText("gui.label.infected").formatted(Formatting.GREEN));
+                tooltip.add(new TranslatableText("item.mca.baby.state.infected").formatted(Formatting.DARK_GREEN));
             }
 
             if (isReadyToGrowUp(stack)) {
-                tooltip.add(new TranslatableText("gui.label.readytogrow").formatted(Formatting.GREEN));
-            }
-
-            if (unnamed) {
-                tooltip.add(new TranslatableText("gui.label.rightclicktoname").formatted(Formatting.YELLOW));
+                tooltip.add(new TranslatableText("item.mca.baby.state.ready").formatted(Formatting.DARK_GREEN));
             }
         }
     }

@@ -1,5 +1,7 @@
 package mca;
 
+import org.jetbrains.annotations.Nullable;
+
 import mca.network.client.ClientInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -10,6 +12,7 @@ public class ClientProxy {
 
     private static Impl INSTANCE = new Impl();
 
+    @Nullable
     public static PlayerEntity getClientPlayer() {
         return INSTANCE.getClientPlayer();
     }

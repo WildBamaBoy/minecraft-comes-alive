@@ -18,10 +18,6 @@ public class API {
     static final Random rng = new Random();
     static Data instance = new Data();
 
-    public static ClothingList getClothingPool() {
-        return ClothingList.getInstance();
-    }
-
     public static HairList getHairPool() {
         return instance.hair;
     }
