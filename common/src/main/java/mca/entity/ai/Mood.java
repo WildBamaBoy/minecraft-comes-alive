@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import mca.entity.interaction.Interaction;
 import mca.resources.API;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;

@@ -7,6 +7,7 @@ import mca.entity.ai.Genetics;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
+import mca.entity.interaction.EntityCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.data.Hair;
@@ -40,6 +41,8 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     Genetics getGenetics();
 
     VillagerBrain<?> getVillagerBrain();
+
+    EntityCommandHandler<?> getInteractions();
 
     @Override
     default boolean isSpeechImpaired() {

@@ -1,14 +1,14 @@
-package mca.entity.ai;
+package mca.entity.interaction;
 
-import mca.cobalt.network.NetworkHandler;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Chore;
+import mca.entity.ai.Memories;
+import mca.entity.ai.MoveState;
+import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
-import mca.network.client.OpenGuiRequest;
-import mca.resources.API;
-import mca.resources.ClothingList;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.compat.OptionalCompat;
 import net.minecraft.entity.Saddleable;
@@ -19,52 +19,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.VillagerProfession;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Comparator;
-import java.util.Optional;
 
-public class Interactions {
-    private final VillagerEntityMCA entity;
+public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityMCA> {
 
-    @Nullable
-    private PlayerEntity interactingPlayer;
-
-    public Interactions(VillagerEntityMCA entity) {
-        this.entity = entity;
-    }
-
-    public Optional<PlayerEntity> getInteractingPlayer() {
-        return Optional.ofNullable(interactingPlayer).filter(player -> player.currentScreenHandler != null);
-    }
-
-    public void stopInteracting() {
-        if (!entity.world.isClient) {
-            if (interactingPlayer instanceof ServerPlayerEntity) {
-                ((ServerPlayerEntity) interactingPlayer).closeHandledScreen();
-            }
-        }
-        interactingPlayer = null;
-    }
-
-    public ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-        if (player instanceof ServerPlayerEntity) {
-            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.INTERACT, entity), (ServerPlayerEntity)player);
-        }
-        interactingPlayer = player;
-        return ActionResult.SUCCESS;
+    public VillagerCommandHandler(VillagerEntityMCA entity) {
+        super(entity);
     }
 
     /**
      * Called on the server to respond to button events.
      */
+    @Override
     public boolean handle(ServerPlayerEntity player, String command) {
         Memories memory = entity.getVillagerBrain().getMemoriesForPlayer(player);
 
@@ -120,7 +89,7 @@ public class Interactions {
             case "gohome":
                 entity.getResidency().goHome(player);
                 stopInteracting();
-                break;
+                return false;
             case "setworkplace":
                 entity.getResidency().setWorkplace(player);
                 return true;
@@ -129,10 +98,10 @@ public class Interactions {
                 return true;
             case "trade":
                 prepareOffersFor(player);
-                break;
+                return false;
             case "inventory":
                 player.openHandledScreen(entity);
-                break;
+                return false;
             case "gift":
                 entity.getRelationships().giveGift(player, memory);
                 return true;
@@ -175,37 +144,19 @@ public class Interactions {
                 return true;
             case "infected":
                 entity.setInfected(!entity.isInfected());
-                break;
-            case "clothing.randClothing":
-                entity.setClothes(ClothingList.getInstance().getPool(entity).pickOne());
-                break;
-            case "clothing.prevClothing":
-                entity.setClothes(ClothingList.getInstance().getPool(entity).pickNext(entity.getClothes(), -1));
-                break;
-            case "clothing.nextClothing":
-                entity.setClothes(ClothingList.getInstance().getPool(entity).pickNext(entity.getClothes(), 1));
-                break;
-            case "clothing.randHair":
-                entity.setHair(API.getHairPool().pickOne(entity));
-                break;
-            case "clothing.prevHair":
-                entity.setHair(API.getHairPool().pickNext(entity, entity.getHair(), -1));
-                break;
-            case "clothing.nextHair":
-                entity.setHair(API.getHairPool().pickNext(entity, entity.getHair(), 1));
-                break;
+                return false;
             case "profession":
                 entity.setProfession(ProfessionsMCA.randomProfession());
-                break;
+                return false;
             case "stopworking":
                 entity.getVillagerBrain().abandonJob();
                 return true;
         }
 
-        return false;
+        return super.handle(player, command);
     }
 
-    void prepareOffersFor(PlayerEntity player) {
+    private void prepareOffersFor(PlayerEntity player) {
         int i = entity.getReputation(player);
         if (i != 0) {
             for (TradeOffer merchantoffer : entity.getOffers()) {
@@ -258,5 +209,4 @@ public class Interactions {
         entity.getVillagerBrain().modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
         entity.sendChatMessage(player, String.format("%s.%s", interaction.name().toLowerCase(), succeeded ? "success" : "fail"));
     }
-
 }

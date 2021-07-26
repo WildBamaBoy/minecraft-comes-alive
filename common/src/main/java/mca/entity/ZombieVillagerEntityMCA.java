@@ -9,6 +9,7 @@ import mca.entity.ai.Relationship;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
+import mca.entity.interaction.ZombieCommandHandler;
 import mca.item.ItemsMCA;
 import mca.network.client.OpenGuiRequest;
 import mca.resources.API;
@@ -46,6 +47,8 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
     private final Relationship<ZombieVillagerEntityMCA> relations = new Relationship<>(this);
 
+    private final ZombieCommandHandler interactions = new ZombieCommandHandler(this);
+
     public ZombieVillagerEntityMCA(EntityType<? extends ZombieVillagerEntity> type, World world, Gender gender) {
         super(type, world);
 
@@ -68,6 +71,11 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     @Override
     public VillagerBrain<?> getVillagerBrain() {
         return mcaBrain;
+    }
+
+    @Override
+    public ZombieCommandHandler getInteractions() {
+        return interactions;
     }
 
     @Override

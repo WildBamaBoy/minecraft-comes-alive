@@ -1,7 +1,7 @@
 package mca.network;
 
 import mca.cobalt.network.Message;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,9 +22,9 @@ public class InteractionVillagerMessage implements Message {
     @Override
     public void receive(PlayerEntity player) {
         Entity villager = ((ServerWorld) player.world).getEntity(villagerUUID);
-        if (villager instanceof VillagerEntityMCA) {
-            if (((VillagerEntityMCA)villager).getInteractions().handle((ServerPlayerEntity)player, command)) {
-                ((VillagerEntityMCA)villager).getInteractions().stopInteracting();
+        if (villager instanceof VillagerLike<?>) {
+            if (((VillagerLike<?>)villager).getInteractions().handle((ServerPlayerEntity)player, command)) {
+                ((VillagerLike<?>)villager).getInteractions().stopInteracting();
             }
         }
     }

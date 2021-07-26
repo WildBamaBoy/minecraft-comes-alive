@@ -1,4 +1,4 @@
-package mca.entity.ai;
+package mca.entity.interaction;
 
 import java.util.Map;
 import java.util.Optional;
@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import mca.entity.ai.Memories;
 import mca.entity.ai.brain.VillagerBrain;
 
 public enum Interaction {

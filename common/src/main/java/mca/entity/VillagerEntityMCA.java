@@ -10,6 +10,7 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
+import mca.entity.interaction.VillagerCommandHandler;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
@@ -85,7 +86,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     private final Residency residency = new Residency(this);
     private final BreedableRelationship relations = new BreedableRelationship(this);
 
-    private final Interactions interactions = new Interactions(this);
+    private final VillagerCommandHandler interactions = new VillagerCommandHandler(this);
     private final SimpleInventory inventory = new SimpleInventory(27);
 
     private float prevInfectionProgress;
@@ -151,7 +152,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         return residency;
     }
 
-    public Interactions getInteractions() {
+    @Override
+    public VillagerCommandHandler getInteractions() {
         return interactions;
     }
 
