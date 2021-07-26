@@ -82,7 +82,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     private static final CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
     private static final CDataParameter<String> HAIR = CParameter.create("hair", "");
     private static final CDataParameter<String> HAIR_OVERLAY = CParameter.create("hairOverlay", "");
-    private static final CEnumParameter<DyeColor> HAIR_COLOR = CParameter.create("hairColor", (DyeColor)null);
+    private static final CEnumParameter<DyeColor> HAIR_COLOR = CParameter.create("hairColor", DyeColor.class);
     private static final CEnumParameter<AgeState> AGE_STATE = CParameter.create("ageState", AgeState.UNASSIGNED);
     private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
 

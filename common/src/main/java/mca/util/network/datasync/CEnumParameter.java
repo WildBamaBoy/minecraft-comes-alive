@@ -11,11 +11,10 @@ public class CEnumParameter<T extends Enum<T>> implements CParameter<T, Integer>
     private final T defaultValue;
     private final T[] values;
 
-    @SuppressWarnings("unchecked")
-    public CEnumParameter(String id, T dv) {
+    public CEnumParameter(String id, Class<T> type, T dv) {
         this.id = id;
         this.defaultValue = dv;
-        values = (T[]) dv.getClass().getEnumConstants();
+        values = type.getEnumConstants();
     }
 
     @Override

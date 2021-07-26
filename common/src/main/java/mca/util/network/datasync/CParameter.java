@@ -51,8 +51,13 @@ public interface CParameter<T, TrackedType> {
                 (tag, key, v) -> v.ifPresent(uuid -> tag.putUuid(key, uuid)));
     }
 
+    @SuppressWarnings("unchecked")
     static <T extends Enum<T>> CEnumParameter<T> create(String id, T def) {
-        return new CEnumParameter<>(id, def);
+        return new CEnumParameter<>(id, (Class<T>)def.getClass(), def);
+    }
+
+    static <T extends Enum<T>> CEnumParameter<T> create(String id, Class<T> type) {
+        return new CEnumParameter<>(id, type, null);
     }
 
     TrackedType getDefault();
