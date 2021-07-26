@@ -24,11 +24,6 @@ public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
     }
 
     @Override
-    protected float[] getColor(T villager) {
-        return super.getColor(villager);
-    }
-
-    @Override
     protected String getSkin(T villager) {
         Identifier type = EntityType.getId(villager.getType());
         int totalFaces = 11;
