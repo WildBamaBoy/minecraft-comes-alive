@@ -4,6 +4,7 @@ import mca.ClientProxy;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 
+@Deprecated
 public class SavedVillagersResponse extends S2CNbtDataResponse {
     private static final long serialVersionUID = 8023057661988316742L;
 

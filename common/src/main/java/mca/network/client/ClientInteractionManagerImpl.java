@@ -86,6 +86,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         }
     }
 
+    @Deprecated
     @Override
     public void handleSavedVillagersResponse(SavedVillagersResponse message) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
