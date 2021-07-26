@@ -1,6 +1,9 @@
 package mca.entity.ai;
 
 import mca.Config;
+import mca.CriterionMCA;
+import mca.MCA;
+import mca.advancement.criterion.BabyCriterion;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
@@ -146,9 +149,19 @@ public class Relationship implements EntityRelationship {
             //make sure this villager is registered in the family tree
             getFamilyTree().getOrCreate(entity);
             getSpouse().ifPresent(spouse -> {
-                ItemStack stack = (random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL).getDefaultStack();
-                if (!(spouse instanceof PlayerEntity && ((PlayerEntity) spouse).giveItemStack(stack))) {
-                    entity.getInventory().addStack(stack);
+                boolean areTwins = random.nextInt(100) < MCA.getConfig().chanceToHaveTwins;
+                int count = areTwins ? 2 : 1;
+
+                // advancement
+                if (spouse instanceof ServerPlayerEntity) {
+                    CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity) spouse, count);
+                }
+
+                for (int i = 0; i < count; i++) {
+                    ItemStack stack = (random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL).getDefaultStack();
+                    if (!(spouse instanceof PlayerEntity && ((PlayerEntity) spouse).giveItemStack(stack))) {
+                        entity.getInventory().addStack(stack);
+                    }
                 }
             });
 

@@ -29,6 +29,7 @@ public final class MCAForge {
         ParticleTypesMCA.bootstrap();
         EntitiesMCA.bootstrap();
         MessagesMCA.bootstrap();
+        CriterionMCA.bootstrap();
     }
 
     private void onAddReloadListener(AddReloadListenerEvent event) {

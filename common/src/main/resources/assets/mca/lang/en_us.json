@@ -313,8 +313,11 @@
   "events.marry": "%1$s and %2$s are now married!",
   "events.baby": "%1$s and %2$s have born a baby!",
 
-  "advantement.mca.player_first_twins": "A Loving Parent (For Two!)",
-  "advantement.mca.player_first_twins.description": "Have two babies for the twice of one!",
+  "advancement.mca.player_first_twins": "A Loving Parent (For Two!)",
+  "advancement.mca.player_first_twins.description": "Have two babies for the price of one!",
+
+  "advancement.mca.root": "Minecraft Comes Alive",
+  "advancement.mca.root.description": "Enter a village. Your new social journey awaits!",
 
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",

@@ -34,6 +34,7 @@ public final class MCAFabric implements ModInitializer {
         ParticleTypesMCA.bootstrap();
         EntitiesMCA.bootstrap();
         MessagesMCA.bootstrap();
+        CriterionMCA.bootstrap();
 
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ApiIdentifiableReloadListener());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricClothingList());

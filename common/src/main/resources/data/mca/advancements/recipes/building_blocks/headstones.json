@@ -12,7 +12,7 @@
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
-          { "tag": "minecraft:cobblestone" }
+          { "item": "minecraft:cobblestone" }
         ]
       }
     },
