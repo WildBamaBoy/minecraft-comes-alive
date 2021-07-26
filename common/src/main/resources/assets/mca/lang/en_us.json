@@ -14,6 +14,8 @@
   "entity.minecraft.villager.child": "Child",
 
   "entity.mca.grim_reaper": "Grim Reaper",
+  "entity.mca.male_zombie_villager": "Male Zombie Villager",
+  "entity.mca.male_zombie_villager": "Female Zombie Villager",
 
   "item.mca.scythe": "Scythe",
 
@@ -46,6 +48,9 @@
   "item.mca.egg_male": "Male Villager Spawn Egg",
   "item.mca.egg_female": "Female Villager Spawn Egg",
   "item.mca.egg_grim_reaper": "Grim Reaper Spawn Egg",
+  
+  "item.mca.male_zombie_villager_spawn_egg": "Male Zombie Villager Spawn Egg",
+  "item.mca.female_zombie_villager_spawn_egg": "Female Zombie Villager Spawn Egg",
   
   "item.mca.divorce_papers": "Divorce Papers",
   "item.mca.divorce_papers.tooltip": "Give to a Cleric to end any (un)happy marriage",
