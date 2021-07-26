@@ -4,6 +4,7 @@ import mca.Config;
 import mca.entity.EntityWrapper;
 import mca.resources.API;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public interface Messenger extends EntityWrapper {
+    TargetPredicate CAN_RECEIVE = new TargetPredicate().ignoreEntityTargetRules();
 
     default boolean isSpeechImpaired() {
         return false;
@@ -27,6 +29,12 @@ public interface Messenger extends EntityWrapper {
 
     default DialogueType getDialogueType(PlayerEntity receiver) {
         return DialogueType.UNASSIGNED;
+    }
+
+    default void sendChatToAllAround(String phrase, Object...params) {
+        for (PlayerEntity player : asEntity().world.getPlayers(CAN_RECEIVE, asEntity(), asEntity().getBoundingBox().expand(20))) {
+            sendChatMessage(player, phrase, params);
+        }
     }
 
     default void sendChatMessage(PlayerEntity target, String phraseId, Object... params) {

@@ -18,7 +18,6 @@ import mca.util.InventoryUtils;
 import mca.util.network.datasync.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -317,6 +316,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                     && Config.getInstance().enableInfection
                     && random.nextFloat() < Config.getInstance().infectionChance / 100.0) {
                 setInfected(true);
+                sendChatToAllAround("villager.bitten");
             }
         }
 
@@ -388,9 +388,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         float infection = getInfectionProgress();
         if (infection > 0) {
             if (age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
-                for (PlayerEntity player : world.getPlayers(TargetPredicate.DEFAULT.ignoreEntityTargetRules(), this, getBoundingBox().expand(20))) {
-                    sendChatMessage(new TranslatableText("I don't fell so well, doc..."), player);
-                }
+                sendChatToAllAround("villager.sickness");
             }
 
             prevInfectionProgress = infection;
@@ -401,6 +399,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 convertToZombie();
                 remove();
             }
+        }
+
+        if (age % 90 == 0 && mcaBrain.isPanicking()) {
+            sendChatToAllAround("villager.scream");
         }
     }
 
