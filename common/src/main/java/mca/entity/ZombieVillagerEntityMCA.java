@@ -18,6 +18,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
@@ -160,6 +161,15 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
         calculateDimensions();
 
         return data;
+    }
+
+    @Override
+    public void onDeath(DamageSource cause) {
+        super.onDeath(cause);
+
+        if (!world.isClient) {
+            relations.onDeath(cause);
+        }
     }
 
     @SuppressWarnings("unchecked")

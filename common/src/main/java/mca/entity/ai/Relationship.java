@@ -1,5 +1,7 @@
 package mca.entity.ai;
 
+import mca.TagsMCA;
+import mca.block.TombstoneBlock;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
@@ -10,11 +12,14 @@ import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
+import mca.server.world.data.GraveyardManager;
+import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CEnumParameter;
 import mca.util.network.datasync.CParameter;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -99,6 +104,21 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
                 .map(id -> ((ServerWorld) entity.world).getEntity(id))
                 .filter(Objects::nonNull)
                 .filter(e -> !e.equals(entity)); // we exclude ourselves from the list of siblings
+    }
+
+    public boolean onDeath(DamageSource cause) {
+        return GraveyardManager.get((ServerWorld) entity.world).findNearest(entity.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
+            if (entity.world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
+                BlockEntity be = entity.world.getBlockEntity(pos);
+                if (be instanceof TombstoneBlock.Data) {
+                    ((TombstoneBlock.Data) be).setEntity(entity);
+
+                    onTragedy(cause, pos);
+                    return true;
+                }
+            }
+            return false;
+        }).isPresent();
     }
 
     public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite) {

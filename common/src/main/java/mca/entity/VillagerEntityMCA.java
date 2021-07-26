@@ -3,8 +3,6 @@ package mca.entity;
 import com.mojang.serialization.Dynamic;
 import mca.Config;
 import mca.ParticleTypesMCA;
-import mca.TagsMCA;
-import mca.block.TombstoneBlock;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
@@ -15,12 +13,9 @@ import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
-import mca.server.world.data.GraveyardManager;
-import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.server.world.data.SavedVillagers;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.*;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -390,7 +385,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
         }
 
-        float infection = this.getInfectionProgress();
+        float infection = getInfectionProgress();
         if (infection > 0) {
             if (age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
                 for (PlayerEntity player : world.getPlayers(TargetPredicate.DEFAULT.ignoreEntityTargetRules(), this, getBoundingBox().expand(20))) {
@@ -403,18 +398,25 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             setInfectionProgress(infection);
 
             if (!world.isClient && infection >= POINT_OF_NO_RETURN && world.random.nextInt(2000) < infection) {
-                ZombieVillagerEntity zombie = method_29243(EntityType.ZOMBIE_VILLAGER, false);
-                zombie.initialize((ServerWorld)world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
-                zombie.setVillagerData(getVillagerData());
-                zombie.setGossipData(getGossip().serialize(NbtOps.INSTANCE).getValue());
-                zombie.setOfferData(getOffers().toNbt());
-                zombie.setXp(getExperience());
-
+                convertToZombie();
                 remove();
-
-                world.syncWorldEvent((PlayerEntity)null, 1026, this.getBlockPos(), 0);
             }
         }
+    }
+
+    private boolean convertToZombie() {
+        ZombieVillagerEntity zombie = method_29243(EntityType.ZOMBIE_VILLAGER, false);
+        if (zombie != null) {
+            zombie.initialize((ServerWorld)world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
+            zombie.setVillagerData(getVillagerData());
+            zombie.setGossipData(getGossip().serialize(NbtOps.INSTANCE).getValue());
+            zombie.setOfferData(getOffers().toNbt());
+            zombie.setXp(getExperience());
+
+            world.syncWorldEvent((PlayerEntity)null, 1026, this.getBlockPos(), 0);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -458,18 +460,17 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         InventoryUtils.dropAllItems(this, inventory);
 
-        if (!GraveyardManager.get((ServerWorld) world).findNearest(getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
-            if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
-                BlockEntity be = world.getBlockEntity(pos);
-                if (be instanceof TombstoneBlock.Data) {
-                    ((TombstoneBlock.Data) be).setEntity(this);
-
-                    relations.onTragedy(cause, pos);
-                    return true;
-                }
+        if (!(cause.getAttacker() instanceof ZombieEntity) && !(cause.getAttacker() instanceof ZombieVillagerEntity)) {
+            if (getInfectionProgress() >= BABBLING_THRESHOLD) {
+                boolean wasRemoved = removed;
+                removed = false;
+                convertToZombie();
+                removed = wasRemoved;
+                return;
             }
-            return false;
-        }).isPresent()) {
+        }
+
+        if (!relations.onDeath(cause)) {
             SavedVillagers.get((ServerWorld) world).saveVillager(this);
             relations.onTragedy(cause, null);
         }
