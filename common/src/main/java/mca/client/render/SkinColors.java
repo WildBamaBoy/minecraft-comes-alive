@@ -1,7 +1,7 @@
 package mca.client.render;
 
-public class SkinColors {
-    private static final double[][][] colors = {
+public interface SkinColors {
+    ColourPallet PALLET = new ColourPallet(new double[][][] {
             {
                     {0.94509803921569, 0.89411764705882, 0.78823529411765},
                     {0.94117647058824, 0.89019607843137, 0.7843137254902},
@@ -442,15 +442,5 @@ public class SkinColors {
                     {0.12941176470588, 0.086274509803922, 0.054901960784314},
                     {0.12941176470588, 0.082352941176471, 0.054901960784314},
             }
-    };
-
-    private static int clampFloor(double v, int max) {
-        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
-    }
-
-    public static double[] getColor(double melanin, double hemoglobin) {
-        int m = clampFloor(melanin, colors.length);
-        int h = clampFloor(hemoglobin, colors[0].length);
-        return colors[m][h];
-    }
+    });
 }

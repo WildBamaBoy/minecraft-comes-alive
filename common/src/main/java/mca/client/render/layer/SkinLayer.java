@@ -22,9 +22,10 @@ public class SkinLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
 
     @Override
     protected float[] getColor(T villager) {
-        float melanin = villager.getGenetics().getGene(Genetics.MELANIN);
-        float hemoglobin = villager.getGenetics().getGene(Genetics.HEMOGLOBIN);
-        double[] color = SkinColors.getColor(melanin, hemoglobin);
-        return new float[]{(float) color[0], (float) color[1], (float) color[2]};
+        return SkinColors.PALLET.getColor(
+                villager.getGenetics().getGene(Genetics.MELANIN),
+                villager.getGenetics().getGene(Genetics.HEMOGLOBIN),
+                villager.getInfectionProgress()
+        );
     }
 }

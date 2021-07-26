@@ -27,4 +27,9 @@ public class ZombieVillagerEntityMCARenderer extends VillagerLikeEntityMCARender
                         VillagerEntityModelMCA.getModelData(new Dilation(dilation), cloth), 64, 64)
                 .createModel(), cloth, hideWear);
     }
+
+    @Override
+    protected boolean isShaking(ZombieVillagerEntityMCA entity) {
+        return entity.isConverting() || entity.isConvertingInWater();
+    }
 }

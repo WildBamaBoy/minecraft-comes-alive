@@ -1,7 +1,7 @@
 package mca.client.render;
 
-public class HairColors {
-    private static final double[][][] colors = {
+public interface HairColors {
+    ColourPallet PALLET = new ColourPallet(new double[][][] {
             {
                     {1, 0.98823529411765, 0.77647058823529},
                     {1, 0.97254901960784, 0.57254901960784},
@@ -291,15 +291,5 @@ public class HairColors {
                     {0.70196078431373, 0.015686274509804, 0},
             },
 
-    };
-
-    private static int clampFloor(double v, int max) {
-        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
-    }
-
-    public static double[] getColor(double f1, double f2) {
-        int m = clampFloor(f1, colors.length);
-        int h = clampFloor(f2, colors[0].length);
-        return colors[m][h];
-    }
+    });
 }

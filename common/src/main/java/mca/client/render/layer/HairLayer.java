@@ -34,14 +34,13 @@ public class HairLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
     protected float[] getColor(T villager) {
         Optional<DyeColor> hairDye = villager.getHairDye();
         if (hairDye.isPresent()) {
-            DyeColor dyeColor = hairDye.get();
-            float[] color = dyeColor.getColorComponents();
-            return new float[]{color[0], color[1], color[2]};
-        } else {
-            float e = villager.getGenetics().getGene(Genetics.EUMELANIN);
-            float p = villager.getGenetics().getGene(Genetics.PHEOMELANIN);
-            double[] color = HairColors.getColor(e, p);
-            return new float[]{(float) color[0], (float) color[1], (float) color[2]};
+            return hairDye.get().getColorComponents();
         }
+
+        return HairColors.PALLET.getColor(
+                villager.getGenetics().getGene(Genetics.EUMELANIN),
+                villager.getGenetics().getGene(Genetics.PHEOMELANIN),
+                0
+        );
     }
 }

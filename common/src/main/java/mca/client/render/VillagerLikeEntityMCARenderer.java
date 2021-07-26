@@ -2,6 +2,7 @@ package mca.client.render;
 
 import mca.client.model.VillagerEntityBaseModelMCA;
 import mca.client.model.VillagerEntityModelMCA;
+import mca.entity.Infectable;
 import mca.entity.VillagerLike;
 import mca.util.compat.model.Dilation;
 import mca.util.compat.model.TexturedModelData;
@@ -47,5 +48,10 @@ public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>
     protected boolean hasLabel(T villager) {
         return MinecraftClient.getInstance().player != null
                 && MinecraftClient.getInstance().player.squaredDistanceTo(villager) < 25;
+    }
+
+    @Override
+    protected boolean isShaking(T entity) {
+        return entity.getInfectionProgress() > Infectable.FEVER_THRESHOLD;
     }
 }

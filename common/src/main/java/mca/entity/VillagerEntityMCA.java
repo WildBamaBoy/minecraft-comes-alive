@@ -72,12 +72,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship> {
-    private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
+    private static final CDataParameter<Float> INFECTION_PROGRESS = CParameter.create("infectionProgress", MIN_INFECTION);
 
     private static final CDataManager<VillagerEntityMCA> DATA = createTrackedData(VillagerEntityMCA.class).build();
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
-        return VillagerLike.createTrackedData(type).addAll(IS_INFECTED)
+        return VillagerLike.createTrackedData(type).addAll(INFECTION_PROGRESS)
                 .add(Residency::createTrackedData)
                 .add(BreedableRelationship::createTrackedData);
     }
@@ -90,6 +90,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     private final Interactions interactions = new Interactions(this);
     private final SimpleInventory inventory = new SimpleInventory(27);
+
+    private float prevInfectionProgress;
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
@@ -299,30 +301,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        getTypeDataManager().load(this, nbt);
-        relations.readFromNbt(nbt);
-
-        //set speed
-        float speed = mcaBrain.getPersonality().getSpeedModifier();
-
-        speed /= genetics.getGene(Genetics.WIDTH);
-        speed *= genetics.getGene(Genetics.SIZE);
-
-        setMovementSpeed(speed);
-        InventoryUtils.readFromNBT(inventory, nbt);
-    }
-
-    @Override
-    public final void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        getTypeDataManager().save(this, nbt);
-        relations.writeToNbt(nbt);
-        InventoryUtils.saveToNBT(inventory, nbt);
-    }
-
-    @Override
     public final boolean damage(DamageSource source, float damageAmount) {
         // Guards take 50% less damage
         if (getProfession() == ProfessionsMCA.GUARD) {
@@ -407,6 +385,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                     }
                 }
             }
+        }
+
+        float infection = this.getInfectionProgress();
+        if (infection > 0) {
+            prevInfectionProgress = infection;
+            infection += 0.02F;
+            setInfectionProgress(infection);
         }
     }
 
@@ -531,6 +516,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             name = name.shallowCopy().append(" (").append(getVillagerBrain().getMoveState().getName()).append(")");
         }
 
+        name = name.shallowCopy().append(String.format(" %f / %f", getInfectionProgress(), Infectable.MAX_INFECTION));
+
         if (getProfession() == ProfessionsMCA.OUTLAW) {
             return name.shallowCopy().formatted(Formatting.RED);
         }
@@ -543,18 +530,23 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     @Override
-    public boolean isInfected() {
-        return getTrackedValue(IS_INFECTED);
+    public float getInfectionProgress() {
+        return getTrackedValue(INFECTION_PROGRESS);
     }
 
     @Override
-    public void setInfected(boolean infected) {
-        setTrackedValue(IS_INFECTED, infected);
+    public float getPrevInfectionProgress() {
+        return prevInfectionProgress;
+    }
+
+    @Override
+    public void setInfectionProgress(float progress) {
+        setTrackedValue(INFECTION_PROGRESS, progress);
     }
 
     @Override
     public void playSpeechEffect() {
-        if (isInfected()) {
+        if (isSpeechImpaired()) {
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
         } else {
             // TODO: Custom sounds
@@ -682,5 +674,29 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         }
 
         return mob;
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        getTypeDataManager().load(this, nbt);
+        relations.readFromNbt(nbt);
+
+        //set speed
+        float speed = mcaBrain.getPersonality().getSpeedModifier();
+
+        speed /= genetics.getGene(Genetics.WIDTH);
+        speed *= genetics.getGene(Genetics.SIZE);
+
+        setMovementSpeed(speed);
+        InventoryUtils.readFromNBT(inventory, nbt);
+    }
+
+    @Override
+    public final void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        getTypeDataManager().save(this, nbt);
+        relations.writeToNbt(nbt);
+        InventoryUtils.saveToNBT(inventory, nbt);
     }
 }

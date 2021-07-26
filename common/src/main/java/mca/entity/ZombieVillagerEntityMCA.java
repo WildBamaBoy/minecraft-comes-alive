@@ -73,18 +73,41 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     }
 
     @Override
-    public boolean isInfected() {
-        return true;
+    public float getInfectionProgress() {
+        return MAX_INFECTION;
     }
 
     @Override
-    public void setInfected(boolean infected) {
+    public void setInfectionProgress(float progress) {
         // noop
     }
 
     @Override
     public final Text getDefaultName() {
         return new LiteralText(getTrackedValue(VILLAGER_NAME));
+    }
+
+    @Override
+    public double getHeightOffset() {
+        return -0.35;
+    }
+
+    @Override
+    public double getMountedHeightOffset() {
+        return super.getMountedHeightOffset();
+    }
+
+    @Override
+    public EntityDimensions getDimensions(EntityPose pose) {
+
+        if (pose == EntityPose.SLEEPING) {
+            return SLEEPING_DIMENSIONS;
+        }
+
+        float height = getScaleFactor() * 2.0F;
+        float width = getHorizontalScaleFactor() * 0.6F;
+
+        return EntityDimensions.changing(width, height);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -157,4 +180,19 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
         return mob;
     }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        getTypeDataManager().load(this, nbt);
+        relations.readFromNbt(nbt);
+    }
+
+    @Override
+    public final void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        getTypeDataManager().save(this, nbt);
+        relations.writeToNbt(nbt);
+    }
+
 }

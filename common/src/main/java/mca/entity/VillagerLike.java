@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Genetics;
-import mca.entity.ai.Infectable;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
@@ -44,7 +43,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     @Override
     default boolean isSpeechImpaired() {
-        return isInfected();
+        return getInfectionProgress() > BABBLING_THRESHOLD;
     }
 
     default void setName(String name) {
