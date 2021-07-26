@@ -455,8 +455,8 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
             return SLEEPING_DIMENSIONS;
         }
 
-        float height = genetics.getVerticalScaleFactor() * 1.9F;
-        float width = genetics.getHorizontalScaleFactor() * 0.65F;
+        float height = getScaleFactor() * 2.0F;
+        float width = getHorizontalScaleFactor() * 0.6F;
 
         return EntityDimensions.changing(width, height);
     }
@@ -720,10 +720,12 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     public void setHairDye(DyeColor color) {
         setTrackedValue(HAIR_COLOR, color.getName());
     }
+
     public void setHairDye() {
         setTrackedValue(HAIR_COLOR, "");
     }
+
     public Optional<DyeColor> getHairDye() {
-       return Optional.ofNullable(DyeColor.byName(getTrackedValue(HAIR_COLOR), null));
+        return Optional.ofNullable(DyeColor.byName(getTrackedValue(HAIR_COLOR), null));
     }
 }
