@@ -70,7 +70,7 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
         return new HashSet<>(REGISTRY.values());
     }
 
-    public static Set<Constraint> allMatching(VillagerEntityMCA villager, Entity player) {
+    public static Set<Constraint> allMatching(VillagerLike<?> villager, Entity player) {
         return Stream.of(values()).filter(c -> c.test(villager, player)).collect(Collectors.toSet());
     }
 
