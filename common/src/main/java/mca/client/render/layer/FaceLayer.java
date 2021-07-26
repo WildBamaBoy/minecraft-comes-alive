@@ -4,7 +4,9 @@ import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.Identifier;
 
 public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
     public FaceLayer(
@@ -28,14 +30,16 @@ public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
 
     @Override
     protected String getSkin(T villager) {
+        Identifier type = EntityType.getId(villager.getType());
         int totalFaces = 11;
-        int skin = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
+        int variant = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
         int time = villager.age / 2 + (int) (villager.getGenetics().getGene(Genetics.HEMOGLOBIN) * 65536);
-
         boolean blink = time % 50 == 0 || time % 57 == 0 || villager.isSleeping() || villager.isDead();
-        return String.format("mca:skins/faces/%s/%d%s.png",
-                villager.getGenetics().getGender().binary().getStrName(),
-                skin,
+
+        return String.format("%s:textures/entity/%s/face/%d%s.png",
+                type.getNamespace(),
+                type.getPath(),
+                variant,
                 blink ? "_blink" : ""
         );
     }
