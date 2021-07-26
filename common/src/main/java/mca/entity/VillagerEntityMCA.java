@@ -82,7 +82,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     private static final CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
     private static final CDataParameter<String> HAIR = CParameter.create("hair", "");
     private static final CDataParameter<String> HAIR_OVERLAY = CParameter.create("hairOverlay", "");
-    private static final CDataParameter<String> HAIR_COLOR = CParameter.create("hairColor", "");
+    private static final CEnumParameter<DyeColor> HAIR_COLOR = CParameter.create("hairColor", (DyeColor)null);
     private static final CEnumParameter<AgeState> AGE_STATE = CParameter.create("ageState", AgeState.UNASSIGNED);
     private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
 
@@ -718,14 +718,14 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     }
 
     public void setHairDye(DyeColor color) {
-        setTrackedValue(HAIR_COLOR, color.getName());
+        setTrackedValue(HAIR_COLOR, color);
     }
 
-    public void setHairDye() {
-        setTrackedValue(HAIR_COLOR, "");
+    public void clearHairDye() {
+        setTrackedValue(HAIR_COLOR, null);
     }
 
     public Optional<DyeColor> getHairDye() {
-        return Optional.ofNullable(DyeColor.byName(getTrackedValue(HAIR_COLOR), null));
+        return Optional.ofNullable(getTrackedValue(HAIR_COLOR));
     }
 }

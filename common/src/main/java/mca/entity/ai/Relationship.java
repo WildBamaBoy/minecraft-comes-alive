@@ -231,7 +231,7 @@ public class Relationship implements EntityRelationship {
                     entity.setHairDye(dye.getColor());
                 } else if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof SpongeBlock) {
                     //TODO special, also feels super hacky, probably a better way to check for blocks
-                    entity.setHairDye();
+                    entity.clearHairDye();
                 } else {
                     // TODO: Don't use translation keys. Use identifiers.
                     String id = stack.getTranslationKey();
