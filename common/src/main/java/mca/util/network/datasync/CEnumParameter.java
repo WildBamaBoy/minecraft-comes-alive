@@ -34,8 +34,8 @@ public class CEnumParameter<T extends Enum<T>> implements CParameter<T, Integer>
     }
 
     @Override
-    public void set(TrackedData<Integer> param, DataTracker tracker, T v) {
-        tracker.set(param, v.ordinal());
+    public void set(TrackedData<Integer> param, DataTracker tracker, @Nullable T v) {
+        tracker.set(param, v == null ? -1 : v.ordinal());
     }
 
     @Override
