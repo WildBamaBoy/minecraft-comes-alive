@@ -150,8 +150,6 @@ public class Interactions {
                 entity.sendChatMessage(player, "cleric.divorcePapers");
                 return true;
             case "divorceConfirm":
-                //this lambda is meh
-
                 ItemStack papers = ItemsMCA.DIVORCE_PAPERS.getDefaultStack();
                 Memories memories = entity.getVillagerBrain().getMemoriesForPlayer(player);
                 if (player.inventory.contains(papers)) {

@@ -59,6 +59,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -74,11 +75,14 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<VillagerEntityMCA>, NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
     private static final CDataParameter<String> VILLAGER_NAME = CParameter.create("villagerName", "");
     private static final CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
     private static final CDataParameter<String> HAIR = CParameter.create("hair", "");
     private static final CDataParameter<String> HAIR_OVERLAY = CParameter.create("hairOverlay", "");
+    private static final CDataParameter<String> HAIR_COLOR = CParameter.create("hairColor", "");
     private static final CEnumParameter<AgeState> AGE_STATE = CParameter.create("ageState", AgeState.UNASSIGNED);
     private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
 
@@ -86,7 +90,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
         return new CDataManager.Builder<>(type)
-                .addAll(VILLAGER_NAME, CLOTHES, HAIR, HAIR_OVERLAY, AGE_STATE, IS_INFECTED)
+                .addAll(VILLAGER_NAME, CLOTHES, HAIR, HAIR_OVERLAY, HAIR_COLOR, AGE_STATE, IS_INFECTED)
                 .add(Genetics::createTrackedData)
                 .add(Residency::createTrackedData)
                 .add(VillagerBrain::createTrackedData)
@@ -711,5 +715,15 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     @Override
     public int getReputation(PlayerEntity player) {
         return super.getReputation(player);
+    }
+
+    public void setHairDye(DyeColor color) {
+        setTrackedValue(HAIR_COLOR, color.getName());
+    }
+    public void setHairDye() {
+        setTrackedValue(HAIR_COLOR, "");
+    }
+    public Optional<DyeColor> getHairDye() {
+       return Optional.ofNullable(DyeColor.byName(getTrackedValue(HAIR_COLOR), null));
     }
 }

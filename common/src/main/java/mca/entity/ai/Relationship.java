@@ -1,16 +1,5 @@
 package mca.entity.ai;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
-import java.util.function.BiPredicate;
-import java.util.stream.Stream;
-
-import org.jetbrains.annotations.Nullable;
-
 import mca.Config;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
@@ -28,15 +17,14 @@ import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CEnumParameter;
 import mca.util.network.datasync.CParameter;
+import net.minecraft.block.SpongeBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
@@ -47,6 +35,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
 /**
  * I know you, you know me, we're all a big happy family.
@@ -111,7 +104,7 @@ public class Relationship implements EntityRelationship {
 
     @Override
     public FamilyTree getFamilyTree() {
-        return FamilyTree.get((ServerWorld)entity.world);
+        return FamilyTree.get((ServerWorld) entity.world);
     }
 
     @Override
@@ -154,7 +147,7 @@ public class Relationship implements EntityRelationship {
             getFamilyTree().getOrCreate(entity);
             getSpouse().ifPresent(spouse -> {
                 ItemStack stack = (random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL).getDefaultStack();
-                if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
+                if (!(spouse instanceof PlayerEntity && ((PlayerEntity) spouse).giveItemStack(stack))) {
                     entity.getInventory().addStack(stack);
                 }
             });
@@ -166,8 +159,8 @@ public class Relationship implements EntityRelationship {
     public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite) {
         // The death of a villager negatively modifies the mood of nearby strangers
         WorldUtils
-            .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
-            .forEach(villager -> villager.getRelationships().onTragedy(cause, burialSite, RelationshipType.STRANGER));
+                .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
+                .forEach(villager -> villager.getRelationships().onTragedy(cause, burialSite, RelationshipType.STRANGER));
 
         onTragedy(cause, burialSite, RelationshipType.SIBLING);
     }
@@ -179,7 +172,7 @@ public class Relationship implements EntityRelationship {
         moodAffect /= type.getInverseProximity();
         moodAffect *= type.getProximityAmplifier();
 
-        ((ServerWorld)entity.world).sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
+        ((ServerWorld) entity.world).sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
         entity.getVillagerBrain().modifyMoodLevel(-moodAffect);
 
         if (burialSite != null && type != RelationshipType.STRANGER) {
@@ -232,6 +225,13 @@ public class Relationship implements EntityRelationship {
                 if (stack.getItem() == Items.GOLDEN_APPLE) {
                     //TODO special
                     entity.setInfected(false);
+                } else if (stack.getItem() instanceof DyeItem) {
+                    //TODO special
+                    DyeItem dye = (DyeItem) stack.getItem();
+                    entity.setHairDye(dye.getColor());
+                } else if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof SpongeBlock) {
+                    //TODO special, also feels super hacky, probably a better way to check for blocks
+                    entity.setHairDye();
                 } else {
                     // TODO: Don't use translation keys. Use identifiers.
                     String id = stack.getTranslationKey();
@@ -278,7 +278,7 @@ public class Relationship implements EntityRelationship {
         } else if (item == Items.CAKE) {
             if (isMarried() && !entity.isBaby()) {
                 if (pregnancy.tryStartGestation()) {
-                    ((ServerWorld)player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
+                    ((ServerWorld) player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
                     entity.sendChatMessage(player, "gift.cake.success");
                 } else {
                     entity.sendChatMessage(player, "gift.cake.fail");
@@ -295,7 +295,7 @@ public class Relationship implements EntityRelationship {
     }
 
     public void readFromNbt(NbtCompound nbt) {
-      //load gift desaturation queue
+        //load gift desaturation queue
         NbtList res = nbt.getList("giftDesaturation", 8);
         for (int i = 0; i < res.size(); i++) {
             String c = res.getString(i);
@@ -304,7 +304,7 @@ public class Relationship implements EntityRelationship {
     }
 
     public void writeToNbt(NbtCompound nbt) {
-      //save gift desaturation queue
+        //save gift desaturation queue
         NbtList giftDesaturationQueue = new NbtList();
         for (int i = 0; i < giftDesaturation.size(); i++) {
             giftDesaturationQueue.addElement(i, NbtString.of(giftDesaturation.get(i)));
