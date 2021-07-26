@@ -29,6 +29,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
@@ -86,7 +87,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
     @Override
     public final Text getDefaultName() {
-        return new LiteralText(getTrackedValue(VILLAGER_NAME));
+        return new LiteralText(getTrackedValue(VILLAGER_NAME)).formatted(Formatting.RED);
     }
 
     @Override
@@ -214,5 +215,4 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
         super.onTrackedDataSet(par);
     }
-
 }

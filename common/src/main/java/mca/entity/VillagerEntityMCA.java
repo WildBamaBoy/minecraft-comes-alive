@@ -541,9 +541,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             name = name.shallowCopy().append(" (").append(getVillagerBrain().getMoveState().getName()).append(")");
         }
 
-        name = name.shallowCopy().append(String.format(" %f / %f", getInfectionProgress(), Infectable.MAX_INFECTION));
-
-        if (getProfession() == ProfessionsMCA.OUTLAW) {
+        if (isInfected()) {
+            return name.shallowCopy().formatted(Formatting.GREEN);
+        } else if (getProfession() == ProfessionsMCA.OUTLAW) {
             return name.shallowCopy().formatted(Formatting.RED);
         }
         return name;
