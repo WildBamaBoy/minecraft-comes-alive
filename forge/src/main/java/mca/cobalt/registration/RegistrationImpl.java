@@ -144,7 +144,7 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public ProfessionFactory<VillagerProfession> profession() {
-        return (id, poi, sound, items, sites) -> new VillagerProfession(id.toString(), poi, ImmutableSet.copyOf(items),  ImmutableSet.copyOf(sites), sound);
+        return (id, poi, sound, items, sites) -> register(Registry.VILLAGER_PROFESSION, id, new VillagerProfession(id.toString(), poi, ImmutableSet.copyOf(items),  ImmutableSet.copyOf(sites), sound));
     }
 
     static class RegistryRepo {

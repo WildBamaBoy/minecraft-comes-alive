@@ -11,7 +11,7 @@ public enum AgeState {
     TEEN      (0.85f, 0.8f,  0.5f, 1.0f),
     ADULT     (1.0f,  0.9f,  1.0f, 1.0f);
 
-    public static int startingAge = -192_000;
+    public static int startingAge = -192000;
 
     private static final AgeState[] VALUES = values();
 

@@ -121,7 +121,7 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
     @Override
     protected void dropEquipment(DamageSource source, int lootingLvl, boolean hitByPlayer) {
         super.dropEquipment(source, lootingLvl, hitByPlayer);
-        ItemEntity itementity = dropItem(ItemsMCA.STAFF_OF_LIFE);
+        ItemEntity itementity = dropItem(ItemsMCA.SCYTHE);
         if (itementity != null) {
             itementity.setCovetedItem();
         }

@@ -11,6 +11,7 @@ import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -22,6 +23,7 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -32,6 +34,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
@@ -47,6 +50,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -241,6 +245,24 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
     }
 
     @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        Data.of(world.getBlockEntity(pos)).filter(Data::isResurrecting).ifPresent(data -> {
+            for (int i = 0; i < random.nextInt(8) + 1; ++i) {
+                world.addParticle(random.nextBoolean() ? ParticleTypes.LARGE_SMOKE : ParticleTypes.SMOKE,
+                        pos.getX() + random.nextFloat(),
+                        pos.getY() + random.nextFloat(),
+                        pos.getZ() + random.nextFloat(),
+                        (random.nextFloat() - 0.5) / 10F,
+                        0,
+                        (random.nextFloat() - 0.5) / 10F
+                );
+             }
+        });
+
+
+    }
+
+    @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         List<ItemStack> stacks = super.getDroppedStacks(state, builder);
 
@@ -266,7 +288,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         return stack.getItem() == Items.BONE || stack.getItem() == Items.SKELETON_SKULL;
     }
 
-    public abstract static class Data extends BlockEntity {
+    public abstract static class Data extends BlockEntity implements Tickable {
         public static Supplier<Data> constructor;
 
         private Optional<EntityData> entityData = Optional.empty();
@@ -274,8 +296,67 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         @Nullable
         private FlowingText computedName;
 
+        private int resurrectionProgress;
+
         protected Data() {
             super(BlockEntityTypesMCA.TOMBSTONE);
+        }
+
+        public boolean isResurrecting() {
+            return resurrectionProgress > 0;
+        }
+
+        public void startResurrecting() {
+            resurrectionProgress = 1;
+            generateLightning();
+            markDirty();
+            sync();
+        }
+
+        @Override
+        public void tick() {
+            if (world.isClient) {
+                return;
+            }
+
+            if (hasEntity() && resurrectionProgress > 0) {
+                resurrectionProgress++;
+                markDirty();
+                sync();
+
+                if (resurrectionProgress % 30 == 0) {
+                    world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundCategory.BLOCKS, 1, 1);
+                    world.syncWorldEvent(WorldEventsCompat.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
+                }
+
+                if (world.random.nextInt(10) > 5 && resurrectionProgress % 20 == 0) {
+                    generateLightning();
+                }
+
+                if (resurrectionProgress > 500) {
+                    resurrectionProgress = 0;
+
+                    createEntity(world, true).ifPresent(entity -> {
+                        generateLightning();
+                        entity.setPosition(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
+                        if (entity instanceof LivingEntity) {
+                            LivingEntity l = (LivingEntity)entity;
+                            l.setHealth(l.getMaxHealth());
+                            l.clearStatusEffects();
+                            l.removed = false;
+                        }
+                        world.spawnEntity(entity);
+                    });
+                }
+            }
+        }
+
+        private void generateLightning() {
+            world.setLightningTicksLeft(10);
+            LightningEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+            bolt.setCosmetic(true);
+            bolt.resetPosition(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
+            world.spawnEntity(bolt);
         }
 
         public void setEntity(@Nullable Entity entity) {
@@ -344,6 +425,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         //@Override
         public void fromClientTag(NbtCompound tag) {
             entityData = tag.contains("entityData", NbtElementCompat.COMPOUND_TYPE) ? Optional.of(new EntityData(tag)) : Optional.empty();
+            resurrectionProgress = tag.getInt("resurrectionProgress");
         }
 
         //@Override
@@ -359,8 +441,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
         @Override
         public NbtCompound writeNbt(NbtCompound nbt) {
-           entityData.ifPresent(data -> data.writeNbt(nbt));
-           return super.writeNbt(nbt);
+            entityData.ifPresent(data -> data.writeNbt(nbt));
+            nbt.putInt("resurrectionProgress", resurrectionProgress);
+            return super.writeNbt(nbt);
         }
 
         public void readFromStack(ItemStack stack) {
@@ -379,7 +462,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             });
         }
 
-        static Optional<Data> of(@Nullable BlockEntity be) {
+        public static Optional<Data> of(@Nullable BlockEntity be) {
             return Optional.ofNullable(be).filter(p -> p instanceof Data).map(Data.class::cast);
         }
 

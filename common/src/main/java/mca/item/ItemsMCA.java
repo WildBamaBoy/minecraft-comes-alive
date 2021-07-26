@@ -52,6 +52,8 @@ public interface ItemsMCA {
     Item SLANTED_HEADSTONE = register("slanted_headstone", new BlockItem(BlocksMCA.SLANTED_HEADSTONE, baseProps()));
     Item CROSS_HEADSTONE = register("cross_headstone", new BlockItem(BlocksMCA.CROSS_HEADSTONE, baseProps()));
 
+    Item SCYTHE = register("scythe", new ScytheItem(baseProps()));
+
     static void bootstrap() {
         TagsMCA.Blocks.bootstrap();
         RecipesMCA.bootstrap();
