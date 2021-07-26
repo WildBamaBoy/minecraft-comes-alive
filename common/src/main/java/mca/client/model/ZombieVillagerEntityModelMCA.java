@@ -15,5 +15,7 @@ public class ZombieVillagerEntityModelMCA<T extends MobEntity & VillagerLike<T>>
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         super.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
         CrossbowPosing.method_29352(leftArm, rightArm, entity.isAttacking(), handSwingProgress, animationProgress);
+        leftArmwear.copyTransform(leftArm);
+        rightArmwear.copyTransform(rightArm);
     }
 }
