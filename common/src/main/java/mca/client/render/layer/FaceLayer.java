@@ -1,12 +1,15 @@
 package mca.client.render.layer;
 
 import mca.client.model.VillagerEntityModelMCA;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.entity.mob.MobEntity;
 
-public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
-    public FaceLayer(FeatureRendererContext<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
+public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
+    public FaceLayer(
+            FeatureRendererContext<T, VillagerEntityModelMCA<T>> renderer,
+            VillagerEntityModelMCA<T> model) {
         super(renderer, model);
 
         this.model.setVisible(false);
@@ -19,7 +22,7 @@ public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     }
 
     @Override
-    protected String getSkin(VillagerEntityMCA villager) {
+    protected String getSkin(T villager) {
         int totalFaces = 11;
         int skin = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
         int time = villager.age / 2 + (int) (villager.getGenetics().getGene(Genetics.HEMOGLOBIN) * 65536);

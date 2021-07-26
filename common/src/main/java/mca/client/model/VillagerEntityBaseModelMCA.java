@@ -1,7 +1,7 @@
 package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.client.model.ModelPart;
@@ -15,8 +15,9 @@ import mca.util.compat.model.ModelPartData;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.mob.MobEntity;
 
-public class VillagerEntityBaseModelMCA<T extends VillagerEntityMCA> extends BipedEntityModel<T> {
+public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> extends BipedEntityModel<T> {
 
     protected static final String BREASTS = "breasts";
 

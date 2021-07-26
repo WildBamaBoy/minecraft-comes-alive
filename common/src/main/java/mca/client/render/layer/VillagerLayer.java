@@ -3,7 +3,7 @@ package mca.client.render.layer;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import mca.client.model.VillagerEntityModelMCA;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,13 +11,14 @@ import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
-public abstract class VillagerLayer<T extends VillagerEntityMCA, M extends VillagerEntityModelMCA<T>> extends FeatureRenderer<T, M> {
+public abstract class VillagerLayer<T extends MobEntity & VillagerLike<T>, M extends VillagerEntityModelMCA<T>> extends FeatureRenderer<T, M> {
 
     private static final float[] DEFAULT_COLOR = new float[]{1, 1, 1};
 

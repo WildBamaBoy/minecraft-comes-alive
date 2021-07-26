@@ -2,7 +2,7 @@ package mca.resources;
 
 import java.util.EnumMap;
 import java.util.Map;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.Hair;
@@ -39,12 +39,12 @@ public class HairList {
      * @param villager The villager who will be assigned the hair.
      * @return String location of the random skin
      */
-    public Hair pickOne(VillagerEntityMCA villager) {
+    public Hair pickOne(VillagerLike<?> villager) {
         return hair.get(villager.getGenetics().getGender()).pickOne();
     }
 
     //returns the next clothing with given offset to current
-    public Hair pickNext(VillagerEntityMCA villager, Hair current, int next) {
+    public Hair pickNext(VillagerLike<?> villager, Hair current, int next) {
         return hair.get(villager.getGenetics().getGender()).pickNext(current, next);
     }
 

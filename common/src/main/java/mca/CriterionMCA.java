@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 public interface CriterionMCA {
     BabyCriterion BABY_CRITERION = register(new BabyCriterion());
 
+    @SuppressWarnings("unchecked")
     static <T extends Criterion<?>> T register(T object) {
         try {
             Method register = Criteria.class.getDeclaredMethod("register", Criterion.class);

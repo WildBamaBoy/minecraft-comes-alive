@@ -33,7 +33,7 @@ public class GetInteractDataRequest implements Message {
             //get constraints
             Set<Constraint> constraints = Constraint.allMatching(villager, player);
 
-            Relationship relationship = villager.getRelationships();
+            Relationship<?> relationship = villager.getRelationships();
             FamilyTreeEntry family = relationship.getFamily();
 
             String fatherName = relationship.getFamilyTree().getOrEmpty(family.father()).map(FamilyTreeEntry::name).orElse(null);

@@ -1,16 +1,17 @@
 package mca.client.render.layer;
 
 import mca.client.model.VillagerEntityModelMCA;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.entity.mob.MobEntity;
 
-public class ClothingLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
-    public ClothingLayer(FeatureRendererContext<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
+public class ClothingLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
+    public ClothingLayer(FeatureRendererContext<T, VillagerEntityModelMCA<T>> renderer, VillagerEntityModelMCA<T> model) {
         super(renderer, model);
     }
 
     @Override
-    protected String getSkin(VillagerEntityMCA villager) {
+    protected String getSkin(T villager) {
         return villager.getClothes();
     }
 }

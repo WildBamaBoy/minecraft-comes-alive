@@ -2,7 +2,7 @@ package mca.network.client;
 
 import mca.ClientProxy;
 import mca.cobalt.network.Message;
-import mca.entity.VillagerEntityMCA;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class OpenGuiRequest implements Message {
@@ -12,7 +12,7 @@ public class OpenGuiRequest implements Message {
 
     public final int villager;
 
-    public OpenGuiRequest(OpenGuiRequest.Type gui, VillagerEntityMCA villager) {
+    public OpenGuiRequest(OpenGuiRequest.Type gui, Entity villager) {
         this(gui, villager.getEntityId());
     }
 

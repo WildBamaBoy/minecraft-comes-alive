@@ -1,18 +1,13 @@
 package mca.entity.ai;
 
-import mca.Config;
-import mca.CriterionMCA;
-import mca.MCA;
-import mca.advancement.criterion.BabyCriterion;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
+import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
-import mca.item.ItemsMCA;
-import mca.item.SpecialCaseGift;
-import mca.resources.API;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import mca.util.WorldUtils;
@@ -20,24 +15,20 @@ import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CEnumParameter;
 import mca.util.network.datasync.CParameter;
-import net.minecraft.block.SpongeBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -47,35 +38,27 @@ import java.util.stream.Stream;
 /**
  * I know you, you know me, we're all a big happy family.
  */
-public class Relationship implements EntityRelationship {
+public class Relationship<T extends MobEntity & VillagerLike<T>> implements EntityRelationship {
     public static final Predicate IS_MARRIED = (villager, player) -> villager.getRelationships().isMarriedTo(player);
-    public static final Predicate IS_RELATIVE = (villager, player) -> villager.getRelationships().getFamilyTree().isRelative(villager.getUuid(), player);
+    public static final Predicate IS_RELATIVE = (villager, player) -> villager.getRelationships().getFamilyTree().isRelative(villager.asEntity().getUuid(), player);
     public static final Predicate IS_FAMILY = IS_MARRIED.or(IS_RELATIVE);
-    public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyTree().isParent(villager.getUuid(), player);
+    public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyTree().isParent(villager.asEntity().getUuid(), player);
 
-    private static final CDataParameter<Boolean> IS_PROCREATING = CParameter.create("isProcreating", false);
     private static final CDataParameter<String> SPOUSE_NAME = CParameter.create("spouseName", "");
     private static final CDataParameter<Optional<UUID>> SPOUSE_UUID = CParameter.create("spouseUUID", Optional.empty());
     private static final CEnumParameter<MarriageState> MARRIAGE_STATE = CParameter.create("marriageState", MarriageState.SINGLE);
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
-        return builder
-                .addAll(IS_PROCREATING, SPOUSE_NAME, SPOUSE_UUID, MARRIAGE_STATE)
-                .add(Pregnancy::createTrackedData);
+        return builder.addAll(SPOUSE_NAME, SPOUSE_UUID, MARRIAGE_STATE);
     }
 
-    private final VillagerEntityMCA entity;
+    protected final T entity;
 
     //gift desaturation queue
     final List<String> giftDesaturation = new LinkedList<>();
 
-    private int procreateTick = -1;
-
-    private final Pregnancy pregnancy;
-
-    public Relationship(VillagerEntityMCA entity) {
+    public Relationship(T entity) {
         this.entity = entity;
-        pregnancy = new Pregnancy(entity);
     }
 
     @Override
@@ -83,19 +66,7 @@ public class Relationship implements EntityRelationship {
         return entity.getGenetics().getGender();
     }
 
-    public Pregnancy getPregnancy() {
-        return pregnancy;
-    }
-
-    public boolean isProcreating() {
-        return entity.getTrackedValue(IS_PROCREATING);
-    }
-
-    public void startProcreating() {
-        procreateTick = 60;
-        entity.setTrackedValue(IS_PROCREATING, true);
-    }
-
+    @Override
     public Optional<Text> getSpouseName() {
         return isMarried() ? Optional.ofNullable(entity.getTrackedValue(SPOUSE_NAME)).map(LiteralText::new) : Optional.empty();
     }
@@ -128,45 +99,6 @@ public class Relationship implements EntityRelationship {
                 .map(id -> ((ServerWorld) entity.world).getEntity(id))
                 .filter(Objects::nonNull)
                 .filter(e -> !e.equals(entity)); // we exclude ourselves from the list of siblings
-    }
-
-    public void tick(int age) {
-        if (age % 20 == 0) {
-            pregnancy.tick();
-        }
-
-        if (!isProcreating()) {
-            return;
-        }
-
-        Random random = entity.getRandom();
-        if (procreateTick > 0) {
-            procreateTick--;
-            entity.getNavigation().stop();
-            entity.world.sendEntityStatus(entity, Status.VILLAGER_HEARTS);
-        } else {
-            // TODO: Move this to the Pregnancy
-            //make sure this villager is registered in the family tree
-            getFamilyTree().getOrCreate(entity);
-            getSpouse().ifPresent(spouse -> {
-                boolean areTwins = random.nextInt(100) < MCA.getConfig().chanceToHaveTwins;
-                int count = areTwins ? 2 : 1;
-
-                // advancement
-                if (spouse instanceof ServerPlayerEntity) {
-                    CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity) spouse, count);
-                }
-
-                for (int i = 0; i < count; i++) {
-                    ItemStack stack = (random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL).getDefaultStack();
-                    if (!(spouse instanceof PlayerEntity && ((PlayerEntity) spouse).giveItemStack(stack))) {
-                        entity.getInventory().addStack(stack);
-                    }
-                }
-            });
-
-            entity.setTrackedValue(IS_PROCREATING, false);
-        }
     }
 
     public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite) {
@@ -202,12 +134,8 @@ public class Relationship implements EntityRelationship {
     }
 
     @Override
-    public boolean isMarried() {
-        return !entity.getTrackedValue(SPOUSE_UUID).orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
-    }
-
-    public boolean isMarriedTo(UUID uuid) {
-        return entity.getTrackedValue(SPOUSE_UUID).orElse(Util.NIL_UUID).equals(uuid);
+    public Optional<UUID> getSpouseUuid() {
+        return entity.getTrackedValue(SPOUSE_UUID);
     }
 
     public void marry(PlayerEntity player) {
@@ -229,84 +157,6 @@ public class Relationship implements EntityRelationship {
         entity.setTrackedValue(MARRIAGE_STATE, newState);
     }
 
-    public void giveGift(ServerPlayerEntity player, Memories memory) {
-        ItemStack stack = player.getMainHandStack();
-
-        if (!stack.isEmpty()) {
-            int giftValue = API.getGiftPool().getWorth(stack);
-            if (!handleSpecialCaseGift(player, stack)) {
-                if (stack.getItem() == Items.GOLDEN_APPLE) {
-                    //TODO special
-                    entity.setInfected(false);
-                } else if (stack.getItem() instanceof DyeItem) {
-                    //TODO special
-                    DyeItem dye = (DyeItem) stack.getItem();
-                    entity.setHairDye(dye.getColor());
-                } else if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof SpongeBlock) {
-                    //TODO special, also feels super hacky, probably a better way to check for blocks
-                    entity.clearHairDye();
-                } else {
-                    // TODO: Don't use translation keys. Use identifiers.
-                    String id = stack.getTranslationKey();
-                    long occurrences = giftDesaturation.stream().filter(id::equals).count();
-
-                    //check if desaturation fail happen
-                    if (entity.getRandom().nextInt(100) < occurrences * Config.getInstance().giftDesaturationPenalty) {
-                        giftValue = -giftValue / 2;
-                        entity.sendChatMessage(player, API.getGiftPool().getResponseForSaturatedGift(stack));
-                    } else {
-                        entity.sendChatMessage(player, API.getGiftPool().getResponse(stack));
-                    }
-
-                    //modify mood and hearts
-                    entity.getVillagerBrain().modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
-                    memory.modHearts(giftValue);
-                }
-            }
-
-            //add to desaturation queue
-            giftDesaturation.add(stack.getTranslationKey());
-            while (giftDesaturation.size() > Config.getInstance().giftDesaturationQueueLength) {
-                giftDesaturation.remove(0);
-            }
-
-            //particles
-            if (giftValue > 0) {
-                player.getMainHandStack().decrement(1);
-                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
-            } else {
-                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
-            }
-        }
-    }
-
-    private boolean handleSpecialCaseGift(ServerPlayerEntity player, ItemStack stack) {
-        Item item = stack.getItem();
-
-        if (item instanceof SpecialCaseGift) {
-            if (((SpecialCaseGift) item).handle(player, entity)) {
-                player.getMainHandStack().decrement(1);
-            }
-            return true;
-        } else if (item == Items.CAKE) {
-            if (isMarried() && !entity.isBaby()) {
-                if (pregnancy.tryStartGestation()) {
-                    ((ServerWorld) player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
-                    entity.sendChatMessage(player, "gift.cake.success");
-                } else {
-                    entity.sendChatMessage(player, "gift.cake.fail");
-                }
-                return true;
-            }
-        } else if (item == Items.GOLDEN_APPLE && entity.isBaby()) {
-            // increase age by 5 minutes
-            entity.growUp(1200 * 5);
-            return true;
-        }
-
-        return false;
-    }
-
     public void readFromNbt(NbtCompound nbt) {
         //load gift desaturation queue
         NbtList res = nbt.getList("giftDesaturation", 8);
@@ -325,12 +175,12 @@ public class Relationship implements EntityRelationship {
         nbt.put("giftDesaturation", giftDesaturationQueue);
     }
 
-    public interface Predicate extends BiPredicate<VillagerEntityMCA, Entity> {
+    public interface Predicate extends BiPredicate<CompassionateEntity<?>, Entity> {
 
-        boolean test(VillagerEntityMCA villager, UUID partner);
+        boolean test(CompassionateEntity<?> villager, UUID partner);
 
         @Override
-        default boolean test(VillagerEntityMCA villager, Entity partner) {
+        default boolean test(CompassionateEntity<?> villager, Entity partner) {
             return partner != null && test(villager, partner.getUuid());
         }
 
@@ -341,6 +191,10 @@ public class Relationship implements EntityRelationship {
         @Override
         default Predicate negate() {
             return (villager, partner) -> !test(villager, partner);
+        }
+
+        default BiPredicate<VillagerLike<?>, Entity> asConstraint() {
+            return (villager, player) -> villager instanceof CompassionateEntity<?> && (test((CompassionateEntity<?>)villager, player));
         }
     }
 }

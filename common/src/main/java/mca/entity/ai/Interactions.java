@@ -55,7 +55,7 @@ public class Interactions {
     }
 
     public ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-        if (!entity.world.isClient) {
+        if (player instanceof ServerPlayerEntity) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.INTERACT, entity), (ServerPlayerEntity)player);
         }
         interactingPlayer = player;

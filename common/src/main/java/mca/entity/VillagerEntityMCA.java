@@ -15,7 +15,6 @@ import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
-import mca.resources.data.Hair;
 import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.server.world.data.SavedVillagers;
@@ -31,8 +30,6 @@ import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.control.JumpControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
@@ -59,7 +56,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -75,40 +71,24 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
-public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<VillagerEntityMCA>, NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
-    private static final CDataParameter<String> VILLAGER_NAME = CParameter.create("villagerName", "");
-    private static final CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
-    private static final CDataParameter<String> HAIR = CParameter.create("hair", "");
-    private static final CDataParameter<String> HAIR_OVERLAY = CParameter.create("hairOverlay", "");
-    private static final CEnumParameter<DyeColor> HAIR_COLOR = CParameter.create("hairColor", DyeColor.class);
-    private static final CEnumParameter<AgeState> AGE_STATE = CParameter.create("ageState", AgeState.UNASSIGNED);
+public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship> {
     private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
 
     private static final CDataManager<VillagerEntityMCA> DATA = createTrackedData(VillagerEntityMCA.class).build();
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
-        return new CDataManager.Builder<>(type)
-                .addAll(VILLAGER_NAME, CLOTHES, HAIR, HAIR_OVERLAY, HAIR_COLOR, AGE_STATE, IS_INFECTED)
-                .add(Genetics::createTrackedData)
+        return VillagerLike.createTrackedData(type).addAll(IS_INFECTED)
                 .add(Residency::createTrackedData)
-                .add(VillagerBrain::createTrackedData)
-                .add(Relationship::createTrackedData);
+                .add(BreedableRelationship::createTrackedData);
     }
 
-    public static DefaultAttributeContainer.Builder createVillagerAttributes() {
-        return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48);
-    }
+    private final VillagerBrain<VillagerEntityMCA> mcaBrain = new VillagerBrain<>(this);
 
     private final Genetics genetics = new Genetics(this);
     private final Residency residency = new Residency(this);
-    private final VillagerBrain mcaBrain = new VillagerBrain(this);
-    private final Interactions interactions = new Interactions(this);
-    private final Relationship relations = new Relationship(this);
+    private final BreedableRelationship relations = new BreedableRelationship(this);
 
+    private final Interactions interactions = new Interactions(this);
     private final SimpleInventory inventory = new SimpleInventory(27);
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
@@ -153,16 +133,18 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return (Brain<VillagerEntityMCA>) brain;
     }
 
+    @Override
     public Genetics getGenetics() {
         return genetics;
     }
 
     @Override
-    public Relationship getRelationships() {
+    public BreedableRelationship getRelationships() {
         return relations;
     }
 
-    public VillagerBrain getVillagerBrain() {
+    @Override
+    public VillagerBrain<?> getVillagerBrain() {
         return mcaBrain;
     }
 
@@ -200,14 +182,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return data;
     }
 
-    public String getClothes() {
-        return getTrackedValue(CLOTHES);
-    }
-
-    public void setClothes(String clothes) {
-        setTrackedValue(CLOTHES, clothes);
-    }
-
     public final VillagerProfession getProfession() {
         return this.getVillagerData().getProfession();
     }
@@ -226,6 +200,17 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
             setTrackedValue(CLOTHES, ClothingList.getInstance().byGender(getGenetics().getGender()).byProfession(data.getProfession()).pickOne());
         }
         super.setVillagerData(data);
+    }
+
+    @Override
+    public void setBaby(boolean isBaby) {
+        setBreedingAge(isBaby ? AgeState.startingAge : 0);
+    }
+
+    //TODO: Reputation
+    @Override
+    public int getReputation(PlayerEntity player) {
+        return super.getReputation(player);
     }
 
     @Override
@@ -280,7 +265,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if (stack.getItem() != ItemsMCA.EGG_MALE && stack.getItem() != ItemsMCA.EGG_FEMALE) {
+        if (stack.getItem() != ItemsMCA.FEMALE_VILLAGER_SPAWN_EGG && stack.getItem() != ItemsMCA.MALE_VILLAGER_SPAWN_EGG) {
             return interactions.interactAt(player, pos, hand);
         }
         return super.interactAt(player, pos, hand);
@@ -335,11 +320,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         getTypeDataManager().save(this, nbt);
         relations.writeToNbt(nbt);
         InventoryUtils.saveToNBT(inventory, nbt);
-    }
-
-    private void initializeSkin() {
-        setClothes(ClothingList.getInstance().getPool(this).pickOne());
-        setHair(API.getHairPool().pickOne(this));
     }
 
     @Override
@@ -542,10 +522,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
     }
 
-    public void setName(String name) {
-        setTrackedValue(VILLAGER_NAME, name);
-    }
-
     @Override
     public final Text getDisplayName() {
         Text name = super.getDisplayName();
@@ -586,20 +562,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         }
     }
 
-    @Override
-    public DialogueType getDialogueType(PlayerEntity receiver) {
-        return mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
-    }
-
-    public Hair getHair() {
-        return new Hair(getTrackedValue(HAIR), getTrackedValue(HAIR_OVERLAY));
-    }
-
-    public void setHair(Hair hair) {
-        setTrackedValue(HAIR, hair.texture());
-        setTrackedValue(HAIR_OVERLAY, hair.overlay());
-    }
-
     // we make it public here
     @Override
     public void produceParticles(ParticleEffect parameters) {
@@ -610,10 +572,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     @Override
     public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
         return GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, inventory);
-    }
-
-    public AgeState getAgeState() {
-        return getTrackedValue(AGE_STATE);
     }
 
     public void setAgeState(AgeState state) {
@@ -639,10 +597,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getAgeState().getHeight();
     }
 
-    public float getHorizontalScaleFactor() {
-        return genetics.getVerticalScaleFactor() * getAgeState().getHeight() * getAgeState().getWidth();
-    }
-
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions size) {
         return getScaleFactor() * 1.6f;
@@ -662,9 +616,14 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return inventory;
     }
 
+    @Override
+    public boolean equip(int slot, ItemStack item) {
+        // TODO: We change the inventory size. This method should change too in order for picking up stacks to work correctly.
+        return super.equip(slot, item);
+    }
+
     public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
-        BlockPosLookTarget blockposwrapper = new BlockPosLookTarget(pos);
-        this.brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
+        this.brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosLookTarget(pos), speed, closeEnoughDist));
         this.lookAt(pos);
     }
 
@@ -694,7 +653,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     }
 
     public void onInvChange(Inventory inventoryFromListener) {
-        SimpleInventory inv = this.getInventory();
+        SimpleInventory inv = getInventory();
 
         for (EquipmentSlot type : EquipmentSlot.values()) {
             if (type.getType() == EquipmentSlot.Type.ARMOR) {
@@ -706,26 +665,22 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void setBaby(boolean isBaby) {
-        this.setBreedingAge(isBaby ? AgeState.startingAge : 0);
-    }
+    @Nullable
+    public <T extends MobEntity> T method_29243/*convertTo*/(EntityType<T> type, boolean keepInventory) {
+        if (!removed && type == EntityType.ZOMBIE_VILLAGER) {
+            ZombieVillagerEntityMCA mob = super.method_29243(getGenetics().getGender().getZombieType(), keepInventory);
+            mob.copyVillagerAttributesFrom(this);
+            return (T)mob;
+        }
 
-    //TODO: Reputation
-    @Override
-    public int getReputation(PlayerEntity player) {
-        return super.getReputation(player);
-    }
+        T mob = super.method_29243(type, keepInventory);
 
-    public void setHairDye(DyeColor color) {
-        setTrackedValue(HAIR_COLOR, color);
-    }
+        if (mob instanceof VillagerLike<?>) {
+            ((VillagerLike<?>)mob).copyVillagerAttributesFrom(this);
+        }
 
-    public void clearHairDye() {
-        setTrackedValue(HAIR_COLOR, null);
-    }
-
-    public Optional<DyeColor> getHairDye() {
-        return Optional.ofNullable(getTrackedValue(HAIR_COLOR));
+        return mob;
     }
 }

@@ -1,6 +1,7 @@
 package mca.entity.ai.relationship;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +13,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 public interface EntityRelationship {
@@ -54,7 +57,17 @@ public interface EntityRelationship {
 
     MarriageState getMarriageState();
 
-    boolean isMarried();
+    Optional<UUID> getSpouseUuid();
+
+    Optional<Text> getSpouseName();
+
+    default boolean isMarried() {
+        return !getSpouseUuid().orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
+    }
+
+    default boolean isMarriedTo(UUID uuid) {
+        return getSpouseUuid().orElse(Util.NIL_UUID).equals(uuid);
+    }
 
     static Optional<EntityRelationship> of(Entity entity) {
 

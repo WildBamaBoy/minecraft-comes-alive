@@ -8,7 +8,7 @@ import java.util.Optional;
 import com.google.gson.JsonElement;
 
 import mca.MCA;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
@@ -68,8 +68,8 @@ public class ClothingList extends JsonDataLoader {
     /**
      * Gets a pool of clothing options valid for this entity's gender and profession.
      */
-    public WeightedPool<String> getPool(VillagerEntityMCA villager) {
-        return byGender(villager.getGenetics().getGender()).byProfession(villager.getProfession());
+    public WeightedPool<String> getPool(VillagerLike<?> villager) {
+        return byGender(villager.getGenetics().getGender()).byProfession(villager.getVillagerData().getProfession());
     }
 
     public static class ProfessionedPool {

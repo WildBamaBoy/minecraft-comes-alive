@@ -1,7 +1,7 @@
 package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import net.minecraft.client.model.ModelPart;
 import mca.util.compat.model.ModelTransform;
 import mca.util.compat.model.PlayerEntityModelCompat;
@@ -11,8 +11,9 @@ import mca.util.compat.model.ModelData;
 import mca.util.compat.model.ModelPartCompat;
 import mca.util.compat.model.ModelPartData;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.entity.mob.MobEntity;
 
-public class VillagerEntityModelMCA<T extends VillagerEntityMCA> extends VillagerEntityBaseModelMCA<T> {
+public class VillagerEntityModelMCA<T extends MobEntity & VillagerLike<T>> extends VillagerEntityBaseModelMCA<T> {
     protected static final String BREASTPLATE = "breastplate";
 
     public final ModelPart breastsWear;

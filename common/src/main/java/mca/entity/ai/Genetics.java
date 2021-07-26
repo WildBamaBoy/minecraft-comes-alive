@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Set;
 
 import mca.Config;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.Gender;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
@@ -44,9 +44,9 @@ public class Genetics implements Iterable<Genetics.Gene> {
 
     private final Map<GeneType, Gene> genes = new HashMap<>();
 
-    private final VillagerEntityMCA entity;
+    private final VillagerLike<?> entity;
 
-    public Genetics(VillagerEntityMCA entity) {
+    public Genetics(VillagerLike<?> entity) {
         this.entity = entity;
     }
 

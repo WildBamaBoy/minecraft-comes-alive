@@ -29,17 +29,6 @@ public enum Interaction {
         this.baseHearts = baseHearts;
     }
 
-    @Deprecated
-    public static Interaction fromName(String name) {
-        for (Interaction interaction : Interaction.values()) {
-            if (interaction.name.equals(name)) {
-                return interaction;
-            }
-        }
-
-        return null;
-    }
-
     public static Optional<Interaction> byCommand(String action) {
         return Optional.ofNullable(REGISTRY.get(action.toUpperCase()));
     }
@@ -76,7 +65,7 @@ public enum Interaction {
         }
     }
 
-    public int getSuccessChance(VillagerBrain brain, Memories memory) {
+    public int getSuccessChance(VillagerBrain<?> brain, Memories memory) {
         return baseChance
                 - memory.getInteractionFatigue() * 5
                 + brain.getPersonality().getSuccessModifierForInteraction(this)
@@ -85,7 +74,7 @@ public enum Interaction {
                 + getBonusChanceForCurrentPoints(memory.getHearts());
     }
 
-    public int getHearts(VillagerBrain brain) {
+    public int getHearts(VillagerBrain<?> brain) {
         return baseHearts
                 + brain.getPersonality().getHeartsModifierForInteraction(this)
                 + brain.getMood().getHeartsModifierForInteraction(this)

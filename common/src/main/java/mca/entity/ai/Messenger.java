@@ -1,6 +1,7 @@
 package mca.entity.ai;
 
 import mca.Config;
+import mca.entity.EntityWrapper;
 import mca.resources.API;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,13 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public interface Messenger {
+public interface Messenger extends EntityWrapper {
 
-    default Entity asEntity() {
-        return (Entity) this;
-    }
-
-    default boolean isInfected() {
+    default boolean isSpeechImpaired() {
         return false;
     }
 
@@ -38,7 +35,7 @@ public interface Messenger {
 
     default void sendChatMessage(MutableText message, Entity receiver) {
         // Infected villagers do not speak
-        if (isInfected()) {
+        if (isSpeechImpaired()) {
             String str = message.getString();
             int wordCount = str.split(" ").length;
 
