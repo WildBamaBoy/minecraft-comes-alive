@@ -23,6 +23,7 @@ import mca.util.network.datasync.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -35,6 +36,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -44,6 +46,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -389,9 +392,28 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         float infection = this.getInfectionProgress();
         if (infection > 0) {
+            if (age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
+                for (PlayerEntity player : world.getPlayers(TargetPredicate.DEFAULT.ignoreEntityTargetRules(), this, getBoundingBox().expand(20))) {
+                    sendChatMessage(new TranslatableText("I don't fell so well, doc..."), player);
+                }
+            }
+
             prevInfectionProgress = infection;
             infection += 0.02F;
             setInfectionProgress(infection);
+
+            if (!world.isClient && infection >= POINT_OF_NO_RETURN && world.random.nextInt(2000) < infection) {
+                ZombieVillagerEntity zombie = method_29243(EntityType.ZOMBIE_VILLAGER, false);
+                zombie.initialize((ServerWorld)world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
+                zombie.setVillagerData(getVillagerData());
+                zombie.setGossipData(getGossip().serialize(NbtOps.INSTANCE).getValue());
+                zombie.setOfferData(getOffers().toNbt());
+                zombie.setXp(getExperience());
+
+                remove();
+
+                world.syncWorldEvent((PlayerEntity)null, 1026, this.getBlockPos(), 0);
+            }
         }
     }
 

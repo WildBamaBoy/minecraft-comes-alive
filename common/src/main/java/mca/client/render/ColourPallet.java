@@ -18,6 +18,7 @@ public class ColourPallet {
                 (float) color[1],
                 (float) color[2]
         };
+
         if (greenShift > 0) {
             applyGreenShift(result, greenShift / 255F);
         }
@@ -26,9 +27,13 @@ public class ColourPallet {
     }
 
     private static void applyGreenShift(float[] color, float greenShift) {
-        color[0] *= greenShift / 2F;
-        color[1] *= (1 + greenShift / 2F);
-        color[2] *= greenShift / 2F;
+
+        float pecentDown = 1 - greenShift / 1.8F;
+        float perfenctUp = 1 + greenShift / 2F;
+
+        color[0] *= pecentDown;
+        color[1] *= perfenctUp;
+        color[2] *= pecentDown;
     }
 
     private static int clampFloor(double v, int max) {

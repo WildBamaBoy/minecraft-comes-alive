@@ -18,6 +18,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -193,6 +194,15 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
         super.writeCustomDataToNbt(nbt);
         getTypeDataManager().save(this, nbt);
         relations.writeToNbt(nbt);
+    }
+
+    @Override
+    public void onTrackedDataSet(TrackedData<?> par) {
+        if (getTypeDataManager().isParam(AGE_STATE, par) || getTypeDataManager().isParam(Genetics.SIZE.getParam(), par)) {
+            calculateDimensions();
+        }
+
+        super.onTrackedDataSet(par);
     }
 
 }

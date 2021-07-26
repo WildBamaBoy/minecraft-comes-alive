@@ -23,7 +23,7 @@ public interface Infectable {
     }
 
     default void setInfected(boolean infected) {
-        setInfectionProgress(infected ? INITIAL_INFECTION_AMOUNT : MIN_INFECTION);
+        setInfectionProgress(infected ? Math.max(getInfectionProgress(), INITIAL_INFECTION_AMOUNT) : MIN_INFECTION);
     }
 
     default boolean canBeTargettedBy(Entity mob) {
