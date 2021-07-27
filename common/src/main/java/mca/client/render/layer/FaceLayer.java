@@ -9,13 +9,17 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 
 public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
+
+    private final String variant;
+
     public FaceLayer(
             FeatureRendererContext<T, VillagerEntityModelMCA<T>> renderer,
-            VillagerEntityModelMCA<T> model) {
+            VillagerEntityModelMCA<T> model, String variant) {
         super(renderer, model);
+        this.variant = variant;
 
-        this.model.setVisible(false);
-        this.model.head.visible = true;
+        model.setVisible(false);
+        model.head.visible = true;
     }
 
     @Override
@@ -24,18 +28,19 @@ public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
     }
 
     @Override
-    protected String getSkin(T villager) {
+    protected Identifier getSkin(T villager) {
         Identifier type = EntityType.getId(villager.getType());
         int totalFaces = 11;
-        int variant = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
+        int index = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
         int time = villager.age / 2 + (int) (villager.getGenetics().getGene(Genetics.HEMOGLOBIN) * 65536);
         boolean blink = time % 50 == 0 || time % 57 == 0 || villager.isSleeping() || villager.isDead();
 
-        return String.format("%s:textures/entity/%s/face/%d%s.png",
+        return cached(String.format("%s:skins/face/%s/%s/%d%s.png",
                 type.getNamespace(),
-                type.getPath(),
                 variant,
+                villager.getGenetics().getGender().getStrName(),
+                index,
                 blink ? "_blink" : ""
-        );
+        ), Identifier::new);
     }
 }

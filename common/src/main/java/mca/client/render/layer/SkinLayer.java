@@ -7,6 +7,7 @@ import mca.entity.ai.Genetics;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.Identifier;
 
 public class SkinLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
     public SkinLayer(FeatureRendererContext<T, VillagerEntityModelMCA<T>> renderer, VillagerEntityModelMCA<T> model) {
@@ -14,10 +15,10 @@ public class SkinLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
     }
 
     @Override
-    protected String getSkin(T villager) {
+    protected Identifier getSkin(T villager) {
         Gender gender = villager.getGenetics().getGender();
         int skin = (int) Math.min(4, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * 5));
-        return String.format("mca:skins/skin/%s/%d.png", gender == Gender.FEMALE ? "female" : "male", skin);
+        return cached(String.format("mca:skins/skin/%s/%d.png", gender == Gender.FEMALE ? "female" : "male", skin), Identifier::new);
     }
 
     @Override

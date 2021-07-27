@@ -1,9 +1,9 @@
 package mca.client.render.layer;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.VillagerLike;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,6 +15,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +23,7 @@ public abstract class VillagerLayer<T extends MobEntity & VillagerLike<T>, M ext
 
     private static final float[] DEFAULT_COLOR = new float[]{1, 1, 1};
 
-    protected static final Map<String, Identifier> TEXTURE_CACHE = Maps.newHashMap();
+    private static final Map<String, Identifier> TEXTURE_CACHE = Maps.newHashMap();
 
     public final M model;
 
@@ -32,12 +33,12 @@ public abstract class VillagerLayer<T extends MobEntity & VillagerLike<T>, M ext
     }
 
     @Nullable
-    protected String getSkin(T villager) {
+    protected Identifier getSkin(T villager) {
         return null;
     }
 
     @Nullable
-    protected String getOverlay(T villager) {
+    protected Identifier getOverlay(T villager) {
         return null;
     }
 
@@ -50,41 +51,43 @@ public abstract class VillagerLayer<T extends MobEntity & VillagerLike<T>, M ext
     }
 
     @Override
-    public void render(MatrixStack transform, VertexConsumerProvider buffer, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    public void render(MatrixStack transform, VertexConsumerProvider provider, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         //copy the animation to this layers model
         getContextModel().setAttributes(model);
 
-        //texture
-        String p = getSkin(entity);
-        if (!Strings.isNullOrEmpty(p)) {
-            //color
+        Identifier skin = getSkin(entity);
+        if (canUse(skin)) {
             float[] color = getColor(entity);
-
-            Identifier res = getResource(p);
-            this.renderModel(transform, buffer, light, model, color[0], color[1], color[2], res, LivingEntityRenderer.getOverlay(entity, 0));
+            renderModel(transform, provider, light, model, color[0], color[1], color[2], skin, LivingEntityRenderer.getOverlay(entity, 0));
         }
 
-        //overlay
-        p = getOverlay(entity);
-        if (!Strings.isNullOrEmpty(p)) {
-            Identifier res = getResource(p);
-            this.renderModel(transform, buffer, light, model, 1, 1, 1, res, LivingEntityRenderer.getOverlay(entity, 0));
+        Identifier overlay = getOverlay(entity);
+        if (canUse(overlay)) {
+            renderModel(transform, provider, light, model, 1, 1, 1, overlay, LivingEntityRenderer.getOverlay(entity, 0));
         }
     }
 
-    private void renderModel(MatrixStack transform, VertexConsumerProvider buffer, int p_241738_3_, M model, float r, float g, float b, Identifier res, int overlay) {
-        this.getContextModel().setAttributes(model);
+    private void renderModel(MatrixStack transform, VertexConsumerProvider provider, int light, M model, float r, float g, float b, Identifier texture, int overlay) {
+        getContextModel().setAttributes(model);
 
-        VertexConsumer ivertexbuilder = buffer.getBuffer(isTranslucent() ? RenderLayer.getEntityTranslucent(res) : RenderLayer.getEntityCutoutNoCull(res));
-        model.render(transform, ivertexbuilder, p_241738_3_, overlay, r, g, b, 1.0F);
+        VertexConsumer buffer = provider.getBuffer(isTranslucent() ? RenderLayer.getEntityTranslucent(texture) : RenderLayer.getEntityCutoutNoCull(texture));
+        model.render(transform, buffer, light, overlay, r, g, b, 1);
     }
 
-    private Identifier getResource(String name) {
+    protected final boolean canUse(Identifier texture) {
+        return texture != null && MinecraftClient.getInstance().getResourceManager().containsResource(texture);
+    }
+
+    @Nullable
+    protected final Identifier cached(String name, Function<String, Identifier> supplier) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
         return TEXTURE_CACHE.computeIfAbsent(name, s -> {
             try {
-                return new Identifier(s);
+                return supplier.apply(s);
             } catch (InvalidIdentifierException ignored) {
-                return new Identifier("");
+                return null;
             }
         });
     }

@@ -7,6 +7,7 @@ import mca.entity.ai.Genetics;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
 
 import java.util.Optional;
 
@@ -21,13 +22,13 @@ public class HairLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
     }
 
     @Override
-    protected String getSkin(T villager) {
-        return villager.getHair().texture();
+    protected Identifier getSkin(T villager) {
+        return cached(villager.getHair().texture(), Identifier::new);
     }
 
     @Override
-    protected String getOverlay(T villager) {
-        return villager.getHair().overlay();
+    protected Identifier getOverlay(T villager) {
+        return cached(villager.getHair().overlay(), Identifier::new);
     }
 
     @Override
