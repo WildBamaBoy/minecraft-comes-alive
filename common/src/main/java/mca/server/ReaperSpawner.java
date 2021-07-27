@@ -3,10 +3,12 @@ package mca.server;
 import java.util.HashMap;
 import java.util.Map;
 
+import mca.MCA;
 import mca.SoundsMCA;
 import mca.entity.EntitiesMCA;
 import mca.entity.GrimReaperEntity;
 import mca.server.world.data.VillageManager;
+import mca.util.NbtElementCompat;
 import mca.util.compat.BlockCompat;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -21,6 +23,8 @@ import net.minecraft.world.World;
 
 public class ReaperSpawner {
 
+    private final Object lock = new Object();
+
     private final Map<Long, ActiveSummon> activeSummons = new HashMap<>();
 
     private final VillageManager manager;
@@ -31,7 +35,7 @@ public class ReaperSpawner {
 
     public ReaperSpawner(VillageManager manager, NbtCompound nbt) {
         this.manager = manager;
-        mca.util.NbtHelper.toList(nbt.getCompound("summons"), n -> new ActiveSummon((NbtCompound)n)).forEach(summon -> {
+        mca.util.NbtHelper.toList(nbt.getList("summons", NbtElementCompat.COMPOUND_TYPE), n -> new ActiveSummon((NbtCompound)n)).forEach(summon -> {
             activeSummons.put(summon.position.asLong(), summon);
         });
     }
@@ -45,7 +49,7 @@ public class ReaperSpawner {
             return;
         }
 
-        if (!(state.getBlock() == Blocks.FIRE && world.getBlockState(pos.down()).getBlock() == Blocks.EMERALD_BLOCK)) {
+        if (!(state.isIn(BlockTags.FIRE) && world.getBlockState(pos.down()).getBlock() == Blocks.EMERALD_BLOCK)) {
             return;
         }
 
@@ -53,25 +57,35 @@ public class ReaperSpawner {
             return;
         }
 
-        // VillageManager.get((ServerWorld)world).getReaperSpawner().
         start(pos.add(1, 10, 1));
 
-        EntityType.LIGHTNING_BOLT.spawn((ServerWorld)world, null, null, null, pos, SpawnReason.STRUCTURE, false, false);
+        EntityType.LIGHTNING_BOLT.spawn((ServerWorld)world, null, null, null, pos, SpawnReason.TRIGGERED, false, false);
 
         world.setBlockState(pos, Blocks.SOUL_SOIL.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
         world.setBlockState(pos.up(), Blocks.SOUL_FIRE.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
     }
 
     private void start(BlockPos pos) {
-        activeSummons.computeIfAbsent(pos.asLong(), ActiveSummon::new).start(pos);
-        manager.markDirty();
+        synchronized (lock) {
+            activeSummons.computeIfAbsent(pos.asLong(), ActiveSummon::new).start(pos);
+            manager.markDirty();
+        }
     }
 
     public void tick(ServerWorld world) {
-        boolean empty = activeSummons.isEmpty();
-        activeSummons.values().removeIf(summon -> summon.tick(world));
-        if (!empty) {
-            manager.markDirty();
+        synchronized (lock) {
+            boolean empty = activeSummons.isEmpty();
+            activeSummons.values().removeIf(summon -> {
+                try {
+                    return summon.tick(world);
+                } catch (Exception e) {
+                    MCA.LOGGER.error("Exception ticking summon", e);
+                    return true;
+                }
+            });
+            if (!empty) {
+                manager.markDirty();
+            }
         }
     }
 
@@ -81,7 +95,6 @@ public class ReaperSpawner {
     }
 
     private int countTotems(World world, BlockPos pos) {
-     // summon the grim reaper
         int totemsFound = 0;
 
         // Check on +/- X and Z for at least 3 totems on fire.
@@ -113,13 +126,15 @@ public class ReaperSpawner {
     }
 
     public NbtCompound writeNbt() {
-        NbtCompound nbt = new NbtCompound();
-        nbt.put("summons", mca.util.NbtHelper.fromList(activeSummons.values(), ActiveSummon::write));
-        return nbt;
+        synchronized (lock) {
+            NbtCompound nbt = new NbtCompound();
+            nbt.put("summons", mca.util.NbtHelper.fromList(activeSummons.values(), ActiveSummon::write));
+            return nbt;
+        }
     }
 
     static class ActiveSummon {
-        private int ticks = 100;
+        private int ticks;
         private BlockPos position;
 
         ActiveSummon(long l) {}
@@ -131,8 +146,8 @@ public class ReaperSpawner {
 
         public void start(BlockPos pos) {
             if (ticks <= 0) {
-                ticks = 100;
                 position = pos;
+                ticks = 100;
             }
         }
 
@@ -140,16 +155,16 @@ public class ReaperSpawner {
          * Updates this summoning instance. Returns true once complete.
          */
         public boolean tick(ServerWorld world) {
-            if (ticks <= 0) {
+            if (ticks <= 0 || position == null) {
                 return true;
             }
 
             if (--ticks % 20 == 0) {
-                EntityType.LIGHTNING_BOLT.spawn(world, null, null, null, position, SpawnReason.STRUCTURE, false, false);
+                EntityType.LIGHTNING_BOLT.spawn(world, null, null, null, position, SpawnReason.TRIGGERED, false, false);
             }
 
             if (ticks == 0) {
-                GrimReaperEntity reaper = EntitiesMCA.GRIM_REAPER.spawn(world, null, null, null, position, SpawnReason.STRUCTURE, false, false);
+                GrimReaperEntity reaper = EntitiesMCA.GRIM_REAPER.spawn(world, null, null, null, position, SpawnReason.TRIGGERED, false, false);
                 if (reaper != null) {
                     reaper.playSound(SoundsMCA.reaper_summon, 1.0F, 1.0F);
                 }
@@ -166,6 +181,5 @@ public class ReaperSpawner {
             nbt.put("position", NbtHelper.fromBlockPos(position));
             return nbt;
         }
-
     }
 }
