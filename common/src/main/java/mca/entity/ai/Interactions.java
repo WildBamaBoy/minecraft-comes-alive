@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import mca.CriterionMCA;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.VillagerProfession;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -230,7 +232,7 @@ public class Interactions {
         entity.sendOffers(player, entity.getDisplayName(), entity.getVillagerData().getLevel());
     }
 
-    private void handleInteraction(PlayerEntity player, Memories memory, Interaction interaction) {
+    private void handleInteraction(ServerPlayerEntity player, Memories memory, Interaction interaction) {
         //success chance and hearts
         float successChance = 0.85F;
         int heartsBoost = 5;
@@ -254,7 +256,9 @@ public class Interactions {
         }
 
         memory.modInteractionFatigue(1);
-        memory.modHearts(succeeded ? heartsBoost : -heartsBoost);
+        heartsBoost = succeeded ? heartsBoost : -heartsBoost;
+        memory.modHearts(heartsBoost);
+        CriterionMCA.HEARTS_CRITERION.trigger(player, memory.getHearts(), heartsBoost, "interaction");
         entity.getVillagerBrain().modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
         entity.sendChatMessage(player, String.format("%s.%s", interaction.name().toLowerCase(), succeeded ? "success" : "fail"));
     }

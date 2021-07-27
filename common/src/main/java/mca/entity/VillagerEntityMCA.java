@@ -2,6 +2,7 @@ package mca.entity;
 
 import com.mojang.serialization.Dynamic;
 import mca.Config;
+import mca.CriterionMCA;
 import mca.ParticleTypesMCA;
 import mca.TagsMCA;
 import mca.block.TombstoneBlock;
@@ -52,6 +53,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -620,6 +622,11 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         if (state == getAgeState()) {
             return;
         }
+
+        // trigger grow up advancements
+        relations.getParents().filter(e -> e instanceof ServerPlayerEntity).forEach(e -> {
+            CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity) e, state.name());
+        });
 
         setTrackedValue(AGE_STATE, state);
         calculateDimensions();

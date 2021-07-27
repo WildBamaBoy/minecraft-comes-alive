@@ -147,13 +147,23 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     }
 
     @Override
-    public FamilyTreeEntry getFamily() {
+    public Stream<Entity> getFamily(int parents, int children) {
+        return getFamilyTree()
+                .getFamily(playerId, parents, children)
+                .stream()
+                .map(world::getEntity)
+                .filter(Objects::nonNull)
+                .filter(e -> !e.getUuid().equals(playerId));
+    }
+
+    @Override
+    public FamilyTreeEntry getFamilyEntry() {
         return getFamilyTree().getOrCreate(world.getEntity(playerId));
     }
 
     @Override
     public Stream<Entity> getParents() {
-        return getFamily().parents().map(world::getEntity).filter(Objects::nonNull);
+        return getFamilyEntry().parents().map(world::getEntity).filter(Objects::nonNull);
     }
 
     @Override

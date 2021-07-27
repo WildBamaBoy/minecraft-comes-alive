@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.grow_adult"
+    },
+    "description": {
+      "translate": "advancement.mca.grow_adult.description"
+    },
+    "icon": {
+      "item": "minecraft:diamond_shovel"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:grow_child",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:child_age_state_change",
+      "conditions": {
+        "state": "ADULT"
+      }
+    }
+  }
+}

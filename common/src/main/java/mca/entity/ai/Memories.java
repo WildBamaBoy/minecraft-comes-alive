@@ -3,10 +3,9 @@ package mca.entity.ai;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.brain.VillagerBrain;
 import net.minecraft.nbt.NbtCompound;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
-
-import org.jetbrains.annotations.Nullable;
 
 public class Memories {
 

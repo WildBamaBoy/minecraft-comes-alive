@@ -1,0 +1,28 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.grandparent"
+    },
+    "description": {
+      "translate": "advancement.mca.grandparent.description"
+    },
+    "icon": {
+      "item": "minecraft:clock"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:grow_adult",
+  "criteria": {
+    "iron": {
+      "trigger": "mca:family",
+      "conditions": {
+        "grandchildren": {
+          "min": 1
+        }
+      }
+    }
+  }
+}

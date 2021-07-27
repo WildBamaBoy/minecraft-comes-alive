@@ -1,17 +1,21 @@
 package mca.entity.ai;
 
-import java.util.Optional;
-
 import mca.Config;
+import mca.CriterionMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
+import mca.server.world.data.FamilyTree;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+
+import java.util.Optional;
 
 /**
  * The progenator. Preg-genator? Preg-genator.
@@ -99,6 +103,11 @@ public class Pregnancy {
         child.setProfession(ProfessionsMCA.CHILD);
 
         mother.getRelationships().getFamilyTree().addChild(partner, mother, child);
+
+        // advancement
+        child.getRelationships().getFamily(2, 0).filter(e -> e instanceof ServerPlayerEntity).forEach(player -> {
+            CriterionMCA.FAMILY.trigger((ServerPlayerEntity) player);
+        });
 
         return child;
     }

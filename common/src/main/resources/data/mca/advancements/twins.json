@@ -1,24 +1,26 @@
 {
   "display": {
     "title": {
-      "translate": "advancement.mca.player_first_twins"
+      "translate": "advancement.mca.twins"
     },
     "description": {
-      "translate": "advancement.mca.player_first_twins.description"
+      "translate": "advancement.mca.twins.description"
     },
     "icon": {
       "item": "mca:baby_girl"
     },
-    "frame": "task",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "mca:root",
+  "parent": "mca:baby",
   "criteria": {
     "baby": {
       "trigger": "mca:baby",
-      "count": 2
+      "conditions": {
+        "count": 2
+      }
     }
   }
 }

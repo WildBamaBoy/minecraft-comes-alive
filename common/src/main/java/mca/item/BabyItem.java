@@ -2,6 +2,7 @@ package mca.item;
 
 import mca.ClientProxy;
 import mca.Config;
+import mca.CriterionMCA;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
@@ -136,6 +137,9 @@ public class BabyItem extends Item {
         } else {
             familyTree.addChild(spouseId, player.getUuid(), child);
         }
+
+        // advancement
+        CriterionMCA.FAMILY.trigger((ServerPlayerEntity) player);
 
         WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
 

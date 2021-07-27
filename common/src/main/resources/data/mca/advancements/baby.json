@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.baby"
+    },
+    "description": {
+      "translate": "advancement.mca.baby.description"
+    },
+    "icon": {
+      "item": "mca:baby_boy"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:root",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:baby",
+      "conditions": {
+        "count": 1
+      }
+    }
+  }
+}

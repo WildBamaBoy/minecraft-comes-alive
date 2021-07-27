@@ -3,7 +3,6 @@ package mca.entity.ai;
 import mca.Config;
 import mca.CriterionMCA;
 import mca.MCA;
-import mca.advancement.criterion.BabyCriterion;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
@@ -111,13 +110,23 @@ public class Relationship implements EntityRelationship {
     }
 
     @Override
-    public FamilyTreeEntry getFamily() {
+    public FamilyTreeEntry getFamilyEntry() {
         return getFamilyTree().getOrCreate(entity);
     }
 
     @Override
+    public Stream<Entity> getFamily(int parents, int children) {
+        return getFamilyTree()
+                .getFamily(entity.getUuid(), parents, children)
+                .stream()
+                .map(id -> ((ServerWorld) entity.world).getEntity(id))
+                .filter(Objects::nonNull)
+                .filter(e -> !e.equals(entity));
+    }
+
+    @Override
     public Stream<Entity> getParents() {
-        return getFamily().parents().map(((ServerWorld) entity.world)::getEntity).filter(Objects::nonNull);
+        return getFamilyEntry().parents().map(((ServerWorld) entity.world)::getEntity).filter(Objects::nonNull);
     }
 
     @Override
@@ -210,7 +219,8 @@ public class Relationship implements EntityRelationship {
         return entity.getTrackedValue(SPOUSE_UUID).orElse(Util.NIL_UUID).equals(uuid);
     }
 
-    public void marry(PlayerEntity player) {
+    public void marry(ServerPlayerEntity player) {
+        CriterionMCA.GENERIC_EVENT_CRITERION.trigger(player, "marriage");
         entity.setTrackedValue(SPOUSE_UUID, Optional.of(player.getUuid()));
         entity.setTrackedValue(SPOUSE_NAME, player.getName().getString());
         entity.setTrackedValue(MARRIAGE_STATE, MarriageState.MARRIED_TO_PLAYER);
@@ -261,6 +271,7 @@ public class Relationship implements EntityRelationship {
                     //modify mood and hearts
                     entity.getVillagerBrain().modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
                     memory.modHearts(giftValue);
+                    CriterionMCA.HEARTS_CRITERION.trigger(player, memory.getHearts(), giftValue, "gift");
                 }
             }
 

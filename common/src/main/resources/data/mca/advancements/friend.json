@@ -1,0 +1,28 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.friend"
+    },
+    "description": {
+      "translate": "advancement.mca.friend.description"
+    },
+    "icon": {
+      "item": "minecraft:emerald"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:root",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:hearts",
+      "conditions": {
+        "hearts": {
+          "min": 50
+        }
+      }
+    }
+  }
+}

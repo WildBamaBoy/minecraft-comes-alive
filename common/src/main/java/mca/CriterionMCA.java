@@ -1,6 +1,6 @@
 package mca;
 
-import mca.advancement.criterion.BabyCriterion;
+import mca.advancement.criterion.*;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.Criterion;
 
@@ -9,6 +9,10 @@ import java.lang.reflect.Method;
 
 public interface CriterionMCA {
     BabyCriterion BABY_CRITERION = register(new BabyCriterion());
+    HeartsCriterion HEARTS_CRITERION = register(new HeartsCriterion());
+    GenericEventCriterion GENERIC_EVENT_CRITERION = register(new GenericEventCriterion());
+    ChildAgeStateChangeCriterion CHILD_AGE_STATE_CHANGE = register(new ChildAgeStateChangeCriterion());
+    FamilyCriterion FAMILY = register(new FamilyCriterion());
 
     static <T extends Criterion<?>> T register(T object) {
         try {
@@ -20,5 +24,6 @@ public interface CriterionMCA {
         return null;
     }
 
-    static void bootstrap() { }
+    static void bootstrap() {
+    }
 }

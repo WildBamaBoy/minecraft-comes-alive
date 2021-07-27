@@ -1,10 +1,5 @@
 package mca.entity.ai.relationship;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import org.jetbrains.annotations.Nullable;
-
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import mca.server.world.data.PlayerSaveData;
@@ -13,6 +8,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface EntityRelationship {
 
@@ -22,7 +21,9 @@ public interface EntityRelationship {
 
     FamilyTree getFamilyTree();
 
-    FamilyTreeEntry getFamily();
+    FamilyTreeEntry getFamilyEntry();
+
+    Stream<Entity> getFamily(int parents, int children);
 
     Stream<Entity> getParents();
 
@@ -59,11 +60,11 @@ public interface EntityRelationship {
     static Optional<EntityRelationship> of(Entity entity) {
 
         if (entity instanceof PlayerEntity && !entity.world.isClient) {
-            return Optional.ofNullable(PlayerSaveData.get((ServerWorld)entity.world, entity.getUuid()));
+            return Optional.ofNullable(PlayerSaveData.get((ServerWorld) entity.world, entity.getUuid()));
         }
 
         if (entity instanceof CompassionateEntity) {
-            return Optional.of(((CompassionateEntity<?>)entity).getRelationships());
+            return Optional.of(((CompassionateEntity<?>) entity).getRelationships());
         }
 
         return Optional.empty();
