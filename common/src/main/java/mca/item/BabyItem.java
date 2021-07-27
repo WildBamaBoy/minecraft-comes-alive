@@ -1,8 +1,9 @@
 package mca.item;
 
+import com.google.common.base.Strings;
 import mca.ClientProxy;
 import mca.Config;
-import mca.CriterionMCA;
+import mca.advancement.criterion.CriterionMCA;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
@@ -29,18 +30,12 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Language;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
-import java.util.List;
-import java.util.UUID;
-
 import org.jetbrains.annotations.Nullable;
 
-import com.google.common.base.Strings;
+import java.util.List;
+import java.util.UUID;
 
 public class BabyItem extends Item {
 
@@ -106,7 +101,7 @@ public class BabyItem extends Item {
         // assumes your child is from the player's current spouse
         // as the father does not have any genes it just takes the one from the mother
 
-        PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)world, player.getUuid());
+        PlayerSaveData playerData = PlayerSaveData.get((ServerWorld) world, player.getUuid());
         FamilyTree familyTree = playerData.getFamilyTree();
 
         VillagerEntityMCA child = VillagerFactory.newVillager(world)

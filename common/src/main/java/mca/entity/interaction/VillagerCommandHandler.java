@@ -1,7 +1,6 @@
 package mca.entity.interaction;
 
-import mca.CriterionMCA;
-import mca.cobalt.network.NetworkHandler;
+import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
@@ -24,9 +23,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.VillagerProfession;
-import org.apache.logging.log4j.core.jmx.Server;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 

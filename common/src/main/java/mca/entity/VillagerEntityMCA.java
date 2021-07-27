@@ -2,8 +2,8 @@ package mca.entity;
 
 import com.mojang.serialization.Dynamic;
 import mca.Config;
-import mca.CriterionMCA;
 import mca.ParticleTypesMCA;
+import mca.advancement.criterion.CriterionMCA;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
@@ -17,7 +17,9 @@ import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.server.world.data.SavedVillagers;
 import mca.util.InventoryUtils;
-import mca.util.network.datasync.*;
+import mca.util.network.datasync.CDataManager;
+import mca.util.network.datasync.CDataParameter;
+import mca.util.network.datasync.CParameter;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -130,7 +132,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         VillagerTasksMCA.initializeTasks(this, getMCABrain());
     }
 
-    @SuppressWarnings("unchecked")
     public Brain<VillagerEntityMCA> getMCABrain() {
         return (Brain<VillagerEntityMCA>) brain;
     }
@@ -418,13 +419,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     private boolean convertToZombie() {
         ZombieVillagerEntity zombie = method_29243(EntityType.ZOMBIE_VILLAGER, false);
         if (zombie != null) {
-            zombie.initialize((ServerWorld)world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
+            zombie.initialize((ServerWorld) world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
             zombie.setVillagerData(getVillagerData());
             zombie.setGossipData(getGossip().serialize(NbtOps.INSTANCE).getValue());
             zombie.setOfferData(getOffers().toNbt());
             zombie.setXp(getExperience());
 
-            world.syncWorldEvent((PlayerEntity)null, 1026, this.getBlockPos(), 0);
+            world.syncWorldEvent((PlayerEntity) null, 1026, this.getBlockPos(), 0);
             return true;
         }
         return false;
@@ -703,13 +704,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (!removed && type == EntityType.ZOMBIE_VILLAGER) {
             ZombieVillagerEntityMCA mob = super.method_29243(getGenetics().getGender().getZombieType(), keepInventory);
             mob.copyVillagerAttributesFrom(this);
-            return (T)mob;
+            return (T) mob;
         }
 
         T mob = super.method_29243(type, keepInventory);
 
         if (mob instanceof VillagerLike<?>) {
-            ((VillagerLike<?>)mob).copyVillagerAttributesFrom(this);
+            ((VillagerLike<?>) mob).copyVillagerAttributesFrom(this);
         }
 
         return mob;

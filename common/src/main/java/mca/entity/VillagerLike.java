@@ -1,7 +1,5 @@
 package mca.entity;
 
-import java.util.Optional;
-
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Messenger;
@@ -11,17 +9,15 @@ import mca.entity.interaction.EntityCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.data.Hair;
-import mca.util.network.datasync.CDataManager;
-import mca.util.network.datasync.CDataParameter;
-import mca.util.network.datasync.CEnumParameter;
-import mca.util.network.datasync.CParameter;
-import mca.util.network.datasync.CTrackedEntity;
+import mca.util.network.datasync.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.DyeColor;
 import net.minecraft.village.VillagerDataContainer;
+
+import java.util.Optional;
 
 public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrackedEntity<E>, VillagerDataContainer, Infectable, Messenger {
     CDataParameter<String> VILLAGER_NAME = CParameter.create("villagerName", "");
@@ -113,13 +109,13 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     @SuppressWarnings("unchecked")
     default NbtCompound toNbtForConversion(EntityType<?> convertingTo) {
         NbtCompound output = new NbtCompound();
-        ((CTrackedEntity<Entity>)this).getTypeDataManager().save(asEntity(), output);
+        this.getTypeDataManager().save((E) asEntity(), output);
         return output;
     }
 
     @SuppressWarnings("unchecked")
     default void readNbtForConversion(EntityType<?> convertingFrom, NbtCompound input) {
-        ((CTrackedEntity<Entity>)this).getTypeDataManager().load(asEntity(), input);
+        this.getTypeDataManager().load((E) asEntity(), input);
     }
 
     default void copyVillagerAttributesFrom(VillagerLike<?> other) {

@@ -1,18 +1,12 @@
 package mca.entity.ai;
 
-import mca.Config;
-import mca.CriterionMCA;
-import mca.MCA;
 import mca.TagsMCA;
+import mca.advancement.criterion.CriterionMCA;
 import mca.block.TombstoneBlock;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
-import mca.entity.ai.relationship.CompassionateEntity;
-import mca.entity.ai.relationship.EntityRelationship;
-import mca.entity.ai.relationship.Gender;
-import mca.entity.ai.relationship.MarriageState;
-import mca.entity.ai.relationship.RelationshipType;
+import mca.entity.ai.relationship.*;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import mca.server.world.data.GraveyardManager;
@@ -29,10 +23,10 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -150,7 +144,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         moodAffect /= type.getInverseProximity();
         moodAffect *= type.getProximityAmplifier();
 
-        ((ServerWorld) entity.world).sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
+        entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
         entity.getVillagerBrain().modifyMoodLevel(-moodAffect);
 
         if (burialSite != null && type != RelationshipType.STRANGER) {
@@ -228,7 +222,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         }
 
         default BiPredicate<VillagerLike<?>, Entity> asConstraint() {
-            return (villager, player) -> villager instanceof CompassionateEntity<?> && (test((CompassionateEntity<?>)villager, player));
+            return (villager, player) -> villager instanceof CompassionateEntity<?> && (test((CompassionateEntity<?>) villager, player));
         }
     }
 }
