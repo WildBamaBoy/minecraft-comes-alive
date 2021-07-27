@@ -7,6 +7,7 @@ import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Relationship;
 import mca.entity.ai.brain.VillagerBrain;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.ZombieCommandHandler;
@@ -95,7 +96,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
     @Override
     public final Text getDefaultName() {
-        return new LiteralText(getTrackedValue(VILLAGER_NAME)).formatted(Formatting.RED);
+        return new LiteralText(getTrackedValue(VILLAGER_NAME)).append(" ").append(getAgeState().name()).formatted(Formatting.RED);
     }
 
     @Override
@@ -160,6 +161,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
                 }
             }
 
+            setAgeState(AgeState.random());
             setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
 
             initializeSkin();
@@ -170,6 +172,24 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
         calculateDimensions();
 
         return data;
+    }
+
+    @Override
+    public void tickMovement() {
+        super.tickMovement();
+
+        if (!world.isClient) {
+            // Natural regeneration every 10 seconds
+            if (getAgeState() == AgeState.UNASSIGNED) {
+                setAgeState(isBaby() ? AgeState.BABY : AgeState.random());
+            }
+        }
+    }
+
+    @Override
+    public void setBaby(boolean isBaby) {
+        super.setBaby(isBaby);
+        setAgeState(isBaby ? AgeState.BABY : AgeState.ADULT);
     }
 
     @Override

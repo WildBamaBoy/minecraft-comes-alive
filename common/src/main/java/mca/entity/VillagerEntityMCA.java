@@ -180,6 +180,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         calculateDimensions();
 
+        setAgeState(AgeState.byCurrentAge(getBreedingAge()));
+
         return data;
     }
 
@@ -206,6 +208,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void setBaby(boolean isBaby) {
         setBreedingAge(isBaby ? AgeState.startingAge : 0);
+    }
+
+    @Override
+    public void setBreedingAge(int age) {
+        super.setBreedingAge(age);
+        setAgeState(AgeState.byCurrentAge(age));
     }
 
     //TODO: Reputation
@@ -349,13 +357,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 heal(1);
             }
 
-            // Update age state for current entity growth
-            setAgeState(AgeState.byCurrentAge(getBreedingAge()));
-
             residency.tick();
 
             // Grow up
-            if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
+            if (getProfession() == ProfessionsMCA.CHILD && getAgeState() == AgeState.ADULT) {
                 setProfession(API.randomProfession());
             }
 
@@ -593,21 +598,21 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         return GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, inventory);
     }
 
-    public void setAgeState(AgeState state) {
-        if (state == getAgeState()) {
-            return;
+    @Override
+    public boolean setAgeState(AgeState state) {
+        if (VillagerLike.super.setAgeState(state)) {
+            if (state == AgeState.ADULT) {
+                // Notify player parents of the age up and set correct dialogue type.
+                relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
+                    mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
+                    sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
+                });
+            }
+
+            return true;
         }
 
-        setTrackedValue(AGE_STATE, state);
-        calculateDimensions();
-
-        if (state == AgeState.ADULT) {
-            // Notify player parents of the age up and set correct dialogue type.
-            relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
-                mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
-            });
-        }
+        return false;
     }
 
     @SuppressWarnings("ConstantConditions")

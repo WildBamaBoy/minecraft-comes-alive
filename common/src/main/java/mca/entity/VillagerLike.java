@@ -86,6 +86,16 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
         return getTrackedValue(AGE_STATE);
     }
 
+    default boolean setAgeState(AgeState state) {
+        if (state == getAgeState()) {
+            return false;
+        }
+
+        setTrackedValue(AGE_STATE, state);
+        asEntity().calculateDimensions();
+        return true;
+    }
+
     default float getHorizontalScaleFactor() {
         return getGenetics().getVerticalScaleFactor() * getAgeState().getHeight() * getAgeState().getWidth();
     }
