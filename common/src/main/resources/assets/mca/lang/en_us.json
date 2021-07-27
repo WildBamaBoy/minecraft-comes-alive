@@ -2,18 +2,22 @@
   "itemGroup.mca_tab": "Minecraft Comes Alive",
 
   "entity.minecraft.villager.none": "Jobless",
-  "entity.minecraft.villager.marauder": "Marauder",
-  "entity.minecraft.villager.outlaw": "Outlaw",
-  "entity.minecraft.villager.pillager": "Pillager",
-  "entity.minecraft.villager.miner": "Miner",
-  "entity.minecraft.villager.baker": "Baker",
-  "entity.minecraft.villager.guard": "Guard",
-  "entity.minecraft.villager.warrior": "Warrior",
-  "entity.minecraft.villager.archer": "Archer",
-  "entity.minecraft.villager.hero": "Hero",
-  "entity.minecraft.villager.child": "Child",
+
+  "entity.minecraft.villager.mca.marauder": "Marauder",
+  "entity.minecraft.villager.mca.outlaw": "Outlaw",
+  "entity.minecraft.villager.mca.jeweler": "Jeweler",
+  "entity.minecraft.villager.mca.pillager": "Pillager",
+  "entity.minecraft.villager.mca.miner": "Miner",
+  "entity.minecraft.villager.mca.baker": "Baker",
+  "entity.minecraft.villager.mca.guard": "Guard",
+  "entity.minecraft.villager.mca.warrior": "Warrior",
+  "entity.minecraft.villager.mca.archer": "Archer",
+  "entity.minecraft.villager.mca.hero": "Hero",
+  "entity.minecraft.villager.mca.child": "Child",
 
   "entity.mca.grim_reaper": "Grim Reaper",
+  "entity.mca.male_zombie_villager": "Male Zombie Villager",
+  "entity.mca.male_zombie_villager": "Female Zombie Villager",
 
   "item.mca.scythe": "Scythe",
 
@@ -46,6 +50,9 @@
   "item.mca.egg_male": "Male Villager Spawn Egg",
   "item.mca.egg_female": "Female Villager Spawn Egg",
   "item.mca.egg_grim_reaper": "Grim Reaper Spawn Egg",
+  
+  "item.mca.male_zombie_villager_spawn_egg": "Male Zombie Villager Spawn Egg",
+  "item.mca.female_zombie_villager_spawn_egg": "Female Zombie Villager Spawn Egg",
   
   "item.mca.divorce_papers": "Divorce Papers",
   "item.mca.divorce_papers.tooltip": "Give to a Cleric to end any (un)happy marriage",

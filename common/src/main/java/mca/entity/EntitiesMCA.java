@@ -22,6 +22,14 @@ public interface EntitiesMCA {
             .<VillagerEntityMCA>create((t, w) -> new VillagerEntityMCA(t, w, Gender.FEMALE), SpawnGroup.AMBIENT)
             .setDimensions(0.6F, 2.0F)
     );
+    EntityType<ZombieVillagerEntityMCA> MALE_ZOMBIE_VILLAGER = register("male_zombie_villager", EntityType.Builder
+            .<ZombieVillagerEntityMCA>create((t, w) -> new ZombieVillagerEntityMCA(t, w, Gender.MALE), SpawnGroup.MONSTER)
+            .setDimensions(0.6F, 2.0F)
+    );
+    EntityType<ZombieVillagerEntityMCA> FEMALE_ZOMBIE_VILLAGER = register("female_zombie_villager", EntityType.Builder
+            .<ZombieVillagerEntityMCA>create((t, w) -> new ZombieVillagerEntityMCA(t, w, Gender.FEMALE), SpawnGroup.MONSTER)
+            .setDimensions(0.6F, 2.0F)
+    );
     EntityType<GrimReaperEntity> GRIM_REAPER = register("grim_reaper", EntityType.Builder
             .<GrimReaperEntity>create(GrimReaperEntity::new, SpawnGroup.MONSTER)
             .setDimensions(1, 2.6F)
@@ -39,6 +47,8 @@ public interface EntitiesMCA {
     static void bootstrapAttributes() {
         Registration.ObjectBuilders.DefaultEntityAttributes.add(MALE_VILLAGER, VillagerEntityMCA::createVillagerAttributes);
         Registration.ObjectBuilders.DefaultEntityAttributes.add(FEMALE_VILLAGER, VillagerEntityMCA::createVillagerAttributes);
+        Registration.ObjectBuilders.DefaultEntityAttributes.add(MALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCA::createZombieAttributes);
+        Registration.ObjectBuilders.DefaultEntityAttributes.add(FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCA::createZombieAttributes);
         Registration.ObjectBuilders.DefaultEntityAttributes.add(GRIM_REAPER, GrimReaperEntity::createAttributes);
     }
 

@@ -373,7 +373,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                 world.syncWorldEvent(WorldEventsCompat.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
                 // TODO: 1.17
                 // world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos);
-                ((TombstoneBlock)getCachedState().getBlock()).updateNeighbors(this.getCachedState(), world, pos);
+                ((TombstoneBlock)getCachedState().getBlock()).updateNeighbors(getCachedState(), world, pos);
 
                 if (!world.isClient) {
                     GraveyardManager.get((ServerWorld)world).setTombstoneState(pos,

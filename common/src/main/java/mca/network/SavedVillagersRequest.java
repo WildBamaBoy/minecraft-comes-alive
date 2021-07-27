@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
+@Deprecated
 public class SavedVillagersRequest implements Message {
     private static final long serialVersionUID = -540931480361220249L;
 

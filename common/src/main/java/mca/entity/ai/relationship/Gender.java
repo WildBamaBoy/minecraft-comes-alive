@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import mca.entity.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ZombieVillagerEntityMCA;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Formatting;
 
@@ -29,6 +30,10 @@ public enum Gender {
 
     public EntityType<VillagerEntityMCA> getVillagerType() {
         return this == FEMALE ? EntitiesMCA.FEMALE_VILLAGER : EntitiesMCA.MALE_VILLAGER;
+    }
+
+    public EntityType<ZombieVillagerEntityMCA> getZombieType() {
+        return this == FEMALE ? EntitiesMCA.FEMALE_ZOMBIE_VILLAGER : EntitiesMCA.MALE_ZOMBIE_VILLAGER;
     }
 
     public Formatting getColor() {

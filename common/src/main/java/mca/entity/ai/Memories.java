@@ -1,7 +1,8 @@
 package mca.entity.ai;
 
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.brain.VillagerBrain;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,11 +18,11 @@ public class Memories {
 
     private DialogueType dialogueType;
 
-    private VillagerBrain brain;
+    private VillagerBrain<?> brain;
 
     private long lastSeen;
 
-    public Memories(VillagerBrain brain, long time, UUID uuid) {
+    public Memories(VillagerBrain<?> brain, long time, UUID uuid) {
         this.brain = brain;
         playerUUID = uuid;
         dialogueType = DialogueType.ADULT;
@@ -89,7 +90,7 @@ public class Memories {
         return nbt;
     }
 
-    public static Memories fromCNBT(VillagerEntityMCA villager, @Nullable NbtCompound tag) {
+    public static <E extends MobEntity & VillagerLike<E>> Memories fromCNBT(E villager, @Nullable NbtCompound tag) {
         if (tag == null || tag.isEmpty()) {
             return null;
         }

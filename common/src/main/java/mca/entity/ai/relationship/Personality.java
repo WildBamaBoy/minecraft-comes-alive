@@ -5,8 +5,8 @@ import net.minecraft.text.TranslatableText;
 
 import java.util.*;
 
-import mca.entity.ai.Interaction;
 import mca.entity.ai.MoodGroup;
+import mca.entity.interaction.Interaction;
 
 public enum Personality {
     //Fallback on error.

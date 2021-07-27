@@ -6,6 +6,7 @@ import mca.client.particle.InteractionParticle;
 import mca.client.render.GrimReaperRenderer;
 import mca.client.render.TombstoneBlockEntityRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
+import mca.client.render.ZombieVillagerEntityMCARenderer;
 import mca.entity.EntitiesMCA;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -21,6 +22,10 @@ public final class MCAClient extends ClientProxyAbstractImpl implements ClientMo
     public void onInitializeClient() {
         EntityRendererRegistry.INSTANCE.register(EntitiesMCA.MALE_VILLAGER, (dispatcher, ctx) -> new VillagerEntityMCARenderer(dispatcher));
         EntityRendererRegistry.INSTANCE.register(EntitiesMCA.FEMALE_VILLAGER, (dispatcher, ctx) ->  new VillagerEntityMCARenderer(dispatcher));
+
+        EntityRendererRegistry.INSTANCE.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER, (dispatcher, ctx) -> new ZombieVillagerEntityMCARenderer(dispatcher));
+        EntityRendererRegistry.INSTANCE.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, (dispatcher, ctx) ->  new ZombieVillagerEntityMCARenderer(dispatcher));
+
         EntityRendererRegistry.INSTANCE.register(EntitiesMCA.GRIM_REAPER, (dispatcher, ctx) -> new GrimReaperRenderer(dispatcher));
 
         ParticleFactoryRegistry.getInstance().register(ParticleTypesMCA.NEG_INTERACTION, InteractionParticle.Factory::new);

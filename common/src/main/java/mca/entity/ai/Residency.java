@@ -146,7 +146,7 @@ public class Residency {
         }
     }
 
-    void setHome(PlayerEntity player) {
+    public void setHome(PlayerEntity player) {
         //check if it is a bed
         if (setHome(player.getBlockPos(), player.world)) {
             entity.sendChatMessage(player, "interaction.sethome.success");
@@ -155,7 +155,7 @@ public class Residency {
         }
     }
 
-    void goHome(PlayerEntity player) {
+    public void goHome(PlayerEntity player) {
         OptionalCompat.ifPresentOrElse(entity.getBrain()
             .getOptionalMemory(MemoryModuleType.HOME)
             .filter(p -> p.getDimension() == entity.world.getRegistryKey())

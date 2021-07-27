@@ -18,6 +18,7 @@ import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class GuiStaffOfLife extends Screen {
 
     private List<String> keys = new ArrayList<>();

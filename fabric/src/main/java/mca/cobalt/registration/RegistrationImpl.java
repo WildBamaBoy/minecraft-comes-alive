@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Codec;
 
 import mca.cobalt.registration.Registration.PoiFactory;
@@ -14,10 +15,10 @@ import mca.mixin.MixinActivity;
 import mca.mixin.MixinMemoryModuleType;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.mixin.object.builder.VillagerProfessionAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -92,6 +93,6 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public ProfessionFactory<VillagerProfession> profession() {
-        return (id, poi, sound, items, sites) -> VillagerProfessionBuilder.create().id(id).workstation(poi).workSound(sound).harvestableItems(items).secondaryJobSites(sites).build();
+        return (id, poi, sound, items, sites) -> VillagerProfessionAccessor.create(id.toString().replace(':', '.'), poi, ImmutableSet.copyOf(items), ImmutableSet.copyOf(sites), sound);
     }
 }

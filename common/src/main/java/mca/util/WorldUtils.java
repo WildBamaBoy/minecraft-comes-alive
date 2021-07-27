@@ -40,8 +40,7 @@ public interface WorldUtils {
     static <T extends PersistentStateCompat> T loadData(ServerWorld world, Function<NbtCompound, T> loader, Function<ServerWorld, T> factory, String dataId) {
         return world.getPersistentStateManager().getOrCreate(() -> {
             return new PersistentState(dataId) {
-
-                private T obj = factory.apply(world);
+                private T obj;
 
                 @Override
                 public void fromTag(NbtCompound tag) {
@@ -51,10 +50,14 @@ public interface WorldUtils {
 
                 @Override
                 public NbtCompound writeNbt(NbtCompound nbt) {
-                    return obj.writeNbt(nbt);
+                    return get().writeNbt(nbt);
                 }
 
                 public T get() {
+                    if (obj == null) {
+                        obj = factory.apply(world);
+                        obj.attach(this);
+                    }
                     return obj;
                 }
             };

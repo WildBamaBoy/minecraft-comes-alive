@@ -5,13 +5,14 @@
   "refmap": "mca.mixin.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-  	"MixinActivity",
-    "MixinBlockItem",
+    "MixinActivity",
+    "MixinCriteria",
     "MixinHorseBaseEntity",
     "MixinMemoryModuleType",
     "MixinPlayerEntity",
     "MixinSensorType",
-    "MixinServerEntityManager",
+    "MixinServerWorld",
+    "MixinProtoChunk",
     "MixinTargetPredicate"
   ],
   "client": [

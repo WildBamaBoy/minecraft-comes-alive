@@ -8,7 +8,7 @@ import java.util.Optional;
 import com.google.gson.JsonElement;
 
 import mca.MCA;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
@@ -48,6 +48,7 @@ public class ClothingList extends JsonDataLoader {
             gender.getTransients().map(this::byGender).forEach(pool -> {
                 JsonHelper.asObject(file, "root").getAsJsonObject().entrySet().forEach(entry -> {
                     pool.addToPool(
+                        id.getNamespace(),
                         gender,
                         new Identifier(entry.getKey()),
                         JsonHelper.getInt(entry.getValue().getAsJsonObject(), "count"),
@@ -68,8 +69,8 @@ public class ClothingList extends JsonDataLoader {
     /**
      * Gets a pool of clothing options valid for this entity's gender and profession.
      */
-    public WeightedPool<String> getPool(VillagerEntityMCA villager) {
-        return byGender(villager.getGenetics().getGender()).byProfession(villager.getProfession());
+    public WeightedPool<String> getPool(VillagerLike<?> villager) {
+        return byGender(villager.getGenetics().getGender()).byProfession(villager.getVillagerData().getProfession());
     }
 
     public static class ProfessionedPool {
@@ -79,7 +80,7 @@ public class ClothingList extends JsonDataLoader {
 
         ProfessionedPool(Gender gender) { }
 
-        public void addToPool(Gender gender, Identifier profession, int count, float chance) {
+        public void addToPool(String namespace, Gender gender, Identifier profession, int count, float chance) {
             if (count <= 0) {
                 return;
             }
@@ -87,7 +88,7 @@ public class ClothingList extends JsonDataLoader {
             WeightedPool.Mutable<String> pool = entries.computeIfAbsent(profession, p -> new WeightedPool.Mutable<>(""));
 
             for (int i = 0; i < count; i++) {
-                pool.add(String.format("mca:skins/clothing/%s/%s/%d.png", gender.getStrName(), profession.getPath(), i), chance);
+                pool.add(String.format("%s:%s/%s/%d.png", namespace, gender.getStrName(), profession.getPath(), i), chance);
             }
         }
 

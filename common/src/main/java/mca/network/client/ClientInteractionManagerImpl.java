@@ -6,7 +6,7 @@ import mca.client.gui.GuiInteract;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiStaffOfLife;
 import mca.client.gui.GuiWhistle;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.item.BabyItem;
 import mca.server.world.data.Village;
 import net.minecraft.client.MinecraftClient;
@@ -32,7 +32,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             client.openScreen(new GuiBlueprint());
             break;
         case INTERACT:
-            client.openScreen(new GuiInteract((VillagerEntityMCA)client.world.getEntityById(message.villager)));
+            client.openScreen(new GuiInteract((VillagerLike<?>)client.world.getEntityById(message.villager)));
             break;
         case BABY_NAME:
             if (client.player != null) {
@@ -86,6 +86,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         }
     }
 
+    @Deprecated
     @Override
     public void handleSavedVillagersResponse(SavedVillagersResponse message) {
         Screen screen = MinecraftClient.getInstance().currentScreen;

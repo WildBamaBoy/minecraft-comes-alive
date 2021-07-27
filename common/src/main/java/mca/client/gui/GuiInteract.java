@@ -2,9 +2,11 @@ package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Memories;
 import mca.entity.ai.brain.VillagerBrain;
+import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
@@ -28,7 +30,7 @@ import java.util.Objects;
 public class GuiInteract extends AbstractDynamicScreen {
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
 
-    private final VillagerEntityMCA villager;
+    private final VillagerLike<?> villager;
     private final PlayerEntity player = MinecraftClient.getInstance().player;
 
     private boolean inGiftMode;
@@ -37,7 +39,7 @@ public class GuiInteract extends AbstractDynamicScreen {
     private String father;
     private String mother;
 
-    public GuiInteract(VillagerEntityMCA villager) {
+    public GuiInteract(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
         this.villager = villager;
     }
@@ -55,12 +57,14 @@ public class GuiInteract extends AbstractDynamicScreen {
     @Override
     public void onClose() {
         Objects.requireNonNull(this.client).openScreen(null);
-        villager.getInteractions().stopInteracting();
+        if (villager instanceof VillagerEntityMCA) {
+            ((VillagerEntityMCA)villager).getInteractions().stopInteracting();
+        }
     }
 
     @Override
     public void init() {
-        NetworkHandler.sendToServer(new GetInteractDataRequest(villager.getUuid()));
+        NetworkHandler.sendToServer(new GetInteractDataRequest(villager.asEntity().getUuid()));
     }
 
     @Override
@@ -100,7 +104,7 @@ public class GuiInteract extends AbstractDynamicScreen {
 
         // Right mouse button
         if (inGiftMode && button == 1) {
-            NetworkHandler.sendToServer(new InteractionVillagerMessage("gui.button.gift", villager.getUuid()));
+            NetworkHandler.sendToServer(new InteractionVillagerMessage("gui.button.gift", villager.asEntity().getUuid()));
             return true;
         } else {
             return false;
@@ -123,8 +127,6 @@ public class GuiInteract extends AbstractDynamicScreen {
     }
 
     private void drawIcons(MatrixStack transform) {
-        MarriageState marriageState = villager.getRelationships().getMarriageState();
-
         Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
 
         transform.push();
@@ -132,7 +134,11 @@ public class GuiInteract extends AbstractDynamicScreen {
 
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
-        drawIcon(transform, marriageState.getIcon());
+        if (villager instanceof CompassionateEntity<?>) {
+            MarriageState marriageState = ((CompassionateEntity<?>)villager).getRelationships().getMarriageState();
+            drawIcon(transform, marriageState.getIcon());
+        }
+
         drawIcon(transform, memory.getHearts() < 0 ? "blackHeart" : memory.getHearts() >= 100 ? "goldHeart" : "redHeart");
         drawIcon(transform, "neutralEmerald");
         drawIcon(transform, "genes");
@@ -148,20 +154,20 @@ public class GuiInteract extends AbstractDynamicScreen {
 
     private void drawTextPopups(MatrixStack transform) {
         //general information
-        VillagerProfession profession = villager.getProfession();
+        VillagerProfession profession = villager.getVillagerData().getProfession();
 
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
             renderTooltip(transform, new TranslatableText("gui.interact.label.giveGift"), 10, 28);
         } else {
-            renderTooltip(transform, villager.getName(), 10, 28);
+            renderTooltip(transform, villager.asEntity().getName(), 10, 28);
         }
 
         //age or profession
-        renderTooltip(transform, villager.isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
+        renderTooltip(transform, villager.asEntity().isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
 
-        VillagerBrain brain = villager.getVillagerBrain();
+        VillagerBrain<?> brain = villager.getVillagerBrain();
 
         //mood
         renderTooltip(transform,
@@ -183,10 +189,10 @@ public class GuiInteract extends AbstractDynamicScreen {
         }
 
         //marriage status
-        if (hoveringOverIcon("married")) {
+        if (hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
 
-            String marriageState = villager.getRelationships().getMarriageState().base().getIcon().toLowerCase();
-            Text spouseName = villager.getRelationships().getSpouseName().orElseGet(() -> new TranslatableText("gui.interact.label.parentUnknown"));
+            String marriageState = ((CompassionateEntity<?>)villager).getRelationships().getMarriageState().base().getIcon().toLowerCase();
+            Text spouseName = ((CompassionateEntity<?>)villager).getRelationships().getSpouseName().orElseGet(() -> new TranslatableText("gui.interact.label.parentUnknown"));
 
             drawHoveringIconText(transform, new TranslatableText("gui.interact.label." + marriageState, spouseName), "married");
         }
@@ -200,8 +206,9 @@ public class GuiInteract extends AbstractDynamicScreen {
         }
 
         //gift
-        if (canDrawGiftIcon() && hoveringOverIcon("gift"))
+        if (canDrawGiftIcon() && hoveringOverIcon("gift")) {
             drawHoveringIconText(transform, new TranslatableText("gui.interact.label.gift"), "gift");
+        }
 
         //genes
         if (hoveringOverIcon("genes")) {
@@ -262,7 +269,7 @@ public class GuiInteract extends AbstractDynamicScreen {
         } else if (id.equals("gui.button.divorceCancel")) {
             setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
-            MinecraftClient.getInstance().openScreen(new GuiFamilyTree(villager.getUuid()));
+            MinecraftClient.getInstance().openScreen(new GuiFamilyTree(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());
@@ -281,7 +288,7 @@ public class GuiInteract extends AbstractDynamicScreen {
             if (button.targetServer()) {
                 NetworkHandler.sendToServer(new InteractionServerMessage(id));
             } else {
-                NetworkHandler.sendToServer(new InteractionVillagerMessage(id, villager.getUuid()));
+                NetworkHandler.sendToServer(new InteractionVillagerMessage(id, villager.asEntity().getUuid()));
             }
         } else if (id.equals("gui.button.gift")) {
             this.inGiftMode = true;

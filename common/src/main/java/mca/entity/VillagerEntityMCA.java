@@ -4,8 +4,6 @@ import com.mojang.serialization.Dynamic;
 import mca.Config;
 import mca.CriterionMCA;
 import mca.ParticleTypesMCA;
-import mca.TagsMCA;
-import mca.block.TombstoneBlock;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
@@ -13,16 +11,13 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
+import mca.entity.interaction.VillagerCommandHandler;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
-import mca.resources.data.Hair;
-import mca.server.world.data.GraveyardManager;
-import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.server.world.data.SavedVillagers;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.*;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -32,13 +27,12 @@ import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.control.JumpControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -48,6 +42,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.GenericContainerScreenHandler;
@@ -61,7 +56,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -77,41 +71,27 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
-public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<VillagerEntityMCA>, NamedScreenHandlerFactory, Infectable, Messenger, CompassionateEntity<Relationship> {
-    private static final CDataParameter<String> VILLAGER_NAME = CParameter.create("villagerName", "");
-    private static final CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
-    private static final CDataParameter<String> HAIR = CParameter.create("hair", "");
-    private static final CDataParameter<String> HAIR_OVERLAY = CParameter.create("hairOverlay", "");
-    private static final CEnumParameter<DyeColor> HAIR_COLOR = CParameter.create("hairColor", DyeColor.class);
-    private static final CEnumParameter<AgeState> AGE_STATE = CParameter.create("ageState", AgeState.UNASSIGNED);
-    private static final CDataParameter<Boolean> IS_INFECTED = CParameter.create("isInfected", false);
+public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship> {
+    private static final CDataParameter<Float> INFECTION_PROGRESS = CParameter.create("infectionProgress", MIN_INFECTION);
 
     private static final CDataManager<VillagerEntityMCA> DATA = createTrackedData(VillagerEntityMCA.class).build();
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
-        return new CDataManager.Builder<>(type)
-                .addAll(VILLAGER_NAME, CLOTHES, HAIR, HAIR_OVERLAY, HAIR_COLOR, AGE_STATE, IS_INFECTED)
-                .add(Genetics::createTrackedData)
+        return VillagerLike.createTrackedData(type).addAll(INFECTION_PROGRESS)
                 .add(Residency::createTrackedData)
-                .add(VillagerBrain::createTrackedData)
-                .add(Relationship::createTrackedData);
+                .add(BreedableRelationship::createTrackedData);
     }
 
-    public static DefaultAttributeContainer.Builder createVillagerAttributes() {
-        return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48);
-    }
+    private final VillagerBrain<VillagerEntityMCA> mcaBrain = new VillagerBrain<>(this);
 
     private final Genetics genetics = new Genetics(this);
     private final Residency residency = new Residency(this);
-    private final VillagerBrain mcaBrain = new VillagerBrain(this);
-    private final Interactions interactions = new Interactions(this);
-    private final Relationship relations = new Relationship(this);
+    private final BreedableRelationship relations = new BreedableRelationship(this);
 
+    private final VillagerCommandHandler interactions = new VillagerCommandHandler(this);
     private final SimpleInventory inventory = new SimpleInventory(27);
+
+    private float prevInfectionProgress;
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
@@ -155,16 +135,18 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return (Brain<VillagerEntityMCA>) brain;
     }
 
+    @Override
     public Genetics getGenetics() {
         return genetics;
     }
 
     @Override
-    public Relationship getRelationships() {
+    public BreedableRelationship getRelationships() {
         return relations;
     }
 
-    public VillagerBrain getVillagerBrain() {
+    @Override
+    public VillagerBrain<?> getVillagerBrain() {
         return mcaBrain;
     }
 
@@ -172,7 +154,8 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return residency;
     }
 
-    public Interactions getInteractions() {
+    @Override
+    public VillagerCommandHandler getInteractions() {
         return interactions;
     }
 
@@ -199,15 +182,9 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
         calculateDimensions();
 
+        setAgeState(AgeState.byCurrentAge(getBreedingAge()));
+
         return data;
-    }
-
-    public String getClothes() {
-        return getTrackedValue(CLOTHES);
-    }
-
-    public void setClothes(String clothes) {
-        setTrackedValue(CLOTHES, clothes);
     }
 
     public final VillagerProfession getProfession() {
@@ -228,6 +205,23 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
             setTrackedValue(CLOTHES, ClothingList.getInstance().byGender(getGenetics().getGender()).byProfession(data.getProfession()).pickOne());
         }
         super.setVillagerData(data);
+    }
+
+    @Override
+    public void setBaby(boolean isBaby) {
+        setBreedingAge(isBaby ? AgeState.startingAge : 0);
+    }
+
+    @Override
+    public void setBreedingAge(int age) {
+        super.setBreedingAge(age);
+        setAgeState(AgeState.byCurrentAge(age));
+    }
+
+    //TODO: Reputation
+    @Override
+    public int getReputation(PlayerEntity player) {
+        return super.getReputation(player);
     }
 
     @Override
@@ -282,7 +276,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if (stack.getItem() != ItemsMCA.EGG_MALE && stack.getItem() != ItemsMCA.EGG_FEMALE) {
+        if (stack.getItem() != ItemsMCA.FEMALE_VILLAGER_SPAWN_EGG && stack.getItem() != ItemsMCA.MALE_VILLAGER_SPAWN_EGG) {
             return interactions.interactAt(player, pos, hand);
         }
         return super.interactAt(player, pos, hand);
@@ -316,35 +310,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        getTypeDataManager().load(this, nbt);
-        relations.readFromNbt(nbt);
-
-        //set speed
-        float speed = mcaBrain.getPersonality().getSpeedModifier();
-
-        speed /= genetics.getGene(Genetics.WIDTH);
-        speed *= genetics.getGene(Genetics.SIZE);
-
-        setMovementSpeed(speed);
-        InventoryUtils.readFromNBT(inventory, nbt);
-    }
-
-    @Override
-    public final void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        getTypeDataManager().save(this, nbt);
-        relations.writeToNbt(nbt);
-        InventoryUtils.saveToNBT(inventory, nbt);
-    }
-
-    private void initializeSkin() {
-        setClothes(ClothingList.getInstance().getPool(this).pickOne());
-        setHair(API.getHairPool().pickOne(this));
-    }
-
-    @Override
     public final boolean damage(DamageSource source, float damageAmount) {
         // Guards take 50% less damage
         if (getProfession() == ProfessionsMCA.GUARD) {
@@ -363,6 +328,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
                     && Config.getInstance().enableInfection
                     && random.nextFloat() < Config.getInstance().infectionChance / 100.0) {
                 setInfected(true);
+                sendChatToAllAround("villager.bitten");
             }
         }
 
@@ -393,13 +359,10 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
                 heal(1);
             }
 
-            // Update age state for current entity growth
-            setAgeState(AgeState.byCurrentAge(getBreedingAge()));
-
             residency.tick();
 
             // Grow up
-            if (getProfession() == ProfessionsMCA.CHILD && this.getAgeState() == AgeState.ADULT) {
+            if (getProfession() == ProfessionsMCA.CHILD && getAgeState() == AgeState.ADULT) {
                 setProfession(API.randomProfession());
             }
 
@@ -430,6 +393,41 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
                 }
             }
         }
+
+        float infection = getInfectionProgress();
+        if (infection > 0) {
+            if (age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
+                sendChatToAllAround("villager.sickness");
+            }
+
+            prevInfectionProgress = infection;
+            infection += 0.02F;
+            setInfectionProgress(infection);
+
+            if (!world.isClient && infection >= POINT_OF_NO_RETURN && world.random.nextInt(2000) < infection) {
+                convertToZombie();
+                remove();
+            }
+        }
+
+        if (age % 90 == 0 && mcaBrain.isPanicking()) {
+            sendChatToAllAround("villager.scream");
+        }
+    }
+
+    private boolean convertToZombie() {
+        ZombieVillagerEntity zombie = method_29243(EntityType.ZOMBIE_VILLAGER, false);
+        if (zombie != null) {
+            zombie.initialize((ServerWorld)world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
+            zombie.setVillagerData(getVillagerData());
+            zombie.setGossipData(getGossip().serialize(NbtOps.INSTANCE).getValue());
+            zombie.setOfferData(getOffers().toNbt());
+            zombie.setXp(getExperience());
+
+            world.syncWorldEvent((PlayerEntity)null, 1026, this.getBlockPos(), 0);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -473,18 +471,17 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
 
         InventoryUtils.dropAllItems(this, inventory);
 
-        if (!GraveyardManager.get((ServerWorld) world).findNearest(getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
-            if (world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
-                BlockEntity be = world.getBlockEntity(pos);
-                if (be instanceof TombstoneBlock.Data) {
-                    ((TombstoneBlock.Data) be).setEntity(this);
-
-                    relations.onTragedy(cause, pos);
-                    return true;
-                }
+        if (!(cause.getAttacker() instanceof ZombieEntity) && !(cause.getAttacker() instanceof ZombieVillagerEntity)) {
+            if (getInfectionProgress() >= BABBLING_THRESHOLD) {
+                boolean wasRemoved = removed;
+                removed = false;
+                convertToZombie();
+                removed = wasRemoved;
+                return;
             }
-            return false;
-        }).isPresent()) {
+        }
+
+        if (!relations.onDeath(cause)) {
             SavedVillagers.get((ServerWorld) world).saveVillager(this);
             relations.onTragedy(cause, null);
         }
@@ -544,10 +541,6 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
     }
 
-    public void setName(String name) {
-        setTrackedValue(VILLAGER_NAME, name);
-    }
-
     @Override
     public final Text getDisplayName() {
         Text name = super.getDisplayName();
@@ -557,7 +550,9 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
             name = name.shallowCopy().append(" (").append(getVillagerBrain().getMoveState().getName()).append(")");
         }
 
-        if (getProfession() == ProfessionsMCA.OUTLAW) {
+        if (isInfected()) {
+            return name.shallowCopy().formatted(Formatting.GREEN);
+        } else if (getProfession() == ProfessionsMCA.OUTLAW) {
             return name.shallowCopy().formatted(Formatting.RED);
         }
         return name;
@@ -569,37 +564,28 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     }
 
     @Override
-    public boolean isInfected() {
-        return getTrackedValue(IS_INFECTED);
+    public float getInfectionProgress() {
+        return getTrackedValue(INFECTION_PROGRESS);
     }
 
     @Override
-    public void setInfected(boolean infected) {
-        setTrackedValue(IS_INFECTED, infected);
+    public float getPrevInfectionProgress() {
+        return prevInfectionProgress;
+    }
+
+    @Override
+    public void setInfectionProgress(float progress) {
+        setTrackedValue(INFECTION_PROGRESS, progress);
     }
 
     @Override
     public void playSpeechEffect() {
-        if (isInfected()) {
+        if (isSpeechImpaired()) {
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
         } else {
             // TODO: Custom sounds
             // playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
         }
-    }
-
-    @Override
-    public DialogueType getDialogueType(PlayerEntity receiver) {
-        return mcaBrain.getMemoriesForPlayer(receiver).getDialogueType();
-    }
-
-    public Hair getHair() {
-        return new Hair(getTrackedValue(HAIR), getTrackedValue(HAIR_OVERLAY));
-    }
-
-    public void setHair(Hair hair) {
-        setTrackedValue(HAIR, hair.texture());
-        setTrackedValue(HAIR_OVERLAY, hair.overlay());
     }
 
     // we make it public here
@@ -614,40 +600,32 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, inventory);
     }
 
-    public AgeState getAgeState() {
-        return getTrackedValue(AGE_STATE);
-    }
-
-    public void setAgeState(AgeState state) {
-        if (state == getAgeState()) {
-            return;
-        }
-
-        // trigger grow up advancements
-        relations.getParents().filter(e -> e instanceof ServerPlayerEntity).forEach(e -> {
-            CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity) e, state.name());
-        });
-
-        setTrackedValue(AGE_STATE, state);
-        calculateDimensions();
-
-        if (state == AgeState.ADULT) {
-            // Notify player parents of the age up and set correct dialogue type.
-            relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
-                mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
+    @Override
+    public boolean setAgeState(AgeState state) {
+        if (VillagerLike.super.setAgeState(state)) {
+            // trigger grow up advancements
+            relations.getParents().filter(e -> e instanceof ServerPlayerEntity).forEach(e -> {
+                CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity) e, state.name());
             });
+
+            if (state == AgeState.ADULT) {
+                // Notify player parents of the age up and set correct dialogue type.
+                relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
+                    mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
+                    sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
+                });
+            }
+
+            return true;
         }
+
+        return false;
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
         return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getAgeState().getHeight();
-    }
-
-    public float getHorizontalScaleFactor() {
-        return genetics.getVerticalScaleFactor() * getAgeState().getHeight() * getAgeState().getWidth();
     }
 
     @Override
@@ -669,9 +647,14 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         return inventory;
     }
 
+    @Override
+    public boolean equip(int slot, ItemStack item) {
+        // TODO: We change the inventory size. This method should change too in order for picking up stacks to work correctly.
+        return super.equip(slot, item);
+    }
+
     public void moveTowards(BlockPos pos, float speed, int closeEnoughDist) {
-        BlockPosLookTarget blockposwrapper = new BlockPosLookTarget(pos);
-        this.brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(blockposwrapper, speed, closeEnoughDist));
+        this.brain.remember(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosLookTarget(pos), speed, closeEnoughDist));
         this.lookAt(pos);
     }
 
@@ -701,7 +684,7 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
     }
 
     public void onInvChange(Inventory inventoryFromListener) {
-        SimpleInventory inv = this.getInventory();
+        SimpleInventory inv = getInventory();
 
         for (EquipmentSlot type : EquipmentSlot.values()) {
             if (type.getType() == EquipmentSlot.Type.ARMOR) {
@@ -713,26 +696,46 @@ public class VillagerEntityMCA extends VillagerEntity implements CTrackedEntity<
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void setBaby(boolean isBaby) {
-        this.setBreedingAge(isBaby ? AgeState.startingAge : 0);
+    @Nullable
+    public <T extends MobEntity> T method_29243/*convertTo*/(EntityType<T> type, boolean keepInventory) {
+        if (!removed && type == EntityType.ZOMBIE_VILLAGER) {
+            ZombieVillagerEntityMCA mob = super.method_29243(getGenetics().getGender().getZombieType(), keepInventory);
+            mob.copyVillagerAttributesFrom(this);
+            return (T)mob;
+        }
+
+        T mob = super.method_29243(type, keepInventory);
+
+        if (mob instanceof VillagerLike<?>) {
+            ((VillagerLike<?>)mob).copyVillagerAttributesFrom(this);
+        }
+
+        return mob;
     }
 
-    //TODO: Reputation
     @Override
-    public int getReputation(PlayerEntity player) {
-        return super.getReputation(player);
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        getTypeDataManager().load(this, nbt);
+        relations.readFromNbt(nbt);
+
+        //set speed
+        float speed = mcaBrain.getPersonality().getSpeedModifier();
+
+        speed /= genetics.getGene(Genetics.WIDTH);
+        speed *= genetics.getGene(Genetics.SIZE);
+
+        setMovementSpeed(speed);
+        InventoryUtils.readFromNBT(inventory, nbt);
     }
 
-    public void setHairDye(DyeColor color) {
-        setTrackedValue(HAIR_COLOR, color);
-    }
-
-    public void clearHairDye() {
-        setTrackedValue(HAIR_COLOR, null);
-    }
-
-    public Optional<DyeColor> getHairDye() {
-        return Optional.ofNullable(getTrackedValue(HAIR_COLOR));
+    @Override
+    public final void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        getTypeDataManager().save(this, nbt);
+        relations.writeToNbt(nbt);
+        InventoryUtils.saveToNBT(inventory, nbt);
     }
 }

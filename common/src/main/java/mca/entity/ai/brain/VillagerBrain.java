@@ -1,11 +1,12 @@
 package mca.entity.ai.brain;
 
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.*;
 import mca.entity.ai.relationship.Personality;
 import mca.util.network.datasync.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.*;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,7 @@ import java.util.UUID;
 /**
  * Handles memory and complex bodily functions. Such as walking, and not being a nitwit.
  */
-public class VillagerBrain {
+public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
     private static final CDataParameter<NbtCompound> MEMORIES = CParameter.create("memories", new NbtCompound());
     private static final CEnumParameter<Personality> PERSONALITY = CParameter.create("personality", Personality.UNASSIGNED);
     private static final CDataParameter<Integer> MOOD = CParameter.create("mood", Mood.FINE.getMiddleLevel());
@@ -29,9 +30,9 @@ public class VillagerBrain {
         return builder.addAll(MEMORIES, PERSONALITY, MOOD, MOVE_STATE, ACTIVE_CHORE, CHORE_ASSIGNING_PLAYER, PANICKING);
     }
 
-    private final VillagerEntityMCA entity;
+    private final E entity;
 
-    public VillagerBrain(VillagerEntityMCA entity) {
+    public VillagerBrain(E entity) {
         this.entity = entity;
     }
 

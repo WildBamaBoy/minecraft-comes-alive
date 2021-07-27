@@ -2,10 +2,11 @@ package mca.network;
 
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.network.client.GetVillagerResponse;
 import mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -33,10 +34,9 @@ public class GetVillagerRequest implements Message {
         //pack information
         for (UUID member : family) {
             Entity e = ((ServerWorld) player.world).getEntity(member);
-            if (e instanceof VillagerEntityMCA) {
-                VillagerEntityMCA v = (VillagerEntityMCA) e;
+            if (e instanceof VillagerLike<?>) {
                 NbtCompound nbt = new NbtCompound();
-                v.writeCustomDataToNbt(nbt);
+                ((MobEntity)e).writeCustomDataToNbt(nbt);
                 familyData.put(e.getUuid().toString(), nbt);
             }
         }

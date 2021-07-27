@@ -2,7 +2,7 @@ package mca.util.network.datasync;
 
 import net.minecraft.entity.Entity;
 
-public interface CTrackedEntity<T extends Entity & CTrackedEntity<T>> {
+public interface CTrackedEntity<T extends Entity> {
 
     CDataManager<T> getTypeDataManager();
 

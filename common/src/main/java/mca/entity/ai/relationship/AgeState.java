@@ -1,5 +1,6 @@
 package mca.entity.ai.relationship;
 
+import mca.resources.API;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
@@ -52,6 +53,10 @@ public enum AgeState {
             return UNASSIGNED;
         }
         return VALUES[id];
+    }
+
+    public static AgeState random() {
+        return byCurrentAge((int)(API.getRng().nextFloat() * startingAge));
     }
 
     public static AgeState byCurrentAge(int age) {

@@ -12,6 +12,7 @@ import net.minecraft.server.world.ServerWorld;
 
 import java.util.UUID;
 
+@Deprecated
 public class ReviveVillagerMessage implements Message {
     private static final long serialVersionUID = 5302757876185799656L;
 

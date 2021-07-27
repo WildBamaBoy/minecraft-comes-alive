@@ -6,6 +6,7 @@ import mca.client.particle.InteractionParticle;
 import mca.client.render.GrimReaperRenderer;
 import mca.client.render.TombstoneBlockEntityRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
+import mca.client.render.ZombieVillagerEntityMCARenderer;
 import mca.cobalt.registration.RegistrationImpl;
 import mca.entity.EntitiesMCA;
 import net.minecraft.client.MinecraftClient;
@@ -33,6 +34,10 @@ public final class MCAClient {
         RegistrationImpl.bootstrap();
         RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.MALE_VILLAGER, VillagerEntityMCARenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.FEMALE_VILLAGER, VillagerEntityMCARenderer::new);
+
+        RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.MALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);
+
         RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.GRIM_REAPER, GrimReaperRenderer::new);
 
         ClientRegistry.bindTileEntityRenderer(BlockEntityTypesMCA.TOMBSTONE, TombstoneBlockEntityRenderer::new);

@@ -2,6 +2,7 @@ package mca.entity.ai;
 
 import java.util.Optional;
 
+import mca.entity.interaction.Interaction;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Formatting;

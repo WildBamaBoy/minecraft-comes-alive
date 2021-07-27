@@ -12,10 +12,14 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+
+import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -29,7 +33,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     private Optional<UUID> spouseUUID = Optional.empty();
 
-    private String spouseName = "";
+    private Optional<Text> spouseName = Optional.empty();
 
     private boolean babyPresent = false;
 
@@ -53,7 +57,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         playerId = nbt.contains("playerId", NbtElementCompat.INT_TYPE) ? nbt.getUuid("playerId") : null;
         lastSeenVillage = nbt.contains("lastSeenVillage", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
         spouseUUID = nbt.contains("spouseUUID", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getUuid("spouseUUID")) : Optional.empty();
-        spouseName = nbt.getString("spouseName");
+        spouseName = nbt.contains("spouseName") ? Optional.of(new LiteralText(nbt.getString("spouseName"))) : Optional.empty();
         babyPresent = nbt.getBoolean("babyPresent");
     }
 
@@ -100,13 +104,13 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     }
 
     @Override
-    public boolean isMarried() {
-        return !spouseUUID.orElse(Util.NIL_UUID).equals(Util.NIL_UUID);
+    public Optional<UUID> getSpouseUuid() {
+        return spouseUUID;
     }
 
     public void marry(UUID uuid, String name, MarriageState marriageState) {
         this.spouseUUID = Optional.ofNullable(uuid);
-        this.spouseName = name;
+        this.spouseName = Optional.of(name).filter(Strings::isNotEmpty).map(LiteralText::new);
         this.marriageState = marriageState;
         markDirty();
     }
@@ -114,7 +118,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     @Override
     public void endMarriage(MarriageState newState) {
         spouseUUID = Optional.empty();
-        spouseName = "";
+        spouseName = Optional.empty();
         marriageState = newState;
         markDirty();
     }
@@ -137,8 +141,9 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         return spouseUUID.orElse(Util.NIL_UUID);
     }
 
-    public String getSpouseName() {
-        return spouseName;
+    @Override
+    public Optional<Text> getSpouseName() {
+        return isMarried() ? spouseName : Optional.empty();
     }
 
     @Override
@@ -191,7 +196,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     public NbtCompound writeNbt(NbtCompound nbt) {
         spouseUUID.ifPresent(id -> nbt.putUuid("spouseUUID", id));
         lastSeenVillage.ifPresent(id -> nbt.putInt("lastSeenVillage", id));
-        nbt.putString("spouseName", spouseName);
+        spouseName.ifPresent(n -> nbt.putString("spouseName", n.getString()));
         nbt.putBoolean("babyPresent", babyPresent);
         return nbt;
     }

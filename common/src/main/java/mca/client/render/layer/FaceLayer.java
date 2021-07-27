@@ -1,16 +1,25 @@
 package mca.client.render.layer;
 
 import mca.client.model.VillagerEntityModelMCA;
-import mca.entity.VillagerEntityMCA;
+import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.Identifier;
 
-public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> {
-    public FaceLayer(FeatureRendererContext<VillagerEntityMCA, VillagerEntityModelMCA<VillagerEntityMCA>> renderer, VillagerEntityModelMCA<VillagerEntityMCA> model) {
+public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLayer<T, VillagerEntityModelMCA<T>> {
+
+    private final String variant;
+
+    public FaceLayer(
+            FeatureRendererContext<T, VillagerEntityModelMCA<T>> renderer,
+            VillagerEntityModelMCA<T> model, String variant) {
         super(renderer, model);
+        this.variant = variant;
 
-        this.model.setVisible(false);
-        this.model.head.visible = true;
+        model.setVisible(false);
+        model.head.visible = true;
     }
 
     @Override
@@ -19,11 +28,19 @@ public class FaceLayer extends VillagerLayer<VillagerEntityMCA, VillagerEntityMo
     }
 
     @Override
-    protected String getSkin(VillagerEntityMCA villager) {
+    protected Identifier getSkin(T villager) {
+        Identifier type = EntityType.getId(villager.getType());
         int totalFaces = 11;
-        int skin = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
+        int index = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
         int time = villager.age / 2 + (int) (villager.getGenetics().getGene(Genetics.HEMOGLOBIN) * 65536);
         boolean blink = time % 50 == 0 || time % 57 == 0 || villager.isSleeping() || villager.isDead();
-        return String.format("mca:skins/faces/%s/%d%s.png", villager.getGenetics().getGender().binary().getStrName(), skin, blink ? "_blink" : "");
+
+        return cached(String.format("%s:skins/face/%s/%s/%d%s.png",
+                type.getNamespace(),
+                variant,
+                villager.getGenetics().getGender().getStrName(),
+                index,
+                blink ? "_blink" : ""
+        ), Identifier::new);
     }
 }

@@ -20,6 +20,7 @@ public class ModelPartData {
 
     public ModelPartData addChild(String name, ModelPartBuilder builder, ModelTransform transform) {
         ModelPartData child = new ModelPartData(builder.part);
+        child.part.setTransform(transform);
         part.children.put(name, child);
         part.addChild(builder.part);
         return child;
