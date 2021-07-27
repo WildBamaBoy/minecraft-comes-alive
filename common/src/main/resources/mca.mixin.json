@@ -11,7 +11,8 @@
     "MixinMemoryModuleType",
     "MixinPlayerEntity",
     "MixinSensorType",
-    "MixinServerEntityManager",
+    "MixinServerWorld",
+    "MixinProtoChunk",
     "MixinTargetPredicate"
   ],
   "client": [
