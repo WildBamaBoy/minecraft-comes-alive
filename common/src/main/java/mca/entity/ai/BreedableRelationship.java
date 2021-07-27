@@ -1,7 +1,7 @@
 package mca.entity.ai;
 
 import mca.Config;
-import mca.CriterionMCA;
+import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.item.ItemsMCA;

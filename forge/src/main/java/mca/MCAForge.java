@@ -1,5 +1,6 @@
 package mca;
 
+import mca.advancement.criterion.CriterionMCA;
 import mca.block.BlocksMCA;
 import mca.cobalt.network.NetworkHandlerImpl;
 import mca.cobalt.registration.RegistrationImpl;
