@@ -1,5 +1,6 @@
 {
 	"textures": {
+		"particle": "mca:entity/scythe",
 		"1": "mca:entity/scythe"
 	},
 	"elements": [
