@@ -320,11 +320,41 @@
   "events.marry": "%1$s and %2$s are now married!",
   "events.baby": "%1$s and %2$s have born a baby!",
 
-  "advancement.mca.twins": "A Loving Parent (For Two!)",
-  "advancement.mca.twins.description": "Have two babies for the price of one!",
+  "advancement.mca.baby": "",
+  "advancement.mca.baby.description": "",
+
+  "advancement.mca.best_friend": "Best Friend",
+  "advancement.mca.best_friend.description": "Achieve 200 hearts",
+
+  "advancement.mca.excellent_gift": "",
+  "advancement.mca.excellent_gift.description": "",
+
+  "advancement.mca.family": "",
+  "advancement.mca.family.description": "",
+
+  "advancement.mca.friend": "Find a Friend",
+  "advancement.mca.friend.description": "Achieve 50 hearts",
+
+  "advancement.mca.grandparent": "",
+  "advancement.mca.grandparent.description": "",
+
+  "advancement.mca.grow_adult": "Fully Grown",
+  "advancement.mca.grow_adult.description": "",
+
+  "advancement.mca.grow_child": "They Grow Up So Fast",
+  "advancement.mca.grow_child.description": "",
+
+  "advancement.mca.marriage": "Til Death Do Us Part",
+  "advancement.mca.marriage.description": "",
+
+  "advancement.mca.monster": "You Monster!",
+  "advancement.mca.monster.description": "",
 
   "advancement.mca.root": "Minecraft Comes Alive",
   "advancement.mca.root.description": "Enter a village. Your new social journey awaits!",
+
+  "advancement.mca.twins": "A Loving Parent (For Two!)",
+  "advancement.mca.twins.description": "Have two babies for the price of one!",
 
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",
