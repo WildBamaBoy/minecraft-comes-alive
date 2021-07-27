@@ -14,9 +14,9 @@ public interface Infectable {
      */
     float MIN_INFECTION = 0F;
 
-    float FEVER_THRESHOLD = 30F;
-    float BABBLING_THRESHOLD = 50F;
-    float POINT_OF_NO_RETURN = 60F;
+    float FEVER_THRESHOLD = 80F;
+    float BABBLING_THRESHOLD = 150F;
+    float POINT_OF_NO_RETURN = 200F;
 
     default boolean isInfected() {
         return getInfectionProgress() > MIN_INFECTION;
