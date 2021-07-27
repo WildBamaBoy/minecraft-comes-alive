@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinActivity",
-    "MixinBlockItem",
     "MixinCriteria",
     "MixinHorseBaseEntity",
     "MixinMemoryModuleType",
