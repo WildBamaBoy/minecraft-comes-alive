@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:adventure/root",
+  "display": {
+    "title": {
+      "translate": "advancement.mca.kill_grim_reaper"
+    },
+    "description": {
+      "translate": "advancement.mca.kill_grim_reaper.description"
+    },
+    "icon": {
+      "item": "mca:scythe"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+  	"experience": 900
+  },
+  "criteria": {
+    "killed_reaper": {
+       "trigger": "minecraft:player_killed_entity",
+       "conditions": {
+         "entity": [
+            {
+              "condition": "minecraft:entity_properties",
+              "predicate": {
+                "type": "mca:grim_reaper"
+              },
+              "entity": "this"
+            }
+         ]
+       }
+    }
+  },
+  "requirements": [
+    [ "killed_reaper" ]
+  ]
+}

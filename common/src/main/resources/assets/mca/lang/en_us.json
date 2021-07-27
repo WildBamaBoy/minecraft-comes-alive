@@ -323,38 +323,41 @@
   "advancement.mca.baby": "",
   "advancement.mca.baby.description": "",
 
-  "advancement.mca.best_friend": "Best Friend",
-  "advancement.mca.best_friend.description": "Achieve 200 hearts",
+  "advancement.mca.best_friend": "Best Friends",
+  "advancement.mca.best_friend.description": "Achieve 200 hearts in a relationship",
 
-  "advancement.mca.excellent_gift": "",
-  "advancement.mca.excellent_gift.description": "",
+  "advancement.mca.excellent_gift": "Just What I Always Wanted",
+  "advancement.mca.excellent_gift.description": "Give a perfect gift",
 
-  "advancement.mca.family": "",
-  "advancement.mca.family.description": "",
+  "advancement.mca.family": "Settling In",
+  "advancement.mca.family.description": "Start a family with a villager",
 
-  "advancement.mca.friend": "Find a Friend",
+  "advancement.mca.friend": "Friendship Found",
   "advancement.mca.friend.description": "Achieve 50 hearts",
 
-  "advancement.mca.grandparent": "",
-  "advancement.mca.grandparent.description": "",
+  "advancement.mca.grandparent": "Back In My day...",
+  "advancement.mca.grandparent.description": "Father at least two generations of off-spring",
 
-  "advancement.mca.grow_adult": "Fully Grown",
-  "advancement.mca.grow_adult.description": "",
+  "advancement.mca.grow_adult": "They Grow Up So Fast",
+  "advancement.mca.grow_adult.description": "Successfully raise a functioning adult",
 
-  "advancement.mca.grow_child": "They Grow Up So Fast",
-  "advancement.mca.grow_child.description": "",
+  "advancement.mca.grow_child": "What a Handful",
+  "advancement.mca.grow_child.description": "Your baby has become a CHILD!",
 
-  "advancement.mca.marriage": "Til Death Do Us Part",
-  "advancement.mca.marriage.description": "",
+  "advancement.mca.marriage": "'Til Death Do Us Part",
+  "advancement.mca.marriage.description": "Get engaged and marry a villager",
 
   "advancement.mca.monster": "You Monster!",
-  "advancement.mca.monster.description": "",
+  "advancement.mca.monster.description": "You dropped the baby... You monster.",
 
   "advancement.mca.root": "Minecraft Comes Alive",
   "advancement.mca.root.description": "Enter a village. Your new social journey awaits!",
 
   "advancement.mca.twins": "A Loving Parent (For Two!)",
   "advancement.mca.twins.description": "Have two babies for the price of one!",
+
+  "advancement.mca.kill_grim_reaper": "Beat Death",
+  "advancement.mca.kill_grim_reaper.description": "Defeat the Grim Reaper",
 
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",
