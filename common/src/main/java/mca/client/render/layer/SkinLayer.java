@@ -1,7 +1,7 @@
 package mca.client.render.layer;
 
 import mca.client.model.VillagerEntityModelMCA;
-import mca.client.render.SkinColors;
+import mca.client.resources.ColorPalette;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.relationship.Gender;
@@ -23,7 +23,7 @@ public class SkinLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
 
     @Override
     protected float[] getColor(T villager) {
-        return SkinColors.PALLET.getColor(
+        return ColorPalette.SKIN.getColor(
                 villager.getGenetics().getGene(Genetics.MELANIN),
                 villager.getGenetics().getGene(Genetics.HEMOGLOBIN),
                 villager.getInfectionProgress()
