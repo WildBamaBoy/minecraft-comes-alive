@@ -19,7 +19,6 @@ class TemplateSet {
     }
 
     public String replace(String input) {
-        input = "%Supporter:1% told me about %Supporter:2%, but %Supporter:2% said %Supporter:1% was a bad guy. What do you think, %s?";
         for (String name : variables.keySet()) {
             input = replaceAll(name, input);
         }
