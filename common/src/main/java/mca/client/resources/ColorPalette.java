@@ -1,10 +1,16 @@
 package mca.client.resources;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mca.MCA;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class ColorPalette {
+    static final Map<Identifier, ColorPalette> REGISTRY = new HashMap<>();
+
     public static final ColorPalette SKIN = new ColorPalette(new Identifier(MCA.MOD_ID, "textures/colormap/villager_skin.png"));
     public static final ColorPalette HAIR = new ColorPalette(new Identifier(MCA.MOD_ID, "textures/colormap/villager_hair.png"));
 
@@ -16,6 +22,7 @@ public class ColorPalette {
 
     public ColorPalette(Identifier id) {
         this.id = id;
+        REGISTRY.put(id, this);
     }
 
     public Identifier getId() {
@@ -52,7 +59,7 @@ public class ColorPalette {
     }
 
     private static int clampFloor(float v, int max) {
-        return (int) Math.min(max - 1, Math.max(0, Math.floor(v * max)));
+        return (int)Math.floor(MathHelper.clamp(v * max, 0, max));
     }
 
     static class Data {
@@ -68,3 +75,24 @@ public class ColorPalette {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

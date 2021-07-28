@@ -7,7 +7,6 @@ import mca.client.render.GrimReaperRenderer;
 import mca.client.render.TombstoneBlockEntityRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
 import mca.client.render.ZombieVillagerEntityMCARenderer;
-import mca.client.resources.ColorPalette;
 import mca.entity.EntitiesMCA;
 import mca.resources.FabricColorPaletteLoader;
 import net.fabricmc.api.ClientModInitializer;
@@ -36,8 +35,7 @@ public final class MCAClient extends ClientProxyAbstractImpl implements ClientMo
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntityTypesMCA.TOMBSTONE, TombstoneBlockEntityRenderer::new);
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricMCAScreens());
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricColorPaletteLoader(ColorPalette.HAIR));
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricColorPaletteLoader(ColorPalette.SKIN));
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricColorPaletteLoader());
     }
 
     @Override

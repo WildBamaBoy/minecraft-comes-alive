@@ -8,7 +8,6 @@ import mca.client.render.TombstoneBlockEntityRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
 import mca.client.render.ZombieVillagerEntityMCARenderer;
 import mca.client.resources.ColorPaletteLoader;
-import mca.client.resources.ColorPalette;
 import mca.cobalt.registration.RegistrationImpl;
 import mca.entity.EntitiesMCA;
 import net.minecraft.client.MinecraftClient;
@@ -29,8 +28,7 @@ public final class MCAClient {
     public static void data(FMLConstructModEvent event) {
         new ClientProxyImpl();
         ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new MCAScreens());
-        ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new ColorPaletteLoader(ColorPalette.HAIR));
-        ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new ColorPaletteLoader(ColorPalette.SKIN));
+        ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new ColorPaletteLoader());
     }
 
     @SubscribeEvent
