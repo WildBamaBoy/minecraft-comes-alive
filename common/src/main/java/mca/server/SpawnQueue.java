@@ -40,7 +40,6 @@ public class SpawnQueue {
     }
 
     public boolean addVillager(Entity entity) {
-        MCA.LOGGER.info("Spawning entity: {}", entity.getType());
         if (!Config.getInstance().overwriteOriginalVillagers) return false;
 
         return entity.getClass().equals(VillagerEntity.class)
