@@ -42,7 +42,7 @@
     "constraints": ""
   },
   {
-    "identifier": "gui.button.shakehand",
+    "identifier": "gui.button.shake_hand",
     "x": 140,
     "y": -49,
     "width": 65,
@@ -53,7 +53,7 @@
     "isInteraction": true
   },
   {
-    "identifier": "gui.button.tellstory",
+    "identifier": "gui.button.tell_story",
     "x": 140,
     "y": -27,
     "width": 65,
@@ -97,7 +97,7 @@
     "isInteraction": true
   },
   {
-    "identifier": "gui.button.pickup",
+    "identifier": "gui.button.pick_up",
     "x": 140,
     "y": 61,
     "width": 65,
