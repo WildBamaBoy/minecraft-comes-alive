@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import mca.Config;
-import mca.MCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.WorldUtils;

@@ -29,7 +29,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     private AgeState ageState;
 
     public VillagerEntityBaseModelMCA(ModelPartCompat root, boolean clothing) {
-        super(0, 0, 64, 64);
+        super(root.getOriginalDilation(), 0, root.getTextureWidth(), root.getTextureHeight());
         this.cloth = clothing;
         this.breasts = root.getChild(BREASTS);
     }
