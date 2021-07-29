@@ -1,7 +1,7 @@
 package mca.client.render.layer;
 
 import mca.client.model.VillagerEntityModelMCA;
-import mca.client.render.HairColors;
+import mca.client.resources.ColorPalette;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
@@ -38,7 +38,7 @@ public class HairLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
             return hairDye.get().getColorComponents();
         }
 
-        return HairColors.PALLET.getColor(
+        return ColorPalette.HAIR.getColor(
                 villager.getGenetics().getGene(Genetics.EUMELANIN),
                 villager.getGenetics().getGene(Genetics.PHEOMELANIN),
                 0

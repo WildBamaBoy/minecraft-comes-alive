@@ -4,14 +4,15 @@ package mca.util.compat.model;
  * @since MC 1.17
  */
 public class ModelPartData {
-    ModelPartCompat part;
+    ModelPartBuilder builder;
 
-    ModelPartData(ModelPartCompat part) {
-        this.part = part;
+    ModelPartData(ModelPartBuilder builder, Dilation dilation) {
+        this.builder = builder;
+        this.builder.part.dilation = dilation;
     }
 
     public ModelPartData getChild(String name) {
-        return part.children.get(name);
+        return builder.children.get(name);
     }
 
     public ModelPartData addChild(String name, ModelPartBuilder builder) {
@@ -19,10 +20,12 @@ public class ModelPartData {
     }
 
     public ModelPartData addChild(String name, ModelPartBuilder builder, ModelTransform transform) {
-        ModelPartData child = new ModelPartData(builder.part);
-        child.part.setTransform(transform);
-        part.children.put(name, child);
-        part.addChild(builder.part);
+        ModelPartData child = new ModelPartData(builder, this.builder.part.dilation);
+        child.builder.part.setTransform(transform);
+
+        this.builder.children.put(name, child);
+        this.builder.part.children.put(name, child.builder.part);
+        this.builder.part.addChild(builder.part);
         return child;
     }
 }

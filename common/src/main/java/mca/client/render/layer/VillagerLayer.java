@@ -55,21 +55,21 @@ public abstract class VillagerLayer<T extends MobEntity & VillagerLike<T>, M ext
         //copy the animation to this layers model
         getContextModel().setAttributes(model);
 
+        int tint = LivingEntityRenderer.getOverlay(entity, 0);
+
         Identifier skin = getSkin(entity);
         if (canUse(skin)) {
             float[] color = getColor(entity);
-            renderModel(transform, provider, light, model, color[0], color[1], color[2], skin, LivingEntityRenderer.getOverlay(entity, 0));
+            renderModel(transform, provider, light, model, color[0], color[1], color[2], skin, tint);
         }
 
         Identifier overlay = getOverlay(entity);
         if (canUse(overlay)) {
-            renderModel(transform, provider, light, model, 1, 1, 1, overlay, LivingEntityRenderer.getOverlay(entity, 0));
+            renderModel(transform, provider, light, model, 1, 1, 1, overlay, tint);
         }
     }
 
     private void renderModel(MatrixStack transform, VertexConsumerProvider provider, int light, M model, float r, float g, float b, Identifier texture, int overlay) {
-        getContextModel().setAttributes(model);
-
         VertexConsumer buffer = provider.getBuffer(isTranslucent() ? RenderLayer.getEntityTranslucent(texture) : RenderLayer.getEntityCutoutNoCull(texture));
         model.render(transform, buffer, light, overlay, r, g, b, 1);
     }

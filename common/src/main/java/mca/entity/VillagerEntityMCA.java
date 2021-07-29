@@ -132,6 +132,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         VillagerTasksMCA.initializeTasks(this, getMCABrain());
     }
 
+    @SuppressWarnings("unchecked")
     public Brain<VillagerEntityMCA> getMCABrain() {
         return (Brain<VillagerEntityMCA>) brain;
     }

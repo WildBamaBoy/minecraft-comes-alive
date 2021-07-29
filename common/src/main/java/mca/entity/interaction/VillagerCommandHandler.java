@@ -61,7 +61,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
         }
 
         switch (command) {
-            case "pickup":
+            case "pick_up":
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {

@@ -20,22 +20,16 @@ public enum Interaction {
 
     private static final Map<String, Interaction> REGISTRY = Stream.of(values()).collect(Collectors.toMap(Interaction::name, Function.identity()));
 
-    private final String name;
     private final int baseChance;
     private final int baseHearts;
 
     Interaction(int baseChance, int baseHearts) {
-        this.name = name().toLowerCase().replaceAll("_", "");
         this.baseChance = baseChance;
         this.baseHearts = baseHearts;
     }
 
     public static Optional<Interaction> byCommand(String action) {
         return Optional.ofNullable(REGISTRY.get(action.toUpperCase()));
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getBonusChanceForCurrentPoints(int hearts) {

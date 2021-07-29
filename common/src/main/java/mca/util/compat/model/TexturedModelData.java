@@ -7,6 +7,6 @@ public interface TexturedModelData {
     ModelPartCompat createModel();
 
     static TexturedModelData of(ModelData data, int w, int h) {
-        return () -> data.getRoot().part;
+        return () -> data.getRoot().builder.build(w, h);
     }
 }

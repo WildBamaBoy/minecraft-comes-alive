@@ -5,7 +5,7 @@ public interface BipedEntityModelCompat {
      * @since MC 1.17
      */
     static ModelData getModelData(Dilation dilation, float pivotOffsetY) {
-        ModelPartData root = new ModelPartData(new ModelPartCompat());
+        ModelPartData root = new ModelPartData(ModelPartBuilder.create(), dilation);
         root.addChild(EntityModelPartNames.HEAD, ModelPartBuilder.create().uv(0, 0).cuboid(-4, -8, -4, 8, 8, 8, dilation), ModelTransform.pivot(0, 0 + pivotOffsetY, 0));
         root.addChild(EntityModelPartNames.HAT, ModelPartBuilder.create().uv(32, 0).cuboid(-4, -8, -4, 8, 8, 8, dilation.add(0.5F)), ModelTransform.pivot(0, 0 + pivotOffsetY, 0));
         root.addChild(EntityModelPartNames.BODY, ModelPartBuilder.create().uv(16, 16).cuboid(-4, 0, -2, 8, 12, 4, dilation), ModelTransform.pivot(0, 0 + pivotOffsetY, 0));
