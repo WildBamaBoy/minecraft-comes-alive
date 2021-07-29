@@ -3,8 +3,6 @@ package mca.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mca.client.gui.widgets.ExtendedPageTurnWidget;
 import mca.item.ExtendedWrittenBookItem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
@@ -27,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
+// TODO Mojang code :thonkjang:
 public class GuiExtendedBook extends Screen {
     private final BookScreen.Contents contents;
     private int pageIndex;
@@ -70,6 +68,7 @@ public class GuiExtendedBook extends Screen {
         return this.setPage(page);
     }
 
+    @Override
     protected void init() {
         this.addCloseButton();
         this.addPageButtons();
@@ -109,6 +108,7 @@ public class GuiExtendedBook extends Screen {
         this.previousPageButton.visible = this.pageIndex > 0;
     }
 
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (super.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
@@ -126,6 +126,7 @@ public class GuiExtendedBook extends Screen {
         }
     }
 
+    @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
@@ -143,14 +144,14 @@ public class GuiExtendedBook extends Screen {
         }
         this.cachedPageIndex = this.pageIndex;
         int k = this.textRenderer.getWidth(this.pageIndexText);
-        this.textRenderer.draw(matrices, this.pageIndexText, (float)(i - k + 192 - 44), 18.0f, 0);
+        this.textRenderer.draw(matrices, this.pageIndexText, i - k + 192 - 44, 18.0f, 0);
         int l = Math.min(128 / 9, this.cachedPage.size());
 
         // text
         for (int m = 0; m < l; ++m) {
             OrderedText orderedText = this.cachedPage.get(m);
             TextRenderer textRenderer = this.textRenderer;
-            float y = (float)(i + 36);
+            float y = i + 36;
             textRenderer.draw(matrices, orderedText, y, (32.0f + m * 9.0f), 0);
         }
 
@@ -163,6 +164,7 @@ public class GuiExtendedBook extends Screen {
         super.render(matrices, mouseX, mouseY, delta);
     }
 
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
             Style style = this.getTextAt(mouseX, mouseY);
@@ -174,6 +176,7 @@ public class GuiExtendedBook extends Screen {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
+    @Override
     public boolean handleTextClick(Style style) {
         ClickEvent clickEvent = style.getClickEvent();
         if (clickEvent == null) {
@@ -202,7 +205,7 @@ public class GuiExtendedBook extends Screen {
         if (this.cachedPage.isEmpty()) {
             return null;
         } else {
-            int i = MathHelper.floor(x - (double)((this.width - 192) / 2) - 36.0D);
+            int i = MathHelper.floor(x - (this.width - 192) / 2 - 36.0D);
             int j = MathHelper.floor(y - 2.0D - 30.0D);
             if (i >= 0 && j >= 0) {
                 int k = Math.min(128 / 9, this.cachedPage.size());
@@ -225,7 +228,6 @@ public class GuiExtendedBook extends Screen {
         }
     }
 
-    @Environment(EnvType.CLIENT)
     public static class TranslatedBookContent implements BookScreen.Contents {
         private final List<String> pages;
 
@@ -256,10 +258,12 @@ public class GuiExtendedBook extends Screen {
             this.pages = BookScreen.readPages(compound);
         }
 
+        @Override
         public int getPageCount() {
             return pages.size();
         }
 
+        @Override
         public StringVisitable getPageUnchecked(int index) {
             String string = pages.get(index);
 
