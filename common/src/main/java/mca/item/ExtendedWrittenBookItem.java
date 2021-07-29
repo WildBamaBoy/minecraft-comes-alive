@@ -48,7 +48,7 @@ public class ExtendedWrittenBookItem extends WrittenBookItem {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         String key = String.format("mca.books.%s.author", bookName);
-        tooltip.add((new TranslatableText(key).formatted(Formatting.GRAY)));
+        tooltip.add(new TranslatableText(key).formatted(Formatting.GRAY));
     }
 
     @Override
