@@ -2,8 +2,6 @@ package mca.item;
 
 import mca.cobalt.network.NetworkHandler;
 import mca.network.client.OpenGuiRequest;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,12 +45,13 @@ public class ExtendedWrittenBookItem extends WrittenBookItem {
         this.textFormatting = textFormatting;
     }
 
-    @Environment(EnvType.CLIENT)
+    @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         String key = String.format("mca.books.%s.author", bookName);
         tooltip.add((new TranslatableText(key).formatted(Formatting.GRAY)));
     }
 
+    @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
 
