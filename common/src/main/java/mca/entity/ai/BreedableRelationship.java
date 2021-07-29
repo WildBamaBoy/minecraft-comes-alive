@@ -134,7 +134,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
             return;
         }
 
-        long occurrences = getGiftSaturation(stack);
+        long occurrences = getGiftSaturation().get(stack);
 
         //check if desaturation fail happen
         if (entity.getRandom().nextInt(100) < occurrences * Config.getInstance().giftDesaturationPenalty) {
@@ -151,7 +151,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
         entity.getVillagerBrain().modifyMoodLevel((int)(satisfaction / 2 + 2 * MathHelper.sign(satisfaction)));
         memory.modHearts((int)satisfaction);
 
-        addGiftSaturation(stack);
+        getGiftSaturation().add(stack, 1);
         entity.getInventory().addStack(player.getMainHandStack().split(1));
         entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
     }

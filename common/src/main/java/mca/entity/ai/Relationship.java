@@ -1,6 +1,5 @@
 package mca.entity.ai;
 
-import mca.Config;
 import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.block.TombstoneBlock;
@@ -8,12 +7,11 @@ import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.*;
+import mca.entity.interaction.gifts.GiftSaturation;
 import mca.server.world.data.FamilyTree;
 import mca.server.world.data.FamilyTreeEntry;
 import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.GraveyardManager.TombstoneState;
-import mca.util.NbtElementCompat;
-import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
@@ -26,17 +24,12 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtLong;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -63,7 +56,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     protected final T entity;
 
-    private Map<Identifier, Long> giftSaturation = new HashMap<>();
+    private final GiftSaturation giftSaturation = new GiftSaturation();
 
     public Relationship(T entity) {
         this.entity = entity;
@@ -191,39 +184,16 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         entity.setTrackedValue(MARRIAGE_STATE, newState);
     }
 
-    public void addGiftSaturation(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return;
-        }
-
-        Identifier id = Registry.ITEM.getId(stack.getItem());
-
-        while (!giftSaturation.isEmpty() && giftSaturation.size() > Config.getInstance().giftDesaturationQueueLength - 1) {
-            giftSaturation.remove(giftSaturation.keySet().iterator().next());
-        }
-        giftSaturation.compute(id, (key, old) -> old == null ? 1 : (old + 1));
-    }
-
-    public long getGiftSaturation(ItemStack stack) {
-        return giftSaturation.getOrDefault(Registry.ITEM.getId(stack.getItem()), 0L);
+    public GiftSaturation getGiftSaturation() {
+        return giftSaturation;
     }
 
     public void readFromNbt(NbtCompound nbt) {
-        //load gift desaturation queue
-        if (nbt.contains("giftDesaturation", NbtElementCompat.LIST_TYPE)) {
-            giftSaturation.clear();
-            NbtList res = nbt.getList("giftDesaturation", NbtElementCompat.STRING_TYPE);
-            for (int i = 0; i < res.size(); i++) {
-                Identifier c = new Identifier(res.getString(i).replace("item.", "").replaceFirst("\\.", ":").replace('.', '/'));
-                addGiftSaturation(Registry.ITEM.get(c).getDefaultStack());
-            }
-        } else {
-            giftSaturation = NbtHelper.toMap(nbt.getCompound("giftSaturation"), Identifier::new, e -> ((NbtLong)e).longValue());
-        }
+        giftSaturation.readFromNbt(nbt.getCompound("giftSaturation"));
     }
 
     public void writeToNbt(NbtCompound nbt) {
-        nbt.put("giftSaturation", NbtHelper.fromMap(new NbtCompound(), giftSaturation, Identifier::toString, NbtLong::of));
+        nbt.put("giftSaturation", giftSaturation.toNbt());
     }
 
     public interface Predicate extends BiPredicate<CompassionateEntity<?>, Entity> {
