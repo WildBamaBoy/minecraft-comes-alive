@@ -71,6 +71,9 @@ import net.minecraft.village.VillagerType;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+
+import java.util.function.Predicate;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -355,9 +358,17 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         super.tickMovement();
 
         if (!world.isClient) {
-            // Natural regeneration every 10 seconds
             if (age % 200 == 0 && getHealth() < getMaxHealth()) {
-                heal(1);
+                // if the villager has food they should try to eat.
+                ItemStack food = getMainHandStack();
+
+                if (food.isFood()) {
+                    eatFood(world, food);
+                } else {
+                    if (!findAndEquipToMain(ItemStack::isFood)) {
+                        heal(1); // natural regenaration
+                    }
+                }
             }
 
             residency.tick();
@@ -373,6 +384,30 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             // Every 1 second
             mcaBrain.think();
         }
+    }
+
+    protected boolean findAndEquipToMain(Predicate<ItemStack> predicate) {
+        int slot = InventoryUtils.getFirstSlotContainingItem(getInventory(), predicate);
+
+        if (slot > -1) {
+            ItemStack replacement = getInventory().getStack(slot).split(1);
+
+            if (!replacement.isEmpty()) {
+                ItemStack current = getMainHandStack();
+                if (!current.isEmpty()) {
+                    if (getInventory().canInsert(current)) {
+                        getInventory().addStack(current);
+                    } else {
+                        dropStack(current);
+                    }
+                }
+
+                setStackInHand(Hand.MAIN_HAND, replacement);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -415,6 +450,14 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
+    }
+
+    @Override
+    public ItemStack eatFood(World world, ItemStack stack) {
+        if (stack.isFood()) {
+            heal(stack.getItem().getFoodComponent().getHunger() / 4F);
+        }
+        return super.eatFood(world, stack);
     }
 
     private boolean convertToZombie() {
@@ -682,7 +725,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public boolean equip(int slot, ItemStack item) {
-        // TODO: We change the inventory size. This method should change too in order for picking up stacks to work correctly.
+        if (slot >= 300 && slot < 300 + getInventory().size()) {
+            getInventory().setStack(slot - 300, item);
+            return true;
+        }
         return super.equip(slot, item);
     }
 
