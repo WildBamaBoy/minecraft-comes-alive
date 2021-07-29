@@ -36,6 +36,7 @@ public class OpenGuiRequest implements Message {
         @Deprecated
         STAFF_OF_LIFE,
         BLUEPRINT,
-        INTERACT
+        INTERACT,
+        BOOK
     }
 }

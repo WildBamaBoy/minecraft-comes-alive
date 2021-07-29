@@ -10,6 +10,7 @@ import mca.entity.ai.relationship.Gender;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -34,11 +35,11 @@ public interface ItemsMCA {
     Item WHISTLE = register("whistle", new WhistleItem(baseProps()));
     Item BLUEPRINT = register("blueprint", new BlueprintItem(baseProps()));
 
-    Item BOOK_ROSE_GOLD = register("book_rose_gold", new Item(baseProps()));
-    Item BOOK_DEATH = register("book_death", new Item(baseProps()));
-    Item BOOK_ROMANCE = register("book_romance", new Item(baseProps()));
-    Item BOOK_FAMILY = register("book_family", new Item(baseProps()));
-    Item BOOK_INFECTION = register("book_infection", new Item(baseProps()));
+    Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), "death", 10, new Identifier("mca:textures/gui/books/death.png"), Formatting.GRAY));
+    Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), "romance", 13, new Identifier("mca:textures/gui/books/romance.png")));
+    Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), "family", 8));
+    Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), "rose_gold", 5, new Identifier("mca:textures/gui/books/rose_gold.png")));
+    Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), "infection", 6, new Identifier("mca:textures/gui/books/infection.png")));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));
