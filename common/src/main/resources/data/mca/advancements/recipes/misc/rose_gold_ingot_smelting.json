@@ -3,6 +3,9 @@
   "rewards": {
     "recipes": [
       "mca:rose_gold_ingot_smelting"
+    ],
+    "loot": [
+      "mca:books/family"
     ]
   },
   "criteria": {

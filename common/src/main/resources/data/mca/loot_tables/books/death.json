@@ -1,0 +1,14 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "mca:book_death",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

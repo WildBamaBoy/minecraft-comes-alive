@@ -22,5 +22,10 @@
         "feature": "village"
       }
     }
+  },
+  "rewards": {
+    "loot": [
+      "mca:books/romance"
+    ]
   }
 }
