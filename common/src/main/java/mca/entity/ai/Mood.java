@@ -43,6 +43,19 @@ public enum Mood {
         this.moodGroup = moodGroup;
     }
 
+    // TODO: MoodGroup makes absolutely no sense
+    public boolean isAngry() {
+        return this == ANGRY || this == ANNOYED || this == INFURIATED;
+    }
+
+    public boolean isSad() {
+        return this == SAD || this == DEPRESSED || this == BORED_TO_TEARS;
+    }
+
+    public boolean isHappy() {
+        return this == HAPPY || this == OVERJOYED || this == PLEASED;
+    }
+
     public static int getLevel(int mood) {
         return MathHelper.clamp(mood, absoluteMinLevel, maxLevel);
     }

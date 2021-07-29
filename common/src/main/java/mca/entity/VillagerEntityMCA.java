@@ -3,6 +3,7 @@ package mca.entity;
 import com.mojang.serialization.Dynamic;
 import mca.Config;
 import mca.ParticleTypesMCA;
+import mca.SoundsMCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
@@ -103,9 +104,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         // and the data manager requires those fields
         getTypeDataManager().register(this);
         genetics.setGender(gender);
-
-        // TODO: sounds
-        setSilent(true);
     }
 
     @Override
@@ -220,9 +218,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         setAgeState(AgeState.byCurrentAge(age));
     }
 
-    //TODO: Reputation
     @Override
     public int getReputation(PlayerEntity player) {
+        // TODO: Reputation
         return super.getReputation(player);
     }
 
@@ -279,6 +277,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         ItemStack stack = player.getStackInHand(hand);
 
         if (stack.getItem() != ItemsMCA.FEMALE_VILLAGER_SPAWN_EGG && stack.getItem() != ItemsMCA.MALE_VILLAGER_SPAWN_EGG) {
+            playWelcomeSound();
             return interactions.interactAt(player, pos, hand);
         }
         return super.interactAt(player, pos, hand);
@@ -379,6 +378,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void tick() {
         super.tick();
+        this.setSilent(false);
 
         if (world.isClient) {
             if (relations.isProcreating()) {
@@ -522,25 +522,57 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     @Override
-    public final SoundEvent getDeathSound() {
-        // TODO: Custom sounds
-        return SoundEvents.ENTITY_PLAYER_DEATH;
+    public SoundEvent getDeathSound() {
+        return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_SCREAM : SoundsMCA.VILLAGER_FEMALE_SCREAM;
     }
 
+    public SoundEvent getSurprisedSound() {
+        return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_SURPRISE : SoundsMCA.VILLAGER_FEMALE_SURPRISE;
+    }
+
+    @Nullable
     @Override
     protected final SoundEvent getAmbientSound() {
-        // TODO: Custom sounds
+        if (isSleeping()) {
+            return null; // TODO: snoring?
+        }
+
+        if (getAgeState() == AgeState.BABY) {
+            return SoundsMCA.VILLAGER_BABY_LAUGH;
+        }
+
+        if (getVillagerBrain().isPanicking()) {
+            return getDeathSound();
+        }
+        if (getVillagerBrain().getMood().isAngry()) {
+            return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_ANGRY : SoundsMCA.VILLAGER_FEMALE_ANGRY;
+        }
+        if (getVillagerBrain().getMood().isSad()) {
+            return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_CRY : SoundsMCA.VILLAGER_FEMALE_CRY;
+        }
+        if (getVillagerBrain().getMood().isHappy()) {
+            return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_LAUGH : SoundsMCA.VILLAGER_FEMALE_LAUGH;
+        }
+        if (hasCustomer()) {
+            return getSurprisedSound();
+        }
+
         return null;
     }
 
     @Override
-    protected final SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_GENERIC_HURT;
+    protected final SoundEvent getHurtSound(DamageSource cause) {
+        return getDeathSound();
     }
 
     public final void playWelcomeSound() {
-        //TODO custom sounds?
-        //playSound(SoundEvents.VILLAGER_CELEBRATE, getSoundVolume(), getVoicePitch());
+        if (!getVillagerBrain().isPanicking()) {
+            playSound(getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_GREET : SoundsMCA.VILLAGER_FEMALE_GREET, getSoundVolume(), getSoundPitch());
+        }
+    }
+
+    public final void playSurprisedSound() {
+        playSound(getSurprisedSound(), getSoundVolume(), getSoundPitch());
     }
 
     @Override
@@ -585,8 +617,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (isSpeechImpaired()) {
             playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
         } else {
-            // TODO: Custom sounds
-            // playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, getSoundVolume(), getSoundPitch());
+            // playWelcomeSound();
         }
     }
 

@@ -44,15 +44,17 @@ public interface EntityRelationship {
             endMarriage(MarriageState.WIDOW);
         }
 
-        getParents().forEach(parent -> {
-            EntityRelationship.of(parent).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.CHILD));
-        });
-        getSiblings().forEach(sibling -> {
-            EntityRelationship.of(sibling).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SIBLING));
-        });
-        getSpouse().ifPresent(spouse -> {
-            EntityRelationship.of(spouse).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SPOUSE));
-        });
+        if (type == RelationshipType.SELF) {
+            getParents().forEach(parent -> {
+                EntityRelationship.of(parent).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.CHILD));
+            });
+            getSiblings().forEach(sibling -> {
+                EntityRelationship.of(sibling).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SIBLING));
+            });
+            getSpouse().ifPresent(spouse -> {
+                EntityRelationship.of(spouse).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SPOUSE));
+            });
+        }
     }
 
     void endMarriage(MarriageState newState);

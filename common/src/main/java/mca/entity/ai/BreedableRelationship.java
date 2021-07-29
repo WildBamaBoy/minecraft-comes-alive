@@ -16,7 +16,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
@@ -143,6 +142,9 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
             entity.sendChatMessage(player, "gift.saturated");
         } else {
             entity.sendChatMessage(player, gift.getDialogueFor(response));
+            if (response == Response.BEST) {
+                entity.playSurprisedSound();
+            }
         }
 
         //modify mood and hearts

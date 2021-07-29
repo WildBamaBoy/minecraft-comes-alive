@@ -140,7 +140,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
                 .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
                 .forEach(villager -> villager.getRelationships().onTragedy(cause, burialSite, RelationshipType.STRANGER));
 
-        onTragedy(cause, burialSite, RelationshipType.SIBLING);
+        onTragedy(cause, burialSite, RelationshipType.SELF);
     }
 
     @Override

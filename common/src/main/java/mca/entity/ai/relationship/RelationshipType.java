@@ -2,6 +2,7 @@ package mca.entity.ai.relationship;
 
 public enum RelationshipType {
     STRANGER(1),
+    SELF(2),
     SIBLING(2),
     SPOUSE(3),
     PARENT(3),
