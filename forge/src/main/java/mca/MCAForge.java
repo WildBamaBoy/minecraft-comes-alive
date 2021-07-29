@@ -5,6 +5,7 @@ import mca.block.BlocksMCA;
 import mca.cobalt.network.NetworkHandlerImpl;
 import mca.cobalt.registration.RegistrationImpl;
 import mca.entity.EntitiesMCA;
+import mca.entity.interaction.gifts.GiftLoader;
 import mca.item.ItemsMCA;
 import mca.network.MessagesMCA;
 import mca.resources.ApiReloadListener;
@@ -36,6 +37,7 @@ public final class MCAForge {
     private void onAddReloadListener(AddReloadListenerEvent event) {
         event.addListener(new ApiReloadListener());
         event.addListener(new ClothingList());
+        event.addListener(new GiftLoader());
     }
 
     @SubscribeEvent

@@ -76,6 +76,10 @@ public class Residency {
         return VillageManager.get((ServerWorld)entity.world).getOrEmpty(entity.getTrackedValue(VILLAGE));
     }
 
+    public Optional<GlobalPos> getHome() {
+        return entity.getBrain().getOptionalMemory(MemoryModuleType.HOME);
+    }
+
     public void tick() {
         if (entity.age % 600 == 0) {
             reportBuildings();
@@ -156,8 +160,7 @@ public class Residency {
     }
 
     public void goHome(PlayerEntity player) {
-        OptionalCompat.ifPresentOrElse(entity.getBrain()
-            .getOptionalMemory(MemoryModuleType.HOME)
+        OptionalCompat.ifPresentOrElse(getHome()
             .filter(p -> p.getDimension() == entity.world.getRegistryKey())
             , home -> {
             entity.moveTowards(home.getPos());

@@ -4,22 +4,21 @@ import mca.Config;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.interaction.gifts.GiftType;
+import mca.entity.interaction.gifts.Response;
 import mca.item.ItemsMCA;
 import mca.item.SpecialCaseGift;
-import mca.resources.API;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
-import net.minecraft.block.SpongeBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+
 import java.util.*;
 
 /**
@@ -99,54 +98,65 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
     public void giveGift(ServerPlayerEntity player, Memories memory) {
         ItemStack stack = player.getMainHandStack();
 
-        if (!stack.isEmpty()) {
-            int giftValue = API.getGiftPool().getWorth(stack);
-            if (!handleSpecialCaseGift(player, stack)) {
+        if (!stack.isEmpty() && !handleSpecialCaseGift(player, stack)) {
+            Optional<GiftType> gift = GiftType.firstMatching(stack);
+
+            if (gift.isPresent()) {
+                acceptGift(stack, gift.get(), player, memory);
+            } else {
                 if (stack.getItem() == Items.GOLDEN_APPLE) {
-                    //TODO special
                     entity.setInfected(false);
+                    entity.eatFood(entity.world, stack);
                 } else if (stack.getItem() instanceof DyeItem) {
-                    //TODO special
-                    DyeItem dye = (DyeItem) stack.getItem();
-                    entity.setHairDye(dye.getColor());
-                } else if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof SpongeBlock) {
-                    //TODO special, also feels super hacky, probably a better way to check for blocks
+                    entity.setHairDye(((DyeItem) stack.getItem()).getColor());
+                    stack.decrement(1);
+                } else if (stack.getItem() == Items.SPONGE) {
                     entity.clearHairDye();
+                    stack.decrement(1);
                 } else {
-                    // TODO: Don't use translation keys. Use identifiers.
-                    String id = stack.getTranslationKey();
-                    long occurrences = giftDesaturation.stream().filter(id::equals).count();
-
-
-
-                    //check if desaturation fail happen
-                    if (entity.getRandom().nextInt(100) < occurrences * Config.getInstance().giftDesaturationPenalty) {
-                        giftValue = -giftValue / 2;
-                        entity.sendChatMessage(player, API.getGiftPool().getResponseForSaturatedGift(stack));
-                    } else {
-                        entity.sendChatMessage(player, API.getGiftPool().getResponse(stack));
-                    }
-
-                    //modify mood and hearts
-                    entity.getVillagerBrain().modifyMoodLevel(giftValue / 2 + 2 * MathHelper.sign(giftValue));
-                    memory.modHearts(giftValue);
+                    rejectGift(player, "gift.fail");
                 }
             }
-
-            //add to desaturation queue
-            giftDesaturation.add(stack.getTranslationKey());
-            while (giftDesaturation.size() > Config.getInstance().giftDesaturationQueueLength) {
-                giftDesaturation.remove(0);
-            }
-
-            //particles
-            if (giftValue > 0) {
-                player.getMainHandStack().decrement(1);
-                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
-            } else {
-                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
-            }
         }
+    }
+
+    private void acceptGift(ItemStack stack, GiftType gift, PlayerEntity player, Memories memory) {
+
+        float satisfaction = gift.getSatisfactionFor(entity);
+        Response response = gift.getResponse(satisfaction);
+
+        if (!entity.getInventory().canInsert(stack)) {
+            rejectGift(player, "villager.inventory.full");
+            return;
+        }
+
+        if (response == Response.FAIL) {
+            rejectGift(player, gift.getDialogueFor(response));
+            return;
+        }
+
+        long occurrences = getGiftSaturation(stack);
+
+        //check if desaturation fail happen
+        if (entity.getRandom().nextInt(100) < occurrences * Config.getInstance().giftDesaturationPenalty) {
+            satisfaction = -satisfaction / 2;
+            entity.sendChatMessage(player, "gift.saturated");
+        } else {
+            entity.sendChatMessage(player, gift.getDialogueFor(response));
+        }
+
+        //modify mood and hearts
+        entity.getVillagerBrain().modifyMoodLevel((int)(satisfaction / 2 + 2 * MathHelper.sign(satisfaction)));
+        memory.modHearts((int)satisfaction);
+
+        addGiftSaturation(stack);
+        entity.getInventory().addStack(player.getMainHandStack().split(1));
+        entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
+    }
+
+    private void rejectGift(PlayerEntity player, String dialogue) {
+        entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
+        entity.sendChatMessage(player, dialogue);
     }
 
     private boolean handleSpecialCaseGift(ServerPlayerEntity player, ItemStack stack) {
@@ -155,46 +165,27 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
         if (item instanceof SpecialCaseGift) {
             if (((SpecialCaseGift) item).handle(player, entity)) {
                 player.getMainHandStack().decrement(1);
-            }
-            return true;
-        } else if (item == Items.CAKE) {
-            if (isMarried() && !entity.isBaby()) {
-                if (pregnancy.tryStartGestation()) {
-                    ((ServerWorld) player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
-                    entity.sendChatMessage(player, "gift.cake.success");
-                } else {
-                    entity.sendChatMessage(player, "gift.cake.fail");
-                }
                 return true;
             }
-        } else if (item == Items.GOLDEN_APPLE && entity.isBaby()) {
+        }
+
+        if (item == Items.CAKE && isMarriedTo(player.getUuid()) && !entity.isBaby()) {
+            if (pregnancy.tryStartGestation()) {
+                ((ServerWorld) player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
+                entity.sendChatMessage(player, "gift.cake.success");
+            } else {
+                entity.sendChatMessage(player, "gift.cake.fail");
+            }
+
+            return true;
+        }
+
+        if (item == Items.GOLDEN_APPLE && entity.isBaby()) {
             // increase age by 5 minutes
             entity.growUp(1200 * 5);
             return true;
         }
 
         return false;
-    }
-
-    @Override
-    public void readFromNbt(NbtCompound nbt) {
-        super.readFromNbt(nbt);
-        //load gift desaturation queue
-        NbtList res = nbt.getList("giftDesaturation", 8);
-        for (int i = 0; i < res.size(); i++) {
-            String c = res.getString(i);
-            giftDesaturation.add(c);
-        }
-    }
-
-    @Override
-    public void writeToNbt(NbtCompound nbt) {
-        super.writeToNbt(nbt);
-        //save gift desaturation queue
-        NbtList giftDesaturationQueue = new NbtList();
-        for (int i = 0; i < giftDesaturation.size(); i++) {
-            giftDesaturationQueue.addElement(i, NbtString.of(giftDesaturation.get(i)));
-        }
-        nbt.put("giftDesaturation", giftDesaturationQueue);
     }
 }

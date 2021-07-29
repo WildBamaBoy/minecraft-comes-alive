@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
+import mca.MCA;
 import mca.client.resources.Icon;
 import mca.resources.Resources;
 import net.minecraft.resource.JsonDataLoader;
@@ -17,7 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
 public class MCAScreens extends JsonDataLoader {
-    protected static final Identifier ID = new Identifier("mca", "screens");
+    protected static final Identifier ID = new Identifier(MCA.MOD_ID, "screens");
     private static final Type ICONS_TYPE = new TypeToken<Map<String, Icon>>() {}.getType();
 
     private static MCAScreens INSTANCE;

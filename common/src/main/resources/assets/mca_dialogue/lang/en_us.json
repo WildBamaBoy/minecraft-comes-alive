@@ -58,6 +58,16 @@
   "villager.scream8": "Yikes!",
   "villager.scream9": "Eeek!",
 
+  "villager.inventory.full1": "I can't carry anything more",
+  "villager.inventory.full2": "My hands are full, sorry",
+  "villager.inventory.full3": "*buuuurp* I can't. No more...",
+  "villager.inventory.full4": "Not another one!!",
+
+  "adult.gift.saturated1": "Not another one of these!",
+  "child.gift.saturated1": "I already have enough of these!",
+  "childp.gift.saturated1": "I already have enough of these!",
+  "spouse.gift.saturated1": "Darling, we have enough of that!",
+
   "spouse.chore.mining.orenotify": "There's some %2$s nearby...",
   "spouse.chore.mining.nopick": "I forgot my pickaxe, dear, did you bring an extra one?",
   "spouse.chore.chopping.noaxe": "Oh, I thought we were going for a picnic. I didn't bring an axe...",
@@ -162,10 +172,6 @@
   "spouse.interaction.procreate.fail.lowhearts1": "Spend more time with me! I'm not ready for a child.",
   "spouse.interaction.procreate.fail.lowhearts2": "Hmm...not just yet. I think we need to spend more time together first.",
 
-  "adult.saturatedGift1": "Not another one of these!",
-  "child.saturatedGift1": "I already have enough of these!",
-  "childp.saturatedGift1": "I already have enough of these!",
-  "spouse.saturatedGift1": "Darling, we have enough of that!",
   "adult.welcome1": "Welcome back, %1$s!",
   "child.welcome1": "Hi %1$s!",
   "childp.welcome1": "Hi %1$s!",

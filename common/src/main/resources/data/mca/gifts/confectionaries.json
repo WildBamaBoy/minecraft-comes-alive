@@ -1,0 +1,18 @@
+{
+  "base_satisfaction": 5,
+  "conditions": [
+    { "profession": "mca:baker", "satisfaction_boost": 3 },
+    { "profession": "mca:guard", "satisfaction_boost": -7 },
+    { "age_group": "child", "satisfaction_boost": 9 },
+    { "gender": "male", "satisfaction_boost": -1 }
+  ],
+  "responses": {
+    "fail": "I don't have much of a sweet tooth",
+    "good": "Thanks I guess",
+    "better": "Ooh. Nice",
+    "best": "Wow!"
+  },
+  "item": {
+    "tag": "mca:confectionaries"
+  }
+}

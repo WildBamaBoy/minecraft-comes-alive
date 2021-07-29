@@ -22,10 +22,6 @@ public class API {
         return instance.hair;
     }
 
-    public static GiftList getGiftPool() {
-        return instance.gifts;
-    }
-
     public static VillagerProfession randomProfession() {
         return ProfessionsMCA.randomProfession();
     }
@@ -47,8 +43,6 @@ public class API {
     }
 
     static class Data {
-        final GiftList gifts = new GiftList();
-
         final HairList hair = new HairList();
 
         final VillageComponents villageComponents = new VillageComponents(rng);
@@ -61,7 +55,6 @@ public class API {
             try {
                 hair.load(manager);
                 villageComponents.load(manager);
-                gifts.load(manager);
 
                 supporters.addAll(Arrays.asList(Resources.read("api/names/supporters.json", String[].class)));
                 zombieWords.addAll(Arrays.asList(Resources.read("api/names/zombie_words.json", String[].class)));
