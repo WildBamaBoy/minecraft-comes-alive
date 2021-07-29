@@ -6,16 +6,12 @@ import mca.network.client.GetInteractDataResponse;
 import mca.network.client.GetVillageResponse;
 import mca.network.client.GetVillagerResponse;
 import mca.network.client.OpenGuiRequest;
-import mca.network.client.SavedVillagersResponse;
 
 public interface MessagesMCA {
     static void bootstrap() {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
         NetworkHandler.registerMessage(InteractionServerMessage.class);
         NetworkHandler.registerMessage(BabyNamingVillagerMessage.class);
-        NetworkHandler.registerMessage(ReviveVillagerMessage.class);
-        NetworkHandler.registerMessage(SavedVillagersRequest.class);
-        NetworkHandler.registerMessage(SavedVillagersResponse.class);
         NetworkHandler.registerMessage(GetVillagerRequest.class);
         NetworkHandler.registerMessage(GetVillagerResponse.class);
         NetworkHandler.registerMessage(CallToPlayerMessage.class);

@@ -16,7 +16,6 @@ import mca.entity.interaction.VillagerCommandHandler;
 import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
-import mca.server.world.data.SavedVillagers;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
@@ -527,7 +526,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         }
 
         if (!relations.onDeath(cause)) {
-            SavedVillagers.get((ServerWorld) world).saveVillager(this);
             relations.onTragedy(cause, null);
         }
     }

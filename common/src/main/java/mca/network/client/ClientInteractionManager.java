@@ -12,7 +12,4 @@ public interface ClientInteractionManager {
     void handleVillageDataResponse(GetVillageResponse message);
 
     void handleVillagerDataResponse(GetVillagerResponse message);
-
-    @Deprecated
-    void handleSavedVillagersResponse(SavedVillagersResponse message);
 }

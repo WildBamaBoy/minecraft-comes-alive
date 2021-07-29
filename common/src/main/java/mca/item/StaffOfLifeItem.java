@@ -1,19 +1,14 @@
 package mca.item;
 
-import mca.Config;
-import mca.cobalt.network.NetworkHandler;
-import mca.network.client.OpenGuiRequest;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Hand;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -27,19 +22,12 @@ public class StaffOfLifeItem extends TooltippedItem {
     }
 
     @Override
-    public final TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getStackInHand(hand);
-
-        if (!Config.getInstance().enableRevivals) {
-            player.sendMessage(new TranslatableText("notify.revival.disabled"), true);
-            return TypedActionResult.fail(stack);
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        ActionResult result = ScytheItem.use(context, true);
+        if (result != ActionResult.PASS) {
+            return result;
         }
-
-        if (player instanceof ServerPlayerEntity) {
-            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.STAFF_OF_LIFE), (ServerPlayerEntity) player);
-        }
-
-        return TypedActionResult.success(stack);
+        return super.useOnBlock(context);
     }
 
     @Override

@@ -33,8 +33,6 @@ public class OpenGuiRequest implements Message {
     public enum Type {
         BABY_NAME,
         WHISTLE,
-        @Deprecated
-        STAFF_OF_LIFE,
         BLUEPRINT,
         INTERACT,
         BOOK

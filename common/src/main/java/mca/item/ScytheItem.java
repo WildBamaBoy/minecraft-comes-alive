@@ -5,6 +5,7 @@ import java.util.Random;
 import mca.SoundsMCA;
 import mca.TagsMCA;
 import mca.block.TombstoneBlock;
+import mca.entity.EntitiesMCA;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -75,20 +78,20 @@ public class ScytheItem extends SwordItem {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getBlockPos();
-        BlockState state = world.getBlockState(pos);
-
-        if (state.isIn(TagsMCA.Blocks.TOMBSTONES)) {
-            return TombstoneBlock.Data.of(world.getBlockEntity(pos)).filter(TombstoneBlock.Data::hasEntity).map(data -> {
-                if (!world.isClient) {
-                    data.startResurrecting();
-                }
-                return ActionResult.SUCCESS;
-            }).orElse(ActionResult.FAIL);
+        if (hasSoul(context.getStack())) {
+            setSoul(context.getStack(), false);
+            ActionResult result = use(context, false);
+            if (result != ActionResult.PASS) {
+                return result;
+            }
         }
 
         return super.useOnBlock(context);
+    }
+
+    @Override
+    public boolean hasGlint(ItemStack stack) {
+        return super.hasGlint(stack) || hasSoul(stack);
     }
 
     @Override
@@ -97,9 +100,15 @@ public class ScytheItem extends SwordItem {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 1000, 1));
         }
 
-        Random r = attacker.world.random;
+        SoundEvent sound = SoundsMCA.reaper_scythe_out;
 
-        attacker.world.playSound(null, attacker.getBlockPos(), SoundsMCA.reaper_scythe_out, attacker.getSoundCategory(),
+        if (!hasSoul(stack) && target.isDead() && (target.getType() == EntitiesMCA.MALE_VILLAGER || target.getType() == EntitiesMCA.FEMALE_VILLAGER)) {
+            setSoul(stack, true);
+            sound = SoundEvents.BLOCK_BELL_RESONATE;
+        }
+
+        Random r = attacker.world.random;
+        attacker.world.playSound(null, attacker.getBlockPos(), sound, attacker.getSoundCategory(),
                 0.75F + r.nextFloat() / 2F,
                 0.75F + r.nextFloat() / 2F
         );
@@ -110,5 +119,29 @@ public class ScytheItem extends SwordItem {
     @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return stack.getItem() == ingredient.getItem();
+    }
+
+    public static void setSoul(ItemStack stack, boolean soul) {
+        stack.getOrCreateTag().putBoolean("hasSoul", soul);
+    }
+
+    public static boolean hasSoul(ItemStack stack) {
+        return stack.hasTag() && stack.getTag().getBoolean("hasSoul");
+    }
+
+    public static ActionResult use(ItemUsageContext context, boolean cure) {
+        World world = context.getWorld();
+        BlockPos pos = context.getBlockPos();
+        BlockState state = world.getBlockState(pos);
+
+        if (state.isIn(TagsMCA.Blocks.TOMBSTONES)) {
+            return TombstoneBlock.Data.of(world.getBlockEntity(pos)).filter(TombstoneBlock.Data::hasEntity).map(data -> {
+                if (!world.isClient) {
+                    data.startResurrecting(cure);
+                }
+                return ActionResult.SUCCESS;
+            }).orElse(ActionResult.FAIL);
+        }
+        return ActionResult.PASS;
     }
 }

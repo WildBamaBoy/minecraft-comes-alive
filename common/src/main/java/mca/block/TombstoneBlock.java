@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -38,6 +39,7 @@ import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -57,6 +59,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
+import mca.entity.Infectable;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.server.world.data.GraveyardManager;
@@ -297,6 +300,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         private FlowingText computedName;
 
         private int resurrectionProgress;
+        private boolean cure;
 
         protected Data() {
             super(BlockEntityTypesMCA.TOMBSTONE);
@@ -306,8 +310,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             return resurrectionProgress > 0;
         }
 
-        public void startResurrecting() {
+        public void startResurrecting(boolean cure) {
             resurrectionProgress = 1;
+            this.cure = cure;
             generateLightning();
             markDirty();
             sync();
@@ -325,7 +330,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                 sync();
 
                 if (resurrectionProgress % 30 == 0) {
-                    world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundCategory.BLOCKS, 1, 1);
+                    world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), cure ? SoundEvents.BLOCK_BELL_USE : SoundEvents.ENTITY_POLAR_BEAR_AMBIENT, SoundCategory.BLOCKS, 1, 1);
                     world.syncWorldEvent(WorldEventsCompat.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
                 }
 
@@ -345,6 +350,18 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                             l.clearStatusEffects();
                             l.removed = false;
                         }
+
+                        if (entity instanceof Infectable) {
+                            ((Infectable)entity).setInfectionProgress(cure
+                                    ? Infectable.MIN_INFECTION
+                                    : Math.max(MathHelper.lerp(world.random.nextFloat(), Infectable.FEVER_THRESHOLD, Infectable.BABBLING_THRESHOLD), ((Infectable)entity).getInfectionProgress())
+                            );
+                        }
+
+                        if (cure && (entity instanceof ZombieVillagerEntity)) {
+                            entity = ((ZombieVillagerEntity)entity).method_29243(EntityType.VILLAGER, true);
+                        }
+
                         world.spawnEntity(entity);
                     });
                 }
@@ -426,6 +443,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         public void fromClientTag(NbtCompound tag) {
             entityData = tag.contains("entityData", NbtElementCompat.COMPOUND_TYPE) ? Optional.of(new EntityData(tag)) : Optional.empty();
             resurrectionProgress = tag.getInt("resurrectionProgress");
+            cure = tag.getBoolean("cure");
         }
 
         //@Override
@@ -443,6 +461,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         public NbtCompound writeNbt(NbtCompound nbt) {
             entityData.ifPresent(data -> data.writeNbt(nbt));
             nbt.putInt("resurrectionProgress", resurrectionProgress);
+            nbt.putBoolean("cure", cure);
             return super.writeNbt(nbt);
         }
 
@@ -467,14 +486,11 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         }
 
         static final class EntityData {
-
             private final NbtCompound nbt;
             private final Text name;
             private final Gender gender;
 
-            public EntityData( NbtCompound nbt,
-            Text name,
-            Gender gender) {
+            public EntityData( NbtCompound nbt, Text name, Gender gender) {
                 this.nbt = nbt;
                 this.name = name;
                 this.gender = gender;

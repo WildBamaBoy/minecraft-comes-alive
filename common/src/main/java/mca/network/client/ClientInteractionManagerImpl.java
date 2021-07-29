@@ -1,6 +1,11 @@
 package mca.network.client;
 
-import mca.client.gui.*;
+import mca.client.gui.GuiBlueprint;
+import mca.client.gui.GuiExtendedBook;
+import mca.client.gui.GuiFamilyTree;
+import mca.client.gui.GuiInteract;
+import mca.client.gui.GuiNameBaby;
+import mca.client.gui.GuiWhistle;
 import mca.entity.VillagerLike;
 import mca.item.BabyItem;
 import mca.item.ExtendedWrittenBookItem;
@@ -20,9 +25,6 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         switch (message.gui) {
             case WHISTLE:
                 client.openScreen(new GuiWhistle());
-                break;
-            case STAFF_OF_LIFE:
-                client.openScreen(new GuiStaffOfLife());
                 break;
             case BOOK:
                 if (client.player != null) {
@@ -89,16 +91,6 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof GuiWhistle) {
             GuiWhistle gui = (GuiWhistle)screen;
-            gui.setVillagerData(message.getData());
-        }
-    }
-
-    @Deprecated
-    @Override
-    public void handleSavedVillagersResponse(SavedVillagersResponse message) {
-        Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof GuiStaffOfLife) {
-            GuiStaffOfLife gui = (GuiStaffOfLife)screen;
             gui.setVillagerData(message.getData());
         }
     }
