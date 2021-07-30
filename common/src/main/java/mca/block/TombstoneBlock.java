@@ -291,8 +291,8 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         return stack.getItem() == Items.BONE || stack.getItem() == Items.SKELETON_SKULL;
     }
 
-    public abstract static class Data extends BlockEntity implements Tickable {
-        public static Supplier<Data> constructor;
+    public static class Data extends BlockEntity implements Tickable {
+        public static Supplier<Data> constructor = Data::new;
 
         private Optional<EntityData> entityData = Optional.empty();
 
@@ -438,7 +438,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             return nbt;
         }
 
-        protected abstract void sync();
+        protected void sync() {
+
+        }
 
         //@Override
         public void fromClientTag(NbtCompound tag) {
