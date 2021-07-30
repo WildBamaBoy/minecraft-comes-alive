@@ -73,5 +73,18 @@
     "icon": true,
     "iconU": 0,
     "iconV": 0
+  },
+  {
+    "name": "townCenter",
+    "size": 0,
+    "color": "ffff00ff",
+    "visible": false,
+    "priority": 0,
+    "blocks": {
+      "blocked": 1
+    },
+    "icon": true,
+    "iconU": 16,
+    "iconV": 0
   }
 ]

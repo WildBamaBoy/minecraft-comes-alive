@@ -160,6 +160,7 @@
   "buildingType.blacksmith": "Blacksmith",
   "buildingType.storage": "Storage",
   "buildingType.graveyard": "Graveyard",
+  "buildingType.townCenter": "Town Center",
 
   "gui.village.left": "Now leaving %s",
   "gui.village.welcome": "Welcome to %s!",

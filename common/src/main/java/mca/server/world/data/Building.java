@@ -4,10 +4,7 @@ import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
@@ -147,13 +144,22 @@ public class Building implements Serializable, Iterable<UUID> {
     }
 
     public boolean validateBuilding(World world) {
+        BlockPos center = getCenter();
+
+        // town center is always valid
+        Block b = world.getBlockState(center).getBlock();
+        if (b instanceof BellBlock) {
+            type = "townCenter";
+            // todo anti-bell-spam
+            return true;
+        }
+
         Set<BlockPos> done = new HashSet<>();
         LinkedList<BlockPos> queue = new LinkedList<>();
 
         blocks.clear();
 
         //start point
-        BlockPos center = getCenter();
         queue.add(center);
         done.add(center);
 
@@ -191,9 +197,9 @@ public class Building implements Serializable, Iterable<UUID> {
                                     n2 = n2.up();
 
                                     //found valid block
-                                    BlockState b = world.getBlockState(n2);
-                                    if (!b.isAir() || roofCache.containsKey(n2)) {
-                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !b.isIn(LEAVES)) {
+                                    BlockState block = world.getBlockState(n2);
+                                    if (!block.isAir() || roofCache.containsKey(n2)) {
+                                        if (!(roofCache.containsKey(n2) && !roofCache.get(n2)) && !block.isIn(LEAVES)) {
                                             for (int i2 = i; i2 >= 0; i2--) {
                                                 n2 = n2.down();
                                                 roofCache.put(n2, true);

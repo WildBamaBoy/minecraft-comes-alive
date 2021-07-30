@@ -94,9 +94,9 @@ public class BlueprintScreen extends Screen {
 
     protected void drawBuildingIcon(MatrixStack transform, int x, int y, int u, int v) {
         transform.push();
-        transform.translate(x - 12, y - 12, 0);
-        transform.scale(0.33f, 0.33f, 0.33f);
-        this.drawTexture(transform, 0, 0, u, v, 32, 32);
+        transform.translate(x - 4, y - 4, 0);
+        transform.scale(0.66f, 0.66f, 0.66f);
+        this.drawTexture(transform, 0, 0, u, v, 16, 16);
         transform.pop();
     }
 
@@ -217,7 +217,7 @@ public class BlueprintScreen extends Screen {
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
         //center and scale the map
-        float sc = (float)mapSize / (village.getSize() - 16);
+        float sc = (float)mapSize / (village.getSize() - 8);
         transform.translate(width / 2.0, height / 2.0, 0);
         transform.scale(sc, sc, 0.0f);
         transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
@@ -243,7 +243,7 @@ public class BlueprintScreen extends Screen {
                 drawBuildingIcon(transform, c.getX(), c.getZ(), bt.iconU(), bt.iconV());
 
                 //tooltip
-                int margin = 8;
+                int margin = 5;
                 if (c.getSquaredDistance(new Vec3i(mouseX, c.getY(), mouseY)) < margin * margin) {
                     hoverBuilding = building;
                 }
