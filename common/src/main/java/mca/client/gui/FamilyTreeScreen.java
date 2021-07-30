@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class GuiFamilyTree extends Screen {
+public class FamilyTreeScreen extends Screen {
 
     private final List<Line> lines = new LinkedList<>();
 
@@ -21,7 +21,7 @@ public class GuiFamilyTree extends Screen {
 
     private Map<UUID, FamilyTreeEntry> family;
 
-    public GuiFamilyTree(UUID uuid) {
+    public FamilyTreeScreen(UUID uuid) {
         super(new LiteralText("Family Tree"));
 
         this.uuid = uuid;

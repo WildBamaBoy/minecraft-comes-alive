@@ -27,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class GuiInteract extends AbstractDynamicScreen {
+public class InteractScreen extends AbstractDynamicScreen {
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
 
     private final VillagerLike<?> villager;
@@ -39,7 +39,7 @@ public class GuiInteract extends AbstractDynamicScreen {
     private String father;
     private String mother;
 
-    public GuiInteract(VillagerLike<?> villager) {
+    public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
         this.villager = villager;
     }
@@ -269,7 +269,7 @@ public class GuiInteract extends AbstractDynamicScreen {
         } else if (id.equals("gui.button.divorceCancel")) {
             setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
-            MinecraftClient.getInstance().openScreen(new GuiFamilyTree(villager.asEntity().getUuid()));
+            MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());

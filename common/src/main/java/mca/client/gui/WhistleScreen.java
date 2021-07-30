@@ -18,7 +18,7 @@ import java.util.*;
 
 import org.jetbrains.annotations.NotNull;
 
-public class GuiWhistle extends Screen {
+public class WhistleScreen extends Screen {
     private List<String> keys = new ArrayList<>();
     private NbtCompound villagerData = new NbtCompound();
 
@@ -31,7 +31,7 @@ public class GuiWhistle extends Screen {
     private int loadingAnimationTicks;
     private int selectedIndex;
 
-    public GuiWhistle() {
+    public WhistleScreen() {
         super(new LiteralText("Whistle"));
     }
 

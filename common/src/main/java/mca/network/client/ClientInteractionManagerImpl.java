@@ -1,11 +1,7 @@
 package mca.network.client;
 
-import mca.client.gui.GuiBlueprint;
-import mca.client.gui.GuiExtendedBook;
-import mca.client.gui.GuiFamilyTree;
-import mca.client.gui.GuiInteract;
-import mca.client.gui.GuiNameBaby;
-import mca.client.gui.GuiWhistle;
+import mca.client.gui.*;
+import mca.client.gui.BlueprintScreen;
 import mca.entity.VillagerLike;
 import mca.item.BabyItem;
 import mca.item.ExtendedWrittenBookItem;
@@ -24,30 +20,30 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     public void handleGuiRequest(OpenGuiRequest message, PlayerEntity e) {
         switch (message.gui) {
             case WHISTLE:
-                client.openScreen(new GuiWhistle());
+                client.openScreen(new WhistleScreen());
                 break;
             case BOOK:
                 if (client.player != null) {
                     ItemStack item = client.player.getStackInHand(Hand.MAIN_HAND);
                     if (item.getItem() instanceof ExtendedWrittenBookItem) {
                         ExtendedWrittenBookItem bookItem = (ExtendedWrittenBookItem)item.getItem();
-                        GuiExtendedBook.TranslatedBookContent content = new GuiExtendedBook.TranslatedBookContent(item);
-                        GuiExtendedBook book = new GuiExtendedBook(content, bookItem.getBackground(), bookItem.getTextFormatting());
+                        ExtendedBookScreen.TranslatedBookContent content = new ExtendedBookScreen.TranslatedBookContent(item);
+                        ExtendedBookScreen book = new ExtendedBookScreen(content, bookItem.getBackground(), bookItem.getTextFormatting());
                         client.openScreen(book);
                     }
                 }
                 break;
             case BLUEPRINT:
-                client.openScreen(new GuiBlueprint());
+                client.openScreen(new BlueprintScreen());
                 break;
             case INTERACT:
-                client.openScreen(new GuiInteract((VillagerLike<?>)client.world.getEntityById(message.villager)));
+                client.openScreen(new InteractScreen((VillagerLike<?>)client.world.getEntityById(message.villager)));
                 break;
             case BABY_NAME:
                 if (client.player != null) {
                     ItemStack item = client.player.getStackInHand(Hand.MAIN_HAND);
                     if (item.getItem() instanceof BabyItem) {
-                        client.openScreen(new GuiNameBaby(client.player, item));
+                        client.openScreen(new NameBabyScreen(client.player, item));
                     }
                 }
                 break;
@@ -57,8 +53,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     @Override
     public void handleFamilyTreeResponse(GetFamilyTreeResponse message) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof GuiFamilyTree) {
-            GuiFamilyTree gui = (GuiFamilyTree)screen;
+        if (screen instanceof FamilyTreeScreen) {
+            FamilyTreeScreen gui = (FamilyTreeScreen)screen;
             gui.setFamilyData(message.uuid, message.family);
         }
     }
@@ -66,8 +62,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     @Override
     public void handleInteractDataResponse(GetInteractDataResponse message) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof GuiInteract) {
-            GuiInteract gui = (GuiInteract)screen;
+        if (screen instanceof InteractScreen) {
+            InteractScreen gui = (InteractScreen)screen;
             gui.setConstraints(message.constraints);
             gui.setParents(message.father, message.mother);
         }
@@ -76,8 +72,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     @Override
     public void handleVillageDataResponse(GetVillageResponse message) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof GuiBlueprint) {
-            GuiBlueprint gui = (GuiBlueprint)screen;
+        if (screen instanceof BlueprintScreen) {
+            BlueprintScreen gui = (BlueprintScreen)screen;
             Village village = new Village();
             village.load(message.getData());
 
@@ -89,8 +85,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     @Override
     public void handleVillagerDataResponse(GetVillagerResponse message) {
         Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof GuiWhistle) {
-            GuiWhistle gui = (GuiWhistle)screen;
+        if (screen instanceof WhistleScreen) {
+            WhistleScreen gui = (WhistleScreen)screen;
             gui.setVillagerData(message.getData());
         }
     }

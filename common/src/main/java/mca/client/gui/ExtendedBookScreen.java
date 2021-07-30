@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 // TODO Mojang code :thonkjang:
-public class GuiExtendedBook extends Screen {
+public class ExtendedBookScreen extends Screen {
     private final BookScreen.Contents contents;
     private int pageIndex;
     private List<OrderedText> cachedPage;
@@ -38,7 +38,7 @@ public class GuiExtendedBook extends Screen {
     private final Formatting textFormatting;
     private final boolean pageTurnSound = true;
 
-    public GuiExtendedBook(BookScreen.Contents contents, Identifier background, Formatting textFormatting) {
+    public ExtendedBookScreen(BookScreen.Contents contents, Identifier background, Formatting textFormatting) {
         super(NarratorManager.EMPTY);
         this.cachedPage = Collections.emptyList();
         this.cachedPageIndex = -1;
@@ -48,7 +48,7 @@ public class GuiExtendedBook extends Screen {
         this.textFormatting = textFormatting;
     }
 
-    public GuiExtendedBook(BookScreen.Contents pageProvider) {
+    public ExtendedBookScreen(BookScreen.Contents pageProvider) {
         this(pageProvider, BookScreen.BOOK_TEXTURE, Formatting.BLACK);
     }
 

@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class GuiBlueprint extends Screen {
+public class BlueprintScreen extends Screen {
     //gui element Y positions
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
@@ -43,7 +43,7 @@ public class GuiBlueprint extends Screen {
     private ButtonWidget[] buttonBirths;
     private ButtonWidget[] buttonMarriage;
 
-    public GuiBlueprint() {
+    public BlueprintScreen() {
         super(new LiteralText("Blueprint"));
     }
 

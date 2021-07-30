@@ -14,12 +14,12 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import java.util.Objects;
 
-public class GuiNameBaby extends Screen {
+public class NameBabyScreen extends Screen {
     private final ItemStack baby;
     private final PlayerEntity player;
     private TextFieldWidget babyNameTextField;
 
-    public GuiNameBaby(PlayerEntity player, ItemStack baby) {
+    public NameBabyScreen(PlayerEntity player, ItemStack baby) {
         super(new LiteralText("Name Baby"));
         this.baby = baby;
         this.player = player;
