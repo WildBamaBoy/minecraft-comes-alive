@@ -205,6 +205,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public void setVillagerData(VillagerData data) {
         if (getProfession() != data.getProfession() && data.getProfession() != ProfessionsMCA.OUTLAW) {
             setTrackedValue(CLOTHES, ClothingList.getInstance().byGender(getGenetics().getGender()).byProfession(data.getProfession()).pickOne());
+            getRelationships().getFamilyEntry().setProfession(data.getProfession());
         }
         super.setVillagerData(data);
     }
@@ -412,7 +413,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void tick() {
         super.tick();
-        this.setSilent(false);
 
         if (world.isClient) {
             if (relations.isProcreating()) {
@@ -585,15 +585,19 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (getVillagerBrain().isPanicking()) {
             return getDeathSound();
         }
-        if (getVillagerBrain().getMood().isAngry()) {
-            return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_ANGRY : SoundsMCA.VILLAGER_FEMALE_ANGRY;
+
+        if (age % 10 > 5) {
+            if (getVillagerBrain().getMood().isAngry()) {
+                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_ANGRY : SoundsMCA.VILLAGER_FEMALE_ANGRY;
+            }
+            if (getVillagerBrain().getMood().isSad()) {
+                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_CRY : SoundsMCA.VILLAGER_FEMALE_CRY;
+            }
+            if (getVillagerBrain().getMood().isHappy()) {
+                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_LAUGH : SoundsMCA.VILLAGER_FEMALE_LAUGH;
+            }
         }
-        if (getVillagerBrain().getMood().isSad()) {
-            return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_CRY : SoundsMCA.VILLAGER_FEMALE_CRY;
-        }
-        if (getVillagerBrain().getMood().isHappy()) {
-            return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_LAUGH : SoundsMCA.VILLAGER_FEMALE_LAUGH;
-        }
+
         if (hasCustomer()) {
             return getSurprisedSound();
         }

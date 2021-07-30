@@ -23,8 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
 public class FamilyTreeScreen extends Screen {
-    private static int HORIZONTAL_SPACING = 20;
-    private static int VERTICAL_SPACING = 60;
+    private static final int HORIZONTAL_SPACING = 20;
+    private static final int VERTICAL_SPACING = 60;
 
     private UUID focusedEntityId;
 

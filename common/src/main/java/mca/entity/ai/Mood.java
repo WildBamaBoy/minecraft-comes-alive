@@ -45,15 +45,15 @@ public enum Mood {
 
     // TODO: MoodGroup makes absolutely no sense
     public boolean isAngry() {
-        return this == ANGRY || this == ANNOYED || this == INFURIATED;
+        return this == INFURIATED;
     }
 
     public boolean isSad() {
-        return this == SAD || this == DEPRESSED || this == BORED_TO_TEARS;
+        return this == DEPRESSED;
     }
 
     public boolean isHappy() {
-        return this == HAPPY || this == OVERJOYED || this == PLEASED;
+        return this == OVERJOYED;
     }
 
     public static int getLevel(int mood) {
