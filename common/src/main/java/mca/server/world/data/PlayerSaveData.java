@@ -3,6 +3,8 @@ package mca.server.world.data;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.util.NbtElementCompat;
 import mca.util.WorldUtils;
 import mca.util.compat.OptionalCompat;
@@ -35,6 +37,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     private Optional<Text> spouseName = Optional.empty();
 
+    @Deprecated
     private boolean babyPresent = false;
 
     private MarriageState marriageState;
@@ -123,10 +126,13 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         markDirty();
     }
 
+    // TODO: When adding multiple partners we should make it possible to have multiple babies with other partners
+    @Deprecated
     public boolean isBabyPresent() {
         return this.babyPresent;
     }
 
+    @Deprecated
     public void setBabyPresent(boolean value) {
         this.babyPresent = value;
         markDirty();
@@ -153,16 +159,15 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     @Override
     public Stream<Entity> getFamily(int parents, int children) {
-        return getFamilyTree()
-                .getFamily(playerId, parents, children)
-                .stream()
+        return getFamilyEntry()
+                .getFamily(parents, children)
                 .map(world::getEntity)
                 .filter(Objects::nonNull)
                 .filter(e -> !e.getUuid().equals(playerId));
     }
 
     @Override
-    public FamilyTreeEntry getFamilyEntry() {
+    public FamilyTreeNode getFamilyEntry() {
         return getFamilyTree().getOrCreate(world.getEntity(playerId));
     }
 
@@ -173,8 +178,8 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     @Override
     public Stream<Entity> getSiblings() {
-        return getFamilyTree()
-                .getSiblings(playerId)
+        return getFamilyEntry()
+                .siblings()
                 .stream()
                 .map(world::getEntity)
                 .filter(Objects::nonNull)

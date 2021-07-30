@@ -35,28 +35,10 @@ public interface TagsMCA {
         Tag<Item> STORAGE_BLOCKS_TOMBSTONE = mca("storage_blocks/tombstone");
         Tag<Item> STORAGE_BLOCKS_JEWELER_WORKBENCH = mca("storage_blocks/jeweler_workbench");
 
-        Tag<Item> INGOTS_ROSE_GOLD = mca("ingots/rose_gold");
-        Tag<Item> ROSE_GOLD_DUST = mca("dusts/rose_gold_dust");
-        Tag<Item> GOLD_DUST = mca("dusts/gold_dust");
-        Tag<Item> EGG_MALE = mca("egg_male");
-        Tag<Item> EGG_FEMALE = mca("egg_female");
-        Tag<Item> BABY_BOY = mca("baby_boy");
-        Tag<Item> BABY_GIRL = mca("baby_girl");
-        Tag<Item> WEDDING_RING = mca("wedding_ring");
-        Tag<Item> WEDDING_RING_RG = mca("wedding_ring_rg");
-        Tag<Item> ENGAGEMENT_RING = mca("engagement_ring");
-        Tag<Item> ENGAGEMENT_RING_RG = mca("engagement_ring_rg");
-        Tag<Item> MATCHMAKERS_RING = mca("matchmakers_ring");
-        Tag<Item> VILLAGER_EDITOR = mca("villager_editor");
-        Tag<Item> STAFF_OF_LIFE = mca("staff_of_life");
-        Tag<Item> WHISTLE = mca("whistle");
-        Tag<Item> BLUEPRINT = mca("blueprint");
-        Tag<Item> LECTERN_BOOKS = forge("blueprint");
-        Tag<Item> BOOK_ROSE_GOLD = mca("book_rose_gold");
-        Tag<Item> BOOK_DEATH = mca("book_death");
-        Tag<Item> BOOK_ROMANCE = forge("book_romance");
-        Tag<Item> BOOK_FAMILY = forge("book_family");
-        Tag<Item> BOOK_INFECTION = forge("book_infection");
+        Tag<Item> VILLAGER_EGGS = mca("villager_eggs");
+        Tag<Item> ZOMBIE_EGGS = mca("zombie_eggs");
+
+        Tag<Item> BABIES = mca("babies");
 
         //public static final Tags.IOptionalNamedTag<Item> DYES_ROSE_GOLD = DyeColor.ROSE_GOLD.getTag();
 

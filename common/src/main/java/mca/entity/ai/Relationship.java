@@ -7,9 +7,9 @@ import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.*;
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.entity.interaction.gifts.GiftSaturation;
-import mca.server.world.data.FamilyTree;
-import mca.server.world.data.FamilyTreeEntry;
 import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.util.WorldUtils;
@@ -31,6 +31,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -42,9 +43,9 @@ import java.util.stream.Stream;
  */
 public class Relationship<T extends MobEntity & VillagerLike<T>> implements EntityRelationship {
     public static final Predicate IS_MARRIED = (villager, player) -> villager.getRelationships().isMarriedTo(player);
-    public static final Predicate IS_RELATIVE = (villager, player) -> villager.getRelationships().getFamilyTree().isRelative(villager.asEntity().getUuid(), player);
+    public static final Predicate IS_RELATIVE = (villager, player) -> villager.getRelationships().getFamilyEntry().isRelative(player);
     public static final Predicate IS_FAMILY = IS_MARRIED.or(IS_RELATIVE);
-    public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyTree().isParent(villager.asEntity().getUuid(), player);
+    public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyEntry().isParent(player);
 
     private static final CDataParameter<String> SPOUSE_NAME = CParameter.create("spouseName", "");
     private static final CDataParameter<Optional<UUID>> SPOUSE_UUID = CParameter.create("spouseUUID", Optional.empty());
@@ -82,16 +83,16 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         return FamilyTree.get((ServerWorld) entity.world);
     }
 
+    @NotNull
     @Override
-    public FamilyTreeEntry getFamilyEntry() {
+    public FamilyTreeNode getFamilyEntry() {
         return getFamilyTree().getOrCreate(entity);
     }
 
     @Override
     public Stream<Entity> getFamily(int parents, int children) {
-        return getFamilyTree()
-                .getFamily(entity.getUuid(), parents, children)
-                .stream()
+        return getFamilyEntry()
+                .getFamily(parents, children)
                 .map(id -> ((ServerWorld) entity.world).getEntity(id))
                 .filter(Objects::nonNull)
                 .filter(e -> !e.equals(entity));
@@ -104,8 +105,8 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     @Override
     public Stream<Entity> getSiblings() {
-        return getFamilyTree()
-                .getSiblings(entity.getUuid())
+        return getFamilyEntry()
+                .siblings()
                 .stream()
                 .map(id -> ((ServerWorld) entity.world).getEntity(id))
                 .filter(Objects::nonNull)

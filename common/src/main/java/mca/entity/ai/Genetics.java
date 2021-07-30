@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
@@ -127,6 +128,17 @@ public class Genetics implements Iterable<Genetics.Gene> {
     public void combine(Genetics mother, Genetics father) {
         for (GeneType type : GENOMES) {
             getGenome(type).mutate(mother, father);
+        }
+    }
+
+    public void combine(Optional<Genetics> mother, Optional<Genetics> father) {
+        if (mother.isPresent() != father.isPresent()) {
+            Genetics single = mother.orElse(father.orElse(null));
+            if (single != null) {
+                combine(single, single);
+            }
+        } else if (mother.isPresent()) {
+            combine(mother.get(), father.get());
         }
     }
 

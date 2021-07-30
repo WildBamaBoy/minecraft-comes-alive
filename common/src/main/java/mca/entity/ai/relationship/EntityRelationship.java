@@ -4,10 +4,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import mca.server.world.data.FamilyTree;
-import mca.server.world.data.FamilyTreeEntry;
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -25,7 +26,8 @@ public interface EntityRelationship {
 
     FamilyTree getFamilyTree();
 
-    FamilyTreeEntry getFamilyEntry();
+    @NotNull
+    FamilyTreeNode getFamilyEntry();
 
     Stream<Entity> getFamily(int parents, int children);
 

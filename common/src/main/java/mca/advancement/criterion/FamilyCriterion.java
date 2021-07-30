@@ -1,7 +1,9 @@
 package mca.advancement.criterion;
 
 import com.google.gson.JsonObject;
-import mca.server.world.data.FamilyTree;
+
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.NumberRange;
@@ -15,13 +17,14 @@ import net.minecraft.util.Identifier;
 public class FamilyCriterion extends AbstractCriterion<FamilyCriterion.Conditions> {
     private static final Identifier ID = new Identifier("mca:family");
 
-    public FamilyCriterion() {
-    }
+    public FamilyCriterion() { }
 
+    @Override
     public Identifier getId() {
         return ID;
     }
 
+    @Override
     public Conditions conditionsFromJson(JsonObject json, Extended player, AdvancementEntityPredicateDeserializer deserializer) {
         // quite limited but I do not assume any more use cases
         NumberRange.IntRange c = NumberRange.IntRange.fromJson(json.get("children"));
@@ -30,11 +33,11 @@ public class FamilyCriterion extends AbstractCriterion<FamilyCriterion.Condition
     }
 
     public void trigger(ServerPlayerEntity player) {
-        FamilyTree familyTree = FamilyTree.get((ServerWorld) player.world);
-        int c = familyTree.getFamily(player.getUuid(), 0, 1).size();
-        int gc = familyTree.getFamily(player.getUuid(), 0, 2).size() - c;
+        FamilyTreeNode familyTree = FamilyTree.get((ServerWorld) player.world).getOrCreate(player);
+        long c = familyTree.getFamily(0, 1).count();
+        long gc = familyTree.getFamily(0, 2).count() - c;
 
-        this.test(player, (conditions) -> conditions.test(c, gc));
+        test(player, condition -> condition.test((int)c, (int)gc));
     }
 
     public static class Conditions extends AbstractCriterionConditions {
@@ -51,6 +54,7 @@ public class FamilyCriterion extends AbstractCriterion<FamilyCriterion.Condition
             return children.test(c) && grandchildren.test(gc);
         }
 
+        @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer serializer) {
             JsonObject json = super.toJson(serializer);
             json.add("children", children.toJson());

@@ -5,6 +5,7 @@ import mca.entity.ai.Genetics;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
+import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.interaction.EntityCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
@@ -47,6 +48,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     default void setName(String name) {
         setTrackedValue(VILLAGER_NAME, name);
+        EntityRelationship.of(asEntity()).ifPresent(relationship -> relationship.getFamilyEntry().setName(name));
     }
 
     default String getClothes() {
@@ -120,5 +122,9 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     default void copyVillagerAttributesFrom(VillagerLike<?> other) {
         readNbtForConversion(other.asEntity().getType(), other.toNbtForConversion(asEntity().getType()));
+    }
+
+    static VillagerLike<?> toVillager(Entity entity) {
+        return entity instanceof VillagerLike<?> ? (VillagerLike<?>)entity : null;
     }
 }

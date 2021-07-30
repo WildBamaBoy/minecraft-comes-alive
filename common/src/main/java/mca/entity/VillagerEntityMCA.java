@@ -289,8 +289,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public VillagerEntityMCA createChild(ServerWorld world, PassiveEntity partner) {
 
         VillagerEntityMCA child = partner instanceof VillagerEntityMCA
-                ? relations.getPregnancy().createChild((VillagerEntityMCA) partner, Gender.getRandom())
-                : relations.getPregnancy().createSoloChild(Gender.getRandom());
+                ? relations.getPregnancy().createChild(Gender.getRandom(), (VillagerEntityMCA) partner)
+                : relations.getPregnancy().createChild(Gender.getRandom());
 
         child.setVillagerData(child.getVillagerData().withType(getRandomType(partner)));
 

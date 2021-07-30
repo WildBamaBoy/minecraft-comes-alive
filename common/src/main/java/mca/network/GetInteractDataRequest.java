@@ -6,8 +6,8 @@ import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerLike;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.EntityRelationship;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.network.client.GetInteractDataResponse;
-import mca.server.world.data.FamilyTreeEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -35,10 +35,10 @@ public class GetInteractDataRequest implements Message {
             Set<Constraint> constraints = Constraint.allMatching(villager, player);
 
             EntityRelationship relationship = ((CompassionateEntity<?>)villager).getRelationships();
-            FamilyTreeEntry family = relationship.getFamilyEntry();
+            FamilyTreeNode family = relationship.getFamilyEntry();
 
-            String fatherName = relationship.getFamilyTree().getOrEmpty(family.father()).map(FamilyTreeEntry::name).orElse(null);
-            String motherName = relationship.getFamilyTree().getOrEmpty(family.mother()).map(FamilyTreeEntry::name).orElse(null);
+            String fatherName = relationship.getFamilyTree().getOrEmpty(family.father()).map(FamilyTreeNode::getName).orElse(null);
+            String motherName = relationship.getFamilyTree().getOrEmpty(family.mother()).map(FamilyTreeNode::getName).orElse(null);
 
             NetworkHandler.sendToPlayer(new GetInteractDataResponse(constraints, fatherName, motherName), (ServerPlayerEntity)player);
         }
