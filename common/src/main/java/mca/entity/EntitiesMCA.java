@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public interface EntitiesMCA {
-    EntityType<VillagerEntityMCA> MALE_VILLAGER = register("villager", EntityType.Builder
+    EntityType<VillagerEntityMCA> MALE_VILLAGER = register("male_villager", EntityType.Builder
             .<VillagerEntityMCA>create((t, w) -> new VillagerEntityMCA(t, w, Gender.MALE), SpawnGroup.AMBIENT)
             .setDimensions(0.6F, 2.0F)
     );

@@ -16,6 +16,8 @@
   "entity.minecraft.villager.mca.child": "Child",
 
   "entity.mca.grim_reaper": "Grim Reaper",
+  "entity.mca.male_villager": "Male Villager",
+  "entity.mca.female_villager": "Female Villager",
   "entity.mca.male_zombie_villager": "Male Zombie Villager",
   "entity.mca.female_zombie_villager": "Female Zombie Villager",
 
@@ -47,8 +49,8 @@
   "item.mca.baby.no_drop2": "I'm watching you, mister",
   "item.mca.baby.no_drop3": "Please don't drop the baby!",
 
-  "item.mca.egg_male": "Male Villager Spawn Egg",
-  "item.mca.egg_female": "Female Villager Spawn Egg",
+  "item.mca.male_villager_spawn_egg": "Male Villager Spawn Egg",
+  "item.mca.female_villager_spawn_egg": "Female Villager Spawn Egg",
   "item.mca.egg_grim_reaper": "Grim Reaper Spawn Egg",
   
   "item.mca.male_zombie_villager_spawn_egg": "Male Zombie Villager Spawn Egg",

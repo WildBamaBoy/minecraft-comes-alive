@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-  	"mca:egg_male",
-  	"mca:egg_female"
+    "mca:male_villager_spawn_egg",
+    "mca:female_villager_spawn_egg"
   ]
 }
