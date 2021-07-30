@@ -11,6 +11,9 @@ public final class BuildingType {
     private final int priority;
     private final boolean visible;
     private final Map<String, Integer> blocks;
+    private final boolean icon;
+    private final int iconU;
+    private final int iconV;
 
     public BuildingType() {
         this("?", 0, "ffffffff", 0, true, new HashMap<>());
@@ -23,6 +26,9 @@ public final class BuildingType {
         this.priority = priority;
         this.visible = visible;
         this.blocks = blocks;
+        this.icon = false;
+        this.iconU = 0;
+        this.iconV = 0;
     }
 
     public String name() {
@@ -46,5 +52,15 @@ public final class BuildingType {
 
     public int getColor() {
         return (int) Long.parseLong(color, 16);
+    }
+
+    public boolean isIcon() {
+        return icon;
+    }
+    public int iconU() {
+        return iconU;
+    }
+    public int iconV() {
+        return iconV;
     }
 }

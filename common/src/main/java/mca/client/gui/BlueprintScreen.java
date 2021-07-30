@@ -11,8 +11,10 @@ import mca.resources.data.BuildingType;
 import mca.server.world.data.Building;
 import mca.server.world.data.BuildingTasks;
 import mca.server.world.data.Village;
+import mca.util.compat.RenderSystemCompat;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,13 +23,14 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class BlueprintScreen extends AbstractDynamicScreen {
+public class BlueprintScreen extends Screen {
     //gui element Y positions
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
@@ -42,6 +45,8 @@ public class BlueprintScreen extends AbstractDynamicScreen {
     private ButtonWidget[] buttonTaxes;
     private ButtonWidget[] buttonBirths;
     private ButtonWidget[] buttonMarriage;
+
+    private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/buildings.png");
 
     public BlueprintScreen() {
         super(new LiteralText("Blueprint"));
@@ -85,6 +90,14 @@ public class BlueprintScreen extends AbstractDynamicScreen {
         }));
 
         return buttons;
+    }
+
+    protected void drawBuildingIcon(MatrixStack transform, int x, int y, int u, int v) {
+        transform.push();
+        transform.translate(x - 12, y - 12, 0);
+        transform.scale(0.33f, 0.33f, 0.33f);
+        this.drawTexture(transform, 0, 0, u, v, 32, 32);
+        transform.pop();
     }
 
     @Override
@@ -201,8 +214,10 @@ public class BlueprintScreen extends AbstractDynamicScreen {
 
         transform.push();
 
+        RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
+
         //center and scale the map
-        float sc = (float)mapSize / (village.getSize() - 8);
+        float sc = (float)mapSize / (village.getSize() - 16);
         transform.translate(width / 2.0, height / 2.0, 0);
         transform.scale(sc, sc, 0.0f);
         transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
@@ -221,15 +236,27 @@ public class BlueprintScreen extends AbstractDynamicScreen {
         //buildings
         Building hoverBuilding = null;
         for (Building building : village.getBuildings().values()) {
-            BlockPos p0 = building.getPos0();
-            BlockPos p1 = building.getPos1();
             BuildingType bt = API.getVillagePool().getBuildingType(building.getType());
-            RectangleWidget.drawRectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
 
-            //tooltip
-            int margin = 2;
-            if (mouseX >= p0.getX() - margin && mouseX <= p1.getX() + margin && mouseY >= p0.getZ() - margin && mouseY <= p1.getZ() + margin) {
-                hoverBuilding = building;
+            if (bt.isIcon()) {
+                BlockPos c = building.getCenter();
+                drawBuildingIcon(transform, c.getX(), c.getZ(), bt.iconU(), bt.iconV());
+
+                //tooltip
+                int margin = 8;
+                if (c.getSquaredDistance(new Vec3i(mouseX, c.getY(), mouseY)) < margin * margin) {
+                    hoverBuilding = building;
+                }
+            } else {
+                BlockPos p0 = building.getPos0();
+                BlockPos p1 = building.getPos1();
+                RectangleWidget.drawRectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
+
+                //tooltip
+                int margin = 2;
+                if (mouseX >= p0.getX() - margin && mouseX <= p1.getX() + margin && mouseY >= p0.getZ() - margin && mouseY <= p1.getZ() + margin) {
+                    hoverBuilding = building;
+                }
             }
         }
 
@@ -300,11 +327,6 @@ public class BlueprintScreen extends AbstractDynamicScreen {
                 }
             }
         }
-    }
-
-    @Override
-    protected void buttonPressed(Button button) {
-
     }
 
     private Text getBlockName(String key) {

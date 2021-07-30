@@ -226,6 +226,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                 village.addBuilding(building);
                 building.increaseBlock("tombstone");
             }
+            markDirty();
         }
     }
 
@@ -240,6 +241,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                     village.removeBuilding(graveyard.get().getId());
                 }
             }
+            markDirty();
         }
     }
 }

@@ -53,12 +53,25 @@
   {
     "name": "storage",
     "size": 16,
-    "color": "ffff00ff",
+    "color": "ff0000ff",
     "visible": true,
     "priority": 4,
     "blocks": {
       "minecraft:lectern": 1,
       "minecraft:chest": 4
     }
+  },
+  {
+    "name": "graveyard",
+    "size": 0,
+    "color": "ffff00ff",
+    "visible": false,
+    "priority": 0,
+    "blocks": {
+      "blocked": 1
+    },
+    "icon": true,
+    "iconU": 0,
+    "iconV": 0
   }
 ]
