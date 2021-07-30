@@ -283,8 +283,8 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         return stack.getItem() == Items.BONE || stack.getItem() == Items.SKELETON_SKULL;
     }
 
-    public abstract static class Data extends BlockEntity implements Tickable {
-        public static Supplier<Data> constructor;
+    public static class Data extends BlockEntity implements Tickable {
+        public static Supplier<Data> constructor = Data::new;
 
         private Optional<EntityData> entityData = Optional.empty();
 
@@ -341,6 +341,11 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                             l.setHealth(l.getMaxHealth());
                             l.clearStatusEffects();
                             l.removed = false;
+                            l.deathTime = 0;
+                        }
+
+                        if (cure && (entity instanceof ZombieVillagerEntity)) {
+                            entity = ((ZombieVillagerEntity)entity).method_29243(EntityType.VILLAGER, true);
                         }
 
                         if (entity instanceof Infectable) {
@@ -348,10 +353,6 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                                     ? Infectable.MIN_INFECTION
                                     : Math.max(MathHelper.lerp(world.random.nextFloat(), Infectable.FEVER_THRESHOLD, Infectable.BABBLING_THRESHOLD), ((Infectable)entity).getInfectionProgress())
                             );
-                        }
-
-                        if (cure && (entity instanceof ZombieVillagerEntity)) {
-                            entity = ((ZombieVillagerEntity)entity).method_29243(EntityType.VILLAGER, true);
                         }
 
                         world.spawnEntity(entity);
@@ -429,7 +430,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             return nbt;
         }
 
-        protected abstract void sync();
+        protected void sync() {
+
+        }
 
         //@Override
         public void fromClientTag(NbtCompound tag) {

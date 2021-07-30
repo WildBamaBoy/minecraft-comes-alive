@@ -7,14 +7,14 @@ import mca.advancement.criterion.CriterionMCA;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
+import mca.entity.VillagerLike;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.network.client.OpenGuiRequest;
-import mca.server.world.data.FamilyTree;
-import mca.server.world.data.FamilyTreeEntry;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.WorldUtils;
 import net.minecraft.client.item.TooltipContext;
@@ -35,7 +35,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public class BabyItem extends Item {
 
@@ -93,62 +95,63 @@ public class BabyItem extends Item {
             return TypedActionResult.pass(stack);
         }
 
-        // Name is good and we're ready to grow
         if (world.isClient || !isReadyToGrowUp(stack)) {
             return TypedActionResult.pass(stack);
         }
 
-        // assumes your child is from the player's current spouse
-        // as the father does not have any genes it just takes the one from the mother
+        // Name is good and we're ready to grow
+        birthChild(getBabyName(stack), (ServerWorld)world, player, getSpouse(stack, Gender.MALE), getSpouse(stack, Gender.FEMALE));
+        stack.decrement(1);
 
-        PlayerSaveData playerData = PlayerSaveData.get((ServerWorld) world, player.getUuid());
-        FamilyTree familyTree = playerData.getFamilyTree();
+        return TypedActionResult.success(stack);
+    }
+
+    private void birthChild(String babyName, ServerWorld world, PlayerEntity player, Optional<UUID> fatherId, Optional<UUID> motherId) {
 
         VillagerEntityMCA child = VillagerFactory.newVillager(world)
-                .withName(getBabyName(stack))
+                .withName(babyName)
                 .withPosition(player.getPos())
                 .withGender(gender)
                 .withProfession(ProfessionsMCA.CHILD)
                 .withAge(AgeState.startingAge)
                 .build();
 
-        Entity spouse = playerData.getSpouse().orElse(null);
-        if (spouse instanceof VillagerEntityMCA) {
-            // player - villager
-            VillagerEntityMCA spouseVillager = (VillagerEntityMCA) spouse;
-            familyTree.getOrCreate(spouseVillager);
-            child.getGenetics().combine(spouseVillager.getGenetics(), spouseVillager.getGenetics());
-        } else {
-            // player - player
-            child.getGenetics().randomize(child);
-        }
+        Optional<Entity> mother = motherId.map(world::getEntity);
+        Optional<Entity> father = fatherId.map(world::getEntity);
 
-        //add the child to the family tree
-        UUID spouseId = playerData.getSpouseUUID();
-        FamilyTreeEntry spouseEntry = familyTree.getEntry(playerData.getSpouseUUID());
+        // combine genes
+        child.getGenetics().combine(
+                mother.map(VillagerLike::toVillager).map(VillagerLike::getGenetics),
+                father.map(VillagerLike::toVillager).map(VillagerLike::getGenetics)
+        );
 
-        if (spouseEntry != null && spouseEntry.gender() == Gender.FEMALE) {
-            familyTree.addChild(player.getUuid(), spouseId, child);
-        } else {
-            familyTree.addChild(spouseId, player.getUuid(), child);
-        }
+        // assign parents
+        FamilyTreeNode family = PlayerSaveData.get(world, player.getUuid()).getFamilyEntry();
 
-        // advancement
-        CriterionMCA.FAMILY.trigger((ServerPlayerEntity) player);
+        fatherId.flatMap(family.getRoot()::getOrEmpty).ifPresent(parent -> {
+            child.getRelationships().getFamilyEntry().assignParent(parent);
+        });
+        motherId.flatMap(family.getRoot()::getOrEmpty).ifPresent(parent -> {
+            child.getRelationships().getFamilyEntry().assignParent(parent);
+        });
+        // in case one of the above was not found
+        child.getRelationships().getFamilyEntry().assignParent(family);
 
         WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
+        // notify parents
+        Stream.concat(Stream.of(mother, father).filter(Optional::isPresent).map(Optional::get), Stream.of(player))
+                .filter(e -> e instanceof ServerPlayerEntity)
+                .distinct()
+                .forEach(ply -> {
+            // advancement
+            CriterionMCA.FAMILY.trigger((ServerPlayerEntity)ply);
+            PlayerSaveData.get(world, ply.getUuid()).setBabyPresent(false);
 
-        player.getStackInHand(hand).decrement(1);
-        playerData.setBabyPresent(false);
-
-        // set proper dialogue type
-        Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
-        memories.setDialogueType(DialogueType.CHILDP);
-        memories.setHearts(Config.getInstance().childInitialHearts);
-
-        stack.decrement(1);
-
-        return TypedActionResult.success(stack);
+            // set proper dialogue type
+            Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
+            memories.setDialogueType(DialogueType.CHILDP);
+            memories.setHearts(Config.getInstance().childInitialHearts);
+        });
     }
 
     @Override
@@ -182,6 +185,20 @@ public class BabyItem extends Item {
             if (isReadyToGrowUp(stack)) {
                 tooltip.add(new TranslatableText("item.mca.baby.state.ready").formatted(Formatting.DARK_GREEN));
             }
+        }
+    }
+
+    public static Optional<UUID> getSpouse(ItemStack stack, Gender gender) {
+        String key = gender.binary() == Gender.MALE ? "father" : "mother";
+        return stack.hasTag() && stack.getTag().contains(key) ? Optional.of(stack.getSubTag(key).getUuid("id")) : Optional.empty();
+    }
+
+    public static void setSpouse(ItemStack stack, Optional<UUID> spouse, Gender gender) {
+        String key = gender.binary() == Gender.MALE ? "father" : "mother";
+        if (spouse.isPresent()) {
+            stack.getOrCreateSubTag(key).putUuid("id", spouse.get());
+        } else if (stack.hasTag() && stack.getTag().containsUuid(key)) {
+            stack.removeSubTag(key);
         }
     }
 

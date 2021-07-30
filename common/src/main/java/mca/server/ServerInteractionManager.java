@@ -1,11 +1,10 @@
 package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
+import mca.TagsMCA;
 import mca.entity.ai.relationship.MarriageState;
-import mca.item.ItemsMCA;
 import mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
@@ -250,7 +249,8 @@ public class ServerInteractionManager {
                 // On success, add a randomly generated baby to the original requester.
                 successMessage(sender, "Procreation successful!");
                 successMessage(spouse, "Procreation successful!");
-                spouse.giveItemStack(new ItemStack(sender.world.getRandom().nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL));
+
+                spouse.giveItemStack(TagsMCA.Items.BABIES.getRandom(sender.world.getRandom()).getDefaultStack());
 
                 PlayerSaveData spouseData = PlayerSaveData.get((ServerWorld)spouse.world, spouse.getUuid());
                 spouseData.setBabyPresent(true);

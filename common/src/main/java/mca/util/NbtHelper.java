@@ -3,6 +3,7 @@ package mca.util;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -38,11 +39,15 @@ public interface NbtHelper {
     }
 
     static <K, V> Map<K, V> toMap(NbtCompound nbt, Function<String, K> keyMapper, Function<NbtElement, V> valueMapper) {
+        return toMap(nbt, keyMapper, (k, e) -> valueMapper.apply(e));
+    }
+
+    static <K, V> Map<K, V> toMap(NbtCompound nbt, Function<String, K> keyMapper, BiFunction<K, NbtElement, V> valueMapper) {
         return nbt.getKeys().stream()
                 .map(e -> {
                     K k = keyMapper.apply(e);
                     if (k == null) return null;
-                    V v = valueMapper.apply(nbt.get(e));
+                    V v = valueMapper.apply(k, nbt.get(e));
                     if (v == null) return null;
                     return k == null ? null : new Pair<>(k, v);
                 })

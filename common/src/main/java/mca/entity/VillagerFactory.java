@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 
 public class VillagerFactory {
@@ -21,8 +22,11 @@ public class VillagerFactory {
 
     private Optional<String> name = Optional.empty();
     private Optional<Gender> gender = Optional.empty();
+
     private Optional<VillagerProfession> profession = Optional.empty();
+    private Optional<VillagerType> type = Optional.empty();
     private OptionalInt level = OptionalInt.empty();
+
     private OptionalInt age = OptionalInt.empty();
     private Optional<Vec3d> position = Optional.empty();
 
@@ -36,6 +40,11 @@ public class VillagerFactory {
 
     public VillagerFactory withGender(Gender gender) {
         this.gender = Optional.ofNullable(gender);
+        return this;
+    }
+
+    public VillagerFactory withType(VillagerType type) {
+        this.type = Optional.ofNullable(type);
         return this;
     }
 
@@ -93,7 +102,7 @@ public class VillagerFactory {
         position.ifPresent(pos -> villager.updatePosition(pos.getX(), pos.getY(), pos.getZ()));
         VillagerData data = villager.getVillagerData();
         villager.setVillagerData(new VillagerData(
-                data.getType(),
+                type.orElseGet(data::getType),
                 profession.orElseGet(API::randomProfession),
                 level.orElseGet(data::getLevel)
             )

@@ -5,14 +5,12 @@ import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerLike;
 import mca.network.client.GetVillagerResponse;
 import mca.server.world.data.PlayerSaveData;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import java.util.Set;
-import java.util.UUID;
+import java.util.stream.Stream;
 
 public class GetVillagerRequest implements Message {
     private static final long serialVersionUID = -4415670234855916259L;
@@ -25,21 +23,18 @@ public class GetVillagerRequest implements Message {
 
         //fetches all members
         //de-loaded members are excluded as can't teleport anyways
-        Set<UUID> family = playerData.getFamilyTree().getFamily(player.getUuid());
 
-        //spouse
-
-        family.add(playerData.getSpouseUUID());
-
-        //pack information
-        for (UUID member : family) {
-            Entity e = ((ServerWorld) player.world).getEntity(member);
-            if (e instanceof VillagerLike<?>) {
+        Stream.concat(
+                playerData.getFamilyEntry().getFamily(),
+                Stream.of(playerData.getSpouseUUID())
+        ).distinct()
+            .map(((ServerWorld) player.world)::getEntity)
+            .filter(e -> e instanceof VillagerLike<?>)
+            .forEach(e -> {
                 NbtCompound nbt = new NbtCompound();
                 ((MobEntity)e).writeCustomDataToNbt(nbt);
                 familyData.put(e.getUuid().toString(), nbt);
-            }
-        }
+            });
 
         if (player instanceof ServerPlayerEntity) {
             NetworkHandler.sendToPlayer(new GetVillagerResponse(familyData), (ServerPlayerEntity)player);

@@ -68,7 +68,7 @@ public class Pregnancy {
         setPregnant(false);
         setBabyAge(0);
 
-        VillagerEntityMCA child = createChild(getFather().orElse(mother), getGender());
+        VillagerEntityMCA child = createChild(getGender(), getFather().orElse(null));
 
         child.setPosition(mother.getX(), mother.getY(), mother.getZ());
         WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
@@ -92,15 +92,14 @@ public class Pregnancy {
         }).orElse(false);
     }
 
-    public VillagerEntityMCA createChild(VillagerEntityMCA partner, Gender gender) {
+    public VillagerEntityMCA createChild(Gender gender, VillagerEntityMCA partner) {
         VillagerEntityMCA child = gender.getVillagerType().create(mother.world);
 
         child.getGenetics().combine(partner.getGenetics(), mother.getGenetics());
         child.setBaby(true);
         child.setAgeState(AgeState.TODDLER);
         child.setProfession(ProfessionsMCA.CHILD);
-
-        mother.getRelationships().getFamilyTree().addChild(partner, mother, child);
+        child.getRelationships().getFamilyEntry().assignParents(mother.getRelationships(), partner.getRelationships());
 
         // advancement
         child.getRelationships().getFamily(2, 0).filter(e -> e instanceof ServerPlayerEntity).forEach(player -> {
@@ -110,8 +109,8 @@ public class Pregnancy {
         return child;
     }
 
-    public VillagerEntityMCA createSoloChild(Gender gender) {
-        return createChild(mother, gender);
+    public VillagerEntityMCA createChild(Gender gender) {
+        return createChild(gender, mother);
     }
 
     private Optional<VillagerEntityMCA> getFather() {
