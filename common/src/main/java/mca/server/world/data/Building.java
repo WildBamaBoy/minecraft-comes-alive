@@ -115,10 +115,10 @@ public class Building implements Serializable, Iterable<UUID> {
 
     public Optional<BlockPos> findOpenBed(ServerWorld world) {
         return world.getPointOfInterestStorage().getInSquare(
-                        PointOfInterestType.HOME.getCompletionCondition(),
-                        getCenter(),
-                        getPos0().getManhattanDistance(getPos1()),
-                        PointOfInterestStorage.OccupationStatus.HAS_SPACE)
+                PointOfInterestType.HOME.getCompletionCondition(),
+                getCenter(),
+                getPos0().getManhattanDistance(getPos1()),
+                PointOfInterestStorage.OccupationStatus.HAS_SPACE)
                 .filter((poi) -> containsPos(poi.getPos()))
                 .findAny()
                 .map(PointOfInterest::getPos);
@@ -257,7 +257,7 @@ public class Building implements Serializable, Iterable<UUID> {
                 }
 
                 if (blockTypes.contains(key)) {
-                    blocks.put(key, blocks.getOrDefault(key, 0) + 1);
+                    increaseBlock(key);
                 }
             }
 
@@ -301,6 +301,10 @@ public class Building implements Serializable, Iterable<UUID> {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Map<UUID, String> getResidents() {
         return residents;
     }
@@ -317,6 +321,21 @@ public class Building implements Serializable, Iterable<UUID> {
 
     public Map<String, Integer> getBlocks() {
         return blocks;
+    }
+
+    public void increaseBlock(String key) {
+        blocks.put(key, blocks.getOrDefault(key, 0) + 1);
+    }
+
+    public void decreaseBlock(String key) {
+        if (blocks.containsKey(key)) {
+            int c = blocks.get(key);
+            if (c <= 1) {
+                blocks.remove(key);
+            } else {
+                blocks.put(key, c - 1);
+            }
+        }
     }
 
     public int getId() {

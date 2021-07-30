@@ -1,13 +1,18 @@
 package mca.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.SideShapeType;
-import net.minecraft.block.Waterloggable;
+import mca.entity.Infectable;
+import mca.entity.ai.relationship.EntityRelationship;
+import mca.entity.ai.relationship.Gender;
+import mca.server.world.data.GraveyardManager;
+import mca.server.world.data.GraveyardManager.TombstoneState;
+import mca.server.world.data.VillageManager;
+import mca.util.NbtElementCompat;
+import mca.util.NbtHelper;
+import mca.util.VoxelShapeUtil;
+import mca.util.compat.ItemStackCompat;
+import mca.util.compat.WorldEventsCompat;
+import mca.util.localization.FlowingText;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -47,29 +52,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
-
-import mca.entity.Infectable;
-import mca.entity.ai.relationship.EntityRelationship;
-import mca.entity.ai.relationship.Gender;
-import mca.server.world.data.GraveyardManager;
-import mca.server.world.data.GraveyardManager.TombstoneState;
-import mca.util.NbtElementCompat;
-import mca.util.NbtHelper;
-import mca.util.VoxelShapeUtil;
-import mca.util.compat.ItemStackCompat;
-import mca.util.compat.WorldEventsCompat;
-import mca.util.localization.FlowingText;
 
 public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
     public static final VoxelShape GRAVELLING_SHAPE = Block.createCuboidShape(1, 0, 1, 15, 1, 15);
@@ -153,6 +141,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         Data.of(world.getBlockEntity(pos)).ifPresent(data -> data.readFromStack(stack));
         updateTombstoneState(world, pos);
+        if (!world.isClient) {
+            VillageManager.get((ServerWorld)world).addGrave(pos);
+        }
     }
 
     private void updateTombstoneState(World world, BlockPos pos) {
@@ -169,6 +160,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         if (!world.isClient && !state.isOf(newState.getBlock())) {
             updateNeighbors(state, world, pos);
             GraveyardManager.get((ServerWorld)world).removeTombstoneState(pos);
+            VillageManager.get((ServerWorld)world).removeGrave(pos);
         }
     }
 
@@ -204,7 +196,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
     @Override
     public FluidState getFluidState(BlockState state) {
-       return state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     private void updateNeighbors(BlockState state, World world, BlockPos pos) {
@@ -244,7 +236,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
     @Override
     public boolean emitsRedstonePower(BlockState state) {
-       return true;
+        return true;
     }
 
     @Override
@@ -259,7 +251,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                         0,
                         (random.nextFloat() - 0.5) / 10F
                 );
-             }
+            }
         });
 
 
@@ -272,14 +264,14 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         Optional<Data> data = Data.of(builder.get(LootContextParameters.BLOCK_ENTITY)).filter(Data::hasEntity);
 
         data
-            .flatMap(Data::getEntityName)
-            .ifPresent(name -> {
-            stacks.stream().filter(TombstoneBlock::isRemains).forEach(stack -> {
-                stack.removeCustomName();
-                stack.setCustomName(new TranslatableText("block.mca.tombstone.remains", stack.getName(), name));
-            });
+                .flatMap(Data::getEntityName)
+                .ifPresent(name -> {
+                    stacks.stream().filter(TombstoneBlock::isRemains).forEach(stack -> {
+                        stack.removeCustomName();
+                        stack.setCustomName(new TranslatableText("block.mca.tombstone.remains", stack.getName(), name));
+                    });
 
-        });
+                });
         data.ifPresent(be -> {
             stacks.stream().filter(s -> s.getItem() == asItem()).findFirst().ifPresent(be::writeToStack);
         });
@@ -476,7 +468,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                     NbtHelper.computeIfAbsent(
                             stack.getOrCreateSubTag(ItemStackCompat.DISPLAY_KEY),
                             ItemStackCompat.LORE_KEY, NbtElementCompat.LIST_TYPE, NbtList::new)
-                        .add(0, NbtString.of(name.asString()));
+                            .add(0, NbtString.of(name.asString()));
                 });
             });
         }
@@ -490,7 +482,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             private final Text name;
             private final Gender gender;
 
-            public EntityData( NbtCompound nbt, Text name, Gender gender) {
+            public EntityData(NbtCompound nbt, Text name, Gender gender) {
                 this.nbt = nbt;
                 this.name = name;
                 this.gender = gender;
@@ -498,9 +490,9 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
             EntityData(NbtCompound nbt) {
                 this(
-                    nbt.getCompound("entityData"),
-                    Text.Serializer.fromJson(nbt.getString("entityName")),
-                    Gender.byId(nbt.getInt("entityGender"))
+                        nbt.getCompound("entityData"),
+                        Text.Serializer.fromJson(nbt.getString("entityName")),
+                        Gender.byId(nbt.getInt("entityGender"))
                 );
             }
 

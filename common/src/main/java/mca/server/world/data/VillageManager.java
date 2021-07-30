@@ -88,7 +88,16 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
     }
 
     public Optional<Village> findNearestVillage(Entity entity) {
-        return findVillages(v -> v.isWithinBorder(entity)).findFirst();
+        BlockPos p = entity.getBlockPos();
+        return findVillages(v -> v.isWithinBorder(entity)).min((a, b) -> (int)(a.getCenter().getSquaredDistance(p) - b.getCenter().getSquaredDistance(p)));
+    }
+
+    public Optional<Village> findNearestVillage(BlockPos pos) {
+        return findVillages(v -> v.isWithinBorder(pos)).findFirst();
+    }
+
+    public Optional<Village> findNearestVillage(BlockPos p, double margin) {
+        return findVillages(v -> v.isWithinBorder(p, margin)).min((a, b) -> (int)(a.getCenter().getSquaredDistance(p) - b.getCenter().getSquaredDistance(p)));
     }
 
     @Override
@@ -140,9 +149,9 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         Building withinBuilding = null;
 
         //find closest village
-        Optional<Village> closestVillage = villages.values().stream().min((a, b) -> (int) (a.getCenter().getSquaredDistance(pos) - b.getCenter().getSquaredDistance(pos)));
+        Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
 
-        if (closestVillage.isPresent() && closestVillage.get().getCenter().getSquaredDistance(pos) < Math.pow(closestVillage.get().getSize() * 2.0, 2.0)) {
+        if (closestVillage.isPresent()) {
             village = closestVillage.get();
 
             //look for existing building
@@ -198,6 +207,38 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                 }
 
                 markDirty();
+            }
+        }
+    }
+
+    public void addGrave(BlockPos pos) {
+        Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
+        if (closestVillage.isPresent()) {
+            Village village = closestVillage.get();
+            Optional<Building> graveyard = village.getNearestBuildingOfType("graveyard", pos);
+            if (graveyard.isPresent() && graveyard.get().getCenter().getSquaredDistance(pos) < Village.GRAVEYARD_SIZE) {
+                graveyard.get().increaseBlock("tombstone");
+            } else {
+                // create a new graveyard
+                Building building = new Building(pos);
+                building.setType("graveyard");
+                building.setId(lastBuildingId++);
+                village.addBuilding(building);
+                building.increaseBlock("tombstone");
+            }
+        }
+    }
+
+    public void removeGrave(BlockPos pos) {
+        Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
+        if (closestVillage.isPresent()) {
+            Village village = closestVillage.get();
+            Optional<Building> graveyard = village.getNearestBuildingOfType("graveyard", pos);
+            if (graveyard.isPresent() && graveyard.get().getCenter().getSquaredDistance(pos) < Village.GRAVEYARD_SIZE) {
+                graveyard.get().decreaseBlock("tombstone");
+                if (!graveyard.get().getBlocks().containsKey("tombstone")) {
+                    village.removeBuilding(graveyard.get().getId());
+                }
             }
         }
     }

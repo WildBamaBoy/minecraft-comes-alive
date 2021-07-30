@@ -25,9 +25,12 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 import java.util.stream.Collectors;
-import org.jetbrains.annotations.Nullable;
+import java.util.stream.Stream;
 
 public class Village implements Iterable<Building> {
 
@@ -55,16 +58,28 @@ public class Village implements Iterable<Building> {
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
 
-    public Village() {}
+    public final static double BORDER_MARGIN = 32.0;
+    public final static double MERGE_MARGIN = 128.0;
+    public final static double GRAVEYARD_SIZE = 64;
+
+    public Village() {
+    }
 
     public Village(int id) {
         this.id = id;
     }
 
     public boolean isWithinBorder(Entity entity) {
-        return getCenter().getSquaredDistance(entity.getBlockPos()) < Math.pow(getSize(), 2);
+        return isWithinBorder(entity.getBlockPos());
     }
 
+    public boolean isWithinBorder(BlockPos pos) {
+        return isWithinBorder(pos, BORDER_MARGIN);
+    }
+
+    public boolean isWithinBorder(BlockPos pos, double margin) {
+        return getCenter().getSquaredDistance(pos) < Math.pow(getSize() + margin, 2.0);
+    }
 
     @Override
     public Iterator<Building> iterator() {
@@ -79,6 +94,14 @@ public class Village implements Iterable<Building> {
     public void removeBuilding(int id) {
         buildings.remove(id);
         calculateDimensions();
+    }
+
+    public Stream<Building> getBuildingsOfType(String type) {
+        return getBuildings().values().stream().filter(b -> b.getType().equals(type));
+    }
+
+    public Optional<Building> getNearestBuildingOfType(String type, Vec3i pos) {
+        return getBuildingsOfType(type).min((a, b) -> (int)(a.getCenter().getSquaredDistance(pos) - b.getCenter().getSquaredDistance(pos)));
     }
 
     private void calculateDimensions() {
@@ -115,11 +138,9 @@ public class Village implements Iterable<Building> {
         //calculate size
         size = 0;
         for (Building building : buildings.values()) {
-            size = (int) Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
+            size = (int)Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
         }
-
-        //extra margin
-        size = (int) (Math.sqrt(size) + 32);
+        size = (int) (Math.sqrt(size));
     }
 
     public BlockPos getCenter() {
@@ -179,9 +200,9 @@ public class Village implements Iterable<Building> {
         int residents = 5; //we slightly favor bigger villages
         for (Building b : this) {
             for (UUID v : b) {
-                Entity entity = ((ServerWorld) player.world).getEntity(v);
+                Entity entity = ((ServerWorld)player.world).getEntity(v);
                 if (entity instanceof VillagerEntityMCA) {
-                    VillagerEntityMCA villager = (VillagerEntityMCA) entity;
+                    VillagerEntityMCA villager = (VillagerEntityMCA)entity;
                     sum += villager.getVillagerBrain().getMemoriesForPlayer(player).getHearts();
                     residents++;
                 }
@@ -204,12 +225,12 @@ public class Village implements Iterable<Building> {
 
     public List<VillagerEntityMCA> getResidents(ServerWorld world) {
         return getBuildings().values()
-            .stream()
-            .flatMap(building -> building.getResidents().keySet().stream())
-            .map(world::getEntity)
-            .filter(v -> v instanceof VillagerEntityMCA)
-            .map(VillagerEntityMCA.class::cast)
-            .collect(Collectors.toList());
+                .stream()
+                .flatMap(building -> building.getResidents().keySet().stream())
+                .map(world::getEntity)
+                .filter(v -> v instanceof VillagerEntityMCA)
+                .map(VillagerEntityMCA.class::cast)
+                .collect(Collectors.toList());
     }
 
     public int getMaxPopulation() {
@@ -238,9 +259,9 @@ public class Village implements Iterable<Building> {
         if (block.hasBlockEntity() && block instanceof ChestBlock) {
             BlockEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof Inventory) {
-                Inventory inventory = (Inventory) tileentity;
+                Inventory inventory = (Inventory)tileentity;
                 if (inventory instanceof ChestBlockEntity) {
-                    return ChestBlock.getInventory((ChestBlock) block, blockState, world, pos, true);
+                    return ChestBlock.getInventory((ChestBlock)block, blockState, world, pos, true);
                 }
             }
         }
@@ -274,12 +295,10 @@ public class Village implements Iterable<Building> {
         //TODO: Implement taxes
         // WIP and nobody can stop me implementing them hehe
         if (hasStoredResource()) {
-            getBuildings().values()
-                .stream()
-                .filter(b -> b.getType().equals("inn") && world.canSetBlock(b.getCenter()))
-                .forEach(building -> {
-                    // TODO: noop
-            });
+            getBuildingsOfType("inn").filter(b -> world.canSetBlock(b.getCenter()))
+                    .forEach(building -> {
+                        // TODO: noop
+                    });
         }
     }
 
@@ -318,11 +337,11 @@ public class Village implements Iterable<Building> {
 
         // look for married women without baby
         PoolUtil.pick(getResidents(world), world.random)
-            .filter(villager -> villager.getGenetics().getGender() == Gender.FEMALE)
-            .filter(villager -> villager.getRelationships().getPregnancy().tryStartGestation())
-            .ifPresent(villager -> {
-                villager.getRelationships().getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
-            });
+                .filter(villager -> villager.getGenetics().getGender() == Gender.FEMALE)
+                .filter(villager -> villager.getRelationships().getPregnancy().tryStartGestation())
+                .ifPresent(villager -> {
+                    villager.getRelationships().getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
+                });
     }
 
     // if the amount of couples is low, let them marry
