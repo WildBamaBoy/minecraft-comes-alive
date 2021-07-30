@@ -349,6 +349,11 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                             l.setHealth(l.getMaxHealth());
                             l.clearStatusEffects();
                             l.removed = false;
+                            l.deathTime = 0;
+                        }
+
+                        if (cure && (entity instanceof ZombieVillagerEntity)) {
+                            entity = ((ZombieVillagerEntity)entity).method_29243(EntityType.VILLAGER, true);
                         }
 
                         if (entity instanceof Infectable) {
@@ -356,10 +361,6 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                                     ? Infectable.MIN_INFECTION
                                     : Math.max(MathHelper.lerp(world.random.nextFloat(), Infectable.FEVER_THRESHOLD, Infectable.BABBLING_THRESHOLD), ((Infectable)entity).getInfectionProgress())
                             );
-                        }
-
-                        if (cure && (entity instanceof ZombieVillagerEntity)) {
-                            entity = ((ZombieVillagerEntity)entity).method_29243(EntityType.VILLAGER, true);
                         }
 
                         world.spawnEntity(entity);
