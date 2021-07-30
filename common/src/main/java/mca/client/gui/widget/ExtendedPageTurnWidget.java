@@ -1,4 +1,4 @@
-package mca.client.gui.widgets;
+package mca.client.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;

@@ -1,7 +1,7 @@
 package mca.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mca.client.gui.widgets.ExtendedPageTurnWidget;
+import mca.client.gui.widget.ExtendedPageTurnWidget;
 import mca.item.ExtendedWrittenBookItem;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;

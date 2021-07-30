@@ -1,5 +1,6 @@
 package mca.client.gui;
 
+import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.Rank;
 import mca.network.GetVillageRequest;
@@ -12,7 +13,6 @@ import mca.server.world.data.BuildingTasks;
 import mca.server.world.data.Village;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class BlueprintScreen extends Screen {
+public class BlueprintScreen extends AbstractDynamicScreen {
     //gui element Y positions
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
@@ -123,59 +123,12 @@ public class BlueprintScreen extends Screen {
         return false;
     }
 
-    private void rectangle(MatrixStack transform, int x0, int y0, int x1, int y1, int color) {
-        drawHorizontalLine(transform, x0, x1, y0, color);
-        drawHorizontalLine(transform, x0, x1, y1, color);
-        drawVerticalLine(transform, x0, y0, y1, color);
-        drawVerticalLine(transform, x1, y0, y1, color);
-    }
-
     @Override
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
         if (showCatalog) {
-            //title
-            transform.push();
-            transform.scale(2.0f, 2.0f, 2.0f);
-            drawCenteredText(transform, textRenderer, "Building Catalog", width / 4, height / 4 - 55, 0xffffffff);
-            transform.pop();
-
-            //explanation
-            drawCenteredText(transform, textRenderer, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
-            drawCenteredText(transform, textRenderer, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
-
-            //buildings
-            int row = 0;
-            int col = 0;
-            int w = 120;
-            int h = 55;
-            int spacing = 8;
-            for (BuildingType bt : API.getVillagePool()) {
-                if (bt.visible()) {
-                    int x = width / 2 + fromCenter * (col - 1);
-                    int y = row * (h + spacing) + 105;
-                    rectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
-                    drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + bt.name()), x, y - 24, bt.getColor());
-
-                    //size
-                    Text size = bt.size() == 0 ? new TranslatableText("gui.building.anySize") : new TranslatableText("gui.building.size", String.valueOf(bt.size()));
-                    drawCenteredText(transform, textRenderer, size, x, y - 12, 0xffdddddd);
-
-                    //required blocks
-                    int i = 0;
-                    for (Map.Entry<String, Integer> b : bt.blocks().entrySet()) {
-                        i++;
-                        drawCenteredText(transform, textRenderer, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y - 12 + 12 * i, 0xffffffff);
-                    }
-
-                    col++;
-                    if (col == 3) {
-                        col = 0;
-                        row++;
-                    }
-                }
-            }
+            renderCatalog(transform);
         } else if (village != null && client != null) {
             //name
             transform.push();
@@ -235,71 +188,123 @@ public class BlueprintScreen extends Screen {
                 toggleButtons(buttonMarriage, true);
             }
 
-
             //map
-            int mapSize = 70;
-            rectangle(transform, width / 2 - mapSize, height / 2 - mapSize, width / 2 + mapSize, height / 2 + mapSize, 0xffffff88);
-
-            transform.push();
-
-            //center and scale the map
-            float sc = (float) mapSize / (village.getSize() - 24);
-            transform.translate(width / 2.0, height / 2.0, 0);
-            transform.scale(sc, sc, 0.0f);
-            transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
-
-            //show the players location
-            ClientPlayerEntity player = client.player;
-            if (player != null) {
-                rectangle(transform, (int) player.getX() - 1, (int) player.getZ() - 1, (int) player.getX() + 1, (int) player.getZ() + 1, 0xffff00ff);
-            }
-
-            int mouseRawX = (int) (client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
-            int mouseRawY = (int) (client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
-            int mouseX = (int) ((mouseRawX - width / 2.0) / sc + village.getCenter().getX());
-            int mouseY = (int) ((mouseRawY - height / 2.0) / sc + village.getCenter().getZ());
-
-            //buildings
-            Building hoverBuilding = null;
-            for (Building building : village.getBuildings().values()) {
-                BlockPos p0 = building.getPos0();
-                BlockPos p1 = building.getPos1();
-                BuildingType bt = API.getVillagePool().getBuildingType(building.getType());
-                rectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
-
-                //tooltip
-                int margin = 2;
-                if (mouseX >= p0.getX() - margin && mouseX <= p1.getX() + margin && mouseY >= p0.getZ() - margin && mouseY <= p1.getZ() + margin) {
-                    hoverBuilding = building;
-                }
-            }
-
-            transform.pop();
-
-            if (hoverBuilding != null) {
-                List<Text> lines = new LinkedList<>();
-
-                //name
-                BuildingType bt = API.getVillagePool().getBuildingType(hoverBuilding.getType());
-                lines.add(new TranslatableText("buildingType." + bt.name()));
-                lines.add(new TranslatableText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
-
-                //residents
-                for (String name : hoverBuilding.getResidents().values()) {
-                    lines.add(new LiteralText(name));
-                }
-
-                //present blocks
-                for (Map.Entry<String, Integer> block : hoverBuilding.getBlocks().entrySet()) {
-                    lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())));
-                }
-
-                //render
-                renderTooltip(transform, lines, mouseRawX, mouseRawY);
-            }
+            renderMap(transform);
         }
 
         super.render(transform, sizeX, sizeY, offset);
+    }
+
+    private void renderMap(MatrixStack transform) {
+        int mapSize = 70;
+        RectangleWidget.drawRectangle(transform, width / 2 - mapSize, height / 2 - mapSize, width / 2 + mapSize, height / 2 + mapSize, 0xffffff88);
+
+        transform.push();
+
+        //center and scale the map
+        float sc = (float)mapSize / (village.getSize() - 8);
+        transform.translate(width / 2.0, height / 2.0, 0);
+        transform.scale(sc, sc, 0.0f);
+        transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
+
+        //show the players location
+        ClientPlayerEntity player = client.player;
+        if (player != null) {
+            RectangleWidget.drawRectangle(transform, (int)player.getX() - 1, (int)player.getZ() - 1, (int)player.getX() + 1, (int)player.getZ() + 1, 0xffff00ff);
+        }
+
+        int mouseRawX = (int)(client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
+        int mouseRawY = (int)(client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
+        int mouseX = (int)((mouseRawX - width / 2.0) / sc + village.getCenter().getX());
+        int mouseY = (int)((mouseRawY - height / 2.0) / sc + village.getCenter().getZ());
+
+        //buildings
+        Building hoverBuilding = null;
+        for (Building building : village.getBuildings().values()) {
+            BlockPos p0 = building.getPos0();
+            BlockPos p1 = building.getPos1();
+            BuildingType bt = API.getVillagePool().getBuildingType(building.getType());
+            RectangleWidget.drawRectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
+
+            //tooltip
+            int margin = 2;
+            if (mouseX >= p0.getX() - margin && mouseX <= p1.getX() + margin && mouseY >= p0.getZ() - margin && mouseY <= p1.getZ() + margin) {
+                hoverBuilding = building;
+            }
+        }
+
+        transform.pop();
+
+        if (hoverBuilding != null) {
+            List<Text> lines = new LinkedList<>();
+
+            //name
+            BuildingType bt = API.getVillagePool().getBuildingType(hoverBuilding.getType());
+            lines.add(new TranslatableText("buildingType." + bt.name()));
+            lines.add(new TranslatableText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
+
+            //residents
+            for (String name : hoverBuilding.getResidents().values()) {
+                lines.add(new LiteralText(name));
+            }
+
+            //present blocks
+            for (Map.Entry<String, Integer> block : hoverBuilding.getBlocks().entrySet()) {
+                lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())));
+            }
+
+            //render
+            renderTooltip(transform, lines, mouseRawX, mouseRawY);
+        }
+    }
+
+    private void renderCatalog(MatrixStack transform) {
+        //title
+        transform.push();
+        transform.scale(2.0f, 2.0f, 2.0f);
+        drawCenteredText(transform, textRenderer, "Building Catalog", width / 4, height / 4 - 55, 0xffffffff);
+        transform.pop();
+
+        //explanation
+        drawCenteredText(transform, textRenderer, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
+        drawCenteredText(transform, textRenderer, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
+
+        //buildings
+        int row = 0;
+        int col = 0;
+        int w = 120;
+        int h = 55;
+        int spacing = 8;
+        for (BuildingType bt : API.getVillagePool()) {
+            if (bt.visible()) {
+                int x = width / 2 + fromCenter * (col - 1);
+                int y = row * (h + spacing) + 105;
+                RectangleWidget.drawRectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
+                drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + bt.name()), x, y - 24, bt.getColor());
+
+                //size
+                Text size = bt.size() == 0 ? new TranslatableText("gui.building.anySize") : new TranslatableText("gui.building.size", String.valueOf(bt.size()));
+                drawCenteredText(transform, textRenderer, size, x, y - 12, 0xffdddddd);
+
+                //required blocks
+                int i = 0;
+                for (Map.Entry<String, Integer> b : bt.blocks().entrySet()) {
+                    i++;
+                    drawCenteredText(transform, textRenderer, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y - 12 + 12 * i, 0xffffffff);
+                }
+
+                col++;
+                if (col == 3) {
+                    col = 0;
+                    row++;
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void buttonPressed(Button button) {
+
     }
 
     private Text getBlockName(String key) {
