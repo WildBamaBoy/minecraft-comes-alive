@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class InteractScreen extends AbstractDynamicScreen {
-    private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
+    public static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
 
     private final VillagerLike<?> villager;
     private final PlayerEntity player = MinecraftClient.getInstance().player;
