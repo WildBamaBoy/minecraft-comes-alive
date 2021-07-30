@@ -1,7 +1,10 @@
 package mca.entity.ai.relationship.family;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.village.VillagerProfession;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -26,6 +29,7 @@ public final class FamilyTreeNode implements Serializable {
     private final Gender gender;
 
     private String name;
+    private String profession = Registry.VILLAGER_PROFESSION.getId(VillagerProfession.NONE).toString();
 
     private final UUID id;
 
@@ -58,6 +62,7 @@ public final class FamilyTreeNode implements Serializable {
             nbt.getUuid("mother"),
             new HashSet<>(NbtHelper.toList(nbt.getList("children", NbtElementCompat.COMPOUND_TYPE), c -> ((NbtCompound)c).getUuid("uuid")))
         );
+        setProfession(Registry.VILLAGER_PROFESSION.get(new Identifier(nbt.getString("profession"))));
     }
 
     public UUID id() {
@@ -70,6 +75,14 @@ public final class FamilyTreeNode implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public void setProfession(VillagerProfession profession) {
+        this.profession = Registry.VILLAGER_PROFESSION.getId(profession).toString();
+    }
+
+    public VillagerProfession getProfession() {
+        return Registry.VILLAGER_PROFESSION.get(new Identifier(profession));
     }
 
     public boolean isPlayer() {

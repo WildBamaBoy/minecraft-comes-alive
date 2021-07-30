@@ -1,35 +1,47 @@
 package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.network.GetFamilyTreeRequest;
-import mca.server.world.data.FamilyTreeEntry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
-import java.util.LinkedList;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+import org.lwjgl.opengl.GL11;
+
 public class FamilyTreeScreen extends Screen {
+    private static int HORIZONTAL_SPACING = 20;
+    private static int VERTICAL_SPACING = 60;
 
-    private final List<Line> lines = new LinkedList<>();
+    private UUID focusedEntityId;
 
-    private UUID uuid;
+    private Map<UUID, FamilyTreeNode> family = new HashMap<>();
 
-    private Map<UUID, FamilyTreeEntry> family;
+    @Nullable
+    private TreeNode tree;
 
-    public FamilyTreeScreen(UUID uuid) {
+    private int scrollX;
+    private int scrollY;
+
+    private final Screen parent;
+
+    public FamilyTreeScreen(UUID entityId) {
         super(new LiteralText("Family Tree"));
-
-        this.uuid = uuid;
-    }
-
-    @Override
-    public void init() {
-        NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid));
+        this.focusedEntityId = entityId;
+        this.parent = MinecraftClient.getInstance().currentScreen;
     }
 
     @Override
@@ -37,102 +49,181 @@ public class FamilyTreeScreen extends Screen {
         return false;
     }
 
-    @Override
-    public void render(MatrixStack transform, int w, int h, float scale) {
-        renderBackground(transform);
-
-        drawCenteredText(transform, this.textRenderer, this.title, this.width / 2, 10, 16777215);
-
-        for (Line l : lines) {
-            l.render(transform);
-        }
-
-        super.render(transform, w, h, scale);
-    }
-
-    public void setFamilyData(UUID uuid, Map<UUID, FamilyTreeEntry> family) {
-        this.uuid = uuid;
-        this.family = family;
-
+    public void setFamilyData(UUID uuid, Map<UUID, FamilyTreeNode> family) {
+        this.focusedEntityId = uuid;
+        this.family.putAll(family);
         rebuildTree();
     }
 
-    private void addButton(UUID uuid, int x, int y, int ox, int oy) {
-        if (family.containsKey(uuid)) {
-            lines.add(new Line(false, x, ox, (y + oy) / 2));
-            lines.add(new Line(true, x, y, (y + oy) / 2));
-            lines.add(new Line(true, ox, oy, (y + oy) / 2));
-            addButton(uuid, x, y);
+    private void focusEntity(UUID id) {
+        if (!family.containsKey(focusedEntityId)) {
+            NetworkHandler.sendToServer(new GetFamilyTreeRequest(id));
         }
     }
 
-    private void addButton(UUID uuid, int x, int y) {
-        FamilyTreeEntry e = family.get(uuid);
-        if (e != null) {
-            addButton(new ButtonWidget(
-                    x - 40, y - 10, 80, 20,
-                    new LiteralText(e.name()),
-                    (b) -> NetworkHandler.sendToServer(new GetFamilyTreeRequest(uuid)))
-            );
+    @Override
+    public void init() {
+        focusEntity(focusedEntityId);
+
+        addButton(new ButtonWidget(width / 2 - 100, height - 25, 200, 20, new TranslatableText("gui.done"), sender -> {
+            onClose();
+        }));
+    }
+
+    @Override
+    public void onClose() {
+        client.openScreen(parent);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (button == 0) {
+            scrollX += deltaX;
+            scrollY += deltaY;
+            return true;
         }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        renderBackground(matrices);
+
+        fill(matrices, 0, 30, width, height - 30, 0x66000000);
+
+        if (tree != null) {
+            Window window = MinecraftClient.getInstance().getWindow();
+            double f = window.getScaleFactor();
+            int windowHeight = (int)Math.round(window.getScaledHeight() * f);
+
+            int x = 0;
+            int y = (int)(30 * f);
+            int w = (int)(width * f);
+            int h = (int)((height - 60) * f);
+
+            GL11.glScissor(x, windowHeight - h - y, w, h);
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+
+            matrices.push();
+            matrices.translate(scrollX + width / 2, scrollY + height / 2, 0);
+            tree.render(matrices);
+            matrices.pop();
+
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        }
+
+        drawCenteredText(matrices, textRenderer, title, width / 2, 10, 16777215);
+
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
     private void rebuildTree() {
-        buttons.clear();
-        lines.clear();
+        scrollX = 14;
+        scrollY = -69;
+        FamilyTreeNode focusedNode = family.get(focusedEntityId);
 
-        int w = 100;
-        int h = 40;
-        int offset = height / 2 + h / 2;
-
-        //self
-        addButton(uuid, width / 2, offset);
-
-        //parents
-        UUID father = family.get(uuid).father();
-        UUID mother = family.get(uuid).mother();
-        addButton(father, width / 2 - w, offset - h, width / 2, offset);
-        addButton(mother, width / 2 + w, offset - h, width / 2, offset);
-
-        //grand parents
-        if (family.containsKey(father)) {
-            addButton(family.get(father).father(), width / 2 - w - w / 2, offset - h * 2, width / 2 - w, offset - h);
-            addButton(family.get(father).mother(), width / 2 - w + w / 2, offset - h * 2, width / 2 - w, offset - h);
-        }
-        if (family.containsKey(mother)) {
-            addButton(family.get(mother).father(), width / 2 + w - w / 2, offset - h * 2, width / 2 + w, offset - h);
-            addButton(family.get(mother).mother(), width / 2 + w + w / 2, offset - h * 2, width / 2 + w, offset - h);
-        }
-
-        //children
-        Set<UUID> children = family.get(uuid).children();
-        if (children.size() > 0) {
-            w = w * 4 / children.size();
-            int x = width / 2 - w * (children.size() - 1) / 2;
-            for (UUID child : children) {
-                addButton(child, x, offset + h, width / 2, offset);
-                x += w;
-            }
+        if (focusedNode != null) {
+            tree = null; // garbage collect
+            tree = insertParents(new TreeNode(focusedNode, true), focusedNode, 2);
         }
     }
 
-    private class Line {
-        boolean vertical;
-        int x, y, z;
+    private TreeNode insertParents(TreeNode root, FamilyTreeNode focusedNode, int levels) {
+        @Nullable FamilyTreeNode father = family.get(focusedNode.father());
+        @Nullable FamilyTreeNode mother = family.get(focusedNode.mother());
 
-        public Line(boolean vertical, int x, int y, int z) {
-            this.vertical = vertical;
-            this.x = x;
-            this.y = y;
-            this.z = z;
+        @Nullable FamilyTreeNode newRoot = father != null ? father : mother;
+
+        TreeNode fNode = newRoot == null ? new TreeNode() : new TreeNode(newRoot, false);
+        fNode.children.add(root);
+
+        @Nullable FamilyTreeNode spouse = newRoot == father ? mother : father;
+
+        fNode.spouse = spouse == null ? new TreeNode() : new TreeNode(spouse, false);
+
+        if (newRoot != null && levels > 0) {
+            return insertParents(fNode, newRoot, levels - 1);
         }
 
-        public void render(MatrixStack transform) {
-            if (vertical) {
-                drawVerticalLine(transform, x, y, z, 0xffffffff);
-            } else {
-                drawHorizontalLine(transform, x, y, z, 0xffffffff);
+        return fNode;
+    }
+
+    private final class TreeNode {
+        private boolean widthComputed;
+
+        private int width;
+
+        private int labelWidth;
+
+        private List<Text> label = new ArrayList<>();
+
+        private List<TreeNode> children = new ArrayList<>();
+
+        private TreeNode spouse;
+
+        public TreeNode() {
+            this.label.add(new LiteralText("???"));
+        }
+
+        public TreeNode(FamilyTreeNode node, boolean recurse) {
+            this.label.add(new LiteralText(node.getName()).formatted(node.gender().getColor()));
+            this.label.add(new TranslatableText("entity.minecraft.villager." + node.getProfession()).formatted(Formatting.GRAY));
+            if (recurse) {
+                node.children().forEach(child -> {
+                    FamilyTreeNode e = family.get(child);
+                    if (e != null) {
+                        children.add(new TreeNode(e, true));
+                    }
+                });
             }
+        }
+
+        public void render(MatrixStack matrices) {
+            int childrenStartX = -getWidth() / 2;
+
+            for (int i = 0; i < children.size(); i++) {
+                TreeNode node = children.get(i);
+
+                childrenStartX += (node.getWidth() + HORIZONTAL_SPACING) / 2;
+
+                drawHook(matrices, childrenStartX + HORIZONTAL_SPACING / 2, VERTICAL_SPACING);
+
+                matrices.push();
+                matrices.translate(childrenStartX + HORIZONTAL_SPACING / 2, VERTICAL_SPACING, 0);
+                node.render(matrices);
+                matrices.pop();
+
+                childrenStartX += (node.getWidth() + HORIZONTAL_SPACING) / 2;
+            }
+
+            renderTooltip(matrices, label, -12 - labelWidth / 2, 12);
+
+            if (spouse != null) {
+                matrices.push();
+                matrices.translate(-spouse.getWidth() - this.labelWidth + 5, 0, 0);
+                drawHorizontalLine(matrices, 0, spouse.getWidth(), 3, 0xffffffff);
+                spouse.render(matrices);
+                matrices.pop();
+            }
+        }
+
+        private void drawHook(MatrixStack matrices, int endX, int endY) {
+            int midY = endY / 2;
+
+            drawVerticalLine(matrices, 0, 0, midY, 0xffffffff);
+            drawHorizontalLine(matrices, 0, endX, midY, 0xffffffff);
+            drawVerticalLine(matrices, endX, midY, endY, 0xffffffff);
+        }
+
+        public int getWidth() {
+            if (!widthComputed) {
+                labelWidth = label.stream().mapToInt(textRenderer::getWidth).max().orElse(0);
+                width = Math.max(labelWidth + 10, children.stream().mapToInt(TreeNode::getWidth).sum()) + (HORIZONTAL_SPACING / 2);
+                if (spouse != null) {
+                    width += spouse.getWidth() + HORIZONTAL_SPACING;
+                }
+            }
+            return width;
         }
     }
 }
