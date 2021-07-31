@@ -1,7 +1,9 @@
 package mca.server.world.data;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.LongFunction;
@@ -20,8 +22,10 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtLong;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * Tracks the positions where a tombstone may be found and whether it is filled or empty.
@@ -89,6 +93,36 @@ public class GraveyardManager extends PersistentStateCompat {
         }
     }
 
+    public List<BlockPos> findAll(Box box, boolean includeEmpty, boolean includeFilled) {
+        List<BlockPos> positions = new ArrayList<>();
+
+        if (includeEmpty || includeFilled) {
+            int minX = MathHelper.floor((box.minX - 2) / 16D);
+            int maxX = MathHelper.ceil((box.maxX + 2) / 16D);
+            int minZ = MathHelper.floor((box.minZ - 2) / 16D);
+            int maxZ = MathHelper.ceil((box.maxZ + 2) / 16D);
+
+            BlockPos.Mutable mutable = new BlockPos.Mutable();
+
+            synchronized (tombstones) {
+                for (int x = minX; x < maxX; x++) {
+                    for (int z = minZ; z < maxZ; z++) {
+                        long l = ChunkPos.toLong(x, z);
+
+                        if (includeEmpty) {
+                            getChunk(TombstoneState.EMPTY, l, ChunkBase::empty).appendAll(box, mutable, positions);
+                        }
+                        if (includeFilled) {
+                            getChunk(TombstoneState.FILLED, l, ChunkBase::empty).appendAll(box, mutable, positions);
+                        }
+                    }
+                }
+            }
+        }
+
+        return positions;
+    }
+
     public Optional<BlockPos> findNearest(BlockPos pos, TombstoneState state, int maxChunkRange) {
         synchronized (tombstones) {
             BlockPos.Mutable mutable = new BlockPos.Mutable();
@@ -152,6 +186,10 @@ public class GraveyardManager extends PersistentStateCompat {
         public Optional<BlockPos> findNearest(BlockPos pos, BlockPos.Mutable mutable) {
             return Optional.empty();
         }
+
+        public void appendAll(Box box, BlockPos.Mutable mutable, List<BlockPos> positions) {
+
+        }
     }
 
     private static class Chunk extends ChunkBase {
@@ -203,6 +241,16 @@ public class GraveyardManager extends PersistentStateCompat {
             }
 
             return found ? Optional.of(BlockPos.fromLong(nearest)) : Optional.empty();
+        }
+
+        @Override
+        public void appendAll(Box box, BlockPos.Mutable mutable, List<BlockPos> positions) {
+            for (long l : tombstones) {
+                mutable.set(l);
+                if (box.contains(mutable.getX(), mutable.getY(), mutable.getZ())) {
+                    positions.add(mutable.toImmutable());
+                }
+            }
         }
     }
 
