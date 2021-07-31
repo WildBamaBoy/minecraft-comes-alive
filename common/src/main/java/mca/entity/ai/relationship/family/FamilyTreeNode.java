@@ -36,11 +36,11 @@ public final class FamilyTreeNode implements Serializable {
     private UUID father;
     private UUID mother;
 
-    private final Set<UUID> children;
+    private final Set<UUID> children = new HashSet<>();
 
     private transient final FamilyTree rootNode;
 
-    public FamilyTreeNode(FamilyTree rootNode, UUID id, String name, boolean isPlayer, Gender gender, UUID father, UUID mother, Set<UUID> children) {
+    public FamilyTreeNode(FamilyTree rootNode, UUID id, String name, boolean isPlayer, Gender gender, UUID father, UUID mother) {
         this.rootNode = rootNode;
         this.id = id;
         this.name = name;
@@ -48,7 +48,6 @@ public final class FamilyTreeNode implements Serializable {
         this.gender = gender;
         this.father = father;
         this.mother = mother;
-        this.children = children;
     }
 
     public FamilyTreeNode(FamilyTree rootNode, UUID id, NbtCompound nbt) {
@@ -59,10 +58,10 @@ public final class FamilyTreeNode implements Serializable {
             nbt.getBoolean("isPlayer"),
             Gender.byId(nbt.getInt("gender")),
             nbt.getUuid("father"),
-            nbt.getUuid("mother"),
-            new HashSet<>(NbtHelper.toList(nbt.getList("children", NbtElementCompat.COMPOUND_TYPE), c -> ((NbtCompound)c).getUuid("uuid")))
+            nbt.getUuid("mother")
         );
-        setProfession(Registry.VILLAGER_PROFESSION.get(new Identifier(nbt.getString("profession"))));
+        children.addAll(NbtHelper.toList(nbt.getList("children", NbtElementCompat.COMPOUND_TYPE), c -> ((NbtCompound)c).getUuid("uuid")));
+        profession = nbt.getString("profession");
     }
 
     public UUID id() {
@@ -82,7 +81,7 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     public VillagerProfession getProfession() {
-        return Registry.VILLAGER_PROFESSION.get(new Identifier(profession));
+        return Registry.VILLAGER_PROFESSION.get(Identifier.tryParse(profession));
     }
 
     public boolean isPlayer() {
