@@ -36,7 +36,9 @@
     "priority": 3,
     "blocks": {
       "bed": 4
-    }
+    },
+    "iconU": 4,
+    "iconV": 1
   },
   {
     "name": "blacksmith",
@@ -47,8 +49,10 @@
     "blocks": {
       "minecraft:grindstone": 1,
       "minecraft:blast_furnace": 2,
-      "anvil": 1
-    }
+      "mca:anvil": 1
+    },
+    "iconU": 0,
+    "iconV": 1
   },
   {
     "name": "storage",
@@ -59,7 +63,64 @@
     "blocks": {
       "minecraft:lectern": 1,
       "minecraft:chest": 4
-    }
+    },
+    "iconU": 3,
+    "iconV": 1
+  },
+  {
+    "name": "armory",
+    "size": 16,
+    "color": "ffcccccc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:armor_stand": 2,
+      "minecraft:smithing_table": 1,
+      "minecraft:grindstone": 1,
+      "mca:anvil": 1
+    },
+    "iconU": 3,
+    "iconV": 0
+  },
+  {
+    "name": "bakery",
+    "size": 16,
+    "color": "ffff00cc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:cake": 1,
+      "minecraft:smoker": 1
+    },
+    "iconU": 4,
+    "iconV": 0
+  },
+  {
+    "name": "musicStore",
+    "size": 16,
+    "color": "ffff00cc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:jukebox": 1,
+      "minecraft:noteblock": 1,
+      "minecraft:chest": 1
+    },
+    "iconU": 1,
+    "iconV": 1
+  },
+  {
+    "name": "library",
+    "size": 32,
+    "color": "ffff00cc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:bookshelf": 32,
+      "minecraft:lectern": 1
+    },
+    "iconU": 7,
+    "iconV": 0
   },
   {
     "name": "graveyard",
@@ -86,7 +147,7 @@
       "mca:town_center": 1
     },
     "icon": true,
-    "iconU": 16,
+    "iconU": 1,
     "iconV": 0,
     "grouped": true,
     "mergeRange": 32

@@ -16,6 +16,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
@@ -45,8 +46,10 @@ public class BlueprintScreen extends Screen {
     private ButtonWidget[] buttonTaxes;
     private ButtonWidget[] buttonBirths;
     private ButtonWidget[] buttonMarriage;
+    private List<ButtonWidget> catalogButtons = new LinkedList<>();
 
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/buildings.png");
+    private BuildingType selectedBuilding;
 
     public BlueprintScreen() {
         super(new LiteralText("Blueprint"));
@@ -94,17 +97,15 @@ public class BlueprintScreen extends Screen {
 
     protected void drawBuildingIcon(MatrixStack transform, int x, int y, int u, int v) {
         transform.push();
-        transform.translate(x - 4, y - 4, 0);
+        transform.translate(x - 7, y - 7, 0);
         transform.scale(0.66f, 0.66f, 0.66f);
-        this.drawTexture(transform, 0, 0, u, v, 16, 16);
+        this.drawTexture(transform, 0, 0, u, v, 20, 20);
         transform.pop();
     }
 
     @Override
     public void init() {
         NetworkHandler.sendToServer(new GetVillageRequest());
-
-        showCatalog = false;
 
         addButton(new ButtonWidget(width / 2 - 66, height / 2 + 80, 64, 20, new LiteralText("Exit"), (b) -> MinecraftClient.getInstance().openScreen(null)));
         addButton(new ButtonWidget(width / 2 + 2, height / 2 + 80, 64, 20, new LiteralText("Add Building"), (b) -> {
@@ -115,7 +116,7 @@ public class BlueprintScreen extends Screen {
             toggleButtons(buttonTaxes, false);
             toggleButtons(buttonBirths, false);
             toggleButtons(buttonMarriage, false);
-            showCatalog = !showCatalog;
+            setCatalogOpen(!showCatalog);
         }));
 
         //taxes
@@ -129,6 +130,43 @@ public class BlueprintScreen extends Screen {
         //marriage threshold
         buttonMarriage = createValueChanger(width / 2 + fromCenter, height / 2 + positionMarriage + 10, 80, 20, (b) -> changeMarriageThreshold(b ? 10 : -10));
         toggleButtons(buttonMarriage, false);
+
+        //list catalog button
+        int row = 0;
+        int col = 0;
+        int size = 21;
+        int x = width / 2 - 5 * size - 32;
+        int y = (int)(height / 2 - 2.5 * size);
+        catalogButtons.clear();
+        for (BuildingType bt : API.getVillagePool()) {
+            if (bt.visible()) {
+                TexturedButtonWidget widget = new TexturedButtonWidget(
+                        row * size + x - 10, col * size + y - 10, 20, 20, bt.iconU(), bt.iconV() + 20, 20, ICON_TEXTURES, 256, 256, button -> {
+                    selectBuilding(bt);
+                    button.active = false;
+                    catalogButtons.forEach(b -> b.active = true);
+                }, new TranslatableText("buildingType." + bt.name()));
+                catalogButtons.add(addButton(widget));
+
+                row++;
+                if (row > 5) {
+                    row = 0;
+                    col++;
+                }
+            }
+        }
+
+        setCatalogOpen(false);
+    }
+
+    private void setCatalogOpen(boolean open) {
+        showCatalog = open;
+        catalogButtons.forEach(b -> b.active = open);
+        catalogButtons.forEach(b -> b.visible = open);
+    }
+
+    private void selectBuilding(BuildingType b) {
+        selectedBuilding = b;
     }
 
     @Override
@@ -243,7 +281,7 @@ public class BlueprintScreen extends Screen {
                 drawBuildingIcon(transform, c.getX(), c.getZ(), bt.iconU(), bt.iconV());
 
                 //tooltip
-                int margin = 5;
+                int margin = 6;
                 if (c.getSquaredDistance(new Vec3i(mouseX, c.getY(), mouseY)) < margin * margin) {
                     hoverBuilding = building;
                 }
@@ -301,35 +339,23 @@ public class BlueprintScreen extends Screen {
         drawCenteredText(transform, textRenderer, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
         drawCenteredText(transform, textRenderer, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
 
-        //buildings
-        int row = 0;
-        int col = 0;
-        int w = 120;
-        int h = 55;
-        int spacing = 8;
-        for (BuildingType bt : API.getVillagePool()) {
-            if (bt.visible()) {
-                int x = width / 2 + fromCenter * (col - 1);
-                int y = row * (h + spacing) + 105;
-                RectangleWidget.drawRectangle(transform, x - w / 2, y - h / 2, x + w / 2, y + h / 2, 0x88ffffff);
-                drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + bt.name()), x, y - 24, bt.getColor());
+        //building
+        int w = 150;
+        int x = width / 2 + 16 + w / 2;
+        int y = height / 2 - 40;
+        if (selectedBuilding != null) {
+            drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + selectedBuilding.name()), x, y, selectedBuilding.getColor());
+            drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + selectedBuilding.name() + ".description"), x, y + 12, 0xffffffff);
 
-                //size
-                Text size = bt.size() == 0 ? new TranslatableText("gui.building.anySize") : new TranslatableText("gui.building.size", String.valueOf(bt.size()));
-                drawCenteredText(transform, textRenderer, size, x, y - 12, 0xffdddddd);
+            //size
+            Text size = selectedBuilding.size() == 0 ? new TranslatableText("gui.building.anySize") : new TranslatableText("gui.building.size", String.valueOf(selectedBuilding.size()));
+            drawCenteredText(transform, textRenderer, size, x, y + 36, 0xffdddddd);
 
-                //required blocks
-                int i = 0;
-                for (Map.Entry<String, Integer> b : bt.blocks().entrySet()) {
-                    i++;
-                    drawCenteredText(transform, textRenderer, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y - 12 + 12 * i, 0xffffffff);
-                }
-
-                col++;
-                if (col == 3) {
-                    col = 0;
-                    row++;
-                }
+            //required blocks
+            int i = 0;
+            for (Map.Entry<String, Integer> b : selectedBuilding.blocks().entrySet()) {
+                i++;
+                drawCenteredText(transform, textRenderer, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y + 36 + 12 * i, 0xffffffff);
             }
         }
     }

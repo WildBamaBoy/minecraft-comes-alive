@@ -84,11 +84,11 @@ public final class BuildingType {
     }
 
     public int iconU() {
-        return iconU;
+        return iconU * 20;
     }
 
     public int iconV() {
-        return iconV;
+        return iconV * 60;
     }
 
     public boolean grouped() {

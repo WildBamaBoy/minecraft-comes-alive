@@ -161,6 +161,7 @@
   "buildingType.bigHouse": "Big House",
   "buildingType.blacksmith": "Blacksmith",
   "buildingType.storage": "Storage",
+  "buildingType.storage.description": "A place to store taxes.",
   "buildingType.graveyard": "Graveyard",
   "buildingType.townCenter": "Town Center",
 
