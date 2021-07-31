@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FamilyTree extends PersistentStateCompat {
     private static final String DATA_ID = "MCA-FamilyTree";
@@ -40,8 +41,8 @@ public class FamilyTree extends PersistentStateCompat {
         return NbtHelper.fromMap(nbt, entries, UUID::toString, FamilyTreeNode::save);
     }
 
-    public Optional<FamilyTreeNode> getOrEmpty(UUID id) {
-        return Optional.ofNullable(entries.get(id));
+    public Optional<FamilyTreeNode> getOrEmpty(@Nullable UUID id) {
+        return id == null ? Optional.empty() : Optional.ofNullable(entries.get(id));
     }
 
     @NotNull
@@ -52,6 +53,7 @@ public class FamilyTree extends PersistentStateCompat {
     }
 
     private FamilyTreeNode createEntry(Entity entity, UUID father, UUID mother) {
+        markDirty();
         return new FamilyTreeNode(this,
                 entity.getUuid(),
                 entity.getName().getString(),

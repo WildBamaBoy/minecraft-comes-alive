@@ -1,5 +1,6 @@
 package mca.entity.ai.relationship.family;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
+import mca.entity.ai.relationship.MarriageState;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 
@@ -35,6 +37,9 @@ public final class FamilyTreeNode implements Serializable {
 
     private UUID father;
     private UUID mother;
+
+    private UUID spouse = Util.NIL_UUID;
+    private MarriageState marriageState = MarriageState.SINGLE;
 
     private final Set<UUID> children = new HashSet<>();
 
@@ -62,6 +67,10 @@ public final class FamilyTreeNode implements Serializable {
         );
         children.addAll(NbtHelper.toList(nbt.getList("children", NbtElementCompat.COMPOUND_TYPE), c -> ((NbtCompound)c).getUuid("uuid")));
         profession = nbt.getString("profession");
+        if (nbt.containsUuid("spouse")) {
+            spouse = nbt.getUuid("spouse");
+        }
+        marriageState = MarriageState.byId(nbt.getInt("marriageState"));
     }
 
     public UUID id() {
@@ -70,6 +79,9 @@ public final class FamilyTreeNode implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+        if (rootNode != null) {
+            rootNode.markDirty();
+        }
     }
 
     public String getName() {
@@ -78,6 +90,9 @@ public final class FamilyTreeNode implements Serializable {
 
     public void setProfession(VillagerProfession profession) {
         this.profession = Registry.VILLAGER_PROFESSION.getId(profession).toString();
+        if (rootNode != null) {
+            rootNode.markDirty();
+        }
     }
 
     public VillagerProfession getProfession() {
@@ -98,6 +113,36 @@ public final class FamilyTreeNode implements Serializable {
 
     public UUID mother() {
         return mother;
+    }
+
+    /**
+     * Id of the last this entity's most recent spouse.
+     */
+    public UUID spouse() {
+        return spouse;
+    }
+
+    public MarriageState getMarriageState() {
+        return marriageState;
+    }
+
+    public void setMarriageState(MarriageState state) {
+        this.marriageState = state;
+        if (rootNode != null) {
+            rootNode.markDirty();
+        }
+    }
+
+    public void updateMarriage(Entity spouse, MarriageState state) {
+        this.spouse = spouse == null ? null : spouse.getUuid();
+        this.marriageState = spouse == null ? MarriageState.SINGLE : state;
+        if (rootNode != null) {
+            if (spouse != null) {
+                // ensure the family tree has an entry
+                rootNode.getOrCreate(spouse);
+            }
+            rootNode.markDirty();
+        }
     }
 
     public Set<UUID> children() {
@@ -123,15 +168,15 @@ public final class FamilyTreeNode implements Serializable {
         return siblings;
     }
 
-    public Stream<UUID> getFamily() {
-        return getFamily(3);
+    public Stream<UUID> getRelatives() {
+        return getRelatives(3);
     }
 
-    public Stream<UUID> getFamily(int depth) {
-        return getFamily(depth, depth);
+    public Stream<UUID> getRelatives(int depth) {
+        return getRelatives(depth, depth);
     }
 
-    public Stream<UUID> getFamily(int parentDepth, int childrenDepth) {
+    public Stream<UUID> getRelatives(int parentDepth, int childrenDepth) {
         Set<UUID> family = new HashSet<>();
 
         //fetch parents and children
@@ -145,7 +190,7 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     public boolean isRelative(UUID with) {
-        return getFamily().anyMatch(with::equals);
+        return getRelatives().anyMatch(with::equals);
     }
 
     public Stream<FamilyTreeNode> getParents() {
@@ -203,6 +248,9 @@ public final class FamilyTreeNode implements Serializable {
                 return false;
             }
             this.father = parent.id();
+            if (rootNode != null) {
+                rootNode.markDirty();
+            }
             return true;
         }
         if (gender == Gender.FEMALE || gender == Gender.NEUTRAL) {
@@ -210,6 +258,9 @@ public final class FamilyTreeNode implements Serializable {
                 return false;
             }
             this.mother = parent.id();
+            if (rootNode != null) {
+                rootNode.markDirty();
+            }
             return true;
         }
         return false;
@@ -222,6 +273,8 @@ public final class FamilyTreeNode implements Serializable {
         nbt.putInt("gender", gender.getId());
         nbt.putUuid("father", father);
         nbt.putUuid("mother", mother);
+        nbt.putUuid("spouse", spouse);
+        nbt.putInt("marriageState", marriageState.ordinal());
         nbt.put("children", NbtHelper.fromList(children, child -> {
             NbtCompound n = new NbtCompound();
             n.putUuid("uuid", child);

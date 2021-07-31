@@ -34,8 +34,8 @@ public class FamilyCriterion extends AbstractCriterion<FamilyCriterion.Condition
 
     public void trigger(ServerPlayerEntity player) {
         FamilyTreeNode familyTree = FamilyTree.get((ServerWorld) player.world).getOrCreate(player);
-        long c = familyTree.getFamily(0, 1).count();
-        long gc = familyTree.getFamily(0, 2).count() - c;
+        long c = familyTree.getRelatives(0, 1).count();
+        long gc = familyTree.getRelatives(0, 2).count() - c;
 
         test(player, condition -> condition.test((int)c, (int)gc));
     }

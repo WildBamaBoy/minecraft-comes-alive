@@ -15,7 +15,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -214,8 +213,13 @@ public class FamilyTreeScreen extends Screen {
                     }
                 });
             }
-            if (!children.isEmpty()) {
-                spouse = new TreeNode();
+
+            FamilyTreeNode spouse = family.get(node.spouse());
+
+            if (spouse != null) {
+                this.spouse = new TreeNode(spouse, false);
+            } else if (!children.isEmpty()) {
+                this.spouse = new TreeNode();
             }
         }
 

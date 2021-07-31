@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -92,7 +93,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
     @Override
     public Stream<Entity> getFamily(int parents, int children) {
         return getFamilyEntry()
-                .getFamily(parents, children)
+                .getRelatives(parents, children)
                 .map(id -> ((ServerWorld) entity.world).getEntity(id))
                 .filter(Objects::nonNull)
                 .filter(e -> !e.equals(entity));
@@ -165,17 +166,19 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         return entity.getTrackedValue(SPOUSE_UUID);
     }
 
-    public void marry(ServerPlayerEntity player) {
-        CriterionMCA.GENERIC_EVENT_CRITERION.trigger(player, "marriage");
-        entity.setTrackedValue(SPOUSE_UUID, Optional.of(player.getUuid()));
-        entity.setTrackedValue(SPOUSE_NAME, player.getName().getString());
-        entity.setTrackedValue(MARRIAGE_STATE, MarriageState.MARRIED_TO_PLAYER);
-    }
-
-    public void marry(VillagerEntityMCA spouse) {
+    @Override
+    public void marry(Entity spouse) {
         entity.setTrackedValue(SPOUSE_UUID, Optional.of(spouse.getUuid()));
         entity.setTrackedValue(SPOUSE_NAME, spouse.getName().getString());
-        entity.setTrackedValue(MARRIAGE_STATE, MarriageState.MARRIED_TO_VILLAGER);
+
+        MarriageState state = spouse instanceof PlayerEntity ? MarriageState.MARRIED_TO_PLAYER : MarriageState.MARRIED_TO_VILLAGER;
+
+        if (spouse instanceof ServerPlayerEntity) {
+            CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)spouse, "marriage");
+        }
+
+        entity.setTrackedValue(MARRIAGE_STATE, state);
+        getFamilyEntry().updateMarriage(spouse, state);
     }
 
     @Override
@@ -183,6 +186,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         entity.setTrackedValue(SPOUSE_UUID, Optional.empty());
         entity.setTrackedValue(SPOUSE_NAME, "");
         entity.setTrackedValue(MARRIAGE_STATE, newState);
+        getFamilyEntry().setMarriageState(newState);
     }
 
     public GiftSaturation getGiftSaturation() {

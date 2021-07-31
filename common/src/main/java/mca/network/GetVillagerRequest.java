@@ -25,7 +25,7 @@ public class GetVillagerRequest implements Message {
         //de-loaded members are excluded as can't teleport anyways
 
         Stream.concat(
-                playerData.getFamilyEntry().getFamily(),
+                playerData.getFamilyEntry().getRelatives(),
                 Stream.of(playerData.getSpouseUUID())
         ).distinct()
             .map(((ServerWorld) player.world)::getEntity)

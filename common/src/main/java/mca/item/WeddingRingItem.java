@@ -5,7 +5,6 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
 import mca.entity.ai.Relationship;
-import mca.entity.ai.relationship.MarriageState;
 import mca.server.world.data.PlayerSaveData;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -49,7 +48,7 @@ public class WeddingRingItem extends TooltippedItem implements SpecialCaseGift {
             response = "interaction.marry.fail.lowhearts";
         } else {
             response = "interaction.marry.success";
-            playerData.marry(villager.getUuid(), villager.getName().getString(), MarriageState.MARRIED_TO_VILLAGER);
+            playerData.marry(villager);
             villager.getVillagerBrain().getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
             villager.getRelationships().marry(player);
             villager.getVillagerBrain().modifyMoodLevel(15);

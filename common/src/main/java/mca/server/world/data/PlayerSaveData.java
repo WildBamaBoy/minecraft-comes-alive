@@ -21,7 +21,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
-import org.apache.logging.log4j.util.Strings;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -111,10 +110,13 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         return spouseUUID;
     }
 
-    public void marry(UUID uuid, String name, MarriageState marriageState) {
-        this.spouseUUID = Optional.ofNullable(uuid);
-        this.spouseName = Optional.of(name).filter(Strings::isNotEmpty).map(LiteralText::new);
+    @Override
+    public void marry(Entity spouse) {
+        MarriageState marriageState = spouse instanceof PlayerEntity ? MarriageState.MARRIED_TO_PLAYER : MarriageState.MARRIED_TO_VILLAGER;
+        this.spouseUUID = Optional.of(spouse.getUuid());
+        this.spouseName = Optional.of(spouse.getName());
         this.marriageState = marriageState;
+        getFamilyEntry().updateMarriage(spouse, marriageState);
         markDirty();
     }
 
@@ -123,6 +125,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         spouseUUID = Optional.empty();
         spouseName = Optional.empty();
         marriageState = newState;
+        getFamilyEntry().setMarriageState(newState);
         markDirty();
     }
 
@@ -143,6 +146,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         return marriageState;
     }
 
+    @Deprecated
     public UUID getSpouseUUID() {
         return spouseUUID.orElse(Util.NIL_UUID);
     }
@@ -160,7 +164,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     @Override
     public Stream<Entity> getFamily(int parents, int children) {
         return getFamilyEntry()
-                .getFamily(parents, children)
+                .getRelatives(parents, children)
                 .map(world::getEntity)
                 .filter(Objects::nonNull)
                 .filter(e -> !e.getUuid().equals(playerId));

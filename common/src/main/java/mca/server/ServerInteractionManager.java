@@ -163,10 +163,8 @@ public class ServerInteractionManager {
             successMessage(receiver, sender.getEntityName() + " has accepted your proposal!");
 
             // Set both player datas as married.
-            PlayerSaveData senderData = PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid());
-            PlayerSaveData receiverData = PlayerSaveData.get((ServerWorld)receiver.world, receiver.getUuid());
-            senderData.marry(receiver.getUuid(), receiver.getEntityName(), MarriageState.MARRIED_TO_PLAYER);
-            receiverData.marry(sender.getUuid(), sender.getEntityName(), MarriageState.MARRIED_TO_PLAYER);
+            PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid()).marry(receiver);
+            PlayerSaveData.get((ServerWorld)receiver.world, receiver.getUuid()).marry(sender);
 
             // Send success messages.
             successMessage(sender, "You and " + receiver.getEntityName() + " are now married.");

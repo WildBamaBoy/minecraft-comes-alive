@@ -59,6 +59,8 @@ public interface EntityRelationship {
         }
     }
 
+    void marry(Entity spouse);
+
     void endMarriage(MarriageState newState);
 
     MarriageState getMarriageState();
