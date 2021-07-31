@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import mca.entity.VillagerEntityMCA;
 import mca.server.world.data.Building;
+import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.Village;
 import mca.server.world.data.VillageManager;
 import mca.util.compat.OptionalCompat;
@@ -114,7 +115,7 @@ public class Residency {
         VillageManager manager = VillageManager.get((ServerWorld)entity.world);
 
         //fetch all near POIs
-        Stream<BlockPos> stream = ((ServerWorld) entity.world).getPointOfInterestStorage().getPositions(
+        Stream<BlockPos> stream = ((ServerWorld)entity.world).getPointOfInterestStorage().getPositions(
                 PointOfInterestType.ALWAYS_TRUE,
                 (p) -> !manager.cache.contains(p),
                 entity.getBlockPos(),
@@ -123,6 +124,13 @@ public class Residency {
 
         //check if it is a building
         stream.forEach(manager::reportBuilding);
+
+        // also add tombstones
+        GraveyardManager.get((ServerWorld)entity.world)
+                .findAll(entity.getBoundingBox().expand(24D), true, true)
+                .stream()
+                .filter(p -> !manager.cache.contains(p))
+                .forEach(manager::reportBuilding);
     }
 
     private void seekNewHome(Village village) {
@@ -161,15 +169,15 @@ public class Residency {
 
     public void goHome(PlayerEntity player) {
         OptionalCompat.ifPresentOrElse(getHome()
-            .filter(p -> p.getDimension() == entity.world.getRegistryKey())
-            , home -> {
-            entity.moveTowards(home.getPos());
-            entity.sendChatMessage(player, "interaction.gohome.success");
-        }, () -> entity.sendChatMessage(player, "interaction.gohome.fail.nohome"));
+                        .filter(p -> p.getDimension() == entity.world.getRegistryKey())
+                , home -> {
+                    entity.moveTowards(home.getPos());
+                    entity.sendChatMessage(player, "interaction.gohome.success");
+                }, () -> entity.sendChatMessage(player, "interaction.gohome.fail.nohome"));
     }
 
     private void clearHome() {
-        ServerWorld serverWorld = ((ServerWorld) entity.world);
+        ServerWorld serverWorld = ((ServerWorld)entity.world);
         PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
         entity.getBrain().getOptionalMemory(MemoryModuleType.HOME).ifPresent(globalPos -> {
             if (poiManager.hasTypeAt(PointOfInterestType.HOME, globalPos.getPos())) {
@@ -181,14 +189,14 @@ public class Residency {
     private boolean setHome(BlockPos pos, World world) {
         clearHome();
 
-        ServerWorld serverWorld = ((ServerWorld) world);
+        ServerWorld serverWorld = ((ServerWorld)world);
         PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
 
         //check if it is a bed
         if (world.getBlockState(pos).isIn(BlockTags.BEDS)) {
             entity.getBrain().remember(MemoryModuleType.HOME, GlobalPos.create(world.getRegistryKey(), pos));
             poiManager.getPosition(PointOfInterestType.HOME.getCompletionCondition(), (p) -> p.equals(pos), pos, 1);
-            serverWorld.sendEntityStatus(entity, (byte) 14);
+            serverWorld.sendEntityStatus(entity, (byte)14);
 
             return true;
         } else {

@@ -35,6 +35,7 @@ import java.util.stream.Stream;
 public class Village implements Iterable<Building> {
 
     private static final int MOVE_IN_COOLDOWN = 6000;
+    private static final int MIN_SIZE = 32;
 
     public static Optional<Village> findNearest(Entity entity) {
         return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
@@ -51,7 +52,7 @@ public class Village implements Iterable<Building> {
     private int id;
 
     private int centerX, centerY, centerZ;
-    private int size = 32;
+    private int size = MIN_SIZE;
 
     private int taxes;
 
@@ -60,7 +61,6 @@ public class Village implements Iterable<Building> {
 
     public final static double BORDER_MARGIN = 32.0;
     public final static double MERGE_MARGIN = 128.0;
-    public final static double GRAVEYARD_SIZE = 64;
 
     public Village() {
     }
@@ -136,7 +136,7 @@ public class Village implements Iterable<Building> {
         centerZ = (ez + sz) / 2;
 
         //calculate size
-        size = 0;
+        size = MIN_SIZE * MIN_SIZE;
         for (Building building : buildings.values()) {
             size = (int)Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
         }

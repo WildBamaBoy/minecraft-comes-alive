@@ -5,7 +5,6 @@ import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.GraveyardManager.TombstoneState;
-import mca.server.world.data.VillageManager;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import mca.util.VoxelShapeUtil;
@@ -141,14 +140,11 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         Data.of(world.getBlockEntity(pos)).ifPresent(data -> data.readFromStack(stack));
         updateTombstoneState(world, pos);
-        if (!world.isClient) {
-            VillageManager.get((ServerWorld)world).addGrave(pos);
-        }
     }
 
     private void updateTombstoneState(World world, BlockPos pos) {
         if (!world.isClient) {
-            GraveyardManager.get((ServerWorld)world).setTombstoneState(pos,
+            GraveyardManager.get((ServerWorld) world).setTombstoneState(pos,
                     hasEntity(world, pos) ? TombstoneState.FILLED : TombstoneState.EMPTY
             );
         }
@@ -159,8 +155,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         super.onStateReplaced(state, world, pos, newState, moved);
         if (!world.isClient && !state.isOf(newState.getBlock())) {
             updateNeighbors(state, world, pos);
-            GraveyardManager.get((ServerWorld)world).removeTombstoneState(pos);
-            VillageManager.get((ServerWorld)world).removeGrave(pos);
+            GraveyardManager.get((ServerWorld) world).removeTombstoneState(pos);
         }
     }
 
@@ -337,7 +332,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                         generateLightning();
                         entity.setPosition(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
                         if (entity instanceof LivingEntity) {
-                            LivingEntity l = (LivingEntity)entity;
+                            LivingEntity l = (LivingEntity) entity;
                             l.setHealth(l.getMaxHealth());
                             l.clearStatusEffects();
                             l.removed = false;
@@ -345,13 +340,13 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                         }
 
                         if (cure && (entity instanceof ZombieVillagerEntity)) {
-                            entity = ((ZombieVillagerEntity)entity).method_29243(EntityType.VILLAGER, true);
+                            entity = ((ZombieVillagerEntity) entity).method_29243(EntityType.VILLAGER, true);
                         }
 
                         if (entity instanceof Infectable) {
-                            ((Infectable)entity).setInfectionProgress(cure
+                            ((Infectable) entity).setInfectionProgress(cure
                                     ? Infectable.MIN_INFECTION
-                                    : Math.max(MathHelper.lerp(world.random.nextFloat(), Infectable.FEVER_THRESHOLD, Infectable.BABBLING_THRESHOLD), ((Infectable)entity).getInfectionProgress())
+                                    : Math.max(MathHelper.lerp(world.random.nextFloat(), Infectable.FEVER_THRESHOLD, Infectable.BABBLING_THRESHOLD), ((Infectable) entity).getInfectionProgress())
                             );
                         }
 
@@ -383,10 +378,10 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                 world.syncWorldEvent(WorldEventsCompat.BLOCK_BROKEN, pos, Block.getRawIdFromState(getCachedState()));
                 // TODO: 1.17
                 // world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos);
-                ((TombstoneBlock)getCachedState().getBlock()).updateNeighbors(getCachedState(), world, pos);
+                ((TombstoneBlock) getCachedState().getBlock()).updateNeighbors(getCachedState(), world, pos);
 
                 if (!world.isClient) {
-                    GraveyardManager.get((ServerWorld)world).setTombstoneState(pos,
+                    GraveyardManager.get((ServerWorld) world).setTombstoneState(pos,
                             hasEntity() ? GraveyardManager.TombstoneState.FILLED : GraveyardManager.TombstoneState.EMPTY
                     );
                     sync();

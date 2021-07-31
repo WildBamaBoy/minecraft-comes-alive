@@ -1,11 +1,14 @@
 package mca.server.world.data;
 
+import mca.resources.API;
+import mca.resources.data.BuildingType;
 import mca.server.ReaperSpawner;
 import mca.server.SpawnQueue;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import mca.util.compat.PersistentStateCompat;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -32,6 +35,8 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
 
     private final ReaperSpawner reapers;
     private final BabyBunker babies;
+
+    private int buildingCooldown = 21;
 
     public static VillageManager get(ServerWorld world) {
         return WorldUtils.loadData(world, nbt -> new VillageManager(world, nbt), VillageManager::new, "mca_villages");
@@ -127,7 +132,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         }
 
         //process a single building
-        if (time % 21 == 0 && !buildingQueue.isEmpty()) {
+        if (time % buildingCooldown == 0 && !buildingQueue.isEmpty()) {
             processBuilding(buildingQueue.remove(0));
         }
 
@@ -146,23 +151,54 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
     //processed a building at given position
     public void processBuilding(BlockPos pos) {
         Village village = null;
-        Building withinBuilding = null;
 
         //find closest village
         Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
 
-        if (closestVillage.isPresent()) {
-            village = closestVillage.get();
-
-            //look for existing building
-            withinBuilding = village.getBuildings().values().stream().filter((building) -> building.containsPos(pos)).findAny().orElse(null);
+        //check if this might be a grouped building
+        BuildingType isGrouped = null;
+        Block block = world.getBlockState(pos).getBlock();
+        for (BuildingType bt : API.getVillagePool()) {
+            if (bt.grouped() && bt.requiresBlock(block)) {
+                isGrouped = bt;
+                break;
+            }
         }
 
-        if (withinBuilding != null) {
-            //notify the building that it has changed
-            if (!withinBuilding.validateBuilding(world)) {
+        //look for existing building
+        Building building = null;
+        if (closestVillage.isPresent()) {
+            village = closestVillage.get();
+            if (isGrouped != null) {
+                String name = isGrouped.name();
+                double range = isGrouped.mergeRange() * isGrouped.mergeRange();
+                building = village.getBuildings().values().stream()
+                        .filter(b -> b.getType().equals(name))
+                        .filter(b -> b.getCenter().getSquaredDistance(pos) < range)
+                        .min((a, b) -> (int)(a.getCenter().getSquaredDistance(pos) - b.getCenter().getSquaredDistance(pos)))
+                        .orElse(null);
+            } else {
+                building = village.getBuildings().values().stream()
+                        .filter((b) -> b.containsPos(pos)).findAny()
+                        .orElse(null);
+            }
+        }
+
+        if (building != null) {
+            boolean valid;
+            if (isGrouped != null) {
+                //add another poi
+                building.addPoi(world, pos);
+                valid = building.getPois().size() > 0;
+                markDirty();
+            } else {
+                //notify the building that it has changed
+                valid = building.validateBuilding(world);
+            }
+
+            if (!valid) {
                 //remove if the building became invalid for whatever reason
-                village.removeBuilding(withinBuilding.getId());
+                village.removeBuilding(building.getId());
 
                 //village is now empty
                 if (village.getBuildings().size() == 0) {
@@ -173,16 +209,21 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
             }
         } else {
             //create new building
-            Building building = new Building(pos);
+            building = new Building(pos);
+
+            //create new village
+            if (village == null) {
+                village = new Village(lastVillageId++);
+                villages.put(village.getId(), village);
+            }
 
             //check its boundaries, count the blocks, etc
-            if (building.validateBuilding(world)) {
-                //create new village
-                if (village == null) {
-                    village = new Village(lastVillageId++);
-                    villages.put(village.getId(), village);
-                }
-
+            if (isGrouped != null) {
+                //add another poi
+                building.setType(isGrouped.name());
+                building.addPoi(world, pos);
+                markDirty();
+            } else if (building.validateBuilding(world)) {
                 //the building is valid, but might overlap with an existing one
                 for (Building b : village.getBuildings().values()) {
                     if (b.overlaps(building)) {
@@ -199,49 +240,26 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                         }
                     }
                 }
-
-                //add to building list
-                if (building != null) {
-                    building.setId(lastBuildingId++);
-                    village.addBuilding(building);
-                }
-
-                markDirty();
-            }
-        }
-    }
-
-    public void addGrave(BlockPos pos) {
-        Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
-        if (closestVillage.isPresent()) {
-            Village village = closestVillage.get();
-            Optional<Building> graveyard = village.getNearestBuildingOfType("graveyard", pos);
-            if (graveyard.isPresent() && graveyard.get().getCenter().getSquaredDistance(pos) < Village.GRAVEYARD_SIZE) {
-                graveyard.get().increaseBlock("tombstone");
             } else {
-                // create a new graveyard
-                Building building = new Building(pos);
-                building.setType("graveyard");
+                //not valid
+                building = null;
+            }
+
+            //add to building list
+            if (building != null) {
                 building.setId(lastBuildingId++);
                 village.addBuilding(building);
-                building.increaseBlock("tombstone");
             }
+
             markDirty();
         }
     }
 
-    public void removeGrave(BlockPos pos) {
-        Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
-        if (closestVillage.isPresent()) {
-            Village village = closestVillage.get();
-            Optional<Building> graveyard = village.getNearestBuildingOfType("graveyard", pos);
-            if (graveyard.isPresent() && graveyard.get().getCenter().getSquaredDistance(pos) < Village.GRAVEYARD_SIZE) {
-                graveyard.get().decreaseBlock("tombstone");
-                if (!graveyard.get().getBlocks().containsKey("tombstone")) {
-                    village.removeBuilding(graveyard.get().getId());
-                }
-            }
-            markDirty();
-        }
+    public int getBuildingCooldown() {
+        return buildingCooldown;
+    }
+
+    public void setBuildingCooldown(int buildingCooldown) {
+        this.buildingCooldown = buildingCooldown;
     }
 }

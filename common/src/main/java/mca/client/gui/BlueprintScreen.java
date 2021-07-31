@@ -217,7 +217,7 @@ public class BlueprintScreen extends Screen {
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
         //center and scale the map
-        float sc = (float)mapSize / (village.getSize() - 8);
+        float sc = (float)mapSize / village.getSize();
         transform.translate(width / 2.0, height / 2.0, 0);
         transform.scale(sc, sc, 0.0f);
         transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
@@ -273,6 +273,11 @@ public class BlueprintScreen extends Screen {
             //residents
             for (String name : hoverBuilding.getResidents().values()) {
                 lines.add(new LiteralText(name));
+            }
+
+            //pois
+            if (hoverBuilding.getPois().size() > 0) {
+                lines.add(new LiteralText(hoverBuilding.getPois().size() + " pois"));
             }
 
             //present blocks

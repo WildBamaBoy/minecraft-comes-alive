@@ -68,11 +68,13 @@
     "visible": false,
     "priority": 0,
     "blocks": {
-      "blocked": 1
+      "mca:tombstones": 1
     },
     "icon": true,
     "iconU": 0,
-    "iconV": 0
+    "iconV": 0,
+    "grouped": true,
+    "mergeRange": 32
   },
   {
     "name": "townCenter",
@@ -81,10 +83,12 @@
     "visible": false,
     "priority": 0,
     "blocks": {
-      "blocked": 1
+      "mca:town_center": 1
     },
     "icon": true,
     "iconU": 16,
-    "iconV": 0
+    "iconV": 0,
+    "grouped": true,
+    "mergeRange": 32
   }
 ]

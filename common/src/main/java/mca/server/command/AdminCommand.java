@@ -42,7 +42,8 @@ public class AdminCommand {
                 //.then(register("resetVillagerData", CommandMCAAdmin::resetVillagerData))
                 .then(register("resetPlayerData", AdminCommand::resetPlayerData))
                 .then(register("listVillages", AdminCommand::listVillages))
-                .then(register().then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillage)))
+                .then(register("removeVillage").then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillage)))
+                .then(register("buildingProcessingRate").then(CommandManager.argument("cooldown", IntegerArgumentType.integer()).executes(AdminCommand::buildingProcessingRate)))
         );
     }
 
@@ -69,6 +70,12 @@ public class AdminCommand {
         return 0;
     }
 
+    private static int buildingProcessingRate(CommandContext<ServerCommandSource> ctx) {
+        int cooldown = IntegerArgumentType.getInteger(ctx, "cooldown");
+        VillageManager.get(ctx.getSource().getWorld()).setBuildingCooldown(cooldown);
+        return 0;
+    }
+
     private static int resetPlayerData(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         PlayerEntity player = ctx.getSource().getPlayer();
         PlayerSaveData playerData = PlayerSaveData.get(ctx.getSource().getWorld(), player.getUuid());
@@ -77,13 +84,13 @@ public class AdminCommand {
     }
 
     private static int decrementHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        PlayerEntity player =  ctx.getSource().getPlayer();
+        PlayerEntity player = ctx.getSource().getPlayer();
         getLoadedVillagers(ctx).forEach(v -> v.getVillagerBrain().getMemoriesForPlayer(player).modHearts(-10));
         return 0;
     }
 
     private static int incrementHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        PlayerEntity player =  ctx.getSource().getPlayer();
+        PlayerEntity player = ctx.getSource().getPlayer();
         getLoadedVillagers(ctx).forEach(v -> v.getVillagerBrain().getMemoriesForPlayer(player).modHearts(10));
         return 0;
     }
@@ -94,7 +101,7 @@ public class AdminCommand {
     }
 
     private static int forceBabyGrowth(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        PlayerEntity player =  ctx.getSource().getPlayer();
+        PlayerEntity player = ctx.getSource().getPlayer();
         ItemStack heldStack = player.getMainHandStack();
 
         if (heldStack.getItem() instanceof BabyItem) {
@@ -104,7 +111,7 @@ public class AdminCommand {
     }
 
     private static int forceFullHearts(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        PlayerEntity player =  ctx.getSource().getPlayer();
+        PlayerEntity player = ctx.getSource().getPlayer();
         getLoadedVillagers(ctx).forEach(v -> v.getVillagerBrain().getMemoriesForPlayer(player).setHearts(100));
         return 0;
     }
@@ -119,8 +126,8 @@ public class AdminCommand {
         return CommandManager.literal(name).requires(cs -> cs.hasPermissionLevel(2)).executes(cmd);
     }
 
-    private static ArgumentBuilder<ServerCommandSource, ?> register() {
-        return CommandManager.literal("removeVillage").requires(cs -> cs.hasPermissionLevel(2));
+    private static ArgumentBuilder<ServerCommandSource, ?> register(String name) {
+        return CommandManager.literal(name).requires(cs -> cs.hasPermissionLevel(2));
     }
 
     private static int clearLoadedVillagers(final CommandContext<ServerCommandSource> ctx) {
