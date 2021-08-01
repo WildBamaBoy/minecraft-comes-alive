@@ -8,7 +8,7 @@
   "minecraft:fisherman": { "count": 5 },
   "minecraft:fletcher": { "count": 0 },
   "minecraft:leatherworker": { "count": 0 },
-  "minecraft:librarian": { "count": 5 },
+  "minecraft:librarian": { "count": 6 },
   "minecraft:mason": { "count": 0 },
   "minecraft:nitwit": { "count": 1 },
   "minecraft:shepherd": { "count": 5 },
@@ -19,5 +19,5 @@
   "mca:miner": { "count": 5 },
   "mca:archer": { "count": 5 },
   "mca:guard": { "count": 5 },
-  "mca:child": { "count": 10 }
+  "mca:child": { "count": 11 }
 }
