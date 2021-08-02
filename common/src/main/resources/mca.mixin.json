@@ -13,7 +13,8 @@
     "MixinSensorType",
     "MixinServerWorld",
     "MixinProtoChunk",
-    "MixinTargetPredicate"
+    "MixinTargetPredicate",
+    "MixinVillagerEntity"
   ],
   "client": [
     "client.MixinClientPlayerEntity",
