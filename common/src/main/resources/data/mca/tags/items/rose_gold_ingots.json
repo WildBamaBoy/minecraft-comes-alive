@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#mca:ingots/rose_gold",
+    "mca:rose_gold_ingot",
     "mca:engagement_ring",
     "mca:wedding_ring",
     "mca:matchmakers_ring",

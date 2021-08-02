@@ -4,6 +4,7 @@ import com.mojang.serialization.Dynamic;
 import mca.Config;
 import mca.ParticleTypesMCA;
 import mca.SoundsMCA;
+import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
@@ -13,7 +14,6 @@ import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.entity.interaction.VillagerCommandHandler;
-import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.util.InventoryUtils;
@@ -279,7 +279,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if (stack.getItem() != ItemsMCA.FEMALE_VILLAGER_SPAWN_EGG && stack.getItem() != ItemsMCA.MALE_VILLAGER_SPAWN_EGG) {
+        if (!stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS)) {
             playWelcomeSound();
             return interactions.interactAt(player, pos, hand);
         }

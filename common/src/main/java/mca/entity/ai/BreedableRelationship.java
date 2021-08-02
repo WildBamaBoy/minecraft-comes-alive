@@ -1,12 +1,12 @@
 package mca.entity.ai;
 
 import mca.Config;
+import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.interaction.gifts.GiftType;
 import mca.entity.interaction.gifts.Response;
-import mca.item.ItemsMCA;
 import mca.item.SpecialCaseGift;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
@@ -83,7 +83,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
                 }
 
                 for (int i = 0; i < count; i++) {
-                    ItemStack stack = (random.nextBoolean() ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL).getDefaultStack();
+                    ItemStack stack = TagsMCA.Items.BABIES.getRandom(random).getDefaultStack();
                     if (!(spouse instanceof PlayerEntity && ((PlayerEntity) spouse).giveItemStack(stack))) {
                         entity.getInventory().addStack(stack);
                     }

@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "mca:engagement_ring",
-    "mca:rose_gold_ingot",
     "mca:rose_gold_dust",
     "mca:gold_dust"
   ]

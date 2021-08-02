@@ -3,6 +3,7 @@ package mca.entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import mca.TagsMCA;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Relationship;
@@ -11,7 +12,6 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.ZombieCommandHandler;
-import mca.item.ItemsMCA;
 import mca.network.client.OpenGuiRequest;
 import mca.resources.API;
 import mca.util.network.datasync.CDataManager;
@@ -138,7 +138,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if (stack.getItem() != ItemsMCA.FEMALE_VILLAGER_SPAWN_EGG && stack.getItem() != ItemsMCA.MALE_VILLAGER_SPAWN_EGG) {
+        if (!stack.getItem().isIn(TagsMCA.Items.ZOMBIE_EGGS)) {
             if (player instanceof ServerPlayerEntity) {
                 NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.INTERACT, this), (ServerPlayerEntity)player);
             }
