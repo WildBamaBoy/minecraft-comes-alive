@@ -17,8 +17,6 @@ public class CDataManager<E extends Entity> {
     private final Map<CParameter<?, ?>, Entry<E, ?, ?>> forwardLookup = new HashMap<>();
     private final Map<TrackedData<?>, Entry<E, ?, ?>> backwardLookup = new HashMap<>();
 
-    private boolean registered;
-
     private CDataManager(List<Entry<E, ?, ?>> params) {
         this.params = params;
         params.forEach(param -> {

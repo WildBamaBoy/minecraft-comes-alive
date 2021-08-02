@@ -72,6 +72,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
@@ -516,13 +517,38 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void tickRiding() {
         super.tickRiding();
-        if (getVehicle() instanceof PathAwareEntity) {
-            bodyYaw = ((PathAwareEntity) getVehicle()).bodyYaw;
+
+        Entity vehicle = getVehicle();
+
+        if (vehicle instanceof PathAwareEntity) {
+            bodyYaw = ((PathAwareEntity) vehicle).bodyYaw;
+        }
+
+        if (vehicle instanceof PlayerEntity) {
+            List<Entity> passengers = vehicle.getPassengerList();
+
+            float yaw = -((PlayerEntity)vehicle).bodyYaw * 0.017453292F;
+
+            boolean left = passengers.get(0) == this;
+            boolean head = passengers.size() > 2 && passengers.get(2) == this;
+
+            Vec3d offset = head ? new Vec3d(0, 0.55, 0) : new Vec3d(left ? 0.4F : -0.4F, 0, 0).rotateY(yaw);
+
+            Vec3d pos = this.getPos();
+            this.setPos(pos.getX() + offset.getX(), pos.getY() + offset.getY(), pos.getZ() + offset.getZ());
+
+            if (vehicle.isSneaking()) {
+                stopRiding();
+            }
         }
     }
 
     @Override
     public double getHeightOffset() {
+        Entity vehicle = getVehicle();
+        if (vehicle instanceof PlayerEntity) {
+            return -0.2;
+        }
         return -0.35;
     }
 
@@ -533,6 +559,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public EntityDimensions getDimensions(EntityPose pose) {
+
+        Entity vehicle = getVehicle();
+        if (vehicle instanceof PlayerEntity) {
+            return SLEEPING_DIMENSIONS;
+        }
 
         if (pose == EntityPose.SLEEPING) {
             return SLEEPING_DIMENSIONS;

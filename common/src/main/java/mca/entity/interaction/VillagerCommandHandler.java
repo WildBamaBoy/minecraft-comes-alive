@@ -62,6 +62,10 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
 
         switch (command) {
             case "pick_up":
+                if (player.getPassengerList().size() >= 3) {
+                    player.getPassengerList().get(0).stopRiding();
+                }
+
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
                 } else {
@@ -69,8 +73,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 }
 
                 player.networkHandler.sendPacket(new EntityPassengersSetS2CPacket(player));
-
-                return true;
+                return false;
             case "ridehorse":
                 if (entity.hasVehicle()) {
                     entity.stopRiding();
