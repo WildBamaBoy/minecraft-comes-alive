@@ -1,0 +1,18 @@
+{
+  "base_satisfaction": 2,
+  "conditions": [
+    { "profession": "mca:farmer", "satisfaction_boost": 3 },
+    { "profession": "mca:guard", "satisfaction_boost": -7 },
+    { "age_group": "child", "satisfaction_boost": -9 },
+    { "gender": "male", "satisfaction_boost": -1 }
+  ],
+  "responses": {
+    "fail": "gift.plant.fail",
+    "good": "gift.plant.good",
+    "better": "gift.plant.better",
+    "best": "gift.plant.best"
+  },
+  "item": {
+    "tag": "mca:plants"
+  }
+}

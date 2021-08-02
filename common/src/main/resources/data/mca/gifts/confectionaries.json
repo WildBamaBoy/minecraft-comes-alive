@@ -7,10 +7,10 @@
     { "gender": "male", "satisfaction_boost": -1 }
   ],
   "responses": {
-    "fail": "I don't have much of a sweet tooth",
-    "good": "Thanks I guess",
-    "better": "Ooh. Nice",
-    "best": "Wow!"
+    "fail": "gift.confectionary.fail",
+    "good": "gift.confectionary.good",
+    "better": "gift.confectionary.better",
+    "best": "gift.confectionary.best"
   },
   "item": {
     "tag": "mca:confectionaries"

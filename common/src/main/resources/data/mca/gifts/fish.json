@@ -1,0 +1,20 @@
+{
+  "base_satisfaction": 2,
+  "conditions": [
+    { "profession": "mca:baker", "satisfaction_boost": -3 },
+    { "profession": "mca:guard", "satisfaction_boost": 7 },
+    { "profession": "mca:fisherman", "satisfaction_boost": 17 },
+    { "age_group": "child", "satisfaction_boost": -19 },
+    { "gender": "male", "satisfaction_boost": 2 },
+    { "gender": "female", "satisfaction_boost": -1 }
+  ],
+  "responses": {
+    "fail": "gift.fish.fail",
+    "good": "gift.fish.good",
+    "better": "gift.fish.better",
+    "best": "gift.fish.best"
+  },
+  "item": {
+    "tag": "minecraft:fishes"
+  }
+}
