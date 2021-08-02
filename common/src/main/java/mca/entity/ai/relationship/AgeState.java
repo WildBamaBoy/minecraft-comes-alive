@@ -3,16 +3,18 @@ package mca.entity.ai.relationship;
 import mca.resources.API;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.MathHelper;
 
-public enum AgeState {
+public enum AgeState implements VillagerDimensions {
     UNASSIGNED(1, 0.9F, 1, 1),
-    BABY      (0.75F, 0.4F, 0, 1.5F),
-    TODDLER   (0.75F, 0.5F, 0, 1.3F),
-    CHILD     (0.75F, 0.7F, 0, 1.1F),
+    BABY      (0.85F, 0.4F, 0, 1.5F),
+    TODDLER   (0.85F, 0.5F, 0, 1.3F),
+    CHILD     (0.85F, 0.7F, 0, 1.1F),
     TEEN      (0.85F, 0.8F, 0.5F, 1),
     ADULT     (1, 0.9F, 1, 1);
 
-    public static int startingAge = -192000;
+    public static final int MAX_AGE = -192000;
+    public static final int STAGE_DURATION = -MAX_AGE / 4;
 
     private static final AgeState[] VALUES = values();
 
@@ -32,20 +34,31 @@ public enum AgeState {
         return new TranslatableText("enum.agestate." + name().toLowerCase());
     }
 
+    @Override
     public float getWidth() {
         return width;
     }
 
+    @Override
     public float getHeight() {
         return height;
     }
 
+    @Override
     public float getBreasts() {
         return breasts;
     }
 
+    @Override
     public float getHead() {
         return head;
+    }
+
+    public AgeState getNext() {
+        if (this == ADULT) {
+            return this;
+        }
+        return byId(ordinal() + 1);
     }
 
     public static AgeState byId(int id) {
@@ -56,20 +69,26 @@ public enum AgeState {
     }
 
     public static AgeState random() {
-        return byCurrentAge((int)(API.getRng().nextFloat() * startingAge));
+        return byCurrentAge((int)(API.getRng().nextFloat() * MAX_AGE));
+    }
+
+    /**
+     * Returns a float ranging from 0 to 1 representing the progress between stages.
+     */
+    public static float getDelta(float age) {
+        return 1 - (-age % STAGE_DURATION) / STAGE_DURATION;
+    }
+
+    public static int getId(int age) {
+        return MathHelper.clamp(1 + (age - MAX_AGE) / STAGE_DURATION, 0, 5);
     }
 
     public static AgeState byCurrentAge(int age) {
-        int step = startingAge / 4;
-        if (age >= step) {
-            return AgeState.ADULT;
-        } else if (age >= step * 2) {
-            return AgeState.TEEN;
-        } else if (age >= step * 3) {
-            return AgeState.CHILD;
-        } else if (age >= step * 4) {
-            return AgeState.TODDLER;
+
+        if (age == MAX_AGE) {
+            System.out.println(getId(age));
         }
-        return AgeState.BABY;
+
+        return byId(getId(age));
     }
 }

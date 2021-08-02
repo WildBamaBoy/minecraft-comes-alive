@@ -6,6 +6,7 @@ import mca.entity.ai.Messenger;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.EntityRelationship;
+import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.interaction.EntityCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
@@ -84,6 +85,10 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
         return getTrackedValue(AGE_STATE);
     }
 
+    default VillagerDimensions getVillagerDimensions() {
+        return getAgeState();
+    }
+
     default boolean setAgeState(AgeState state) {
         if (state == getAgeState()) {
             return false;
@@ -95,7 +100,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     }
 
     default float getHorizontalScaleFactor() {
-        return getGenetics().getVerticalScaleFactor() * getAgeState().getHeight() * getAgeState().getWidth();
+        return getGenetics().getVerticalScaleFactor() * getVillagerDimensions().getHeight() * getVillagerDimensions().getWidth();
     }
 
     @Override

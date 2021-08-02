@@ -125,7 +125,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
-        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getAgeState().getHeight();
+        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
     }
 
     @Override

@@ -98,7 +98,7 @@ public class VillagerFactory {
     public VillagerEntityMCA build() {
         VillagerEntityMCA villager = gender.orElseGet(Gender::getRandom).getVillagerType().create(world);
         villager.setName(name.orElseGet(() -> API.getVillagePool().pickCitizenName(villager.getGenetics().getGender())));
-        villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(- AgeState.startingAge * 2) + AgeState.startingAge));
+        villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(- AgeState.MAX_AGE * 2) + AgeState.MAX_AGE));
         position.ifPresent(pos -> villager.updatePosition(pos.getX(), pos.getY(), pos.getZ()));
         VillagerData data = villager.getVillagerData();
         villager.setVillagerData(new VillagerData(

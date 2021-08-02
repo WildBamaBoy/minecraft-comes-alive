@@ -113,7 +113,7 @@ public class BabyItem extends Item {
                 .withPosition(player.getPos())
                 .withGender(gender)
                 .withProfession(ProfessionsMCA.CHILD)
-                .withAge(AgeState.startingAge)
+                .withAge(AgeState.MAX_AGE)
                 .build();
 
         Optional<Entity> mother = motherId.map(world::getEntity);

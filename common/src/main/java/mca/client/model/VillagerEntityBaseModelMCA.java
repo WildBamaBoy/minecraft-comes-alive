@@ -2,8 +2,8 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerLike;
-import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
+import mca.entity.ai.relationship.VillagerDimensions;
 import net.minecraft.client.model.ModelPart;
 import mca.util.compat.model.ModelTransform;
 import mca.util.compat.model.BipedEntityModelCompat;
@@ -26,7 +26,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     protected final ModelPart breasts;
 
     private float breastSize;
-    private AgeState ageState;
+    private VillagerDimensions dimensions;
 
     public VillagerEntityBaseModelMCA(ModelPartCompat root, boolean clothing) {
         super(root.getOriginalDilation(), 0, root.getTextureWidth(), root.getTextureHeight());
@@ -89,7 +89,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
             this.rightArm.roll = waveSideways;
         }
 
-        ageState = entity.getAgeState();
+        dimensions = entity.getVillagerDimensions();
         breastSize = entity.getGenetics().getBreastSize();
 
         breasts.visible = entity.getGenetics().getGender() == Gender.FEMALE;
@@ -102,7 +102,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
 
         if (target instanceof VillagerEntityBaseModelMCA) {
             VillagerEntityBaseModelMCA<T> m = (VillagerEntityBaseModelMCA<T>)target;
-            m.ageState = ageState;
+            m.dimensions = dimensions;
             m.breastSize = breastSize;
             m.breasts.visible = breasts.visible;
             m.breasts.copyTransform(breasts);
@@ -112,8 +112,8 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         //head
-        float headSize = ageState.getHead();
-        float headWidth = headSize / ageState.getWidth();
+        float headSize = dimensions.getHead();
+        float headWidth = headSize / dimensions.getWidth();
 
         matrices.push();
         matrices.scale(headWidth, headSize, headWidth);
@@ -124,7 +124,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
         this.getBodyParts().forEach(a -> a.render(matrices, vertices, light, overlay, red, green, blue, alpha));
 
         if (breasts.visible) {
-            float breastSize = this.breastSize * ageState.getBreasts();
+            float breastSize = this.breastSize * dimensions.getBreasts();
 
             if (breastSize > 0) {
                 matrices.push();

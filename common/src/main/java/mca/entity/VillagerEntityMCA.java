@@ -13,6 +13,7 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
+import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.interaction.VillagerCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
@@ -79,10 +80,12 @@ import org.jetbrains.annotations.Nullable;
 public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship> {
     private static final CDataParameter<Float> INFECTION_PROGRESS = CParameter.create("infectionProgress", MIN_INFECTION);
 
+    private static final CDataParameter<Integer> GROWTH_AMOUNT = CParameter.create("growthAmount", AgeState.MAX_AGE);
+
     private static final CDataManager<VillagerEntityMCA> DATA = createTrackedData(VillagerEntityMCA.class).build();
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
-        return VillagerLike.createTrackedData(type).addAll(INFECTION_PROGRESS)
+        return VillagerLike.createTrackedData(type).addAll(INFECTION_PROGRESS, GROWTH_AMOUNT)
                 .add(Residency::createTrackedData)
                 .add(BreedableRelationship::createTrackedData);
     }
@@ -96,7 +99,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     private final VillagerCommandHandler interactions = new VillagerCommandHandler(this);
     private final SimpleInventory inventory = new SimpleInventory(27);
 
+    private final VillagerDimensions.Mutable dimensions = new VillagerDimensions.Mutable(AgeState.UNASSIGNED);
+
     private float prevInfectionProgress;
+    private int prevGrowthAmount;
 
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
         super(type, w);
@@ -212,13 +218,28 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public void setBaby(boolean isBaby) {
-        setBreedingAge(isBaby ? AgeState.startingAge : 0);
+        setBreedingAge(isBaby ? AgeState.MAX_AGE : 0);
+    }
+
+    @Override
+    public int getBreedingAge() {
+        return super.getBreedingAge();
     }
 
     @Override
     public void setBreedingAge(int age) {
         super.setBreedingAge(age);
+        setTrackedValue(GROWTH_AMOUNT, age);
         setAgeState(AgeState.byCurrentAge(age));
+
+        AgeState current = getAgeState();
+
+        dimensions.set(current, 1);
+
+        AgeState next = current.getNext();
+        if (current != next) {
+            dimensions.set(getAgeState(), AgeState.getDelta(age));
+        }
     }
 
     @Override
@@ -414,6 +435,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public void tick() {
         super.tick();
 
+        int age = getTrackedValue(GROWTH_AMOUNT);
+        if (age != prevGrowthAmount) {
+            prevGrowthAmount = age;
+            calculateDimensions();
+        }
+
         if (world.isClient) {
             if (relations.isProcreating()) {
                 headYaw += 50;
@@ -449,6 +476,18 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
+    }
+
+    @Override
+    public void calculateDimensions() {
+        AgeState current = getAgeState();
+        AgeState next = current.getNext();
+
+        dimensions.set(current, 1);
+        if (next != current) {
+            dimensions.set(next, AgeState.getDelta(getTrackedValue(GROWTH_AMOUNT)));
+        }
+        super.calculateDimensions();
     }
 
     @Override
@@ -679,19 +718,26 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     @Override
+    public VillagerDimensions getVillagerDimensions() {
+        return dimensions;
+    }
+
+    @Override
     public boolean setAgeState(AgeState state) {
         if (VillagerLike.super.setAgeState(state)) {
-            // trigger grow up advancements
-            relations.getParents().filter(e -> e instanceof ServerPlayerEntity).forEach(e -> {
-                CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity) e, state.name());
-            });
-
-            if (state == AgeState.ADULT) {
-                // Notify player parents of the age up and set correct dialogue type.
-                relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
-                    mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
-                    sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
+            if (!world.isClient) {
+                // trigger grow up advancements
+                relations.getParents().filter(e -> e instanceof ServerPlayerEntity).forEach(e -> {
+                    CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity) e, state.name());
                 });
+
+                if (state == AgeState.ADULT) {
+                    // Notify player parents of the age up and set correct dialogue type.
+                    relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
+                        mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
+                        sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
+                    });
+                }
             }
 
             return true;
@@ -703,12 +749,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
-        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getAgeState().getHeight();
+        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
     }
 
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions size) {
-        return getScaleFactor() * 1.6f;
+        return getScaleFactor() * 1.81f;
     }
 
     @Override
