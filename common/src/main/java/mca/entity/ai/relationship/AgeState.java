@@ -5,12 +5,12 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public enum AgeState {
-    UNASSIGNED(0.8f,  1.0f,  1.0f, 1.0f),
-    BABY      (1.2f,  0.25f, 0.0f, 1.5f),
-    TODDLER   (1.1f,  0.3f,  0.0f, 1.3f),
-    CHILD     (1.0f,  0.5f,  0.0f, 1.1f),
-    TEEN      (0.85f, 0.8f,  0.5f, 1.0f),
-    ADULT     (1.0f,  0.9f,  1.0f, 1.0f);
+    UNASSIGNED(1, 0.9F, 1, 1),
+    BABY      (0.75F, 0.4F, 0, 1.5F),
+    TODDLER   (0.75F, 0.5F, 0, 1.3F),
+    CHILD     (0.75F, 0.7F, 0, 1.1F),
+    TEEN      (0.85F, 0.8F, 0.5F, 1),
+    ADULT     (1, 0.9F, 1, 1);
 
     public static int startingAge = -192000;
 
