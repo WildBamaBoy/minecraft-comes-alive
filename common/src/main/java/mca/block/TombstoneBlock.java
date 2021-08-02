@@ -1,6 +1,7 @@
 package mca.block;
 
 import mca.entity.Infectable;
+import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.server.world.data.GraveyardManager;
@@ -341,6 +342,10 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
                         if (cure && (entity instanceof ZombieVillagerEntity)) {
                             entity = ((ZombieVillagerEntity) entity).method_29243(EntityType.VILLAGER, true);
+                        }
+
+                        if (entity instanceof CompassionateEntity) {
+                            ((CompassionateEntity<?>)entity).getRelationships().getFamilyEntry().setDeceased(false);
                         }
 
                         if (entity instanceof Infectable) {

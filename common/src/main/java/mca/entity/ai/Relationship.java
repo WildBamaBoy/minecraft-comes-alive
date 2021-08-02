@@ -115,6 +115,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
     }
 
     public boolean onDeath(DamageSource cause) {
+        getFamilyEntry().setDeceased(true);
         return GraveyardManager.get((ServerWorld) entity.world).findNearest(entity.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
             if (entity.world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
                 BlockEntity be = entity.world.getBlockEntity(pos);

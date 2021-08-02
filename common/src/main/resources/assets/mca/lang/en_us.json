@@ -311,6 +311,14 @@
   "gui.interact.label.personality": "Personality: %1$s",
   "gui.interact.label.happiness": "Happiness: %1$s",
 
+  "gui.family_tree.title": "Family Tree",
+  "gui.family_tree.label.deceased": "Deceased",
+  "gui.family_tree.label.orphan": "Orphan",
+
+  "marriage.married": "Married",
+  "marriage.divorced": "Divorced",
+  "marriage.engaged": "Engaged",
+
   "gene.size": "Size",
   "gene.width": "Width",
   "gene.belly": "Belly",

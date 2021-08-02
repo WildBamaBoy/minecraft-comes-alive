@@ -41,6 +41,8 @@ public final class FamilyTreeNode implements Serializable {
     private UUID spouse = Util.NIL_UUID;
     private MarriageState marriageState = MarriageState.SINGLE;
 
+    private boolean deceased;
+
     private final Set<UUID> children = new HashSet<>();
 
     private transient final FamilyTree rootNode;
@@ -67,6 +69,7 @@ public final class FamilyTreeNode implements Serializable {
         );
         children.addAll(NbtHelper.toList(nbt.getList("children", NbtElementCompat.COMPOUND_TYPE), c -> ((NbtCompound)c).getUuid("uuid")));
         profession = nbt.getString("profession");
+        deceased = nbt.getBoolean("isDeceased");
         if (nbt.containsUuid("spouse")) {
             spouse = nbt.getUuid("spouse");
         }
@@ -75,6 +78,17 @@ public final class FamilyTreeNode implements Serializable {
 
     public UUID id() {
         return id;
+    }
+
+    public boolean isDeceased() {
+        return deceased;
+    }
+
+    public void setDeceased(boolean deceased) {
+        this.deceased = deceased;
+        if (rootNode != null) {
+            rootNode.markDirty();
+        }
     }
 
     public void setName(String name) {
@@ -270,6 +284,7 @@ public final class FamilyTreeNode implements Serializable {
         NbtCompound nbt = new NbtCompound();
         nbt.putString("name", name);
         nbt.putBoolean("isPlayer", isPlayer);
+        nbt.putBoolean("isDeceased", deceased);
         nbt.putInt("gender", gender.getId());
         nbt.putUuid("father", father);
         nbt.putUuid("mother", mother);
