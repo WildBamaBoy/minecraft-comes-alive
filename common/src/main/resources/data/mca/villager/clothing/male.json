@@ -18,6 +18,6 @@
   "mca:baker": { "count": 5 },
   "mca:miner": { "count": 5 },
   "mca:archer": { "count": 5 },
-  "mca:guard": { "count": 5 },
+  "mca:guard": { "count": 6 },
   "mca:child": { "count": 10 }
 }
