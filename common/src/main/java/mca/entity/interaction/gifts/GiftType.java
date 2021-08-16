@@ -90,8 +90,8 @@ public class GiftType {
     /**
      * Gets the amount of satisfaction giving this gift to a villager would produce.
      */
-    public float getSatisfactionFor(VillagerEntityMCA recipient) {
-        return baseSatisfaction + (float)conditions.stream().mapToDouble(condition -> condition.getSatisfactionFor(recipient)).sum();
+    public float getSatisfactionFor(VillagerEntityMCA recipient, ItemStack stack) {
+        return baseSatisfaction + (float)conditions.stream().mapToDouble(condition -> condition.getSatisfactionFor(recipient, stack)).sum();
     }
 
     /**

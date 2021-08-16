@@ -121,7 +121,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
 
     private void acceptGift(ItemStack stack, GiftType gift, PlayerEntity player, Memories memory) {
 
-        float satisfaction = gift.getSatisfactionFor(entity);
+        float satisfaction = gift.getSatisfactionFor(entity, stack);
         Response response = gift.getResponse(satisfaction);
 
         if (!entity.getInventory().canInsert(stack)) {
