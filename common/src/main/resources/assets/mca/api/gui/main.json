@@ -17,7 +17,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "!family",
+    "constraints": "!family,trader,adult",
     "hideOnFail": true
   },
   {

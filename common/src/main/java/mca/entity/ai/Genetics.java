@@ -101,7 +101,6 @@ public class Genetics implements Iterable<Genetics.Gene> {
         // temperature
         float temp = entity.world.getBiome(entity.getBlockPos()).getTemperature();
 
-        // TODO: that's racist
         // immigrants
         if (random.nextInt(100) < Config.getInstance().immigrantChance) {
             temp = random.nextFloat() * 2 - 0.5F;
@@ -206,7 +205,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
 
         @Override
         public boolean equals(Object o) {
-            return o != null && o instanceof GeneType && ((GeneType)o).key().equals(key());
+            return o instanceof GeneType && ((GeneType)o).key().equals(key());
         }
     }
 }

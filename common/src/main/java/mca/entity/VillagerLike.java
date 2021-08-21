@@ -100,7 +100,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     }
 
     default float getHorizontalScaleFactor() {
-        return getGenetics().getVerticalScaleFactor() * getVillagerDimensions().getHeight() * getVillagerDimensions().getWidth();
+        return getGenetics().getHorizontalScaleFactor() * getVillagerDimensions().getHeight() * getVillagerDimensions().getWidth();
     }
 
     @Override

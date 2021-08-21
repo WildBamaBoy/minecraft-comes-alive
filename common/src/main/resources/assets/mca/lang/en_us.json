@@ -304,6 +304,7 @@
   "gui.interact.label.engaged": "Engaged to %1$s",
   "gui.interact.label.notmarried": "Not married",
   "gui.interact.label.parents": "Parents: %1$s and %2$s",
+  "gui.interact.label.parentUnknown": "unknown",
   "gui.interact.label.gift": "Gift available. Click to claim.",
   "gui.interact.label.giveGift": "Select an item and press the right mouse button.",
   "gui.interact.label.age": "Age: %1$s",
