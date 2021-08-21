@@ -11,6 +11,9 @@ import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
+import mca.resources.Dialogues;
+import mca.resources.data.Answer;
+import mca.resources.data.Question;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -38,6 +41,9 @@ public class InteractScreen extends AbstractDynamicScreen {
 
     private String father;
     private String mother;
+
+    private String dialogQuestion;
+    private List<String> dialogAnswers;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -217,7 +223,7 @@ public class InteractScreen extends AbstractDynamicScreen {
 
             for (Genetics.Gene gene : villager.getGenetics()) {
                 String key = gene.getType().key().replace("_", ".");
-                int value = (int) (gene.get() * 100);
+                int value = (int)(gene.get() * 100);
                 lines.add(new TranslatableText("gene.tooltip", new TranslatableText(key), value));
             }
 
@@ -230,6 +236,17 @@ public class InteractScreen extends AbstractDynamicScreen {
             lines.add(new TranslatableText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
+        }
+
+        //dialogue
+        if (dialogQuestion != null) {
+            drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion), width / 2, height / 2 - 50, 0xFFFFFFFF);
+
+            int y = height / 2 - 35;
+            for (String a : dialogAnswers) {
+                drawCenteredText(transform, textRenderer, new TranslatableText(a), width / 2, y, 0xFFFFFFFF);
+                y += 10;
+            }
         }
     }
 
@@ -245,6 +262,15 @@ public class InteractScreen extends AbstractDynamicScreen {
 
     private boolean canDrawGiftIcon() {
         return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
+    }
+
+    private void setDialogue(Identifier dialogue) {
+        Question question = Dialogues.getInstance().getQuestion(dialogue);
+        dialogQuestion = question.getName();
+        dialogAnswers = new LinkedList<>();
+        for (Answer a : question.getAnswers()) {
+            dialogAnswers.add(a.getName());
+        }
     }
 
     @Override
@@ -270,6 +296,8 @@ public class InteractScreen extends AbstractDynamicScreen {
             setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
+        } else if (id.equals("gui.button.dialogue")) {
+            setDialogue(new Identifier("mca:weather.root"));
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());

@@ -27,7 +27,7 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 
 public class GiftPredicate {
-    static final Map<String, Factory<JsonElement>> CONDITION_TYPES = new HashMap<>();
+    public static final Map<String, Factory<JsonElement>> CONDITION_TYPES = new HashMap<>();
     static {
         register("profession", (json, name) -> new Identifier(JsonHelper.asString(json, name)), profession -> {
             return (villager, stack) -> Registry.VILLAGER_PROFESSION.getId(villager.getProfession()).equals(profession);
@@ -147,11 +147,11 @@ public class GiftPredicate {
         return test(recipient, stack) ? satisfactionBoost : 0;
     }
 
-    interface Factory<T> {
+    public interface Factory<T> {
         Condition parse(T value);
     }
 
-    interface Condition {
+    public interface Condition {
         boolean test(VillagerEntityMCA villager, ItemStack stack);
 
         default Condition and(Condition b) {

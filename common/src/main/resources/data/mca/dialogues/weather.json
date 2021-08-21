@@ -1,0 +1,49 @@
+[
+  {
+    "name": "root",
+    "group": "talk",
+    "answers": [
+      {
+        "name": "answer_1",
+        "chance": 1.0,
+        "conditions": [
+          {
+            "chance": -0.5,
+            "personality": "WITTY"
+          }
+        ],
+        "next": [
+          {
+            "name": "fail",
+            "threshold": 0.0
+          },
+          {
+            "name": "root",
+            "threshold": 1.0
+          }
+        ]
+      },
+      {
+        "name": "answer_2",
+        "chance": 1.0,
+        "conditions": [
+
+        ],
+        "next": [
+          {
+            "name": "fail",
+            "threshold": 0.0
+          },
+          {
+            "group": "root",
+            "threshold": 1.0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "fail",
+    "closeScreen": true
+  }
+]
