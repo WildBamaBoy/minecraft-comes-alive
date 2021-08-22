@@ -15,9 +15,9 @@ public class VillagerEntityMCARenderer extends VillagerLikeEntityMCARenderer<Vil
         super(ctx, createModel(0, 0, false, false));
 
         addFeature(new SkinLayer<>(this, createModel(0, 0, false, true)));
+        addFeature(new FaceLayer<>(this, createModel(0.01F, 0.01F, false, true), "normal"));
         addFeature(new ClothingLayer<>(this, createModel(0.075F, 0.1F, true, false), "normal"));
         addFeature(new HairLayer<>(this, createModel(0.1F, 2.05F, false, false)));
-        addFeature(new FaceLayer<>(this, createModel(0.01F, 0.01F, false, true), "normal"));
     }
 
     private static VillagerEntityModelMCA<VillagerEntityMCA> createModel(float dilation, float headSize, boolean cloth, boolean hideWear) {

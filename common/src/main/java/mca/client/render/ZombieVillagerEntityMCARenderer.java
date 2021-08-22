@@ -16,9 +16,9 @@ public class ZombieVillagerEntityMCARenderer extends VillagerLikeEntityMCARender
         super(ctx, createModel(0, 0, false, false));
 
         addFeature(new SkinLayer<>(this, createModel(0, 0, false, true)));
+        addFeature(new FaceLayer<>(this, createModel(0.01F, 0.01F, false, true), "zombie"));
         addFeature(new ClothingLayer<>(this, createModel(0.075F, 0.1F, true, false), "zombie"));
         addFeature(new HairLayer<>(this, createModel(0.1F, 2.05F, false, false)));
-        addFeature(new FaceLayer<>(this, createModel(0.01F, 0.01F, false, true), "zombie"));
     }
 
     private static VillagerEntityModelMCA<ZombieVillagerEntityMCA> createModel(float dilation, float headSize, boolean cloth, boolean hideWear) {
