@@ -27,8 +27,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                     ItemStack item = client.player.getStackInHand(Hand.MAIN_HAND);
                     if (item.getItem() instanceof ExtendedWrittenBookItem) {
                         ExtendedWrittenBookItem bookItem = (ExtendedWrittenBookItem)item.getItem();
-                        ExtendedBookScreen.TranslatedBookContent content = new ExtendedBookScreen.TranslatedBookContent(item);
-                        ExtendedBookScreen book = new ExtendedBookScreen(content, bookItem.getBackground(), bookItem.getTextFormatting());
+                        ExtendedBookScreen book = new ExtendedBookScreen(bookItem.getBook());
                         client.openScreen(book);
                     }
                 }

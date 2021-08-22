@@ -3,6 +3,8 @@ package mca.item;
 import mca.MCA;
 import mca.TagsMCA;
 import mca.block.BlocksMCA;
+import mca.client.book.Book;
+import mca.client.book.pages.ScribbleTextPage;
 import mca.cobalt.registration.Registration;
 import mca.crafting.recipe.RecipesMCA;
 import mca.entity.EntitiesMCA;
@@ -35,11 +37,29 @@ public interface ItemsMCA {
     Item WHISTLE = register("whistle", new WhistleItem(baseProps()));
     Item BLUEPRINT = register("blueprint", new BlueprintItem(baseProps()));
 
-    Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), "death", 10, new Identifier("mca:textures/gui/books/death.png"), Formatting.GRAY));
-    Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), "romance", 13, new Identifier("mca:textures/gui/books/romance.png")));
-    Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), "family", 8));
-    Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), "rose_gold", 5, new Identifier("mca:textures/gui/books/rose_gold.png")));
-    Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), "infection", 6, new Identifier("mca:textures/gui/books/infection.png")));
+    Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), new Book("death")
+            .setBackground(new Identifier("mca:textures/gui/books/death.png"))
+            .setTextFormatting(Formatting.GRAY)
+            .addSimplePages(4)
+            .addPage(new ScribbleTextPage(new Identifier("mca:textures/gui/scribbles/test.png")))
+            .addSimplePages(5)
+    ));
+
+    Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), new Book("romance")
+            .setBackground(new Identifier("mca:textures/gui/books/romance.png"))
+            .addSimplePages(13)));
+
+    Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), new Book("family")
+            .setBackground(new Identifier("mca:textures/gui/books/family.png"))
+            .addSimplePages(8)));
+
+    Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), new Book("rose_gold")
+            .setBackground(new Identifier("mca:textures/gui/books/rose_gold.png"))
+            .addSimplePages(5)));
+
+    Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), new Book("infection")
+            .setBackground(new Identifier("mca:textures/gui/books/infection.png"))
+            .addSimplePages(6)));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));
