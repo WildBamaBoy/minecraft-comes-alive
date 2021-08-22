@@ -478,7 +478,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
         }
 
-        if (age % 90 == 0 && mcaBrain.isPanicking()) {
+        if (this.age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
     }
