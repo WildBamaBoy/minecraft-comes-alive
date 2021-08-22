@@ -5,11 +5,7 @@ public interface PlayerEntityModelCompat {
      * @since MC 1.17
      */
     static ModelData getTexturedModelData(Dilation dilation, boolean slim) {
-        return getTexturedModelData(dilation, dilation, slim);
-    }
-
-    static ModelData getTexturedModelData(Dilation dilation, Dilation headDilation, boolean slim) {
-        ModelData modelData = BipedEntityModelCompat.getModelData(dilation, headDilation, 0);
+        ModelData modelData = BipedEntityModelCompat.getModelData(dilation, 0);
         ModelPartData modelPartData = modelData.getRoot();
         modelPartData.addChild("ear", ModelPartBuilder.create().uv(24, 0).cuboid(-3, -6, -1, 6, 6, 1, dilation), ModelTransform.NONE);
         modelPartData.addChild("cloak", ModelPartBuilder.create().uv(0, 0).cuboid(-5, 0, -1, 10, 16, 1, dilation, 1, 0.5F), ModelTransform.NONE);
