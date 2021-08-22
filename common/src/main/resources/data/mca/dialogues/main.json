@@ -1,6 +1,6 @@
 [
   {
-    "id": "root",
+    "id": "main",
     "answers": [
       {
         "name": "chat",
@@ -12,7 +12,7 @@
         ]
       },
       {
-        "name": "tell joke",
+        "name": "joke",
         "chance": 1.0,
         "next": [
           {

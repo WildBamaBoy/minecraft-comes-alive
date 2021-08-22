@@ -9,6 +9,7 @@ import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
+import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import mca.resources.Dialogues;
@@ -109,15 +110,8 @@ public class InteractScreen extends AbstractDynamicScreen {
         super.mouseClicked(posX, posY, button);
 
         // Dialog
-        if (button == 0 && dialogAnswerHover != null) {
-            // todo here we should have some server sync stuff
-            for (Answer a : dialogQuestion.getAnswers()) {
-                if (a.getName().equals(dialogAnswerHover)) {
-                    //todo no further check, just first answer
-                    String id = a.getNext().get(0).getId();
-                    setDialogue(id);
-                }
-            }
+        if (button == 0 && dialogAnswerHover != null && dialogQuestion != null) {
+            NetworkHandler.sendToServer(new InteractionDialogueMessage(villager.asEntity().getUuid(), dialogQuestion.getId(), dialogAnswerHover));
         }
 
         // Right mouse button
@@ -251,13 +245,15 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //dialogue
         if (dialogQuestion != null) {
-            drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getId()), width / 2, height / 2 - 50, 0xFFFFFFFF);
+            drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getTranslationKey()), width / 2, height / 2 - 50, 0xFFFFFFFF);
             dialogAnswerHover = null;
+
+            drawHorizontalLine(transform, width / 2 - 75, width / 2 + 75, height / 2 - 40, 0xAAFFFFFF);
 
             int y = height / 2 - 35;
             for (Answer a : dialogQuestion.getAnswers()) {
                 boolean hover = hoveringOver(width / 2 - 100, y - 3, 200, 10);
-                drawCenteredText(transform, textRenderer, new TranslatableText(a.getName()), width / 2, y, hover ? 0xFF00FF00 : 0xFFFFFFFF);
+                drawCenteredText(transform, textRenderer, new TranslatableText(a.getTranslationKey(dialogQuestion)), width / 2, y, hover ? 0xFF00FF00 : 0xFFFFFFFF);
                 if (hover) {
                     dialogAnswerHover = a.getName();
                 }
@@ -280,7 +276,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
     }
 
-    private void setDialogue(String dialogue) {
+    public void setDialogue(String dialogue) {
         dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
     }
 
@@ -310,7 +306,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         } else if (id.equals("gui.button.dialogue")) {
             children.clear();
             buttons.clear();
-            setDialogue("root");
+            setDialogue("main");
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());

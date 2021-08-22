@@ -19,7 +19,7 @@ import net.minecraft.util.profiler.Profiler;
 public class Dialogues extends JsonDataLoader {
     protected static final Identifier ID = new Identifier(MCA.MOD_ID, "dialogues");
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     private static Dialogues INSTANCE;
 
@@ -27,7 +27,8 @@ public class Dialogues extends JsonDataLoader {
         return INSTANCE;
     }
 
-    private final Map<String, List<Question>> questions = new HashMap<>();
+    private final Map<String, Question> questions = new HashMap<>();
+    private final Map<String, List<Question>> questionGroups = new HashMap<>();
 
     public Dialogues() {
         super(Resources.GSON, "dialogues");
@@ -48,13 +49,23 @@ public class Dialogues extends JsonDataLoader {
         Question[] questions = Resources.GSON.fromJson(element, Question[].class);
 
         for (Question q : questions) {
-            this.questions.computeIfAbsent(q.getId(), x -> new LinkedList<>());
-            this.questions.get(q.getId()).add(q);
+            this.questions.put(q.getId(), q);
+
+            this.questionGroups.computeIfAbsent(q.getGroup(), x -> new LinkedList<>());
+            this.questionGroups.get(q.getGroup()).add(q);
         }
     }
 
     public Question getQuestion(String i) {
-        List<Question> questions = this.questions.get(i);
-        return questions.get(random.nextInt(questions.size()));
+        return questions.get(i);
+    }
+
+    public Question getRandomQuestion(String i) {
+        List<Question> questions = this.questionGroups.get(i);
+        if (questions.isEmpty()) {
+            return null;
+        } else {
+            return questions.get(random.nextInt(questions.size()));
+        }
     }
 }

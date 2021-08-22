@@ -1,6 +1,7 @@
 [
   {
-    "id": "chat",
+    "id": "chat.chat_0",
+    "group": "chat",
     "answers": [
       {
         "name": "answer_0",

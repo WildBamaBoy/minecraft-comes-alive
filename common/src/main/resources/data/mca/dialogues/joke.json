@@ -1,6 +1,7 @@
 [
   {
-    "id": "joke",
+    "id": "joke.joke",
+    "group": "joke",
     "answers": [
       {
         "name": "skeleton",

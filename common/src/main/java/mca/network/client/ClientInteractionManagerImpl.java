@@ -90,4 +90,13 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             gui.setVillagerData(message.getData());
         }
     }
+
+    @Override
+    public void handleDialogueResponse(InteractionDialogueResponse message) {
+        Screen screen = MinecraftClient.getInstance().currentScreen;
+        if (screen instanceof InteractScreen) {
+            InteractScreen gui = (InteractScreen)screen;
+            gui.setDialogue(message.question);
+        }
+    }
 }
