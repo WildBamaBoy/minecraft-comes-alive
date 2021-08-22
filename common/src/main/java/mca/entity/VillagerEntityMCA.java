@@ -201,7 +201,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public final VillagerProfession getProfession() {
-        return this.getVillagerData().getProfession();
+        return getVillagerData().getProfession();
     }
 
     public final void setProfession(VillagerProfession profession) {
@@ -451,7 +451,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 headYaw += 50;
             }
 
-            if (age % 20 == 0) {
+            if (this.age % 20 == 0) {
                 if (world.random.nextBoolean()) {
                     if (mcaBrain.getMoodLevel() <= -15) {
                         mcaBrain.getPersonality().getMoodGroup().getParticles().ifPresent(this::produceParticles);
@@ -464,7 +464,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         float infection = getInfectionProgress();
         if (infection > 0) {
-            if (age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
+            if (this.age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
                 sendChatToAllAround("villager.sickness");
             }
 
