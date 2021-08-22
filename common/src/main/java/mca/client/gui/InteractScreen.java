@@ -42,8 +42,8 @@ public class InteractScreen extends AbstractDynamicScreen {
     private String father;
     private String mother;
 
-    private String dialogQuestion;
-    private List<String> dialogAnswers;
+    private Question dialogQuestion;
+    private String dialogAnswerHover;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -107,6 +107,18 @@ public class InteractScreen extends AbstractDynamicScreen {
     @Override
     public boolean mouseClicked(double posX, double posY, int button) {
         super.mouseClicked(posX, posY, button);
+
+        // Dialog
+        if (button == 0 && dialogAnswerHover != null) {
+            // todo here we should have some server sync stuff
+            for (Answer a : dialogQuestion.getAnswers()) {
+                if (a.getName().equals(dialogAnswerHover)) {
+                    //todo no further check, just first answer
+                    String id = a.getNext().get(0).getId();
+                    setDialogue(id);
+                }
+            }
+        }
 
         // Right mouse button
         if (inGiftMode && button == 1) {
@@ -196,7 +208,6 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //marriage status
         if (hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
-
             String marriageState = ((CompassionateEntity<?>)villager).getRelationships().getMarriageState().base().getIcon().toLowerCase();
             Text spouseName = ((CompassionateEntity<?>)villager).getRelationships().getSpouseName().orElseGet(() -> new TranslatableText("gui.interact.label.parentUnknown"));
 
@@ -240,18 +251,23 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //dialogue
         if (dialogQuestion != null) {
-            drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion), width / 2, height / 2 - 50, 0xFFFFFFFF);
+            drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getId()), width / 2, height / 2 - 50, 0xFFFFFFFF);
+            dialogAnswerHover = null;
 
             int y = height / 2 - 35;
-            for (String a : dialogAnswers) {
-                drawCenteredText(transform, textRenderer, new TranslatableText(a), width / 2, y, 0xFFFFFFFF);
+            for (Answer a : dialogQuestion.getAnswers()) {
+                boolean hover = hoveringOver(width / 2 - 100, y - 3, 200, 10);
+                drawCenteredText(transform, textRenderer, new TranslatableText(a.getName()), width / 2, y, hover ? 0xFF00FF00 : 0xFFFFFFFF);
+                if (hover) {
+                    dialogAnswerHover = a.getName();
+                }
                 y += 10;
             }
         }
     }
 
     //checks if the mouse hovers over a tooltip
-    //tooltips are not rendered on the given coordinates so we need an offset
+    //tooltips are not rendered on the given coordinates, so we need an offset
     private boolean hoveringOverText(int x, int y, int w) {
         return hoveringOver(x + 8, y - 16, w, 16);
     }
@@ -264,13 +280,8 @@ public class InteractScreen extends AbstractDynamicScreen {
         return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
     }
 
-    private void setDialogue(Identifier dialogue) {
-        Question question = Dialogues.getInstance().getQuestion(dialogue);
-        dialogQuestion = question.getName();
-        dialogAnswers = new LinkedList<>();
-        for (Answer a : question.getAnswers()) {
-            dialogAnswers.add(a.getName());
-        }
+    private void setDialogue(String dialogue) {
+        dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
     }
 
     @Override
@@ -297,7 +308,9 @@ public class InteractScreen extends AbstractDynamicScreen {
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.dialogue")) {
-            setDialogue(new Identifier("mca:weather.root"));
+            children.clear();
+            buttons.clear();
+            setDialogue("root");
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());

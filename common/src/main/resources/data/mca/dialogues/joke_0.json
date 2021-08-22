@@ -1,0 +1,63 @@
+[
+  {
+    "id": "joke",
+    "answers": [
+      {
+        "name": "skeleton",
+        "chance": 1.0,
+        "next": [
+          {
+            "id": "joke.skeletonJokeFailed",
+            "threshold": 0.0
+          }
+        ]
+      },
+      {
+        "name": "sheep",
+        "chance": 1.0,
+        "next": [
+          {
+            "id": "joke.jokeFailed",
+            "threshold": 0.0
+          },
+          {
+            "id": "joke.sheepJokeSuccess",
+            "threshold": 0.5
+          }
+        ]
+      },
+      {
+        "name": "pig",
+        "chance": 1.0,
+        "next": [
+          {
+            "id": "joke.jokeFailed",
+            "threshold": 0.0
+          }
+        ]
+      },
+      {
+        "name": "mom",
+        "chance": 1.0,
+        "next": [
+          {
+            "id": "joke.momJoke",
+            "threshold": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "joke.skeletonJokeFailed",
+    "closeScreen": true
+  },
+  {
+    "id": "joke.jokeFailed",
+    "closeScreen": true
+  },
+  {
+    "id": "joke.momJoke",
+    "closeScreen": true
+  }
+]

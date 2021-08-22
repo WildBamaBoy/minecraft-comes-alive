@@ -1,0 +1,25 @@
+[
+  {
+    "id": "root",
+    "answers": [
+      {
+        "name": "chat",
+        "chance": 1.0,
+        "next": [
+          {
+            "id": "chat"
+          }
+        ]
+      },
+      {
+        "name": "tell joke",
+        "chance": 1.0,
+        "next": [
+          {
+            "id": "joke"
+          }
+        ]
+      }
+    ]
+  }
+]

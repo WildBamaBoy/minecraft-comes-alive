@@ -3,24 +3,18 @@ package mca.resources.data;
 import java.util.List;
 
 public class Question {
-    private final String name;
-    private final String group;
+    private final String id;
     private final List<Answer> answers;
     private final boolean closeScreen;
 
-    public Question(String name, String group, List<Answer> answers, boolean screen) {
-        this.name = name;
-        this.group = group;
+    public Question(String id, List<Answer> answers, boolean screen) {
+        this.id = id;
         this.answers = answers;
         closeScreen = screen;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getGroup() {
-        return group;
+    public String getId() {
+        return id;
     }
 
     public List<Answer> getAnswers() {
