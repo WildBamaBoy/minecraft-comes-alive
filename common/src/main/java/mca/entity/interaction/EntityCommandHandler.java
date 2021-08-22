@@ -54,22 +54,16 @@ public abstract class EntityCommandHandler<T extends Entity & VillagerLike<?>> {
         switch (command) {
             case "clothing.randClothing":
                 entity.setClothes(ClothingList.getInstance().getPool(entity).pickOne());
-                return true;
             case "clothing.prevClothing":
                 entity.setClothes(ClothingList.getInstance().getPool(entity).pickNext(entity.getClothes(), -1));
-                return true;
             case "clothing.nextClothing":
                 entity.setClothes(ClothingList.getInstance().getPool(entity).pickNext(entity.getClothes(), 1));
-                return true;
             case "clothing.randHair":
                 entity.setHair(API.getHairPool().pickOne(entity));
-                return true;
             case "clothing.prevHair":
                 entity.setHair(API.getHairPool().pickNext(entity, entity.getHair(), -1));
-                return true;
             case "clothing.nextHair":
                 entity.setHair(API.getHairPool().pickNext(entity, entity.getHair(), 1));
-                return true;
         }
         return false;
     }

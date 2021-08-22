@@ -43,8 +43,8 @@ public class VillagerEntityModelMCA<T extends MobEntity & VillagerLike<T>> exten
         }
     }
 
-    public static ModelData getModelData(Dilation dilation, boolean clothing) {
-        ModelData modelData = PlayerEntityModelCompat.getTexturedModelData(dilation, false);
+    public static ModelData getModelData(Dilation dilation, Dilation headDilation, boolean clothing) {
+        ModelData modelData = PlayerEntityModelCompat.getTexturedModelData(dilation, headDilation, false);
         ModelPartData data = modelData.getRoot();
         data.addChild(BREASTS, newBreasts(dilation, clothing, 0), ModelTransform.NONE);
         data.addChild(BREASTPLATE, newBreasts(dilation.add(0.25F), clothing, 0), ModelTransform.NONE);
