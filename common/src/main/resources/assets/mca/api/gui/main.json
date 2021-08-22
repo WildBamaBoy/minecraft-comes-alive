@@ -119,8 +119,8 @@
   },
 
   {
-    "identifier": "gui.button.dialogue",
-    "x": 0,
+    "identifier": "gui.button.talk",
+    "x": 70,
     "y": -115,
     "width": 65,
     "height": 20,

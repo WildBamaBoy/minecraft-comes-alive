@@ -4,7 +4,6 @@
     "answers": [
       {
         "name": "chat",
-        "chance": 1.0,
         "next": [
           {
             "id": "chat"
@@ -13,10 +12,33 @@
       },
       {
         "name": "joke",
-        "chance": 1.0,
         "next": [
           {
             "id": "joke"
+          }
+        ]
+      },
+      {
+        "name": "greet",
+        "next": [
+          {
+            "id": "greet"
+          }
+        ]
+      },
+      {
+        "name": "story",
+        "next": [
+          {
+            "id": "story"
+          }
+        ]
+      },
+      {
+        "name": "flirt",
+        "next": [
+          {
+            "id": "flirt"
           }
         ]
       }

@@ -8,8 +8,12 @@
         "chance": 1.0,
         "next": [
           {
-            "id": "joke.skeletonJokeFailed",
+            "id": "joke.skeleton.failed",
             "threshold": 0.0
+          },
+          {
+            "id": "joke.skeleton.success",
+            "threshold": 1.0
           }
         ]
       },
@@ -18,12 +22,12 @@
         "chance": 1.0,
         "next": [
           {
-            "id": "joke.jokeFailed",
+            "id": "joke.sheep.failed",
             "threshold": 0.0
           },
           {
-            "id": "joke.sheepJokeSuccess",
-            "threshold": 0.5
+            "id": "joke.sheep.success",
+            "threshold": 1.0
           }
         ]
       },
@@ -32,33 +36,29 @@
         "chance": 1.0,
         "next": [
           {
-            "id": "joke.jokeFailed",
+            "id": "joke.pig.failed",
             "threshold": 0.0
+          },
+          {
+            "id": "joke.pig.success",
+            "threshold": 1.0
           }
         ]
       },
       {
-        "name": "mom",
+        "name": "creative",
         "chance": 1.0,
         "next": [
           {
-            "id": "joke.momJoke",
+            "id": "joke.creative.failed",
             "threshold": 0.0
+          },
+          {
+            "id": "joke.creative.success",
+            "threshold": 1.0
           }
         ]
       }
     ]
-  },
-  {
-    "id": "joke.skeletonJokeFailed",
-    "closeScreen": true
-  },
-  {
-    "id": "joke.jokeFailed",
-    "closeScreen": true
-  },
-  {
-    "id": "joke.momJoke",
-    "closeScreen": true
   }
 ]

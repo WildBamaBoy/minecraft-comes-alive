@@ -1,7 +1,5 @@
 package mca.resources.data;
 
-import net.minecraft.util.Identifier;
-
 public class AnswerAction {
     private final float threshold;
     private final String id;

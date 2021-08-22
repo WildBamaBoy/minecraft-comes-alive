@@ -31,6 +31,10 @@ public interface Messenger extends EntityWrapper {
         return DialogueType.UNASSIGNED;
     }
 
+    default TranslatableText getTranslatable(PlayerEntity target, String phraseId, Object... params) {
+        return new TranslatableText(getDialogueType(target).getTranslationKey(phraseId), Stream.concat(Stream.of(target.getName()), Stream.of(params)).toArray());
+    }
+
     default void sendChatToAllAround(String phrase, Object...params) {
         for (PlayerEntity player : asEntity().world.getPlayers(CAN_RECEIVE, asEntity(), asEntity().getBoundingBox().expand(20))) {
             sendChatMessage(player, phrase, params);
@@ -38,7 +42,7 @@ public interface Messenger extends EntityWrapper {
     }
 
     default void sendChatMessage(PlayerEntity target, String phraseId, Object... params) {
-        sendChatMessage(new TranslatableText(getDialogueType(target).getTranslationKey(phraseId), Stream.concat(Stream.of(target.getName()), Stream.of(params)).toArray()), target);
+        sendChatMessage(getTranslatable(target, phraseId, params), target);
     }
 
     default void sendChatMessage(MutableText message, Entity receiver) {

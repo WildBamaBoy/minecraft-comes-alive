@@ -245,15 +245,21 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //dialogue
         if (dialogQuestion != null) {
-            drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getTranslationKey()), width / 2, height / 2 - 50, 0xFFFFFFFF);
+            //background
+            fill(transform, width / 2 - 85, height / 2 - 60, width / 2 + 85, height / 2 - 30 + 10 * dialogQuestion.getAnswers().size(), 0x55000000);
+
+            //question
+            drawCenteredText(transform, textRenderer, villager.getTranslatable(player, dialogQuestion.getTranslationKey()), width / 2, height / 2 - 50, 0xFFFFFFFF);
             dialogAnswerHover = null;
 
+            //separator
             drawHorizontalLine(transform, width / 2 - 75, width / 2 + 75, height / 2 - 40, 0xAAFFFFFF);
 
+            //answers
             int y = height / 2 - 35;
             for (Answer a : dialogQuestion.getAnswers()) {
                 boolean hover = hoveringOver(width / 2 - 100, y - 3, 200, 10);
-                drawCenteredText(transform, textRenderer, new TranslatableText(a.getTranslationKey(dialogQuestion)), width / 2, y, hover ? 0xFF00FF00 : 0xFFFFFFFF);
+                drawCenteredText(transform, textRenderer, new TranslatableText(a.getTranslationKey(dialogQuestion)), width / 2, y, hover ? 0xFFD7D784 : 0xAAFFFFFF);
                 if (hover) {
                     dialogAnswerHover = a.getName();
                 }
@@ -303,7 +309,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
-        } else if (id.equals("gui.button.dialogue")) {
+        } else if (id.equals("gui.button.talk")) {
             children.clear();
             buttons.clear();
             setDialogue("main");

@@ -61,11 +61,15 @@ public class Dialogues extends JsonDataLoader {
     }
 
     public Question getRandomQuestion(String i) {
-        List<Question> questions = this.questionGroups.get(i);
-        if (questions.isEmpty()) {
-            return null;
+        if (questions.containsKey(i)) {
+            return questions.get(i);
         } else {
-            return questions.get(random.nextInt(questions.size()));
+            List<Question> questions = this.questionGroups.get(i);
+            if (questions == null) {
+                return null;
+            } else {
+                return questions.get(random.nextInt(questions.size()));
+            }
         }
     }
 }

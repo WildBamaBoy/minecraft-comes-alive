@@ -35,26 +35,41 @@ public class InteractionDialogueMessage implements Message {
         Entity villager = ((ServerWorld)player.world).getEntity(villagerUUID);
         if (villager instanceof VillagerEntityMCA) {
             VillagerEntityMCA v = (VillagerEntityMCA)villager;
-            Question question = Dialogues.getInstance().getQuestion(this.question);
-            Answer a = question.getAnswer(answer);
+            selectAnswer(v, player, question, answer);
+        }
+    }
 
-            float chance = a.getChance(v);
-            Optional<AnswerAction> ac = a.getNext().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
-            if (ac.isPresent()) {
-                String id = ac.get().getId();
+    private void selectAnswer(VillagerEntityMCA villager, PlayerEntity player, String questionId, String answerId) {
+        Question question = Dialogues.getInstance().getQuestion(questionId);
+        Answer answer = question.getAnswer(answerId);
 
-                Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
-                if (newQuestion != null) {
-                    v.sendChatMessage(player, newQuestion.getTranslationKey());
-                }
-                if (newQuestion == null || newQuestion.isCloseScreen()) {
-                    v.getInteractions().stopInteracting();
+        float chance = answer.getChance(villager);
+        Optional<AnswerAction> ac = answer.getNext().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
+        if (ac.isPresent()) {
+            String id = ac.get().getId();
+
+            Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
+            if (newQuestion != null) {
+                if (newQuestion.isAuto()) {
+                    //this is basically a placeholder and fires an answer automatically
+                    //use cases are n to 1 links or to split file size
+                    selectAnswer(villager, player, newQuestion.getId(), newQuestion.getAnswers().get(0).getName());
+                    return;
                 } else {
-                    NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion.getId()), (ServerPlayerEntity)player);
+                    villager.sendChatMessage(player, newQuestion.getTranslationKey());
                 }
             } else {
-                v.getInteractions().stopInteracting();
+                //we send nevertheless and assume it's a final question
+                villager.sendChatMessage(player, "dialogue." + id);
             }
+
+            if (newQuestion == null || newQuestion.isCloseScreen()) {
+                villager.getInteractions().stopInteracting();
+            } else {
+                NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion.getId()), (ServerPlayerEntity)player);
+            }
+        } else {
+            villager.getInteractions().stopInteracting();
         }
     }
 }

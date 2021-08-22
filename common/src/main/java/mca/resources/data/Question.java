@@ -6,13 +6,13 @@ public class Question {
     private final String id;
     private final String group;
     private final List<Answer> answers;
-    private final boolean closeScreen;
+    private final boolean auto;
 
-    public Question(String id, String group, List<Answer> answers, boolean screen) {
+    public Question(String id, String group, List<Answer> answers, boolean auto) {
         this.id = id;
         this.group = group;
         this.answers = answers;
-        closeScreen = screen;
+        this.auto = auto;
     }
 
     public String getId() {
@@ -28,7 +28,7 @@ public class Question {
     }
 
     public boolean isCloseScreen() {
-        return closeScreen;
+        return answers == null;
     }
 
     public Answer getAnswer(String answer) {
@@ -41,6 +41,10 @@ public class Question {
     }
 
     public String getTranslationKey() {
-        return "dialogue." +  getId();
+        return "dialogue." + getId();
+    }
+
+    public boolean isAuto() {
+        return auto;
     }
 }

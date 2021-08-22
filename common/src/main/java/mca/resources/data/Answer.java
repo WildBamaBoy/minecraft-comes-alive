@@ -1,7 +1,6 @@
 package mca.resources.data;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.interaction.InteractionPredicate;
@@ -9,14 +8,16 @@ import mca.entity.interaction.InteractionPredicate;
 public class Answer {
     private final String name;
     private final float chance;
+    private final float chanceRandom;
 
     private final List<InteractionPredicate> conditions;
 
     private final List<AnswerAction> next;
 
-    public Answer(String name, float chance, List<InteractionPredicate> conditions, List<AnswerAction> next) {
+    public Answer(String name, float chance, float chanceRandom, List<InteractionPredicate> conditions, List<AnswerAction> next) {
         this.name = name;
         this.chance = chance;
+        this.chanceRandom = chanceRandom;
         this.conditions = conditions;
         this.next = next;
     }
@@ -47,6 +48,7 @@ public class Answer {
 
     public float getChance(VillagerEntityMCA villager) {
         float chance = this.chance;
+        chance += villager.getRandom().nextFloat() * chanceRandom;
         for (InteractionPredicate c : getConditions()) {
             if (c.test(villager)) {
                 chance += c.getChance(villager);
@@ -56,6 +58,6 @@ public class Answer {
     }
 
     public String getTranslationKey(Question q) {
-        return "dialogue." +  q.getId() + "." + getName();
+        return "dialogue." + q.getId() + "." + getName();
     }
 }

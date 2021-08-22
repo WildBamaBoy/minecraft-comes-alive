@@ -10,28 +10,6 @@
     "constraints": ""
   },
   {
-    "identifier": "gui.button.chat",
-    "x": 140,
-    "y": -115,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "",
-    "isInteraction": true
-  },
-  {
-    "identifier": "gui.button.joke",
-    "x": 140,
-    "y": -93,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "",
-    "isInteraction": true
-  },
-  {
     "identifier": "gui.button.gift",
     "x": 140,
     "y": -71,
@@ -40,39 +18,6 @@
     "notifyServer": false,
     "targetServer": false,
     "constraints": ""
-  },
-  {
-    "identifier": "gui.button.shake_hand",
-    "x": 140,
-    "y": -49,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "",
-    "isInteraction": true
-  },
-  {
-    "identifier": "gui.button.tell_story",
-    "x": 140,
-    "y": -27,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "",
-    "isInteraction": true
-  },
-  {
-    "identifier": "gui.button.flirt",
-    "x": 140,
-    "y": -5,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "!kids,adult",
-    "isInteraction": true
   },
   {
     "identifier": "gui.button.hug",
