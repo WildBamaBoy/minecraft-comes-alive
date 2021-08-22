@@ -1,5 +1,7 @@
 package mca.client.render;
 
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import java.util.Map;
 import mca.client.model.VillagerEntityBaseModelMCA;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.Infectable;
@@ -11,9 +13,11 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
+import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.MobEntity;
 
+import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>> extends BipedEntityRenderer<T, VillagerEntityModelMCA<T>> {
@@ -39,9 +43,16 @@ public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>
     @Nullable
     @Override
     protected RenderLayer getRenderLayer(T entity, boolean showBody, boolean translucent, boolean showOutlines) {
-        //setting the type to null prevents it from rendering
-        //we need a skin layer anyways because of the color
-        return null;
+        if (entity.hasCustomSkin()) {
+            //custom skin
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
+            Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraftClient.getSkinProvider().getTextures(entity.getGameProfile());
+            return map.containsKey(MinecraftProfileTexture.Type.SKIN) ? RenderLayer.getEntityTranslucent(minecraftClient.getSkinProvider().loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN)) : RenderLayer.getEntityCutoutNoCull(DefaultSkinHelper.getTexture(PlayerEntity.getUuidFromProfile(entity.getGameProfile())));
+        } else {
+            //setting the type to null prevents it from rendering
+            //we need a skin layer anyways because of the color
+            return null;
+        }
     }
 
     @Override

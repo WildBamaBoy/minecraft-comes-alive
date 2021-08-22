@@ -52,6 +52,10 @@ public abstract class VillagerLayer<T extends MobEntity & VillagerLike<T>, M ext
 
     @Override
     public void render(MatrixStack transform, VertexConsumerProvider provider, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+        if (entity.hasCustomSkin()) {
+            return;
+        }
+
         //copy the animation to this layers model
         getContextModel().setAttributes(model);
 

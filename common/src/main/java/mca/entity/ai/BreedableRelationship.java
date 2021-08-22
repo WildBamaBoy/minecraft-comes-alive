@@ -8,6 +8,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.interaction.gifts.GiftType;
 import mca.entity.interaction.gifts.Response;
 import mca.item.SpecialCaseGift;
+import mca.resources.API;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
@@ -19,6 +20,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
+
+import static mca.entity.VillagerLike.CUSTOM_SKIN;
 
 /**
  * I know you, you know me, we're all a big happy family.
@@ -79,12 +82,12 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
 
                 // advancement
                 if (spouse instanceof ServerPlayerEntity) {
-                    CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity) spouse, count);
+                    CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity)spouse, count);
                 }
 
                 for (int i = 0; i < count; i++) {
                     ItemStack stack = TagsMCA.Items.BABIES.getRandom(random).getDefaultStack();
-                    if (!(spouse instanceof PlayerEntity && ((PlayerEntity) spouse).giveItemStack(stack))) {
+                    if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
                         entity.getInventory().addStack(stack);
                     }
                 }
@@ -107,10 +110,19 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
                     entity.setInfected(false);
                     entity.eatFood(entity.world, stack);
                 } else if (stack.getItem() instanceof DyeItem) {
-                    entity.setHairDye(((DyeItem) stack.getItem()).getColor());
+                    entity.setHairDye(((DyeItem)stack.getItem()).getColor());
                     stack.decrement(1);
-                } else if (stack.getItem() == Items.SPONGE) {
+                } else if (stack.getItem() == Items.WET_SPONGE) {
                     entity.clearHairDye();
+                    stack.decrement(1);
+                } else if (stack.getItem() == Items.NAME_TAG) {
+                    if (stack.hasCustomName()) {
+                        entity.setName(stack.getName().asString());
+                        entity.setCustomSkin(stack.getName().asString());
+                    } else {
+                        entity.setName(API.getVillagePool().pickCitizenName(entity.getGenetics().getGender()));
+                        entity.setCustomSkin("");
+                    }
                     stack.decrement(1);
                 } else {
                     rejectGift(player, "gift.fail");
@@ -165,7 +177,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
         Item item = stack.getItem();
 
         if (item instanceof SpecialCaseGift) {
-            if (((SpecialCaseGift) item).handle(player, entity)) {
+            if (((SpecialCaseGift)item).handle(player, entity)) {
                 player.getMainHandStack().decrement(1);
                 return true;
             }
@@ -173,7 +185,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
 
         if (item == Items.CAKE && isMarriedTo(player.getUuid()) && !entity.isBaby()) {
             if (pregnancy.tryStartGestation()) {
-                ((ServerWorld) player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
+                ((ServerWorld)player.world).sendEntityStatus(entity, Status.VILLAGER_HEARTS);
                 entity.sendChatMessage(player, "gift.cake.success");
             } else {
                 entity.sendChatMessage(player, "gift.cake.fail");
