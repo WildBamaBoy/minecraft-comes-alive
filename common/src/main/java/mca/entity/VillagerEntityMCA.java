@@ -1,9 +1,8 @@
 package mca.entity;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.google.common.base.Strings;
 import com.mojang.serialization.Dynamic;
-import java.util.Map;
 import mca.Config;
 import mca.ParticleTypesMCA;
 import mca.SoundsMCA;
@@ -25,7 +24,6 @@ import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
 import net.minecraft.block.entity.SkullBlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -122,10 +120,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     private GameProfile gameProfile;
 
+    @Override
     public GameProfile getGameProfile() {
         return gameProfile;
     }
 
+    @Override
     public void updateCustomSkin() {
         if (!getTrackedValue(CUSTOM_SKIN).isEmpty()) {
             gameProfile = new GameProfile(null, getTrackedValue(CUSTOM_SKIN));
@@ -202,7 +202,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 }
             }
 
-            setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            if (Strings.isNullOrEmpty(getTrackedValue(VILLAGER_NAME))) {
+                setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            }
 
             initializeSkin();
 
