@@ -2,8 +2,10 @@ package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 import mca.TagsMCA;
+import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
 import mca.server.world.data.PlayerSaveData;
+import mca.util.compat.OptionalCompat;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
@@ -182,34 +184,30 @@ public class ServerInteractionManager {
      */
     public void endMarriage(PlayerEntity sender) {
         // Retrieve all data instances and an instance of the ex-spouse if they are present.
-        PlayerSaveData senderData = PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid());
+        EntityRelationship.of(sender).ifPresent(senderData -> {
+            // Ensure the sender is married
+            if (!senderData.isMarried()) {
+                failMessage(sender, "You are not married.");
+                return;
+            }
 
-        // Ensure the sender is married
-        if (!senderData.isMarried()) {
-            failMessage(sender, "You are not married.");
-            return;
-        }
+            // Lookup the spouse, if it's a villager, we can't continue
+            if (senderData.getMarriageState() != MarriageState.MARRIED_TO_PLAYER) {
+                failMessage(sender, "You cannot use this command when married to a villager.");
+                return;
+            }
 
-        // Lookup the spouse, if it's a villager, we can't continue
-
-        if (senderData.getMarriageState() != MarriageState.MARRIED_TO_PLAYER) {
-            failMessage(sender, "You cannot use this command when married to a villager.");
-            return;
-        }
-
-        PlayerSaveData receiverData = PlayerSaveData.get((ServerWorld)sender.world, senderData.getSpouseUUID());
-
-        // Notify the sender of the success and end both marriages.
-        successMessage(sender, "Your marriage to " + senderData.getSpouseName() + " has ended.");
-        PlayerEntity spouse = sender.world.getPlayerByUuid(senderData.getSpouseUUID());
-        if (spouse != null) {
-            failMessage(spouse, sender.getEntityName() + " has ended their marriage with you.");
-        }
-
-        senderData.endMarriage(MarriageState.SINGLE);
-        receiverData.endMarriage(MarriageState.SINGLE);
-
-        // Notify the ex if they are online.
+            // Notify the sender of the success and end both marriages.
+            successMessage(sender, "Your marriage to " + senderData.getSpouseName() + " has ended.");
+            senderData.getSpouse().ifPresent(spouse -> {
+                if (spouse instanceof PlayerEntity) {
+                    // Notify the ex if they are online.
+                    failMessage((PlayerEntity)spouse, sender.getEntityName() + " has ended their marriage with you.");
+                }
+            });
+            senderData.endMarriage(MarriageState.SINGLE);
+            senderData.getSpouseUuid().map(id -> PlayerSaveData.get((ServerWorld)sender.world, id)).ifPresent(r -> r.endMarriage(MarriageState.SINGLE));
+        });
     }
 
     /**
@@ -236,8 +234,7 @@ public class ServerInteractionManager {
             return;
         }
         // Ensure the spouse is online.
-        PlayerEntity spouse = sender.world.getPlayerByUuid(senderData.getSpouseUUID());
-        if (spouse != null) {
+        OptionalCompat.ifPresentOrElse(senderData.getSpouse().filter(e -> e instanceof PlayerEntity).map(PlayerEntity.class::cast), spouse -> {
             // If the spouse is online and has previously sent a procreation request that hasn't expired, we can continue.
             // Otherwise we notify the spouse that they must also enter the command.
             if (!procreateMap.containsKey(spouse.getUuid())) {
@@ -254,9 +251,7 @@ public class ServerInteractionManager {
                 spouseData.setBabyPresent(true);
                 senderData.setBabyPresent(true);
             }
-        } else {
-            failMessage(sender, "Your spouse is not present on the server.");
-        }
+        }, () -> failMessage(sender, "Your spouse is not present on the server."));
     }
 
     private void successMessage(PlayerEntity player, String message) {

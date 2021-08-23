@@ -5,8 +5,6 @@ import java.util.UUID;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.VillagerLike;
-import mca.network.client.GetVillagerResponse;
 import mca.network.client.InteractionDialogueResponse;
 import mca.resources.Dialogues;
 import mca.resources.data.Answer;

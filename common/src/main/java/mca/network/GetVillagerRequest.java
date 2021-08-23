@@ -26,7 +26,7 @@ public class GetVillagerRequest implements Message {
 
         Stream.concat(
                 playerData.getFamilyEntry().getRelatives(),
-                Stream.of(playerData.getSpouseUUID())
+                playerData.getSpouseUuid().map(Stream::of).orElseGet(Stream::empty)
         ).distinct()
             .map(((ServerWorld) player.world)::getEntity)
             .filter(e -> e instanceof VillagerLike<?>)

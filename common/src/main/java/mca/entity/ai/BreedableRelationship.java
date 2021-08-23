@@ -21,8 +21,6 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
 
-import static mca.entity.VillagerLike.CUSTOM_SKIN;
-
 /**
  * I know you, you know me, we're all a big happy family.
  */
