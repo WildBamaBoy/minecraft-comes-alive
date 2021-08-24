@@ -51,10 +51,11 @@
 
   "item.mca.male_villager_spawn_egg": "Male Villager Spawn Egg",
   "item.mca.female_villager_spawn_egg": "Female Villager Spawn Egg",
-  "item.mca.egg_grim_reaper": "Grim Reaper Spawn Egg",
   
   "item.mca.male_zombie_villager_spawn_egg": "Male Zombie Villager Spawn Egg",
   "item.mca.female_zombie_villager_spawn_egg": "Female Zombie Villager Spawn Egg",
+
+  "item.mca.grim_reaper_spawn_egg": "Grim Reaper Spawn Egg",
   
   "item.mca.divorce_papers": "Divorce Papers",
   "item.mca.divorce_papers.tooltip": "Give to a Cleric to end any (un)happy marriage",
