@@ -176,8 +176,8 @@
   "child.welcome1": "Hi %1$s!",
   "childp.welcome1": "Hi %1$s!",
   "spouse.welcome1": "Welcome home Darling!",
-  "generic.welcomeFoe1": "Not you again!",
-  "generic.cleric.divorcePapers": "Here you go, bring these papers to your spouse to confirm the divorce.",
+  "welcomeFoe1": "Not you again!",
+  "cleric.divorcePapers": "Here you go, bring these papers to your spouse to confirm the divorce.",
 
   "adult.gift.fail1": "This isn't a good gift...",
   "adult.gift.fail2": "What made you think that I would like this?",

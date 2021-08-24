@@ -49,7 +49,6 @@ public class WeddingRingItem extends TooltippedItem implements SpecialCaseGift {
         } else {
             response = "interaction.marry.success";
             playerData.marry(villager);
-            villager.getVillagerBrain().getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
             villager.getRelationships().marry(player);
             villager.getVillagerBrain().modifyMoodLevel(15);
             consume = true;

@@ -14,7 +14,6 @@ import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import mca.resources.Dialogues;
-import mca.resources.data.Answer;
 import mca.resources.data.Question;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
@@ -178,6 +177,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         } else {
             renderTooltip(transform, villager.asEntity().getName(), 10, 28);
         }
+
 
         //age or profession
         renderTooltip(transform, villager.asEntity().isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);

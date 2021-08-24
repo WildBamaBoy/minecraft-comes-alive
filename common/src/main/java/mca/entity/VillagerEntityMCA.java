@@ -329,6 +329,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         if (!stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS)) {
             playWelcomeSound();
+
+            //make sure dialogueType is synced in case the client needs it
+            getDialogueType(player);
+
             return interactions.interactAt(player, pos, hand);
         }
         return super.interactAt(player, pos, hand);
@@ -791,7 +795,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 if (state == AgeState.ADULT) {
                     // Notify player parents of the age up and set correct dialogue type.
                     relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity)e).forEach(p -> {
-                        mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
                         sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
                     });
                 }

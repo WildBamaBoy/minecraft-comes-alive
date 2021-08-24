@@ -10,6 +10,7 @@ import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.VillagerDimensions;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.entity.interaction.EntityCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
@@ -50,6 +51,11 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     @Override
     default boolean isSpeechImpaired() {
         return getInfectionProgress() > BABBLING_THRESHOLD;
+    }
+
+    @Override
+    default boolean isToYoungToSpeak() {
+        return getAgeState() == AgeState.BABY;
     }
 
     default void setName(String name) {
@@ -132,6 +138,27 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     @Override
     default DialogueType getDialogueType(PlayerEntity receiver) {
+        if (!receiver.world.isClient) {
+            // age specific
+            DialogueType type = DialogueType.fromAge(getAgeState());
+
+            // relationship specific
+            if (!receiver.world.isClient) {
+                Optional<EntityRelationship> r = EntityRelationship.of(asEntity());
+                if (r.isPresent()) {
+                    FamilyTreeNode relationship = r.get().getFamilyEntry();
+                    if (relationship.spouse().equals(receiver.getUuid())) {
+                        return DialogueType.SPOUSE;
+                    } else if (relationship.isParent(receiver.getUuid())) {
+                        return type.toChild();
+                    }
+                }
+            }
+
+            // also sync with client
+            getVillagerBrain().getMemoriesForPlayer(receiver).setDialogueType(type);
+        }
+
         return getVillagerBrain().getMemoriesForPlayer(receiver).getDialogueType();
     }
 

@@ -4,7 +4,6 @@ import java.util.List;
 import mca.ClientProxy;
 import mca.cobalt.network.Message;
 import mca.entity.VillagerEntityMCA;
-import mca.resources.data.Answer;
 import mca.resources.data.Question;
 import net.minecraft.entity.player.PlayerEntity;
 

@@ -149,7 +149,6 @@ public class BabyItem extends Item {
 
             // set proper dialogue type
             Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
-            memories.setDialogueType(DialogueType.CHILDP);
             memories.setHearts(Config.getInstance().childInitialHearts);
         });
     }

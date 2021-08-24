@@ -7,9 +7,9 @@ import net.minecraft.util.math.MathHelper;
 
 public enum AgeState implements VillagerDimensions {
     UNASSIGNED(1, 0.9F, 1, 1),
-    BABY      (0.85F, 0.4F, 0, 1.5F),
-    TODDLER   (0.85F, 0.5F, 0, 1.3F),
-    CHILD     (0.85F, 0.7F, 0, 1.1F),
+    BABY      (0.85F, 0.225F, 0, 1.5F),
+    TODDLER   (0.85F, 0.375F, 0, 1.3F),
+    CHILD     (0.85F, 0.6F, 0, 1.1F),
     TEEN      (0.85F, 0.8F, 0.5F, 1),
     ADULT     (1, 0.9F, 1, 1);
 
@@ -84,11 +84,6 @@ public enum AgeState implements VillagerDimensions {
     }
 
     public static AgeState byCurrentAge(int age) {
-
-        if (age == MAX_AGE) {
-            System.out.println(getId(age));
-        }
-
         return byId(getId(age));
     }
 }
