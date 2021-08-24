@@ -1,99 +1,68 @@
 package mca.entity.ai;
 
-import mca.entity.interaction.Interaction;
-import mca.resources.API;
+import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.IntRange;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Formatting;
 
-public enum Mood {
-    DEPRESSED(-100, -15, MoodGroup.GENERAL),
-    SAD(-14, -7, MoodGroup.GENERAL),
-    UNHAPPY(-6, -1, MoodGroup.GENERAL),
-    PASSIVE(0, 0, MoodGroup.UNASSIGNED),
-    FINE(1, 6, MoodGroup.GENERAL),
-    HAPPY(7, 14, MoodGroup.GENERAL),
-    OVERJOYED(15, 15, MoodGroup.GENERAL),
+public class Mood {
+    private final String name;
 
-    BORED_TO_TEARS(-100, -15, MoodGroup.PLAYFUL),
-    BORED(-14, -7, MoodGroup.PLAYFUL),
-    UNINTERESTED(-6, -1, MoodGroup.PLAYFUL),
-    SILLY(1, 6, MoodGroup.PLAYFUL),
-    GIGGLY(7, 14, MoodGroup.PLAYFUL),
-    ENTERTAINED(15, 15, MoodGroup.PLAYFUL),
+    private final int soundInterval;
+    private final SoundEvent soundMale;
+    private final SoundEvent soundFemale;
+    private final int particleInterval;
+    private final DefaultParticleType particle;
+    private final Formatting color;
 
-    INFURIATED(-100, -15, MoodGroup.SERIOUS),
-    ANGRY(-14, -7, MoodGroup.SERIOUS),
-    ANNOYED(-6, -1, MoodGroup.SERIOUS),
-    INTERESTED(1, 6, MoodGroup.SERIOUS),
-    TALKATIVE(7, 14, MoodGroup.SERIOUS),
-    PLEASED(15, 15, MoodGroup.SERIOUS);
-
-    //-15 to 15 is a range create normal interactions, but mood can go -15 to -100 due to player interactions.
-    public final static int normalMinLevel = -15;
-    public final static int absoluteMinLevel = -100;
-    public final static int maxLevel = 15;
-
-    private final IntRange level;
-    private final MoodGroup moodGroup;
-
-    Mood(int min, int max, MoodGroup moodGroup) {
-        this.level = IntRange.between(min, max);
-        this.moodGroup = moodGroup;
+    Mood(String name) {
+        this(name, 0, null, null);
     }
 
-    // TODO: MoodGroup makes absolutely no sense
-    public boolean isAngry() {
-        return this == INFURIATED;
+    Mood(String name, int soundInterval, SoundEvent soundMale, SoundEvent soundFemale) {
+        this(name, soundInterval, soundMale, soundFemale, 0, null, Formatting.WHITE);
     }
 
-    public boolean isSad() {
-        return this == DEPRESSED;
+    Mood(String name, int soundInterval, SoundEvent soundMale, SoundEvent soundFemale, int particleInterval, DefaultParticleType particle, Formatting color) {
+        this.name = name;
+        this.soundInterval = soundInterval;
+        this.soundMale = soundMale;
+        this.soundFemale = soundFemale;
+        this.particleInterval = particleInterval;
+        this.particle = particle;
+        this.color = color;
     }
 
-    public boolean isHappy() {
-        return this == OVERJOYED;
+    public Text getText() {
+        return new TranslatableText("mood." + name.toLowerCase());
     }
 
-    public static int getLevel(int mood) {
-        return MathHelper.clamp(mood, absoluteMinLevel, maxLevel);
+    public String getName() {
+        return name;
     }
 
-    public MoodGroup getMoodGroup() {
-        return this.moodGroup;
+    public int getSoundInterval() {
+        return soundInterval;
     }
 
-    public int getMiddleLevel() {
-        return (int)MathHelper.lerp(0.5F, level.getMin(), level.getMax());
+    public SoundEvent getSoundMale() {
+        return soundMale;
     }
 
-    public boolean isInRange(int level) {
-        return this.level.getMax() >= level && this.level.getMin() <= level;
+    public SoundEvent getSoundFemale() {
+        return soundFemale;
     }
 
-    public Text getName() {
-        return new TranslatableText("mood." + name().toLowerCase());
+    public int getParticleInterval() {
+        return particleInterval;
     }
 
-    public int getSuccessModifierForInteraction(Interaction interaction) {
-        //no need for custom values
-        return getHeartsModifierForInteraction(interaction);
+    public DefaultParticleType getParticle() {
+        return particle;
     }
 
-    public int getHeartsModifierForInteraction(Interaction interaction) {
-        switch (interaction) {
-            case CHAT:
-            case JOKE:
-            case TELL_STORY:
-            case HUG:
-                return level.choose(API.getRng()) / 20;
-            case SHAKE_HAND:
-            case FLIRT:
-            case KISS:
-                return -level.choose(API.getRng()) / 20;
-            default:
-                return 0;
-        }
+    public Formatting getColor() {
+        return color;
     }
 }

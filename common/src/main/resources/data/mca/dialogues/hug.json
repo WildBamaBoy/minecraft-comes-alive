@@ -6,26 +6,34 @@
     "answers": [
       {
         "name": "",
-        "chance": 0.5,
+        "chance": 0.3,
         "chanceRandom": 1.0,
+        "bonusChance": 0.5,
+        "bonusChanceMinHearts": 40,
+        "bonusChanceMaxHearts": 150,
+        "hearts": 9,
         "conditions": [
           {
-            "chance": 0.5,
-            "personality": "curious"
+            "chance": -0.15,
+            "hearts": 3,
+            "personality": "odd"
           },
           {
-            "chance": 0.5,
-            "mood": "talkative"
+            "chance": 0.05,
+            "hearts": 1,
+            "personality": "friendly"
           }
         ],
         "next": [
           {
-            "id": "hug.success",
-            "threshold": 0.0
+            "id": "hug.fail",
+            "threshold": 0.0,
+            "fail": true
           },
           {
-            "id": "hug.fail",
-            "threshold": 1.0
+            "id": "hug.success",
+            "threshold": 1.0,
+            "success": true
           }
         ]
       }

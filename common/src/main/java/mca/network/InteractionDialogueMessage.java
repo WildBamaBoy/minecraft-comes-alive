@@ -5,6 +5,7 @@ import java.util.UUID;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.brain.VillagerBrain;
 import mca.network.client.InteractionDialogueResponse;
 import mca.resources.Dialogues;
 import mca.resources.data.Answer;
@@ -33,11 +34,11 @@ public class InteractionDialogueMessage implements Message {
         Entity villager = ((ServerWorld)player.world).getEntity(villagerUUID);
         if (villager instanceof VillagerEntityMCA) {
             VillagerEntityMCA v = (VillagerEntityMCA)villager;
-            selectAnswer(v, player, question, answer);
+            selectAnswer(v, (ServerPlayerEntity)player, question, answer);
         }
     }
 
-    private void selectAnswer(VillagerEntityMCA villager, PlayerEntity player, String questionId, String answerId) {
+    private void selectAnswer(VillagerEntityMCA villager, ServerPlayerEntity player, String questionId, String answerId) {
         Question question = Dialogues.getInstance().getQuestion(questionId);
         Answer answer = question.getAnswer(answerId);
 
@@ -45,6 +46,15 @@ public class InteractionDialogueMessage implements Message {
         Optional<AnswerAction> ac = answer.getNext().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
         if (ac.isPresent()) {
             String id = ac.get().getId();
+
+            int hearts = answer.getHearts(villager);
+
+            // hearts
+            if (ac.get().isSuccess()) {
+                villager.getVillagerBrain().rewardHearts(player, hearts);
+            } else if (ac.get().isFail()) {
+                villager.getVillagerBrain().rewardHearts(player, -hearts);
+            }
 
             Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
             if (newQuestion != null) {

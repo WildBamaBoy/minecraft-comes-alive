@@ -186,8 +186,8 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //mood
         renderTooltip(transform,
-                new TranslatableText("gui.interact.label.mood", brain.getMood().getName())
-                        .formatted(brain.getMoodLevel() < 0 ? Formatting.RED : brain.getMoodLevel() > 0 ? Formatting.GREEN : Formatting.WHITE), 10, 30 + h * 2);
+                new TranslatableText("gui.interact.label.mood", brain.getMood().getText())
+                        .formatted(brain.getMood().getColor()), 10, 30 + h * 2);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {

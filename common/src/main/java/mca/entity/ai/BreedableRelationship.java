@@ -158,7 +158,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
         }
 
         //modify mood and hearts
-        entity.getVillagerBrain().modifyMoodLevel((int)(satisfaction / 2 + 2 * MathHelper.sign(satisfaction)));
+        entity.getVillagerBrain().modifyMoodValue((int)(satisfaction / 2 + 2 * MathHelper.sign(satisfaction)));
         memory.modHearts((int)satisfaction);
 
         getGiftSaturation().add(stack, 1);

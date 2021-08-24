@@ -1,5 +1,6 @@
 package mca.resources.data;
 
+import com.sun.javafx.util.Utils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,10 @@ import net.minecraft.entity.player.PlayerEntity;
 public class Answer {
     private final String name;
     private final float chance;
+    private final int hearts;
+    private final float bonusChance;
+    private final int bonusChanceMinHearts;
+    private final int bonusChanceMaxHearts;
     private final float chanceRandom;
     private final String constraints;
 
@@ -19,9 +24,13 @@ public class Answer {
 
     private final List<AnswerAction> next;
 
-    public Answer(String name, float chance, float chanceRandom, String constraints, List<InteractionPredicate> conditions, List<AnswerAction> next) {
+    public Answer(String name, float chance, int hearts, float bonusChance, int bonusChanceMinHearts, int bonusChanceMaxHearts, float chanceRandom, String constraints, List<InteractionPredicate> conditions, List<AnswerAction> next) {
         this.name = name;
         this.chance = chance;
+        this.hearts = hearts;
+        this.bonusChance = bonusChance;
+        this.bonusChanceMinHearts = bonusChanceMinHearts;
+        this.bonusChanceMaxHearts = bonusChanceMaxHearts;
         this.chanceRandom = chanceRandom;
         this.constraints = constraints;
         this.conditions = conditions;
@@ -56,21 +65,46 @@ public class Answer {
         return constraints.containsAll(Constraint.fromStringList(this.constraints));
     }
 
+    public float getChanceBasedOnHearts(int hearts) {
+        int delta = bonusChanceMaxHearts - bonusChanceMinHearts;
+        if (delta > 0) {
+            hearts = Utils.clamp(bonusChanceMinHearts, hearts, bonusChanceMaxHearts) - bonusChanceMinHearts;
+            return hearts * bonusChance / delta;
+        } else {
+            return 0.0f;
+        }
+    }
+
     public float getChance(VillagerEntityMCA villager, PlayerEntity player) {
         Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
 
         // base chance
         float chance = this.chance
+                + getChanceBasedOnHearts(memory.getHearts())
                 + villager.getRandom().nextFloat() * chanceRandom
                 - memory.getInteractionFatigue() * 0.05f;
 
         // condition chance
         for (InteractionPredicate c : getConditions()) {
             if (c.test(villager)) {
-                chance += c.getChance(villager);
+                chance += c.getChance();
             }
         }
 
         return Math.max(0.0f, chance);
+    }
+
+    public int getHearts(VillagerEntityMCA villager) {
+        // base chance
+        int hearts = this.hearts;
+
+        // condition chance
+        for (InteractionPredicate c : getConditions()) {
+            if (c.test(villager)) {
+                hearts += c.getHearts();
+            }
+        }
+
+        return Math.max(0, hearts);
     }
 }

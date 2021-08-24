@@ -477,13 +477,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 headYaw += 50;
             }
 
-            if (this.age % 20 == 0) {
+            Mood mood = mcaBrain.getMood();
+            if (mood.getParticle() != null && this.age % mood.getParticleInterval() == 0) {
                 if (world.random.nextBoolean()) {
-                    if (mcaBrain.getMoodLevel() <= -15) {
-                        mcaBrain.getPersonality().getMoodGroup().getParticles().ifPresent(this::produceParticles);
-                    } else if (mcaBrain.getMoodLevel() >= 15) {
-                        produceParticles(ParticleTypes.HAPPY_VILLAGER);
-                    }
+                    produceParticles(mood.getParticle());
                 }
             }
         }
@@ -686,16 +683,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             return getDeathSound();
         }
 
-        if (age % 10 > 5) {
-            if (getVillagerBrain().getMood().isAngry()) {
-                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_ANGRY : SoundsMCA.VILLAGER_FEMALE_ANGRY;
-            }
-            if (getVillagerBrain().getMood().isSad()) {
-                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_CRY : SoundsMCA.VILLAGER_FEMALE_CRY;
-            }
-            if (getVillagerBrain().getMood().isHappy()) {
-                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_LAUGH : SoundsMCA.VILLAGER_FEMALE_LAUGH;
-            }
+        Mood mood = getVillagerBrain().getMood();
+        if (mood.getSoundInterval() > 0 && age % mood.getSoundInterval() == 0) {
+            return getGenetics().getGender() == Gender.MALE ? mood.getSoundMale() : mood.getSoundFemale();
         }
 
         if (hasCustomer()) {

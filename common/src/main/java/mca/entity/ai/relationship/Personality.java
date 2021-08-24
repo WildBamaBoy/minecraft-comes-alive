@@ -6,7 +6,6 @@ import net.minecraft.text.TranslatableText;
 import java.util.*;
 
 import mca.entity.ai.MoodGroup;
-import mca.entity.interaction.Interaction;
 
 public enum Personality {
     //Fallback on error.
@@ -114,44 +113,5 @@ public enum Personality {
 
     public Text getDescription() {
         return new TranslatableText("personalityDescription." + name().toLowerCase());
-    }
-
-    public int getSuccessModifierForInteraction(Interaction interaction) {
-        switch (interaction) {
-            case CHAT:
-                return this == STUBBORN ? -20 : 0;
-            case JOKE:
-                return this == WITTY ? 15 : 0;
-            case TELL_STORY:
-                return this == CURIOUS ? 20 : this == STUBBORN ? -20 : 0;
-            case FLIRT:
-                return this == ODD ? -10 : 0;
-            case HUG:
-                return this == ODD ? -15 : 0;
-            case KISS:
-                return this == ODD ? -5 : 0;
-            default:
-                return 0;
-        }
-    }
-
-    public int getHeartsModifierForInteraction(Interaction interaction) {
-        switch (interaction) {
-            case CHAT:
-                return this == FRIENDLY ? 1 : this == FLIRTY ? 2 : 0;
-            case JOKE:
-                return this == FRIENDLY ? 1 : this == WITTY ? 2 : 0;
-            case SHAKE_HAND:
-            case TELL_STORY:
-                return this == FRIENDLY ? 1 : 0;
-            case FLIRT:
-                return this == FRIENDLY ? 1 : this == FLIRTY ? 3 : 0;
-            case HUG:
-                return this == FRIENDLY ? 1 : this == ODD ? 2 : 0;
-            case KISS:
-                return this == FLIRTY ? 1 : 0;
-            default:
-                return 0;
-        }
     }
 }

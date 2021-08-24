@@ -1,14 +1,11 @@
 package mca.entity.interaction;
 
-import mca.advancement.criterion.CriterionMCA;
-import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
 import mca.entity.ai.Memories;
 import mca.entity.ai.MoveState;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.MarriageState;
-import mca.entity.ai.relationship.Personality;
 import mca.item.ItemsMCA;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.compat.OptionalCompat;
@@ -38,13 +35,6 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
     @Override
     public boolean handle(ServerPlayerEntity player, String command) {
         Memories memory = entity.getVillagerBrain().getMemoriesForPlayer(player);
-
-        if (Interaction.byCommand(command).filter(interaction -> {
-            handleInteraction(player, memory, interaction);
-            return true;
-        }).isPresent()) {
-            return true;
-        }
 
         if (MoveState.byCommand(command).filter(state -> {
             entity.getVillagerBrain().setMoveState(state, player);
@@ -134,7 +124,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                     entity.sendChatMessage(player, "divorce");
                     memories.modHearts(-200);
                 }
-                entity.getVillagerBrain().modifyMoodLevel(-5);
+                entity.getVillagerBrain().modifyMoodValue(-5);
                 entity.getRelationships().endMarriage(MarriageState.SINGLE);
 
                 PlayerSaveData playerData = PlayerSaveData.get((ServerWorld) player.world, player.getUuid());
@@ -184,36 +174,5 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
 
         entity.setCurrentCustomer(player);
         entity.sendOffers(player, entity.getDisplayName(), entity.getVillagerData().getLevel());
-    }
-
-    private void handleInteraction(ServerPlayerEntity player, Memories memory, Interaction interaction) {
-        //success chance and hearts
-        float successChance = 0.85F;
-        int heartsBoost = 5;
-        if (interaction != null) {
-            heartsBoost = interaction.getHearts(entity.getVillagerBrain());
-            successChance = interaction.getSuccessChance(entity.getVillagerBrain(), memory) / 100.0f;
-        }
-
-        boolean succeeded = entity.getRandom().nextFloat() < successChance;
-
-        //spawn particles
-        if (succeeded) {
-            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
-        } else {
-            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
-
-            //sensitive people doubles the loss
-            if (entity.getVillagerBrain().getPersonality() == Personality.SENSITIVE) {
-                heartsBoost *= 2;
-            }
-        }
-
-        memory.modInteractionFatigue(1);
-        heartsBoost = succeeded ? heartsBoost : -heartsBoost;
-        memory.modHearts(heartsBoost);
-        CriterionMCA.HEARTS_CRITERION.trigger(player, memory.getHearts(), heartsBoost, "interaction");
-        entity.getVillagerBrain().modifyMoodLevel(succeeded ? heartsBoost : -heartsBoost);
-        entity.sendChatMessage(player, String.format("%s.%s", interaction.name().toLowerCase(), succeeded ? "success" : "fail"));
     }
 }

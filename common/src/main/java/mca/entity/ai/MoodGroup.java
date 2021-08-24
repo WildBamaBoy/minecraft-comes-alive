@@ -1,87 +1,72 @@
 package mca.entity.ai;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
 
-import mca.entity.interaction.Interaction;
-import net.minecraft.particle.ParticleEffect;
+import mca.SoundsMCA;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 
 public enum MoodGroup {
-    UNASSIGNED(null, Formatting.WHITE),
-    GENERAL(ParticleTypes.SPLASH, Formatting.WHITE),
-    PLAYFUL(ParticleTypes.HAPPY_VILLAGER, Formatting.AQUA),
-    SERIOUS(ParticleTypes.ANGRY_VILLAGER, Formatting.RED);
+    UNASSIGNED(
+            new Mood("passive")
+    ),
+    GENERAL(
+            new Mood("depressed", 2, SoundsMCA.VILLAGER_MALE_CRY, SoundsMCA.VILLAGER_FEMALE_CRY, 20, ParticleTypes.SPLASH, Formatting.RED),
+            new Mood("sad", 8, SoundsMCA.VILLAGER_MALE_CRY, SoundsMCA.VILLAGER_FEMALE_CRY, 50, ParticleTypes.SPLASH, Formatting.GOLD),
+            new Mood("unhappy"),
+            new Mood("passive"),
+            new Mood("fine"),
+            new Mood("happy", 0, null, null, 0, null, Formatting.DARK_GREEN),
+            new Mood("overjoyed", 8, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH, 50, ParticleTypes.HAPPY_VILLAGER, Formatting.GREEN)
+    ),
+    PLAYFUL(
+            new Mood("boredToTears", 0, null, null, 0, null, Formatting.RED),
+            new Mood("bored", 0, null, null, 0, null, Formatting.GOLD),
+            new Mood("uninterested"),
+            new Mood("passive"),
+            new Mood("silly"),
+            new Mood("giggly", 8, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH, 50, ParticleTypes.HAPPY_VILLAGER, Formatting.DARK_GREEN),
+            new Mood("entertained", 2, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH, 20, ParticleTypes.HAPPY_VILLAGER, Formatting.GREEN)
+    ),
+    SERIOUS(
+            new Mood("infuriated", 2, SoundsMCA.VILLAGER_MALE_ANGRY, SoundsMCA.VILLAGER_FEMALE_ANGRY, 20, ParticleTypes.ANGRY_VILLAGER, Formatting.RED),
+            new Mood("angry", 8, SoundsMCA.VILLAGER_MALE_ANGRY, SoundsMCA.VILLAGER_FEMALE_ANGRY, 50, ParticleTypes.ANGRY_VILLAGER, Formatting.GOLD),
+            new Mood("annoyed"),
+            new Mood("passive"),
+            new Mood("interested"),
+            new Mood("talkative", 0, null, null, 0, null, Formatting.DARK_GREEN),
+            new Mood("pleased", 0, null, null, 0, null, Formatting.GREEN)
+    );
 
-    private final Optional<ParticleEffect> particles;
+    //-15 to 15 is a range create normal interactions, but mood can go -15 to -100 due to player interactions.
+    public final static int normalMinLevel = -15;
+    public final static int absoluteMinLevel = -100;
+    public final static int maxLevel = 15;
 
-    private final Formatting color;
+    private final List<Mood> moods;
 
-    MoodGroup(ParticleEffect particles, Formatting color) {
-        this.particles = Optional.ofNullable(particles);
-        this.color = color;
+    MoodGroup(Mood... m) {
+        moods = Arrays.asList(m);
     }
 
-    public Optional<ParticleEffect> getParticles() {
-        return particles;
+    // clamps to valid range
+    public static int clampMood(int moodPoints) {
+        return MathHelper.clamp(moodPoints, absoluteMinLevel, maxLevel);
     }
 
-    public Formatting getColor() {
-        return color;
+    // returns the index of mood based on mood points
+    private int getLevel(int moodPoints) {
+        return MathHelper.clamp(
+                (moodPoints - normalMinLevel) * moods.size() / (maxLevel - normalMinLevel),
+                0,
+                moods.size() - 1
+        );
     }
-
 
     public Mood getMood(int moodPoints) {
-        int level = Mood.getLevel(moodPoints);
-
-        if (level == 0) {
-            return Mood.PASSIVE;
-        }
-
-        for (Mood mood : Mood.values()) {
-            if (mood.getMoodGroup() == this && mood.isInRange(level)) {
-                return mood;
-            }
-        }
-
-        return Mood.PASSIVE;
-    }
-
-    public int getSuccessModifierForInteraction(Interaction interaction) {
-        switch (interaction) {
-            case CHAT:
-                return this == GENERAL ? 5 : this == PLAYFUL ? 0 : this == SERIOUS ? 2 : 0;
-            case JOKE:
-                return this == GENERAL ? 0 : this == PLAYFUL ? 5 : this == SERIOUS ? -3 : 0;
-            case SHAKE_HAND:
-                return this == GENERAL ? 0 : this == PLAYFUL ? 0 : this == SERIOUS ? 5 : 0;
-            case TELL_STORY:
-                return this == GENERAL ? 3 : this == PLAYFUL ? 0 : this == SERIOUS ? 3 : 0;
-            case FLIRT:
-            case KISS:
-            case HUG:
-                return this == GENERAL ? 0 : this == PLAYFUL ? 3 : this == SERIOUS ? -2 : 0;
-            default:
-                return 0;
-        }
-    }
-
-    public int getHeartsModifierForInteraction(Interaction interaction) {
-        switch (interaction) {
-            case CHAT:
-                return this == GENERAL ? 3 : this == PLAYFUL ? 0 : this == SERIOUS ? 1 : 0;
-            case JOKE:
-                return this == GENERAL ? 0 : this == PLAYFUL ? 3 : this == SERIOUS ? -2 : 0;
-            case SHAKE_HAND:
-                return this == GENERAL ? 0 : this == PLAYFUL ? 0 : this == SERIOUS ? 3 : 0;
-            case TELL_STORY:
-                return this == GENERAL ? 2 : this == PLAYFUL ? 0 : this == SERIOUS ? 2 : 0;
-            case FLIRT:
-            case KISS:
-            case HUG:
-                return this == GENERAL ? 0 : this == PLAYFUL ? 2 : this == SERIOUS ? -1 : 0;
-            default:
-                return 0;
-        }
+        int level = getLevel(moodPoints);
+        return moods.get(level);
     }
 }

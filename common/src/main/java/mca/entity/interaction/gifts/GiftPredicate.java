@@ -63,11 +63,11 @@ public class GiftPredicate {
         register("min_infection_progress", JsonHelper::asFloat, progress -> {
             return (villager, stack) -> villager.getInfectionProgress() > progress;
         });
-        register("mood", (json, name) -> Mood.valueOf(JsonHelper.asString(json, name).toUpperCase()), mood -> {
-            return (villager, stack) -> villager.getVillagerBrain().getMood() == mood;
+        register("mood", (json, name) -> JsonHelper.asString(json, name).toUpperCase(), mood -> {
+            return (villager, stack) -> villager.getVillagerBrain().getMood().getName().equals(mood);
         });
-        register("mood_group", (json, name) -> MoodGroup.valueOf(JsonHelper.asString(json, name).toUpperCase()), mood -> {
-            return (villager, stack) -> villager.getVillagerBrain().getMood().getMoodGroup() == mood;
+        register("mood_group", (json, name) -> MoodGroup.valueOf(JsonHelper.asString(json, name).toUpperCase()), moodGroup -> {
+            return (villager, stack) -> villager.getVillagerBrain().getPersonality().getMoodGroup() == moodGroup;
         });
         register("personality", (json, name) -> Personality.valueOf(JsonHelper.asString(json, name).toUpperCase()), personality -> {
             return (villager, stack) -> villager.getVillagerBrain().getPersonality() == personality;
