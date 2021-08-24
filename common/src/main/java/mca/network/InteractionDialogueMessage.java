@@ -41,7 +41,7 @@ public class InteractionDialogueMessage implements Message {
         Question question = Dialogues.getInstance().getQuestion(questionId);
         Answer answer = question.getAnswer(answerId);
 
-        float chance = answer.getChance(villager);
+        float chance = answer.getChance(villager, player);
         Optional<AnswerAction> ac = answer.getNext().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
         if (ac.isPresent()) {
             String id = ac.get().getId();
@@ -49,24 +49,24 @@ public class InteractionDialogueMessage implements Message {
             Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
             if (newQuestion != null) {
                 if (newQuestion.isAuto()) {
-                    //this is basically a placeholder and fires an answer automatically
-                    //use cases are n to 1 links or to split file size
+                    // this is basically a placeholder and fires an answer automatically
+                    // use cases are n to 1 links or to split file size
                     selectAnswer(villager, player, newQuestion.getId(), newQuestion.getAnswers().get(0).getName());
                     return;
                 } else {
-                    villager.sendChatMessage(player, newQuestion.getTranslationKey());
+                    NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion, player, villager), (ServerPlayerEntity)player);
                 }
             } else {
-                //we send nevertheless and assume it's a final question
+                // we send nevertheless and assume it's a final question
                 villager.sendChatMessage(player, "dialogue." + id);
             }
 
+            // close screen
             if (newQuestion == null || newQuestion.isCloseScreen()) {
                 villager.getInteractions().stopInteracting();
-            } else {
-                NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion.getId()), (ServerPlayerEntity)player);
             }
         } else {
+            // should not happen
             villager.getInteractions().stopInteracting();
         }
     }

@@ -1,6 +1,12 @@
 package mca.resources.data;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import mca.client.gui.Constraint;
+import mca.entity.VillagerEntityMCA;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class Question {
     private final String id;
@@ -44,7 +50,22 @@ public class Question {
         return "dialogue." + getId();
     }
 
+    public String getTranslationKey(String answer) {
+        return "dialogue." + getId() + "." + answer;
+    }
+
     public boolean isAuto() {
         return auto;
+    }
+
+    public List<String> getValidAnswers(PlayerEntity player, VillagerEntityMCA villager) {
+        Set<Constraint> constraints = Constraint.allMatching(villager, player);
+        List<String> ans = new LinkedList<>();
+        for (Answer a : answers) {
+            if (a.isValidForConstraint(constraints)) {
+                ans.add(a.getName());
+            }
+        }
+        return ans;
     }
 }

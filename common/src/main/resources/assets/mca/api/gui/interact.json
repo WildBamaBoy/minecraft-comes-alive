@@ -20,28 +20,6 @@
     "constraints": ""
   },
   {
-    "identifier": "gui.button.hug",
-    "x": 140,
-    "y": 17,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "!kids,adult",
-    "isInteraction": true
-  },
-  {
-    "identifier": "gui.button.kiss",
-    "x": 140,
-    "y": 39,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "!kids,adult",
-    "isInteraction": true
-  },
-  {
     "identifier": "gui.button.pick_up",
     "x": 140,
     "y": 61,

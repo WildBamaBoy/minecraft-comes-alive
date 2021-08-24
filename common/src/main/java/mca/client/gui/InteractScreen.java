@@ -9,6 +9,7 @@ import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
+import mca.network.InteractionDialogueInitMessage;
 import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
@@ -44,7 +45,9 @@ public class InteractScreen extends AbstractDynamicScreen {
     private String mother;
 
     private Question dialogQuestion;
+    private List<String> dialogAnswers;
     private String dialogAnswerHover;
+    private TranslatableText dialogQuestionText;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -246,10 +249,10 @@ public class InteractScreen extends AbstractDynamicScreen {
         //dialogue
         if (dialogQuestion != null) {
             //background
-            fill(transform, width / 2 - 85, height / 2 - 60, width / 2 + 85, height / 2 - 30 + 10 * dialogQuestion.getAnswers().size(), 0x55000000);
+            fill(transform, width / 2 - 85, height / 2 - 60, width / 2 + 85, height / 2 - 30 + 10 * dialogAnswers.size(), 0x55000000);
 
             //question
-            drawCenteredText(transform, textRenderer, villager.getTranslatable(player, dialogQuestion.getTranslationKey()), width / 2, height / 2 - 50, 0xFFFFFFFF);
+            drawCenteredText(transform, textRenderer, dialogQuestionText, width / 2, height / 2 - 50, 0xFFFFFFFF);
             dialogAnswerHover = null;
 
             //separator
@@ -257,11 +260,11 @@ public class InteractScreen extends AbstractDynamicScreen {
 
             //answers
             int y = height / 2 - 35;
-            for (Answer a : dialogQuestion.getAnswers()) {
+            for (String a : dialogAnswers) {
                 boolean hover = hoveringOver(width / 2 - 100, y - 3, 200, 10);
-                drawCenteredText(transform, textRenderer, new TranslatableText(a.getTranslationKey(dialogQuestion)), width / 2, y, hover ? 0xFFD7D784 : 0xAAFFFFFF);
+                drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getTranslationKey(a)), width / 2, y, hover ? 0xFFD7D784 : 0xAAFFFFFF);
                 if (hover) {
-                    dialogAnswerHover = a.getName();
+                    dialogAnswerHover = a;
                 }
                 y += 10;
             }
@@ -282,8 +285,11 @@ public class InteractScreen extends AbstractDynamicScreen {
         return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
     }
 
-    public void setDialogue(String dialogue) {
+    public void setDialogue(String dialogue, List<String> answers) {
         dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
+        dialogAnswers = answers;
+        dialogQuestionText = villager.getTranslatable(player, dialogQuestion.getTranslationKey());
+        villager.sendChatMessage(dialogQuestionText, player);
     }
 
     @Override
@@ -312,7 +318,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         } else if (id.equals("gui.button.talk")) {
             children.clear();
             buttons.clear();
-            setDialogue("main");
+            NetworkHandler.sendToServer(new InteractionDialogueInitMessage(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());

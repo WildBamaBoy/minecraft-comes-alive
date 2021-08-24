@@ -1,0 +1,34 @@
+[
+  {
+    "id": "hug",
+    "group": "hug",
+    "auto": true,
+    "answers": [
+      {
+        "name": "",
+        "chance": 0.5,
+        "chanceRandom": 1.0,
+        "conditions": [
+          {
+            "chance": 0.5,
+            "personality": "curious"
+          },
+          {
+            "chance": 0.5,
+            "mood": "talkative"
+          }
+        ],
+        "next": [
+          {
+            "id": "hug.success",
+            "threshold": 0.0
+          },
+          {
+            "id": "hug.fail",
+            "threshold": 1.0
+          }
+        ]
+      }
+    ]
+  }
+]

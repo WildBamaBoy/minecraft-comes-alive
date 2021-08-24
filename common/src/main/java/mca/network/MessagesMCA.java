@@ -27,5 +27,6 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(GetInteractDataResponse.class);
         NetworkHandler.registerMessage(InteractionDialogueMessage.class);
         NetworkHandler.registerMessage(InteractionDialogueResponse.class);
+        NetworkHandler.registerMessage(InteractionDialogueInitMessage.class);
     }
 }

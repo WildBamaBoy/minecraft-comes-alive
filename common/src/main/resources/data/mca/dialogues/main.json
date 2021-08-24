@@ -3,6 +3,14 @@
     "id": "main",
     "answers": [
       {
+        "name": "greet",
+        "next": [
+          {
+            "id": "greet"
+          }
+        ]
+      },
+      {
         "name": "chat",
         "next": [
           {
@@ -19,14 +27,6 @@
         ]
       },
       {
-        "name": "greet",
-        "next": [
-          {
-            "id": "greet"
-          }
-        ]
-      },
-      {
         "name": "story",
         "next": [
           {
@@ -35,10 +35,29 @@
         ]
       },
       {
+        "name": "hug",
+        "constraints": "adult",
+        "next": [
+          {
+            "id": "hug"
+          }
+        ]
+      },
+      {
         "name": "flirt",
+        "constraints": "!kids,adult",
         "next": [
           {
             "id": "flirt"
+          }
+        ]
+      },
+      {
+        "name": "kiss",
+        "constraints": "!kids,adult",
+        "next": [
+          {
+            "id": "kiss"
           }
         ]
       }

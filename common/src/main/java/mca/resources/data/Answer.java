@@ -2,22 +2,28 @@ package mca.resources.data;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import mca.client.gui.Constraint;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Memories;
 import mca.entity.interaction.InteractionPredicate;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class Answer {
     private final String name;
     private final float chance;
     private final float chanceRandom;
+    private final String constraints;
 
     private final List<InteractionPredicate> conditions;
 
     private final List<AnswerAction> next;
 
-    public Answer(String name, float chance, float chanceRandom, List<InteractionPredicate> conditions, List<AnswerAction> next) {
+    public Answer(String name, float chance, float chanceRandom, String constraints, List<InteractionPredicate> conditions, List<AnswerAction> next) {
         this.name = name;
         this.chance = chance;
         this.chanceRandom = chanceRandom;
+        this.constraints = constraints;
         this.conditions = conditions;
         this.next = next;
     }
@@ -46,18 +52,25 @@ public class Answer {
         }
     }
 
-    public float getChance(VillagerEntityMCA villager) {
-        float chance = this.chance;
-        chance += villager.getRandom().nextFloat() * chanceRandom;
+    public boolean isValidForConstraint(Set<Constraint> constraints) {
+        return constraints.containsAll(Constraint.fromStringList(this.constraints));
+    }
+
+    public float getChance(VillagerEntityMCA villager, PlayerEntity player) {
+        Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
+
+        // base chance
+        float chance = this.chance
+                + villager.getRandom().nextFloat() * chanceRandom
+                - memory.getInteractionFatigue() * 0.05f;
+
+        // condition chance
         for (InteractionPredicate c : getConditions()) {
             if (c.test(villager)) {
                 chance += c.getChance(villager);
             }
         }
-        return Math.max(0.0f, chance);
-    }
 
-    public String getTranslationKey(Question q) {
-        return "dialogue." + q.getId() + "." + getName();
+        return Math.max(0.0f, chance);
     }
 }
