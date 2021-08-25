@@ -1,13 +1,14 @@
 [
   {
-    "id": "divorce",
+    "id": "procreate",
     "silent": true,
     "answers": [
       {
         "name": "confirm",
         "next": [
           {
-            "command": "divorceConfirm"
+            "id": "procreate.confirm",
+            "command": "procreate"
           }
         ]
       },

@@ -73,17 +73,6 @@
     "hideOnFail": true
   },
   {
-    "identifier": "gui.button.procreate",
-    "x": 140,
-    "y": 17,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "spouse",
-    "hideOnFail": true
-  },
-  {
     "identifier": "gui.button.familyTree",
     "x": 140,
     "y": 39,

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import mca.client.gui.Constraint;
 import mca.entity.VillagerEntityMCA;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class Question {
@@ -13,12 +12,14 @@ public class Question {
     private final String group;
     private final List<Answer> answers;
     private final boolean auto;
+    private final boolean silent;
 
-    public Question(String id, String group, List<Answer> answers, boolean auto) {
+    public Question(String id, String group, List<Answer> answers, boolean auto, boolean silent) {
         this.id = id;
         this.group = group;
         this.answers = answers;
         this.auto = auto;
+        this.silent = silent;
     }
 
     public String getId() {
@@ -67,5 +68,9 @@ public class Question {
             }
         }
         return ans;
+    }
+
+    public boolean isSilent() {
+        return silent;
     }
 }

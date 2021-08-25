@@ -111,7 +111,6 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 return true;
             case "divorcePapers":
                 player.inventory.insertStack(new ItemStack(ItemsMCA.DIVORCE_PAPERS));
-                entity.sendChatMessage(player, "cleric.divorcePapers");
                 return true;
             case "divorceConfirm":
                 ItemStack papers = ItemsMCA.DIVORCE_PAPERS.getDefaultStack();

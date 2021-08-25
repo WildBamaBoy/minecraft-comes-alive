@@ -177,7 +177,6 @@
   "childp.welcome1": "Hi %1$s!",
   "spouse.welcome1": "Welcome home Darling!",
   "welcomeFoe1": "Not you again!",
-  "cleric.divorcePapers": "Here you go, bring these papers to your spouse to confirm the divorce.",
 
   "adult.gift.fail1": "This isn't a good gift...",
   "adult.gift.fail2": "What made you think that I would like this?",
@@ -344,6 +343,9 @@
   "dialogue.main.hug": "hug",
   "dialogue.main.flirt": "flirt",
   "dialogue.main.kiss": "kiss",
+  "dialogue.main.procreate": "procreate",
+  "dialogue.main.divorceInitiate": "divorce",
+  "dialogue.main.divorcePapers": "divorce papers",
 
   "adult.dialogue.hug.success1": "Long time no see!",
   "adult.dialogue.hug.success2": "Thank you, I needed that.",
@@ -604,5 +606,14 @@
   "childp.shake_hand.fail2": "You're such an old person.",
   "childp.shake_hand.fail3": "Only losers shake hands.",
   "childp.shake_hand.fail4": "I'll shake your hand if you give me cake.",
-  "childp.shake_hand.fail5": "No, you'll slip and hit me."
+  "childp.shake_hand.fail5": "No, you'll slip and hit me.",
+
+  "dialogue.divorce": "Do you really want a divorce? A cleric can provide divorce papers to decrease penalties.",
+  "dialogue.divorce.confirm": "confirm",
+  "dialogue.divorce.cancel": "cancel",
+
+  "dialogue.procreate.confirm": "confirm",
+  "dialogue.procreate.cancel": "cancel",
+
+  "dialogue.divorcePapers": "Here you go, bring these papers to your spouse to confirm the divorce."
 }

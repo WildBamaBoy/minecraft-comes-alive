@@ -89,11 +89,6 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         drawIcons(matrices);
         drawTextPopups(matrices);
-
-        if (getActiveScreen().equals("divorce")) {
-            drawCenteredText(matrices, textRenderer, new TranslatableText("gui.village.divorceConfirmation"), width / 2, 105, 0xFFFFFF);
-            drawCenteredText(matrices, textRenderer, new TranslatableText("gui.village.divorcePaperWarning"), width / 2, 160, 0xFFFFFF);
-        }
     }
 
     @Override
@@ -285,11 +280,14 @@ public class InteractScreen extends AbstractDynamicScreen {
         return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
     }
 
-    public void setDialogue(String dialogue, List<String> answers) {
+    public void setDialogue(String dialogue, List<String> answers, boolean silent) {
         dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
         dialogAnswers = answers;
         dialogQuestionText = villager.getTranslatable(player, dialogQuestion.getTranslationKey());
-        villager.sendChatMessage(dialogQuestionText, player);
+
+        if (!silent) {
+            villager.sendChatMessage(dialogQuestionText, player);
+        }
     }
 
     @Override
@@ -309,10 +307,6 @@ public class InteractScreen extends AbstractDynamicScreen {
             disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
         } else if (id.equals("gui.button.clothing")) {
             setLayout("clothing");
-        } else if (id.equals("gui.button.divorceInitiate")) {
-            setLayout("divorce");
-        } else if (id.equals("gui.button.divorceCancel")) {
-            setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.talk")) {

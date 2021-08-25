@@ -95,7 +95,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof InteractScreen) {
             InteractScreen gui = (InteractScreen)screen;
-            gui.setDialogue(message.question, message.answers);
+            gui.setDialogue(message.question, message.answers, message.silent);
         }
     }
 }

@@ -62,6 +62,15 @@
         ]
       },
       {
+        "name": "procreate",
+        "constraints": "spouse",
+        "next": [
+          {
+            "id": "procreate"
+          }
+        ]
+      },
+      {
         "name": "divorcePapers",
         "constraints": "cleric,!spouse",
         "next": [
@@ -76,7 +85,7 @@
         "constraints": "spouse",
         "next": [
           {
-            "id": "divorce.confirm"
+            "id": "divorce"
           }
         ]
       }
