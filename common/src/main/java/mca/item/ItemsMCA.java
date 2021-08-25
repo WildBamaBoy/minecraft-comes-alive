@@ -72,8 +72,7 @@ public interface ItemsMCA {
     Item ROSE_GOLD_BLOCK = register("rose_gold_block", new BlockItem(BlocksMCA.ROSE_GOLD_BLOCK, baseProps()));
     Item ROSE_GOLD_ORE = register("rose_gold_ore", new BlockItem(BlocksMCA.ROSE_GOLD_ORE, baseProps()));
 
-    Item VILLAGER_SPAWNER = register("villager_spawner", new BlockItem(BlocksMCA.VILLAGER_SPAWNER, baseProps()));
-    Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
+    // Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
 
     Item UPRIGHT_HEADSTONE = register("upright_headstone", new BlockItem(BlocksMCA.UPRIGHT_HEADSTONE, baseProps()));
     Item SLANTED_HEADSTONE = register("slanted_headstone", new BlockItem(BlocksMCA.SLANTED_HEADSTONE, baseProps()));
