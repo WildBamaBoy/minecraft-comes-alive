@@ -60,6 +60,25 @@
             "id": "kiss"
           }
         ]
+      },
+      {
+        "name": "divorcePapers",
+        "constraints": "cleric,!spouse",
+        "next": [
+          {
+            "id": "divorcePapers",
+            "command": "divorcePapers"
+          }
+        ]
+      },
+      {
+        "name": "divorceInitiate",
+        "constraints": "spouse",
+        "next": [
+          {
+            "id": "divorce.confirm"
+          }
+        ]
       }
     ]
   }

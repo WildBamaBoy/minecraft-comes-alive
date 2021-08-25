@@ -1,0 +1,24 @@
+[
+  {
+    "id": "divorce.confirm",
+    "answers": [
+      {
+        "name": "confirm",
+        "next": [
+          {
+            "id": "divorce.confirm",
+            "command": "divorceConfirm"
+          }
+        ]
+      },
+      {
+        "name": "cancel",
+        "next": [
+          {
+            "id": "main"
+          }
+        ]
+      }
+    ]
+  }
+]

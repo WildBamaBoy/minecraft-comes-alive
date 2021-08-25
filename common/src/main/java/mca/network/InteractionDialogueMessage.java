@@ -56,6 +56,11 @@ public class InteractionDialogueMessage implements Message {
                 villager.getVillagerBrain().rewardHearts(player, -hearts);
             }
 
+            // additional commands
+            if (ac.get().getCommand() != null) {
+                villager.getInteractions().handle(player, ac.get().getCommand());
+            }
+
             Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
             if (newQuestion != null) {
                 if (newQuestion.isAuto()) {
