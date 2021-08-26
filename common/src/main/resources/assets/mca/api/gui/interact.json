@@ -12,7 +12,7 @@
   {
     "identifier": "gui.button.gift",
     "x": 140,
-    "y": -71,
+    "y": -115,
     "width": 65,
     "height": 20,
     "notifyServer": false,
@@ -22,12 +22,22 @@
   {
     "identifier": "gui.button.pick_up",
     "x": 140,
-    "y": 61,
+    "y": -94,
     "width": 65,
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
     "constraints": "!adult",
     "isInteraction": true
+  },
+  {
+    "identifier": "gui.button.locations",
+    "x": 140,
+    "y": -73,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
   }
 ]

@@ -20,6 +20,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -46,7 +47,7 @@ public class InteractScreen extends AbstractDynamicScreen {
     private Question dialogQuestion;
     private List<String> dialogAnswers;
     private String dialogAnswerHover;
-    private TranslatableText dialogQuestionText;
+    private List<OrderedText> dialogQuestionText;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -234,7 +235,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         //happiness
-        if (hoveringOverIcon("neutralEmerald")) {
+        if (hoveringOverIcon("neutralEmerald") && false) {
             List<Text> lines = new LinkedList<>();
             lines.add(new TranslatableText("gui.interact.label.happiness", "0/10"));
 
@@ -244,10 +245,15 @@ public class InteractScreen extends AbstractDynamicScreen {
         //dialogue
         if (dialogQuestion != null) {
             //background
-            fill(transform, width / 2 - 85, height / 2 - 60, width / 2 + 85, height / 2 - 30 + 10 * dialogAnswers.size(), 0x55000000);
+            fill(transform, width / 2 - 85, height / 2 - 50 - 10 * dialogQuestionText.size(), width / 2 + 85,
+                    height / 2 - 30 + 10 * dialogAnswers.size(), 0x77000000);
 
             //question
-            drawCenteredText(transform, textRenderer, dialogQuestionText, width / 2, height / 2 - 50, 0xFFFFFFFF);
+            int i = -dialogQuestionText.size();
+            for (OrderedText t : dialogQuestionText) {
+                i++;
+                textRenderer.drawWithShadow(transform, t, (float)(width / 2 - textRenderer.getWidth(t) / 2), (float)height / 2 - 50 + i * 10, 0xFFFFFFFF);
+            }
             dialogAnswerHover = null;
 
             //separator
@@ -283,10 +289,11 @@ public class InteractScreen extends AbstractDynamicScreen {
     public void setDialogue(String dialogue, List<String> answers, boolean silent) {
         dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
         dialogAnswers = answers;
-        dialogQuestionText = villager.getTranslatable(player, dialogQuestion.getTranslationKey());
+        TranslatableText translatable = villager.getTranslatable(player, dialogQuestion.getTranslationKey());
+        dialogQuestionText = textRenderer.wrapLines(translatable, 160);
 
         if (!silent) {
-            villager.sendChatMessage(dialogQuestionText, player);
+            villager.sendChatMessage(translatable, player);
         }
     }
 
