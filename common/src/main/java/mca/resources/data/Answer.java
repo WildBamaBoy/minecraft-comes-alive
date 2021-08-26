@@ -1,6 +1,5 @@
 package mca.resources.data;
 
-import com.sun.javafx.util.Utils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +8,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Memories;
 import mca.entity.interaction.InteractionPredicate;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 
 public class Answer {
     private final String name;
@@ -68,7 +68,7 @@ public class Answer {
     public float getChanceBasedOnHearts(int hearts) {
         int delta = bonusChanceMaxHearts - bonusChanceMinHearts;
         if (delta > 0) {
-            hearts = Utils.clamp(bonusChanceMinHearts, hearts, bonusChanceMaxHearts) - bonusChanceMinHearts;
+            hearts = MathHelper.clamp(hearts, bonusChanceMinHearts, bonusChanceMaxHearts) - bonusChanceMinHearts;
             return hearts * bonusChance / delta;
         } else {
             return 0.0f;
