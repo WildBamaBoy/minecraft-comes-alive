@@ -57,7 +57,7 @@ public class VillagerEntityModelMCA<T extends MobEntity & VillagerLike<T>> exten
         ModelData modelData = PlayerEntityModelCompat.getTexturedModelData(dilation, false);
         ModelPartData root = modelData.getRoot();
         root.addChild(BREASTS, newBreasts(dilation, true, 0), ModelTransform.NONE);
-        root.addChild(BREASTPLATE, newBreasts(dilation.add(0.25F), true, 0), ModelTransform.NONE);
+        root.addChild(BREASTPLATE, newBreasts(dilation.add(0.25F), true, 16), ModelTransform.NONE);
         return modelData;
     }
 
@@ -65,7 +65,7 @@ public class VillagerEntityModelMCA<T extends MobEntity & VillagerLike<T>> exten
         ModelData modelData = PlayerEntityModelCompat.getTexturedModelData(dilation, false);
         ModelPartData root = modelData.getRoot();
         root.addChild(BREASTS, newBreasts(dilation, false, 0), ModelTransform.NONE);
-        root.addChild(BREASTPLATE, newBreasts(dilation.add(0.25F), false, 0), ModelTransform.NONE);
+        root.addChild(BREASTPLATE, newBreasts(dilation.add(0.25F), false, 16), ModelTransform.NONE);
         return modelData;
     }
 

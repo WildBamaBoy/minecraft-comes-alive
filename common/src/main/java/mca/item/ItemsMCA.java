@@ -30,7 +30,7 @@ public interface ItemsMCA {
 
     Item WEDDING_RING = register("wedding_ring", new WeddingRingItem(unstackableProps()));
     Item WEDDING_RING_RG = register("wedding_ring_rg", new WeddingRingItem(unstackableProps()));
-    Item ENGAGEMENT_RING = register("engagement_ring", new WeddingRingItem(unstackableProps(), 0.0F));
+    Item ENGAGEMENT_RING = register("engagement_ring", new WeddingRingItem(unstackableProps(), 0.5F));
     Item ENGAGEMENT_RING_RG = register("engagement_ring_rg", new WeddingRingItem(unstackableProps(), 0.5F));
     Item MATCHMAKERS_RING = register("matchmakers_ring", new MatchmakersRingItem(baseProps().maxCount(2)));
 
