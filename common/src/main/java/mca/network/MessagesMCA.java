@@ -5,6 +5,7 @@ import mca.network.client.GetFamilyTreeResponse;
 import mca.network.client.GetInteractDataResponse;
 import mca.network.client.GetVillageResponse;
 import mca.network.client.GetVillagerResponse;
+import mca.network.client.InteractionDialogueResponse;
 import mca.network.client.OpenGuiRequest;
 
 public interface MessagesMCA {
@@ -24,5 +25,8 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(GetFamilyTreeResponse.class);
         NetworkHandler.registerMessage(GetInteractDataRequest.class);
         NetworkHandler.registerMessage(GetInteractDataResponse.class);
+        NetworkHandler.registerMessage(InteractionDialogueMessage.class);
+        NetworkHandler.registerMessage(InteractionDialogueResponse.class);
+        NetworkHandler.registerMessage(InteractionDialogueInitMessage.class);
     }
 }

@@ -23,12 +23,20 @@ public interface Messenger extends EntityWrapper {
         return false;
     }
 
+    default boolean isToYoungToSpeak() {
+        return false;
+    }
+
     default void playSpeechEffect() {
 
     }
 
     default DialogueType getDialogueType(PlayerEntity receiver) {
         return DialogueType.UNASSIGNED;
+    }
+
+    default TranslatableText getTranslatable(PlayerEntity target, String phraseId, Object... params) {
+        return new TranslatableText(getDialogueType(target).getTranslationKey(phraseId), Stream.concat(Stream.of(target.getName()), Stream.of(params)).toArray());
     }
 
     default void sendChatToAllAround(String phrase, Object...params) {
@@ -38,29 +46,15 @@ public interface Messenger extends EntityWrapper {
     }
 
     default void sendChatMessage(PlayerEntity target, String phraseId, Object... params) {
-        sendChatMessage(new TranslatableText(getDialogueType(target).getTranslationKey(phraseId), Stream.concat(Stream.of(target.getName()), Stream.of(params)).toArray()), target);
+        sendChatMessage(getTranslatable(target, phraseId, params), target);
     }
 
     default void sendChatMessage(MutableText message, Entity receiver) {
         // Infected villagers do not speak
         if (isSpeechImpaired()) {
-            String str = message.getString();
-            int wordCount = str.split(" ").length;
-
-            // create zombie sentence
-            List<String> words = new LinkedList<>();
-            for (int i = 0; i < wordCount; i++) {
-                words.add(API.getRandomZombieWord());
-            }
-            String concat = String.join(" ", words);
-
-            // add !?.
-            char last = str.charAt(str.length() - 1);
-            if (last == '!' || last == '?' || last == '.') {
-                concat += last;
-            }
-
-            message = new TranslatableText(concat);
+            message = new TranslatableText(API.getRandomSentence("zombie", message.getString()));
+        } else if (isToYoungToSpeak()) {
+            message = new TranslatableText(API.getRandomSentence("baby", message.getString()));
         }
 
         receiver.sendSystemMessage(new LiteralText(Config.getInstance().villagerChatPrefix).append(asEntity().getDisplayName()).append(": ").append(message), receiver.getUuid());

@@ -1,5 +1,7 @@
 package mca.entity.ai;
 
+import java.util.HashSet;
+import java.util.Set;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -19,10 +21,18 @@ public interface ProfessionsMCA {
     VillagerProfession OUTLAW = register("outlaw", PointOfInterestType.HOME, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
     VillagerProfession CHILD = register("child", PointOfInterestType.HOME, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
     VillagerProfession GUARD = register("guard", PointOfInterestType.ARMORER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
-    VillagerProfession JEWELER = register("jeweler", PointOfInterestTypeMCA.JEWELER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
+    // VillagerProfession JEWELER = register("jeweler", PointOfInterestTypeMCA.JEWELER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
+
+    Set<VillagerProfession> canNotTrade = new HashSet<>();
 
     static void bootstrap() {
         PointOfInterestTypeMCA.bootstrap();
+
+        canNotTrade.add(VillagerProfession.NONE);
+        canNotTrade.add(VillagerProfession.NITWIT);
+        canNotTrade.add(OUTLAW);
+        canNotTrade.add(CHILD);
+        canNotTrade.add(GUARD);
     }
 
     static VillagerProfession register(String name, PointOfInterestType workStation, @Nullable SoundEvent workSound) {

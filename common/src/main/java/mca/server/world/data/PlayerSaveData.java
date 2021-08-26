@@ -18,7 +18,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import org.jetbrains.annotations.Nullable;
@@ -144,11 +143,6 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     @Override
     public MarriageState getMarriageState() {
         return marriageState;
-    }
-
-    @Deprecated
-    public UUID getSpouseUUID() {
-        return spouseUUID.orElse(Util.NIL_UUID);
     }
 
     @Override

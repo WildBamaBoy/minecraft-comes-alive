@@ -10,6 +10,7 @@ import mca.item.ItemsMCA;
 import mca.network.MessagesMCA;
 import mca.resources.ApiReloadListener;
 import mca.resources.ClothingList;
+import mca.resources.Dialogues;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -38,6 +39,7 @@ public final class MCAForge {
         event.addListener(new ApiReloadListener());
         event.addListener(new ClothingList());
         event.addListener(new GiftLoader());
+        event.addListener(new Dialogues());
     }
 
     @SubscribeEvent

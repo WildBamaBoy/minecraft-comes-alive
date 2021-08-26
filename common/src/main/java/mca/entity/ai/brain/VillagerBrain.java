@@ -1,5 +1,8 @@
 package mca.entity.ai.brain;
 
+import mca.advancement.criterion.CriterionMCA;
+import mca.entity.Status;
+import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.*;
 import mca.entity.ai.relationship.Personality;
@@ -9,6 +12,7 @@ import net.minecraft.entity.ai.brain.*;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -20,7 +24,7 @@ import java.util.UUID;
 public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
     private static final CDataParameter<NbtCompound> MEMORIES = CParameter.create("memories", new NbtCompound());
     private static final CEnumParameter<Personality> PERSONALITY = CParameter.create("personality", Personality.UNASSIGNED);
-    private static final CDataParameter<Integer> MOOD = CParameter.create("mood", Mood.FINE.getMiddleLevel());
+    private static final CDataParameter<Integer> MOOD = CParameter.create("mood", 0);
     private static final CEnumParameter<MoveState> MOVE_STATE = CParameter.create("moveState", MoveState.MOVE);
     private static final CEnumParameter<Chore> ACTIVE_CHORE = CParameter.create("activeChore", Chore.NONE);
     private static final CDataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = CParameter.create("choreAssigningPlayer", Optional.empty());
@@ -89,7 +93,7 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
 
     public void randomize() {
         entity.setTrackedValue(PERSONALITY, Personality.getRandom());
-        entity.setTrackedValue(MOOD, Mood.getLevel(entity.world.random.nextInt(Mood.maxLevel - Mood.normalMinLevel + 1) + Mood.normalMinLevel));
+        entity.setTrackedValue(MOOD, entity.world.random.nextInt(MoodGroup.maxLevel - MoodGroup.normalMinLevel + 1) + MoodGroup.normalMinLevel);
     }
 
     public void updateMemories(Memories memories) {
@@ -125,11 +129,11 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
         return entity.getTrackedValue(PANICKING);
     }
 
-    public void modifyMoodLevel(int mood) {
-        entity.setTrackedValue(MOOD, Mood.getLevel(this.getMoodLevel() + mood));
+    public void modifyMoodValue(int mood) {
+        entity.setTrackedValue(MOOD, MoodGroup.clampMood(this.getMoodValue() + mood));
     }
 
-    public int getMoodLevel() {
+    public int getMoodValue() {
         return entity.getTrackedValue(MOOD);
     }
 
@@ -169,4 +173,28 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
         }
     }
 
+    public void rewardHearts(ServerPlayerEntity player, int hearts) {
+        Memories memory = entity.getVillagerBrain().getMemoriesForPlayer(player);
+
+        if (hearts == 0) {
+            return;
+        }
+
+        //spawn particles
+        if (hearts > 0) {
+            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
+        } else {
+            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_NEG_INTERACTION);
+
+            //sensitive people doubles the loss
+            if (entity.getVillagerBrain().getPersonality() == Personality.SENSITIVE) {
+                hearts *= 2;
+            }
+        }
+
+        memory.modInteractionFatigue(1);
+        memory.modHearts(hearts);
+        CriterionMCA.HEARTS_CRITERION.trigger(player, memory.getHearts(), hearts, "interaction");
+        entity.getVillagerBrain().modifyMoodValue(hearts);
+    }
 }

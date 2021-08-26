@@ -1,0 +1,94 @@
+[
+  {
+    "id": "main",
+    "answers": [
+      {
+        "name": "greet",
+        "next": [
+          {
+            "id": "greet"
+          }
+        ]
+      },
+      {
+        "name": "chat",
+        "next": [
+          {
+            "id": "chat"
+          }
+        ]
+      },
+      {
+        "name": "joke",
+        "next": [
+          {
+            "id": "joke"
+          }
+        ]
+      },
+      {
+        "name": "story",
+        "next": [
+          {
+            "id": "story"
+          }
+        ]
+      },
+      {
+        "name": "hug",
+        "constraints": "adult",
+        "next": [
+          {
+            "id": "hug"
+          }
+        ]
+      },
+      {
+        "name": "flirt",
+        "constraints": "!kids,adult",
+        "next": [
+          {
+            "id": "flirt"
+          }
+        ]
+      },
+      {
+        "name": "kiss",
+        "constraints": "!kids,adult",
+        "next": [
+          {
+            "id": "kiss"
+          }
+        ]
+      },
+      {
+        "name": "procreate",
+        "constraints": "spouse",
+        "next": [
+          {
+            "id": "procreate"
+          }
+        ]
+      },
+      {
+        "name": "divorcePapers",
+        "constraints": "cleric,!spouse",
+        "next": [
+          {
+            "id": "divorcePapers",
+            "command": "divorcePapers"
+          }
+        ]
+      },
+      {
+        "name": "divorceInitiate",
+        "constraints": "spouse",
+        "next": [
+          {
+            "id": "divorce"
+          }
+        ]
+      }
+    ]
+  }
+]

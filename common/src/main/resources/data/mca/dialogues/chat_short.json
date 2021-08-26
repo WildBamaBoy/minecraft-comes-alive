@@ -1,0 +1,64 @@
+[
+  {
+    "id": "chat_short",
+    "group": "chat",
+    "auto": true,
+    "answers": [
+      {
+        "name": "",
+        "chance": 0.7,
+        "chanceRandom": 1.0,
+        "hearts": 4,
+        "conditions": [
+          {
+            "chance": -0.2,
+            "hearts": 0,
+            "personality": "stubborn"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0,
+            "hearts": 2,
+            "personality": "flirty"
+          },
+          {
+            "chance": 0.3,
+            "hearts": 0,
+            "mood": "bored_to_tears"
+          },
+          {
+            "chance": 0.2,
+            "hearts": 0,
+            "mood": "bored"
+          },
+          {
+            "chance": 0.3,
+            "hearts": 0,
+            "mood": "talkative"
+          },
+          {
+            "chance": 0.2,
+            "hearts": 0,
+            "mood": "interested"
+          }
+        ],
+        "next": [
+          {
+            "id": "chat_short.fail",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "chat_short.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      }
+    ]
+  }
+]

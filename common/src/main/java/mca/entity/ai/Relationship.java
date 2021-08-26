@@ -147,7 +147,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         moodAffect *= type.getProximityAmplifier();
 
         entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
-        entity.getVillagerBrain().modifyMoodLevel(-moodAffect);
+        entity.getVillagerBrain().modifyMoodValue(-moodAffect);
 
         if (burialSite != null && type != RelationshipType.STRANGER) {
             entity.getBrain().doExclusively(ActivityMCA.GRIEVE);

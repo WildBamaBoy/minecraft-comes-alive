@@ -9,8 +9,12 @@ import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
+import mca.network.InteractionDialogueInitMessage;
+import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
+import mca.resources.Dialogues;
+import mca.resources.data.Question;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -38,6 +42,11 @@ public class InteractScreen extends AbstractDynamicScreen {
 
     private String father;
     private String mother;
+
+    private Question dialogQuestion;
+    private List<String> dialogAnswers;
+    private String dialogAnswerHover;
+    private TranslatableText dialogQuestionText;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -80,11 +89,6 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         drawIcons(matrices);
         drawTextPopups(matrices);
-
-        if (getActiveScreen().equals("divorce")) {
-            drawCenteredText(matrices, textRenderer, new TranslatableText("gui.village.divorceConfirmation"), width / 2, 105, 0xFFFFFF);
-            drawCenteredText(matrices, textRenderer, new TranslatableText("gui.village.divorcePaperWarning"), width / 2, 160, 0xFFFFFF);
-        }
     }
 
     @Override
@@ -101,6 +105,11 @@ public class InteractScreen extends AbstractDynamicScreen {
     @Override
     public boolean mouseClicked(double posX, double posY, int button) {
         super.mouseClicked(posX, posY, button);
+
+        // Dialog
+        if (button == 0 && dialogAnswerHover != null && dialogQuestion != null) {
+            NetworkHandler.sendToServer(new InteractionDialogueMessage(villager.asEntity().getUuid(), dialogQuestion.getId(), dialogAnswerHover));
+        }
 
         // Right mouse button
         if (inGiftMode && button == 1) {
@@ -164,6 +173,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             renderTooltip(transform, villager.asEntity().getName(), 10, 28);
         }
 
+
         //age or profession
         renderTooltip(transform, villager.asEntity().isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
 
@@ -171,8 +181,8 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //mood
         renderTooltip(transform,
-                new TranslatableText("gui.interact.label.mood", brain.getMood().getName())
-                        .formatted(brain.getMoodLevel() < 0 ? Formatting.RED : brain.getMoodLevel() > 0 ? Formatting.GREEN : Formatting.WHITE), 10, 30 + h * 2);
+                new TranslatableText("gui.interact.label.mood", brain.getMood().getText())
+                        .formatted(brain.getMood().getColor()), 10, 30 + h * 2);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {
@@ -190,7 +200,6 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //marriage status
         if (hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
-
             String marriageState = ((CompassionateEntity<?>)villager).getRelationships().getMarriageState().base().getIcon().toLowerCase();
             Text spouseName = ((CompassionateEntity<?>)villager).getRelationships().getSpouseName().orElseGet(() -> new TranslatableText("gui.interact.label.parentUnknown"));
 
@@ -217,7 +226,7 @@ public class InteractScreen extends AbstractDynamicScreen {
 
             for (Genetics.Gene gene : villager.getGenetics()) {
                 String key = gene.getType().key().replace("_", ".");
-                int value = (int) (gene.get() * 100);
+                int value = (int)(gene.get() * 100);
                 lines.add(new TranslatableText("gene.tooltip", new TranslatableText(key), value));
             }
 
@@ -231,10 +240,34 @@ public class InteractScreen extends AbstractDynamicScreen {
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
         }
+
+        //dialogue
+        if (dialogQuestion != null) {
+            //background
+            fill(transform, width / 2 - 85, height / 2 - 60, width / 2 + 85, height / 2 - 30 + 10 * dialogAnswers.size(), 0x55000000);
+
+            //question
+            drawCenteredText(transform, textRenderer, dialogQuestionText, width / 2, height / 2 - 50, 0xFFFFFFFF);
+            dialogAnswerHover = null;
+
+            //separator
+            drawHorizontalLine(transform, width / 2 - 75, width / 2 + 75, height / 2 - 40, 0xAAFFFFFF);
+
+            //answers
+            int y = height / 2 - 35;
+            for (String a : dialogAnswers) {
+                boolean hover = hoveringOver(width / 2 - 100, y - 3, 200, 10);
+                drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getTranslationKey(a)), width / 2, y, hover ? 0xFFD7D784 : 0xAAFFFFFF);
+                if (hover) {
+                    dialogAnswerHover = a;
+                }
+                y += 10;
+            }
+        }
     }
 
     //checks if the mouse hovers over a tooltip
-    //tooltips are not rendered on the given coordinates so we need an offset
+    //tooltips are not rendered on the given coordinates, so we need an offset
     private boolean hoveringOverText(int x, int y, int w) {
         return hoveringOver(x + 8, y - 16, w, 16);
     }
@@ -245,6 +278,16 @@ public class InteractScreen extends AbstractDynamicScreen {
 
     private boolean canDrawGiftIcon() {
         return false;//villager.getVillagerBrain().getMemoriesForPlayer(player).isGiftPresent();
+    }
+
+    public void setDialogue(String dialogue, List<String> answers, boolean silent) {
+        dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
+        dialogAnswers = answers;
+        dialogQuestionText = villager.getTranslatable(player, dialogQuestion.getTranslationKey());
+
+        if (!silent) {
+            villager.sendChatMessage(dialogQuestionText, player);
+        }
     }
 
     @Override
@@ -264,12 +307,12 @@ public class InteractScreen extends AbstractDynamicScreen {
             disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
         } else if (id.equals("gui.button.clothing")) {
             setLayout("clothing");
-        } else if (id.equals("gui.button.divorceInitiate")) {
-            setLayout("divorce");
-        } else if (id.equals("gui.button.divorceCancel")) {
-            setLayout("main");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
+        } else if (id.equals("gui.button.talk")) {
+            children.clear();
+            buttons.clear();
+            NetworkHandler.sendToServer(new InteractionDialogueInitMessage(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
             disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());

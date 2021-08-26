@@ -2,7 +2,6 @@ package mca.item;
 
 import mca.Config;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
 import mca.entity.ai.Relationship;
 import mca.server.world.data.PlayerSaveData;
@@ -49,9 +48,8 @@ public class WeddingRingItem extends TooltippedItem implements SpecialCaseGift {
         } else {
             response = "interaction.marry.success";
             playerData.marry(villager);
-            villager.getVillagerBrain().getMemoriesForPlayer(player).setDialogueType(DialogueType.SPOUSE);
             villager.getRelationships().marry(player);
-            villager.getVillagerBrain().modifyMoodLevel(15);
+            villager.getVillagerBrain().modifyMoodValue(15);
             consume = true;
         }
 

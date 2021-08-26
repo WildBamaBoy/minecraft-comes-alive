@@ -1,0 +1,13 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 5
+    }
+  ],
+  "items": {
+    "minecraft:beetroot_soup": 5,
+    "minecraft:mushroom_stew": 1,
+    "minecraft:rabbit_stew": 15
+  }
+}

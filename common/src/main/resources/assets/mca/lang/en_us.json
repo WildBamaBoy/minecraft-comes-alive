@@ -22,6 +22,7 @@
   "entity.mca.female_zombie_villager": "Female Zombie Villager",
 
   "item.mca.scythe": "Scythe",
+  "item.mca.scythe.tooltip": "Kill a villager and catch his soul, then right-click a tombstone to revive. But be careful, the fallen villager will rise as an undead.",
 
   "item.mca.wedding_ring": "Wedding Ring",
   "item.mca.wedding_ring.tooltip": "Marry someone with this if you meet the heart requirements.",
@@ -51,10 +52,11 @@
 
   "item.mca.male_villager_spawn_egg": "Male Villager Spawn Egg",
   "item.mca.female_villager_spawn_egg": "Female Villager Spawn Egg",
-  "item.mca.egg_grim_reaper": "Grim Reaper Spawn Egg",
   
   "item.mca.male_zombie_villager_spawn_egg": "Male Zombie Villager Spawn Egg",
   "item.mca.female_zombie_villager_spawn_egg": "Female Zombie Villager Spawn Egg",
+
+  "item.mca.grim_reaper_spawn_egg": "Grim Reaper Spawn Egg",
   
   "item.mca.divorce_papers": "Divorce Papers",
   "item.mca.divorce_papers.tooltip": "Give to a Cleric to end any (un)happy marriage",
@@ -69,7 +71,7 @@
 
   "item.mca.staff_of_life": "Staff of Life",
   "item.mca.staff_of_life.uses": "Uses left: %s",
-  "item.mca.staff_of_life.tooltip": "Right-click to revive a dead villager, but all of their memories will be forgotten",
+  "item.mca.staff_of_life.tooltip": "Right-click a tombstone to revive a dead villager",
 
   "item.mca.book_death": "Death, and How to Cure It!",
   "item.mca.book_romance": "Relationships and You",
@@ -80,7 +82,6 @@
   "item.mca.blueprint": "Blueprint",
   "item.mca.blueprint.tooltip": "Right-click to manage the village you are currently in",
 
-  "block.mca.villager_spawner": "Villager Spawner",
   "block.mca.rose_gold_block": "Rose Gold Block",
   "block.mca.rose_gold_ore": "Rose Gold Ore",
   "block.mca.jeweler_workbench": "Jeweler Workbench",
@@ -143,7 +144,7 @@
   "mood.fine": "Fine",
   "mood.happy": "Happy",
   "mood.overjoyed": "Overjoyed",
-  "mood.bored_to_tears": "Bored to tears",
+  "mood.boredToTears": "Bored to tears",
   "mood.bored": "Bored",
   "mood.uninterested": "Uninterested",
   "mood.silly": "Silly",
@@ -176,8 +177,6 @@
   "gui.village.rankTooLow": "You need a higher rank.",
   "gui.village.rank": "Rank: %1$s",
   "gui.village.reputation": "Reputation: %1$s",
-  "gui.village.divorceConfirmation": "Do you really want a divorce?",
-  "gui.village.divorcePaperWarning": "A cleric can provide divorce papers to decrease penalties.",
 
   "task.reputation": "Reach %1$s total hearts",
   "task.buildBigHouse": "Build a bigger house",
@@ -214,13 +213,13 @@
   "gui.button.ok": "Ok",
   "gui.button.done": "Done",
   "gui.button.random": "Random",
+  "gui.button.talk": "Talk",
   "gui.button.interact": "Interact",
   "gui.button.command": "Command",
   "gui.button.clothing": "Clothing",
   "gui.button.trade": "Trade",
   "gui.button.locations": "Locations",
   "gui.button.special": "Special",
-  "gui.button.procreate": "Procreate",
   "gui.button.work": "Work",
   "gui.button.inventory": "Inventory",
   "gui.button.sethome": "Home",
@@ -231,28 +230,19 @@
   "gui.button.stay": "Stay Here",
   "gui.button.move": "Move Freely",
   "gui.button.ridehorse": "Ride Horse",
-  "gui.button.chat": "Chat",
-  "gui.button.joke": "Joke",
   "gui.button.gift": "Gift",
-  "gui.button.shake_hand": "Shake Hand",
-  "gui.button.tell_story": "Tell Story",
   "gui.button.pick_up": "Pick Up",
-  "gui.button.flirt": "Flirt",
   "gui.button.hug": "Hug",
   "gui.button.kiss": "Kiss",
   "gui.button.village": "Village",
   "gui.button.execute": "Execute",
   "gui.button.pardon": "Pardon",
-  "gui.button.divorceInitiate": "Divorce",
-  "gui.button.divorceConfirm": "confirm",
-  "gui.button.divorceCancel": "cancel",
-  "gui.button.divorcePapers": "divorce papers",
   "gui.button.clothing.randClothing": "Random Clothes",
   "gui.button.clothing.prevClothing": "Prev",
   "gui.button.clothing.nextClothing": "Next",
   "gui.button.clothing.randHair": "Random Hair",
-  "gui.button.clothing.nextHair": "Prev",
-  "gui.button.clothing.prevHair": "Next",
+  "gui.button.clothing.nextHair": "Next",
+  "gui.button.clothing.prevHair": "Prev",
   "gui.button.prospecting": "Prospecting",
   "gui.button.hunting": "Hunting",
   "gui.button.cooking": "Cooking",
@@ -304,6 +294,7 @@
   "gui.interact.label.engaged": "Engaged to %1$s",
   "gui.interact.label.notmarried": "Not married",
   "gui.interact.label.parents": "Parents: %1$s and %2$s",
+  "gui.interact.label.parentUnknown": "unknown",
   "gui.interact.label.gift": "Gift available. Click to claim.",
   "gui.interact.label.giveGift": "Select an item and press the right mouse button.",
   "gui.interact.label.age": "Age: %1$s",
@@ -371,6 +362,15 @@
 
   "advancement.mca.kill_grim_reaper": "Beat Death",
   "advancement.mca.kill_grim_reaper.description": "Defeat the Grim Reaper",
+
+  "advancement.mca.scythe_kill": "Become the Grim Reaper",
+  "advancement.mca.scythe_kill.description": "Kill a villager with the scythe",
+
+  "advancement.mca.scythe_revive": "A Soul for a Soul",
+  "advancement.mca.scythe_revive.description": "Use a charged scythe to revive a villager",
+
+  "advancement.mca.staff_of_life": "Staff of Life",
+  "advancement.mca.staff_of_life.description": "Use the staff of life to revive a fallen comrade",
 
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",

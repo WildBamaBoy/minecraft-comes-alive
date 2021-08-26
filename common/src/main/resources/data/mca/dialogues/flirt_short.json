@@ -1,0 +1,52 @@
+[
+  {
+    "id": "flirt_short",
+    "group": "flirt",
+    "auto": true,
+    "answers": [
+      {
+        "name": "",
+        "chance": 0.5,
+        "chanceRandom": 1.0,
+        "bonusChance": 0.3,
+        "bonusChanceMinHearts": 50,
+        "bonusChanceMaxHearts": 150,
+        "hearts": 8,
+        "conditions": [
+          {
+            "chance": -0.2,
+            "hearts": 0,
+            "personality": "odd"
+          },
+          {
+            "chance": 0,
+            "hearts": 3,
+            "personality": "flirty"
+          },
+          {
+            "chance": 0.1,
+            "hearts": 1,
+            "mood": "silly"
+          },
+          {
+            "chance": 0.1,
+            "hearts": 1,
+            "mood": "giggly"
+          }
+        ],
+        "next": [
+          {
+            "id": "flirt_short.fail",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "flirt_short.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      }
+    ]
+  }
+]

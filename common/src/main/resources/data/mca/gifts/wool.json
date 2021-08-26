@@ -1,0 +1,12 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:shepherd",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "#minecraft:carpets": 5,
+    "#minecraft:wool": 3
+  }
+}

@@ -25,7 +25,7 @@ public class Memories {
     public Memories(VillagerBrain<?> brain, long time, UUID uuid) {
         this.brain = brain;
         playerUUID = uuid;
-        dialogueType = DialogueType.ADULT;
+        dialogueType = DialogueType.UNASSIGNED;
         lastSeen = time / 24000L;
     }
 

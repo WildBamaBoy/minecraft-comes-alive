@@ -6,6 +6,7 @@ import com.google.gson.JsonParseException;
 
 import mca.MCA;
 
+import mca.entity.interaction.InteractionPredicate;
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ public interface Resources {
 
     Gson GSON = new GsonBuilder()
             //.registerTypeAdapterFactory(RecordTypeAdapterFactory.INSTANCE)
+            .registerTypeAdapter(InteractionPredicate.class, InteractionPredicateTypeAdapter.INSTANCE)
             .create();
 
     static String read(String path) throws IOException {

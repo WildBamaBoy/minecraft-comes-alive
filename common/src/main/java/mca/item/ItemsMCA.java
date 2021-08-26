@@ -3,6 +3,8 @@ package mca.item;
 import mca.MCA;
 import mca.TagsMCA;
 import mca.block.BlocksMCA;
+import mca.client.book.Book;
+import mca.client.book.pages.ScribbleTextPage;
 import mca.cobalt.registration.Registration;
 import mca.crafting.recipe.RecipesMCA;
 import mca.entity.EntitiesMCA;
@@ -21,6 +23,8 @@ public interface ItemsMCA {
     Item MALE_ZOMBIE_VILLAGER_SPAWN_EGG = register("male_zombie_villager_spawn_egg", new SpawnEggItem(EntitiesMCA.MALE_ZOMBIE_VILLAGER, 0x5ebaff, 0x33a6bc, baseProps()));
     Item FEMALE_ZOMBIE_VILLAGER_SPAWN_EGG = register("female_zombie_villager_spawn_egg", new SpawnEggItem(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, 0xe8aca1, 0xe3a68c, baseProps()));
 
+    Item GRIM_REAPER_SPAWN_EGG = register("grim_reaper_spawn_egg", new SpawnEggItem(EntitiesMCA.GRIM_REAPER, 0x301515, 0x2A1C34, baseProps()));
+
     Item BABY_BOY = register("baby_boy", new BabyItem(Gender.MALE, baseProps().maxCount(1)));
     Item BABY_GIRL = register("baby_girl", new BabyItem(Gender.FEMALE, baseProps().maxCount(1)));
 
@@ -35,11 +39,29 @@ public interface ItemsMCA {
     Item WHISTLE = register("whistle", new WhistleItem(baseProps()));
     Item BLUEPRINT = register("blueprint", new BlueprintItem(baseProps()));
 
-    Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), "death", 10, new Identifier("mca:textures/gui/books/death.png"), Formatting.GRAY));
-    Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), "romance", 13, new Identifier("mca:textures/gui/books/romance.png")));
-    Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), "family", 8));
-    Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), "rose_gold", 5, new Identifier("mca:textures/gui/books/rose_gold.png")));
-    Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), "infection", 6, new Identifier("mca:textures/gui/books/infection.png")));
+    Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), new Book("death")
+            .setBackground(new Identifier("mca:textures/gui/books/death.png"))
+            .setTextFormatting(Formatting.GRAY)
+            .addSimplePages(4)
+            .addPage(new ScribbleTextPage(new Identifier("mca:textures/gui/scribbles/test.png")))
+            .addSimplePages(5)
+    ));
+
+    Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), new Book("romance")
+            .setBackground(new Identifier("mca:textures/gui/books/romance.png"))
+            .addSimplePages(13)));
+
+    Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), new Book("family")
+            .setBackground(new Identifier("mca:textures/gui/books/family.png"))
+            .addSimplePages(8)));
+
+    Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), new Book("rose_gold")
+            .setBackground(new Identifier("mca:textures/gui/books/rose_gold.png"))
+            .addSimplePages(5)));
+
+    Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), new Book("infection")
+            .setBackground(new Identifier("mca:textures/gui/books/infection.png"))
+            .addSimplePages(6)));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));
@@ -50,8 +72,7 @@ public interface ItemsMCA {
     Item ROSE_GOLD_BLOCK = register("rose_gold_block", new BlockItem(BlocksMCA.ROSE_GOLD_BLOCK, baseProps()));
     Item ROSE_GOLD_ORE = register("rose_gold_ore", new BlockItem(BlocksMCA.ROSE_GOLD_ORE, baseProps()));
 
-    Item VILLAGER_SPAWNER = register("villager_spawner", new BlockItem(BlocksMCA.VILLAGER_SPAWNER, baseProps()));
-    Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
+    // Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
 
     Item UPRIGHT_HEADSTONE = register("upright_headstone", new BlockItem(BlocksMCA.UPRIGHT_HEADSTONE, baseProps()));
     Item SLANTED_HEADSTONE = register("slanted_headstone", new BlockItem(BlocksMCA.SLANTED_HEADSTONE, baseProps()));

@@ -44,7 +44,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     }
 
     protected static ModelPartBuilder newBreasts(Dilation dilation, boolean clothing, int oy) {
-        ModelPartBuilder builder = ModelPartBuilder.create().mirrored();
+        ModelPartBuilder builder = ModelPartBuilder.create();
 
         if (clothing) {
             builder.uv(18, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 6, 3, 3, dilation);
@@ -53,8 +53,8 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
                 .uv(17, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 3, 3, 3, dilation)
                 .uv(22, 21 + oy).cuboid(0.25F, -1.25F, -1.5F, 3, 3, 3, dilation);
         }
-        return builder;
 
+        return builder;
     }
 
     @Override

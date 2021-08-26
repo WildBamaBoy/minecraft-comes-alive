@@ -17,7 +17,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "!family",
+    "constraints": "!family,trader,adult",
     "hideOnFail": true
   },
   {
@@ -73,17 +73,6 @@
     "hideOnFail": true
   },
   {
-    "identifier": "gui.button.procreate",
-    "x": 140,
-    "y": 17,
-    "width": 65,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "spouse",
-    "hideOnFail": true
-  },
-  {
     "identifier": "gui.button.familyTree",
     "x": 140,
     "y": 39,
@@ -94,27 +83,13 @@
     "constraints": ""
   },
   {
-    "identifier": "gui.button.divorceInitiate",
-    "x": 140,
-    "y": 61,
+    "identifier": "gui.button.talk",
+    "x": 70,
+    "y": -115,
     "width": 65,
     "height": 20,
     "notifyServer": false,
     "targetServer": false,
-    "constraints": "spouse",
-    "isInteraction": true,
-    "hideOnFail": true
-  },
-  {
-    "identifier": "gui.button.divorcePapers",
-    "x": 100,
-    "y": 61,
-    "width": 105,
-    "height": 20,
-    "notifyServer": true,
-    "targetServer": false,
-    "constraints": "cleric,!spouse",
-    "isInteraction": true,
-    "hideOnFail": true
+    "constraints": ""
   }
 ]

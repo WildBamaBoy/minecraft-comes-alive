@@ -10,6 +10,7 @@ import mca.item.ItemsMCA;
 import mca.network.MessagesMCA;
 import mca.resources.ApiIdentifiableReloadListener;
 import mca.resources.FabricClothingList;
+import mca.resources.FabricDialogues;
 import mca.resources.FabricGiftLoader;
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
@@ -41,6 +42,7 @@ public final class MCAFabric implements ModInitializer {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ApiIdentifiableReloadListener());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricClothingList());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricGiftLoader());
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricDialogues());
 
         ServerTickEvents.END_WORLD_TICK.register(w -> {
             VillageManager.get(w).tick();

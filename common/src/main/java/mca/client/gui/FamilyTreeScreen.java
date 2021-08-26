@@ -51,8 +51,8 @@ public class FamilyTreeScreen extends Screen {
     @Nullable
     private TreeNode focused;
 
-    private int scrollX;
-    private int scrollY;
+    private double scrollX;
+    private double scrollY;
 
     private final Screen parent;
 
@@ -139,8 +139,8 @@ public class FamilyTreeScreen extends Screen {
 
         matrices.push();
 
-        int xx = scrollX + width / 2;
-        int yy = scrollY + height / 2;
+        int xx = (int)(scrollX + width / 2);
+        int yy = (int)(scrollY + height / 2);
         matrices.translate(xx, yy, 0);
         tree.render(matrices, mouseX - xx, mouseY - yy);
         matrices.pop();

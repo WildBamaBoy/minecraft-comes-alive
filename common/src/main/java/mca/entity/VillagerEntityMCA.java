@@ -1,5 +1,7 @@
 package mca.entity;
 
+import com.mojang.authlib.GameProfile;
+import com.google.common.base.Strings;
 import com.mojang.serialization.Dynamic;
 import mca.Config;
 import mca.ParticleTypesMCA;
@@ -21,6 +23,7 @@ import mca.util.InventoryUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
+import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -115,6 +118,23 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         genetics.setGender(gender);
     }
 
+    private GameProfile gameProfile;
+
+    @Override
+    public GameProfile getGameProfile() {
+        return gameProfile;
+    }
+
+    @Override
+    public void updateCustomSkin() {
+        if (!getTrackedValue(CUSTOM_SKIN).isEmpty()) {
+            gameProfile = new GameProfile(null, getTrackedValue(CUSTOM_SKIN));
+            gameProfile = SkullBlockEntity.loadProperties(gameProfile);
+        } else {
+            gameProfile = null;
+        }
+    }
+
     @Override
     public CDataManager<VillagerEntityMCA> getTypeDataManager() {
         return DATA;
@@ -141,7 +161,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @SuppressWarnings("unchecked")
     public Brain<VillagerEntityMCA> getMCABrain() {
-        return (Brain<VillagerEntityMCA>) brain;
+        return (Brain<VillagerEntityMCA>)brain;
     }
 
     @Override
@@ -182,7 +202,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 }
             }
 
-            setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            if (Strings.isNullOrEmpty(getTrackedValue(VILLAGER_NAME))) {
+                setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            }
 
             initializeSkin();
 
@@ -193,11 +215,15 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         setAgeState(AgeState.byCurrentAge(getBreedingAge()));
 
+        if (getAgeState() != AgeState.ADULT) {
+            setProfession(ProfessionsMCA.CHILD);
+        }
+
         return data;
     }
 
     public final VillagerProfession getProfession() {
-        return this.getVillagerData().getProfession();
+        return getVillagerData().getProfession();
     }
 
     public final void setProfession(VillagerProfession profession) {
@@ -205,7 +231,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public boolean isProfessionImportant() {
-        return getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW;
+        return getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW || getProfession() == ProfessionsMCA.CHILD;
     }
 
     @Override
@@ -266,7 +292,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         //enchantment
         if (target instanceof LivingEntity) {
-            damage += EnchantmentHelper.getAttackDamage(getMainHandStack(), ((LivingEntity) target).getGroup());
+            damage += EnchantmentHelper.getAttackDamage(getMainHandStack(), ((LivingEntity)target).getGroup());
             knockback += EnchantmentHelper.getKnockback(this);
         }
 
@@ -281,9 +307,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         //knockback and post damage stuff
         if (damageDealt) {
             if (knockback > 0 && target instanceof LivingEntity) {
-                ((LivingEntity) target).takeKnockback(
-                        knockback / 2, MathHelper.sin(yaw * ((float) Math.PI / 180F)),
-                        -MathHelper.cos(yaw * ((float) Math.PI / 180F))
+                ((LivingEntity)target).takeKnockback(
+                        knockback / 2, MathHelper.sin(yaw * ((float)Math.PI / 180F)),
+                        -MathHelper.cos(yaw * ((float)Math.PI / 180F))
                 );
 
                 setVelocity(getVelocity().multiply(0.6D, 1, 0.6));
@@ -303,6 +329,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         if (!stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS)) {
             playWelcomeSound();
+
+            //make sure dialogueType is synced in case the client needs it
+            getDialogueType(player);
+
             return interactions.interactAt(player, pos, hand);
         }
         return super.interactAt(player, pos, hand);
@@ -312,7 +342,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public VillagerEntityMCA createChild(ServerWorld world, PassiveEntity partner) {
 
         VillagerEntityMCA child = partner instanceof VillagerEntityMCA
-                ? relations.getPregnancy().createChild(Gender.getRandom(), (VillagerEntityMCA) partner)
+                ? relations.getPregnancy().createChild(Gender.getRandom(), (VillagerEntityMCA)partner)
                 : relations.getPregnancy().createChild(Gender.getRandom());
 
         child.setVillagerData(child.getVillagerData().withType(getRandomType(partner)));
@@ -332,7 +362,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             return getVillagerData().getType();
         }
 
-        return ((VillagerEntity) partner).getVillagerData().getType();
+        return ((VillagerEntity)partner).getVillagerData().getType();
     }
 
     @Override
@@ -346,7 +376,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         if (!world.isClient) {
             if (source.getAttacker() instanceof PlayerEntity) {
-                sendChatMessage((PlayerEntity) source.getAttacker(), "villager.hurt");
+                sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
             }
 
             if (source.getSource() instanceof ZombieEntity
@@ -366,7 +396,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             Vec3d pos = getPos();
             world.getNonSpectatingEntities(VillagerEntityMCA.class, new Box(pos, pos).expand(10)).forEach(v -> {
                 if (v.squaredDistanceTo(v) <= 100 && v.getProfession() == ProfessionsMCA.GUARD) {
-                    v.setTarget((LivingEntity) attacker);
+                    v.setTarget((LivingEntity)attacker);
                 }
             });
         }
@@ -447,20 +477,17 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 headYaw += 50;
             }
 
-            if (age % 20 == 0) {
+            Mood mood = mcaBrain.getMood();
+            if (mood.getParticle() != null && this.age % mood.getParticleInterval() == 0) {
                 if (world.random.nextBoolean()) {
-                    if (mcaBrain.getMoodLevel() <= -15) {
-                        mcaBrain.getPersonality().getMoodGroup().getParticles().ifPresent(this::produceParticles);
-                    } else if (mcaBrain.getMoodLevel() >= 15) {
-                        produceParticles(ParticleTypes.HAPPY_VILLAGER);
-                    }
+                    produceParticles(mood.getParticle());
                 }
             }
         }
 
         float infection = getInfectionProgress();
         if (infection > 0) {
-            if (age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
+            if (this.age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
                 sendChatToAllAround("villager.sickness");
             }
 
@@ -474,7 +501,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
         }
 
-        if (age % 90 == 0 && mcaBrain.isPanicking()) {
+        if (this.age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
     }
@@ -502,13 +529,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     private boolean convertToZombie() {
         ZombieVillagerEntity zombie = method_29243(EntityType.ZOMBIE_VILLAGER, false);
         if (zombie != null) {
-            zombie.initialize((ServerWorld) world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
+            zombie.initialize((ServerWorld)world, world.getLocalDifficulty(zombie.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
             zombie.setVillagerData(getVillagerData());
             zombie.setGossipData(getGossip().serialize(NbtOps.INSTANCE).getValue());
             zombie.setOfferData(getOffers().toNbt());
             zombie.setXp(getExperience());
 
-            world.syncWorldEvent((PlayerEntity) null, 1026, this.getBlockPos(), 0);
+            world.syncWorldEvent((PlayerEntity)null, 1026, this.getBlockPos(), 0);
             return true;
         }
         return false;
@@ -521,7 +548,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         Entity vehicle = getVehicle();
 
         if (vehicle instanceof PathAwareEntity) {
-            bodyYaw = ((PathAwareEntity) vehicle).bodyYaw;
+            bodyYaw = ((PathAwareEntity)vehicle).bodyYaw;
         }
 
         if (vehicle instanceof PlayerEntity) {
@@ -656,16 +683,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             return getDeathSound();
         }
 
-        if (age % 10 > 5) {
-            if (getVillagerBrain().getMood().isAngry()) {
-                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_ANGRY : SoundsMCA.VILLAGER_FEMALE_ANGRY;
-            }
-            if (getVillagerBrain().getMood().isSad()) {
-                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_CRY : SoundsMCA.VILLAGER_FEMALE_CRY;
-            }
-            if (getVillagerBrain().getMood().isHappy()) {
-                return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_LAUGH : SoundsMCA.VILLAGER_FEMALE_LAUGH;
-            }
+        Mood mood = getVillagerBrain().getMood();
+        if (mood.getSoundInterval() > 0 && age % mood.getSoundInterval() == 0) {
+            return getGenetics().getGender() == Gender.MALE ? mood.getSoundMale() : mood.getSoundFemale();
         }
 
         if (hasCustomer()) {
@@ -759,13 +779,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             if (!world.isClient) {
                 // trigger grow up advancements
                 relations.getParents().filter(e -> e instanceof ServerPlayerEntity).forEach(e -> {
-                    CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity) e, state.name());
+                    CriterionMCA.CHILD_AGE_STATE_CHANGE.trigger((ServerPlayerEntity)e, state.name());
                 });
 
                 if (state == AgeState.ADULT) {
                     // Notify player parents of the age up and set correct dialogue type.
-                    relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity) e).forEach(p -> {
-                        mcaBrain.getMemoriesForPlayer(p).setDialogueType(DialogueType.ADULT);
+                    relations.getParents().filter(e -> e instanceof PlayerEntity).map(e -> (PlayerEntity)e).forEach(p -> {
                         sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
                     });
                 }
@@ -792,6 +811,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public void onTrackedDataSet(TrackedData<?> par) {
         if (getTypeDataManager().isParam(AGE_STATE, par) || getTypeDataManager().isParam(Genetics.SIZE.getParam(), par)) {
             calculateDimensions();
+        }
+        if (getTypeDataManager().isParam(CUSTOM_SKIN, par)) {
+            updateCustomSkin();
         }
 
         super.onTrackedDataSet(par);
@@ -861,13 +883,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (!removed && type == EntityType.ZOMBIE_VILLAGER) {
             ZombieVillagerEntityMCA mob = super.method_29243(getGenetics().getGender().getZombieType(), keepInventory);
             mob.copyVillagerAttributesFrom(this);
-            return (T) mob;
+            return (T)mob;
         }
 
         T mob = super.method_29243(type, keepInventory);
 
         if (mob instanceof VillagerLike<?>) {
-            ((VillagerLike<?>) mob).copyVillagerAttributesFrom(this);
+            ((VillagerLike<?>)mob).copyVillagerAttributesFrom(this);
         }
 
         return mob;

@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 5
+    }
+  ],
+  "items": {
+    "minecraft:baked_potato": 5
+  }
+}

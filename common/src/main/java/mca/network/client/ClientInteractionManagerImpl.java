@@ -27,8 +27,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                     ItemStack item = client.player.getStackInHand(Hand.MAIN_HAND);
                     if (item.getItem() instanceof ExtendedWrittenBookItem) {
                         ExtendedWrittenBookItem bookItem = (ExtendedWrittenBookItem)item.getItem();
-                        ExtendedBookScreen.TranslatedBookContent content = new ExtendedBookScreen.TranslatedBookContent(item);
-                        ExtendedBookScreen book = new ExtendedBookScreen(content, bookItem.getBackground(), bookItem.getTextFormatting());
+                        ExtendedBookScreen book = new ExtendedBookScreen(bookItem.getBook());
                         client.openScreen(book);
                     }
                 }
@@ -88,6 +87,15 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         if (screen instanceof WhistleScreen) {
             WhistleScreen gui = (WhistleScreen)screen;
             gui.setVillagerData(message.getData());
+        }
+    }
+
+    @Override
+    public void handleDialogueResponse(InteractionDialogueResponse message) {
+        Screen screen = MinecraftClient.getInstance().currentScreen;
+        if (screen instanceof InteractScreen) {
+            InteractScreen gui = (InteractScreen)screen;
+            gui.setDialogue(message.question, message.answers, message.silent);
         }
     }
 }

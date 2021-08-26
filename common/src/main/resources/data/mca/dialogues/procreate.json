@@ -1,0 +1,25 @@
+[
+  {
+    "id": "procreate",
+    "silent": true,
+    "answers": [
+      {
+        "name": "confirm",
+        "next": [
+          {
+            "id": "procreate.confirm",
+            "command": "procreate"
+          }
+        ]
+      },
+      {
+        "name": "cancel",
+        "next": [
+          {
+            "id": "main"
+          }
+        ]
+      }
+    ]
+  }
+]

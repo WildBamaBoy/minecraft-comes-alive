@@ -1,12 +1,16 @@
 package mca.item;
 
+import java.util.List;
 import java.util.Random;
 
 import mca.SoundsMCA;
 import mca.TagsMCA;
+import mca.advancement.criterion.CriterionMCA;
 import mca.block.TombstoneBlock;
 import mca.entity.EntitiesMCA;
+import mca.util.localization.FlowingText;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -16,19 +20,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class ScytheItem extends SwordItem {
 
     public ScytheItem(Settings settings) {
         super(ToolMaterials.GOLD, 10, -2.4F, settings);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.addAll(FlowingText.wrap(new TranslatableText(getTranslationKey(stack) + ".tooltip").formatted(Formatting.GRAY), 160));
     }
 
     @Override
@@ -105,6 +119,10 @@ public class ScytheItem extends SwordItem {
         if (!hasSoul(stack) && target.isDead() && (target.getType() == EntitiesMCA.MALE_VILLAGER || target.getType() == EntitiesMCA.FEMALE_VILLAGER)) {
             setSoul(stack, true);
             sound = SoundEvents.BLOCK_BELL_RESONATE;
+
+            if (attacker instanceof ServerPlayerEntity) {
+                CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)attacker, "scytheKill");
+            }
         }
 
         Random r = attacker.world.random;
@@ -133,6 +151,10 @@ public class ScytheItem extends SwordItem {
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
         BlockState state = world.getBlockState(pos);
+
+        if (!context.getWorld().isClient) {
+            CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)context.getPlayer(), cure ? "staffOfLife" : "scytheRevive");
+        }
 
         if (state.isIn(TagsMCA.Blocks.TOMBSTONES)) {
             return TombstoneBlock.Data.of(world.getBlockEntity(pos)).filter(TombstoneBlock.Data::hasEntity).map(data -> {

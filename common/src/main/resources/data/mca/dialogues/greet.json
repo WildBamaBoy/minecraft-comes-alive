@@ -1,0 +1,56 @@
+[
+  {
+    "id": "greet.greet_0",
+    "group": "greet",
+    "answers": [
+      {
+        "name": "answer_0",
+        "chance": 1.0,
+        "conditions": [
+        ],
+        "next": [
+          {
+            "id": "greet.fuckYou",
+            "threshold": 0.0
+          }
+        ]
+      },
+      {
+        "name": "answer_1",
+        "chance": 1.0,
+        "conditions": [
+        ],
+        "next": [
+          {
+            "id": "greet.chitChatShort",
+            "threshold": 0.0
+          }
+        ]
+      },
+      {
+        "name": "answer_2",
+        "chance": 1.0,
+        "conditions": [
+        ],
+        "next": [
+          {
+            "id": "greet.chitChat",
+            "threshold": 0.0
+          }
+        ]
+      },
+      {
+        "name": "answer_3",
+        "chance": 1.0,
+        "conditions": [
+        ],
+        "next": [
+          {
+            "id": "greet.getBetter",
+            "threshold": 0.0
+          }
+        ]
+      }
+    ]
+  }
+]
