@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:adventure/root",
+  "parent": "minecraft:adventure/kill_a_mob",
   "display": {
     "title": {
       "translate": "advancement.mca.kill_grim_reaper"
@@ -33,8 +33,5 @@
          ]
        }
     }
-  },
-  "requirements": [
-    [ "killed_reaper" ]
-  ]
+  }
 }

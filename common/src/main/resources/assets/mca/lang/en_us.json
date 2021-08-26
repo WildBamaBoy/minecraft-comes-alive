@@ -22,6 +22,7 @@
   "entity.mca.female_zombie_villager": "Female Zombie Villager",
 
   "item.mca.scythe": "Scythe",
+  "item.mca.scythe.tooltip": "Kill a villager and catch his soul, then right-click a tombstone to revive. But be careful, the fallen villager will rise as an undead.",
 
   "item.mca.wedding_ring": "Wedding Ring",
   "item.mca.wedding_ring.tooltip": "Marry someone with this if you meet the heart requirements.",
@@ -70,7 +71,7 @@
 
   "item.mca.staff_of_life": "Staff of Life",
   "item.mca.staff_of_life.uses": "Uses left: %s",
-  "item.mca.staff_of_life.tooltip": "Right-click to revive a dead villager, but all of their memories will be forgotten",
+  "item.mca.staff_of_life.tooltip": "Right-click a tombstone to revive a dead villager",
 
   "item.mca.book_death": "Death, and How to Cure It!",
   "item.mca.book_romance": "Relationships and You",
@@ -361,6 +362,15 @@
 
   "advancement.mca.kill_grim_reaper": "Beat Death",
   "advancement.mca.kill_grim_reaper.description": "Defeat the Grim Reaper",
+
+  "advancement.mca.scythe_kill": "Become the Grim Reaper",
+  "advancement.mca.scythe_kill.description": "Kill a villager with the scythe",
+
+  "advancement.mca.scythe_revive": "A Soul for a Soul",
+  "advancement.mca.scythe_revive.description": "Use a charged scythe to revive a villager",
+
+  "advancement.mca.staff_of_life": "Staff of Life",
+  "advancement.mca.staff_of_life.description": "Use the staff of life to revive a fallen comrade",
 
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",

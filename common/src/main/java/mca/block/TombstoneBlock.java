@@ -365,7 +365,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             world.setLightningTicksLeft(10);
             LightningEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
             bolt.setCosmetic(true);
-            bolt.resetPosition(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
+            bolt.resetPosition(pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F);
             world.spawnEntity(bolt);
         }
 

@@ -13,7 +13,6 @@
     "minecraft:golden_sword": 1,
     "minecraft:stone_sword": 1,
     "minecraft:wooden_sword": 0,
-    "#minecraft:sword_weapons": 1,
     "#fabric:swords": 15
   }
 }
