@@ -1,9 +1,17 @@
 {
-  "base_satisfaction": 4,
   "conditions": [
-    { "age_group": "child", "satisfaction_boost": 9 },
-    { "gender": "male", "satisfaction_boost": -2 },
-    { "gender": "female", "satisfaction_boost": 10 }
+    {
+      "age_group": "child",
+      "satisfaction_boost": 9
+    },
+    {
+      "gender": "male",
+      "satisfaction_boost": -2
+    },
+    {
+      "gender": "female",
+      "satisfaction_boost": 10
+    }
   ],
   "responses": {
     "fail": "gift.flower.fail",
@@ -11,7 +19,7 @@
     "better": "gift.flower.better",
     "best": "gift.flower.best"
   },
-  "item": {
-    "tag": "minecraft:flowers"
+  "items": {
+    "#minecraft:flowers": 2
   }
 }

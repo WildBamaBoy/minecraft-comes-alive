@@ -1,0 +1,13 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:archer",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:bow": 15,
+    "minecraft:crossbow": 20,
+    "#minecraft:arrows": 3
+  }
+}

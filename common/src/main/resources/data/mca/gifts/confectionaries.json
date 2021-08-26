@@ -1,10 +1,18 @@
 {
   "base_satisfaction": 5,
   "conditions": [
-    { "profession": "mca:baker", "satisfaction_boost": 3 },
-    { "profession": "mca:guard", "satisfaction_boost": -7 },
-    { "age_group": "child", "satisfaction_boost": 9 },
-    { "gender": "male", "satisfaction_boost": -1 }
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": -5
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": 10
+    }
   ],
   "responses": {
     "fail": "gift.confectionary.fail",
@@ -12,7 +20,13 @@
     "better": "gift.confectionary.better",
     "best": "gift.confectionary.best"
   },
-  "item": {
-    "tag": "mca:confectionaries"
+  "items": {
+    "minecraft:cake": 20,
+    "minecraft:pumpkin_pie": 15,
+    "minecraft:cookie": 10,
+    "minecraft:honey_bottle": 12,
+    "minecraft:melon_slice": 8,
+    "minecraft:apple": 5,
+    "minecraft:sweet_berries": 5
   }
 }

@@ -109,13 +109,13 @@ public class GiftPredicate {
     }
 
     public static GiftPredicate fromJson(JsonObject json) {
-        float satisfaction = 0;
+        int satisfaction = 0;
         @Nullable
         Condition condition = null;
 
         for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
             if ("satisfaction_boost".equals(entry.getKey())) {
-                satisfaction = JsonHelper.asFloat(entry.getValue(), entry.getKey());
+                satisfaction = JsonHelper.asInt(entry.getValue(), entry.getKey());
             } else if (CONDITION_TYPES.containsKey(entry.getKey())) {
                 Condition parsed = CONDITION_TYPES.get(entry.getKey()).parse(entry.getValue());
                 if (condition == null) {
@@ -129,12 +129,12 @@ public class GiftPredicate {
         return new GiftPredicate(satisfaction, condition);
     }
 
-    private final float satisfactionBoost;
+    private final int satisfactionBoost;
 
     @Nullable
     private final Condition condition;
 
-    public GiftPredicate(float satisfactionBoost, @Nullable Condition condition) {
+    public GiftPredicate(int satisfactionBoost, @Nullable Condition condition) {
         this.satisfactionBoost = satisfactionBoost;
         this.condition = condition;
     }
@@ -143,7 +143,7 @@ public class GiftPredicate {
         return condition != null && condition.test(recipient, stack);
     }
 
-    public float getSatisfactionFor(VillagerEntityMCA recipient, ItemStack stack) {
+    public int getSatisfactionFor(VillagerEntityMCA recipient, ItemStack stack) {
         return test(recipient, stack) ? satisfactionBoost : 0;
     }
 

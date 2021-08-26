@@ -1,7 +1,7 @@
 {
-   "base_satisfaction": 15,
-   "conditions": [],
-   "item": {
-       "tag": "minecraft:music_discs"
-   }
+  "conditions": [],
+  "items": {
+    "minecraft:music_disc_pigstep": 2,
+    "#minecraft:creeper_drop_music_discs": 15
+  }
 }

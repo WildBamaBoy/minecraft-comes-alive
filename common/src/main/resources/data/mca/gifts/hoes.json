@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:netherite_hoe": 100,
+    "minecraft:diamond_hoe": 20,
+    "minecraft:iron_hoe": 15,
+    "minecraft:golden_hoe": 15,
+    "minecraft:stone_hoe": 10,
+    "minecraft:wooden_hoe": 5
+  }
+}
