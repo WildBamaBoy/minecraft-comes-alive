@@ -35,9 +35,6 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     private Optional<Text> spouseName = Optional.empty();
 
-    @Deprecated
-    private boolean babyPresent = false;
-
     private MarriageState marriageState;
 
     private final ServerWorld world;
@@ -59,7 +56,6 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         lastSeenVillage = nbt.contains("lastSeenVillage", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
         spouseUUID = nbt.contains("spouseUUID", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getUuid("spouseUUID")) : Optional.empty();
         spouseName = nbt.contains("spouseName") ? Optional.of(new LiteralText(nbt.getString("spouseName"))) : Optional.empty();
-        babyPresent = nbt.getBoolean("babyPresent");
     }
 
     @Override
@@ -128,18 +124,6 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         markDirty();
     }
 
-    // TODO: When adding multiple partners we should make it possible to have multiple babies with other partners
-    @Deprecated
-    public boolean isBabyPresent() {
-        return this.babyPresent;
-    }
-
-    @Deprecated
-    public void setBabyPresent(boolean value) {
-        this.babyPresent = value;
-        markDirty();
-    }
-
     @Override
     public MarriageState getMarriageState() {
         return marriageState;
@@ -191,7 +175,6 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     public void reset() {
         endMarriage(MarriageState.SINGLE);
-        setBabyPresent(false);
         markDirty();
     }
 
@@ -200,7 +183,6 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         spouseUUID.ifPresent(id -> nbt.putUuid("spouseUUID", id));
         lastSeenVillage.ifPresent(id -> nbt.putInt("lastSeenVillage", id));
         spouseName.ifPresent(n -> nbt.putString("spouseName", n.getString()));
-        nbt.putBoolean("babyPresent", babyPresent);
         return nbt;
     }
 }

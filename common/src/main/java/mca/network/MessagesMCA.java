@@ -1,6 +1,7 @@
 package mca.network;
 
 import mca.cobalt.network.NetworkHandler;
+import mca.network.client.GetChildDataResponse;
 import mca.network.client.GetFamilyTreeResponse;
 import mca.network.client.GetInteractDataResponse;
 import mca.network.client.GetVillageResponse;
@@ -28,5 +29,7 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(InteractionDialogueMessage.class);
         NetworkHandler.registerMessage(InteractionDialogueResponse.class);
         NetworkHandler.registerMessage(InteractionDialogueInitMessage.class);
+        NetworkHandler.registerMessage(GetChildDataRequest.class);
+        NetworkHandler.registerMessage(GetChildDataResponse.class);
     }
 }
