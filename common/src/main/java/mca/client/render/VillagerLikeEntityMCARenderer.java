@@ -6,6 +6,7 @@ import mca.client.model.VillagerEntityBaseModelMCA;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.Infectable;
 import mca.entity.VillagerLike;
+import mca.entity.ai.relationship.AgeState;
 import mca.util.compat.model.Dilation;
 import mca.util.compat.model.TexturedModelData;
 import net.minecraft.client.MinecraftClient;
@@ -38,6 +39,9 @@ public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>
         float height = villager.getScaleFactor();
         float width = villager.getHorizontalScaleFactor();
         matrices.scale(width, height, width);
+        if (villager.getAgeState() == AgeState.BABY && !villager.hasVehicle()) {
+            matrices.translate(0, 0.6F, 0);
+        }
     }
 
     @Nullable
