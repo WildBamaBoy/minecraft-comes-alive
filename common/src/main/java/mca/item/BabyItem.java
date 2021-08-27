@@ -90,6 +90,13 @@ public class BabyItem extends Item {
         if (BabyTracker.hasState(stack)) {
             Optional<MutableChildSaveState> state = BabyTracker.getState(stack, (ServerWorld)world);
             if (state.isPresent()) {
+
+                // use an anvil to rename your baby (in case of typos like I did)
+                if (stack.hasCustomName()) {
+                    state.get().setName(stack.getName().getString());
+                    stack.removeCustomName();
+                }
+
                 if (state.get().getName().isPresent() && world.getTime() % 1200 == 0) {
                     stack.getTag().putInt("age", stack.getTag().getInt("age") + 1);
                 }
@@ -224,7 +231,7 @@ public class BabyItem extends Item {
             if (!state.getName().isPresent()) {
                 tooltip.add(new TranslatableText("item.mca.baby.give_name").formatted(Formatting.YELLOW));
             } else {
-                tooltip.add(new TranslatableText("item.mca.baby.name", new LiteralText(state.getName().get())).formatted(gender.getColor()));
+                tooltip.add(new TranslatableText("item.mca.baby.name", new LiteralText(state.getName().get()).formatted(gender.getColor())).formatted(Formatting.GRAY));
 
                 if (age > 0) {
                     tooltip.add(new TranslatableText("item.mca.baby.age", ChatUtil.ticksToString(age)).formatted(Formatting.GRAY));
