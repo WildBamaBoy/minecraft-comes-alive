@@ -96,6 +96,10 @@ public class BabyItem extends Item {
                     state.get().setName(stack.getName().getString());
                     state.get().writeToItem(stack);
                     stack.removeCustomName();
+
+                    if (entity instanceof ServerPlayerEntity) {
+                        CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)entity, "rename_baby");
+                    }
                 }
 
                 if (state.get().getName().isPresent() && world.getTime() % 1200 == 0) {
