@@ -13,11 +13,13 @@ import mca.util.NbtHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -36,6 +38,7 @@ public class Village implements Iterable<Building> {
 
     private static final int MOVE_IN_COOLDOWN = 6000;
     private static final int MIN_SIZE = 32;
+    private static final int MAX_STORAGE_SIZE = 1024;
 
     public static Optional<Village> findNearest(Entity entity) {
         return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
@@ -54,8 +57,7 @@ public class Village implements Iterable<Building> {
     private int centerX, centerY, centerZ;
     private int size = MIN_SIZE;
 
-    private int taxes;
-
+    private int taxes = 50;
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
 
@@ -140,7 +142,7 @@ public class Village implements Iterable<Building> {
         for (Building building : buildings.values()) {
             size = (int)Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
         }
-        size = (int) (Math.sqrt(size));
+        size = (int)(Math.sqrt(size));
     }
 
     public BlockPos getCenter() {
@@ -272,13 +274,16 @@ public class Village implements Iterable<Building> {
         boolean isTaxSeason = time % 24000 == 0;
         boolean isVillageUpdateTime = time % MOVE_IN_COOLDOWN == 0;
 
-
         if (isTaxSeason) {
-            int taxes = getPopulation() * getTaxes() + world.random.nextInt(100);
             int emeraldValue = 100;
+            int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
             int emeraldCount = taxes / emeraldValue;
 
-            storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
+            while (emeraldCount > 0 && storageBuffer.size() < MAX_STORAGE_SIZE) {
+                storageBuffer.add(new ItemStack(Items.EMERALD, Math.min(emeraldCount, Items.EMERALD.getMaxCount())));
+                emeraldCount -= Items.EMERALD.getMaxCount();
+            }
+
             deliverTaxes(world);
 
             Messenger.sendEventMessage(world, new TranslatableText("gui.village.taxes", getName()));
@@ -292,13 +297,71 @@ public class Village implements Iterable<Building> {
     }
 
     public void deliverTaxes(ServerWorld world) {
-        //TODO: Implement taxes
-        // WIP and nobody can stop me implementing them hehe
         if (hasStoredResource()) {
-            getBuildingsOfType("inn").filter(b -> world.canSetBlock(b.getCenter()))
-                    .forEach(building -> {
-                        // TODO: noop
-                    });
+            getBuildingsOfType("storage").forEach(building -> {
+                BlockPos pos0 = building.getPos0();
+                BlockPos pos1 = building.getPos1();
+                for (int x = pos0.getX(); x <= pos1.getX(); x++) {
+                    for (int y = pos0.getY(); y <= pos1.getY(); y++) {
+                        for (int z = pos0.getZ(); z <= pos1.getZ(); z++) {
+                            BlockPos p = new BlockPos(x, y, z);
+                            if (hasStoredResource()) {
+                                tryToPutIntoInventory(world, p);
+                            } else {
+                                return;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void tryToPutIntoInventory(ServerWorld world, BlockPos p) {
+        BlockState state = world.getBlockState(p);
+        Block block = state.getBlock();
+        if (block.hasBlockEntity()) {
+            BlockEntity blockEntity = world.getBlockEntity(p);
+            if (blockEntity instanceof Inventory) {
+                Inventory inventory = (Inventory)blockEntity;
+                if (inventory instanceof ChestBlockEntity && block instanceof ChestBlock) {
+                    inventory = ChestBlock.getInventory((ChestBlock)block, state, world, p, true);
+                    if (inventory != null) {
+                        putIntoInventory(inventory);
+                    }
+                }
+            }
+        }
+    }
+
+    private void putIntoInventory(Inventory inventory) {
+        for (int i = 0; i < inventory.size(); i++) {
+            boolean changes = true;
+            while (changes) {
+                changes = false;
+                ItemStack stack = inventory.getStack(i);
+                ItemStack tax = storageBuffer.get(0);
+                if (stack.getItem() == tax.getItem()) {
+                    int diff = Math.min(tax.getCount(), stack.getMaxCount() - stack.getCount());
+                    if (diff > 0) {
+                        stack.increment(diff);
+                        tax.decrement(diff);
+                        if (tax.isEmpty()) {
+                            storageBuffer.remove(0);
+                            changes = true;
+                        }
+                        inventory.markDirty();
+                    }
+                } else if (stack.isEmpty()) {
+                    inventory.setStack(i, tax);
+                    inventory.markDirty();
+                    storageBuffer.remove(0);
+                    changes = true;
+                }
+                if (!hasStoredResource()) {
+                    return;
+                }
+            }
         }
     }
 

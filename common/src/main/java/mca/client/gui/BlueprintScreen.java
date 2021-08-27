@@ -19,7 +19,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -38,9 +42,9 @@ public class BlueprintScreen extends Screen {
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
     private final int positionMarriage = 40;
-    private final int rankTaxes = 100;
-    private final int rankBirth = 1;
-    private final int rankMarriage = 1;
+    private final int rankTaxes = 1;
+    private final int rankBirth = 2;
+    private final int rankMarriage = 3;
     private Village village;
     private int reputation;
     private String page;
@@ -51,6 +55,9 @@ public class BlueprintScreen extends Screen {
 
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/buildings.png");
     private BuildingType selectedBuilding;
+
+    private int mouseX;
+    private int mouseY;
 
     public BlueprintScreen() {
         super(new LiteralText("Blueprint"));
@@ -124,7 +131,7 @@ public class BlueprintScreen extends Screen {
         //page selection
         int bx = width / 2 - 180;
         int by = height / 2 - 56;
-        for (String p : new String[] {"map", "rank", "catalog", "taxes", "rules", "close"}) {
+        for (String p : new String[] {"map", "rank", "catalog", "villagers", "rules", "close"}) {
             ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
             addButton(widget);
             if (page.equals(p)) {
@@ -139,14 +146,14 @@ public class BlueprintScreen extends Screen {
                 bx = width / 2 + 180 - 64 - 16;
                 by = height / 2 - 56 + 22 * 3;
                 addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.addBuilding"), (b) -> {
-                    NetworkHandler.sendToServer(new ReportBuildingMessage());
+                    NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.ADD));
                     NetworkHandler.sendToServer(new GetVillageRequest());
                 }));
                 by += 22;
 
                 //remove building
                 addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.removeBuilding"), (b) -> {
-                    NetworkHandler.sendToServer(new ReportBuildingMessage());
+                    NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.REMOVE));
                     NetworkHandler.sendToServer(new GetVillageRequest());
                 }));
                 break;
@@ -178,12 +185,13 @@ public class BlueprintScreen extends Screen {
                     }
                 }
                 break;
-            case "taxes":
+            case "villagers":
+                break;
+            case "rules":
                 //taxes
                 buttonTaxes = createValueChanger(width / 2, height / 2 + positionTaxes + 10, 80, 20, (b) -> changeTaxes(b ? 10 : -10));
                 toggleButtons(buttonTaxes, false);
-                break;
-            case "rules":
+
                 //birth threshold
                 buttonBirths = createValueChanger(width / 2, height / 2 + positionBirth + 10, 80, 20, (b) -> changePopulationThreshold(b ? 10 : -10));
                 toggleButtons(buttonBirths, false);
@@ -212,6 +220,9 @@ public class BlueprintScreen extends Screen {
             return;
         }
 
+        this.mouseX = (int)(client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
+        this.mouseY = (int)(client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
+
         switch (page) {
             case "map":
                 renderName(transform);
@@ -226,8 +237,8 @@ public class BlueprintScreen extends Screen {
             case "catalog":
                 renderCatalog(transform);
                 break;
-            case "taxes":
-                renderTaxes(transform);
+            case "villagers":
+                renderVillagers(transform);
                 break;
             case "rules":
                 renderRules(transform);
@@ -271,6 +282,8 @@ public class BlueprintScreen extends Screen {
 
         //center and scale the map
         float sc = (float)mapSize / village.getSize();
+        int mouseLocalX = (int)((mouseX - width / 2.0) / sc + village.getCenter().getX());
+        int mouseLocalY = (int)((mouseY - y) / sc + village.getCenter().getZ());
         transform.translate(width / 2.0, y, 0);
         transform.scale(sc, sc, 0.0f);
         transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
@@ -280,11 +293,6 @@ public class BlueprintScreen extends Screen {
         if (player != null) {
             RectangleWidget.drawRectangle(transform, (int)player.getX() - 1, (int)player.getZ() - 1, (int)player.getX() + 1, (int)player.getZ() + 1, 0xffff00ff);
         }
-
-        int mouseRawX = (int)(client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
-        int mouseRawY = (int)(client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
-        int mouseX = (int)((mouseRawX - width / 2.0) / sc + village.getCenter().getX());
-        int mouseY = (int)((mouseRawY - y) / sc + village.getCenter().getZ());
 
         //buildings
         Building hoverBuilding = null;
@@ -297,7 +305,7 @@ public class BlueprintScreen extends Screen {
 
                 //tooltip
                 int margin = 6;
-                if (c.getSquaredDistance(new Vec3i(mouseX, c.getY(), mouseY)) < margin * margin) {
+                if (c.getSquaredDistance(new Vec3i(mouseLocalX, c.getY(), mouseLocalY)) < margin * margin) {
                     hoverBuilding = building;
                 }
             } else {
@@ -307,7 +315,7 @@ public class BlueprintScreen extends Screen {
 
                 //tooltip
                 int margin = 2;
-                if (mouseX >= p0.getX() - margin && mouseX <= p1.getX() + margin && mouseY >= p0.getZ() - margin && mouseY <= p1.getZ() + margin) {
+                if (mouseLocalX >= p0.getX() - margin && mouseLocalX <= p1.getX() + margin && mouseLocalY >= p0.getZ() - margin && mouseLocalY <= p1.getZ() + margin) {
                     hoverBuilding = building;
                 }
             }
@@ -339,14 +347,18 @@ public class BlueprintScreen extends Screen {
             }
 
             //render
-            renderTooltip(transform, lines, mouseRawX, mouseRawY);
+            renderTooltip(transform, lines, mouseX, mouseY);
         }
     }
 
     private void renderTasks(MatrixStack transform) {
         int y = height / 2 + 5;
         int x = width / 2 - 70;
-        Rank rank = village.getTasks().getRank(reputation);
+        Rank rank = village.getTasks().getRank(reputation).promote();
+
+        if (rank == null) {
+            return;
+        }
 
         //tasks
         Text str = new TranslatableText("task.reputation", String.valueOf(rank.getReputation()))
@@ -373,10 +385,9 @@ public class BlueprintScreen extends Screen {
         drawCenteredText(transform, textRenderer, new TranslatableText("Build special buildings by fulfilling those conditions!").formatted(Formatting.GRAY), width / 2, height / 2 - 82, 0xffffffff);
 
         //building
+        int x = width / 2 + 15;
+        int y = height / 2 - 50;
         if (selectedBuilding != null) {
-            int x = width / 2 + 15;
-            int y = height / 2 - 50;
-
             //name
             textRenderer.drawWithShadow(transform, new TranslatableText("buildingType." + selectedBuilding.name()), x, y, selectedBuilding.getColor());
 
@@ -396,14 +407,26 @@ public class BlueprintScreen extends Screen {
                 textRenderer.drawWithShadow(transform, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y + 32, 0xffffffff);
                 y += 10;
             }
+        } else {
+            //help
+            List<Text> wrap = FlowingText.wrap(new TranslatableText("gui.blueprint.buildingTypes").formatted(Formatting.GRAY).formatted(Formatting.ITALIC), 150);
+            for (Text t : wrap) {
+                textRenderer.drawWithShadow(transform, t, x, y, 0xffffffff);
+                y += 10;
+            }
         }
     }
 
-    private void renderTaxes(MatrixStack transform) {
+    private void renderVillagers(MatrixStack transform) {
+
+    }
+
+    private void renderRules(MatrixStack transform) {
         Rank rank = village.getTasks().getRank(reputation);
 
-        //update text
         buttonTaxes[0].setMessage(new LiteralText(village.getTaxes() + "%"));
+        buttonMarriage[0].setMessage(new LiteralText(village.getMarriageThreshold() + "%"));
+        buttonBirths[0].setMessage(new LiteralText(village.getPopulationThreshold() + "%"));
 
         //taxes
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.taxes"), width / 2, height / 2 + positionTaxes, 0xffffffff);
@@ -413,14 +436,8 @@ public class BlueprintScreen extends Screen {
         } else {
             toggleButtons(buttonTaxes, true);
         }
-    }
 
-    private void renderRules(MatrixStack transform) {
-        Rank rank = village.getTasks().getRank(reputation);
-
-        buttonMarriage[0].setMessage(new LiteralText(village.getMarriageThreshold() + "%"));
-        buttonBirths[0].setMessage(new LiteralText(village.getPopulationThreshold() + "%"));
-
+        //births
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.birth"), width / 2, height / 2 + positionBirth, 0xffffffff);
         if (rank.ordinal() < rankBirth) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionBirth + 15, 0xffffffff);
@@ -429,6 +446,7 @@ public class BlueprintScreen extends Screen {
             toggleButtons(buttonBirths, true);
         }
 
+        //marriages
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.marriage"), width / 2, height / 2 + positionMarriage, 0xffffffff);
         if (rank.ordinal() < rankMarriage) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionMarriage + 15, 0xffffffff);
@@ -453,6 +471,10 @@ public class BlueprintScreen extends Screen {
             b.active = active;
             b.visible = active;
         }
+    }
+
+    protected boolean isMouseWithin(int x, int y, int w, int h) {
+        return mouseX >= x && mouseX < x + w && mouseY >= y && mouseY < y + h;
     }
 
     public void setVillage(Village village) {

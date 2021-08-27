@@ -178,7 +178,6 @@
   "task.grimReaper": "Kill the Grim Reaper",
   "task.bePatient": "Work in progress - be patient!",
 
-  "gui.blueprint.taxesNotImplemented": "WIP, please be patient!",
   "gui.blueprint.taxes": "Taxes",
   "gui.blueprint.birth": "Birth limit",
   "gui.blueprint.marriage": "Marriage limit",
@@ -193,10 +192,12 @@
   "gui.blueprint.map": "Map",
   "gui.blueprint.rank": "Rank",
   "gui.blueprint.catalog": "Catalog",
+  "gui.blueprint.villagers": "Villagers",
   "gui.blueprint.rules": "Rules",
   "gui.blueprint.close": "Close",
   "gui.blueprint.addBuilding": "Add Building",
   "gui.blueprint.removeBuilding": "Remove Building",
+  "gui.blueprint.buildingTypes": "Select a building to see its requirements. Once you built something, enter it and hit \"Add Building\" from the map page.",
 
   "gui.village.left": "Now leaving %s",
   "gui.village.welcome": "Welcome to %s!",
