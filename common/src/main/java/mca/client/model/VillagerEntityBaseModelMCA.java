@@ -113,10 +113,9 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         //head
         float headSize = dimensions.getHead();
-        float headWidth = headSize / dimensions.getWidth();
 
         matrices.push();
-        matrices.scale(headWidth, headSize, headWidth);
+        matrices.scale(headSize, headSize, headSize);
         this.getHeadParts().forEach(a -> a.render(matrices, vertices, light, overlay, red, green, blue, alpha));
         matrices.pop();
 

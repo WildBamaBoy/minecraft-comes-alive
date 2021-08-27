@@ -7,11 +7,11 @@ import net.minecraft.util.math.MathHelper;
 
 public enum AgeState implements VillagerDimensions {
     UNASSIGNED(1, 0.9F, 1, 1),
-    BABY      (0.85F, 0.225F, 0, 1.5F),
-    TODDLER   (0.85F, 0.375F, 0, 1.3F),
-    CHILD     (0.85F, 0.6F, 0, 1.1F),
-    TEEN      (0.85F, 0.8F, 0.5F, 1),
-    ADULT     (1, 0.9F, 1, 1);
+    BABY      (0.45F, 0.45F, 0, 1.5F),
+    TODDLER   (0.6F, 0.6F, 0, 1.3F),
+    CHILD     (0.7F, 0.7F, 0, 1.2F),
+    TEEN      (0.85F, 0.85F, 0.5F, 1),
+    ADULT     (1, 1, 1, 1);
 
     public static final int MAX_AGE = -192000;
     public static final int STAGE_DURATION = -MAX_AGE / 4;
