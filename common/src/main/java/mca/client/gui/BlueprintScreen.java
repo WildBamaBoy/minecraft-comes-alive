@@ -12,6 +12,7 @@ import mca.server.world.data.Building;
 import mca.server.world.data.BuildingTasks;
 import mca.server.world.data.Village;
 import mca.util.compat.RenderSystemCompat;
+import mca.util.localization.FlowingText;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,6 +23,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -39,14 +41,13 @@ public class BlueprintScreen extends Screen {
     private final int rankTaxes = 100;
     private final int rankBirth = 1;
     private final int rankMarriage = 1;
-    private final int fromCenter = 150;
     private Village village;
     private int reputation;
-    private boolean showCatalog;
+    private String page;
     private ButtonWidget[] buttonTaxes;
     private ButtonWidget[] buttonBirths;
     private ButtonWidget[] buttonMarriage;
-    private List<ButtonWidget> catalogButtons = new LinkedList<>();
+    private final List<ButtonWidget> catalogButtons = new LinkedList<>();
 
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/buildings.png");
     private BuildingType selectedBuilding;
@@ -106,63 +107,92 @@ public class BlueprintScreen extends Screen {
     @Override
     public void init() {
         NetworkHandler.sendToServer(new GetVillageRequest());
-
-        addButton(new ButtonWidget(width / 2 - 66, height / 2 + 80, 64, 20, new LiteralText("Exit"), (b) -> MinecraftClient.getInstance().openScreen(null)));
-        addButton(new ButtonWidget(width / 2 + 2, height / 2 + 80, 64, 20, new LiteralText("Add Building"), (b) -> {
-            NetworkHandler.sendToServer(new ReportBuildingMessage());
-            NetworkHandler.sendToServer(new GetVillageRequest());
-        }));
-        addButton(new ButtonWidget(width / 2 - fromCenter - 32, height / 2 + 80, 64, 20, new LiteralText("Catalog"), (b) -> {
-            toggleButtons(buttonTaxes, false);
-            toggleButtons(buttonBirths, false);
-            toggleButtons(buttonMarriage, false);
-            setCatalogOpen(!showCatalog);
-        }));
-
-        //taxes
-        buttonTaxes = createValueChanger(width / 2 + fromCenter, height / 2 + positionTaxes + 10, 80, 20, (b) -> changeTaxes(b ? 10 : -10));
-        toggleButtons(buttonTaxes, false);
-
-        //birth threshold
-        buttonBirths = createValueChanger(width / 2 + fromCenter, height / 2 + positionBirth + 10, 80, 20, (b) -> changePopulationThreshold(b ? 10 : -10));
-        toggleButtons(buttonBirths, false);
-
-        //marriage threshold
-        buttonMarriage = createValueChanger(width / 2 + fromCenter, height / 2 + positionMarriage + 10, 80, 20, (b) -> changeMarriageThreshold(b ? 10 : -10));
-        toggleButtons(buttonMarriage, false);
-
-        //list catalog button
-        int row = 0;
-        int col = 0;
-        int size = 21;
-        int x = width / 2 - 5 * size - 32;
-        int y = (int)(height / 2 - 2.5 * size);
-        catalogButtons.clear();
-        for (BuildingType bt : API.getVillagePool()) {
-            if (bt.visible()) {
-                TexturedButtonWidget widget = new TexturedButtonWidget(
-                        row * size + x - 10, col * size + y - 10, 20, 20, bt.iconU(), bt.iconV() + 20, 20, ICON_TEXTURES, 256, 256, button -> {
-                    selectBuilding(bt);
-                    button.active = false;
-                    catalogButtons.forEach(b -> b.active = true);
-                }, new TranslatableText("buildingType." + bt.name()));
-                catalogButtons.add(addButton(widget));
-
-                row++;
-                if (row > 5) {
-                    row = 0;
-                    col++;
-                }
-            }
-        }
-
-        setCatalogOpen(false);
+        setPage("map");
     }
 
-    private void setCatalogOpen(boolean open) {
-        showCatalog = open;
-        catalogButtons.forEach(b -> b.active = open);
-        catalogButtons.forEach(b -> b.visible = open);
+    private void setPage(String page) {
+        if (page.equals("close")) {
+            MinecraftClient.getInstance().openScreen(null);
+            return;
+        }
+
+        this.page = page;
+
+        buttons.clear();
+        this.children.clear();
+
+        //page selection
+        int bx = width / 2 - 180;
+        int by = height / 2 - 56;
+        for (String p : new String[] {"map", "rank", "catalog", "taxes", "rules", "close"}) {
+            ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
+            addButton(widget);
+            if (page.equals(p)) {
+                widget.active = false;
+            }
+            by += 22;
+        }
+
+        switch (page) {
+            case "map":
+                //add building
+                bx = width / 2 + 180 - 64 - 16;
+                by = height / 2 - 56 + 22 * 3;
+                addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.addBuilding"), (b) -> {
+                    NetworkHandler.sendToServer(new ReportBuildingMessage());
+                    NetworkHandler.sendToServer(new GetVillageRequest());
+                }));
+                by += 22;
+
+                //remove building
+                addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.removeBuilding"), (b) -> {
+                    NetworkHandler.sendToServer(new ReportBuildingMessage());
+                    NetworkHandler.sendToServer(new GetVillageRequest());
+                }));
+                break;
+            case "rank":
+                break;
+            case "catalog":
+                //list catalog button
+                int row = 0;
+                int col = 0;
+                int size = 21;
+                int x = width / 2 - 4 * size - 8;
+                int y = (int)(height / 2 - 2.0 * size);
+                catalogButtons.clear();
+                for (BuildingType bt : API.getVillagePool()) {
+                    if (bt.visible()) {
+                        TexturedButtonWidget widget = new TexturedButtonWidget(
+                                row * size + x - 10, col * size + y - 10, 20, 20, bt.iconU(), bt.iconV() + 20, 20, ICON_TEXTURES, 256, 256, button -> {
+                            selectBuilding(bt);
+                            button.active = false;
+                            catalogButtons.forEach(b -> b.active = true);
+                        }, new TranslatableText("buildingType." + bt.name()));
+                        catalogButtons.add(addButton(widget));
+
+                        row++;
+                        if (row > 4) {
+                            row = 0;
+                            col++;
+                        }
+                    }
+                }
+                break;
+            case "taxes":
+                //taxes
+                buttonTaxes = createValueChanger(width / 2, height / 2 + positionTaxes + 10, 80, 20, (b) -> changeTaxes(b ? 10 : -10));
+                toggleButtons(buttonTaxes, false);
+                break;
+            case "rules":
+                //birth threshold
+                buttonBirths = createValueChanger(width / 2, height / 2 + positionBirth + 10, 80, 20, (b) -> changePopulationThreshold(b ? 10 : -10));
+                toggleButtons(buttonBirths, false);
+
+                //marriage threshold
+                buttonMarriage = createValueChanger(width / 2, height / 2 + positionMarriage + 10, 80, 20, (b) -> changeMarriageThreshold(b ? 10 : -10));
+                toggleButtons(buttonMarriage, false);
+                break;
+        }
     }
 
     private void selectBuilding(BuildingType b) {
@@ -178,77 +208,62 @@ public class BlueprintScreen extends Screen {
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
-        if (showCatalog) {
-            renderCatalog(transform);
-        } else if (village != null && client != null) {
-            //name
-            transform.push();
-            transform.scale(2.0f, 2.0f, 2.0f);
-            drawCenteredText(transform, textRenderer, village.getName(), width / 4, height / 4 - 55, 0xffffffff);
-            transform.pop();
+        if (village == null) {
+            return;
+        }
 
-            //population
-            drawCenteredText(transform, textRenderer, "Buildings: " + village.getBuildings().size(), width / 2, height / 2 - 90, 0xffffffff);
-            drawCenteredText(transform, textRenderer, "Population: " + village.getPopulation() + " of " + village.getMaxPopulation(), width / 2, height / 2 - 80, 0xffffffff);
-
-            //update text
-            buttonTaxes[0].setMessage(new LiteralText(village.getTaxes() + "%"));
-            buttonBirths[0].setMessage(new LiteralText(village.getPopulationThreshold() + "%"));
-            buttonMarriage[0].setMessage(new LiteralText(village.getMarriageThreshold() + "%"));
-
-            //rank
-            Rank rank = village.getTasks().getRank(reputation);
-            Text rankStr = new TranslatableText("gui.village.rank." + rank.ordinal());
-            int rankColor = rank.ordinal() == 0 ? 0xffff0000 : 0xffffff00;
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rank", rankStr), width / 2 - fromCenter, height / 2 - 50 - 15, rankColor);
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.reputation", String.valueOf(reputation)), width / 2 - fromCenter, height / 2 - 50, rank.ordinal() == 0 ? 0xffff0000 : 0xffffffff);
-
-            //tasks
-            Text str = new TranslatableText("task.reputation", String.valueOf(rank.getReputation()));
-            drawCenteredText(transform, textRenderer, str, width / 2 - fromCenter, height / 2 - 22, reputation >= rank.getReputation() ? 0xff00ff00 : 0xffff0000);
-
-            int i = 0;
-            for (String name : BuildingTasks.NAMES) {
-                Text task = new TranslatableText("task." + name);
-                drawCenteredText(transform, textRenderer, task, width / 2 - fromCenter, height / 2 - 10 + i * 12, village.getTasks().isCompleted(name) ? 0xff00ff00 : 0xffdddddd);
-                i++;
-            }
-
-            //taxes
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.taxes"), width / 2 + fromCenter, height / 2 + positionTaxes, 0xffffffff);
-            if (rank.ordinal() < rankTaxes) {
-                drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.taxesNotImplemented"), width / 2 + fromCenter, height / 2 + positionTaxes + 15, 0xffffffff);
-                toggleButtons(buttonTaxes, false);
-            } else {
-                toggleButtons(buttonTaxes, true);
-            }
-
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.birth"), width / 2 + fromCenter, height / 2 + positionBirth, 0xffffffff);
-            if (rank.ordinal() < rankBirth) {
-                drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionBirth + 15, 0xffffffff);
-                toggleButtons(buttonBirths, false);
-            } else {
-                toggleButtons(buttonBirths, true);
-            }
-
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.marriage"), width / 2 + fromCenter, height / 2 + positionMarriage, 0xffffffff);
-            if (rank.ordinal() < rankMarriage) {
-                drawCenteredText(transform, textRenderer, new TranslatableText("gui.village.rankTooLow"), width / 2 + fromCenter, height / 2 + positionMarriage + 15, 0xffffffff);
-                toggleButtons(buttonMarriage, false);
-            } else {
-                toggleButtons(buttonMarriage, true);
-            }
-
-            //map
-            renderMap(transform);
+        switch (page) {
+            case "map":
+                renderName(transform);
+                renderMap(transform);
+                renderStats(transform);
+                break;
+            case "rank":
+                renderName(transform);
+                renderTasks(transform);
+                renderStats(transform);
+                break;
+            case "catalog":
+                renderCatalog(transform);
+                break;
+            case "taxes":
+                renderTaxes(transform);
+                break;
+            case "rules":
+                renderRules(transform);
+                break;
         }
 
         super.render(transform, sizeX, sizeY, offset);
     }
 
+    private void renderName(MatrixStack transform) {
+        //name
+        transform.push();
+        transform.scale(2.0f, 2.0f, 2.0f);
+        drawCenteredText(transform, textRenderer, village.getName(), width / 4, height / 4 - 48, 0xffffffff);
+        transform.pop();
+    }
+
+    private void renderStats(MatrixStack transform) {
+        int x = width / 2 + (page.equals("rank") ? -70 : 105);
+        int y = height / 2 - 50;
+
+        //rank
+        Rank rank = village.getTasks().getRank(reputation);
+        Text rankStr = new TranslatableText("gui.village.rank." + rank.ordinal());
+        int rankColor = rank.ordinal() == 0 ? 0xffff0000 : 0xffffff00;
+
+        textRenderer.drawWithShadow(transform, new TranslatableText("gui.blueprint.currentRank", rankStr), x, y, rankColor);
+        textRenderer.drawWithShadow(transform, new TranslatableText("gui.blueprint.reputation", String.valueOf(reputation)), x, y + 11, rank.ordinal() == 0 ? 0xffff0000 : 0xffffffff);
+        textRenderer.drawWithShadow(transform, new TranslatableText("gui.blueprint.buildings", village.getBuildings().size()), x, y + 22, 0xffffffff);
+        textRenderer.drawWithShadow(transform, new TranslatableText("gui.blueprint.population", village.getPopulation(), village.getMaxPopulation()), x, y + 33, 0xffffffff);
+    }
+
     private void renderMap(MatrixStack transform) {
-        int mapSize = 70;
-        RectangleWidget.drawRectangle(transform, width / 2 - mapSize, height / 2 - mapSize, width / 2 + mapSize, height / 2 + mapSize, 0xffffff88);
+        int mapSize = 75;
+        int y = height / 2 + 8;
+        RectangleWidget.drawRectangle(transform, width / 2 - mapSize, y - mapSize, width / 2 + mapSize, y + mapSize, 0xffffff88);
 
         transform.push();
 
@@ -256,7 +271,7 @@ public class BlueprintScreen extends Screen {
 
         //center and scale the map
         float sc = (float)mapSize / village.getSize();
-        transform.translate(width / 2.0, height / 2.0, 0);
+        transform.translate(width / 2.0, y, 0);
         transform.scale(sc, sc, 0.0f);
         transform.translate(-village.getCenter().getX(), -village.getCenter().getZ(), 0);
 
@@ -269,7 +284,7 @@ public class BlueprintScreen extends Screen {
         int mouseRawX = (int)(client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
         int mouseRawY = (int)(client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
         int mouseX = (int)((mouseRawX - width / 2.0) / sc + village.getCenter().getX());
-        int mouseY = (int)((mouseRawY - height / 2.0) / sc + village.getCenter().getZ());
+        int mouseY = (int)((mouseRawY - y) / sc + village.getCenter().getZ());
 
         //buildings
         Building hoverBuilding = null;
@@ -306,7 +321,7 @@ public class BlueprintScreen extends Screen {
             //name
             BuildingType bt = API.getVillagePool().getBuildingType(hoverBuilding.getType());
             lines.add(new TranslatableText("buildingType." + bt.name()));
-            lines.add(new TranslatableText("gui.building.size", String.valueOf(hoverBuilding.getSize())));
+            lines.add(new TranslatableText("gui.blueprint.size", String.valueOf(hoverBuilding.getSize())));
 
             //residents
             for (String name : hoverBuilding.getResidents().values()) {
@@ -328,45 +343,108 @@ public class BlueprintScreen extends Screen {
         }
     }
 
+    private void renderTasks(MatrixStack transform) {
+        int y = height / 2 + 5;
+        int x = width / 2 - 70;
+        Rank rank = village.getTasks().getRank(reputation);
+
+        //tasks
+        Text str = new TranslatableText("task.reputation", String.valueOf(rank.getReputation()))
+                .formatted(reputation >= rank.getReputation() ? Formatting.STRIKETHROUGH : Formatting.RESET);
+        textRenderer.drawWithShadow(transform, str, x, y, reputation >= rank.getReputation() ? 0xff88ff88 : 0xffff5555);
+        y += 11;
+
+        for (String name : BuildingTasks.NAMES) {
+            boolean completed = village.getTasks().isCompleted(name);
+            Text task = new TranslatableText("task." + name).formatted(completed ? Formatting.STRIKETHROUGH : Formatting.RESET);
+            textRenderer.drawWithShadow(transform, task, x, y, completed ? 0xff88ff88 : 0xffff5555);
+            y += 11;
+        }
+    }
+
     private void renderCatalog(MatrixStack transform) {
         //title
         transform.push();
         transform.scale(2.0f, 2.0f, 2.0f);
-        drawCenteredText(transform, textRenderer, "Building Catalog", width / 4, height / 4 - 55, 0xffffffff);
+        drawCenteredText(transform, textRenderer, "Building Catalog", width / 4, height / 4 - 52, 0xffffffff);
         transform.pop();
 
         //explanation
-        drawCenteredText(transform, textRenderer, "Build special buildings by fulfilling those conditions", width / 2, height / 2 - 90, 0xffffffff);
-        drawCenteredText(transform, textRenderer, "Work in Progress - you may build them but they have no effect yet", width / 2, height / 2 - 80, 0xffffffff);
+        drawCenteredText(transform, textRenderer, new TranslatableText("Build special buildings by fulfilling those conditions!").formatted(Formatting.GRAY), width / 2, height / 2 - 82, 0xffffffff);
 
         //building
-        int w = 150;
-        int x = width / 2 + 16 + w / 2;
-        int y = height / 2 - 40;
         if (selectedBuilding != null) {
-            drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + selectedBuilding.name()), x, y, selectedBuilding.getColor());
-            drawCenteredText(transform, textRenderer, new TranslatableText("buildingType." + selectedBuilding.name() + ".description"), x, y + 12, 0xffffffff);
+            int x = width / 2 + 15;
+            int y = height / 2 - 50;
+
+            //name
+            textRenderer.drawWithShadow(transform, new TranslatableText("buildingType." + selectedBuilding.name()), x, y, selectedBuilding.getColor());
+
+            //description
+            List<Text> wrap = FlowingText.wrap(new TranslatableText("buildingType." + selectedBuilding.name() + ".description").formatted(Formatting.GRAY).formatted(Formatting.ITALIC), 150);
+            for (Text t : wrap) {
+                textRenderer.drawWithShadow(transform, t, x, y + 12, 0xffffffff);
+                y += 10;
+            }
 
             //size
-            Text size = selectedBuilding.size() == 0 ? new TranslatableText("gui.building.anySize") : new TranslatableText("gui.building.size", String.valueOf(selectedBuilding.size()));
-            drawCenteredText(transform, textRenderer, size, x, y + 36, 0xffdddddd);
+            Text size = selectedBuilding.size() == 0 ? new TranslatableText("gui.blueprint.anySize") : new TranslatableText("gui.blueprint.size", String.valueOf(selectedBuilding.size()));
+            textRenderer.drawWithShadow(transform, size, x, y + 20, 0xffdddddd);
 
             //required blocks
-            int i = 0;
             for (Map.Entry<String, Integer> b : selectedBuilding.blocks().entrySet()) {
-                i++;
-                drawCenteredText(transform, textRenderer, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y + 36 + 12 * i, 0xffffffff);
+                textRenderer.drawWithShadow(transform, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y + 32, 0xffffffff);
+                y += 10;
             }
+        }
+    }
+
+    private void renderTaxes(MatrixStack transform) {
+        Rank rank = village.getTasks().getRank(reputation);
+
+        //update text
+        buttonTaxes[0].setMessage(new LiteralText(village.getTaxes() + "%"));
+
+        //taxes
+        drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.taxes"), width / 2, height / 2 + positionTaxes, 0xffffffff);
+        if (rank.ordinal() < rankTaxes) {
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.taxesNotImplemented"), width / 2, height / 2 + positionTaxes + 15, 0xffffffff);
+            toggleButtons(buttonTaxes, false);
+        } else {
+            toggleButtons(buttonTaxes, true);
+        }
+    }
+
+    private void renderRules(MatrixStack transform) {
+        Rank rank = village.getTasks().getRank(reputation);
+
+        buttonMarriage[0].setMessage(new LiteralText(village.getMarriageThreshold() + "%"));
+        buttonBirths[0].setMessage(new LiteralText(village.getPopulationThreshold() + "%"));
+
+        drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.birth"), width / 2, height / 2 + positionBirth, 0xffffffff);
+        if (rank.ordinal() < rankBirth) {
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionBirth + 15, 0xffffffff);
+            toggleButtons(buttonBirths, false);
+        } else {
+            toggleButtons(buttonBirths, true);
+        }
+
+        drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.marriage"), width / 2, height / 2 + positionMarriage, 0xffffffff);
+        if (rank.ordinal() < rankMarriage) {
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionMarriage + 15, 0xffffffff);
+            toggleButtons(buttonMarriage, false);
+        } else {
+            toggleButtons(buttonMarriage, true);
         }
     }
 
     private Text getBlockName(String key) {
         //dis some hacking, no time to fix tho
         // TODO: This needs to be fixed on the backend
-        Identifier id = new Identifier(key);
         if ("bed".equals(key)) {
             return Blocks.RED_BED.getName();
         }
+        Identifier id = new Identifier(key);
         return new TranslatableText("block." + id.getNamespace() + "." + id.getPath().replace('/', '.'));
     }
 

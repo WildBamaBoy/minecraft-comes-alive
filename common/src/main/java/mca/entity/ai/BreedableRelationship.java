@@ -109,10 +109,8 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
                 stack.decrement(1);
             } else if (stack.getItem() == Items.NAME_TAG) {
                 if (stack.hasCustomName()) {
-                    entity.setName(stack.getName().asString());
                     entity.setCustomSkin(stack.getName().asString());
                 } else {
-                    entity.setName(API.getVillagePool().pickCitizenName(entity.getGenetics().getGender()));
                     entity.setCustomSkin("");
                 }
                 stack.decrement(1);
