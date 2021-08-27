@@ -5,7 +5,6 @@ import java.util.UUID;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.ai.brain.VillagerBrain;
 import mca.network.client.InteractionDialogueResponse;
 import mca.resources.Dialogues;
 import mca.resources.data.Answer;
@@ -69,7 +68,7 @@ public class InteractionDialogueMessage implements Message {
                     selectAnswer(villager, player, newQuestion.getId(), newQuestion.getAnswers().get(0).getName());
                     return;
                 } else {
-                    NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion, player, villager), (ServerPlayerEntity)player);
+                    NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion, player, villager), player);
                 }
             } else {
                 // we send nevertheless and assume it's a final question

@@ -8,7 +8,6 @@ import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
 import mca.entity.VillagerLike;
-import mca.entity.ai.DialogueType;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.AgeState;

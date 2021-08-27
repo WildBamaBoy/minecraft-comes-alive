@@ -12,8 +12,6 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Stream;
 
 public interface Messenger extends EntityWrapper {
