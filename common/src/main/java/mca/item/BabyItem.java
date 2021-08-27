@@ -94,6 +94,7 @@ public class BabyItem extends Item {
                 // use an anvil to rename your baby (in case of typos like I did)
                 if (stack.hasCustomName()) {
                     state.get().setName(stack.getName().getString());
+                    state.get().writeToItem(stack);
                     stack.removeCustomName();
                 }
 
@@ -270,7 +271,10 @@ public class BabyItem extends Item {
 
             if (loaded.isPresent()) {
                 ChildSaveState l = loaded.get();
-                if (state.getName().isPresent() && !l.getName().isPresent()) {
+                if (
+                        (state.getName().isPresent() && !l.getName().isPresent())
+                     || (state.getName().isPresent() && l.getName().isPresent() && !state.getName().get().contentEquals(l.getName().get()))
+                     ) {
                     CLIENT_STATE_CACHE.refresh(state.getId());
                     return state;
                 }
