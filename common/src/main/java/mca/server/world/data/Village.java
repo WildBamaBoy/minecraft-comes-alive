@@ -23,10 +23,12 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +38,7 @@ public class Village implements Iterable<Building> {
 
     private static final int MOVE_IN_COOLDOWN = 6000;
     private static final int MIN_SIZE = 32;
+    private static final int MAX_STORAGE_SIZE = 1024;
 
     public static Optional<Village> findNearest(Entity entity) {
         return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
@@ -54,8 +57,7 @@ public class Village implements Iterable<Building> {
     private int centerX, centerY, centerZ;
     private int size = MIN_SIZE;
 
-    private int taxes;
-
+    private int taxes = 50;
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
 
@@ -140,7 +142,7 @@ public class Village implements Iterable<Building> {
         for (Building building : buildings.values()) {
             size = (int)Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
         }
-        size = (int) (Math.sqrt(size));
+        size = (int)(Math.sqrt(size));
     }
 
     public BlockPos getCenter() {
@@ -247,41 +249,55 @@ public class Village implements Iterable<Building> {
         return storageBuffer.size() > 0;
     }
 
-    /**
-     * returns an inventory at a given position
-     *
-     * @see HopperBlockEntity#getInventoryAt
-     */
-    @Nullable
-    private Inventory getInventoryAt(ServerWorld world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos);
-        Block block = blockState.getBlock();
-        if (block.hasBlockEntity() && block instanceof ChestBlock) {
-            BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof Inventory) {
-                Inventory inventory = (Inventory)tileentity;
-                if (inventory instanceof ChestBlockEntity) {
-                    return ChestBlock.getInventory((ChestBlock)block, blockState, world, pos, true);
-                }
-            }
-        }
-        return null;
-    }
-
     public void tick(ServerWorld world, long time) {
         boolean isTaxSeason = time % 24000 == 0;
         boolean isVillageUpdateTime = time % MOVE_IN_COOLDOWN == 0;
 
-
         if (isTaxSeason) {
-            int taxes = getPopulation() * getTaxes() + world.random.nextInt(100);
             int emeraldValue = 100;
+            int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
+            int moodImpact = 0;
+
+            Text msg;
+            float r = MathHelper.lerp(0.5f, getTaxes() / 100.0f, world.random.nextFloat());
+            if (getTaxes() == 0.0f) {
+                r = 0.0f;
+            }
+            if (r < 0.1) {
+                msg = new TranslatableText("gui.village.taxes.more", getName()).formatted(Formatting.GREEN);
+                taxes += getPopulation() * 0.25;
+            } else if (r < 0.3) {
+                msg = new TranslatableText("gui.village.taxes.happy", getName()).formatted(Formatting.DARK_GREEN);
+                moodImpact = 5;
+            } else if (r < 0.7) {
+                msg = new TranslatableText("gui.village.taxes", getName());
+            } else if (r < 0.8) {
+                msg = new TranslatableText("gui.village.taxes.sad", getName()).formatted(Formatting.GOLD);
+                moodImpact = -5;
+            } else if (r < 0.9) {
+                msg = new TranslatableText("gui.village.taxes.angry", getName()).formatted(Formatting.RED);
+                moodImpact = -10;
+            } else {
+                msg = new TranslatableText("gui.village.taxes.riot", getName()).formatted(Formatting.DARK_RED);
+                taxes = 0;
+            }
+
+            Messenger.sendEventMessage(world, msg);
+
             int emeraldCount = taxes / emeraldValue;
+            while (emeraldCount > 0 && storageBuffer.size() < MAX_STORAGE_SIZE) {
+                storageBuffer.add(new ItemStack(Items.EMERALD, Math.min(emeraldCount, Items.EMERALD.getMaxCount())));
+                emeraldCount -= Items.EMERALD.getMaxCount();
+            }
 
-            storageBuffer.add(new ItemStack(Items.EMERALD, emeraldCount));
+            if (moodImpact != 0) {
+                //TODO: what about not loaded villagers?
+                for (VillagerEntityMCA villager : getResidents(world)) {
+                    villager.getVillagerBrain().modifyMoodValue(moodImpact);
+                }
+            }
+
             deliverTaxes(world);
-
-            Messenger.sendEventMessage(world, new TranslatableText("gui.village.taxes", getName()));
         }
 
         if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time) {
@@ -292,13 +308,71 @@ public class Village implements Iterable<Building> {
     }
 
     public void deliverTaxes(ServerWorld world) {
-        //TODO: Implement taxes
-        // WIP and nobody can stop me implementing them hehe
         if (hasStoredResource()) {
-            getBuildingsOfType("inn").filter(b -> world.canSetBlock(b.getCenter()))
-                    .forEach(building -> {
-                        // TODO: noop
-                    });
+            getBuildingsOfType("storage").forEach(building -> {
+                BlockPos pos0 = building.getPos0();
+                BlockPos pos1 = building.getPos1();
+                for (int x = pos0.getX(); x <= pos1.getX(); x++) {
+                    for (int y = pos0.getY(); y <= pos1.getY(); y++) {
+                        for (int z = pos0.getZ(); z <= pos1.getZ(); z++) {
+                            BlockPos p = new BlockPos(x, y, z);
+                            if (hasStoredResource()) {
+                                tryToPutIntoInventory(world, p);
+                            } else {
+                                return;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void tryToPutIntoInventory(ServerWorld world, BlockPos p) {
+        BlockState state = world.getBlockState(p);
+        Block block = state.getBlock();
+        if (block.hasBlockEntity()) {
+            BlockEntity blockEntity = world.getBlockEntity(p);
+            if (blockEntity instanceof Inventory) {
+                Inventory inventory = (Inventory)blockEntity;
+                if (inventory instanceof ChestBlockEntity && block instanceof ChestBlock) {
+                    inventory = ChestBlock.getInventory((ChestBlock)block, state, world, p, true);
+                    if (inventory != null) {
+                        putIntoInventory(inventory);
+                    }
+                }
+            }
+        }
+    }
+
+    private void putIntoInventory(Inventory inventory) {
+        for (int i = 0; i < inventory.size(); i++) {
+            boolean changes = true;
+            while (changes) {
+                changes = false;
+                ItemStack stack = inventory.getStack(i);
+                ItemStack tax = storageBuffer.get(0);
+                if (stack.getItem() == tax.getItem()) {
+                    int diff = Math.min(tax.getCount(), stack.getMaxCount() - stack.getCount());
+                    if (diff > 0) {
+                        stack.increment(diff);
+                        tax.decrement(diff);
+                        if (tax.isEmpty()) {
+                            storageBuffer.remove(0);
+                            changes = true;
+                        }
+                        inventory.markDirty();
+                    }
+                } else if (stack.isEmpty()) {
+                    inventory.setStack(i, tax);
+                    inventory.markDirty();
+                    storageBuffer.remove(0);
+                    changes = true;
+                }
+                if (!hasStoredResource()) {
+                    return;
+                }
+            }
         }
     }
 

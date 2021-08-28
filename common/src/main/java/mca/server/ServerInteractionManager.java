@@ -1,12 +1,14 @@
 package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
-import mca.TagsMCA;
 import mca.entity.ai.relationship.EntityRelationship;
+import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.MarriageState;
+import mca.server.world.data.BabyTracker;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.compat.OptionalCompat;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
@@ -215,17 +217,18 @@ public class ServerInteractionManager {
      *
      * @param sender The person requesting procreation.
      */
-    public void procreate(PlayerEntity sender) {
+    public void procreate(ServerPlayerEntity sender) {
         // Ensure the sender is married.
-        PlayerSaveData senderData = PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid());
+        PlayerSaveData senderData = PlayerSaveData.get(sender.getServerWorld(), sender.getUuid());
         if (!senderData.isMarried()) {
             failMessage(sender, "You cannot procreate if you are not married.");
             return;
         }
 
         // Ensure we don't already have a baby
-        if (senderData.isBabyPresent()) {
-            failMessage(sender, "You already have a baby.");
+        BabyTracker.Pairing pairing = BabyTracker.get(sender.getServerWorld()).getPairing(sender.getUuid(), senderData.getSpouseUuid().orElse(null));
+        if (pairing.getChildCount() > 0) {
+            failMessage(sender, "You already have a baby with this partner.");
             return;
         }
 
@@ -233,6 +236,7 @@ public class ServerInteractionManager {
             failMessage(sender, "You cannot use this command when married to a villager.");
             return;
         }
+
         // Ensure the spouse is online.
         OptionalCompat.ifPresentOrElse(senderData.getSpouse().filter(e -> e instanceof PlayerEntity).map(PlayerEntity.class::cast), spouse -> {
             // If the spouse is online and has previously sent a procreation request that hasn't expired, we can continue.
@@ -245,11 +249,11 @@ public class ServerInteractionManager {
                 successMessage(sender, "Procreation successful!");
                 successMessage(spouse, "Procreation successful!");
 
-                spouse.giveItemStack(TagsMCA.Items.BABIES.getRandom(sender.world.getRandom()).getDefaultStack());
-
-                PlayerSaveData spouseData = PlayerSaveData.get((ServerWorld)spouse.world, spouse.getUuid());
-                spouseData.setBabyPresent(true);
-                senderData.setBabyPresent(true);
+                pairing.addChild(s -> {
+                    s.setGender(Gender.getRandom());
+                    s.setOwner(sender);
+                    spouse.giveItemStack(s.createItem());
+                });
             }
         }, () -> failMessage(sender, "Your spouse is not present on the server."));
     }

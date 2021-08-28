@@ -10,6 +10,7 @@ public interface Status {
     byte MCA_VILLAGER_TRAGEDY = 17;
 
     byte VILLAGER_POTION_SPLASH = 42;
+    byte PLAYER_CLOUD_EFFECT = 43;
 
     byte MOB_SPAWN = 20;
 }

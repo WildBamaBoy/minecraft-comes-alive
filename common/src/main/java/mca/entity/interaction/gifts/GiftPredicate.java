@@ -12,7 +12,6 @@ import com.google.gson.JsonSyntaxException;
 
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
-import mca.entity.ai.Mood;
 import mca.entity.ai.MoodGroup;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;

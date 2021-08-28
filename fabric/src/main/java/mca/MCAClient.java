@@ -8,15 +8,19 @@ import mca.client.render.TombstoneBlockEntityRenderer;
 import mca.client.render.VillagerEntityMCARenderer;
 import mca.client.render.ZombieVillagerEntityMCARenderer;
 import mca.entity.EntitiesMCA;
+import mca.item.BabyItem;
+import mca.item.ItemsMCA;
 import mca.resources.FabricColorPaletteLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.util.Identifier;
 
 public final class MCAClient extends ClientProxyAbstractImpl implements ClientModInitializer {
     @Override
@@ -36,6 +40,13 @@ public final class MCAClient extends ClientProxyAbstractImpl implements ClientMo
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricMCAScreens());
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricColorPaletteLoader());
+
+        FabricModelPredicateProviderRegistry.register(ItemsMCA.BABY_BOY, new Identifier("invalidated"), (stack, world, entity) -> {
+            return BabyItem.hasBeenInvalidated(stack) ? 1 : 0;
+        });
+        FabricModelPredicateProviderRegistry.register(ItemsMCA.BABY_GIRL, new Identifier("invalidated"), (stack, world, entity) -> {
+            return BabyItem.hasBeenInvalidated(stack) ? 1 : 0;
+        });
     }
 
     @Override

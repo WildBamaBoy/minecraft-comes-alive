@@ -45,8 +45,9 @@ public enum DialogueType {
                 return CHILDP;
             case TEEN:
                 return TEENP;
+            default:
+                return UNASSIGNED;
         }
-        return UNASSIGNED;
     }
 
     public static DialogueType fromAge(AgeState state) {

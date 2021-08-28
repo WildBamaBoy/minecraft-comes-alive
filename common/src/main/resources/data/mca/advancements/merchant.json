@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.merchant"
+    },
+    "description": {
+      "translate": "advancement.mca.merchant.description"
+    },
+    "icon": {
+      "item": "minecraft:leather_helmet"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:friend",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:rank",
+      "conditions": {
+        "rank": "merchant"
+      }
+    }
+  }
+}

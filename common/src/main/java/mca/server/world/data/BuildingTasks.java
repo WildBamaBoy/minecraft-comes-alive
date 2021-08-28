@@ -62,7 +62,7 @@ public class BuildingTasks {
         }
 
         public Rank getRank(int reputation) {
-            return Rank.getClamped(getTotalCompleted(), reputation);
+            return Rank.getRank(getTotalCompleted(), reputation);
         }
 
         public void load(NbtCompound nbt) {

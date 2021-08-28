@@ -74,7 +74,6 @@
     "visible": true,
     "priority": 4,
     "blocks": {
-      "minecraft:armor_stand": 2,
       "minecraft:smithing_table": 1,
       "minecraft:grindstone": 1,
       "mca:anvil": 1
@@ -103,7 +102,7 @@
     "priority": 4,
     "blocks": {
       "minecraft:jukebox": 1,
-      "minecraft:noteblock": 1,
+      "minecraft:note_block": 1,
       "minecraft:chest": 1
     },
     "iconU": 1,

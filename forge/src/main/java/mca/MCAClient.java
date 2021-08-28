@@ -10,8 +10,13 @@ import mca.client.render.ZombieVillagerEntityMCARenderer;
 import mca.client.resources.ColorPaletteLoader;
 import mca.cobalt.registration.RegistrationImpl;
 import mca.entity.EntitiesMCA;
+import mca.item.BabyItem;
+import mca.item.ItemsMCA;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.resource.ReloadableResourceManager;
+import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,6 +48,13 @@ public final class MCAClient {
         RenderingRegistry.registerEntityRenderingHandler(EntitiesMCA.GRIM_REAPER, GrimReaperRenderer::new);
 
         ClientRegistry.bindTileEntityRenderer(BlockEntityTypesMCA.TOMBSTONE, TombstoneBlockEntityRenderer::new);
+
+        ModelPredicateProviderRegistry.register(ItemsMCA.BABY_BOY, new Identifier("invalidated"), (stack, world, entity) -> {
+            return BabyItem.hasBeenInvalidated(stack) ? 1 : 0;
+        });
+        ModelPredicateProviderRegistry.register(ItemsMCA.BABY_GIRL, new Identifier("invalidated"), (stack, world, entity) -> {
+            return BabyItem.hasBeenInvalidated(stack) ? 1 : 0;
+        });
     }
 
     @SubscribeEvent

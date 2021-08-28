@@ -1,6 +1,6 @@
 [
   {
-    "id": "flirt_short",
+    "id": "flirt",
     "group": "flirt",
     "auto": true,
     "answers": [
@@ -14,17 +14,17 @@
         "hearts": 8,
         "conditions": [
           {
-            "chance": -0.2,
+            "chance": -0.25,
             "hearts": 0,
             "personality": "odd"
           },
           {
-            "chance": 0,
+            "chance": 0.3,
             "hearts": 3,
             "personality": "flirty"
           },
           {
-            "chance": 0.1,
+            "chance": 0.2,
             "hearts": 1,
             "mood": "silly"
           },
@@ -36,12 +36,12 @@
         ],
         "next": [
           {
-            "id": "flirt_short.fail",
+            "id": "flirt.fail",
             "threshold": 0.0,
             "fail": true
           },
           {
-            "id": "flirt_short.success",
+            "id": "flirt.success",
             "threshold": 1.0,
             "success": true
           }

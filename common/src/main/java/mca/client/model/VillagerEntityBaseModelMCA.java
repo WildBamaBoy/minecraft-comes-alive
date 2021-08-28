@@ -2,6 +2,7 @@ package mca.client.model;
 
 import com.google.common.collect.ImmutableList;
 import mca.entity.VillagerLike;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.VillagerDimensions;
 import net.minecraft.client.model.ModelPart;
@@ -72,7 +73,18 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     }
 
     @Override
+    public void animateModel(T entity, float limbAngle, float limbDistance, float tickDelta) {
+        super.animateModel(entity, limbDistance, limbAngle, tickDelta);
+        riding |= entity.getAgeState() == AgeState.BABY;
+    }
+
+    @Override
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        if (entity.getAgeState() == AgeState.BABY && !entity.hasVehicle()) {
+            limbDistance = (float)Math.sin(entity.age / 12F);
+            limbAngle = (float)Math.cos(entity.age / 9F) * 3;
+            headYaw += (float)Math.sin(entity.age / 2F);
+        }
         super.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
 
         if (entity.getVillagerBrain().isPanicking()) {
@@ -113,10 +125,9 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         //head
         float headSize = dimensions.getHead();
-        float headWidth = headSize / dimensions.getWidth();
 
         matrices.push();
-        matrices.scale(headWidth, headSize, headWidth);
+        matrices.scale(headSize, headSize, headSize);
         this.getHeadParts().forEach(a -> a.render(matrices, vertices, light, overlay, red, green, blue, alpha));
         matrices.pop();
 

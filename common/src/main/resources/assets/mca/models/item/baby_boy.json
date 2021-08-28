@@ -2,5 +2,13 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "mca:item/baby_boy"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "invalidated": 1
+      },
+      "model": "mca:item/baby_boy_empty"
+    }
+  ]
 }

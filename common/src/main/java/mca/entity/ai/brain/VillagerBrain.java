@@ -2,7 +2,6 @@ package mca.entity.ai.brain;
 
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
-import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.*;
 import mca.entity.ai.relationship.Personality;

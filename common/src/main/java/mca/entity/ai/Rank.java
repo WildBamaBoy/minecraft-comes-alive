@@ -1,12 +1,12 @@
 package mca.entity.ai;
 
 public enum Rank {
-    OUTLAW  (Integer.MIN_VALUE, 0),
-    PEASANT (0, 0),
+    OUTLAW(Integer.MIN_VALUE, 0),
+    PEASANT(0, 0),
     MERCHANT(20, 1),
-    NOBLE   (40, 3),
-    MAYOR   (60, 4),
-    KING    (80, 4);
+    NOBLE(40, 2),
+    MAYOR(60, 3),
+    KING(80, 4);
 
     private static final Rank[] VALUES = values();
 
@@ -27,30 +27,31 @@ public enum Rank {
     }
 
     /**
-     * Returns the highest available rank for a given reputation.
+     * Returns the highest available rank for a given reputation and task progress.
      */
-    private static Rank fromReputation(int rep) {
+    public static Rank getRank(int completedTasks, int reputation) {
         for (int i = VALUES.length - 1; i >= 0; i--) {
-            if (VALUES[i].reputation >= rep) {
+            if (reputation >= VALUES[i].reputation && completedTasks >= VALUES[i].getTasks()) {
                 return VALUES[i];
             }
         }
         return OUTLAW;
     }
 
-    public static Rank getClamped(int completedTasks, int reputation) {
-        Rank maxRank = fromReputation(reputation);
-
-        // searches all ranks below the maximum
-        for (int i = 0; i <= maxRank.ordinal(); i++) {
-            Rank r = VALUES[i];
-
-            if (completedTasks < r.getTasks()) {
-                return r; // finds the first one with a higher task count that is completed
-            }
+    public Rank promote() {
+        if (ordinal() + 1 < VALUES.length) {
+            return VALUES[ordinal() + 1];
+        } else {
+            return null;
         }
-
-        return maxRank;
     }
 
+    public static Rank fromName(String name) {
+        for (Rank r : VALUES) {
+            if (r.name().equals(name.toUpperCase())) {
+                return r;
+            }
+        }
+        return PEASANT;
+    }
 }

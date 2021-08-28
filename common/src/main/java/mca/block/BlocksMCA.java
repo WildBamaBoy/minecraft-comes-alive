@@ -5,13 +5,10 @@ import mca.TagsMCA;
 import mca.cobalt.registration.Registration;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
 import net.minecraft.block.OreBlock;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.village.VillagerData;
 
 public interface BlocksMCA {
     Block ROSE_GOLD_BLOCK = register("rose_gold_block", new Block(Block.Settings.copy(Blocks.GOLD_BLOCK)));

@@ -235,7 +235,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         //happiness
-        if (hoveringOverIcon("neutralEmerald") && false) {
+        if (hoveringOverIcon("neutralEmerald")) {
             List<Text> lines = new LinkedList<>();
             lines.add(new TranslatableText("gui.interact.label.happiness", "0/10"));
 
@@ -252,7 +252,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             int i = -dialogQuestionText.size();
             for (OrderedText t : dialogQuestionText) {
                 i++;
-                textRenderer.drawWithShadow(transform, t, (float)(width / 2 - textRenderer.getWidth(t) / 2), (float)height / 2 - 50 + i * 10, 0xFFFFFFFF);
+                textRenderer.drawWithShadow(transform, t, width / 2 - textRenderer.getWidth(t) / 2, (float)height / 2 - 50 + i * 10, 0xFFFFFFFF);
             }
             dialogAnswerHover = null;
 
