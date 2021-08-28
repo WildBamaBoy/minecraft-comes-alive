@@ -17,7 +17,7 @@
   "parent": "mca:mayor",
   "criteria": {
     "baby": {
-      "trigger": "mca:hearts",
+      "trigger": "mca:rank",
       "conditions": {
         "rank": "king"
       }

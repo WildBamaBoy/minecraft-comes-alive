@@ -1,25 +1,25 @@
 {
   "display": {
     "title": {
-      "translate": "advancement.mca.noble"
+      "translate": "advancement.mca.merchant"
     },
     "description": {
-      "translate": "advancement.mca.noble.description"
+      "translate": "advancement.mca.merchant.description"
     },
     "icon": {
-      "item": "minecraft:iron_helmet"
+      "item": "minecraft:leather_helmet"
     },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "mca:merchant",
+  "parent": "mca:friend",
   "criteria": {
     "baby": {
       "trigger": "mca:rank",
       "conditions": {
-        "rank": "noble"
+        "rank": "merchant"
       }
     }
   }
