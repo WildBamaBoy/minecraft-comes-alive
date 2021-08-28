@@ -25,8 +25,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.Nullable;
 
@@ -277,16 +280,48 @@ public class Village implements Iterable<Building> {
         if (isTaxSeason) {
             int emeraldValue = 100;
             int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
-            int emeraldCount = taxes / emeraldValue;
+            int moodImpact = 0;
 
+            Text msg;
+            float r = MathHelper.lerp(0.5f, getTaxes() / 100.0f, world.random.nextFloat());
+            if (getTaxes() == 0.0f) {
+                r = 0.0f;
+            }
+            if (r < 0.1) {
+                msg = new TranslatableText("gui.village.taxes.more", getName()).formatted(Formatting.GREEN);
+                taxes += getPopulation() * 0.25;
+            } else if (r < 0.3) {
+                msg = new TranslatableText("gui.village.taxes.happy", getName()).formatted(Formatting.DARK_GREEN);
+                moodImpact = 5;
+            } else if (r < 0.7) {
+                msg = new TranslatableText("gui.village.taxes", getName());
+            } else if (r < 0.8) {
+                msg = new TranslatableText("gui.village.taxes.sad", getName()).formatted(Formatting.GOLD);
+                moodImpact = -5;
+            } else if (r < 0.9) {
+                msg = new TranslatableText("gui.village.taxes.angry", getName()).formatted(Formatting.RED);
+                moodImpact = -10;
+            } else {
+                msg = new TranslatableText("gui.village.taxes.riot", getName()).formatted(Formatting.DARK_RED);
+                taxes = 0;
+            }
+
+            Messenger.sendEventMessage(world, msg);
+
+            int emeraldCount = taxes / emeraldValue;
             while (emeraldCount > 0 && storageBuffer.size() < MAX_STORAGE_SIZE) {
                 storageBuffer.add(new ItemStack(Items.EMERALD, Math.min(emeraldCount, Items.EMERALD.getMaxCount())));
                 emeraldCount -= Items.EMERALD.getMaxCount();
             }
 
-            deliverTaxes(world);
+            if (moodImpact != 0) {
+                //TODO: what about not loaded villagers?
+                for (VillagerEntityMCA villager : getResidents(world)) {
+                    villager.getVillagerBrain().modifyMoodValue(moodImpact);
+                }
+            }
 
-            Messenger.sendEventMessage(world, new TranslatableText("gui.village.taxes", getName()));
+            deliverTaxes(world);
         }
 
         if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time) {
