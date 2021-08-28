@@ -42,17 +42,16 @@ public interface ItemsMCA {
     Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), new Book("death")
             .setBackground(new Identifier("mca:textures/gui/books/death.png"))
             .setTextFormatting(Formatting.GRAY)
-            .addSimplePages(4)
+            .addSimplePages(3)
             .addPage(new ScribbleTextPage(new Identifier("mca:textures/gui/scribbles/test.png")))
-            .addSimplePages(5)
+            .addSimplePages(9)
     ));
 
     Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), new Book("romance")
             .setBackground(new Identifier("mca:textures/gui/books/romance.png"))
-            .addSimplePages(13)));
+            .addSimplePages(10)));
 
     Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), new Book("family")
-            .setBackground(new Identifier("mca:textures/gui/books/family.png"))
             .addSimplePages(8)));
 
     Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), new Book("rose_gold")
@@ -61,6 +60,11 @@ public interface ItemsMCA {
 
     Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), new Book("infection")
             .setBackground(new Identifier("mca:textures/gui/books/infection.png"))
+            .addSimplePages(6)));
+
+    Item BOOK_BLUEPRINT = register("book_blueprint", new ExtendedWrittenBookItem(baseProps(), new Book("blueprint")
+            .setBackground(new Identifier("mca:textures/gui/books/blueprint.png"))
+            .setTextFormatting(Formatting.WHITE)
             .addSimplePages(6)));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
