@@ -6,7 +6,7 @@
     "answers": [
       {
         "name": "",
-        "chance": 0.3,
+        "chance": 0.4,
         "chanceRandom": 1.0,
         "bonusChance": 0.5,
         "bonusChanceMinHearts": 40,

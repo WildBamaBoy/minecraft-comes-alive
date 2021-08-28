@@ -1,17 +1,17 @@
 [
   {
-    "id": "story_short",
+    "id": "story",
     "group": "story",
     "auto": true,
     "answers": [
       {
         "name": "",
-        "chance": 0.5,
+        "chance": 0.65,
         "chanceRandom": 1.0,
         "hearts": 7,
         "conditions": [
           {
-            "chance": 0.25,
+            "chance": 0.4,
             "hearts": 0,
             "personality": "curious"
           },
@@ -26,7 +26,7 @@
             "personality": "friendly"
           },
           {
-            "chance": 0.2,
+            "chance": 0.3,
             "hearts": 1,
             "mood": "interested"
           },
@@ -38,12 +38,12 @@
         ],
         "next": [
           {
-            "id": "story_short.fail",
+            "id": "story.fail",
             "threshold": 0.0,
             "fail": true
           },
           {
-            "id": "story_short.success",
+            "id": "story.success",
             "threshold": 1.0,
             "success": true
           }

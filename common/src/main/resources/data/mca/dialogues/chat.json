@@ -1,17 +1,17 @@
 [
   {
-    "id": "chat_short",
+    "id": "chat",
     "group": "chat",
     "auto": true,
     "answers": [
       {
         "name": "",
-        "chance": 0.7,
+        "chance": 0.75,
         "chanceRandom": 1.0,
         "hearts": 4,
         "conditions": [
           {
-            "chance": -0.2,
+            "chance": -0.25,
             "hearts": 0,
             "personality": "stubborn"
           },
@@ -26,17 +26,17 @@
             "personality": "flirty"
           },
           {
-            "chance": 0.3,
+            "chance": 0.35,
             "hearts": 0,
             "mood": "bored_to_tears"
           },
           {
-            "chance": 0.2,
+            "chance": 0.25,
             "hearts": 0,
             "mood": "bored"
           },
           {
-            "chance": 0.3,
+            "chance": 0.4,
             "hearts": 0,
             "mood": "talkative"
           },
@@ -48,12 +48,12 @@
         ],
         "next": [
           {
-            "id": "chat_short.fail",
+            "id": "chat.fail",
             "threshold": 0.0,
             "fail": true
           },
           {
-            "id": "chat_short.success",
+            "id": "chat.success",
             "threshold": 1.0,
             "success": true
           }
