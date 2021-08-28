@@ -1,5 +1,7 @@
 package mca.server.world.data;
 
+import mca.advancement.criterion.CriterionMCA;
+import mca.entity.ai.Rank;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
@@ -13,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -68,16 +71,22 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         EntityRelationship.super.onTragedy(cause, burialSite, type);
     }
 
-    public void updateLastSeenVillage(VillageManager manager, PlayerEntity self) {
+    public void updateLastSeenVillage(VillageManager manager, ServerPlayerEntity self) {
         Optional<Village> prevVillage = lastSeenVillage.flatMap(manager::getOrEmpty);
         Optional<Village> nextVillage = OptionalCompat.or(prevVillage
                         .filter(v -> v.isWithinBorder(self))
                 , () -> manager.findNearestVillage(self));
 
         setLastSeenVillage(self, prevVillage.orElse(null), nextVillage.orElse(null));
+
+        // village rank advancement
+        if (nextVillage.isPresent()) {
+            Rank rank = nextVillage.get().getRank(self);
+            CriterionMCA.RANK.trigger(self, rank);
+        }
     }
 
-    public void setLastSeenVillage(PlayerEntity self, Village oldVillage, @Nullable Village newVillage) {
+    public void setLastSeenVillage(ServerPlayerEntity self, Village oldVillage, @Nullable Village newVillage) {
         lastSeenVillage = Optional.ofNullable(newVillage).map(Village::getId);
         markDirty();
 

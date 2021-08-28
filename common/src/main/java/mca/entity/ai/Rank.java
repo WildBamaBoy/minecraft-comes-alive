@@ -45,4 +45,13 @@ public enum Rank {
             return null;
         }
     }
+
+    public static Rank fromName(String name) {
+        for (Rank r : VALUES) {
+            if (r.name().equals(name.toUpperCase())) {
+                return r;
+            }
+        }
+        return PEASANT;
+    }
 }

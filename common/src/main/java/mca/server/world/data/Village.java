@@ -13,13 +13,11 @@ import mca.util.NbtHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
-import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -31,7 +29,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -250,27 +247,6 @@ public class Village implements Iterable<Building> {
 
     public boolean hasStoredResource() {
         return storageBuffer.size() > 0;
-    }
-
-    /**
-     * returns an inventory at a given position
-     *
-     * @see HopperBlockEntity#getInventoryAt
-     */
-    @Nullable
-    private Inventory getInventoryAt(ServerWorld world, BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos);
-        Block block = blockState.getBlock();
-        if (block.hasBlockEntity() && block instanceof ChestBlock) {
-            BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof Inventory) {
-                Inventory inventory = (Inventory)tileentity;
-                if (inventory instanceof ChestBlockEntity) {
-                    return ChestBlock.getInventory((ChestBlock)block, blockState, world, pos, true);
-                }
-            }
-        }
-        return null;
     }
 
     public void tick(ServerWorld world, long time) {

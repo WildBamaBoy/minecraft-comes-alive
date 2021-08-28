@@ -393,6 +393,15 @@
   "advancement.mca.staff_of_life": "Staff of Life",
   "advancement.mca.staff_of_life.description": "Use the staff of life to revive a fallen comrade",
 
+  "advancement.mca.noble": "Noble",
+  "advancement.mca.noble.description": "Get the Noble rank.",
+
+  "advancement.mca.mayor": "Mayor",
+  "advancement.mca.mayor.description": "Get promoted to the Mayor.",
+
+  "advancement.mca.king": "King",
+  "advancement.mca.king.description": "Become a King.",
+
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",
   "notify.revival.disabled": "Revivals have been disabled by the server administrator.",

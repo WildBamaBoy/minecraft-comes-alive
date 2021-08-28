@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.mayor"
+    },
+    "description": {
+      "translate": "advancement.mca.mayor.description"
+    },
+    "icon": {
+      "item": "minecraft:diamond_helmet"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:noble",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:rank",
+      "conditions": {
+        "rank": "mayor"
+      }
+    }
+  }
+}

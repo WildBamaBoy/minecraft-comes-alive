@@ -26,7 +26,7 @@ public class FamilyCriterion extends AbstractCriterion<FamilyCriterion.Condition
 
     @Override
     public Conditions conditionsFromJson(JsonObject json, Extended player, AdvancementEntityPredicateDeserializer deserializer) {
-        // quite limited but I do not assume any more use cases
+        // quite limited, but I do not assume any more use cases
         NumberRange.IntRange c = NumberRange.IntRange.fromJson(json.get("children"));
         NumberRange.IntRange gc = NumberRange.IntRange.fromJson(json.get("grandchildren"));
         return new Conditions(player, c, gc);
