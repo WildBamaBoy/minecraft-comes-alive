@@ -3,7 +3,6 @@ package mca.entity.ai;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -104,17 +103,25 @@ public class Residency {
                     setBuildingId(-1);
                     clearHome();
                 } else {
-                    //fetch mood and reputation from the village storage
+                    //fetch mood from the village storage
                     int mood = village.popMood((ServerWorld)entity.world);
                     if (mood != 0) {
                         entity.getVillagerBrain().modifyMoodValue(mood);
                     }
 
+                    //fetch hearts
                     entity.world.getPlayers().forEach(player -> {
-                        int rep = village.popReputation(player);
+                        int rep = village.popHearts(player);
                         if (rep != 0) {
                             entity.getVillagerBrain().getMemoriesForPlayer(player).modHearts(rep);
                         }
+                    });
+
+                    //update the reputation
+                    entity.world.getPlayers().forEach(player -> {
+                        //currently, only hearts are considered, maybe additional factors can affect that
+                        int hearts = entity.getVillagerBrain().getMemoriesForPlayer(player).getHearts();
+                        village.setReputation(player, entity, hearts);
                     });
                 }
             }, () -> {

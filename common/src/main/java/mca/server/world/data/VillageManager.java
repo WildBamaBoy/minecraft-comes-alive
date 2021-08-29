@@ -1,7 +1,6 @@
 package mca.server.world.data;
 
 import mca.Config;
-import mca.entity.ai.Messenger;
 import mca.entity.ai.Rank;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
@@ -169,7 +168,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
 
     private void startBountyHunterWave(PlayerEntity player, Village sender) {
         //slightly increase your reputation
-        sender.pushReputation(player, sender.getPopulation());
+        sender.pushHearts(player, sender.getPopulation());
 
         int count = sender.getReputation(player) / 5 + 3;
 

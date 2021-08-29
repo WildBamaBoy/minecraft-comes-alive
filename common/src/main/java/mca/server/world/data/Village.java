@@ -48,7 +48,8 @@ public class Village implements Iterable<Building> {
 
     public final List<ItemStack> storageBuffer = new LinkedList<>();
     private final Map<Integer, Building> buildings = new HashMap<>();
-    private Map<UUID, Integer> unspentReputation = new HashMap<>();
+    private Map<UUID, Integer> unspentHearts = new HashMap<>();
+    private Map<UUID, Map<UUID, Integer>> reputation = new HashMap<>();
     private int unspentMood = 0;
 
     private final BuildingTasks.Tasks tasks = new BuildingTasks.Tasks(this);
@@ -201,19 +202,10 @@ public class Village implements Iterable<Building> {
     }
 
     public int getReputation(PlayerEntity player) {
-        int sum = unspentReputation.getOrDefault(player.getUuid(), 0);
-        int residents = 5; //we slightly favor bigger villages
-        for (Building b : this) {
-            for (UUID v : b) {
-                Entity entity = ((ServerWorld)player.world).getEntity(v);
-                if (entity instanceof VillagerEntityMCA) {
-                    VillagerEntityMCA villager = (VillagerEntityMCA)entity;
-                    sum += villager.getVillagerBrain().getMemoriesForPlayer(player).getHearts();
-                    residents++;
-                }
-            }
-        }
-        return sum / residents;
+        int hearts = reputation.getOrDefault(player.getUuid(), Collections.emptyMap()).values().stream().mapToInt(i -> i).sum()
+                + unspentHearts.getOrDefault(player.getUuid(), 0);
+        int residents = getPopulation() + 5; //we slightly favor bigger villages
+        return hearts / residents;
     }
 
     public Rank getRank(PlayerEntity player) {
@@ -260,7 +252,6 @@ public class Village implements Iterable<Building> {
             int emeraldValue = 100;
             int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
             int moodImpact = 0;
-            int heartsImpact = 0;
 
             Text msg;
             float r = MathHelper.lerp(0.5f, getTaxes() / 100.0f, world.random.nextFloat());
@@ -461,29 +452,34 @@ public class Village implements Iterable<Building> {
         markDirty((ServerWorld)villager.world);
     }
 
-    public void pushReputation(PlayerEntity player, int rep) {
-        unspentReputation.put(player.getUuid(), unspentReputation.getOrDefault(player.getUuid(), 0) + rep);
+    public void setReputation(PlayerEntity player, VillagerEntityMCA villager, int rep) {
+        reputation.computeIfAbsent(player.getUuid(), i -> new HashMap<>()).put(villager.getUuid(), rep);
         markDirty((ServerWorld)player.world);
     }
 
-    public int popReputation(PlayerEntity player) {
-        int v = unspentReputation.getOrDefault(player.getUuid(), 0);
+    public void pushHearts(PlayerEntity player, int rep) {
+        unspentHearts.put(player.getUuid(), unspentHearts.getOrDefault(player.getUuid(), 0) + rep);
+        markDirty((ServerWorld)player.world);
+    }
+
+    public int popHearts(PlayerEntity player) {
+        int v = unspentHearts.getOrDefault(player.getUuid(), 0);
         int step = (int)Math.ceil(Math.abs(((double)v) / getPopulation()));
         if (v > 0) {
             v -= step;
             if (v == 0) {
-                unspentReputation.remove(player.getUuid());
+                unspentHearts.remove(player.getUuid());
             } else {
-                unspentReputation.put(player.getUuid(), v);
+                unspentHearts.put(player.getUuid(), v);
             }
             markDirty((ServerWorld)player.world);
             return step;
         } else if (v < 0) {
             v += step;
             if (v == 0) {
-                unspentReputation.remove(player.getUuid());
+                unspentHearts.remove(player.getUuid());
             } else {
-                unspentReputation.put(player.getUuid(), v);
+                unspentHearts.put(player.getUuid(), v);
             }
             markDirty((ServerWorld)player.world);
             return -step;
@@ -521,7 +517,10 @@ public class Village implements Iterable<Building> {
         v.putInt("centerZ", centerZ);
         v.putInt("size", size);
         v.putInt("taxes", taxes);
-        v.put("unspentReputation", NbtHelper.fromMap(new NbtCompound(), unspentReputation, UUID::toString, NbtInt::of));
+        v.put("unspentHearts", NbtHelper.fromMap(new NbtCompound(), unspentHearts, UUID::toString, NbtInt::of));
+        v.put("reputation", NbtHelper.fromMap(new NbtCompound(), reputation, UUID::toString, i -> {
+            return NbtHelper.fromMap(new NbtCompound(), i, UUID::toString, NbtInt::of);
+        }));
         v.putInt("unspentMood", unspentMood);
         v.putInt("populationThreshold", populationThreshold);
         v.putInt("marriageThreshold", marriageThreshold);
@@ -538,7 +537,10 @@ public class Village implements Iterable<Building> {
         centerZ = v.getInt("centerZ");
         size = v.getInt("size");
         taxes = v.getInt("taxes");
-        unspentReputation = NbtHelper.toMap(v.getCompound("unspentReputation"), UUID::fromString, i -> ((NbtInt)i).intValue());
+        unspentHearts = NbtHelper.toMap(v.getCompound("unspentHearts"), UUID::fromString, i -> ((NbtInt)i).intValue());
+        reputation = NbtHelper.toMap(v.getCompound("reputation"), UUID::fromString, i -> {
+            return NbtHelper.toMap((NbtCompound)i, UUID::fromString, i2 -> ((NbtInt)i2).intValue());
+        });
         unspentMood = v.getInt("unspentMood");
         populationThreshold = v.getInt("populationThreshold");
         marriageThreshold = v.getInt("marriageThreshold");
