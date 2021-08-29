@@ -1,5 +1,8 @@
 package mca.server.world.data;
 
+import mca.Config;
+import mca.entity.ai.Messenger;
+import mca.entity.ai.Rank;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.ReaperSpawner;
@@ -10,15 +13,26 @@ import mca.util.WorldUtils;
 import mca.util.compat.PersistentStateCompat;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.mob.IllagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.SpawnHelper;
 
 public class VillageManager extends PersistentStateCompat implements Iterable<Village> {
 
@@ -115,7 +129,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
     }
 
     /**
-     * Updates all of the villages in the world.
+     * Updates all the villages in the world.
      */
     public void tick() {
         //keep track of where player are currently
@@ -124,6 +138,19 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                 PlayerSaveData.get(world, player.getUuid()).updateLastSeenVillage(this, player);
             });
         }
+
+        //send bounty hunters
+        if (world.getTimeOfDay() % Config.getInstance().bountyHunterInterval / 10 == 0 && world.getDifficulty() != Difficulty.PEACEFUL) {
+            world.getPlayers().forEach(player -> {
+                if (world.random.nextInt(10) == 0 && !PlayerSaveData.get(world, player.getUuid()).getLastSeenVillage(this).isPresent()) {
+                    villages.values().stream()
+                            .filter(v -> v.getReputation(player) < Rank.PEASANT.getReputation())
+                            .min(Comparator.comparingInt(v -> v.getReputation(player)))
+                            .ifPresent(buildings -> startBountyHunterWave(player, buildings));
+                }
+            });
+        }
+
 
         long time = world.getTime();
 
@@ -138,6 +165,44 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
 
         reapers.tick(world);
         SpawnQueue.getInstance().tick();
+    }
+
+    private void startBountyHunterWave(PlayerEntity player, Village sender) {
+        //slightly increase your reputation
+        sender.pushReputation(player, sender.getPopulation());
+
+        int count = sender.getReputation(player) / 5 + 3;
+
+        //spawn the bois
+        for (int c = 0; c < count; c++) {
+            if (world.random.nextBoolean()) {
+                spawnBountyHunger(EntityType.PILLAGER, player);
+            } else {
+                spawnBountyHunger(EntityType.VINDICATOR, player);
+            }
+        }
+
+        //warn the player
+        player.sendMessage(new TranslatableText("events.bountyHunters", sender.getName()).formatted(Formatting.RED), false);
+    }
+
+    private <T extends IllagerEntity> void spawnBountyHunger(EntityType<T> t, PlayerEntity player) {
+        IllagerEntity pillager = t.create(world);
+        if (pillager != null) {
+            for (int attempt = 0; attempt < 32; attempt++) {
+                float f = this.world.random.nextFloat() * 6.2831855F;
+                int x = (int)(player.getX() + MathHelper.cos(f) * 32.0f);
+                int z = (int)(player.getZ() + MathHelper.sin(f) * 32.0f);
+                int y = world.getTopY(Heightmap.Type.WORLD_SURFACE, x, z);
+                BlockPos pos = new BlockPos(x, y, z);
+                if (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, pos, t)) {
+                    pillager.setPosition(x, y, z);
+                    pillager.setTarget(player);
+                    WorldUtils.spawnEntity(world, pillager, SpawnReason.EVENT);
+                    break;
+                }
+            }
+        }
     }
 
     //adds a potential block to the processing queue

@@ -72,7 +72,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     }
 
     public void updateLastSeenVillage(VillageManager manager, ServerPlayerEntity self) {
-        Optional<Village> prevVillage = lastSeenVillage.flatMap(manager::getOrEmpty);
+        Optional<Village> prevVillage = getLastSeenVillage(manager);
         Optional<Village> nextVillage = OptionalCompat.or(prevVillage
                         .filter(v -> v.isWithinBorder(self))
                 , () -> manager.findNearestVillage(self));
@@ -98,6 +98,10 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
                 onEnter(self, newVillage);
             }
         }
+    }
+
+    public Optional<Village> getLastSeenVillage(VillageManager manager) {
+        return lastSeenVillage.flatMap(manager::getOrEmpty);
     }
 
     protected void onLeave(PlayerEntity self, Village village) {

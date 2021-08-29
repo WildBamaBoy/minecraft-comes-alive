@@ -277,7 +277,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public boolean tryAttack(Entity target) {
-        //villager is peaceful and wont hurt as long as not necessary
+        //villager is peaceful and won't hurt as long as not necessary
         if (mcaBrain.getPersonality() == Personality.PEACEFUL && getHealth() == getMaxHealth()) {
             return false;
         }
@@ -375,10 +375,16 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         damageAmount *= mcaBrain.getPersonality().getWeaknessModifier();
 
         if (!world.isClient) {
+            //scream and loose hearts
             if (source.getAttacker() instanceof PlayerEntity) {
                 sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
+
+                //loose hearts, the weaker the villager, the more it is scared. The first hit might be an accident.
+                int trustIssues = (int)((1.0 - getHealth() / getMaxHealth() * 0.75) * (3.0 + 2.0 * damageAmount));
+                getVillagerBrain().getMemoriesForPlayer((PlayerEntity)source.getAttacker()).modHearts(-trustIssues);
             }
 
+            //infect the villager
             if (source.getSource() instanceof ZombieEntity
                     && getProfession() != ProfessionsMCA.GUARD
                     && Config.getInstance().enableInfection
@@ -501,7 +507,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
         }
 
-        if (this.age % 90 == 0 && mcaBrain.isPanicking()) {
+        if (!world.isClient && this.age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
     }

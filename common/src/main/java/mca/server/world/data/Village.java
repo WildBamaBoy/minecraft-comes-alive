@@ -21,6 +21,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtInt;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -40,14 +41,15 @@ public class Village implements Iterable<Building> {
     private static final int MIN_SIZE = 32;
     private static final int MAX_STORAGE_SIZE = 1024;
 
-    public static Optional<Village> findNearest(Entity entity) {
-        return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
-    }
+    public final static double BORDER_MARGIN = 32.0;
+    public final static double MERGE_MARGIN = 128.0;
 
     private String name = API.getVillagePool().pickVillageName("village");
 
     public final List<ItemStack> storageBuffer = new LinkedList<>();
     private final Map<Integer, Building> buildings = new HashMap<>();
+    private Map<UUID, Integer> unspentReputation = new HashMap<>();
+    private int unspentMood = 0;
 
     private final BuildingTasks.Tasks tasks = new BuildingTasks.Tasks(this);
 
@@ -61,14 +63,15 @@ public class Village implements Iterable<Building> {
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
 
-    public final static double BORDER_MARGIN = 32.0;
-    public final static double MERGE_MARGIN = 128.0;
-
     public Village() {
     }
 
     public Village(int id) {
         this.id = id;
+    }
+
+    public static Optional<Village> findNearest(Entity entity) {
+        return VillageManager.get((ServerWorld)entity.world).findNearestVillage(entity);
     }
 
     public boolean isWithinBorder(Entity entity) {
@@ -198,7 +201,7 @@ public class Village implements Iterable<Building> {
     }
 
     public int getReputation(PlayerEntity player) {
-        int sum = 0;
+        int sum = unspentReputation.getOrDefault(player.getUuid(), 0);
         int residents = 5; //we slightly favor bigger villages
         for (Building b : this) {
             for (UUID v : b) {
@@ -257,6 +260,7 @@ public class Village implements Iterable<Building> {
             int emeraldValue = 100;
             int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
             int moodImpact = 0;
+            int heartsImpact = 0;
 
             Text msg;
             float r = MathHelper.lerp(0.5f, getTaxes() / 100.0f, world.random.nextFloat());
@@ -291,10 +295,7 @@ public class Village implements Iterable<Building> {
             }
 
             if (moodImpact != 0) {
-                //TODO: what about not loaded villagers?
-                for (VillagerEntityMCA villager : getResidents(world)) {
-                    villager.getVillagerBrain().modifyMoodValue(moodImpact);
-                }
+                pushMood(world, moodImpact * getPopulation());
             }
 
             deliverTaxes(world);
@@ -450,6 +451,67 @@ public class Village implements Iterable<Building> {
         });
     }
 
+    private void markDirty(ServerWorld world) {
+        VillageManager.get(world).markDirty();
+    }
+
+    public void addResident(VillagerEntityMCA villager, int buildingId) {
+        lastMoveIn = villager.world.getTime();
+        buildings.get(buildingId).addResident(villager);
+        markDirty((ServerWorld)villager.world);
+    }
+
+    public void pushReputation(PlayerEntity player, int rep) {
+        unspentReputation.put(player.getUuid(), unspentReputation.getOrDefault(player.getUuid(), 0) + rep);
+        markDirty((ServerWorld)player.world);
+    }
+
+    public int popReputation(PlayerEntity player) {
+        int v = unspentReputation.getOrDefault(player.getUuid(), 0);
+        int step = (int)Math.ceil(Math.abs(((double)v) / getPopulation()));
+        if (v > 0) {
+            v -= step;
+            if (v == 0) {
+                unspentReputation.remove(player.getUuid());
+            } else {
+                unspentReputation.put(player.getUuid(), v);
+            }
+            markDirty((ServerWorld)player.world);
+            return step;
+        } else if (v < 0) {
+            v += step;
+            if (v == 0) {
+                unspentReputation.remove(player.getUuid());
+            } else {
+                unspentReputation.put(player.getUuid(), v);
+            }
+            markDirty((ServerWorld)player.world);
+            return -step;
+        } else {
+            return 0;
+        }
+    }
+
+    public void pushMood(ServerWorld world, int m) {
+        unspentMood += m;
+        markDirty(world);
+    }
+
+    public int popMood(ServerWorld world) {
+        int step = (int)Math.ceil(Math.abs(((double)unspentMood) / getPopulation()));
+        if (unspentMood > 0) {
+            unspentMood -= step;
+            markDirty(world);
+            return step;
+        } else if (unspentMood < 0) {
+            unspentMood += step;
+            markDirty(world);
+            return -step;
+        } else {
+            return 0;
+        }
+    }
+
     public NbtCompound save() {
         NbtCompound v = new NbtCompound();
         v.putInt("id", id);
@@ -459,6 +521,8 @@ public class Village implements Iterable<Building> {
         v.putInt("centerZ", centerZ);
         v.putInt("size", size);
         v.putInt("taxes", taxes);
+        v.put("unspentReputation", NbtHelper.fromMap(new NbtCompound(), unspentReputation, UUID::toString, NbtInt::of));
+        v.putInt("unspentMood", unspentMood);
         v.putInt("populationThreshold", populationThreshold);
         v.putInt("marriageThreshold", marriageThreshold);
         tasks.save(v);
@@ -474,6 +538,8 @@ public class Village implements Iterable<Building> {
         centerZ = v.getInt("centerZ");
         size = v.getInt("size");
         taxes = v.getInt("taxes");
+        unspentReputation = NbtHelper.toMap(v.getCompound("unspentReputation"), UUID::fromString, i -> ((NbtInt)i).intValue());
+        unspentMood = v.getInt("unspentMood");
         populationThreshold = v.getInt("populationThreshold");
         marriageThreshold = v.getInt("marriageThreshold");
 
@@ -483,11 +549,5 @@ public class Village implements Iterable<Building> {
             buildings.put(building.getId(), building);
         }
         tasks.load(v);
-    }
-
-    public void addResident(VillagerEntityMCA villager, int buildingId) {
-        lastMoveIn = villager.world.getTime();
-        buildings.get(buildingId).addResident(villager);
-        VillageManager.get((ServerWorld)villager.world).markDirty();
     }
 }

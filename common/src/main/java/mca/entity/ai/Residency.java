@@ -3,6 +3,7 @@ package mca.entity.ai;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -96,11 +97,25 @@ public class Residency {
             }
         }
 
-        if (entity.age % 6000 == 0) {
+        //check if his village and building still exists
+        if (entity.age % 1200 == 0) {
             OptionalCompat.ifPresentOrElse(getHomeVillage(), village -> {
                 if (!village.getBuilding(entity.getTrackedValue(BUILDING)).filter(building -> building.hasResident(entity.getUuid())).isPresent()) {
                     setBuildingId(-1);
                     clearHome();
+                } else {
+                    //fetch mood and reputation from the village storage
+                    int mood = village.popMood((ServerWorld)entity.world);
+                    if (mood != 0) {
+                        entity.getVillagerBrain().modifyMoodValue(mood);
+                    }
+
+                    entity.world.getPlayers().forEach(player -> {
+                        int rep = village.popReputation(player);
+                        if (rep != 0) {
+                            entity.getVillagerBrain().getMemoriesForPlayer(player).modHearts(rep);
+                        }
+                    });
                 }
             }, () -> {
                 setBuildingId(-1);

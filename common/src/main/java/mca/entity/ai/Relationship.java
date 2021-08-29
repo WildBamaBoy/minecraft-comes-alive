@@ -149,6 +149,11 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_TRAGEDY);
         entity.getVillagerBrain().modifyMoodValue(-moodAffect);
 
+        // seen murder
+        if (cause.getAttacker() instanceof PlayerEntity) {
+            entity.getVillagerBrain().getMemoriesForPlayer((PlayerEntity)cause.getAttacker()).modHearts(-10);
+        }
+
         if (burialSite != null && type != RelationshipType.STRANGER) {
             entity.getBrain().doExclusively(ActivityMCA.GRIEVE);
             entity.getBrain().remember(MemoryModuleType.WALK_TARGET, new WalkTarget(burialSite, 1, 1));

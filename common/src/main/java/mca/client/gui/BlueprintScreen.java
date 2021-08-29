@@ -114,7 +114,7 @@ public class BlueprintScreen extends Screen {
     @Override
     public void init() {
         NetworkHandler.sendToServer(new GetVillageRequest());
-        setPage("map");
+        setPage("empty");
     }
 
     private void setPage(String page) {
@@ -131,17 +131,20 @@ public class BlueprintScreen extends Screen {
         //page selection
         int bx = width / 2 - 180;
         int by = height / 2 - 56;
-        for (String p : new String[] {"map", "rank", "catalog", "villagers", "rules", "close"}) {
-            ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
-            addButton(widget);
-            if (page.equals(p)) {
-                widget.active = false;
+        if (!page.equals("empty")) {
+            for (String p : new String[] {"map", "rank", "catalog", "villagers", "rules", "close"}) {
+                ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
+                addButton(widget);
+                if (page.equals(p)) {
+                    widget.active = false;
+                }
+                by += 22;
             }
-            by += 22;
         }
 
         switch (page) {
             case "map":
+            case "empty":
                 //add building
                 bx = width / 2 + 180 - 64 - 16;
                 by = height / 2 - 56 + 22 * 3;
@@ -216,14 +219,12 @@ public class BlueprintScreen extends Screen {
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
-        if (village == null) {
-            return;
-        }
-
         this.mouseX = (int)(client.mouse.getX() * width / client.getWindow().getFramebufferWidth());
         this.mouseY = (int)(client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
 
         switch (page) {
+            case "empty":
+                break;
             case "map":
                 renderName(transform);
                 renderMap(transform);
@@ -479,6 +480,10 @@ public class BlueprintScreen extends Screen {
 
     public void setVillage(Village village) {
         this.village = village;
+
+        if (page.equals("empty")) {
+            setPage("map");
+        }
     }
 
     public void setReputation(int reputation) {

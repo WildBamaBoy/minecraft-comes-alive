@@ -41,4 +41,5 @@ public final class Config implements Serializable {
     public int childInitialHearts = 100;
     public int immigrantChance = 20;
     public double giftSatisfactionFactor = 0.25;
+    public int bountyHunterInterval = 24000;
 }
