@@ -1,5 +1,6 @@
 package mca.client.gui;
 
+import java.text.Normalizer;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.Rank;
@@ -114,7 +115,7 @@ public class BlueprintScreen extends Screen {
     @Override
     public void init() {
         NetworkHandler.sendToServer(new GetVillageRequest());
-        setPage("empty");
+        setPage("waiting");
     }
 
     private void setPage(String page) {
@@ -131,7 +132,7 @@ public class BlueprintScreen extends Screen {
         //page selection
         int bx = width / 2 - 180;
         int by = height / 2 - 56;
-        if (!page.equals("empty")) {
+        if (!page.equals("empty") && !page.equals("waiting")) {
             for (String p : new String[] {"map", "rank", "catalog", "villagers", "rules", "close"}) {
                 ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
                 addButton(widget);
@@ -144,7 +145,6 @@ public class BlueprintScreen extends Screen {
 
         switch (page) {
             case "map":
-            case "empty":
                 //add building
                 bx = width / 2 + 180 - 64 - 16;
                 by = height / 2 - 56 + 22 * 3;
@@ -223,7 +223,11 @@ public class BlueprintScreen extends Screen {
         this.mouseY = (int)(client.mouse.getY() * height / client.getWindow().getFramebufferHeight());
 
         switch (page) {
+            case "waiting":
+                drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.waiting"), width / 2, height / 2, 0xffaaaaaa);
+                break;
             case "empty":
+                drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.empty"), width / 2, height / 2, 0xffaaaaaa);
                 break;
             case "map":
                 renderName(transform);
@@ -480,8 +484,9 @@ public class BlueprintScreen extends Screen {
 
     public void setVillage(Village village) {
         this.village = village;
-
-        if (page.equals("empty")) {
+        if (village == null) {
+            setPage("empty");
+        } else if (page.equals("waiting")) {
             setPage("map");
         }
     }

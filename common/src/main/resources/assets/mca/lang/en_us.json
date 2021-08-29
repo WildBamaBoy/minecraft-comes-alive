@@ -199,6 +199,8 @@
   "gui.blueprint.addBuilding": "Add Building",
   "gui.blueprint.removeBuilding": "Remove Building",
   "gui.blueprint.buildingTypes": "Select a building to see its requirements. Once you built something, enter it and hit \"Add Building\" from the map page.",
+  "gui.blueprint.empty": "There is no village! Build a house and wait for a villager to accept it!",
+  "gui.blueprint.waiting": "loading...",
 
   "gui.village.left": "Now leaving %s",
   "gui.village.welcome": "Welcome to %s!",
@@ -342,6 +344,7 @@
   "gene.skin": "Skin",
   "gene.face": "Face",
   "gene.tooltip": "%s: %d%%",
+
   "events.marry": "%1$s and %2$s are now married!",
   "events.baby": "%1$s and %2$s have born a baby!",
   "events.bountyHunters": "%1$s sent bounty hunters after you!",

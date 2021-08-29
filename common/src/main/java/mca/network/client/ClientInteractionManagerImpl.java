@@ -85,6 +85,15 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     }
 
     @Override
+    public void handleVillageDataFailedResponse(GetVillageFailedResponse message) {
+        Screen screen = client.currentScreen;
+        if (screen instanceof BlueprintScreen) {
+            BlueprintScreen gui = (BlueprintScreen)screen;
+            gui.setVillage(null);
+        }
+    }
+
+    @Override
     public void handleVillagerDataResponse(GetVillagerResponse message) {
         Screen screen =client.currentScreen;
         if (screen instanceof WhistleScreen) {

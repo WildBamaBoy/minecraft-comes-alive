@@ -11,6 +11,8 @@ public interface ClientInteractionManager {
 
     void handleVillageDataResponse(GetVillageResponse message);
 
+    void handleVillageDataFailedResponse(GetVillageFailedResponse message);
+
     void handleVillagerDataResponse(GetVillagerResponse message);
 
     void handleDialogueResponse(InteractionDialogueResponse message);

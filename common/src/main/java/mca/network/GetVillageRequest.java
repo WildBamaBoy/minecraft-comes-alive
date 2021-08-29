@@ -1,7 +1,9 @@
 package mca.network;
 
+import java.util.Optional;
 import mca.cobalt.network.Message;
 import mca.cobalt.network.NetworkHandler;
+import mca.network.client.GetVillageFailedResponse;
 import mca.network.client.GetVillageResponse;
 import mca.server.world.data.Village;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,11 +14,16 @@ public class GetVillageRequest implements Message {
 
     @Override
     public void receive(PlayerEntity player) {
-        Village.findNearest(player).ifPresent(village -> {
-            int reputation = village.getReputation(player);
+        Optional<Village> village = Village.findNearest(player);
+        if (village.isPresent()) {
+            int reputation = village.get().getReputation(player);
             if (player instanceof ServerPlayerEntity) {
-                NetworkHandler.sendToPlayer(new GetVillageResponse(village, reputation), (ServerPlayerEntity)player);
+                NetworkHandler.sendToPlayer(new GetVillageResponse(village.get(), reputation), (ServerPlayerEntity)player);
             }
-        });
+        } else {
+            if (player instanceof ServerPlayerEntity) {
+                NetworkHandler.sendToPlayer(new GetVillageFailedResponse(), (ServerPlayerEntity)player);
+            }
+        }
     }
 }
