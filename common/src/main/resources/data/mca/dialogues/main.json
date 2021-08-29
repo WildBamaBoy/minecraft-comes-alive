@@ -4,6 +4,7 @@
     "answers": [
       {
         "name": "greet",
+        "constraints": "!baby",
         "next": [
           {
             "id": "greet"
