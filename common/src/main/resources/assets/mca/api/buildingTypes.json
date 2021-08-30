@@ -25,7 +25,7 @@
     "visible": false,
     "priority": 1,
     "blocks": {
-      "bed": 1
+      "minecraft:beds": 1
     }
   },
   {
@@ -35,7 +35,7 @@
     "visible": true,
     "priority": 3,
     "blocks": {
-      "bed": 4
+      "minecraft:beds": 4
     },
     "iconU": 4,
     "iconV": 1
@@ -49,7 +49,7 @@
     "blocks": {
       "minecraft:grindstone": 1,
       "minecraft:blast_furnace": 2,
-      "mca:anvil": 1
+      "minecraft:anvil": 1
     },
     "iconU": 0,
     "iconV": 1
@@ -76,7 +76,7 @@
     "blocks": {
       "minecraft:smithing_table": 1,
       "minecraft:grindstone": 1,
-      "mca:anvil": 1
+      "minecraft:anvil": 1
     },
     "iconU": 3,
     "iconV": 0

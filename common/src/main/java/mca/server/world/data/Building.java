@@ -11,7 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
@@ -34,7 +34,7 @@ public class Building implements Serializable, Iterable<UUID> {
     };
 
     private final Map<UUID, String> residents = new ConcurrentHashMap<>();
-    private final Map<String, Integer> blocks = new ConcurrentHashMap<>();
+    private final Map<Identifier, Integer> blocks = new ConcurrentHashMap<>();
     private final Queue<BlockPos> pois = new ConcurrentLinkedQueue<>();
 
     private String type = "building";
@@ -79,7 +79,7 @@ public class Building implements Serializable, Iterable<UUID> {
         NbtList bl = v.getList("blocks", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < bl.size(); i++) {
             NbtCompound c = bl.getCompound(i);
-            blocks.put(c.getString("name"), c.getInt("count"));
+            blocks.put(new Identifier(c.getString("name")), c.getInt("count"));
         }
 
         NbtList p = v.getList("pois", NbtElementCompat.COMPOUND_TYPE);
@@ -110,7 +110,7 @@ public class Building implements Serializable, Iterable<UUID> {
 
         v.put("blocks", NbtHelper.fromList(blocks.entrySet(), block -> {
             NbtCompound entry = new NbtCompound();
-            entry.putString("name", block.getKey());
+            entry.putString("name", block.getKey().toString());
             entry.putInt("count", block.getValue());
             return entry;
         }));
@@ -132,10 +132,10 @@ public class Building implements Serializable, Iterable<UUID> {
 
     public Optional<BlockPos> findOpenBed(ServerWorld world) {
         return world.getPointOfInterestStorage().getInSquare(
-                PointOfInterestType.HOME.getCompletionCondition(),
-                getCenter(),
-                getPos0().getManhattanDistance(getPos1()),
-                PointOfInterestStorage.OccupationStatus.HAS_SPACE)
+                        PointOfInterestType.HOME.getCompletionCondition(),
+                        getCenter(),
+                        getPos0().getManhattanDistance(getPos1()),
+                        PointOfInterestStorage.OccupationStatus.HAS_SPACE)
                 .filter((poi) -> containsPos(poi.getPos()))
                 .findAny()
                 .map(PointOfInterest::getPos);
@@ -165,7 +165,9 @@ public class Building implements Serializable, Iterable<UUID> {
 
     public void validatePois(World world) {
         //remove all invalid pois
-        List<BlockPos> mask = pois.stream().filter(p -> !getBuildingType().requiresBlock(world.getBlockState(p).getBlock())).collect(Collectors.toList());
+        List<BlockPos> mask = pois.stream()
+                .filter(p -> !getBuildingType().getGroup(world.getBlockState(p).getBlock()).isPresent())
+                .collect(Collectors.toList());
         pois.removeAll(mask);
     }
 
@@ -210,6 +212,7 @@ public class Building implements Serializable, Iterable<UUID> {
 
         //fill the building
         int scanSize = 0;
+        int interiorSize = 0;
         boolean hasDoor = false;
         Map<BlockPos, Boolean> roofCache = new HashMap<>();
         while (!queue.isEmpty() && scanSize < maxSize) {
@@ -251,6 +254,7 @@ public class Building implements Serializable, Iterable<UUID> {
                                 }
                             }
                             if (roofCache.get(n)) {
+                                interiorSize++;
                                 queue.add(n);
                             }
                         } else if (state.getBlock() instanceof DoorBlock) {
@@ -265,12 +269,12 @@ public class Building implements Serializable, Iterable<UUID> {
             scanSize++;
         }
 
-        // min size is 32, which equals a 8 block big cube with 6 times 4 sides
+        // min size is 32, which equals an 8 block big cube with 6 times 4 sides
         if (hasDoor && queue.isEmpty() && done.size() > 32) {
             //fetch all interesting block types
-            Set<String> blockTypes = new HashSet<>();
+            Set<Block> blockTypes = new HashSet<>();
             for (BuildingType bt : API.getVillagePool()) {
-                blockTypes.addAll(bt.blocks().keySet());
+                blockTypes.addAll(bt.getBlockIds());
             }
 
             //dimensions
@@ -292,20 +296,15 @@ public class Building implements Serializable, Iterable<UUID> {
                 //count blocks types
                 BlockState blockState = world.getBlockState(p);
                 Block block = blockState.getBlock();
-                String key = null;
-                if (blockState.isIn(BlockTags.ANVIL)) {
-                    key = "anvil";
-                } else if (block instanceof BedBlock) {
-                    if (blockState.get(BedBlock.PART) == BedPart.HEAD) {
-                        key = "bed";
+                if (blockTypes.contains(block)) {
+                    if (block instanceof BedBlock) {
+                        // TODO look for better solution
+                        if (blockState.get(BedBlock.PART) == BedPart.HEAD) {
+                            increaseBlock(block);
+                        }
+                    } else {
+                        increaseBlock(block);
                     }
-                } else {
-                    //TODO exclude stone blocks, at least in the gui
-                    key = Objects.requireNonNull(Registry.BLOCK.getId(block)).toString();
-                }
-
-                if (blockTypes.contains(key)) {
-                    increaseBlock(key);
                 }
             }
 
@@ -318,20 +317,20 @@ public class Building implements Serializable, Iterable<UUID> {
             pos1Y = ey;
             pos1Z = ez;
 
-            size = done.size();
+            size = interiorSize;
 
             //determine type
             int bestPriority = -1;
             for (BuildingType bt : API.getVillagePool()) {
                 if (bt.priority() > bestPriority && sz >= bt.size()) {
-                    boolean valid = true;
-                    for (Map.Entry<String, Integer> block : bt.blocks().entrySet()) {
-                        if (!blocks.containsKey(block.getKey()) || blocks.get(block.getKey()) < block.getValue()) {
-                            valid = false;
-                            break;
-                        }
+                    //get an overview of the satisfied blocks
+                    //this is necessary as each building may require tag instead of a single id to be satisfied
+                    HashMap<Identifier, Integer> available = new HashMap<>();
+                    for (Map.Entry<Identifier, Integer> entry : blocks.entrySet()) {
+                        bt.getGroup(entry.getKey()).ifPresent(v -> available.put(v, available.getOrDefault(v, 0) + entry.getValue()));
                     }
 
+                    boolean valid = bt.blockIds().entrySet().stream().noneMatch(e -> available.getOrDefault(e.getKey(), 0) < e.getValue());
                     if (valid) {
                         bestPriority = bt.priority();
                         type = bt.name();
@@ -371,23 +370,13 @@ public class Building implements Serializable, Iterable<UUID> {
         return residents.containsKey(id);
     }
 
-    public Map<String, Integer> getBlocks() {
+    public Map<Identifier, Integer> getBlocks() {
         return blocks;
     }
 
-    public void increaseBlock(String key) {
+    public void increaseBlock(Block block) {
+        Identifier key = Registry.BLOCK.getId(block);
         blocks.put(key, blocks.getOrDefault(key, 0) + 1);
-    }
-
-    public void decreaseBlock(String key) {
-        if (blocks.containsKey(key)) {
-            int c = blocks.get(key);
-            if (c <= 1) {
-                blocks.remove(key);
-            } else {
-                blocks.put(key, c - 1);
-            }
-        }
     }
 
     public int getId() {
@@ -413,7 +402,7 @@ public class Building implements Serializable, Iterable<UUID> {
     }
 
     public int getBeds() {
-        return blocks.getOrDefault("bed", 0);
+        return blocks.getOrDefault(new Identifier("minecraft:beds"), 0);
     }
 
     public int getSize() {

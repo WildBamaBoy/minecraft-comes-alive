@@ -160,6 +160,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         //process a single building
         if (time % buildingCooldown == 0 && !buildingQueue.isEmpty()) {
             processBuilding(buildingQueue.remove(0));
+            System.out.println(buildingQueue.size());
         }
 
         reapers.tick(world);
@@ -216,14 +217,14 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
     public void processBuilding(BlockPos pos) {
         Village village = null;
 
-        //find closest village
+        //find the closest village
         Optional<Village> closestVillage = findNearestVillage(pos, Village.MERGE_MARGIN);
 
         //check if this might be a grouped building
         BuildingType isGrouped = null;
         Block block = world.getBlockState(pos).getBlock();
         for (BuildingType bt : API.getVillagePool()) {
-            if (bt.grouped() && bt.requiresBlock(block)) {
+            if (bt.grouped() && bt.getGroup(block).isPresent()) {
                 isGrouped = bt;
                 break;
             }

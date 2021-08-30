@@ -171,6 +171,7 @@
   "buildingType.townCenter": "Town Center",
   "buildingType.musicStore": "Music Store",
   "buildingType.library": "Library",
+  "buildingType.inn": "Inn",
 
   "task.reputation": "Reach %1$s total hearts",
   "task.buildBigHouse": "Build a bigger house",

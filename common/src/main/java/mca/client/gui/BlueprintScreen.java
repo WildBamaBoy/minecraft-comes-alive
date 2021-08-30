@@ -1,6 +1,5 @@
 package mca.client.gui;
 
-import java.text.Normalizer;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.Rank;
@@ -14,17 +13,12 @@ import mca.server.world.data.BuildingTasks;
 import mca.server.world.data.Village;
 import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -37,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import net.minecraft.util.registry.Registry;
 
 public class BlueprintScreen extends Screen {
     //gui element Y positions
@@ -347,7 +342,7 @@ public class BlueprintScreen extends Screen {
             }
 
             //present blocks
-            for (Map.Entry<String, Integer> block : hoverBuilding.getBlocks().entrySet()) {
+            for (Map.Entry<Identifier, Integer> block : hoverBuilding.getBlocks().entrySet()) {
                 lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())));
             }
 
@@ -408,7 +403,7 @@ public class BlueprintScreen extends Screen {
             textRenderer.drawWithShadow(transform, size, x, y + 20, 0xffdddddd);
 
             //required blocks
-            for (Map.Entry<String, Integer> b : selectedBuilding.blocks().entrySet()) {
+            for (Map.Entry<Identifier, Integer> b : selectedBuilding.blockIds().entrySet()) {
                 textRenderer.drawWithShadow(transform, new LiteralText(b.getValue() + " x ").append(getBlockName(b.getKey())), x, y + 32, 0xffffffff);
                 y += 10;
             }
@@ -461,14 +456,12 @@ public class BlueprintScreen extends Screen {
         }
     }
 
-    private Text getBlockName(String key) {
-        //dis some hacking, no time to fix tho
-        // TODO: This needs to be fixed on the backend
-        if ("bed".equals(key)) {
-            return Blocks.RED_BED.getName();
+    private Text getBlockName(Identifier id) {
+        if (Registry.BLOCK.containsId(id)) {
+            return new TranslatableText(Registry.BLOCK.get(id).getTranslationKey());
+        } else {
+            return new TranslatableText("tag." + id.toString());
         }
-        Identifier id = new Identifier(key);
-        return new TranslatableText("block." + id.getNamespace() + "." + id.getPath().replace('/', '.'));
     }
 
     private void toggleButtons(ButtonWidget[] buttons, boolean active) {
