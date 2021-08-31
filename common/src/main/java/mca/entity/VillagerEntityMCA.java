@@ -631,6 +631,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (!relations.onDeath(cause)) {
             relations.onTragedy(cause, null);
         }
+
+        residency.leaveHome();
     }
 
     @Override

@@ -1,8 +1,12 @@
 package mca.client.gui;
 
+import java.util.Comparator;
 import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
+import mca.network.GetFamilyTreeRequest;
 import mca.resources.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
@@ -16,6 +20,7 @@ import mca.resources.data.tasks.Task;
 import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
@@ -48,10 +53,13 @@ public class BlueprintScreen extends Screen {
     private ButtonWidget[] buttonTaxes;
     private ButtonWidget[] buttonBirths;
     private ButtonWidget[] buttonMarriage;
+    private ButtonWidget buttonPage;
+    private int pageNumber = 0;
     private final List<ButtonWidget> catalogButtons = new LinkedList<>();
 
     private static final Identifier ICON_TEXTURES = new Identifier("mca:textures/buildings.png");
     private BuildingType selectedBuilding;
+    private UUID selectedVillager;
 
     private int mouseX;
     private int mouseY;
@@ -185,6 +193,18 @@ public class BlueprintScreen extends Screen {
                 }
                 break;
             case "villagers":
+                addButton(new ButtonWidget(width / 2 - 24 - 20, height / 2 + 54, 20, 20, new LiteralText("<"), (b) -> {
+                    if (pageNumber > 0) {
+                        pageNumber--;
+                    }
+                }));
+                addButton(new ButtonWidget(width / 2 + 24, height / 2 + 54, 20, 20, new LiteralText(">"), (b) -> {
+                    if (pageNumber < Math.ceil(village.getPopulation() / 9.0) - 1) {
+                        pageNumber++;
+                    }
+                }));
+                buttonPage = addButton(new ButtonWidget(width / 2 - 24, height / 2 + 54, 48, 20, new LiteralText("0/0)"), (b) -> {
+                }));
                 break;
             case "rules":
                 //taxes
@@ -231,7 +251,6 @@ public class BlueprintScreen extends Screen {
                 renderStats(transform);
                 break;
             case "rank":
-                renderName(transform);
                 renderTasks(transform);
                 renderStats(transform);
                 break;
@@ -412,7 +431,28 @@ public class BlueprintScreen extends Screen {
     }
 
     private void renderVillagers(MatrixStack transform) {
+        int maxPages = (int)Math.ceil(village.getPopulation() / 9.0);
+        buttonPage.setMessage(new LiteralText((pageNumber + 1) + "/" + maxPages));
 
+        List<Map.Entry<UUID, String>> villager = village.getBuildings().values().stream()
+                .flatMap(b -> b.getResidents().entrySet().stream())
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toList());
+
+        selectedVillager = null;
+        for (int i = 0; i < 9; i++) {
+            int index = i + pageNumber * 9;
+            if (index < villager.size()) {
+                int y = height / 2 - 51 + i * 11;
+                boolean hover = isMouseWithin(width / 2 - 50, y - 1, 100, 11);
+                drawCenteredText(transform, textRenderer, new LiteralText(villager.get(index).getValue()), width / 2, y, hover ? 0xFFD7D784 : 0xFFFFFFFF);
+                if (hover) {
+                    selectedVillager = villager.get(index).getKey();
+                }
+            } else {
+                break;
+            }
+        }
     }
 
     private void renderRules(MatrixStack transform) {
@@ -461,6 +501,15 @@ public class BlueprintScreen extends Screen {
             b.active = active;
             b.visible = active;
         }
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (page.equals("villagers") && selectedVillager != null) {
+            MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(selectedVillager));
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     protected boolean isMouseWithin(int x, int y, int w, int h) {

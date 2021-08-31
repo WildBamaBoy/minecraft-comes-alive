@@ -77,6 +77,18 @@ public class Residency {
         return VillageManager.get((ServerWorld)entity.world).getOrEmpty(entity.getTrackedValue(VILLAGE));
     }
 
+    public void leaveHome() {
+        VillageManager villages = VillageManager.get((ServerWorld)entity.world);
+        Optional<Village> village = villages.getOrEmpty(entity.getTrackedValue(VILLAGE));
+        if (village.isPresent()) {
+            Optional<Building> building = village.get().getBuilding(entity.getTrackedValue(BUILDING));
+            if (building.isPresent()) {
+                building.get().getResidents().remove(entity.getUuid());
+                villages.markDirty();
+            }
+        }
+    }
+
     public Optional<GlobalPos> getHome() {
         return entity.getBrain().getOptionalMemory(MemoryModuleType.HOME);
     }
