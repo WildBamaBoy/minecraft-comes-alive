@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 
 public class Village implements Iterable<Building> {
 
-    private static final int MOVE_IN_COOLDOWN = 6000;
+    private static final int MOVE_IN_COOLDOWN = 60;
     private static final int MIN_SIZE = 32;
     private static final int MAX_STORAGE_SIZE = 1024;
 
@@ -229,11 +229,16 @@ public class Village implements Iterable<Building> {
         return storageBuffer.size() > 0;
     }
 
+    public boolean hasBuilding(String building) {
+        return buildings.values().stream().anyMatch(b -> b.getType().equals(building));
+    }
+
     public void tick(ServerWorld world, long time) {
         boolean isTaxSeason = time % 24000 == 0;
         boolean isVillageUpdateTime = time % MOVE_IN_COOLDOWN == 0;
 
-        if (isTaxSeason) {
+        // todo taxes are independent from rank? Start taxes at 0 to require at least one user to increase taxes once?
+        if (isTaxSeason && hasBuilding("storage")) {
             int emeraldValue = 100;
             int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
             int moodImpact = 0;
@@ -364,6 +369,10 @@ public class Village implements Iterable<Building> {
                 guards++;
             }
         }
+
+        // todo if not all villagers are loaded undefined behavior can happen
+        // todo what happen about people who are missing in action?
+        // todo what happen if someone marked a bed, but never released it?
 
         // Spawn a new guard if we don't have enough
         if (villagers.size() > 0 && guards < guardCapacity) {

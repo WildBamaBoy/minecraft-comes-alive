@@ -153,7 +153,7 @@
     "name": "graveyard",
     "size": 0,
     "color": "ffff00ff",
-    "visible": false,
+    "visible": true,
     "priority": 0,
     "blocks": {
       "mca:tombstones": 1

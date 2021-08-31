@@ -159,7 +159,6 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         //process a single building
         if (time % buildingCooldown == 0 && !buildingQueue.isEmpty()) {
             processBuilding(buildingQueue.remove(0));
-            System.out.println(buildingQueue.size());
         }
 
         reapers.tick(world);
@@ -175,9 +174,9 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         //spawn the bois
         for (int c = 0; c < count; c++) {
             if (world.random.nextBoolean()) {
-                spawnBountyHunger(EntityType.PILLAGER, player);
+                spawnBountyHunter(EntityType.PILLAGER, player);
             } else {
-                spawnBountyHunger(EntityType.VINDICATOR, player);
+                spawnBountyHunter(EntityType.VINDICATOR, player);
             }
         }
 
@@ -185,7 +184,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         player.sendMessage(new TranslatableText("events.bountyHunters", sender.getName()).formatted(Formatting.RED), false);
     }
 
-    private <T extends IllagerEntity> void spawnBountyHunger(EntityType<T> t, PlayerEntity player) {
+    private <T extends IllagerEntity> void spawnBountyHunter(EntityType<T> t, PlayerEntity player) {
         IllagerEntity pillager = t.create(world);
         if (pillager != null) {
             for (int attempt = 0; attempt < 32; attempt++) {

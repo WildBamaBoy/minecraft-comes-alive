@@ -67,7 +67,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "!outlawed"
+    "constraints": "!outlawed,mayor"
   },
   {
     "identifier": "gui.button.pardon",
@@ -77,7 +77,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "outlawed",
+    "constraints": "outlawed,mayor",
     "hideOnFail": true
   }
 ]

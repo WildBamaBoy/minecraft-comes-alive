@@ -12,7 +12,6 @@ import mca.cobalt.registration.RegistrationImpl;
 import mca.entity.EntitiesMCA;
 import mca.item.BabyItem;
 import mca.item.ItemsMCA;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.resource.ReloadableResourceManager;

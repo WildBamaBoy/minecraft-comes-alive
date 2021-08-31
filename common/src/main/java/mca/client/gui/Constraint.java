@@ -48,16 +48,16 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
     TRADER("trader", (villager, player) -> !ProfessionsMCA.canNotTrade.contains(villager.getVillagerData().getProfession())),
     NOT_TRADER("!trader", (villager, player) -> ProfessionsMCA.canNotTrade.contains(villager.getVillagerData().getProfession())),
 
-    PEASANT("peasant", (villager, player) -> {
-        return player instanceof PlayerEntity && villager instanceof VillagerEntityMCA && ((VillagerEntityMCA)villager).getResidency().getHomeVillage().filter(village -> {
-            return Tasks.getRank(village, (ServerPlayerEntity)player).isAtLeast(Rank.PEASANT);
-        }).isPresent();
-    }),
-    NOT_PEASANT("!peasant", (villager, player) -> {
-        return !(player instanceof PlayerEntity) || !(villager instanceof VillagerEntityMCA) || !((VillagerEntityMCA)villager).getResidency().getHomeVillage().filter(village -> {
-            return !Tasks.getRank(village, (ServerPlayerEntity)player).isAtLeast(Rank.PEASANT);
-        }).isPresent();
-    });
+    PEASANT("peasant", (villager, player) -> isRankAtLeast(villager, player, Rank.PEASANT)),
+    NOT_PEASANT("!peasant", (villager, player) -> !isRankAtLeast(villager, player, Rank.PEASANT)),
+
+    MAYOR("mayor", (villager, player) -> isRankAtLeast(villager, player, Rank.MAYOR)),
+    NOT_MAYOR("!mayor", (villager, player) -> !isRankAtLeast(villager, player, Rank.MAYOR));
+
+    private static boolean isRankAtLeast(VillagerLike<?> villager, Entity player, Rank rank) {
+        return player instanceof PlayerEntity && villager instanceof VillagerEntityMCA && ((VillagerEntityMCA)villager).getResidency().getHomeVillage()
+                .filter(village -> Tasks.getRank(village, (ServerPlayerEntity)player).isAtLeast(rank)).isPresent();
+    }
 
     public static final Map<String, Constraint> REGISTRY = Stream.of(values()).collect(Collectors.toMap(a -> a.id, Function.identity()));
 

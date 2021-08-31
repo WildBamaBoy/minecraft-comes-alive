@@ -40,9 +40,6 @@ public class BlueprintScreen extends Screen {
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
     private final int positionMarriage = 40;
-    private final int rankTaxes = 1;
-    private final int rankBirth = 2;
-    private final int rankMarriage = 3;
     private Village village;
     private int reputation;
     private Rank rank;
@@ -427,8 +424,8 @@ public class BlueprintScreen extends Screen {
 
         //taxes
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.taxes"), width / 2, height / 2 + positionTaxes, 0xffffffff);
-        if (rank.ordinal() < rankTaxes) {
-            drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.taxesNotImplemented"), width / 2, height / 2 + positionTaxes + 15, 0xffffffff);
+        if (rank.isAtLeast(Rank.MERCHANT)) {
+            drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionTaxes + 15, 0xffffffff);
             toggleButtons(buttonTaxes, false);
         } else {
             toggleButtons(buttonTaxes, true);
@@ -436,7 +433,7 @@ public class BlueprintScreen extends Screen {
 
         //births
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.birth"), width / 2, height / 2 + positionBirth, 0xffffffff);
-        if (rank.ordinal() < rankBirth) {
+        if (rank.isAtLeast(Rank.NOBLE)) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionBirth + 15, 0xffffffff);
             toggleButtons(buttonBirths, false);
         } else {
@@ -445,7 +442,7 @@ public class BlueprintScreen extends Screen {
 
         //marriages
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.marriage"), width / 2, height / 2 + positionMarriage, 0xffffffff);
-        if (rank.ordinal() < rankMarriage) {
+        if (rank.isAtLeast(Rank.MAYOR)) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionMarriage + 15, 0xffffffff);
             toggleButtons(buttonMarriage, false);
         } else {

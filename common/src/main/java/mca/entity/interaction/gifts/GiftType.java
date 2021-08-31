@@ -42,7 +42,7 @@ public class GiftType {
                 if (tag != null) {
                     tags.put(tag, satisfaction);
                 } else {
-                    throw new JsonSyntaxException("Unknown item tag '" + identifier + "'");
+                    System.out.println("Unknown item tag '" + identifier + "'");
                 }
             } else {
                 Identifier identifier = new Identifier(string);
