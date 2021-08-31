@@ -1,16 +1,18 @@
 package mca.client.gui;
 
+import java.util.Set;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.ai.Rank;
+import mca.server.world.data.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.world.data.Building;
-import mca.server.world.data.BuildingTasks;
+import mca.server.world.data.Tasks;
 import mca.server.world.data.Village;
+import mca.server.world.data.tasks.Task;
 import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
@@ -43,6 +45,8 @@ public class BlueprintScreen extends Screen {
     private final int rankMarriage = 3;
     private Village village;
     private int reputation;
+    private Rank rank;
+    private Set<String> completedTasks;
     private String page;
     private ButtonWidget[] buttonTaxes;
     private ButtonWidget[] buttonBirths;
@@ -261,7 +265,6 @@ public class BlueprintScreen extends Screen {
         int y = height / 2 - 50;
 
         //rank
-        Rank rank = village.getTasks().getRank(reputation);
         Text rankStr = new TranslatableText("gui.village.rank." + rank.ordinal());
         int rankColor = rank.ordinal() == 0 ? 0xffff0000 : 0xffffff00;
 
@@ -352,25 +355,21 @@ public class BlueprintScreen extends Screen {
     }
 
     private void renderTasks(MatrixStack transform) {
-        int y = height / 2 + 5;
-        int x = width / 2 - 70;
-        Rank rank = village.getTasks().getRank(reputation).promote();
-
         if (rank == null) {
             return;
         }
 
-        //tasks
-        Text str = new TranslatableText("task.reputation", String.valueOf(rank.getReputation()))
-                .formatted(reputation >= rank.getReputation() ? Formatting.STRIKETHROUGH : Formatting.RESET);
-        textRenderer.drawWithShadow(transform, str, x, y, reputation >= rank.getReputation() ? 0xff88ff88 : 0xffff5555);
-        y += 11;
+        int y = height / 2 + 5;
+        int x = width / 2 - 70;
 
-        for (String name : BuildingTasks.NAMES) {
-            boolean completed = village.getTasks().isCompleted(name);
-            Text task = new TranslatableText("task." + name).formatted(completed ? Formatting.STRIKETHROUGH : Formatting.RESET);
-            textRenderer.drawWithShadow(transform, task, x, y, completed ? 0xff88ff88 : 0xffff5555);
-            y += 11;
+        //tasks
+        for (Task task : Tasks.TASKS) {
+            if (task.getRank() == rank.promote()) {
+                boolean completed = completedTasks.contains(task.getId());
+                Text t = task.getTranslatable().formatted(completed ? Formatting.STRIKETHROUGH : Formatting.RESET);
+                textRenderer.drawWithShadow(transform, t, x, y, completed ? 0xff88ff88 : 0xffff5555);
+                y += 11;
+            }
         }
     }
 
@@ -422,8 +421,6 @@ public class BlueprintScreen extends Screen {
     }
 
     private void renderRules(MatrixStack transform) {
-        Rank rank = village.getTasks().getRank(reputation);
-
         buttonTaxes[0].setMessage(new LiteralText(village.getTaxes() + "%"));
         buttonMarriage[0].setMessage(new LiteralText(village.getMarriageThreshold() + "%"));
         buttonBirths[0].setMessage(new LiteralText(village.getPopulationThreshold() + "%"));
@@ -484,7 +481,9 @@ public class BlueprintScreen extends Screen {
         }
     }
 
-    public void setReputation(int reputation) {
+    public void setRank(Rank rank, int reputation, Set<String> completedTasks) {
+        this.rank = rank;
         this.reputation = reputation;
+        this.completedTasks = completedTasks;
     }
 }

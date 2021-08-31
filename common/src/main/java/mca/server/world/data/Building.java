@@ -11,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.ServerTagManagerHolder;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -402,7 +404,12 @@ public class Building implements Serializable, Iterable<UUID> {
     }
 
     public int getBeds() {
-        return blocks.getOrDefault(new Identifier("minecraft:beds"), 0);
+        Tag<Block> tag = ServerTagManagerHolder.getTagManager().getBlocks().getTag(new Identifier("minecraft:beds"));
+        if (tag != null) {
+            return blocks.entrySet().stream().filter(e -> tag.contains(Registry.BLOCK.get(e.getKey()))).mapToInt(Map.Entry::getValue).sum();
+        } else {
+            return 0;
+        }
     }
 
     public int getSize() {

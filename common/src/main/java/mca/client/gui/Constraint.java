@@ -3,11 +3,13 @@ package mca.client.gui;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.ProfessionsMCA;
-import mca.entity.ai.Rank;
+import mca.server.world.data.Rank;
 import mca.entity.ai.Relationship;
 import mca.entity.ai.relationship.AgeState;
+import mca.server.world.data.Tasks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.village.VillagerProfession;
 
 import java.util.ArrayList;
@@ -48,12 +50,12 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
 
     PEASANT("peasant", (villager, player) -> {
         return player instanceof PlayerEntity && villager instanceof VillagerEntityMCA && ((VillagerEntityMCA)villager).getResidency().getHomeVillage().filter(village -> {
-            return village.getRank((PlayerEntity)player).getReputation() >= Rank.PEASANT.getReputation();
+            return Tasks.getRank(village, (ServerPlayerEntity)player).isAtLeast(Rank.PEASANT);
         }).isPresent();
     }),
     NOT_PEASANT("!peasant", (villager, player) -> {
         return !(player instanceof PlayerEntity) || !(villager instanceof VillagerEntityMCA) || !((VillagerEntityMCA)villager).getResidency().getHomeVillage().filter(village -> {
-            return village.getRank((PlayerEntity)player).getReputation() >= Rank.PEASANT.getReputation();
+            return !Tasks.getRank(village, (ServerPlayerEntity)player).isAtLeast(Rank.PEASANT);
         }).isPresent();
     });
 

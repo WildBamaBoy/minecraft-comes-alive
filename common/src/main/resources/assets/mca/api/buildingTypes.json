@@ -55,6 +55,34 @@
     "iconV": 1
   },
   {
+    "name": "inn",
+    "size": 64,
+    "color": "ffffff00",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:beds": 4,
+      "minecraft:jukebox": 1,
+      "minecraft:smoker": 1
+    },
+    "iconU": 5,
+    "iconV": 1
+  },
+  {
+    "name": "prison",
+    "size": 64,
+    "color": "ff888888",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:iron_bars": 8,
+      "minecraft:iron_door": 1,
+      "minecraft:beds": 1
+    },
+    "iconU": 6,
+    "iconV": 1
+  },
+  {
     "name": "storage",
     "size": 16,
     "color": "ff0000ff",

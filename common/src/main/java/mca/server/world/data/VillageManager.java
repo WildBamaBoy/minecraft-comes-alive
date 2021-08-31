@@ -1,7 +1,6 @@
 package mca.server.world.data;
 
 import mca.Config;
-import mca.entity.ai.Rank;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.ReaperSpawner;
@@ -143,7 +142,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
             world.getPlayers().forEach(player -> {
                 if (world.random.nextInt(10) == 0 && !PlayerSaveData.get(world, player.getUuid()).getLastSeenVillage(this).isPresent()) {
                     villages.values().stream()
-                            .filter(v -> v.getReputation(player) < Rank.PEASANT.getReputation())
+                            .filter(v -> v.getReputation(player) < 0)
                             .min(Comparator.comparingInt(v -> v.getReputation(player)))
                             .ifPresent(buildings -> startBountyHunterWave(player, buildings));
                 }

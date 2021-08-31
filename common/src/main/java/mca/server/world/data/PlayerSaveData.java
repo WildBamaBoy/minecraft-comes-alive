@@ -1,7 +1,6 @@
 package mca.server.world.data;
 
 import mca.advancement.criterion.CriterionMCA;
-import mca.entity.ai.Rank;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
@@ -81,7 +80,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
         // village rank advancement
         if (nextVillage.isPresent()) {
-            Rank rank = nextVillage.get().getRank(self);
+            Rank rank = Tasks.getRank(nextVillage.get(), self);
             CriterionMCA.RANK.trigger(self, rank);
         }
     }

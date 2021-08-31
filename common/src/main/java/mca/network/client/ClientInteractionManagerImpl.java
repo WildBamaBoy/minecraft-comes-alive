@@ -80,7 +80,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             village.load(message.getData());
 
             gui.setVillage(village);
-            gui.setReputation(message.reputation);
+            gui.setRank(message.rank, message.reputation, message.ids);
         }
     }
 

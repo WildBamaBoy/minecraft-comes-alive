@@ -172,11 +172,13 @@
   "buildingType.musicStore": "Music Store",
   "buildingType.library": "Library",
   "buildingType.inn": "Inn",
+  "buildingType.prison": "Prison",
+  "buildingType.armory": "Armory",
+  "buildingType.bakery": "Bakery",
 
-  "task.reputation": "Reach %1$s total hearts",
-  "task.buildBigHouse": "Build a bigger house",
-  "task.buildStorage": "Build a storage",
-  "task.buildInn": "Build an inn",
+  "task.reputation": "Reach %1$s average hearts",
+  "task.population": "Reach a population of %1$s",
+  "task.build": "Build one %1$s",
   "task.grimReaper": "Kill the Grim Reaper",
   "task.bePatient": "Work in progress - be patient!",
 

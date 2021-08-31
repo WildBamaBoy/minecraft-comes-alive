@@ -4,7 +4,6 @@ import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.ProfessionsMCA;
-import mca.entity.ai.Rank;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
 import mca.resources.PoolUtil;
@@ -51,8 +50,6 @@ public class Village implements Iterable<Building> {
     private Map<UUID, Integer> unspentHearts = new HashMap<>();
     private Map<UUID, Map<UUID, Integer>> reputation = new HashMap<>();
     private int unspentMood = 0;
-
-    private final BuildingTasks.Tasks tasks = new BuildingTasks.Tasks(this);
 
     public long lastMoveIn;
     private int id;
@@ -111,8 +108,6 @@ public class Village implements Iterable<Building> {
     }
 
     private void calculateDimensions() {
-        tasks.init();
-
         if (buildings.size() == 0) {
             return;
         }
@@ -197,19 +192,11 @@ public class Village implements Iterable<Building> {
         return id;
     }
 
-    public BuildingTasks.Tasks getTasks() {
-        return tasks;
-    }
-
     public int getReputation(PlayerEntity player) {
         int hearts = reputation.getOrDefault(player.getUuid(), Collections.emptyMap()).values().stream().mapToInt(i -> i).sum()
                 + unspentHearts.getOrDefault(player.getUuid(), 0);
         int residents = getPopulation() + 5; //we slightly favor bigger villages
         return hearts / residents;
-    }
-
-    public Rank getRank(PlayerEntity player) {
-        return tasks.getRank(getReputation(player));
     }
 
     public int getPopulation() {
@@ -522,7 +509,6 @@ public class Village implements Iterable<Building> {
         v.putInt("unspentMood", unspentMood);
         v.putInt("populationThreshold", populationThreshold);
         v.putInt("marriageThreshold", marriageThreshold);
-        tasks.save(v);
         v.put("buildings", NbtHelper.fromList(buildings.values(), Building::save));
         return v;
     }
@@ -548,6 +534,5 @@ public class Village implements Iterable<Building> {
             Building building = new Building(b.getCompound(i));
             buildings.put(building.getId(), building);
         }
-        tasks.load(v);
     }
 }
