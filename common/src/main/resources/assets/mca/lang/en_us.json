@@ -412,6 +412,9 @@
   "advancement.mca.king": "King",
   "advancement.mca.king.description": "Become a King.",
 
+  "advancement.mca.bounty_hunter": "Hunted",
+  "advancement.mca.bounty_hunter.description": "Get attacked by bounty hunters.",
+
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",
   "notify.revival.disabled": "Revivals have been disabled by the server administrator.",

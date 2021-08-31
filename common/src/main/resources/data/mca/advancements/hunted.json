@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.bounty_hunter"
+    },
+    "description": {
+      "translate": "advancement.mca.bounty_hunter.description"
+    },
+    "icon": {
+      "item": "minecraft:crossbow"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "mca:root",
+  "criteria": {
+    "iron": {
+      "trigger": "mca:generic_event",
+      "conditions": {
+        "event": "bounty_hunter"
+      }
+    }
+  }
+}

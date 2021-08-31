@@ -1,6 +1,7 @@
 package mca.server.world.data;
 
 import mca.Config;
+import mca.advancement.criterion.CriterionMCA;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.ReaperSpawner;
@@ -18,6 +19,7 @@ import net.minecraft.entity.mob.IllagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -142,7 +144,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
             world.getPlayers().forEach(player -> {
                 if (world.random.nextInt(10) == 0 && !PlayerSaveData.get(world, player.getUuid()).getLastSeenVillage(this).isPresent()) {
                     villages.values().stream()
-                            .filter(v -> v.getReputation(player) < 0)
+                            .filter(v -> v.getReputation(player) < Config.getInstance().bountyHunterThreshold)
                             .min(Comparator.comparingInt(v -> v.getReputation(player)))
                             .ifPresent(buildings -> startBountyHunterWave(player, buildings));
                 }
@@ -165,9 +167,12 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         SpawnQueue.getInstance().tick();
     }
 
-    private void startBountyHunterWave(PlayerEntity player, Village sender) {
+    private void startBountyHunterWave(ServerPlayerEntity player, Village sender) {
         //slightly increase your reputation
         sender.pushHearts(player, sender.getPopulation());
+
+        //trigger advancement
+        CriterionMCA.GENERIC_EVENT_CRITERION.trigger(player, "bounty_hunter");
 
         int count = sender.getReputation(player) / 5 + 3;
 
@@ -184,7 +189,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         player.sendMessage(new TranslatableText("events.bountyHunters", sender.getName()).formatted(Formatting.RED), false);
     }
 
-    private <T extends IllagerEntity> void spawnBountyHunter(EntityType<T> t, PlayerEntity player) {
+    private <T extends IllagerEntity> void spawnBountyHunter(EntityType<T> t, ServerPlayerEntity player) {
         IllagerEntity pillager = t.create(world);
         if (pillager != null) {
             for (int attempt = 0; attempt < 32; attempt++) {
