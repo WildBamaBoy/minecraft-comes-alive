@@ -1,16 +1,23 @@
-package mca.server.world.data.tasks;
+package mca.resources.data.tasks;
 
-import mca.server.world.data.Rank;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.JsonHelper;
 
 public class BuildingTask extends Task {
     private final String type;
 
-    public BuildingTask(Rank rank, String type) {
-        super(rank, type);
+    public BuildingTask(String type) {
+        super(type);
         this.type = type;
+    }
+
+    public BuildingTask(JsonObject json) {
+        this(JsonHelper.getString(json, "building"));
     }
 
     @Override

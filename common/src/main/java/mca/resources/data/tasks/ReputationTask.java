@@ -1,16 +1,22 @@
-package mca.server.world.data.tasks;
+package mca.resources.data.tasks;
 
-import mca.server.world.data.Rank;
+import com.google.gson.JsonObject;
+import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.JsonHelper;
 
 public class ReputationTask extends Task {
     private final int reputation;
 
-    public ReputationTask(Rank rank, int reputation) {
-        super(rank, rank.toString() + reputation);
+    public ReputationTask(int reputation) {
+        super("reputation_" + reputation);
         this.reputation = reputation;
+    }
+
+    public ReputationTask(JsonObject json) {
+        this(JsonHelper.getInt(json, "reputation"));
     }
 
     @Override

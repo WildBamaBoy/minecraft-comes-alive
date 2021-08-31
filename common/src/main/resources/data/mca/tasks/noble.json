@@ -1,0 +1,14 @@
+[
+  {
+    "type": "reputation",
+    "reputation": 40
+  },
+  {
+    "type": "building",
+    "building": "graveyard"
+  },
+  {
+    "type": "building",
+    "building": "inn"
+  }
+]

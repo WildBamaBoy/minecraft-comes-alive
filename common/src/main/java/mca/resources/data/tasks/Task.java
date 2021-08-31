@@ -1,16 +1,21 @@
-package mca.server.world.data.tasks;
+package mca.resources.data.tasks;
 
-import mca.server.world.data.Rank;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.JsonHelper;
 
 public abstract class Task {
-    private final Rank rank;
     private final String id;
 
-    public Task(Rank rank, String id) {
-        this.rank = rank;
+    public Task(JsonObject json) {
+        this(JsonHelper.getString(json, "id"));
+    }
+
+    public Task(String id) {
         this.id = id;
     }
 
@@ -18,10 +23,6 @@ public abstract class Task {
 
     public boolean isRequired() {
         return false;
-    }
-
-    public Rank getRank() {
-        return rank;
     }
 
     public TranslatableText getTranslatable() {

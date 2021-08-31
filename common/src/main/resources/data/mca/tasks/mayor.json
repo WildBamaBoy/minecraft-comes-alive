@@ -1,0 +1,18 @@
+[
+  {
+    "type": "reputation",
+    "reputation": 60
+  },
+  {
+    "type": "population",
+    "population": 20
+  },
+  {
+    "type": "building",
+    "building": "library"
+  },
+  {
+    "type": "building",
+    "building": "armory"
+  }
+]

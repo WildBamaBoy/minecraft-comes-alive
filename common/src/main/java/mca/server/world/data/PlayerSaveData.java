@@ -6,6 +6,8 @@ import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
 import mca.entity.ai.relationship.family.FamilyTree;
 import mca.entity.ai.relationship.family.FamilyTreeNode;
+import mca.resources.Rank;
+import mca.resources.Tasks;
 import mca.util.NbtElementCompat;
 import mca.util.WorldUtils;
 import mca.util.compat.OptionalCompat;

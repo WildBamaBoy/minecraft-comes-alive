@@ -1,0 +1,26 @@
+[
+  {
+    "type": "reputation",
+    "reputation": 80
+  },
+  {
+    "type": "population",
+    "population": 30
+  },
+  {
+    "type": "building",
+    "building": "prison"
+  },
+  {
+    "type": "building",
+    "building": "blacksmith"
+  },
+  {
+    "type": "blocking",
+    "id": "grimReaper"
+  },
+  {
+    "type": "blocking",
+    "id": "bePatient"
+  }
+]

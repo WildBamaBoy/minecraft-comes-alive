@@ -1,4 +1,4 @@
-package mca.server.world.data;
+package mca.resources;
 
 public enum Rank {
     OUTLAW,

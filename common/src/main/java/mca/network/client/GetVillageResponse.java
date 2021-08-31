@@ -2,7 +2,7 @@ package mca.network.client;
 
 import java.util.Set;
 import mca.ClientProxy;
-import mca.server.world.data.Rank;
+import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.entity.player.PlayerEntity;
 

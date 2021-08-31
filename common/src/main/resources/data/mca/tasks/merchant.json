@@ -1,0 +1,14 @@
+[
+  {
+    "type": "reputation",
+    "reputation": 20
+  },
+  {
+    "type": "building",
+    "building": "bigHouse"
+  },
+  {
+    "type": "building",
+    "building": "storage"
+  }
+]

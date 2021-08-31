@@ -3,10 +3,10 @@ package mca.client.gui;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.ProfessionsMCA;
-import mca.server.world.data.Rank;
+import mca.resources.Rank;
 import mca.entity.ai.Relationship;
 import mca.entity.ai.relationship.AgeState;
-import mca.server.world.data.Tasks;
+import mca.resources.Tasks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -51,8 +51,8 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
     PEASANT("peasant", (villager, player) -> isRankAtLeast(villager, player, Rank.PEASANT)),
     NOT_PEASANT("!peasant", (villager, player) -> !isRankAtLeast(villager, player, Rank.PEASANT)),
 
-    MAYOR("mayor", (villager, player) -> isRankAtLeast(villager, player, Rank.MAYOR)),
-    NOT_MAYOR("!mayor", (villager, player) -> !isRankAtLeast(villager, player, Rank.MAYOR));
+    MAYOR("mayor.json", (villager, player) -> isRankAtLeast(villager, player, Rank.MAYOR)),
+    NOT_MAYOR("!mayor.json", (villager, player) -> !isRankAtLeast(villager, player, Rank.MAYOR));
 
     private static boolean isRankAtLeast(VillagerLike<?> villager, Entity player, Rank rank) {
         return player instanceof PlayerEntity && villager instanceof VillagerEntityMCA && ((VillagerEntityMCA)villager).getResidency().getHomeVillage()

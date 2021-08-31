@@ -3,16 +3,16 @@ package mca.client.gui;
 import java.util.Set;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
-import mca.server.world.data.Rank;
+import mca.resources.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.world.data.Building;
-import mca.server.world.data.Tasks;
+import mca.resources.Tasks;
 import mca.server.world.data.Village;
-import mca.server.world.data.tasks.Task;
+import mca.resources.data.tasks.Task;
 import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
@@ -360,13 +360,11 @@ public class BlueprintScreen extends Screen {
         int x = width / 2 - 70;
 
         //tasks
-        for (Task task : Tasks.TASKS) {
-            if (task.getRank() == rank.promote()) {
-                boolean completed = completedTasks.contains(task.getId());
-                Text t = task.getTranslatable().formatted(completed ? Formatting.STRIKETHROUGH : Formatting.RESET);
-                textRenderer.drawWithShadow(transform, t, x, y, completed ? 0xff88ff88 : 0xffff5555);
-                y += 11;
-            }
+        for (Task task : Tasks.getTasks(rank.promote())) {
+            boolean completed = completedTasks.contains(task.getId());
+            Text t = task.getTranslatable().formatted(completed ? Formatting.STRIKETHROUGH : Formatting.RESET);
+            textRenderer.drawWithShadow(transform, t, x, y, completed ? 0xff88ff88 : 0xffff5555);
+            y += 11;
         }
     }
 

@@ -1,12 +1,14 @@
-package mca.server.world.data.tasks;
+package mca.resources.data.tasks;
 
-import mca.server.world.data.Rank;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class BlockingTask extends Task {
-    public BlockingTask(Rank rank, String id) {
-        super(rank, id);
+    public BlockingTask(JsonObject json) {
+        super(json);
     }
 
     @Override

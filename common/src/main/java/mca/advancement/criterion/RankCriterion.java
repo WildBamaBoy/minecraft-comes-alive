@@ -2,7 +2,7 @@ package mca.advancement.criterion;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import mca.server.world.data.Rank;
+import mca.resources.Rank;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
