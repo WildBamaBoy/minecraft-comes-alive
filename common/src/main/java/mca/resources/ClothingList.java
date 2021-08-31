@@ -36,6 +36,7 @@ public class ClothingList extends JsonDataLoader {
 
     @Override
     protected void apply(Map<Identifier, JsonElement> data, ResourceManager manager, Profiler profiler) {
+        clothing.clear();
         data.forEach((id, file) -> {
             Gender gender = Gender.byName(id.getPath().split("\\.")[0]);
 
