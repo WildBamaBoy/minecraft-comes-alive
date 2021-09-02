@@ -1,8 +1,6 @@
 package mca.resources.data.tasks;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;

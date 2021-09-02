@@ -1,12 +1,10 @@
 package mca.client.gui;
 
-import java.util.Comparator;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
-import mca.network.GetFamilyTreeRequest;
 import mca.resources.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
@@ -20,7 +18,6 @@ import mca.resources.data.tasks.Task;
 import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;

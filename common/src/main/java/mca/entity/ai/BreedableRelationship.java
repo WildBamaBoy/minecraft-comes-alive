@@ -8,7 +8,6 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.interaction.gifts.GiftType;
 import mca.entity.interaction.gifts.Response;
 import mca.item.SpecialCaseGift;
-import mca.resources.API;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
