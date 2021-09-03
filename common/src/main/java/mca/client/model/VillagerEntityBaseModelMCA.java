@@ -51,8 +51,8 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
             builder.uv(18, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 6, 3, 3, dilation);
         } else {
             builder
-                .uv(17, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 3, 3, 3, dilation)
-                .uv(22, 21 + oy).cuboid(0.25F, -1.25F, -1.5F, 3, 3, 3, dilation);
+                    .uv(17, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 3, 3, 3, dilation)
+                    .uv(22, 21 + oy).cuboid(0.25F, -1.25F, -1.5F, 3, 3, 3, dilation);
         }
 
         return builder;
@@ -134,16 +134,16 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
         //body
         this.getBodyParts().forEach(a -> a.render(matrices, vertices, light, overlay, red, green, blue, alpha));
 
-        if (breasts.visible) {
+        if (breasts.visible && body.visible) {
             float breastSize = this.breastSize * dimensions.getBreasts();
 
             if (breastSize > 0) {
                 matrices.push();
-                matrices.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + breastSize * 0.1, -0.11D);
+                matrices.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + breastSize * 0.1, -0.075D - breastSize * 0.05);
                 matrices.scale(cloth ? 1.166666f : 1.0f, 1.0f, 0.75f + breastSize * 0.5f);
                 matrices.scale(breastSize * 0.3f + 0.85f, breastSize * 0.75f + 0.75f, breastSize * 0.75f + 0.75f);
                 for (ModelPart part : breastsParts()) {
-                    part.pitch = (float) Math.PI * 0.3f;//TODO this will cause minor distortion
+                    part.pitch = (float)Math.PI * 0.3f;//TODO this matrix order will cause minor distortion
                     part.render(matrices, vertices, light, overlay, red, green, blue, alpha);
                 }
                 matrices.pop();
