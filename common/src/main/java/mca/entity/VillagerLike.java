@@ -186,4 +186,8 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     static VillagerLike<?> toVillager(Entity entity) {
         return entity instanceof VillagerLike<?> ? (VillagerLike<?>)entity : null;
     }
+
+    default boolean isHostile() {
+        return false;
+    }
 }

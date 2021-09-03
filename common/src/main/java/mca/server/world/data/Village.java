@@ -1,6 +1,7 @@
 package mca.server.world.data;
 
 import mca.Config;
+import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.ProfessionsMCA;
@@ -444,6 +445,14 @@ public class Village implements Iterable<Building> {
         lastMoveIn = villager.world.getTime();
         buildings.get(buildingId).addResident(villager);
         markDirty((ServerWorld)villager.world);
+    }
+
+    public EquipmentSet getGuardEquipment() {
+        if (hasBuilding("armors")) {
+            return EquipmentSet.IRON;
+        } else {
+            return EquipmentSet.LEATHER;
+        }
     }
 
     public void setReputation(PlayerEntity player, VillagerEntityMCA villager, int rep) {

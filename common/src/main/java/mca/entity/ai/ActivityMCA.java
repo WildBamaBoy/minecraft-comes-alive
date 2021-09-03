@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import mca.MCA;
 import mca.cobalt.registration.Registration;
 import mca.entity.ai.brain.sensor.ExplodingCreeperSensor;
+import mca.entity.ai.brain.sensor.GuardEnemiesSensor;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
@@ -15,8 +16,10 @@ public interface ActivityMCA {
     Activity GRIEVE = activity("grieve");
 
     SensorType<ExplodingCreeperSensor> EXPLODING_CREEPER = sensor("exploding_creeper", ExplodingCreeperSensor::new);
+    SensorType<GuardEnemiesSensor> GUARD_ENEMIES = sensor("guard_enemies", GuardEnemiesSensor::new);
 
-    static void bootstrap() { }
+    static void bootstrap() {
+    }
 
     static Activity activity(String name) {
         return Registration.ObjectBuilders.Activities.create(new Identifier(MCA.MOD_ID, name));

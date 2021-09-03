@@ -228,6 +228,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     public final void setProfession(VillagerProfession profession) {
         setVillagerData(getVillagerData().withProfession(profession));
+        reinitializeBrain((ServerWorld)world);
     }
 
     public boolean isProfessionImportant() {
@@ -398,9 +399,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         Entity attacker = source != null ? source.getAttacker() : null;
 
         // Notify the surrounding guards when a villager is attacked. Yoinks!
-        if (attacker instanceof LivingEntity) {
+        if (attacker instanceof LivingEntity && !isHostile()) {
             Vec3d pos = getPos();
-            world.getNonSpectatingEntities(VillagerEntityMCA.class, new Box(pos, pos).expand(10)).forEach(v -> {
+            world.getNonSpectatingEntities(VillagerEntityMCA.class, new Box(pos, pos).expand(16)).forEach(v -> {
                 if (v.squaredDistanceTo(v) <= 100 && v.getProfession() == ProfessionsMCA.GUARD) {
                     v.setTarget((LivingEntity)attacker);
                 }
@@ -925,5 +926,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         getTypeDataManager().save(this, nbt);
         relations.writeToNbt(nbt);
         InventoryUtils.saveToNBT(inventory, nbt);
+    }
+
+    @Override
+    public boolean isHostile() {
+        return getProfession() == ProfessionsMCA.OUTLAW;
     }
 }

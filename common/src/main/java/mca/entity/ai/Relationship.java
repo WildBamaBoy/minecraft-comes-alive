@@ -76,12 +76,12 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     @Override
     public Optional<Entity> getSpouse() {
-        return entity.getTrackedValue(SPOUSE_UUID).map(id -> ((ServerWorld) entity.world).getEntity(id));
+        return entity.getTrackedValue(SPOUSE_UUID).map(id -> ((ServerWorld)entity.world).getEntity(id));
     }
 
     @Override
     public FamilyTree getFamilyTree() {
-        return FamilyTree.get((ServerWorld) entity.world);
+        return FamilyTree.get((ServerWorld)entity.world);
     }
 
     @NotNull
@@ -94,14 +94,14 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
     public Stream<Entity> getFamily(int parents, int children) {
         return getFamilyEntry()
                 .getRelatives(parents, children)
-                .map(id -> ((ServerWorld) entity.world).getEntity(id))
+                .map(id -> ((ServerWorld)entity.world).getEntity(id))
                 .filter(Objects::nonNull)
                 .filter(e -> !e.equals(entity));
     }
 
     @Override
     public Stream<Entity> getParents() {
-        return getFamilyEntry().parents().map(((ServerWorld) entity.world)::getEntity).filter(Objects::nonNull);
+        return getFamilyEntry().parents().map(((ServerWorld)entity.world)::getEntity).filter(Objects::nonNull);
     }
 
     @Override
@@ -109,18 +109,18 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         return getFamilyEntry()
                 .siblings()
                 .stream()
-                .map(id -> ((ServerWorld) entity.world).getEntity(id))
+                .map(id -> ((ServerWorld)entity.world).getEntity(id))
                 .filter(Objects::nonNull)
                 .filter(e -> !e.equals(entity)); // we exclude ourselves from the list of siblings
     }
 
     public boolean onDeath(DamageSource cause) {
         getFamilyEntry().setDeceased(true);
-        return GraveyardManager.get((ServerWorld) entity.world).findNearest(entity.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
+        return GraveyardManager.get((ServerWorld)entity.world).findNearest(entity.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
             if (entity.world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
                 BlockEntity be = entity.world.getBlockEntity(pos);
                 if (be instanceof TombstoneBlock.Data) {
-                    ((TombstoneBlock.Data) be).setEntity(entity);
+                    ((TombstoneBlock.Data)be).setEntity(entity);
 
                     onTragedy(cause, pos);
                     return true;
@@ -132,9 +132,11 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite) {
         // The death of a villager negatively modifies the mood of nearby strangers
-        WorldUtils
-                .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
-                .forEach(villager -> villager.getRelationships().onTragedy(cause, burialSite, RelationshipType.STRANGER));
+        if (!entity.isHostile()) {
+            WorldUtils
+                    .getCloseEntities(entity.world, entity, 32, VillagerEntityMCA.class)
+                    .forEach(villager -> villager.getRelationships().onTragedy(cause, burialSite, RelationshipType.STRANGER));
+        }
 
         onTragedy(cause, burialSite, RelationshipType.SELF);
     }
@@ -151,7 +153,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
         // seen murder
         if (cause.getAttacker() instanceof PlayerEntity) {
-            entity.getVillagerBrain().getMemoriesForPlayer((PlayerEntity)cause.getAttacker()).modHearts(-10);
+            entity.getVillagerBrain().getMemoriesForPlayer((PlayerEntity)cause.getAttacker()).modHearts(-20);
         }
 
         if (burialSite != null && type != RelationshipType.STRANGER) {
@@ -226,7 +228,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         }
 
         default BiPredicate<VillagerLike<?>, Entity> asConstraint() {
-            return (villager, player) -> villager instanceof CompassionateEntity<?> && (test((CompassionateEntity<?>) villager, player));
+            return (villager, player) -> villager instanceof CompassionateEntity<?> && (test((CompassionateEntity<?>)villager, player));
         }
     }
 }
