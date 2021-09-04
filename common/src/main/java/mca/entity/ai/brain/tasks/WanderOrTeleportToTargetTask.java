@@ -28,7 +28,7 @@ public class WanderOrTeleportToTargetTask extends WanderAroundTask {
         BlockPos targetPos = walkTarget.getLookTarget().getBlockPos();
 
         if (targetPos.getSquaredDistance(entity.getBlockPos()) > TELEPORT_LIMIT_SQ) {
-            // If the target is more than 10 blocks away, teleport to it immediately.
+            // If the target is more than 100 blocks away, teleport to it immediately.
             // The target location is fuzzed and then adjusted to ensure the entity doesn't land in any walls.
             Vec3d pos = Vec3d.ofBottomCenter(
                     FuzzyPositionsCompat.upWhile(targetPos

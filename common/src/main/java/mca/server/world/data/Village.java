@@ -448,7 +448,7 @@ public class Village implements Iterable<Building> {
     }
 
     public EquipmentSet getGuardEquipment() {
-        if (hasBuilding("armors")) {
+        if (hasBuilding("armory")) {
             return EquipmentSet.IRON;
         } else {
             return EquipmentSet.LEATHER;

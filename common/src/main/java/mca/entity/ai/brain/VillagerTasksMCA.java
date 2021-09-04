@@ -164,7 +164,7 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardCorePackage(VillagerEntityMCA villager) {
         return ImmutableList.of(
-                Pair.of(0, new PrepareForDuty())
+                Pair.of(0, new PrepareForDutyTask())
         );
     }
 
@@ -179,6 +179,7 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardWorkPackage(VillagerEntityMCA villager) {
         return ImmutableList.of(
+                Pair.of(5, new PatrolVillageTask(4, 0.4f)),
                 Pair.of(99, new ScheduleActivityTask())
         );
     }

@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 
-public class PrepareForDuty extends Task<VillagerEntityMCA> {
-    public PrepareForDuty() {
+public class PrepareForDutyTask extends Task<VillagerEntityMCA> {
+    public PrepareForDutyTask() {
         super(Collections.emptyMap());
     }
 
