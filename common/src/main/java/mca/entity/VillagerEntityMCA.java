@@ -44,9 +44,14 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ParticleEffect;
@@ -81,7 +86,7 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship> {
+public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship>, CrossbowUser {
     private static final CDataParameter<Float> INFECTION_PROGRESS = CParameter.create("infectionProgress", MIN_INFECTION);
 
     private static final CDataParameter<Integer> GROWTH_AMOUNT = CParameter.create("growthAmount", AgeState.MAX_AGE);
@@ -232,7 +237,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public boolean isProfessionImportant() {
-        return getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW || getProfession() == ProfessionsMCA.CHILD;
+        return getProfession() == ProfessionsMCA.ARCHER || getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW || getProfession() == ProfessionsMCA.CHILD;
     }
 
     @Override
@@ -931,5 +936,53 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public boolean isHostile() {
         return getProfession() == ProfessionsMCA.OUTLAW;
+    }
+
+    @Override
+    public boolean canUseRangedWeapon(RangedWeaponItem weapon) {
+        return true;
+    }
+
+    @Override
+    public void shoot(LivingEntity arg, float f) {
+        Hand lv = ProjectileUtil.getHandPossiblyHolding(arg, Items.CROSSBOW);
+        ItemStack lv2 = arg.getStackInHand(lv);
+        if (arg.isHolding(Items.CROSSBOW)) {
+            CrossbowItem.shootAll(arg.world, arg, lv, lv2, f, 4);
+        }
+
+        this.postShoot();
+    }
+
+    @Override
+    public void setCharging(boolean charging) {
+
+    }
+
+    @Override
+    public void shoot(LivingEntity target, ItemStack crossbow, ProjectileEntity projectile, float multiShotSpray) {
+        this.shoot(this, target, projectile, multiShotSpray, 1.6F);
+    }
+
+    @Override
+    public void postShoot() {
+
+    }
+
+    @Override
+    public void attack(LivingEntity target, float pullProgress) {
+        setTarget(target);
+        this.shoot(this, 1.75F);
+    }
+
+    @Override
+    public ItemStack getArrowType(ItemStack stack) {
+        if (stack.getItem() instanceof RangedWeaponItem) {
+            Predicate<ItemStack> predicate = ((RangedWeaponItem)stack.getItem()).getHeldProjectiles();
+            ItemStack itemStack = RangedWeaponItem.getHeldProjectile(this, predicate);
+            return itemStack.isEmpty() ? new ItemStack(Items.ARROW) : itemStack;
+        } else {
+            return ItemStack.EMPTY;
+        }
     }
 }

@@ -3,7 +3,6 @@ package mca.entity.ai.brain.tasks;
 import java.util.Collections;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
-import mca.server.world.data.Village;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.task.Task;
@@ -39,7 +38,7 @@ public class PrepareForDutyTask extends Task<VillagerEntityMCA> {
     protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         super.run(world, villager, time);
 
-        EquipmentSet set = isOnDuty(villager) ? villager.getResidency().getHomeVillage().map(Village::getGuardEquipment).orElse(EquipmentSet.LEATHER) : EquipmentSet.NAKED;
+        EquipmentSet set = isOnDuty(villager) ? villager.getResidency().getHomeVillage().map(v -> v.getGuardEquipment(villager.getProfession())).orElse(EquipmentSet.GUARD_0) : EquipmentSet.NAKED;
         villager.setStackInHand(Hand.MAIN_HAND, getItemStack(set.getMainHand()));
         villager.setStackInHand(Hand.OFF_HAND, getItemStack(set.getGetOffHand()));
         villager.equipStack(EquipmentSlot.HEAD, getItemStack(set.getHead()));

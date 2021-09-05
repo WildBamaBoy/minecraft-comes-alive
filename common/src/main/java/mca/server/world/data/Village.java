@@ -34,6 +34,7 @@ import net.minecraft.util.math.Vec3i;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.minecraft.village.VillagerProfession;
 
 public class Village implements Iterable<Building> {
 
@@ -382,13 +383,12 @@ public class Village implements Iterable<Building> {
 
         // todo if not all villagers are loaded undefined behavior can happen
         // todo what happen about people who are missing in action?
-        // todo what happen if someone marked a bed, but never released it?
 
         // Spawn a new guard if we don't have enough
         if (villagers.size() > 0 && guards < guardCapacity) {
             VillagerEntityMCA villager = villagers.get(world.random.nextInt(villagers.size()));
             if (!villager.isBaby()) {
-                villager.setProfession(ProfessionsMCA.GUARD);
+                villager.setProfession(guards % 2 == 0 ? ProfessionsMCA.GUARD : ProfessionsMCA.ARCHER);
             }
         }
     }
@@ -461,11 +461,19 @@ public class Village implements Iterable<Building> {
         buildings.values().forEach(b -> b.getResidents().remove(villager.getUuid()));
     }
 
-    public EquipmentSet getGuardEquipment() {
-        if (hasBuilding("armory")) {
-            return EquipmentSet.IRON;
+    public EquipmentSet getGuardEquipment(VillagerProfession profession) {
+        if (profession == ProfessionsMCA.ARCHER) {
+            if (hasBuilding("armory")) {
+                return EquipmentSet.ARCHER_1;
+            } else {
+                return EquipmentSet.ARCHER_0;
+            }
         } else {
-            return EquipmentSet.LEATHER;
+            if (hasBuilding("armory")) {
+                return EquipmentSet.GUARD_1;
+            } else {
+                return EquipmentSet.GUARD_0;
+            }
         }
     }
 

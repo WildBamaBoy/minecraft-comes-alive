@@ -25,8 +25,10 @@ import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 import java.util.Optional;
@@ -93,7 +95,7 @@ public class VillagerTasksMCA {
         if (villager.isBaby()) {
             brain.setSchedule(Schedule.VILLAGER_BABY);
             brain.setTaskList(Activity.PLAY, VillagerTasksMCA.getPlayPackage(0.5F));
-        } else if (profession == ProfessionsMCA.GUARD) {
+        } else if (profession == ProfessionsMCA.GUARD || profession == ProfessionsMCA.ARCHER) {
             brain.setSchedule(villager.getRandom().nextBoolean() ? SchedulesMCA.GUARD : SchedulesMCA.GUARD_NIGHT);
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getGuardCorePackage(villager));
             brain.setTaskList(Activity.WORK, VillagerTasksMCA.getGuardWorkPackage(villager));
@@ -172,9 +174,17 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(0, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
                 Pair.of(1, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
+                Pair.of(2, new ConditionalTask<>(VillagerTasksMCA::isHoldingCrossbow,
+                        new AttackTask<>(5, 0.75F)
+                )),
                 Pair.of(3, new RangedApproachTask(0.75F)),
-                Pair.of(4, new ExtendedMeleeAttackTask(20, 1.5f))
+                Pair.of(4, new ExtendedMeleeAttackTask(20, 1.5f)),
+                Pair.of(5, new CrossbowAttackTask<VillagerEntityMCA, VillagerEntityMCA>())
         );
+    }
+
+    private static boolean isHoldingCrossbow(VillagerEntityMCA villager) {
+        return villager.isHolding(Items.CROSSBOW);
     }
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardWorkPackage(VillagerEntityMCA villager) {
@@ -185,8 +195,8 @@ public class VillagerTasksMCA {
     }
 
     private static Optional<? extends LivingEntity> getPreferredTarget(VillagerEntityMCA villager) {
-        Optional<LivingEntity> primary = villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
-        Optional<LivingEntity> secondary = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY);
+        Optional<LivingEntity> primary = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY);
+        Optional<LivingEntity> secondary = villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
         return primary.isPresent() ? primary : secondary;
     }
 
