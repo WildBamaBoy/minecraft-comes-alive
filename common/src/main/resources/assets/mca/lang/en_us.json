@@ -86,6 +86,10 @@
   "item.mca.blueprint": "Blueprint",
   "item.mca.blueprint.tooltip": "Right-click to manage the village you are currently in",
 
+  "tag.mca:town_center": "Bells",
+  "tag.mca:tombstones": "Tombstone",
+  "tag.minecraft:beds": "Beds",
+
   "block.mca.rose_gold_block": "Rose Gold Block",
   "block.mca.rose_gold_ore": "Rose Gold Ore",
   "block.mca.jeweler_workbench": "Jeweler Workbench",
