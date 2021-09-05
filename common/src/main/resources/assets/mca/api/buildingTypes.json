@@ -29,6 +29,111 @@
     }
   },
   {
+    "name": "bakery",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:cake": 1,
+      "minecraft:smoker": 1
+    }
+  },
+  {
+    "name": "armorer",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:blast_furnace": 1
+    }
+  },
+  {
+    "name": "butcher",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:smoker": 1
+    }
+  },
+  {
+    "name": "cartographer",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:cartography_table": 1
+    }
+  },
+  {
+    "name": "cleric",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:blast_furnace": 1
+    }
+  },
+  {
+    "name": "fishermansHut",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:barrel": 1
+    }
+  },
+  {
+    "name": "fletcher",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:fletching_table": 1
+    }
+  },
+  {
+    "name": "leatherworker",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:cauldron": 1
+    }
+  },
+  {
+    "name": "bookkeeper",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:lectern": 1
+    }
+  },
+  {
+    "name": "mason",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:stonecutter": 1
+    }
+  },
+  {
+    "name": "weavingMill",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:loom": 1
+    }
+  },
+  {
+    "name": "toolsmith",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:smithing_table": 1
+    }
+  },
+  {
+    "name": "weaponsmith",
+    "color": "ffdddddd",
+    "priority": 1,
+    "blocks": {
+      "minecraft:grindstone": 1
+    }
+  },
+  {
     "name": "bigHouse",
     "size": 8,
     "color": "ff03fca1",
@@ -107,19 +212,6 @@
       "minecraft:anvil": 1
     },
     "iconU": 3,
-    "iconV": 0
-  },
-  {
-    "name": "bakery",
-    "size": 16,
-    "color": "ffff00cc",
-    "visible": true,
-    "priority": 4,
-    "blocks": {
-      "minecraft:cake": 1,
-      "minecraft:smoker": 1
-    },
-    "iconU": 4,
     "iconV": 0
   },
   {
