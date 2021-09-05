@@ -30,7 +30,8 @@
   },
   {
     "name": "bakery",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:cake": 1,
@@ -39,7 +40,8 @@
   },
   {
     "name": "armorer",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:blast_furnace": 1
@@ -47,7 +49,8 @@
   },
   {
     "name": "butcher",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:smoker": 1
@@ -55,7 +58,8 @@
   },
   {
     "name": "cartographer",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:cartography_table": 1
@@ -63,7 +67,8 @@
   },
   {
     "name": "cleric",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:blast_furnace": 1
@@ -71,7 +76,8 @@
   },
   {
     "name": "fishermansHut",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:barrel": 1
@@ -79,7 +85,8 @@
   },
   {
     "name": "fletcher",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:fletching_table": 1
@@ -87,7 +94,8 @@
   },
   {
     "name": "leatherworker",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:cauldron": 1
@@ -95,7 +103,8 @@
   },
   {
     "name": "bookkeeper",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:lectern": 1
@@ -103,7 +112,8 @@
   },
   {
     "name": "mason",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:stonecutter": 1
@@ -111,7 +121,8 @@
   },
   {
     "name": "weavingMill",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:loom": 1
@@ -119,7 +130,8 @@
   },
   {
     "name": "toolsmith",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:smithing_table": 1
@@ -127,7 +139,8 @@
   },
   {
     "name": "weaponsmith",
-    "color": "ffdddddd",
+    "color": "ffaaaaaa",
+    "visible": false,
     "priority": 1,
     "blocks": {
       "minecraft:grindstone": 1

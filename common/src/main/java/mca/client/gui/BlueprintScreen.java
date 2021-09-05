@@ -107,7 +107,7 @@ public class BlueprintScreen extends Screen {
 
     protected void drawBuildingIcon(MatrixStack transform, int x, int y, int u, int v) {
         transform.push();
-        transform.translate(x - 7, y - 7, 0);
+        transform.translate(x - 6.6, y - 6.6, 0);
         transform.scale(0.66f, 0.66f, 0.66f);
         this.drawTexture(transform, 0, 0, u, v, 20, 20);
         transform.pop();
@@ -360,12 +360,12 @@ public class BlueprintScreen extends Screen {
 
             //pois
             if (hoverBuilding.getPois().size() > 0) {
-                lines.add(new LiteralText(hoverBuilding.getPois().size() + " pois"));
+                lines.add(new LiteralText(hoverBuilding.getPois().size() + " pois").formatted(Formatting.GRAY));
             }
 
             //present blocks
             for (Map.Entry<Identifier, Integer> block : hoverBuilding.getBlocks().entrySet()) {
-                lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())));
+                lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())).formatted(Formatting.GRAY));
             }
 
             //render
