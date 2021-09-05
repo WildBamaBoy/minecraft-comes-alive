@@ -40,7 +40,7 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
     }
 
     public void think() {
-        // When you relog, it should continue doing the chores.
+        // When you relog, it should continue doing the chores.json.
         // Chore saves but Activity doesn't, so this checks if the activity is not on there and puts it on there.
 
         if (entity.getTrackedValue(ACTIVE_CHORE) != Chore.NONE) {

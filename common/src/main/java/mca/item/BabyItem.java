@@ -146,7 +146,7 @@ public class BabyItem extends Item {
             // Right-clicking an unnamed baby allows you to name it
             if (!state.getName().isPresent()) {
                 if (player instanceof ServerPlayerEntity) {
-                    NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.BABY_NAME), (ServerPlayerEntity) player);
+                    NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.BABY_NAME), (ServerPlayerEntity)player);
                 }
 
                 return TypedActionResult.pass(stack);
@@ -213,13 +213,13 @@ public class BabyItem extends Item {
                 .filter(e -> e instanceof ServerPlayerEntity)
                 .distinct()
                 .forEach(ply -> {
-            // advancement
-            CriterionMCA.FAMILY.trigger((ServerPlayerEntity)ply);
+                    // advancement
+                    CriterionMCA.FAMILY.trigger((ServerPlayerEntity)ply);
 
-            // set proper dialogue type
-            Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
-            memories.setHearts(Config.getInstance().childInitialHearts);
-        });
+                    // set proper dialogue type
+                    Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
+                    memories.setHearts(Config.getInstance().childInitialHearts);
+                });
 
         BabyTracker.get(world).getPairing(state).removeChild(state);
     }
@@ -277,8 +277,8 @@ public class BabyItem extends Item {
                 ChildSaveState l = loaded.get();
                 if (
                         (state.getName().isPresent() && !l.getName().isPresent())
-                     || (state.getName().isPresent() && l.getName().isPresent() && !state.getName().get().contentEquals(l.getName().get()))
-                     ) {
+                                || (state.getName().isPresent() && l.getName().isPresent() && !state.getName().get().contentEquals(l.getName().get()))
+                ) {
                     CLIENT_STATE_CACHE.refresh(state.getId());
                     return state;
                 }
@@ -314,6 +314,6 @@ public class BabyItem extends Item {
     }
 
     private static boolean isReadyToGrowUp(ItemStack stack) {
-        return stack.hasTag() && canGrow(stack.getTag().getInt("age"));
+        return stack.hasTag() && canGrow(stack.getTag().getInt("age") * 1200);
     }
 }

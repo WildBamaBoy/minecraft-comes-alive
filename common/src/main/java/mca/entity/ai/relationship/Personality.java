@@ -19,14 +19,14 @@ public enum Personality {
     TOUGH(5, MoodGroup.GENERAL),          //25% extra defence
 
     //Neutral
-    CURIOUS(21, MoodGroup.SERIOUS),       //Finds more on chores
+    CURIOUS(21, MoodGroup.SERIOUS),       //Finds more on chores.json
     PEACEFUL(22, MoodGroup.GENERAL),      //Will not fight when on full health.
     FLIRTY(23, MoodGroup.PLAYFUL),        //Bonus 5 points to chat, flirt and kiss
     WITTY(24, MoodGroup.PLAYFUL),         //Bonus 2 points and 15 chance to jokes.
 
     //Negative
     SENSITIVE(41, MoodGroup.GENERAL),     //Double heart penalty
-    GREEDY(42, MoodGroup.SERIOUS),        //Finds less on chores
+    GREEDY(42, MoodGroup.SERIOUS),        //Finds less on chores.json
     STUBBORN(43, MoodGroup.SERIOUS),      //20% more difficult to speak with.
     ODD(44, MoodGroup.PLAYFUL),           //Flirts, hugs and kisses are more likely to fail
     SLEEPY(45, MoodGroup.GENERAL),        //20% slower

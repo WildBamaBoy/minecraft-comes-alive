@@ -373,8 +373,8 @@
   "events.baby": "%1$s and %2$s have born a baby!",
   "events.bountyHunters": "%1$s sent bounty hunters after you!",
 
-  "advancement.mca.baby": "",
-  "advancement.mca.baby.description": "",
+  "advancement.mca.baby": "Next Generation",
+  "advancement.mca.baby.description": "Have your first baby",
 
   "advancement.mca.best_friend": "Best Friends",
   "advancement.mca.best_friend.description": "Achieve 200 hearts in a relationship",
@@ -435,6 +435,9 @@
 
   "advancement.mca.bounty_hunter": "Hunted",
   "advancement.mca.bounty_hunter.description": "Get attacked by bounty hunters.",
+
+  "advancement.mca.chores": "Chores",
+  "advancement.mca.chores.description": "Let your children do the work.",
 
   "notify.spouseendedmarriage": "%Name% has ended their marriage with you.",
   "notify.child.grownup": "%1$s has grown into an adult!",

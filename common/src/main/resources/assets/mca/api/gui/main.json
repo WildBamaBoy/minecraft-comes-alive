@@ -69,7 +69,7 @@
     "height": 20,
     "notifyServer": false,
     "targetServer": false,
-    "constraints": "family",
+    "constraints": "family,!baby",
     "hideOnFail": true
   },
   {

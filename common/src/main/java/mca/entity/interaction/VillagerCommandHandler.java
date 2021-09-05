@@ -1,5 +1,6 @@
 package mca.entity.interaction;
 
+import mca.advancement.criterion.CriterionMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
 import mca.entity.ai.Memories;
@@ -46,6 +47,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
 
         if (Chore.byCommand(command).filter(chore -> {
             entity.getVillagerBrain().assignJob(chore, player);
+            CriterionMCA.GENERIC_EVENT_CRITERION.trigger(player, "chores");
             return true;
         }).isPresent()) {
             return true;

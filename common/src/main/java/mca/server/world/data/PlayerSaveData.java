@@ -46,7 +46,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     private Optional<Integer> lastSeenVillage = Optional.empty();
 
     public static PlayerSaveData get(ServerWorld world, UUID uuid) {
-        return WorldUtils.loadData(world, nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_village_" + uuid.toString());
+        return WorldUtils.loadData(world, nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_player_" + uuid.toString());
     }
 
     PlayerSaveData(ServerWorld world, UUID playerId) {
