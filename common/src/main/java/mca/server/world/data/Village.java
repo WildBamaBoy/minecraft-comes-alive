@@ -108,6 +108,10 @@ public class Village implements Iterable<Building> {
         return getBuildingsOfType(type).min((a, b) -> (int)(a.getCenter().getSquaredDistance(pos) - b.getCenter().getSquaredDistance(pos)));
     }
 
+    public Optional<Building> getBuildingAt(Vec3i pos) {
+        return getBuildings().values().stream().filter(b -> b.containsPos(pos)).findAny();
+    }
+
     private void calculateDimensions() {
         if (buildings.size() == 0) {
             return;
@@ -447,9 +451,14 @@ public class Village implements Iterable<Building> {
     }
 
     public void addResident(VillagerEntityMCA villager, int buildingId) {
+        removeResident(villager);
         lastMoveIn = villager.world.getTime();
         buildings.get(buildingId).addResident(villager);
         markDirty((ServerWorld)villager.world);
+    }
+
+    public void removeResident(VillagerEntityMCA villager) {
+        buildings.values().forEach(b -> b.getResidents().remove(villager.getUuid()));
     }
 
     public EquipmentSet getGuardEquipment() {

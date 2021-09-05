@@ -140,9 +140,11 @@
   "childp.interaction.sethome.success2": "This is cool I guess. Can I go play now?",
   "childp.interaction.sethome.success3": "Okay, but I want the biggest room!",
   "child.interaction.sethome.success1": "This is cool I guess.",
-  "adult.interaction.sethome.fail1": "This doesn't look like a safe home point for me.",
-  "adult.interaction.sethome.fail2": "Is there another place nearby?",
-  "adult.interaction.sethome.fail3": "I can't have my home point here.",
+  "interaction.sethome.fail1": "This doesn't look like a safe home point for me.",
+  "interaction.sethome.fail2": "Is there another place nearby?",
+  "interaction.sethome.fail3": "That is no building!",
+  "interaction.sethome.bedfail1": "Nice home, but all beds seem to be reserved.",
+  "interaction.sethome.bedfail2": "There are no empty beds!.",
   "adult.interaction.setworkplace.success1": "Sure thing, %1$s.",
   "spouse.interaction.setworkplace.success1": "I really like this place.",
   "child.interaction.setworkplace.success1": "Okay fine!",
@@ -394,7 +396,7 @@
   "spouse.dialogue.kiss.fail3": "Your breath smells like wolf kibble.",
   "spouse.dialogue.kiss.fail4": "Go take a drink from the lake.",
   "spouse.dialogue.kiss.fail5": "Now that we're married I can tell you how lousy you are at kissing.",
-  
+
   "adult.dialogue.chat.success1": "Man, cookies and milk does sound delicious right now.",
   "adult.dialogue.chat.success2": "Yes, I suppose the weather is nice today.",
   "adult.dialogue.chat.success3": "I'm doing just fine! Hit my toe when I woke up, though.",
@@ -558,7 +560,7 @@
   "dialogue.greet.greet_0.short": "I'm good.",
   "dialogue.greet.greet_0.kind": "I'm good, how are you?",
   "dialogue.greet.greet_0.sad": "Not doing too well.",
-  
+
   "dialogue.greet.fail1": "Hmm.",
   "dialogue.greet.fail2": "Glad to hear...",
   "dialogue.greet.chitchat1": "That's good, glad to hear!",

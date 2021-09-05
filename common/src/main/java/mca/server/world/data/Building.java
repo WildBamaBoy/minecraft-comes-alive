@@ -1,6 +1,7 @@
 package mca.server.world.data;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.util.NbtElementCompat;
@@ -16,6 +17,7 @@ import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterest;
@@ -132,15 +134,22 @@ public class Building implements Serializable, Iterable<UUID> {
         return getBeds() > getResidents().size();
     }
 
-    public Optional<BlockPos> findOpenBed(ServerWorld world) {
+    public Stream<BlockPos> findOpenBeds(ServerWorld world) {
         return world.getPointOfInterestStorage().getInSquare(
                         PointOfInterestType.HOME.getCompletionCondition(),
                         getCenter(),
                         getPos0().getManhattanDistance(getPos1()),
                         PointOfInterestStorage.OccupationStatus.HAS_SPACE)
-                .filter((poi) -> containsPos(poi.getPos()))
-                .findAny()
-                .map(PointOfInterest::getPos);
+                .map(PointOfInterest::getPos)
+                .filter(this::containsPos);
+    }
+
+    public Optional<BlockPos> findOpenBed(ServerWorld world) {
+        return findOpenBeds(world).findAny();
+    }
+
+    public Optional<BlockPos> findClosestOpenBed(ServerWorld world, BlockPos pos) {
+        return findOpenBeds(world).min(Comparator.comparingInt(a -> a.getManhattanDistance(pos)));
     }
 
     public void addResident(Entity e) {
@@ -393,7 +402,7 @@ public class Building implements Serializable, Iterable<UUID> {
         return pos1X > b.pos0X && pos0X < b.pos1X && pos1Y > b.pos0Y && pos0Y < b.pos1Y && pos1Z > b.pos0Z && pos0Z < b.pos1Z;
     }
 
-    public boolean containsPos(BlockPos pos) {
+    public boolean containsPos(Vec3i pos) {
         return pos.getX() >= pos0X && pos.getX() <= pos1X
                 && pos.getY() >= pos0Y && pos.getY() <= pos1Y
                 && pos.getZ() >= pos0Z && pos.getZ() <= pos1Z;

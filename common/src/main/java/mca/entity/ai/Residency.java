@@ -22,7 +22,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestType;
 
@@ -106,6 +105,15 @@ public class Residency {
             if (entity.getTrackedValue(BUILDING) == -1) {
                 OptionalCompat.ifPresentOrElse(getHomeVillage(), this::seekNewHome, () -> setVillageId(-1));
             }
+
+            //no bed?
+            if (entity.getTrackedValue(BUILDING) != -1) {
+                Optional<GlobalPos> memory = entity.getBrain().getOptionalMemory(MemoryModuleType.HOME);
+                if (!memory.isPresent()) {
+                    getHomeVillage().ifPresent(v -> v.removeResident(entity));
+                    setBuildingId(-1);
+                }
+            }
         }
 
         //check if his village and building still exists
@@ -113,7 +121,7 @@ public class Residency {
             OptionalCompat.ifPresentOrElse(getHomeVillage(), village -> {
                 if (!village.getBuilding(entity.getTrackedValue(BUILDING)).filter(building -> building.hasResident(entity.getUuid())).isPresent()) {
                     setBuildingId(-1);
-                    clearHome();
+                    clearBed();
                 } else {
                     //fetch mood from the village storage
                     int mood = village.popMood((ServerWorld)entity.world);
@@ -139,7 +147,7 @@ public class Residency {
             }, () -> {
                 setBuildingId(-1);
                 setVillageId(-1);
-                clearHome();
+                clearBed();
             });
         }
     }
@@ -167,8 +175,7 @@ public class Residency {
                 .forEach(manager::reportBuilding);
     }
 
-    private void seekNewHome(Village village) {
-
+    private boolean seekNewHome(Village village) {
         //choose the first building available, shuffled
         List<Building> buildings = village.getBuildings().values().stream()
                 .filter(Building::hasFreeSpace)
@@ -176,28 +183,84 @@ public class Residency {
         Collections.shuffle(buildings);
 
         for (Building b : buildings) {
-            //find a free bed within the building
-            Optional<BlockPos> bed = b.findOpenBed((ServerWorld)entity.world);
-
-            //sometimes the bed is blocked by someone
-            if (bed.isPresent()) {
-                //get a bed
-                setHome(bed.get(), entity.world);
-
-                //add to residents
-                setBuildingId(b.getId());
-                village.addResident(entity, b.getId());
-                return;
+            if (seekNewHomeIn(village, b)) {
+                return true;
             }
         }
+        return false;
+    }
+
+    private boolean seekNewHomeIn(Village village, Building building) {
+        //find a free bed within the building
+        Optional<BlockPos> bed = building.findOpenBed((ServerWorld)entity.world);
+
+        //sometimes the bed is blocked by someone
+        if (bed.isPresent()) {
+            setBed(village, building, bed.get());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean seekNewHomeIn(Village village, Building building, BlockPos pos) {
+        //find a free bed within the building
+        Optional<BlockPos> bed = building.findClosestOpenBed((ServerWorld)entity.world, pos);
+
+        //sometimes the bed is blocked by someone
+        if (bed.isPresent()) {
+            setBed(village, building, bed.get());
+            return true;
+        }
+        return false;
+    }
+
+    private void setBed(Village village, Building building, BlockPos bed) {
+        //get a bed
+        clearBed();
+
+        ServerWorld serverWorld = ((ServerWorld)entity.world);
+        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
+
+        //check if it is a bed and reserve a ticket
+        if (entity.world.getBlockState(bed).isIn(BlockTags.BEDS)) {
+            entity.getBrain().remember(MemoryModuleType.HOME, GlobalPos.create(entity.world.getRegistryKey(), bed));
+            poiManager.getPosition(PointOfInterestType.HOME.getCompletionCondition(), (p) -> p.equals(bed), bed, 1);
+            serverWorld.sendEntityStatus(entity, (byte)14);
+        }
+
+        //add to residents
+        setBuildingId(building.getId());
+        village.addResident(entity, building.getId());
+    }
+
+    private void clearBed() {
+        ServerWorld serverWorld = ((ServerWorld)entity.world);
+        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
+        entity.getBrain().getOptionalMemory(MemoryModuleType.HOME).ifPresent(globalPos -> {
+            if (poiManager.hasTypeAt(PointOfInterestType.HOME, globalPos.getPos())) {
+                poiManager.releaseTicket(globalPos.getPos());
+            }
+        });
     }
 
     public void setHome(PlayerEntity player) {
-        //check if it is a bed
-        if (setHome(player.getBlockPos(), player.world)) {
-            entity.sendChatMessage(player, "interaction.sethome.success");
-        } else {
-            entity.sendChatMessage(player, "interaction.sethome.fail");
+        // make sure the building is up-to-date
+        VillageManager manager = VillageManager.get((ServerWorld)player.world);
+        manager.processBuilding(player.getBlockPos());
+
+        //check if a bed can be found
+        Optional<Village> village = manager.findNearestVillage(player);
+        if (village.isPresent()) {
+            Optional<Building> building = village.get().getBuildingAt(player.getBlockPos());
+            if (building.isPresent()) {
+                if (seekNewHomeIn(village.get(), building.get(), player.getBlockPos())) {
+                    entity.sendChatMessage(player, "interaction.sethome.success");
+                } else {
+                    entity.sendChatMessage(player, "interaction.sethome.bedfail");
+                }
+            } else {
+                entity.sendChatMessage(player, "interaction.sethome.fail");
+            }
         }
     }
 
@@ -208,33 +271,5 @@ public class Residency {
                     entity.moveTowards(home.getPos());
                     entity.sendChatMessage(player, "interaction.gohome.success");
                 }, () -> entity.sendChatMessage(player, "interaction.gohome.fail.nohome"));
-    }
-
-    private void clearHome() {
-        ServerWorld serverWorld = ((ServerWorld)entity.world);
-        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
-        entity.getBrain().getOptionalMemory(MemoryModuleType.HOME).ifPresent(globalPos -> {
-            if (poiManager.hasTypeAt(PointOfInterestType.HOME, globalPos.getPos())) {
-                poiManager.releaseTicket(globalPos.getPos());
-            }
-        });
-    }
-
-    private boolean setHome(BlockPos pos, World world) {
-        clearHome();
-
-        ServerWorld serverWorld = ((ServerWorld)world);
-        PointOfInterestStorage poiManager = serverWorld.getPointOfInterestStorage();
-
-        //check if it is a bed
-        if (world.getBlockState(pos).isIn(BlockTags.BEDS)) {
-            entity.getBrain().remember(MemoryModuleType.HOME, GlobalPos.create(world.getRegistryKey(), pos));
-            poiManager.getPosition(PointOfInterestType.HOME.getCompletionCondition(), (p) -> p.equals(pos), pos, 1);
-            serverWorld.sendEntityStatus(entity, (byte)14);
-
-            return true;
-        } else {
-            return false;
-        }
     }
 }
