@@ -15,16 +15,9 @@ public class Mood {
     private final int particleInterval;
     private final DefaultParticleType particle;
     private final Formatting color;
+    private final String building;
 
-    Mood(String name) {
-        this(name, 0, null, null);
-    }
-
-    Mood(String name, int soundInterval, SoundEvent soundMale, SoundEvent soundFemale) {
-        this(name, soundInterval, soundMale, soundFemale, 0, null, Formatting.WHITE);
-    }
-
-    Mood(String name, int soundInterval, SoundEvent soundMale, SoundEvent soundFemale, int particleInterval, DefaultParticleType particle, Formatting color) {
+    Mood(String name, int soundInterval, SoundEvent soundMale, SoundEvent soundFemale, int particleInterval, DefaultParticleType particle, Formatting color, String building) {
         this.name = name;
         this.soundInterval = soundInterval;
         this.soundMale = soundMale;
@@ -32,6 +25,7 @@ public class Mood {
         this.particleInterval = particleInterval;
         this.particle = particle;
         this.color = color;
+        this.building = building;
     }
 
     public Text getText() {
@@ -64,5 +58,9 @@ public class Mood {
 
     public Formatting getColor() {
         return color;
+    }
+
+    public String getBuilding() {
+        return building;
     }
 }

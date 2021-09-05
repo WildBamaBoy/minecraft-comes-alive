@@ -10,34 +10,65 @@ import net.minecraft.util.math.MathHelper;
 
 public enum MoodGroup {
     UNASSIGNED(
-            new Mood("passive")
+            new MoodBuilder("passive").build()
     ),
     GENERAL(
-            new Mood("depressed", 2, SoundsMCA.VILLAGER_MALE_CRY, SoundsMCA.VILLAGER_FEMALE_CRY, 20, ParticleTypes.SPLASH, Formatting.RED),
-            new Mood("sad", 8, SoundsMCA.VILLAGER_MALE_CRY, SoundsMCA.VILLAGER_FEMALE_CRY, 50, ParticleTypes.SPLASH, Formatting.GOLD),
-            new Mood("unhappy"),
-            new Mood("passive"),
-            new Mood("fine"),
-            new Mood("happy", 0, null, null, 0, null, Formatting.DARK_GREEN),
-            new Mood("overjoyed", 8, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH, 50, ParticleTypes.HAPPY_VILLAGER, Formatting.GREEN)
+            new MoodBuilder("depressed")
+                    .sounds(2, SoundsMCA.VILLAGER_MALE_CRY, SoundsMCA.VILLAGER_FEMALE_CRY)
+                    .particles(20, ParticleTypes.SPLASH)
+                    .building("inn")
+                    .color(Formatting.RED).build(),
+            new MoodBuilder("sad")
+                    .sounds(8, SoundsMCA.VILLAGER_MALE_CRY, SoundsMCA.VILLAGER_FEMALE_CRY)
+                    .particles(50, ParticleTypes.SPLASH)
+                    .building("inn")
+                    .color(Formatting.GOLD).build(),
+            new MoodBuilder("unhappy").build(),
+            new MoodBuilder("passive").build(),
+            new MoodBuilder("fine").build(),
+            new MoodBuilder("happy")
+                    .color(Formatting.DARK_GREEN).build(),
+            new MoodBuilder("overjoyed")
+                    .sounds(8, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH)
+                    .particles(50, ParticleTypes.HAPPY_VILLAGER)
+                    .color(Formatting.GREEN).build()
     ),
     PLAYFUL(
-            new Mood("boredToTears", 0, null, null, 0, null, Formatting.RED),
-            new Mood("bored", 0, null, null, 0, null, Formatting.GOLD),
-            new Mood("uninterested"),
-            new Mood("passive"),
-            new Mood("silly"),
-            new Mood("giggly", 8, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH, 50, ParticleTypes.HAPPY_VILLAGER, Formatting.DARK_GREEN),
-            new Mood("entertained", 2, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH, 20, ParticleTypes.HAPPY_VILLAGER, Formatting.GREEN)
+            new MoodBuilder("boredToTears")
+                    .color(Formatting.RED).build(),
+            new MoodBuilder("bored")
+                    .color(Formatting.GOLD).build(),
+            new MoodBuilder("uninterested").build(),
+            new MoodBuilder("passive").build(),
+            new MoodBuilder("silly").build(),
+            new MoodBuilder("giggly")
+                    .sounds(8, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH)
+                    .particles(50, ParticleTypes.HAPPY_VILLAGER)
+                    .building("inn")
+                    .color(Formatting.DARK_GREEN).build(),
+            new MoodBuilder("entertained")
+                    .sounds(2, SoundsMCA.VILLAGER_MALE_LAUGH, SoundsMCA.VILLAGER_FEMALE_LAUGH)
+                    .particles(20, ParticleTypes.HAPPY_VILLAGER)
+                    .building("inn")
+                    .color(Formatting.GREEN).build()
     ),
     SERIOUS(
-            new Mood("infuriated", 2, SoundsMCA.VILLAGER_MALE_ANGRY, SoundsMCA.VILLAGER_FEMALE_ANGRY, 20, ParticleTypes.ANGRY_VILLAGER, Formatting.RED),
-            new Mood("angry", 8, SoundsMCA.VILLAGER_MALE_ANGRY, SoundsMCA.VILLAGER_FEMALE_ANGRY, 50, ParticleTypes.ANGRY_VILLAGER, Formatting.GOLD),
-            new Mood("annoyed"),
-            new Mood("passive"),
-            new Mood("interested"),
-            new Mood("talkative", 0, null, null, 0, null, Formatting.DARK_GREEN),
-            new Mood("pleased", 0, null, null, 0, null, Formatting.GREEN)
+            new MoodBuilder("infuriated")
+                    .sounds(2, SoundsMCA.VILLAGER_MALE_ANGRY, SoundsMCA.VILLAGER_FEMALE_ANGRY)
+                    .particles(20, ParticleTypes.ANGRY_VILLAGER)
+                    .color(Formatting.RED).build(),
+            new MoodBuilder("angry")
+                    .sounds(8, SoundsMCA.VILLAGER_MALE_ANGRY, SoundsMCA.VILLAGER_FEMALE_ANGRY)
+                    .particles(50, ParticleTypes.ANGRY_VILLAGER)
+                    .color(Formatting.GOLD).build(),
+            new MoodBuilder("annoyed").build(),
+            new MoodBuilder("passive").build(),
+            new MoodBuilder("interested").build(),
+            new MoodBuilder("talkative")
+                    .building("inn")
+                    .color(Formatting.DARK_GREEN).build(),
+            new MoodBuilder("pleased")
+                    .color(Formatting.GREEN).build()
     );
 
     //-15 to 15 is a range create normal interactions, but mood can go -15 to -100 due to player interactions.
