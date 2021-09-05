@@ -19,7 +19,8 @@ public interface SchedulesMCA {
             .withActivity(10, Activity.WORK)
             .withActivity(9000, Activity.MEET)
             .withActivity(11000, Activity.WORK)
-            .withActivity(14000, Activity.REST)
+            .withActivity(14000, Activity.IDLE)
+            .withActivity(15000, Activity.REST)
             .build();
 
     //NIGHT GUARD

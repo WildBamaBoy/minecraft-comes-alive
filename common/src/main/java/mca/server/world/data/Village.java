@@ -244,6 +244,7 @@ public class Village implements Iterable<Building> {
             int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
             int moodImpact = 0;
 
+            //response
             Text msg;
             float r = MathHelper.lerp(0.5f, getTaxes() / 100.0f, world.random.nextFloat());
             if (getTaxes() == 0.0f) {
@@ -269,6 +270,10 @@ public class Village implements Iterable<Building> {
             }
 
             Messenger.sendEventMessage(world, msg);
+
+            if (hasBuilding("library")) {
+                taxes *= 1.5;
+            }
 
             int emeraldCount = taxes / emeraldValue;
             while (emeraldCount > 0 && storageBuffer.size() < MAX_STORAGE_SIZE) {

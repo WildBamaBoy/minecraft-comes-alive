@@ -299,6 +299,7 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getIdlePackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
+                Pair.of(1, new EnterFavoredBuildingTask(0.5f)),
                 Pair.of(2, new RandomTask<>(ImmutableList.of(
                         Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
                         Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),

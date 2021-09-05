@@ -2,6 +2,7 @@ package mca.entity.ai;
 
 import java.util.HashSet;
 import java.util.Set;
+import mca.entity.VillagerEntityMCA;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -40,6 +41,13 @@ public interface ProfessionsMCA {
                 new ArrayList<>(),
                 new ArrayList<>()
         );
+    }
+
+    static String getFavoredBuilding(VillagerProfession profession) {
+        if (VillagerProfession.CARTOGRAPHER == profession || VillagerProfession.LIBRARIAN == profession || VillagerProfession.CLERIC == profession) {
+            return "library";
+        }
+        return null;
     }
 
     static VillagerProfession randomProfession() {

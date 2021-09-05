@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Optional;
 import mca.entity.VillagerEntityMCA;
 import mca.server.world.data.Village;
-import mca.util.compat.FuzzyPositionsCompat;
 import net.minecraft.entity.ai.TargetFinder;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -13,7 +12,6 @@ import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Heightmap;
 
 public class PatrolVillageTask extends Task<VillagerEntityMCA> {
     private final int completionRange;

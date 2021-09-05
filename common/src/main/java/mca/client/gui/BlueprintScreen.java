@@ -329,6 +329,12 @@ public class BlueprintScreen extends Screen {
                 BlockPos p1 = building.getPos1();
                 RectangleWidget.drawRectangle(transform, p0.getX(), p0.getZ(), p1.getX(), p1.getZ(), bt.getColor());
 
+                //icon
+                if (bt.visible()) {
+                    BlockPos c = building.getCenter();
+                    drawBuildingIcon(transform, c.getX(), c.getZ(), bt.iconU(), bt.iconV());
+                }
+
                 //tooltip
                 int margin = 2;
                 if (mouseLocalX >= p0.getX() - margin && mouseLocalX <= p1.getX() + margin && mouseLocalY >= p0.getZ() - margin && mouseLocalY <= p1.getZ() + margin) {
