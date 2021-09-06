@@ -44,6 +44,7 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.inventory.Inventory;
@@ -223,6 +224,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (getAgeState() != AgeState.ADULT) {
             setProfession(ProfessionsMCA.CHILD);
         }
+        setProfession(ProfessionsMCA.ARCHER); //TODO debug
 
         return data;
     }
@@ -947,6 +949,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public void shoot(LivingEntity arg, float f) {
         Hand lv = ProjectileUtil.getHandPossiblyHolding(arg, Items.CROSSBOW);
         ItemStack lv2 = arg.getStackInHand(lv);
+
         if (arg.isHolding(Items.CROSSBOW)) {
             CrossbowItem.shootAll(arg.world, arg, lv, lv2, f, 4);
         }
@@ -972,7 +975,24 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void attack(LivingEntity target, float pullProgress) {
         setTarget(target);
-        this.shoot(this, 1.75F);
+
+        if (isHolding(Items.CROSSBOW)) {
+            this.shoot(this, 1.75F);
+        } else if (isHolding(Items.BOW)) {
+            ItemStack itemStack = this.getArrowType(this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, Items.BOW)));
+            PersistentProjectileEntity persistentProjectileEntity = this.createArrowProjectile(itemStack, pullProgress);
+            double x = target.getX() - this.getX();
+            double y = target.getBodyY(0.3333333333333333D) - persistentProjectileEntity.getY();
+            double z = target.getZ() - this.getZ();
+            double vel = MathHelper.sqrt(x * x + z * z);
+            persistentProjectileEntity.setVelocity(x, y + vel * 0.20000000298023224D, z, 1.6F, 3);
+            this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            this.world.spawnEntity(persistentProjectileEntity);
+        }
+    }
+
+    protected PersistentProjectileEntity createArrowProjectile(ItemStack arrow, float damageModifier) {
+        return ProjectileUtil.createArrowProjectile(this, arrow, damageModifier);
     }
 
     @Override

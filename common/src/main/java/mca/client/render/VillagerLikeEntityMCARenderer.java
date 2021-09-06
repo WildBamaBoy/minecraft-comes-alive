@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>> extends BipedEntityRenderer<T, VillagerEntityModelMCA<T>> {
     public VillagerLikeEntityMCARenderer(EntityRenderDispatcher ctx, VillagerEntityModelMCA<T> model) {
         super(ctx, model, 0.5F);
-        addFeature(new ArmorFeatureRenderer<>(this, createArmorModel(0.5f), createArmorModel(1.0f)));
+        addFeature(new ArmorFeatureRenderer<>(this, createArmorModel(0.3f), createArmorModel(0.55f)));
     }
 
     private VillagerEntityBaseModelMCA<T> createArmorModel(float modelSize) {

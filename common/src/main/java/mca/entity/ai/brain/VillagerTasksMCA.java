@@ -174,6 +174,7 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(0, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
                 Pair.of(1, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
+                Pair.of(1, new BowTask<>(20)),
                 Pair.of(2, new ConditionalTask<>(VillagerTasksMCA::isHoldingCrossbow,
                         new AttackTask<>(5, 0.75F)
                 )),
