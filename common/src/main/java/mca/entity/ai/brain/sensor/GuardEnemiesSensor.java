@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.MemoryModuleTypeMCA;
-import mca.entity.ai.ProfessionsMCA;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;

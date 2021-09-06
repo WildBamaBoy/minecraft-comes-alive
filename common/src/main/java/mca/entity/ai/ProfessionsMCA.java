@@ -2,7 +2,6 @@ package mca.entity.ai;
 
 import java.util.HashSet;
 import java.util.Set;
-import mca.entity.VillagerEntityMCA;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
