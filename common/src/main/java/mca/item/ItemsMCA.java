@@ -34,7 +34,7 @@ public interface ItemsMCA {
     Item ENGAGEMENT_RING_RG = register("engagement_ring_rg", new WeddingRingItem(unstackableProps(), 0.5F));
     Item MATCHMAKERS_RING = register("matchmakers_ring", new MatchmakersRingItem(baseProps().maxCount(2)));
 
-    Item VILLAGER_EDITOR = register("villager_editor", new Item(baseProps()));
+    Item VILLAGER_EDITOR = register("villager_editor", new VillagerEditorItem(baseProps()));
     Item STAFF_OF_LIFE = register("staff_of_life", new StaffOfLifeItem(baseProps().maxDamage(5)));
     Item WHISTLE = register("whistle", new WhistleItem(baseProps()));
     Item BLUEPRINT = register("blueprint", new BlueprintItem(baseProps()));

@@ -17,6 +17,7 @@ import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.interaction.VillagerCommandHandler;
+import mca.item.ItemsMCA;
 import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.util.InventoryUtils;
@@ -334,7 +335,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if (!stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS)) {
+        if (!stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS) && stack.getItem() != ItemsMCA.VILLAGER_EDITOR) {
             playWelcomeSound();
 
             //make sure dialogueType is synced in case the client needs it
@@ -343,6 +344,16 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             return interactions.interactAt(player, pos, hand);
         }
         return super.interactAt(player, pos, hand);
+    }
+
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getStackInHand(hand);
+        if (stack.getItem() != ItemsMCA.VILLAGER_EDITOR) {
+            return super.interactMob(player, hand);
+        } else {
+            return ActionResult.PASS;
+        }
     }
 
     @Override

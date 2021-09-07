@@ -316,8 +316,6 @@ public class InteractScreen extends AbstractDynamicScreen {
             setLayout("clothing");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
-        } else if (id.equals("gui.button.villager_editor")) {
-            MinecraftClient.getInstance().openScreen(new VillagerEditorScreen(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.talk")) {
             children.clear();
             buttons.clear();

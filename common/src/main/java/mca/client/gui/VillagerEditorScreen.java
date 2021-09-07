@@ -52,7 +52,7 @@ public class VillagerEditorScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {
-        return true;
+        return false;
     }
 
     @Override
