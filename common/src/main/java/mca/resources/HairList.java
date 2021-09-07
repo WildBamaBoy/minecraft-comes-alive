@@ -26,6 +26,7 @@ public class HairList {
 
     private Hair getHair(ResourceManager manager, HairGroup g, int i) {
         String overlay = String.format("mca:skins/hair/%s/%d_overlay.png", g.getGender().getStrName(), i);
+        //TODO sever fails here as it doesn't have resources nor manager.containsResource
         boolean hasOverlay = manager.containsResource(new Identifier(overlay));
         return new Hair(
                 String.format("mca:skins/hair/%s/%d.png", g.getGender().getStrName(), i),

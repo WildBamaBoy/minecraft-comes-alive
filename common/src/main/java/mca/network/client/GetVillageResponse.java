@@ -2,11 +2,12 @@ package mca.network.client;
 
 import java.util.Set;
 import mca.ClientProxy;
+import mca.network.S2CNbtDataMessage;
 import mca.resources.Rank;
 import mca.server.world.data.Village;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class GetVillageResponse extends S2CNbtDataResponse {
+public class GetVillageResponse extends S2CNbtDataMessage {
     private static final long serialVersionUID = 4882425683460617550L;
 
     public final Rank rank;

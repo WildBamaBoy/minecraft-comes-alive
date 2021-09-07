@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 
 public class Book {
     private final String bookName;
-    private List<Page> pages = new LinkedList<>();
-    private Identifier background = BookScreen.BOOK_TEXTURE;
+    private final List<Page> pages = new LinkedList<>();
+    private Identifier background = new Identifier("textures/gui/book.png");
     private Formatting textFormatting = Formatting.BLACK;
     private boolean pageTurnSound = true;
 

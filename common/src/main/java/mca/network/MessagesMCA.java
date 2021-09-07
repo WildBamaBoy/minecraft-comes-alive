@@ -15,7 +15,7 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
         NetworkHandler.registerMessage(InteractionServerMessage.class);
         NetworkHandler.registerMessage(BabyNamingVillagerMessage.class);
-        NetworkHandler.registerMessage(GetVillagerRequest.class);
+        NetworkHandler.registerMessage(getFamilyRequest.class);
         NetworkHandler.registerMessage(GetVillagerResponse.class);
         NetworkHandler.registerMessage(CallToPlayerMessage.class);
         NetworkHandler.registerMessage(GetVillageRequest.class);
@@ -33,5 +33,7 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(InteractionDialogueInitMessage.class);
         NetworkHandler.registerMessage(GetChildDataRequest.class);
         NetworkHandler.registerMessage(GetChildDataResponse.class);
+        NetworkHandler.registerMessage(getVillagerRequest.class);
+        NetworkHandler.registerMessage(VillagerEditorSyncRequest.class);
     }
 }

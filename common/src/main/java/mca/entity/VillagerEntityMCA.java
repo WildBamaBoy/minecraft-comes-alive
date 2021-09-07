@@ -224,7 +224,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (getAgeState() != AgeState.ADULT) {
             setProfession(ProfessionsMCA.CHILD);
         }
-        setProfession(ProfessionsMCA.ARCHER); //TODO debug
 
         return data;
     }
@@ -244,7 +243,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public void setVillagerData(VillagerData data) {
-        if (getProfession() != data.getProfession() && data.getProfession() != ProfessionsMCA.OUTLAW) {
+        if (!world.isClient && getProfession() != data.getProfession() && data.getProfession() != ProfessionsMCA.OUTLAW) {
             setTrackedValue(CLOTHES, ClothingList.getInstance().byGender(getGenetics().getGender()).byProfession(data.getProfession()).pickOne());
             getRelationships().getFamilyEntry().setProfession(data.getProfession());
         }

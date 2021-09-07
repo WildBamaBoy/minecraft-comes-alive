@@ -189,6 +189,10 @@ public class Genetics implements Iterable<Genetics.Gene> {
             return key;
         }
 
+        public String getTranslationKey() {
+            return key().replace("_", ".");
+        }
+
         public CDataParameter<Float> getParam() {
             return parameter;
         }

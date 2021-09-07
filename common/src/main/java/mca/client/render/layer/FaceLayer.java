@@ -31,9 +31,9 @@ public class FaceLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
     protected Identifier getSkin(T villager) {
         Identifier type = EntityType.getId(villager.getType());
         int totalFaces = 11;
-        int index = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.SKIN) * totalFaces));
+        int index = (int) Math.min(totalFaces - 1, Math.max(0, villager.getGenetics().getGene(Genetics.FACE) * totalFaces));
         int time = villager.age / 2 + (int) (villager.getGenetics().getGene(Genetics.HEMOGLOBIN) * 65536);
-        boolean blink = time % 50 == 0 || time % 57 == 0 || villager.isSleeping() || villager.isDead();
+        boolean blink = time % 50 == 1 || time % 57 == 1 || villager.isSleeping() || villager.isDead();
 
         return cached(String.format("%s:skins/face/%s/%s/%d%s.png",
                 type.getNamespace(),

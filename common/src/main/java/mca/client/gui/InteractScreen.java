@@ -226,7 +226,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             lines.add(new LiteralText("Genes"));
 
             for (Genetics.Gene gene : villager.getGenetics()) {
-                String key = gene.getType().key().replace("_", ".");
+                String key = gene.getType().getTranslationKey();
                 int value = (int)(gene.get() * 100);
                 lines.add(new TranslatableText("gene.tooltip", new TranslatableText(key), value));
             }
@@ -316,6 +316,8 @@ public class InteractScreen extends AbstractDynamicScreen {
             setLayout("clothing");
         } else if (id.equals("gui.button.familyTree")) {
             MinecraftClient.getInstance().openScreen(new FamilyTreeScreen(villager.asEntity().getUuid()));
+        } else if (id.equals("gui.button.villager_editor")) {
+            MinecraftClient.getInstance().openScreen(new VillagerEditorScreen(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.talk")) {
             children.clear();
             buttons.clear();

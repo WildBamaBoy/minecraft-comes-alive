@@ -4,7 +4,7 @@ import mca.cobalt.network.NetworkHandler;
 import mca.entity.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.network.CallToPlayerMessage;
-import mca.network.GetVillagerRequest;
+import mca.network.getFamilyRequest;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -50,7 +50,7 @@ public class WhistleScreen extends Screen {
 
     @Override
     public void init() {
-        NetworkHandler.sendToServer(new GetVillagerRequest());
+        NetworkHandler.sendToServer(new getFamilyRequest());
 
         selectionLeftButton = addButton(new ButtonWidget(width / 2 - 123, height / 2 + 65, 20, 20, new LiteralText("<<"), b -> {
             if (selectedIndex == 0) {

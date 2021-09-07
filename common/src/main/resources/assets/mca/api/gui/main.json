@@ -52,19 +52,9 @@
     "constraints": ""
   },
   {
-    "identifier": "gui.button.clothing",
-    "x": 140,
-    "y": -10,
-    "width": 65,
-    "height": 20,
-    "notifyServer": false,
-    "targetServer": false,
-    "constraints": ""
-  },
-  {
     "identifier": "gui.button.work",
     "x": 140,
-    "y": 11,
+    "y": -10,
     "width": 65,
     "height": 20,
     "notifyServer": false,
@@ -74,6 +64,16 @@
   },
   {
     "identifier": "gui.button.familyTree",
+    "x": 140,
+    "y": 11,
+    "width": 65,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.villager_editor",
     "x": 140,
     "y": 32,
     "width": 65,
