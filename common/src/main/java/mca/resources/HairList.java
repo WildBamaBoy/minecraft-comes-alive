@@ -7,7 +7,6 @@ import mca.entity.ai.relationship.Gender;
 import mca.resources.Resources.BrokenResourceException;
 import mca.resources.data.Hair;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
 
 public class HairList {
     private final Map<Gender, WeightedPool.Mutable<Hair>> hair = new EnumMap<>(Gender.class);
@@ -17,20 +16,18 @@ public class HairList {
             for (Gender g : Gender.values()) {
                 if (hg.getGender() == Gender.NEUTRAL || hg.getGender() == g) {
                     for (int i = 0; i < hg.count(); i++) {
-                        hair.computeIfAbsent(g, o -> new WeightedPool.Mutable<>(new Hair())).add(getHair(manager, hg, i), 1);
+                        hair.computeIfAbsent(g, o -> new WeightedPool.Mutable<>(new Hair())).add(getHair(hg, i), 1);
                     }
                 }
             }
         }
     }
 
-    private Hair getHair(ResourceManager manager, HairGroup g, int i) {
+    private Hair getHair(HairGroup g, int i) {
         String overlay = String.format("mca:skins/hair/%s/%d_overlay.png", g.getGender().getStrName(), i);
-        //TODO sever fails here as it doesn't have resources nor manager.containsResource
-        boolean hasOverlay = manager.containsResource(new Identifier(overlay));
         return new Hair(
                 String.format("mca:skins/hair/%s/%d.png", g.getGender().getStrName(), i),
-                hasOverlay ? overlay : ""
+                overlay
         );
     }
 
