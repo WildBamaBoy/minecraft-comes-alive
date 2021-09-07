@@ -33,25 +33,12 @@ public enum Personality {
     FRAGILE(46, MoodGroup.GENERAL),       //Less defence
     WEAK(47, MoodGroup.GENERAL);          //Less damage
 
-    //Since we store the personality as id we need frequent id to enum conversions
-    private static final Map<Integer, Personality> map = new HashMap<>();
-
-    static {
-        for (Personality personality : Personality.values()) {
-            map.put(personality.id, personality);
-        }
-    }
-
     private final int id;
     private final MoodGroup moodGroup;
 
     Personality(int id, MoodGroup moodGroup) {
         this.id = id;
         this.moodGroup = moodGroup;
-    }
-
-    public static Personality getById(int id) {
-        return map.getOrDefault(id, UNASSIGNED);
     }
 
     public static Personality getRandom() {
