@@ -95,6 +95,10 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
         entity.setTrackedValue(MOOD, entity.world.random.nextInt(MoodGroup.maxLevel - MoodGroup.normalMinLevel + 1) + MoodGroup.normalMinLevel);
     }
 
+    public void setPersonality(Personality p) {
+        entity.setTrackedValue(PERSONALITY, p);
+    }
+
     public void updateMemories(Memories memories) {
         NbtCompound nbt = entity.getTrackedValue(MEMORIES);
 

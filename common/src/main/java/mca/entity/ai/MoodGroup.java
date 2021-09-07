@@ -34,7 +34,7 @@ public enum MoodGroup {
                     .color(Formatting.GREEN).build()
     ),
     PLAYFUL(
-            new MoodBuilder("boredToTears")
+            new MoodBuilder("bored_to_tears")
                     .color(Formatting.RED).build(),
             new MoodBuilder("bored")
                     .color(Formatting.GOLD).build(),
