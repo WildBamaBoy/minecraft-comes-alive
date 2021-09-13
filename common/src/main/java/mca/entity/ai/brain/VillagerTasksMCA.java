@@ -167,7 +167,8 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getSelfDefencePackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
-                Pair.of(0, new PanicTask())
+                Pair.of(0, new PanicTask()),
+                Pair.of(1, new ExtendedMeleeAttackTask(15, 2.5F, MemoryModuleType.NEAREST_HOSTILE))
         );
     }
 
@@ -175,6 +176,9 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(0, new ConditionalTask<>(VillagerTasksMCA::guardTooHurt,
                         new PanicTask()
+                )),
+                Pair.of(0, new ConditionalTask<>(VillagerTasksMCA::guardTooHurt,
+                        new ExtendedMeleeAttackTask(15, 2.5F, MemoryModuleType.NEAREST_HOSTILE)
                 )),
                 Pair.of(1, new PrepareForDutyTask()),
                 Pair.of(2, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
