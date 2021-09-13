@@ -103,7 +103,7 @@ public class VillagerFactory {
         VillagerData data = villager.getVillagerData();
         villager.setVillagerData(new VillagerData(
                 type.orElseGet(data::getType),
-                profession.orElseGet(API::randomProfession),
+                profession.orElse(VillagerProfession.NONE),
                 level.orElseGet(data::getLevel)
             )
         );

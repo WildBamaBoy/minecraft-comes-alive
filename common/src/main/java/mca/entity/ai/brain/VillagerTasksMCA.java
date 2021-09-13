@@ -4,12 +4,23 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
+import java.util.Optional;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.ActivityMCA;
 import mca.entity.ai.MemoryModuleTypeMCA;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.SchedulesMCA;
-import mca.entity.ai.brain.tasks.*;
+import mca.entity.ai.brain.tasks.BowTask;
+import mca.entity.ai.brain.tasks.EnterFavoredBuildingTask;
+import mca.entity.ai.brain.tasks.ExtendedMeleeAttackTask;
+import mca.entity.ai.brain.tasks.FollowTask;
+import mca.entity.ai.brain.tasks.GreetPlayerTask;
+import mca.entity.ai.brain.tasks.InteractTask;
+import mca.entity.ai.brain.tasks.LoseUnimportantJobTask;
+import mca.entity.ai.brain.tasks.PatrolVillageTask;
+import mca.entity.ai.brain.tasks.PrepareForDutyTask;
+import mca.entity.ai.brain.tasks.StayTask;
+import mca.entity.ai.brain.tasks.WanderOrTeleportToTargetTask;
 import mca.entity.ai.brain.tasks.chore.ChoppingTask;
 import mca.entity.ai.brain.tasks.chore.FishingTask;
 import mca.entity.ai.brain.tasks.chore.HarvestingTask;
@@ -30,7 +41,6 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
-import java.util.Optional;
 
 public class VillagerTasksMCA {
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
@@ -98,9 +108,6 @@ public class VillagerTasksMCA {
             brain.setSchedule(villager.getRandom().nextBoolean() ? SchedulesMCA.GUARD : SchedulesMCA.GUARD_NIGHT);
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getGuardCorePackage(villager));
             brain.setTaskList(Activity.WORK, VillagerTasksMCA.getGuardWorkPackage(villager));
-            brain.setTaskList(Activity.WORK, VillagerTasksMCA.getGuardAttackPackage(villager));
-            brain.setTaskList(Activity.IDLE, VillagerTasksMCA.getGuardAttackPackage(villager));
-            brain.setTaskList(Activity.MEET, VillagerTasksMCA.getGuardAttackPackage(villager));
         } else if (profession == ProfessionsMCA.OUTLAW) {
             brain.setSchedule(SchedulesMCA.DEFAULT);
             // todo how do villager behave when they are on death row?
@@ -165,26 +172,17 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardCorePackage(VillagerEntityMCA villager) {
         return ImmutableList.of(
-                Pair.of(0, new PrepareForDutyTask())
-        );
-    }
-
-    public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardAttackPackage(VillagerEntityMCA villager) {
-        return ImmutableList.of(
+                Pair.of(0, new PrepareForDutyTask()),
                 Pair.of(0, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
                 Pair.of(1, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
                 Pair.of(1, new BowTask<>(20)),
-                Pair.of(2, new ConditionalTask<>(VillagerTasksMCA::isHoldingCrossbow,
+                Pair.of(2, new ConditionalTask<>(v -> v.isHolding(Items.CROSSBOW),
                         new AttackTask<>(5, 0.75F)
                 )),
                 Pair.of(3, new RangedApproachTask(0.75F)),
-                Pair.of(4, new ExtendedMeleeAttackTask(20, 1.5f)),
+                Pair.of(4, new ExtendedMeleeAttackTask(20, 2.0F)),
                 Pair.of(5, new CrossbowAttackTask<VillagerEntityMCA, VillagerEntityMCA>())
         );
-    }
-
-    private static boolean isHoldingCrossbow(VillagerEntityMCA villager) {
-        return villager.isHolding(Items.CROSSBOW);
     }
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardWorkPackage(VillagerEntityMCA villager) {
@@ -196,13 +194,24 @@ public class VillagerTasksMCA {
 
     private static Optional<? extends LivingEntity> getPreferredTarget(VillagerEntityMCA villager) {
         Optional<LivingEntity> primary = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY);
-        Optional<LivingEntity> secondary = villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
-        return primary.isPresent() ? primary : secondary;
+        if (primary.isPresent() && (getActivity(villager) != Activity.REST || primary.get().distanceTo(villager) < 6.0)) {
+            return primary;
+        } else {
+            return villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
+        }
     }
 
     private static boolean isPreferredTarget(VillagerEntityMCA villager, LivingEntity entity) {
         Optional<? extends LivingEntity> target = getPreferredTarget(villager);
         return target.filter(livingEntity -> livingEntity == entity).isPresent();
+    }
+
+    public static boolean isOnDuty(VillagerEntityMCA villager) {
+        return getActivity(villager) == Activity.WORK || villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent();
+    }
+
+    private static Activity getActivity(VillagerEntityMCA villager) {
+        return villager.getBrain().getSchedule().getActivityForTime((int)(villager.world.getTimeOfDay() % 24000L));
     }
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGrievingPackage() {

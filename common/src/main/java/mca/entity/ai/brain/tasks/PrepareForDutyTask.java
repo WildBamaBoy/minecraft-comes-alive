@@ -3,8 +3,10 @@ package mca.entity.ai.brain.tasks;
 import java.util.Collections;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.brain.VillagerTasksMCA;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,17 +18,13 @@ public class PrepareForDutyTask extends Task<VillagerEntityMCA> {
         super(Collections.emptyMap());
     }
 
-    private boolean isOnDuty(VillagerEntityMCA villager) {
-        return villager.getBrain().getSchedule().getActivityForTime((int)(villager.world.getTimeOfDay() % 24000L)) == Activity.WORK;
-    }
-
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
-        if (isOnDuty(villager)) {
-            return stack == ItemStack.EMPTY;
+        if (VillagerTasksMCA.isOnDuty(villager)) {
+            return stack.isEmpty();
         } else {
-            return stack != ItemStack.EMPTY;
+            return !stack.isEmpty();
         }
     }
 
@@ -38,7 +36,7 @@ public class PrepareForDutyTask extends Task<VillagerEntityMCA> {
     protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         super.run(world, villager, time);
 
-        EquipmentSet set = isOnDuty(villager) ? villager.getResidency().getHomeVillage().map(v -> v.getGuardEquipment(villager.getProfession())).orElse(EquipmentSet.GUARD_0) : EquipmentSet.NAKED;
+        EquipmentSet set = VillagerTasksMCA.isOnDuty(villager) ? villager.getResidency().getHomeVillage().map(v -> v.getGuardEquipment(villager.getProfession())).orElse(EquipmentSet.GUARD_0) : EquipmentSet.NAKED;
         villager.setStackInHand(Hand.MAIN_HAND, getItemStack(set.getMainHand()));
         villager.setStackInHand(Hand.OFF_HAND, getItemStack(set.getGetOffHand()));
         villager.equipStack(EquipmentSlot.HEAD, getItemStack(set.getHead()));

@@ -150,9 +150,6 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
             case "infected":
                 entity.setInfected(!entity.isInfected());
                 return false;
-            case "profession":
-                entity.setProfession(ProfessionsMCA.randomProfession());
-                return false;
             case "stopworking":
                 entity.getVillagerBrain().abandonJob();
                 return true;

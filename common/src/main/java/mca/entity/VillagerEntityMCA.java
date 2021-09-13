@@ -8,6 +8,7 @@ import mca.ParticleTypesMCA;
 import mca.SoundsMCA;
 import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
+import mca.cobalt.registration.Registration;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
@@ -451,7 +452,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
             // Grow up
             if (getProfession() == ProfessionsMCA.CHILD && getAgeState() == AgeState.ADULT) {
-                setProfession(API.randomProfession());
+                setProfession(VillagerProfession.NONE);
             }
 
             relations.tick(age);
@@ -723,7 +724,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     protected final SoundEvent getHurtSound(DamageSource cause) {
-        return getDeathSound();
+        if (getProfession() == ProfessionsMCA.GUARD) {
+            return null;
+        } else {
+            return getDeathSound();
+        }
     }
 
     public final void playWelcomeSound() {

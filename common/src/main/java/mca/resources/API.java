@@ -25,10 +25,6 @@ public class API {
         return instance.hair;
     }
 
-    public static VillagerProfession randomProfession() {
-        return ProfessionsMCA.randomProfession();
-    }
-
     public static VillageComponents getVillagePool() {
         return instance.villageComponents;
     }
@@ -40,8 +36,6 @@ public class API {
     public static String getRandomWord(String from) {
         return instance.pickWord(from);
     }
-
-
 
     public static String getRandomSentence(String from, int wordCount) {
         List<String> words = new LinkedList<>();

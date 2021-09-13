@@ -49,10 +49,4 @@ public interface ProfessionsMCA {
         }
         return null;
     }
-
-    static VillagerProfession randomProfession() {
-        // TODO: use the world's random to avoid client/server desync.
-        Random r = new Random();
-        return Registry.VILLAGER_PROFESSION.getRandom(r);
-    }
 }
