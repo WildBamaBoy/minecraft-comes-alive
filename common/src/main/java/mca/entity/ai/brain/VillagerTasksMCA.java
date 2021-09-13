@@ -108,6 +108,7 @@ public class VillagerTasksMCA {
             brain.setSchedule(villager.getRandom().nextBoolean() ? SchedulesMCA.GUARD : SchedulesMCA.GUARD_NIGHT);
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getGuardCorePackage(villager));
             brain.setTaskList(Activity.WORK, VillagerTasksMCA.getGuardWorkPackage(villager));
+            brain.setTaskList(Activity.PANIC, VillagerTasksMCA.getGuardPanicPackage(0.5f));
         } else if (profession == ProfessionsMCA.OUTLAW) {
             brain.setSchedule(SchedulesMCA.DEFAULT);
             // todo how do villager behave when they are on death row?
@@ -172,32 +173,54 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardCorePackage(VillagerEntityMCA villager) {
         return ImmutableList.of(
-                Pair.of(0, new PrepareForDutyTask()),
-                Pair.of(0, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
-                Pair.of(1, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
-                Pair.of(1, new BowTask<>(20)),
-                Pair.of(2, new ConditionalTask<>(v -> v.isHolding(Items.CROSSBOW),
+                Pair.of(0, new ConditionalTask<>(VillagerTasksMCA::guardTooHurt,
+                        new PanicTask()
+                )),
+                Pair.of(1, new PrepareForDutyTask()),
+                Pair.of(2, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
+                Pair.of(3, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
+                Pair.of(4, new BowTask<>(20)),
+                Pair.of(5, new ConditionalTask<>(v -> v.isHolding(Items.CROSSBOW),
                         new AttackTask<>(5, 0.75F)
                 )),
-                Pair.of(3, new RangedApproachTask(0.75F)),
-                Pair.of(4, new ExtendedMeleeAttackTask(20, 2.0F)),
-                Pair.of(5, new CrossbowAttackTask<VillagerEntityMCA, VillagerEntityMCA>())
+                Pair.of(6, new RangedApproachTask(0.75F)),
+                Pair.of(7, new ExtendedMeleeAttackTask(20, 2.0F)),
+                Pair.of(8, new CrossbowAttackTask<VillagerEntityMCA, VillagerEntityMCA>())
         );
     }
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardWorkPackage(VillagerEntityMCA villager) {
         return ImmutableList.of(
-                Pair.of(5, new PatrolVillageTask(4, 0.4f)),
+                Pair.of(10, new PatrolVillageTask(4, 0.4f)),
                 Pair.of(99, new ScheduleActivityTask())
         );
     }
 
+    public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getGuardPanicPackage(float speedModifier) {
+        float f = speedModifier * 1.5F;
+        return ImmutableList.of(
+                Pair.of(1, new StopPanickingTask()),
+                Pair.of(2, GoToRememberedPositionTask.toEntity(MemoryModuleType.NEAREST_HOSTILE, f, 6, false)),
+                Pair.of(2, GoToRememberedPositionTask.toEntity(MemoryModuleType.HURT_BY_ENTITY, f, 6, false)),
+                Pair.of(3, new FindWalkTargetTask(f, 2, 2)),
+                getMinimalLookBehavior()
+        );
+    }
+
+    private static boolean guardTooHurt(VillagerEntityMCA villager) {
+        return villager.getHealth() < villager.getMaxHealth() * 0.25;
+    }
+
     private static Optional<? extends LivingEntity> getPreferredTarget(VillagerEntityMCA villager) {
-        Optional<LivingEntity> primary = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY);
-        if (primary.isPresent() && (getActivity(villager) != Activity.REST || primary.get().distanceTo(villager) < 6.0)) {
-            return primary;
+        if (guardTooHurt(villager)) {
+            return Optional.empty();
         } else {
-            return villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
+            Optional<LivingEntity> primary = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY);
+            if (primary.isPresent() && (getActivity(villager) != Activity.REST || primary.get().distanceTo(villager) < 6.0)) {
+                return primary;
+            } else {
+                return villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
+            }
         }
     }
 
