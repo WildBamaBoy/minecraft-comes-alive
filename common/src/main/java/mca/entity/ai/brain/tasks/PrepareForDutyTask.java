@@ -5,8 +5,6 @@ import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.brain.VillagerTasksMCA;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ai.brain.Activity;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,6 +12,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 
 public class PrepareForDutyTask extends Task<VillagerEntityMCA> {
+    private static final int COOLDOWN = 100;
+    private int lastDutyTime;
+
     public PrepareForDutyTask() {
         super(Collections.emptyMap());
     }
@@ -22,9 +23,12 @@ public class PrepareForDutyTask extends Task<VillagerEntityMCA> {
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
         if (VillagerTasksMCA.isOnDuty(villager)) {
+            lastDutyTime = villager.age;
             return stack.isEmpty();
-        } else {
+        } else if (villager.age - lastDutyTime > COOLDOWN) {
             return !stack.isEmpty();
+        } else {
+            return false;
         }
     }
 
