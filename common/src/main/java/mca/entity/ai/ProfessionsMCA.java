@@ -18,10 +18,10 @@ import mca.MCA;
 import mca.cobalt.registration.Registration;
 
 public interface ProfessionsMCA {
-    VillagerProfession OUTLAW = register("outlaw", PointOfInterestType.HOME, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
+    VillagerProfession OUTLAW = register("outlaw", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
     VillagerProfession CHILD = register("child", PointOfInterestType.HOME, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
-    VillagerProfession GUARD = register("guard", PointOfInterestType.ARMORER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
-    VillagerProfession ARCHER = register("archer", PointOfInterestType.FLETCHER, SoundEvents.ENTITY_VILLAGER_WORK_FLETCHER);
+    VillagerProfession GUARD = register("guard", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
+    VillagerProfession ARCHER = register("archer", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_FLETCHER);
     // VillagerProfession JEWELER = register("jeweler", PointOfInterestTypeMCA.JEWELER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
 
     Set<VillagerProfession> canNotTrade = new HashSet<>();
