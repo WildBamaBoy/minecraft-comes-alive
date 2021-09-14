@@ -1,17 +1,18 @@
 package mca.entity.ai.brain.tasks;
 
-import java.util.Collections;
-import java.util.Optional;
+import com.google.common.collect.ImmutableMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.MemoryModuleTypeMCA;
 import mca.util.InventoryUtils;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 
@@ -23,21 +24,25 @@ public class EquipmentTask extends Task<VillagerEntityMCA> {
     private boolean lastArmorWearState;
 
     public EquipmentTask(Predicate<VillagerEntityMCA> condition, Function<VillagerEntityMCA, EquipmentSet> set) {
-        super(Collections.emptyMap());
+        super(ImmutableMap.of(MemoryModuleTypeMCA.WEARS_ARMOR, MemoryModuleState.REGISTERED));
         this.condition = condition;
         equipmentSet = set;
     }
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
-        ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
-        boolean armorWearState = villager.getVillagerBrain().getArmorWear();
-        if (lastArmorWearState != armorWearState || condition.test(villager)) {
+        //armor visibility settings have been changed
+        if (lastArmorWearState != villager.getVillagerBrain().getArmorWear()) {
+            return true;
+        }
+
+        //armor change necessary
+        boolean present = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.WEARS_ARMOR).isPresent();
+        if (condition.test(villager)) {
             lastEquipTime = villager.age;
-            lastArmorWearState = armorWearState;
-            return stack.isEmpty();
+            return !present || equipmentSet.apply(villager).getMainHand() != Items.AIR && villager.getMainHandStack().isEmpty();
         } else if (villager.age - lastEquipTime > COOLDOWN) {
-            return !stack.isEmpty();
+            return present;
         } else {
             return false;
         }
@@ -56,10 +61,20 @@ public class EquipmentTask extends Task<VillagerEntityMCA> {
     @Override
     protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         super.run(world, villager, time);
+
+        lastArmorWearState = villager.getVillagerBrain().getArmorWear();
         EquipmentSet set = equipmentSet.apply(villager);
+        boolean wear = condition.test(villager);
+
+        //remember last state
+        if (wear) {
+            villager.getBrain().remember(MemoryModuleTypeMCA.WEARS_ARMOR, true);
+        } else {
+            villager.getBrain().forget(MemoryModuleTypeMCA.WEARS_ARMOR);
+        }
 
         //weapon
-        if (condition.test(villager)) {
+        if (wear) {
             equipBestWeapon(villager, set.getMainHand());
             villager.equipStack(EquipmentSlot.OFFHAND, new ItemStack(set.getGetOffHand()));
         } else {
@@ -68,7 +83,7 @@ public class EquipmentTask extends Task<VillagerEntityMCA> {
         }
 
         //armor
-        if (condition.test(villager) || villager.getVillagerBrain().getArmorWear()) {
+        if (wear || villager.getVillagerBrain().getArmorWear()) {
             equipBestArmor(villager, EquipmentSlot.HEAD, set.getHead());
             equipBestArmor(villager, EquipmentSlot.CHEST, set.getChest());
             equipBestArmor(villager, EquipmentSlot.LEGS, set.getLegs());

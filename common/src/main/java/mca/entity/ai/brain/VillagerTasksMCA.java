@@ -78,7 +78,8 @@ public class VillagerTasksMCA {
             MemoryModuleType.ATTACK_COOLING_DOWN,
             MemoryModuleTypeMCA.PLAYER_FOLLOWING,
             MemoryModuleTypeMCA.STAYING,
-            MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY
+            MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY,
+            MemoryModuleTypeMCA.WEARS_ARMOR
     );
 
     public static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(

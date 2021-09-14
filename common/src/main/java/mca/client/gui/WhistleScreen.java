@@ -92,7 +92,7 @@ public class WhistleScreen extends Screen {
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
         if (loadingAnimationTicks != -1) {
-            String loadingMsg = "Loading" + new String(new char[loadingAnimationTicks % 10]).replace("\0", ".");
+            String loadingMsg = "Loading" + new String(new char[(loadingAnimationTicks / 5) % 4]).replace("\0", ".");
             drawStringWithShadow(transform, textRenderer, loadingMsg, width / 2 - 20, height / 2 - 10, 0xffffff);
         } else {
             if (keys.size() == 0) {

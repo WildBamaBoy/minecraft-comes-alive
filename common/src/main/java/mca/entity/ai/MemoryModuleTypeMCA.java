@@ -17,6 +17,7 @@ public interface MemoryModuleTypeMCA {
     MemoryModuleType<PlayerEntity> PLAYER_FOLLOWING = register("player_following_memory", Optional.empty());
     MemoryModuleType<Boolean> STAYING = register("staying_memory", Optional.of(Codec.BOOL));
     MemoryModuleType<LivingEntity> NEAREST_GUARD_ENEMY = register("nearest_guard_enemy", Optional.empty());
+    MemoryModuleType<Boolean> WEARS_ARMOR = register("wears_armor", Optional.of(Codec.BOOL));
 
     static void bootstrap() {
     }
