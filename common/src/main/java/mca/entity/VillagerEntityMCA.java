@@ -895,16 +895,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public void onInvChange(Inventory inventoryFromListener) {
-        SimpleInventory inv = getInventory();
 
-        for (EquipmentSlot type : EquipmentSlot.values()) {
-            if (type.getType() == EquipmentSlot.Type.ARMOR) {
-                ItemStack stack = InventoryUtils.getBestArmorOfType(inv, type);
-                if (!stack.isEmpty()) {
-                    equipStack(type, stack);
-                }
-            }
-        }
     }
 
     @SuppressWarnings("unchecked")

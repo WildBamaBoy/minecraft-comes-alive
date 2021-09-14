@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import java.util.Optional;
+import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.ActivityMCA;
 import mca.entity.ai.MemoryModuleTypeMCA;
@@ -12,13 +13,13 @@ import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.SchedulesMCA;
 import mca.entity.ai.brain.tasks.BowTask;
 import mca.entity.ai.brain.tasks.EnterFavoredBuildingTask;
+import mca.entity.ai.brain.tasks.EquipmentTask;
 import mca.entity.ai.brain.tasks.ExtendedMeleeAttackTask;
 import mca.entity.ai.brain.tasks.FollowTask;
 import mca.entity.ai.brain.tasks.GreetPlayerTask;
 import mca.entity.ai.brain.tasks.InteractTask;
 import mca.entity.ai.brain.tasks.LoseUnimportantJobTask;
 import mca.entity.ai.brain.tasks.PatrolVillageTask;
-import mca.entity.ai.brain.tasks.PrepareForDutyTask;
 import mca.entity.ai.brain.tasks.StayTask;
 import mca.entity.ai.brain.tasks.WanderOrTeleportToTargetTask;
 import mca.entity.ai.brain.tasks.chore.ChoppingTask;
@@ -168,7 +169,8 @@ public class VillagerTasksMCA {
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getSelfDefencePackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
                 Pair.of(0, new PanicTask()),
-                Pair.of(1, new ExtendedMeleeAttackTask(15, 2.5F, MemoryModuleType.NEAREST_HOSTILE))
+                Pair.of(1, new EquipmentTask(VillagerTasksMCA::isInDanger, v -> EquipmentSet.NAKED)),
+                Pair.of(2, new ExtendedMeleeAttackTask(15, 2.5F, MemoryModuleType.NEAREST_HOSTILE))
         );
     }
 
@@ -180,7 +182,8 @@ public class VillagerTasksMCA {
                 Pair.of(0, new ConditionalTask<>(VillagerTasksMCA::guardTooHurt,
                         new ExtendedMeleeAttackTask(15, 2.5F, MemoryModuleType.NEAREST_HOSTILE)
                 )),
-                Pair.of(1, new PrepareForDutyTask()),
+                Pair.of(1, new EquipmentTask(VillagerTasksMCA::isOnDuty, v -> v.getResidency().getHomeVillage()
+                        .map(vil -> vil.getGuardEquipment(v.getProfession())).orElse(EquipmentSet.GUARD_0))),
                 Pair.of(2, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
                 Pair.of(3, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
                 Pair.of(4, new BowTask<>(20)),
@@ -235,6 +238,11 @@ public class VillagerTasksMCA {
 
     public static boolean isOnDuty(VillagerEntityMCA villager) {
         return getActivity(villager) == Activity.WORK || villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent();
+    }
+
+    public static boolean isInDanger(VillagerEntityMCA villager) {
+        return villager.getVillagerBrain().isPanicking()
+                || villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent();
     }
 
     private static Activity getActivity(VillagerEntityMCA villager) {
