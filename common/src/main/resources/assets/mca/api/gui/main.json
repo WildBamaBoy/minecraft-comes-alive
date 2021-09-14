@@ -22,7 +22,7 @@
   {
     "identifier": "gui.button.trade",
     "x": 140,
-    "y": -52,
+    "y": -73,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -33,7 +33,7 @@
   {
     "identifier": "gui.button.inventory",
     "x": 140,
-    "y": -52,
+    "y": -73,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -44,7 +44,7 @@
   {
     "identifier": "gui.button.command",
     "x": 140,
-    "y": -31,
+    "y": -52,
     "width": 65,
     "height": 20,
     "notifyServer": false,
@@ -54,7 +54,7 @@
   {
     "identifier": "gui.button.work",
     "x": 140,
-    "y": -10,
+    "y": -31,
     "width": 65,
     "height": 20,
     "notifyServer": false,
@@ -65,7 +65,7 @@
   {
     "identifier": "gui.button.familyTree",
     "x": 140,
-    "y": 11,
+    "y": -10,
     "width": 65,
     "height": 20,
     "notifyServer": false,

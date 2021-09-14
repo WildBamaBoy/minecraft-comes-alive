@@ -28,9 +28,10 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
     private static final CEnumParameter<Chore> ACTIVE_CHORE = CParameter.create("activeChore", Chore.NONE);
     private static final CDataParameter<Optional<UUID>> CHORE_ASSIGNING_PLAYER = CParameter.create("choreAssigningPlayer", Optional.empty());
     private static final CDataParameter<Boolean> PANICKING = CParameter.create("isPanicking", false);
+    private static final CDataParameter<Boolean> WEAR_ARMOR = CParameter.create("wearArmor", false);
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
-        return builder.addAll(MEMORIES, PERSONALITY, MOOD, MOVE_STATE, ACTIVE_CHORE, CHORE_ASSIGNING_PLAYER, PANICKING);
+        return builder.addAll(MEMORIES, PERSONALITY, MOOD, MOVE_STATE, ACTIVE_CHORE, CHORE_ASSIGNING_PLAYER, PANICKING, WEAR_ARMOR);
     }
 
     private final E entity;
@@ -40,7 +41,7 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
     }
 
     public void think() {
-        // When you relog, it should continue doing the chores.json.
+        // When you relog, it should continue doing the chores.
         // Chore saves but Activity doesn't, so this checks if the activity is not on there and puts it on there.
 
         if (entity.getTrackedValue(ACTIVE_CHORE) != Chore.NONE) {
@@ -159,6 +160,14 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
             entity.getBrain().forget(MemoryModuleTypeMCA.STAYING);
             abandonJob();
         }
+    }
+
+    public void setArmorWear(boolean s) {
+        entity.setTrackedValue(WEAR_ARMOR, s);
+    }
+
+    public boolean getArmorWear() {
+        return entity.getTrackedValue(WEAR_ARMOR);
     }
 
     /**

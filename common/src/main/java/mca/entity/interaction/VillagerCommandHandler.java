@@ -153,6 +153,8 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
             case "stopworking":
                 entity.getVillagerBrain().abandonJob();
                 return true;
+            case "armor":
+                entity.getVillagerBrain().setArmorWear(!entity.getVillagerBrain().getArmorWear());
         }
 
         return super.handle(player, command);

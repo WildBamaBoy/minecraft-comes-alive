@@ -20,6 +20,7 @@ public class EquipmentTask extends Task<VillagerEntityMCA> {
     private int lastEquipTime;
     private final Predicate<VillagerEntityMCA> condition;
     private final Function<VillagerEntityMCA, EquipmentSet> equipmentSet;
+    private boolean lastArmorWearState;
 
     public EquipmentTask(Predicate<VillagerEntityMCA> condition, Function<VillagerEntityMCA, EquipmentSet> set) {
         super(Collections.emptyMap());
@@ -30,8 +31,10 @@ public class EquipmentTask extends Task<VillagerEntityMCA> {
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
         ItemStack stack = villager.getStackInHand(Hand.MAIN_HAND);
-        if (condition.test(villager)) {
+        boolean armorWearState = villager.getVillagerBrain().getArmorWear();
+        if (lastArmorWearState != armorWearState || condition.test(villager)) {
             lastEquipTime = villager.age;
+            lastArmorWearState = armorWearState;
             return stack.isEmpty();
         } else if (villager.age - lastEquipTime > COOLDOWN) {
             return !stack.isEmpty();
@@ -53,18 +56,24 @@ public class EquipmentTask extends Task<VillagerEntityMCA> {
     @Override
     protected void run(ServerWorld world, VillagerEntityMCA villager, long time) {
         super.run(world, villager, time);
+        EquipmentSet set = equipmentSet.apply(villager);
 
+        //weapon
         if (condition.test(villager)) {
-            EquipmentSet set = equipmentSet.apply(villager);
             equipBestWeapon(villager, set.getMainHand());
             villager.equipStack(EquipmentSlot.OFFHAND, new ItemStack(set.getGetOffHand()));
+        } else {
+            villager.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
+            villager.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
+        }
+
+        //armor
+        if (condition.test(villager) || villager.getVillagerBrain().getArmorWear()) {
             equipBestArmor(villager, EquipmentSlot.HEAD, set.getHead());
             equipBestArmor(villager, EquipmentSlot.CHEST, set.getChest());
             equipBestArmor(villager, EquipmentSlot.LEGS, set.getLegs());
             equipBestArmor(villager, EquipmentSlot.FEET, set.getFeet());
         } else {
-            villager.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
-            villager.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
             villager.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
             villager.equipStack(EquipmentSlot.CHEST, ItemStack.EMPTY);
             villager.equipStack(EquipmentSlot.LEGS, ItemStack.EMPTY);

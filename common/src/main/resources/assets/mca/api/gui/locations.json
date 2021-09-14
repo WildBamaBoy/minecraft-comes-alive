@@ -22,7 +22,7 @@
   {
     "identifier": "gui.button.setworkplace",
     "x": 140,
-    "y": -93,
+    "y": -94,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -32,7 +32,7 @@
   {
     "identifier": "gui.button.sethangout",
     "x": 140,
-    "y": -71,
+    "y": -73,
     "width": 65,
     "height": 20,
     "notifyServer": true,
