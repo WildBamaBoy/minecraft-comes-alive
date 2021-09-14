@@ -247,6 +247,7 @@ public class VillagerEditorScreen extends Screen {
             case "debug":
                 //profession
                 boolean right = false;
+                List<ButtonWidget> professionButtons = new LinkedList<>();
                 for (VillagerProfession p : new VillagerProfession[] {
                         VillagerProfession.NONE,
                         ProfessionsMCA.GUARD,
@@ -254,13 +255,17 @@ public class VillagerEditorScreen extends Screen {
                         ProfessionsMCA.OUTLAW,
                 }) {
                     TranslatableText text = new TranslatableText("entity.minecraft.villager." + p);
-                    addButton(new ButtonWidget(width / 2 + (right ? DATA_WIDTH / 2 : 0), y, DATA_WIDTH / 2, 20, text, b -> {
+                    ButtonWidget widget = addButton(new ButtonWidget(width / 2 + (right ? DATA_WIDTH / 2 : 0), y, DATA_WIDTH / 2, 20, text, b -> {
                         NbtCompound compound = new NbtCompound();
                         compound.putString("profession", Registry.VILLAGER_PROFESSION.getId(p).toString());
                         syncVillagerData();
                         NetworkHandler.sendToServer(new VillagerEditorSyncRequest("profession", villagerUUID, compound));
                         requestVillagerData();
+                        professionButtons.forEach(button -> button.active = true);
+                        b.active = false;
                     }));
+                    professionButtons.add(widget);
+                    widget.active = villager.getProfession() != p;
                     if (right) {
                         y += 20;
                     }
