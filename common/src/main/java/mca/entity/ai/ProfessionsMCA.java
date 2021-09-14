@@ -1,21 +1,16 @@
 package mca.entity.ai;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import mca.MCA;
+import mca.cobalt.registration.Registration;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
-
-import java.util.ArrayList;
-import java.util.Random;
-
 import org.jetbrains.annotations.Nullable;
-
-import mca.MCA;
-import mca.cobalt.registration.Registration;
 
 public interface ProfessionsMCA {
     VillagerProfession OUTLAW = register("outlaw", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
@@ -46,6 +41,8 @@ public interface ProfessionsMCA {
     static String getFavoredBuilding(VillagerProfession profession) {
         if (VillagerProfession.CARTOGRAPHER == profession || VillagerProfession.LIBRARIAN == profession || VillagerProfession.CLERIC == profession) {
             return "library";
+        } else if (GUARD == profession || ARCHER == profession) {
+            return "inn";
         }
         return null;
     }
