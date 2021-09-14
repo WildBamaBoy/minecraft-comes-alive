@@ -8,7 +8,6 @@ import mca.ParticleTypesMCA;
 import mca.SoundsMCA;
 import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
-import mca.cobalt.registration.Registration;
 import mca.entity.ai.*;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
@@ -442,8 +441,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 if (food.isFood()) {
                     eatFood(world, food);
                 } else {
-                    if (!findAndEquipToMain(ItemStack::isFood)) {
-                        heal(1); // natural regenaration
+                    if (!findAndEquipToMain(i -> i.isFood()
+                            && i.getItem().getFoodComponent().getHunger() > 0
+                            && i.getItem().getFoodComponent().getStatusEffects().stream().allMatch(e -> e.getFirst().getEffectType().isBeneficial()))) {
+                        heal(1); // natural regeneration
                     }
                 }
             }
