@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:engineer",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "mca:lumberjack",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "minecraft:crafting_table": 8
+  }
+}

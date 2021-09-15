@@ -1,0 +1,19 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "minecraft:armorer",
+      "satisfaction_boost": 15
+    }
+  ],
+  "items": {
+    "minecraft:furnace": 8
+  }
+}

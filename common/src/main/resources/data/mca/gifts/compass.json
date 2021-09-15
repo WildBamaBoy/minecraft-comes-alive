@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:engineer",
+      "satisfaction_boost": 20
+    },
+    {
+      "profession": "minecraft:cartographer",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:compass": 25
+  }
+}

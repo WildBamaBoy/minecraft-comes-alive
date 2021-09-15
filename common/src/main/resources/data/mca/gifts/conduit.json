@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "gender": "female",
+      "satisfaction_boost": 30
+    },
+    {
+      "profession": "minecraft:fisherman",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:conduit": 20
+  }
+}

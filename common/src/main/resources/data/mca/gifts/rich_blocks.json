@@ -7,6 +7,7 @@
     "minecraft:gold_block": 20,
     "minecraft:iron_block": 10,
     "minecraft:lapis_block": 10,
-    "minecraft:coal_block": 10
+    "minecraft:coal_block": 10,
+    "mca:rose_gold_block": 25
   }
 }

@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:engineer",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "minecraft:block_of_redstone": 20,
+    "minecraft:redstone": 5,
+    "minecraft:redstone_torch": 10
+  }
+}

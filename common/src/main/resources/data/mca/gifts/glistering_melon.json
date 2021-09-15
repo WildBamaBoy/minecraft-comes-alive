@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:glistering_melon": 15
+  }
+}

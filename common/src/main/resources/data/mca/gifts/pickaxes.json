@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:miner",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:netherite_pickaxe": 30,
+    "minecraft:diamond_pickaxe": 25,
+    "minecraft:iron_pickaxe": 20,
+    "minecraft:golden_pickaxe": 15,
+    "minecraft:stone_pickaxe": 10,
+    "minecraft:wooden_pickaxe": 5
+  }
+}
