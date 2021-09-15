@@ -10,7 +10,7 @@
     }
   ],
   "items": {
-    "minecraft:book_and_quill": 25,
+    "minecraft:writable_book": 25,
     "minecraft:book": 15,
     "minecraft:bookshelf": 20
   }

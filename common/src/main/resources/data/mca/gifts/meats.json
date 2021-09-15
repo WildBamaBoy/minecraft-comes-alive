@@ -12,7 +12,7 @@
     "best": "gift.meats.best"
   },
   "items": {
-    "minecraft:steak": 5,
+    "minecraft:cooked_beef": 5,
     "minecraft:cooked_chicken": 5,
     "minecraft:cooked_mutton": 5,
     "minecraft:cooked_porkchop": 5,

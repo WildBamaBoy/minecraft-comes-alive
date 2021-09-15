@@ -10,7 +10,7 @@
     }
   ],
   "items": {
-    "minecraft:block_of_redstone": 20,
+    "minecraft:redstone_block": 20,
     "minecraft:redstone": 5,
     "minecraft:redstone_torch": 10
   }
