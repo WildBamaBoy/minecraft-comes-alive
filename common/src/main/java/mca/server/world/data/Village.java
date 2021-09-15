@@ -38,7 +38,7 @@ import net.minecraft.village.VillagerProfession;
 
 public class Village implements Iterable<Building> {
 
-    private static final int MOVE_IN_COOLDOWN = 60;
+    private static final int MOVE_IN_COOLDOWN = 6000;
     private static final int MIN_SIZE = 32;
     private static final int MAX_STORAGE_SIZE = 1024;
 
@@ -375,9 +375,12 @@ public class Village implements Iterable<Building> {
         // Count up the guards
         int guards = 0;
         List<VillagerEntityMCA> villagers = getResidents(world);
+        List<VillagerEntityMCA> nonGuards = new LinkedList<>();
         for (VillagerEntityMCA villager : villagers) {
-            if (villager.getProfession() == ProfessionsMCA.GUARD) {
+            if (villager.getProfession() == ProfessionsMCA.GUARD || villager.getProfession() == ProfessionsMCA.ARCHER) {
                 guards++;
+            } else if (!villager.isBaby() && !villager.isProfessionImportant()) {
+                nonGuards.add(villager);
             }
         }
 
@@ -385,11 +388,9 @@ public class Village implements Iterable<Building> {
         // todo what happen about people who are missing in action?
 
         // Spawn a new guard if we don't have enough
-        if (villagers.size() > 0 && guards < guardCapacity) {
-            VillagerEntityMCA villager = villagers.get(world.random.nextInt(villagers.size()));
-            if (!villager.isBaby()) {
-                villager.setProfession(guards % 2 == 0 ? ProfessionsMCA.GUARD : ProfessionsMCA.ARCHER);
-            }
+        if (nonGuards.size() > 0 && guards < guardCapacity) {
+            VillagerEntityMCA villager = nonGuards.get(world.random.nextInt(nonGuards.size()));
+            villager.setProfession(guards % 2 == 0 ? ProfessionsMCA.GUARD : ProfessionsMCA.ARCHER);
         }
     }
 
