@@ -14,6 +14,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.network.VillagerEditorSyncRequest;
@@ -41,6 +42,7 @@ import static mca.entity.VillagerLike.VILLAGER_NAME;
 public class VillagerEditorScreen extends Screen {
     private final UUID villagerUUID;
     private NbtCompound villagerData;
+    private int villagerBreedingAge;
     private String page;
     private final VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.create(MinecraftClient.getInstance().world);
     private static int DATA_WIDTH = 150;
@@ -141,6 +143,13 @@ public class VillagerEditorScreen extends Screen {
                     villager.getGenetics().setGender(Gender.FEMALE);
                 }));
                 addButton(new ButtonWidget(width / 2 + DATA_WIDTH / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.male"), sender -> villager.getGenetics().setGender(Gender.MALE)));
+                y += 22;
+
+                //age
+                addButton(new GeneSliderWidget(width / 2, y, DATA_WIDTH, 20, new TranslatableText("gui.villager_editor.age"), 1.0 - villagerBreedingAge / (double)AgeState.MAX_AGE, b -> {
+                    villagerBreedingAge = (int)((1.0 - b) * AgeState.MAX_AGE);
+                    villager.setBreedingAge(villagerBreedingAge);
+                }));
                 y += 22;
                 break;
             case "body":
@@ -314,6 +323,7 @@ public class VillagerEditorScreen extends Screen {
         villagerData = data.getCompound(villagerUUID.toString());
         if (villager != null) {
             villager.readCustomDataFromNbt(villagerData);
+            villagerBreedingAge = villagerData.getInt("Age");
         }
         if (page.equals("loading")) {
             setPage("general");
@@ -328,6 +338,7 @@ public class VillagerEditorScreen extends Screen {
         assert villager != null;
         NbtCompound nbt = new NbtCompound();
         ((MobEntity)villager).writeCustomDataToNbt(nbt);
+        nbt.putInt("Age", villagerBreedingAge);
         NetworkHandler.sendToServer(new VillagerEditorSyncRequest("sync", villagerUUID, nbt));
     }
 }
