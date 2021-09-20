@@ -10,11 +10,12 @@
     "MixinHorseBaseEntity",
     "MixinMemoryModuleType",
     "MixinPlayerEntity",
+    "MixinProtoChunk",
     "MixinSensorType",
     "MixinServerWorld",
-    "MixinProtoChunk",
     "MixinTargetPredicate",
-    "MixinVillagerEntity"
+    "MixinVillagerEntity",
+    "MixinZombieVillagerEntity"
   ],
   "client": [
     "client.MixinClientPlayerEntity",
