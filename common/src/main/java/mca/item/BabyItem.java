@@ -212,6 +212,7 @@ public class BabyItem extends Item {
         child.getRelationships().getFamilyEntry().assignParent(family);
 
         WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
+
         // notify parents
         Stream.concat(Stream.of(mother, father).filter(Optional::isPresent).map(Optional::get), Stream.of(player))
                 .filter(e -> e instanceof ServerPlayerEntity)

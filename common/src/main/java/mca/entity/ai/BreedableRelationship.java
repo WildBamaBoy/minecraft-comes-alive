@@ -5,9 +5,11 @@ import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.gifts.GiftType;
 import mca.entity.interaction.gifts.Response;
 import mca.item.SpecialCaseGift;
+import mca.server.world.data.BabyTracker;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
@@ -15,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
@@ -82,10 +85,14 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
                 }
 
                 for (int i = 0; i < count; i++) {
-                    ItemStack stack = TagsMCA.Items.BABIES.getRandom(random).getDefaultStack();
-                    if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
-                        entity.getInventory().addStack(stack);
-                    }
+                    BabyTracker.get((ServerWorld)entity.world).getPairing(entity.getUuid(), spouse.getUuid()).addChild(state -> {
+                        state.setGender(Gender.getRandom());
+                        state.setOwner(entity);
+                        ItemStack stack = state.createItem();
+                        if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
+                            entity.getInventory().addStack(stack);
+                        }
+                    });
                 }
             });
 
@@ -177,8 +184,8 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
         if (item instanceof SpecialCaseGift) {
             if (((SpecialCaseGift)item).handle(player, entity)) {
                 player.getMainHandStack().decrement(1);
-                return true;
             }
+            return true;
         }
 
         if (item == Items.CAKE && isMarriedTo(player.getUuid()) && !entity.isBaby()) {

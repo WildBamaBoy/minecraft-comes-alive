@@ -7,7 +7,6 @@
         "name": "confirm",
         "next": [
           {
-            "id": "procreate.confirm",
             "command": "procreate"
           }
         ]

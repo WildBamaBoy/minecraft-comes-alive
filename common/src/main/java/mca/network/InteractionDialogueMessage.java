@@ -60,23 +60,27 @@ public class InteractionDialogueMessage implements Message {
                 villager.getInteractions().handle(player, ac.get().getCommand());
             }
 
-            Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
-            if (newQuestion != null) {
-                if (newQuestion.isAuto()) {
-                    // this is basically a placeholder and fires an answer automatically
-                    // use cases are n to 1 links or to split file size
-                    selectAnswer(villager, player, newQuestion.getId(), newQuestion.getAnswers().get(0).getName());
-                    return;
+            if (id != null) {
+                Question newQuestion = Dialogues.getInstance().getRandomQuestion(id);
+                if (newQuestion != null) {
+                    if (newQuestion.isAuto()) {
+                        // this is basically a placeholder and fires an answer automatically
+                        // use cases are n to 1 links or to split file size
+                        selectAnswer(villager, player, newQuestion.getId(), newQuestion.getAnswers().get(0).getName());
+                        return;
+                    } else {
+                        NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion, player, villager), player);
+                    }
                 } else {
-                    NetworkHandler.sendToPlayer(new InteractionDialogueResponse(newQuestion, player, villager), player);
+                    // we send nevertheless and assume it's a final question
+                    villager.sendChatMessage(player, "dialogue." + id);
+                }
+
+                // close screen
+                if (newQuestion == null || newQuestion.isCloseScreen()) {
+                    villager.getInteractions().stopInteracting();
                 }
             } else {
-                // we send nevertheless and assume it's a final question
-                villager.sendChatMessage(player, "dialogue." + id);
-            }
-
-            // close screen
-            if (newQuestion == null || newQuestion.isCloseScreen()) {
                 villager.getInteractions().stopInteracting();
             }
         } else {

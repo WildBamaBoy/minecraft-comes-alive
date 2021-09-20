@@ -32,7 +32,6 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public class PlayerSaveData extends PersistentStateCompat implements EntityRelationship {
-    @Nullable
     private final UUID playerId;
 
     private Optional<UUID> spouseUUID = Optional.empty();
@@ -50,13 +49,14 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     }
 
     PlayerSaveData(ServerWorld world, UUID playerId) {
+        assert playerId != null;
         this.world = world;
         this.playerId = playerId;
     }
 
     PlayerSaveData(ServerWorld world, NbtCompound nbt) {
         this.world = world;
-        playerId = nbt.contains("playerId", NbtElementCompat.INT_TYPE) ? nbt.getUuid("playerId") : null;
+        playerId = nbt.getUuid("playerId");
         lastSeenVillage = nbt.contains("lastSeenVillage", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getInt("lastSeenVillage")) : Optional.empty();
         spouseUUID = nbt.contains("spouseUUID", NbtElementCompat.INT_TYPE) ? Optional.of(nbt.getUuid("spouseUUID")) : Optional.empty();
         spouseName = nbt.contains("spouseName") ? Optional.of(new LiteralText(nbt.getString("spouseName"))) : Optional.empty();
@@ -194,6 +194,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
+        nbt.putUuid("playerId", playerId);
         spouseUUID.ifPresent(id -> nbt.putUuid("spouseUUID", id));
         lastSeenVillage.ifPresent(id -> nbt.putInt("lastSeenVillage", id));
         spouseName.ifPresent(n -> nbt.putString("spouseName", n.getString()));
