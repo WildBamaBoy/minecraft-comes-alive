@@ -76,8 +76,12 @@ public class BabyItem extends Item {
     }
 
     public boolean onDropped(ItemStack stack, PlayerEntity player) {
-        player.sendMessage(new TranslatableText("item.mca.baby.no_drop"), true);
-        return false;
+        if (!hasBeenInvalidated(stack)) {
+            player.sendMessage(new TranslatableText("item.mca.baby.no_drop"), true);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
