@@ -12,6 +12,7 @@ public final class Config implements Serializable {
     }
 
     public boolean overwriteOriginalVillagers = true;
+    public boolean overwriteOriginalZombieVillagers = true;
     public boolean enableDiminishingReturns = true;
     public boolean enableInfection = true;
     public int infectionChance = 5;
