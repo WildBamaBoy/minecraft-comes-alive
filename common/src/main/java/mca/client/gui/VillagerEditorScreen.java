@@ -147,8 +147,9 @@ public class VillagerEditorScreen extends Screen {
 
                 //age
                 addButton(new GeneSliderWidget(width / 2, y, DATA_WIDTH, 20, new TranslatableText("gui.villager_editor.age"), 1.0 - villagerBreedingAge / (double)AgeState.MAX_AGE, b -> {
-                    villagerBreedingAge = (int)((1.0 - b) * AgeState.MAX_AGE);
+                    villagerBreedingAge = (int)((1.0 - b) * AgeState.MAX_AGE) + 1;
                     villager.setBreedingAge(villagerBreedingAge);
+                    villager.calculateDimensions();
                 }));
                 y += 22;
                 break;
