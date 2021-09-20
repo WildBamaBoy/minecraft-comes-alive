@@ -5,6 +5,7 @@ import java.util.Optional;
 import mca.client.gui.*;
 import mca.client.gui.BlueprintScreen;
 import mca.entity.VillagerLike;
+import mca.entity.ZombieVillagerEntityMCA;
 import mca.item.BabyItem;
 import mca.item.ExtendedWrittenBookItem;
 import mca.server.world.data.BabyTracker;
@@ -13,6 +14,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Hand;
 
 public class ClientInteractionManagerImpl implements ClientInteractionManager {
@@ -39,7 +41,13 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                 client.openScreen(new BlueprintScreen());
                 break;
             case INTERACT:
-                client.openScreen(new InteractScreen((VillagerLike<?>)client.world.getEntityById(message.villager)));
+                VillagerLike<?> villager = (VillagerLike<?>)client.world.getEntityById(message.villager);
+                if (villager instanceof ZombieVillagerEntityMCA) {
+                    String t = new String(new char[((ZombieVillagerEntityMCA)villager).getRandom().nextInt(8) + 2]).replace("\0", ". ");
+                    villager.sendChatMessage(new LiteralText(t), client.player);
+                } else {
+                    client.openScreen(new InteractScreen(villager));
+                }
                 break;
             case BABY_NAME:
                 if (client.player != null) {
