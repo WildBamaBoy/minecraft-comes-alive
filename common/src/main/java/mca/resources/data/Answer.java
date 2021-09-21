@@ -22,9 +22,9 @@ public class Answer {
 
     private final List<InteractionPredicate> conditions;
 
-    private final List<AnswerAction> next;
+    private final List<AnswerAction> actions;
 
-    public Answer(String name, float chance, int hearts, float bonusChance, int bonusChanceMinHearts, int bonusChanceMaxHearts, float chanceRandom, String constraints, List<InteractionPredicate> conditions, List<AnswerAction> next) {
+    public Answer(String name, float chance, int hearts, float bonusChance, int bonusChanceMinHearts, int bonusChanceMaxHearts, float chanceRandom, String constraints, List<InteractionPredicate> conditions, List<AnswerAction> actions) {
         this.name = name;
         this.chance = chance;
         this.hearts = hearts;
@@ -34,7 +34,7 @@ public class Answer {
         this.chanceRandom = chanceRandom;
         this.constraints = constraints;
         this.conditions = conditions;
-        this.next = next;
+        this.actions = actions;
     }
 
     public String getName() {
@@ -53,11 +53,11 @@ public class Answer {
         }
     }
 
-    public List<AnswerAction> getNext() {
-        if (next == null) {
+    public List<AnswerAction> getActions() {
+        if (actions == null) {
             return Collections.emptyList();
         } else {
-            return next;
+            return actions;
         }
     }
 

@@ -46,7 +46,7 @@
             "mood": "interested"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "chat.fail",
             "threshold": 0.0,

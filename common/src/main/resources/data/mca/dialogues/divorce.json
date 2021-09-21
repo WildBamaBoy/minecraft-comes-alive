@@ -5,7 +5,7 @@
     "answers": [
       {
         "name": "confirm",
-        "next": [
+        "actions": [
           {
             "command": "divorceConfirm"
           }
@@ -13,7 +13,7 @@
       },
       {
         "name": "cancel",
-        "next": [
+        "actions": [
           {
             "id": "main"
           }

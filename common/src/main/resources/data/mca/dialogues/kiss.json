@@ -29,7 +29,7 @@
             "mood": "giggly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "kiss.fail",
             "threshold": 0.0,

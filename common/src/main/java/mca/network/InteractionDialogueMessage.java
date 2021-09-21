@@ -42,7 +42,7 @@ public class InteractionDialogueMessage implements Message {
         Answer answer = question.getAnswer(answerId);
 
         float chance = answer.getChance(villager, player);
-        Optional<AnswerAction> ac = answer.getNext().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
+        Optional<AnswerAction> ac = answer.getActions().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
         if (ac.isPresent()) {
             String id = ac.get().getId();
 

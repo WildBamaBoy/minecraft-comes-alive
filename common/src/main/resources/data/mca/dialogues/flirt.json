@@ -34,7 +34,7 @@
             "mood": "giggly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "flirt.fail",
             "threshold": 0.0,

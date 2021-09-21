@@ -45,7 +45,7 @@
             "mood": "talkative"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "greet.fail",
             "threshold": 0.0,
@@ -104,7 +104,7 @@
             "mood": "talkative"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "greet.fail",
             "threshold": 0.0,
@@ -126,7 +126,7 @@
         "chance": 1.0,
         "conditions": [
         ],
-        "next": [
+        "actions": [
           {
             "id": "greet.getBetter",
             "threshold": 0.0

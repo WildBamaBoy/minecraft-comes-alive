@@ -5,7 +5,7 @@
       {
         "name": "greet",
         "constraints": "!baby",
-        "next": [
+        "actions": [
           {
             "id": "greet"
           }
@@ -13,7 +13,7 @@
       },
       {
         "name": "chat",
-        "next": [
+        "actions": [
           {
             "id": "chat"
           }
@@ -21,7 +21,7 @@
       },
       {
         "name": "joke",
-        "next": [
+        "actions": [
           {
             "id": "joke"
           }
@@ -29,7 +29,7 @@
       },
       {
         "name": "story",
-        "next": [
+        "actions": [
           {
             "id": "story"
           }
@@ -38,7 +38,7 @@
       {
         "name": "hug",
         "constraints": "adult",
-        "next": [
+        "actions": [
           {
             "id": "hug"
           }
@@ -47,7 +47,7 @@
       {
         "name": "flirt",
         "constraints": "!kids,adult",
-        "next": [
+        "actions": [
           {
             "id": "flirt"
           }
@@ -56,7 +56,7 @@
       {
         "name": "kiss",
         "constraints": "!kids,adult",
-        "next": [
+        "actions": [
           {
             "id": "kiss"
           }
@@ -65,7 +65,7 @@
       {
         "name": "procreate",
         "constraints": "spouse",
-        "next": [
+        "actions": [
           {
             "id": "procreate"
           }
@@ -74,7 +74,7 @@
       {
         "name": "divorcePapers",
         "constraints": "cleric,!spouse",
-        "next": [
+        "actions": [
           {
             "id": "divorcePapers",
             "command": "divorcePapers"
@@ -84,7 +84,7 @@
       {
         "name": "divorceInitiate",
         "constraints": "spouse",
-        "next": [
+        "actions": [
           {
             "id": "divorce"
           }

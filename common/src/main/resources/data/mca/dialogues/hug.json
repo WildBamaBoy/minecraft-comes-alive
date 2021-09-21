@@ -24,7 +24,7 @@
             "personality": "friendly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "hug.fail",
             "threshold": 0.0,

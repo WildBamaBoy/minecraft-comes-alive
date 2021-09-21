@@ -36,7 +36,7 @@
             "mood": "giggly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "joke.skeleton.failed",
             "threshold": 0.0,
@@ -81,7 +81,7 @@
             "mood": "giggly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "joke.sheep.failed",
             "threshold": 0.0,
@@ -126,7 +126,7 @@
             "mood": "giggly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "joke.pig.failed",
             "threshold": 0.0,
@@ -171,7 +171,7 @@
             "mood": "giggly"
           }
         ],
-        "next": [
+        "actions": [
           {
             "id": "joke.creative.failed",
             "threshold": 0.0,
