@@ -54,8 +54,8 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
     NOBLE("noble", (villager, player) -> isRankAtLeast(villager, player, Rank.NOBLE)),
     NOT_NOBLE("!noble", (villager, player) -> !isRankAtLeast(villager, player, Rank.NOBLE)),
 
-    MAYOR("mayor.json", (villager, player) -> isRankAtLeast(villager, player, Rank.MAYOR)),
-    NOT_MAYOR("!mayor.json", (villager, player) -> !isRankAtLeast(villager, player, Rank.MAYOR));
+    MAYOR("mayor", (villager, player) -> isRankAtLeast(villager, player, Rank.MAYOR)),
+    NOT_MAYOR("!mayor", (villager, player) -> !isRankAtLeast(villager, player, Rank.MAYOR));
 
     private static boolean isRankAtLeast(VillagerLike<?> villager, Entity player, Rank rank) {
         return player instanceof PlayerEntity && villager instanceof VillagerEntityMCA && ((VillagerEntityMCA)villager).getResidency().getHomeVillage()
