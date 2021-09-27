@@ -200,6 +200,8 @@
   "buildingType.prison.description": "A place to lock thieves, traitors, and similar into.",
   "buildingType.armory": "Armory",
   "buildingType.armory.description": "Upgrades the guards default armor.",
+  "buildingType.infirmary": "Infirmary",
+  "buildingType.infirmary.description": "Reduces the chance of infection by 50%!",
 
   "task.reputation": "Reach %1$s average hearts",
   "task.population": "Reach a population of %1$s",

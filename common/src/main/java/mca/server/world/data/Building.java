@@ -413,12 +413,13 @@ public class Building implements Serializable, Iterable<UUID> {
     }
 
     public int getBeds() {
-        Tag<Block> tag = ServerTagManagerHolder.getTagManager().getBlocks().getTag(new Identifier("minecraft:beds"));
-        if (tag != null) {
-            return blocks.entrySet().stream().filter(e -> tag.contains(Registry.BLOCK.get(e.getKey()))).mapToInt(Map.Entry::getValue).sum();
-        } else {
-            return 0;
+        if (!getBuildingType().noBeds()) {
+            Tag<Block> tag = ServerTagManagerHolder.getTagManager().getBlocks().getTag(new Identifier("minecraft:beds"));
+            if (tag != null) {
+                return blocks.entrySet().stream().filter(e -> tag.contains(Registry.BLOCK.get(e.getKey()))).mapToInt(Map.Entry::getValue).sum();
+            }
         }
+        return 0;
     }
 
     public int getSize() {

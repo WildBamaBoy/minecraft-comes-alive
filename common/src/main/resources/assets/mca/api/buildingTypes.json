@@ -255,6 +255,22 @@
     "iconV": 0
   },
   {
+    "name": "infirmary",
+    "size": 32,
+    "color": "ffff00ff",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:brewing_stand": 1,
+      "minecraft:cauldron": 1,
+      "minecraft:beds": 1,
+      "minecraft:flower_pot": 1
+    },
+    "noBeds": true,
+    "iconU": 7,
+    "iconV": 0
+  },
+  {
     "name": "graveyard",
     "size": 0,
     "color": "ffff00ff",

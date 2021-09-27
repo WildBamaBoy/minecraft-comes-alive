@@ -10,5 +10,9 @@
   {
     "type": "building",
     "building": "inn"
+  },
+  {
+    "type": "building",
+    "building": "infirmary"
   }
 ]

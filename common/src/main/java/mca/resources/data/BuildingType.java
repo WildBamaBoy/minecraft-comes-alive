@@ -27,17 +27,19 @@ public final class BuildingType {
     private final int iconV;
     private final boolean grouped;
     private final int mergeRange;
+    private final boolean noBeds;
 
     public BuildingType() {
-        this("?", 0, "ffffffff", 0, true);
+        this("?", 0, "ffffffff", 0, true, false);
     }
 
-    public BuildingType(String name, int size, String color, int priority, boolean visible) {
+    public BuildingType(String name, int size, String color, int priority, boolean visible, boolean noBeds) {
         this.name = name;
         this.size = size;
         this.color = color;
         this.priority = priority;
         this.visible = visible;
+        this.noBeds = noBeds;
         this.blocks = Collections.emptyMap();
         this.blockIds = null;
         this.icon = false;
@@ -137,5 +139,9 @@ public final class BuildingType {
 
     public int mergeRange() {
         return mergeRange;
+    }
+
+    public boolean noBeds() {
+        return noBeds;
     }
 }

@@ -407,8 +407,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                     && getProfession() != ProfessionsMCA.GUARD
                     && Config.getInstance().enableInfection
                     && random.nextFloat() < Config.getInstance().infectionChance / 100.0) {
-                setInfected(true);
-                sendChatToAllAround("villager.bitten");
+                if (!getResidency().getHomeVillage().filter(v -> v.hasBuilding("infirmary")).isPresent() || random.nextBoolean()) {
+                    setInfected(true);
+                    sendChatToAllAround("villager.bitten");
+                }
             }
         }
 
