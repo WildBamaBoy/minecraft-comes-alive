@@ -29,3 +29,6 @@ forge*changelog.txt
 /mapppings
 /mcmodsrepo
 /local.properties
+
+# Files from architectury
+.architectury-transformer
