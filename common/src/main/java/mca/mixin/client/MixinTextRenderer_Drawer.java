@@ -5,12 +5,12 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(targets = "net/minecraft/client/font/TextRenderer$Drawer")
 public interface MixinTextRenderer_Drawer {
-    @Accessor
+    @Accessor("x")
     float getX();
-    @Accessor
+    @Accessor("y")
     float getY();
-    @Accessor
+    @Accessor("x")
     void setX(float x);
-    @Accessor
+    @Accessor("y")
     void setY(float y);
 }
