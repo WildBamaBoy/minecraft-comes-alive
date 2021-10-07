@@ -1,12 +1,13 @@
 package mca.item;
 
-import mca.client.gui.VillagerEditorScreen;
+import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerLike;
-import net.minecraft.client.MinecraftClient;
+import mca.network.client.OpenGuiRequest;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
@@ -15,12 +16,12 @@ public class VillagerEditorItem extends Item {
         super(settings);
     }
 
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if (entity instanceof VillagerLike && entity.world.isClient) {
-            MinecraftClient.getInstance().openScreen(new VillagerEditorScreen(entity.getUuid()));
-            return ActionResult.success(true);
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand) {
+        if (entity instanceof VillagerLike && !entity.world.isClient && player instanceof ServerPlayerEntity) {
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.VILLAGER_EDITOR, entity), (ServerPlayerEntity)player);
+            return ActionResult.SUCCESS;
         } else {
-            return ActionResult.PASS;
+            return ActionResult.CONSUME;
         }
     }
 }

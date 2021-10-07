@@ -35,6 +35,7 @@ public class OpenGuiRequest implements Message {
         WHISTLE,
         BLUEPRINT,
         INTERACT,
+        VILLAGER_EDITOR,
         BOOK
     }
 }
