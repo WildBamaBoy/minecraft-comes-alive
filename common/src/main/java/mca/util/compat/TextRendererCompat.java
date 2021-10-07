@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import mca.mixin.client.MixinTextRenderer;
 import mca.mixin.client.MixinTextRenderer_Drawer;
+import mca.mixin.client.MixinTextRenderer_DrawerGetter;
 import net.minecraft.client.font.FontStorage;
 import net.minecraft.client.font.Glyph;
 import net.minecraft.client.font.TextRenderer;
@@ -62,9 +63,10 @@ public class TextRendererCompat {
         @Override
         public boolean accept(CharacterVisitor visitor) {
             MixinTextRenderer_Drawer drawer = (MixinTextRenderer_Drawer)visitor;
+            MixinTextRenderer_DrawerGetter drawerGetter = (MixinTextRenderer_DrawerGetter)visitor;
 
-            float originalX = drawer.getX();
-            float originalY = drawer.getY();
+            float originalX = drawerGetter.getX();
+            float originalY = drawerGetter.getY();
 
             // changed from mojang: original used Style#withColor(int) but that's not available yet
             TextColor tc = TextColor.fromRgb(l);

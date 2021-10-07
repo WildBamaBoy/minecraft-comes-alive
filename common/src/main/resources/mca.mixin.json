@@ -21,6 +21,7 @@
     "client.MixinClientPlayerEntity",
     "client.MixinTextRenderer",
     "client.MixinTextRenderer_Drawer",
+    "client.MixinTextRenderer_DrawerGetter",
     "client.MixinTranslationStorage"
   ],
   "injectors": {

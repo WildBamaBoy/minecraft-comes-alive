@@ -12,6 +12,7 @@ import mca.server.world.data.BabyTracker;
 import mca.server.world.data.Village;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
@@ -48,6 +49,10 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                 } else {
                     client.openScreen(new InteractScreen(villager));
                 }
+                break;
+            case VILLAGER_EDITOR:
+                Entity entity = client.world.getEntityById(message.villager);
+                client.openScreen(new VillagerEditorScreen(entity.getUuid()));
                 break;
             case BABY_NAME:
                 if (client.player != null) {

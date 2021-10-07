@@ -7,7 +7,7 @@ architectury {
 }
 
 minecraft {
-  refmapName = 'mca.mixin.refmap.json'
+  refmapName = 'mca.mixin.refmap.json' // remove to make it forge runClient compatible
   accessWidener 'src/main/resources/mca.aw'
 }
 
