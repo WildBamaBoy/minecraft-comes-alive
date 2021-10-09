@@ -29,6 +29,7 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -431,7 +432,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         }
 
         protected void sync() {
-
+            world.updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(), 3);
         }
 
         //@Override
@@ -450,6 +451,16 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
         public void fromTag(BlockState state, NbtCompound nbt) {
             super.fromTag(state, nbt);
             fromClientTag(nbt);
+        }
+
+        @Override
+        public NbtCompound toInitialChunkDataNbt() {
+            return this.writeNbt(new NbtCompound());
+        }
+
+        @Override
+        public BlockEntityUpdateS2CPacket toUpdatePacket() {
+            return new BlockEntityUpdateS2CPacket(this.pos, 127, this.toInitialChunkDataNbt());
         }
 
         @Override
