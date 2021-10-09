@@ -2,17 +2,11 @@ package mca.util.compat;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import mca.mixin.client.MixinTextRenderer;
-import mca.mixin.client.MixinTextRenderer_Drawer;
-import mca.mixin.client.MixinTextRenderer_DrawerGetter;
-import net.minecraft.client.font.FontStorage;
-import net.minecraft.client.font.Glyph;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.text.CharacterVisitor;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.math.Matrix4f;
 
 public class TextRendererCompat {
@@ -45,6 +39,17 @@ public class TextRendererCompat {
             this.y = y;
             this.l = tweakTransparency(borderColor);
 
+            // intercept the call and draw our shadow
+            for(int m = -1; m <= 1; ++m) { // left|middle|right
+                for(int n = -1; n <= 1; ++n) { // top|middle|bottom
+                    if (m != 0 || n != 0) { // skip the middle one
+                        float[] fs = new float[]{x};
+                        int[] fs2 = new int[] {m, n}; // changed from mojang: since m and n can't be read inside the lambda.
+                        renderer.draw(this, x + m, y + n, 0xFF000000, false, transformation, immediate, false, 0, light);
+                    }
+                }
+            }
+
             renderer.draw(this, x, y, fillColor, false, transformation, immediate, false, 0, light);
 
             // mojang uses a render layer with polygon offseting to keep the layers from z-fighting
@@ -62,40 +67,7 @@ public class TextRendererCompat {
 
         @Override
         public boolean accept(CharacterVisitor visitor) {
-            MixinTextRenderer_Drawer drawer = (MixinTextRenderer_Drawer)visitor;
-            MixinTextRenderer_DrawerGetter drawerGetter = (MixinTextRenderer_DrawerGetter)visitor;
-
-            float originalX = drawerGetter.getX();
-            float originalY = drawerGetter.getY();
-
-            // changed from mojang: original used Style#withColor(int) but that's not available yet
-            TextColor tc = TextColor.fromRgb(l);
-
-            // intercept the call and draw our shadow
-            for(int m = -1; m <= 1; ++m) { // left|middle|right
-                for(int n = -1; n <= 1; ++n) { // top|middle|bottom
-                    if (m != 0 || n != 0) { // skip the middle one
-                        float[] fs = new float[]{x};
-                        int[] fs2 = new int[] {m, n}; // changed from mojang: since m and n can't be read inside the lambda.
-                        text.accept((lx, style, mx) -> {
-                            boolean bl = style.isBold();
-                            FontStorage fontStorage = ((MixinTextRenderer)renderer).invokeGetFontStorage(style.getFont());
-                            Glyph glyph = fontStorage.getGlyph(mx);
-                            drawer.setX(fs[0] + fs2[0] * glyph.getShadowOffset());
-                            drawer.setY(y + fs2[1] * glyph.getShadowOffset());
-                            fs[0] += glyph.getAdvance(bl);
-                            return visitor.accept(lx, style.withColor(tc), mx);
-                        });
-                    }
-                }
-            }
-
             immediate.draw();
-
-            // reset the drawer's position so the actual text is rendered where it's meant to
-            drawer.setX(originalX);
-            drawer.setY(originalY);
-
             return text.accept(visitor);
         }
 
