@@ -10,6 +10,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 import java.util.stream.Stream;
@@ -39,7 +40,8 @@ public interface Messenger extends EntityWrapper {
 
     default void sendChatToAllAround(String phrase, Object...params) {
         for (PlayerEntity player : asEntity().world.getPlayers(CAN_RECEIVE, asEntity(), asEntity().getBoundingBox().expand(20))) {
-            sendChatMessage(player, phrase, params);
+            float dist = player.distanceTo(asEntity());
+            sendChatMessage(getTranslatable(player, phrase, params).formatted(dist < 10 ? Formatting.WHITE : Formatting.GRAY), player);
         }
     }
 

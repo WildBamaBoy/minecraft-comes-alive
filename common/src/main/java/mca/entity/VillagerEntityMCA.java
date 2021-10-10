@@ -104,6 +104,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     private final VillagerBrain<VillagerEntityMCA> mcaBrain = new VillagerBrain<>(this);
 
     private final Genetics genetics = new Genetics(this);
+    private final Traits traits = new Traits(this);
     private final Residency residency = new Residency(this);
     private final BreedableRelationship relations = new BreedableRelationship(this);
 
@@ -179,6 +180,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     @Override
+    public Traits getTraits() {
+        return traits;
+    }
+
+    @Override
     public BreedableRelationship getRelationships() {
         return relations;
     }
@@ -205,6 +211,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (spawnReason != SpawnReason.CONVERSION) {
             if (spawnReason != SpawnReason.BREEDING) {
                 genetics.randomize(this);
+                traits.randomize(this);
 
                 if (spawnReason != SpawnReason.SPAWN_EGG && spawnReason != SpawnReason.DISPENSER) {
                     genetics.setGender(Gender.getRandom());
@@ -525,6 +532,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (!world.isClient && this.age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
+
+        if (!world.isClient && this.age % 60 == 0 && random.nextInt(50) == 0 && traits.hasTrait(Traits.Trait.SIRBEN)) {
+            sendChatToAllAround("sirben");
+        }
     }
 
     @Override
@@ -840,7 +851,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
-        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
+        if (genetics == null) {
+            return 1.0f;
+        } else {
+            return genetics.getVerticalScaleFactor() * traits.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
+        }
     }
 
     @Override

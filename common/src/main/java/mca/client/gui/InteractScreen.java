@@ -1,10 +1,14 @@
 package mca.client.gui;
 
+import com.ibm.icu.text.UTF16;
+import java.util.Set;
+import java.util.stream.Collectors;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Memories;
+import mca.entity.ai.Traits;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.MarriageState;
@@ -150,7 +154,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         drawIcon(transform, memory.getHearts() < 0 ? "blackHeart" : memory.getHearts() >= 100 ? "goldHeart" : "redHeart");
-        drawIcon(transform, "neutralEmerald");
+        // drawIcon(transform, "neutralEmerald");
         drawIcon(transform, "genes");
 
         if (canDrawParentsIcon()) {
@@ -174,7 +178,6 @@ public class InteractScreen extends AbstractDynamicScreen {
             renderTooltip(transform, villager.asEntity().getName(), 10, 28);
         }
 
-
         //age or profession
         renderTooltip(transform, villager.asEntity().isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
 
@@ -191,6 +194,27 @@ public class InteractScreen extends AbstractDynamicScreen {
         } else {
             //White as we don't know if a personality is negative
             renderTooltip(transform, new TranslatableText("gui.interact.label.personality", brain.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 3);
+        }
+
+        //traits
+        Set<Traits.Trait> traits = villager.getTraits().getTraits();
+        if (traits.size() > 0) {
+            if (hoveringOverText(10, 30 + h * 4, 128)) {
+                //details
+                List<Text> traitText = traits.stream().map(Traits.Trait::getDescription).collect(Collectors.toList());
+                traitText.add(0, new TranslatableText("traits.title"));
+                renderTooltip(transform, traitText, 10, 30 + h * 4);
+            } else {
+                //list
+                TranslatableText traitText = new TranslatableText("traits.title");
+                traits.stream().map(Traits.Trait::getName).forEach(t -> {
+                    if (traitText.getSiblings().size() > 0) {
+                        traitText.append(new LiteralText(", "));
+                    }
+                    traitText.append(t);
+                });
+                renderTooltip(transform, traitText, 10, 30 + h * 4);
+            }
         }
 
         //hearts

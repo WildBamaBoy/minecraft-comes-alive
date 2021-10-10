@@ -96,6 +96,8 @@ public class Pregnancy {
         VillagerEntityMCA child = gender.getVillagerType().create(mother.world);
 
         child.getGenetics().combine(partner.getGenetics(), mother.getGenetics());
+        child.getTraits().inherit(partner.getTraits());
+        child.getTraits().inherit(mother.getTraits());
         child.setBaby(true);
         child.setAgeState(AgeState.TODDLER);
         child.setProfession(ProfessionsMCA.CHILD);

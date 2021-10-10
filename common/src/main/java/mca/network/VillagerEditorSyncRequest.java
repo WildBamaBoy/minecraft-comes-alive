@@ -34,6 +34,7 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
             switch (command) {
                 case "sync":
                     ((LivingEntity)entity).readCustomDataFromNbt(getData());
+                    entity.calculateDimensions();
                     break;
                 case "profession":
                     if (entity instanceof VillagerEntityMCA) {

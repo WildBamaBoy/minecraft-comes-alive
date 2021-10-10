@@ -14,6 +14,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
+import mca.entity.ai.Traits;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
@@ -31,8 +32,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
@@ -108,7 +111,7 @@ public class VillagerEditorScreen extends Screen {
         children.clear();
 
         //page selection
-        String[] pages = {"general", "body", "head", "personality", "debug"};
+        String[] pages = {"general", "body", "head", "personality", "traits", "debug"};
         int w = DATA_WIDTH * 2 / pages.length;
         int x = (int)(width / 2.0 - pages.length / 2.0 * w);
         for (String p : pages) {
@@ -251,6 +254,27 @@ public class VillagerEditorScreen extends Screen {
                         personalityButtons.add(widget);
                         row++;
                     }
+                }
+                y += 22;
+                break;
+            case "traits":
+                //traits
+                row = 0;
+                for (Traits.Trait t : Traits.Trait.values()) {
+                    if (row == 3) {
+                        row = 0;
+                        y += 20;
+                    }
+                    MutableText name = t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY);
+                    addButton(new ButtonWidget(width / 2 + DATA_WIDTH / 3 * row, y, DATA_WIDTH / 3, 20, name, b -> {
+                        if (villager.getTraits().hasTrait(t)) {
+                            villager.getTraits().removeTrait(t);
+                        } else {
+                            villager.getTraits().addTrait(t);
+                        }
+                        b.setMessage(t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY));
+                    }));
+                    row++;
                 }
                 y += 22;
                 break;

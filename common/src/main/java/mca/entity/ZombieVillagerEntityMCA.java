@@ -1,5 +1,6 @@
 package mca.entity;
 
+import mca.entity.ai.Traits;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +46,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     private final VillagerBrain<ZombieVillagerEntityMCA> mcaBrain = new VillagerBrain<>(this);
 
     private final Genetics genetics = new Genetics(this);
+    private final Traits traits = new Traits(this);
 
     private final Relationship<ZombieVillagerEntityMCA> relations = new Relationship<>(this);
 
@@ -67,6 +69,11 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     @Override
     public Genetics getGenetics() {
         return genetics;
+    }
+
+    @Override
+    public Traits getTraits() {
+        return traits;
     }
 
     @Override
@@ -125,7 +132,11 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
-        return genetics == null ? 1 : genetics.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
+        if (genetics == null) {
+            return 1.0f;
+        } else {
+            return genetics.getVerticalScaleFactor() * traits.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
+        }
     }
 
     @Override

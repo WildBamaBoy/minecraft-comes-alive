@@ -199,6 +199,10 @@ public class BabyItem extends Item {
                 father.map(VillagerLike::toVillager).map(VillagerLike::getGenetics)
         );
 
+        // inherit traits
+        mother.map(VillagerLike::toVillager).map(VillagerLike::getTraits).ifPresent(t -> child.getTraits().inherit(t));
+        father.map(VillagerLike::toVillager).map(VillagerLike::getTraits).ifPresent(t -> child.getTraits().inherit(t));
+
         // assign parents
         FamilyTreeNode family = PlayerSaveData.get(world, player.getUuid()).getFamilyEntry();
 

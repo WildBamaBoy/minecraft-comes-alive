@@ -6,6 +6,7 @@ import java.util.Map;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Messenger;
+import mca.entity.ai.Traits;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.EntityRelationship;
@@ -39,10 +40,13 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
         return new CDataManager.Builder<>(type)
                 .addAll(VILLAGER_NAME, CUSTOM_SKIN, CLOTHES, HAIR, HAIR_OVERLAY, HAIR_COLOR, AGE_STATE)
                 .add(Genetics::createTrackedData)
+                .add(Traits::createTrackedData)
                 .add(VillagerBrain::createTrackedData);
     }
 
     Genetics getGenetics();
+
+    Traits getTraits();
 
     VillagerBrain<?> getVillagerBrain();
 
@@ -133,7 +137,11 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     }
 
     default float getHorizontalScaleFactor() {
-        return getGenetics() == null ? 1 : getGenetics().getHorizontalScaleFactor() * getVillagerDimensions().getWidth();
+        if (getGenetics() == null) {
+            return 1.0f;
+        } else {
+            return getGenetics().getHorizontalScaleFactor() * getTraits().getHorizontalScaleFactor() * getVillagerDimensions().getWidth();
+        }
     }
 
     @Override

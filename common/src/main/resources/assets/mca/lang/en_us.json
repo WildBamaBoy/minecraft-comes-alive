@@ -145,6 +145,14 @@
   "personalityDescription.fragile": "Less defence",
   "personalityDescription.weak": "Deals less damage",
 
+  "traits.title": "Traits: ",
+  "trait.sirben": "Sirben",
+  "trait.dwarfism": "Dwarfism",
+  "traitDescription.sirben": "Was unfortunately born as a Sirben. Nothing one can do about this.",
+  "traitDescription.dwarfism": "Smaller than usual.",
+
+  "sirben": "*random Sirben noises*",
+
   "mood.depressed": "Depressed",
   "mood.sad": "Sad",
   "mood.unhappy": "Unhappy",
