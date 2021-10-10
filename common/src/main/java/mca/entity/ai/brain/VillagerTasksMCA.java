@@ -20,6 +20,7 @@ import mca.entity.ai.brain.tasks.GreetPlayerTask;
 import mca.entity.ai.brain.tasks.InteractTask;
 import mca.entity.ai.brain.tasks.LoseUnimportantJobTask;
 import mca.entity.ai.brain.tasks.PatrolVillageTask;
+import mca.entity.ai.brain.tasks.ShoutTask;
 import mca.entity.ai.brain.tasks.StayTask;
 import mca.entity.ai.brain.tasks.WanderOrTeleportToTargetTask;
 import mca.entity.ai.brain.tasks.chore.ChoppingTask;
@@ -180,7 +181,14 @@ public class VillagerTasksMCA {
                 Pair.of(0, new ConditionalTask<>(VillagerTasksMCA::guardTooHurt,
                         new PanicTask()
                 )),
+                Pair.of(0,
+                        new ShoutTask("villager.retreat", 100, e -> VillagerTasksMCA.guardTooHurt(e) && e.getVillagerBrain().isPanicking())
+                ),
+                Pair.of(0,
+                        new ShoutTask("villager.attack", 160, e -> !VillagerTasksMCA.guardTooHurt(e) && VillagerTasksMCA.getPreferredTarget(e).isPresent())
+                ),
                 Pair.of(0, new ConditionalTask<>(VillagerTasksMCA::guardTooHurt,
+                        // self-defence while fleeing
                         new ExtendedMeleeAttackTask(15, 2.5F, MemoryModuleType.NEAREST_HOSTILE)
                 )),
                 Pair.of(1, new EquipmentTask(VillagerTasksMCA::isOnDuty, v -> v.getResidency().getHomeVillage()
