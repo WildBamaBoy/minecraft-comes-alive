@@ -11,14 +11,14 @@ public interface VillagerDimensions {
 
     float getHead();
 
-    public final class Mutable implements VillagerDimensions {
+    final class Mutable implements VillagerDimensions {
         private float width;
         private float height;
         private float breasts;
         private float head;
 
         public Mutable(VillagerDimensions dimensions) {
-            set(dimensions, 1);
+            set(dimensions);
         }
 
         @Override
@@ -41,11 +41,18 @@ public interface VillagerDimensions {
             return head;
         }
 
-        public void set(VillagerDimensions to, float interp) {
-            width = MathHelper.lerp(interp, getWidth(), to.getWidth());
-            height = MathHelper.lerp(interp, getHeight(), to.getHeight());
-            breasts = MathHelper.lerp(interp, getBreasts(), to.getBreasts());
-            head = MathHelper.lerp(interp, getHead(), to.getHead());
+        public void interpolate(VillagerDimensions a, VillagerDimensions b, float f) {
+            width = MathHelper.lerp(f, a.getWidth(), b.getWidth());
+            height = MathHelper.lerp(f, a.getHeight(), b.getHeight());
+            breasts = MathHelper.lerp(f, a.getBreasts(), b.getBreasts());
+            head = MathHelper.lerp(f, a.getHead(), b.getHead());
+        }
+
+        public void set(VillagerDimensions a) {
+            width = a.getWidth();
+            height = a.getHeight();
+            breasts = a.getBreasts();
+            head = a.getHead();
         }
     }
 }

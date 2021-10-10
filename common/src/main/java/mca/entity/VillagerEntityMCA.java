@@ -127,6 +127,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     private GameProfile gameProfile;
 
+    private boolean recalcDimensionsBlocked;
+
     @Override
     public GameProfile getGameProfile() {
         return gameProfile;
@@ -269,11 +271,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         AgeState current = getAgeState();
 
-        dimensions.set(current, 1);
-
         AgeState next = current.getNext();
         if (current != next) {
-            dimensions.set(getAgeState(), AgeState.getDelta(age));
+            dimensions.interpolate(current, getAgeState(), AgeState.getDelta(age));
+        } else {
+            dimensions.set(current);
         }
     }
 
@@ -486,7 +488,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         super.tick();
 
         int age = getTrackedValue(GROWTH_AMOUNT);
-        if (age != prevGrowthAmount) {
+        if (age != prevGrowthAmount || recalcDimensionsBlocked) {
             prevGrowthAmount = age;
             calculateDimensions();
         }
@@ -530,11 +532,25 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         AgeState current = getAgeState();
         AgeState next = current.getNext();
 
-        dimensions.set(current, 1);
+        VillagerDimensions.Mutable old = new VillagerDimensions.Mutable(dimensions);
+
+        // either interpolate or set if final age is reached
         if (next != current) {
-            dimensions.set(next, AgeState.getDelta(getTrackedValue(GROWTH_AMOUNT)));
+            dimensions.interpolate(current, next, AgeState.getDelta(getTrackedValue(GROWTH_AMOUNT)));
+        } else {
+            dimensions.set(current);
         }
+
         super.calculateDimensions();
+
+        // prevents from growing into the wall
+        if (!this.firstUpdate && !world.isSpaceEmpty(this)) {
+            dimensions.set(old);
+            super.calculateDimensions();
+            recalcDimensionsBlocked = true;
+        } else {
+            recalcDimensionsBlocked = false;
+        }
     }
 
     @Override
