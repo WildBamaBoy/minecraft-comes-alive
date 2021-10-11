@@ -190,6 +190,7 @@ public class BabyTracker extends PersistentStateCompat {
 
         protected Gender gender;
         protected boolean infected;
+        protected long seed;
         protected Optional<String> name = Optional.empty();
 
         private final Key key;
@@ -206,6 +207,7 @@ public class BabyTracker extends PersistentStateCompat {
             gender = Gender.byName(tag.getString("gender"));
             infected = tag.getBoolean("infected");
             name = tag.contains("name") ? Optional.of(tag.getString("name")) : Optional.empty();
+            seed = tag.getLong("seed");
             key = new Key(tag.getList("key", NbtElementCompat.STRING_TYPE));
         }
 
@@ -229,11 +231,16 @@ public class BabyTracker extends PersistentStateCompat {
             return owner;
         }
 
+        public long getSeed() {
+            return seed;
+        }
+
         public NbtCompound writeToNbt(NbtCompound tag) {
             tag.putUuid("id", id);
             tag.putString("gender", gender.getStrName());
             tag.putBoolean("infected", infected);
             tag.put("key", key.toNbt());
+            tag.putLong("seed", seed);
             name.ifPresent(n -> tag.putString("name", n));
             return tag;
         }
@@ -282,6 +289,12 @@ public class BabyTracker extends PersistentStateCompat {
 
         public ChildSaveState setOwner(Entity entity) {
             owner = Optional.of(Pair.of(entity.getUuid(), entity.getName().getString()));
+            markDirty();
+            return this;
+        }
+
+        public ChildSaveState setSeed(long seed) {
+            this.seed= seed;
             markDirty();
             return this;
         }

@@ -84,10 +84,12 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
                     CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity)spouse, count);
                 }
 
+                long seed = random.nextLong();
                 for (int i = 0; i < count; i++) {
                     BabyTracker.get((ServerWorld)entity.world).getPairing(entity.getUuid(), spouse.getUuid()).addChild(state -> {
                         state.setGender(Gender.getRandom());
                         state.setOwner(entity);
+                        state.setSeed(seed);
                         ItemStack stack = state.createItem();
                         if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
                             entity.getInventory().addStack(stack);

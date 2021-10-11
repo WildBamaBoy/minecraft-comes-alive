@@ -1,5 +1,6 @@
 package mca.item;
 
+import java.util.Random;
 import mca.ClientProxy;
 import mca.Config;
 import mca.advancement.criterion.CriterionMCA;
@@ -196,12 +197,13 @@ public class BabyItem extends Item {
         // combine genes
         child.getGenetics().combine(
                 mother.map(VillagerLike::toVillager).map(VillagerLike::getGenetics),
-                father.map(VillagerLike::toVillager).map(VillagerLike::getGenetics)
+                father.map(VillagerLike::toVillager).map(VillagerLike::getGenetics),
+                state.getSeed()
         );
 
         // inherit traits
-        mother.map(VillagerLike::toVillager).map(VillagerLike::getTraits).ifPresent(t -> child.getTraits().inherit(t));
-        father.map(VillagerLike::toVillager).map(VillagerLike::getTraits).ifPresent(t -> child.getTraits().inherit(t));
+        mother.map(VillagerLike::toVillager).map(VillagerLike::getTraits).ifPresent(t -> child.getTraits().inherit(t, state.getSeed()));
+        father.map(VillagerLike::toVillager).map(VillagerLike::getTraits).ifPresent(t -> child.getTraits().inherit(t, state.getSeed()));
 
         // assign parents
         FamilyTreeNode family = PlayerSaveData.get(world, player.getUuid()).getFamilyEntry();

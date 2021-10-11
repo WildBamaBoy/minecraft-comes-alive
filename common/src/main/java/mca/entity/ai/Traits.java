@@ -42,7 +42,7 @@ public class Traits {
         return builder.addAll(TRAITS);
     }
 
-    private final Random random = new Random();
+    private Random random = new Random();
 
     private final VillagerLike<?> entity;
 
@@ -83,6 +83,13 @@ public class Traits {
         for (Trait t : from.getInheritedTraits()) {
             addTrait(t);
         }
+    }
+
+    public void inherit(Traits from, long seed) {
+        Random old = random;
+        random = new Random(seed);
+        inherit(from);
+        random = old;
     }
 
     public float getVerticalScaleFactor() {

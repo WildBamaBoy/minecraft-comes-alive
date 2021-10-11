@@ -112,7 +112,9 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                     if (pairing.locateBaby(player).getRight().wasFound()) {
                         entity.sendChatMessage(player, "interaction.procreate.fail.hasbaby");
                     } else {
-                        entity.sendChatMessage(player, "interaction.procreate.fail.lostbaby");
+                        //entity.sendChatMessage(player, "interaction.procreate.fail.lostbaby");
+                        //todo phrase does not exist and we lack a Plan B in case the loss is caused by a bug
+                        entity.getRelationships().startProcreating();
                     }
                 } else if (memory.getHearts() < 100) {
                     entity.sendChatMessage(player, "interaction.procreate.fail.lowhearts");

@@ -41,7 +41,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
         return builder.addAll(GENDER);
     }
 
-    private final Random random = new Random();
+    private Random random = new Random();
 
     private final Map<GeneType, Gene> genes = new HashMap<>();
 
@@ -139,6 +139,13 @@ public class Genetics implements Iterable<Genetics.Gene> {
         } else if (mother.isPresent()) {
             combine(mother.get(), father.get());
         }
+    }
+
+    public void combine(Optional<Genetics> mother, Optional<Genetics> father, long seed) {
+        Random old = random;
+        random = new Random(seed);
+        combine(mother, father);
+        random = old;
     }
 
     public class Gene {
