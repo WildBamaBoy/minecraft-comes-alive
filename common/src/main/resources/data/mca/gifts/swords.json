@@ -3,8 +3,26 @@
     {
       "profession": "mca:guard",
       "satisfaction_boost": 20
+    },
+    {
+      "personality": "peaceful",
+      "satisfaction_boost": -40
+    },
+    {
+      "personality": "fragile",
+      "satisfaction_boost": -20
+    },
+    {
+      "personality": "weak",
+      "satisfaction_boost": -20
     }
   ],
+  "responses": {
+    "fail": "gift.weapons.fail",
+    "good": "gift.weapons.success",
+    "better": "gift.weapons.success",
+    "best": "gift.weapons.success"
+  },
   "items": {
     "minecraft:netherite_sword": 30,
     "minecraft:diamond_sword": 20,
