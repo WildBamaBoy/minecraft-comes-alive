@@ -758,7 +758,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public final void playWelcomeSound() {
-        if (!getVillagerBrain().isPanicking()) {
+        if (!getVillagerBrain().isPanicking() && getAgeState() != AgeState.BABY) {
             playSound(getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_GREET : SoundsMCA.VILLAGER_FEMALE_GREET, getSoundVolume(), getSoundPitch());
         }
     }
@@ -845,8 +845,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                         sendEventMessage(new TranslatableText("notify.child.grownup", getName()), p);
                     });
                 }
-            }
 
+                reinitializeBrain((ServerWorld)world);
+            }
             return true;
         }
 

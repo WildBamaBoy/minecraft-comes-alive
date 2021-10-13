@@ -27,6 +27,7 @@ import mca.entity.ai.brain.tasks.chore.ChoppingTask;
 import mca.entity.ai.brain.tasks.chore.FishingTask;
 import mca.entity.ai.brain.tasks.chore.HarvestingTask;
 import mca.entity.ai.brain.tasks.chore.HuntingTask;
+import mca.entity.ai.relationship.AgeState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
@@ -103,10 +104,16 @@ public class VillagerTasksMCA {
 
     public static Brain<VillagerEntityMCA> initializeTasks(VillagerEntityMCA villager, Brain<VillagerEntityMCA> brain) {
         VillagerProfession profession = villager.getVillagerData().getProfession();
+        AgeState age = AgeState.byCurrentAge(villager.getBreedingAge());
 
-        if (villager.isBaby()) {
+        if (age == AgeState.BABY) {
+            brain.setSchedule(Schedule.VILLAGER_BABY);
+            //todo babies may get a little bit more AI
+            return brain;
+        } else if (age != AgeState.ADULT) {
             brain.setSchedule(Schedule.VILLAGER_BABY);
             brain.setTaskList(Activity.PLAY, VillagerTasksMCA.getPlayPackage(0.5F));
+            brain.setTaskList(Activity.CORE, VillagerTasksMCA.getSelfDefencePackage(profession, 0.5f));
         } else if (profession == ProfessionsMCA.GUARD || profession == ProfessionsMCA.ARCHER) {
             brain.setSchedule(villager.getRandom().nextBoolean() ? SchedulesMCA.GUARD : SchedulesMCA.GUARD_NIGHT);
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getGuardCorePackage(villager));
