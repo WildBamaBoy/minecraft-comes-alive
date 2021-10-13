@@ -552,7 +552,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             dimensions.set(current);
         }
 
+        // todo calculateDimensions call move, move sets some flags, but since it's a "fake" move no collision happen
+        // without collision the pathfinder skips the frame, causing children to not move
+        // there are more flags affected, none of them seem to affect the game tho
+        boolean oldOnGround = this.onGround;
         super.calculateDimensions();
+        this.onGround = oldOnGround;
 
         // prevents from growing into the wall
         if (!this.firstUpdate && !world.isSpaceEmpty(this)) {
