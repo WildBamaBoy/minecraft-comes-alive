@@ -44,14 +44,16 @@ import static mca.entity.VillagerLike.VILLAGER_NAME;
 
 public class VillagerEditorScreen extends Screen {
     private final UUID villagerUUID;
+    private final UUID playerUUID;
     private int villagerBreedingAge;
     private String page;
     private final VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.create(MinecraftClient.getInstance().world);
     private static final int DATA_WIDTH = 150;
 
-    public VillagerEditorScreen(UUID villagerUUID) {
+    public VillagerEditorScreen(UUID villagerUUID, UUID playerUUID) {
         super(new TranslatableText("gui.VillagerEditorScreen.title"));
         this.villagerUUID = villagerUUID;
+        this.playerUUID = playerUUID;
     }
 
     @Override
@@ -110,7 +112,12 @@ public class VillagerEditorScreen extends Screen {
         children.clear();
 
         //page selection
-        String[] pages = {"general", "body", "head", "personality", "traits", "debug"};
+        String[] pages;
+        if (villagerUUID.equals(playerUUID)) {
+            pages = new String[] {"general", "body", "head", "traits"};
+        } else {
+            pages = new String[] {"general", "body", "head", "personality", "traits", "debug"};
+        }
         int w = DATA_WIDTH * 2 / pages.length;
         int x = (int)(width / 2.0 - pages.length / 2.0 * w);
         for (String p : pages) {

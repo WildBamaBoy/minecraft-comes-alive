@@ -52,7 +52,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                 break;
             case VILLAGER_EDITOR:
                 Entity entity = client.world.getEntityById(message.villager);
-                client.openScreen(new VillagerEditorScreen(entity.getUuid()));
+                client.openScreen(new VillagerEditorScreen(entity.getUuid(), e.getUuid()));
                 break;
             case BABY_NAME:
                 if (client.player != null) {
