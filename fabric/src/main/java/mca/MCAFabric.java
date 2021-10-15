@@ -15,12 +15,14 @@ import mca.resources.FabricGiftLoader;
 import mca.resources.FabricTasks;
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
-import mca.server.command.MCACommand;
+import mca.server.command.Command;
 import mca.server.world.data.VillageManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.world.ServerWorld;
@@ -59,9 +61,13 @@ public final class MCAFabric implements ModInitializer {
             }
         });
 
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerInteractionManager.getInstance().onPlayerJoin(handler.player);
+        });
+
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             AdminCommand.register(dispatcher);
-            MCACommand.register(dispatcher);
+            Command.register(dispatcher);
         });
     }
 }

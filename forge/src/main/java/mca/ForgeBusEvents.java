@@ -2,8 +2,9 @@ package mca;
 
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
-import mca.server.command.MCACommand;
+import mca.server.command.Command;
 import mca.server.world.data.VillageManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -23,7 +24,7 @@ public class ForgeBusEvents {
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
         AdminCommand.register(event.getDispatcher());
-        MCACommand.register(event.getDispatcher());
+        Command.register(event.getDispatcher());
     }
 
     @SubscribeEvent
@@ -44,6 +45,13 @@ public class ForgeBusEvents {
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (!event.getEntity().world.isClient) {
             VillageManager.get((ServerWorld)event.getEntity().world).getBabies().pop(event.getPlayer());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!event.getEntity().world.isClient) {
+            ServerInteractionManager.getInstance().onPlayerJoin((ServerPlayerEntity)event.getPlayer());
         }
     }
 }

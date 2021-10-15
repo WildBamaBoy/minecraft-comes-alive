@@ -107,12 +107,18 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     }
 
     @Override
-    public void handleVillagerDataResponse(GetVillagerResponse message) {
+    public void handleFamilyDataResponse(GetFamilyResponse message) {
         Screen screen = client.currentScreen;
         if (screen instanceof WhistleScreen) {
             WhistleScreen gui = (WhistleScreen)screen;
             gui.setVillagerData(message.getData());
-        } else  if (screen instanceof VillagerEditorScreen) {
+        }
+    }
+
+    @Override
+    public void handleVillagerDataResponse(GetVillagerResponse message) {
+        Screen screen = client.currentScreen;
+        if (screen instanceof VillagerEditorScreen) {
             VillagerEditorScreen gui = (VillagerEditorScreen)screen;
             gui.setVillagerData(message.getData());
         }

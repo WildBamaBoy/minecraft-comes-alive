@@ -9,13 +9,15 @@ import mca.network.client.GetVillageResponse;
 import mca.network.client.GetVillagerResponse;
 import mca.network.client.InteractionDialogueResponse;
 import mca.network.client.OpenGuiRequest;
+import mca.network.client.GetFamilyResponse;
 
 public interface MessagesMCA {
     static void bootstrap() {
         NetworkHandler.registerMessage(InteractionVillagerMessage.class);
         NetworkHandler.registerMessage(InteractionServerMessage.class);
         NetworkHandler.registerMessage(BabyNamingVillagerMessage.class);
-        NetworkHandler.registerMessage(getFamilyRequest.class);
+        NetworkHandler.registerMessage(GetFamilyRequest.class);
+        NetworkHandler.registerMessage(GetFamilyResponse.class);
         NetworkHandler.registerMessage(GetVillagerResponse.class);
         NetworkHandler.registerMessage(CallToPlayerMessage.class);
         NetworkHandler.registerMessage(GetVillageRequest.class);
@@ -33,7 +35,7 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(InteractionDialogueInitMessage.class);
         NetworkHandler.registerMessage(GetChildDataRequest.class);
         NetworkHandler.registerMessage(GetChildDataResponse.class);
-        NetworkHandler.registerMessage(getVillagerRequest.class);
+        NetworkHandler.registerMessage(GetVillagerRequest.class);
         NetworkHandler.registerMessage(VillagerEditorSyncRequest.class);
     }
 }

@@ -13,6 +13,8 @@ public interface ClientInteractionManager {
 
     void handleVillageDataFailedResponse(GetVillageFailedResponse message);
 
+    void handleFamilyDataResponse(GetFamilyResponse message);
+
     void handleVillagerDataResponse(GetVillagerResponse message);
 
     void handleDialogueResponse(InteractionDialogueResponse message);

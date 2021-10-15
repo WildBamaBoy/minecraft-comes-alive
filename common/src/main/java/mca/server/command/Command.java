@@ -1,10 +1,11 @@
 package mca.server.command;
 
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import mca.cobalt.network.NetworkHandler;
+import mca.network.client.OpenGuiRequest;
 import mca.server.ServerInteractionManager;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
@@ -15,18 +16,24 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
-public class MCACommand {
+public class Command {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("mca")
-                .then(register("help", MCACommand::displayHelp))
-                .then(register("propose").then(CommandManager.argument("target", EntityArgumentType.player()).executes(MCACommand::propose)))
-                .then(register("accept").then(CommandManager.argument("target", EntityArgumentType.player()).executes(MCACommand::accept)))
-                .then(register("proposals", MCACommand::displayProposal))
-                .then(register("procreate", MCACommand::procreate))
-                .then(register("separate", MCACommand::seperate))
-                .then(register("reject").then(CommandManager.argument("target", EntityArgumentType.player()).executes(MCACommand::reject)))
+                .then(register("help", Command::displayHelp))
+                .then(register("propose").then(CommandManager.argument("target", EntityArgumentType.player()).executes(Command::propose)))
+                .then(register("accept").then(CommandManager.argument("target", EntityArgumentType.player()).executes(Command::accept)))
+                .then(register("proposals", Command::displayProposal))
+                .then(register("procreate", Command::procreate))
+                .then(register("separate", Command::separate))
+                .then(register("reject").then(CommandManager.argument("target", EntityArgumentType.player()).executes(Command::reject)))
+                .then(register("editor", Command::editor))
         );
+    }
+
+    private static int editor(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+        NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.VILLAGER_EDITOR, ctx.getSource().getPlayer()), ctx.getSource().getPlayer());
+        return 0;
     }
 
     private static int displayHelp(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
@@ -66,7 +73,7 @@ public class MCACommand {
         return 0;
     }
 
-    private static int seperate(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+    private static int separate(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         ServerInteractionManager.getInstance().endMarriage(ctx.getSource().getPlayer());
         return 0;
     }
@@ -78,7 +85,7 @@ public class MCACommand {
     }
 
 
-    private static ArgumentBuilder<ServerCommandSource, ?> register(String name, Command<ServerCommandSource> cmd) {
+    private static ArgumentBuilder<ServerCommandSource, ?> register(String name, com.mojang.brigadier.Command<ServerCommandSource> cmd) {
         return CommandManager.literal(name).requires(cs -> cs.hasPermissionLevel(0)).executes(cmd);
     }
 

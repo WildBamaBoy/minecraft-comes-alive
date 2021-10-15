@@ -3,6 +3,7 @@ package mca.network;
 import java.util.UUID;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
+import mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,10 +17,6 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
     private final String command;
     private final UUID uuid;
 
-    public VillagerEditorSyncRequest(String command, UUID uuid) {
-        this(command, uuid, new NbtCompound());
-    }
-
     public VillagerEditorSyncRequest(String command, UUID uuid, NbtCompound data) {
         super(data);
         this.command = command;
@@ -29,7 +26,13 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
     @Override
     public void receive(PlayerEntity e) {
         Entity entity = ((ServerWorld)e.world).getEntity(uuid);
-        if (entity instanceof VillagerLike) {
+        if (entity instanceof PlayerEntity) {
+            if (command.equals("sync")) {
+                PlayerSaveData data = PlayerSaveData.get((ServerWorld)entity.world, uuid);
+                data.setEntityData(getData());
+                data.setEntityDataSet(true);
+            }
+        } else if (entity instanceof VillagerLike) {
             VillagerLike<?> villager = (VillagerLike<?>)entity;
             switch (command) {
                 case "sync":

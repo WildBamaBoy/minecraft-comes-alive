@@ -19,7 +19,7 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.network.VillagerEditorSyncRequest;
-import mca.network.getVillagerRequest;
+import mca.network.GetVillagerRequest;
 import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.data.Hair;
@@ -44,11 +44,10 @@ import static mca.entity.VillagerLike.VILLAGER_NAME;
 
 public class VillagerEditorScreen extends Screen {
     private final UUID villagerUUID;
-    private NbtCompound villagerData;
     private int villagerBreedingAge;
     private String page;
     private final VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.create(MinecraftClient.getInstance().world);
-    private static int DATA_WIDTH = 150;
+    private static final int DATA_WIDTH = 150;
 
     public VillagerEditorScreen(UUID villagerUUID) {
         super(new TranslatableText("gui.VillagerEditorScreen.title"));
@@ -344,11 +343,12 @@ public class VillagerEditorScreen extends Screen {
         super.render(matrices, mouseX, mouseY, delta);
     }
 
-    public void setVillagerData(NbtCompound data) {
-        villagerData = data.getCompound(villagerUUID.toString());
+    public void setVillagerData(NbtCompound villagerData) {
         if (villager != null) {
             villager.readCustomDataFromNbt(villagerData);
             villagerBreedingAge = villagerData.getInt("Age");
+            villager.setBreedingAge(villagerBreedingAge);
+            villager.calculateDimensions();
         }
         if (page.equals("loading")) {
             setPage("general");
@@ -356,7 +356,7 @@ public class VillagerEditorScreen extends Screen {
     }
 
     private void requestVillagerData() {
-        NetworkHandler.sendToServer(new getVillagerRequest(villagerUUID));
+        NetworkHandler.sendToServer(new GetVillagerRequest(villagerUUID));
     }
 
     private void syncVillagerData() {

@@ -47,6 +47,13 @@ public class ServerInteractionManager {
         removals.forEach(procreateMap::removeLong);
     }
 
+    public void onPlayerJoin(ServerPlayerEntity player) {
+        PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
+        if (!playerData.isEntityDataSet()) {
+            infoMessage(player, new TranslatableText("server.playerNotCustomized"));
+        }
+    }
+
     /**
      * Returns true if receiver has a proposal from sender.
      *
