@@ -20,23 +20,18 @@ public final class Config implements Serializable {
 
     public boolean overwriteOriginalVillagers = true;
     public boolean overwriteOriginalZombieVillagers = true;
-    public boolean enableDiminishingReturns = true;
     public boolean enableInfection = true;
     public int infectionChance = 5;
     public boolean allowGrimReaper = true;
     public int guardSpawnRate = 6;
     public int chanceToHaveTwins = 2;
     public float marriageHeartsRequirement = 100;
-    public int roseGoldSpawnWeight = 6;
     public int babyGrowUpTime = 20;
-    public int childGrowUpTime = 60;
+    public int villagerMaxAgeTime = 192000;
     public int villagerMaxHealth = 20;
-    public boolean allowTrading = true;
-    public boolean logVillagerDeaths = true;
-    public boolean enableRevivals = true;
     public String villagerChatPrefix = "";
     public boolean allowPlayerMarriage = true;
-    public boolean enableAdminCommands = true;
+    public int roseGoldSpawnWeight = 6;
     public boolean allowRoseGoldGeneration = true;
     public int marriageChance = 5;
     public int marriageLimit = 50;

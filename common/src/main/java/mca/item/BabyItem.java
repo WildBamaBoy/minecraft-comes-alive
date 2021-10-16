@@ -186,7 +186,7 @@ public class BabyItem extends Item {
                 .withPosition(player.getPos())
                 .withGender(gender)
                 .withProfession(ProfessionsMCA.CHILD)
-                .withAge(AgeState.MAX_AGE)
+                .withAge(-AgeState.getMaxAge())
                 .build();
 
         List<Entity> parents = state.getParents().map(world::getEntity).filter(Objects::nonNull).collect(Collectors.toList());

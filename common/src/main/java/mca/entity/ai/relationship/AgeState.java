@@ -1,5 +1,6 @@
 package mca.entity.ai.relationship;
 
+import mca.Config;
 import mca.resources.API;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -13,15 +14,20 @@ public enum AgeState implements VillagerDimensions {
     TEEN      (0.85F, 0.85F, 0.5F, 1),
     ADULT     (1, 1, 1, 1);
 
-    public static final int MAX_AGE = -192000;
-    public static final int STAGE_DURATION = -MAX_AGE / 4;
-
     private static final AgeState[] VALUES = values();
 
     private final float width;
     private final float height;
     private final float breasts;
     private final float head;
+
+    public static int getMaxAge() {
+        return Config.getInstance().villagerMaxAgeTime;
+    }
+
+    public static int getStageDuration() {
+        return getMaxAge() / 4;
+    }
 
     AgeState(float width, float height, float breasts, float head) {
         this.width = width;
@@ -69,18 +75,18 @@ public enum AgeState implements VillagerDimensions {
     }
 
     public static AgeState random() {
-        return byCurrentAge((int)(API.getRng().nextFloat() * MAX_AGE));
+        return byCurrentAge((int)(-API.getRng().nextFloat() * getMaxAge()));
     }
 
     /**
      * Returns a float ranging from 0 to 1 representing the progress between stages.
      */
     public static float getDelta(float age) {
-        return 1 - (-age % STAGE_DURATION) / STAGE_DURATION;
+        return 1 - (-age % getStageDuration()) / getStageDuration();
     }
 
     public static int getId(int age) {
-        return MathHelper.clamp(1 + (age - MAX_AGE) / STAGE_DURATION, 0, 5);
+        return MathHelper.clamp(1 + (age + getMaxAge()) / getStageDuration(), 0, 5);
     }
 
     public static AgeState byCurrentAge(int age) {

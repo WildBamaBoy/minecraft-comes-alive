@@ -34,6 +34,8 @@ import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.control.JumpControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.MobEntity;
@@ -91,7 +93,7 @@ import org.jetbrains.annotations.Nullable;
 public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<VillagerEntityMCA>, NamedScreenHandlerFactory, CompassionateEntity<BreedableRelationship>, CrossbowUser {
     private static final CDataParameter<Float> INFECTION_PROGRESS = CParameter.create("infectionProgress", MIN_INFECTION);
 
-    private static final CDataParameter<Integer> GROWTH_AMOUNT = CParameter.create("growthAmount", AgeState.MAX_AGE);
+    private static final CDataParameter<Integer> GROWTH_AMOUNT = CParameter.create("growthAmount", -AgeState.getMaxAge());
 
     private static final CDataManager<VillagerEntityMCA> DATA = createTrackedData(VillagerEntityMCA.class).build();
 
@@ -262,7 +264,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public void setBaby(boolean isBaby) {
-        setBreedingAge(isBaby ? AgeState.MAX_AGE : 0);
+        setBreedingAge(isBaby ? -AgeState.getMaxAge() : 0);
     }
 
     @Override
@@ -1041,5 +1043,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         } else {
             return ItemStack.EMPTY;
         }
+    }
+
+    public static DefaultAttributeContainer.Builder createVillagerAttributes() {
+        return VillagerEntity.createVillagerAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, Config.getInstance().villagerMaxHealth);
     }
 }

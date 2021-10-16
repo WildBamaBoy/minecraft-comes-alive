@@ -1,6 +1,7 @@
 package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
+import mca.Config;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.MarriageState;
@@ -119,6 +120,12 @@ public class ServerInteractionManager {
      * @param receiver The player being proposed to.
      */
     public void sendProposal(PlayerEntity sender, PlayerEntity receiver) {
+        // Checks if the admin allows this
+        if (!Config.getInstance().allowPlayerMarriage) {
+            failMessage(sender, new TranslatableText("notify.playerMarriage.disabled"));
+            return;
+        }
+
         // Ensure the sender isn't already married.
         if (PlayerSaveData.get((ServerWorld)sender.world, sender.getUuid()).isMarried()) {
             failMessage(sender, new TranslatableText("server.alreadyMarried"));
