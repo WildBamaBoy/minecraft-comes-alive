@@ -18,6 +18,9 @@ public class Traits {
     private static final CDataParameter<NbtCompound> TRAITS = CParameter.create("traits", new NbtCompound());
 
     public enum Trait {
+        LACTOSE_INTOLERANCE(1.0f, 1.0f),
+        COELIAC_DISEASE(1.0f, 1.0f),
+        DIABETES(1.0f, 1.0f),
         DWARFISM(1.0f, 1.0f),
         SIRBEN(0.1f, 1.0f);
 

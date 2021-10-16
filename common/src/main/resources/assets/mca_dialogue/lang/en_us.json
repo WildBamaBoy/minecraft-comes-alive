@@ -212,6 +212,10 @@
   "child.gift.confectionary.best1": "Yummy!",
   "child.gift.confectionary.best2": "Oh wow!",
 
+  "gift.gluten.fail": "There is gluten in it! Do you want me to have diarrhea for the rest of the year?",
+
+  "gift.lactose.fail": "Sorry, but I am lactose intolerant.",
+
   "gift.flowers.fail": "I'm allergic. Sorry.",
   "gift.flowers.good1": "What a lovely flower.",
   "gift.flowers.good2": "I hope you didn't pick that from my garden",

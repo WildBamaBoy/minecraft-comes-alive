@@ -11,6 +11,10 @@
     {
       "age_group": "child",
       "satisfaction_boost": 10
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
     }
   ],
   "responses": {
@@ -26,6 +30,7 @@
     "minecraft:honey_bottle": 12,
     "minecraft:melon_slice": 8,
     "minecraft:apple": 5,
-    "minecraft:sweet_berries": 5
+    "minecraft:sweet_berries": 5,
+    "#mca:confectionaries": 5
   }
 }

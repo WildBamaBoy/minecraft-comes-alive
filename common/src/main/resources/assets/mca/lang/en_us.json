@@ -146,8 +146,14 @@
   "personalityDescription.weak": "Deals less damage",
 
   "traits.title": "Traits: ",
+  "trait.lactose_intolerance": "Lactose Intolerance",
+  "trait.coeliac_disease": "Coeliac Disease",
+  "trait.diabetes": "Diabetes",
   "trait.sirben": "Sirben",
   "trait.dwarfism": "Dwarfism",
+  "traitDescription.lactose_intolerance": "Intolerant to lactose.",
+  "traitDescription.coeliac_disease": "Gets massive diarrhea on gluten.",
+  "traitDescription.diabetes": "Sugar bad.",
   "traitDescription.sirben": "Was unfortunately born as a Sirben. Nothing one can do about this.",
   "traitDescription.dwarfism": "Smaller than usual.",
 

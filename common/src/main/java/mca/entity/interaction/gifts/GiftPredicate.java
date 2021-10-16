@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import mca.entity.ai.Traits;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonElement;
@@ -100,6 +101,9 @@ public class GiftPredicate {
             return Ingredient.fromTag(tag);
         }, (Ingredient ingredient) -> {
             return (villager, stack) -> ingredient.test(stack);
+        });
+        register("trait", (json, name) -> Traits.Trait.valueOf(JsonHelper.asString(json, name).toUpperCase()), trait -> {
+            return (villager, stack) -> villager.getTraits().hasTrait(trait);
         });
     }
 

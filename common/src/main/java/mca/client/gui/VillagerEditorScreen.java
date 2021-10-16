@@ -121,9 +121,7 @@ public class VillagerEditorScreen extends Screen {
         int w = DATA_WIDTH * 2 / pages.length;
         int x = (int)(width / 2.0 - pages.length / 2.0 * w);
         for (String p : pages) {
-            addButton(new ButtonWidget(x, height / 2 - 105, w, 20, new TranslatableText(p), sender -> {
-                setPage(p);
-            })).active = !p.equals(page);
+            addButton(new ButtonWidget(x, height / 2 - 105, w, 20, new TranslatableText(p), sender -> setPage(p))).active = !p.equals(page);
             x += w;
         }
 
