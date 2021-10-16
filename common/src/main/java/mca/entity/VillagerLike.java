@@ -13,16 +13,17 @@ import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.entity.interaction.EntityCommandHandler;
-import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.HairList;
 import mca.resources.data.Hair;
+import mca.server.world.data.PlayerSaveData;
 import mca.util.network.datasync.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DyeColor;
 import net.minecraft.village.VillagerDataContainer;
 
@@ -193,7 +194,17 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     }
 
     static VillagerLike<?> toVillager(Entity entity) {
-        return entity instanceof VillagerLike<?> ? (VillagerLike<?>)entity : null;
+        if (entity instanceof VillagerLike<?>) {
+            return (VillagerLike<?>)entity;
+        } else if (entity instanceof PlayerEntity) {
+            NbtCompound villagerData = PlayerSaveData.get((ServerWorld)entity.world, entity.getUuid()).getEntityData();
+            VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.create(entity.world);
+            assert villager != null;
+            villager.readCustomDataFromNbt(villagerData);
+            return villager;
+        } else {
+            return null;
+        }
     }
 
     default boolean isHostile() {

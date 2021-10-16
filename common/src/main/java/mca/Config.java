@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
-import net.fabricmc.loader.game.MinecraftGameProvider;
 
 public final class Config implements Serializable {
     private static final long serialVersionUID = 956221997003825933L;
@@ -50,8 +49,7 @@ public final class Config implements Serializable {
     public float traitInheritChance = 0.5f;
 
     public static File getConfigFile() {
-        MinecraftGameProvider provider = new MinecraftGameProvider();
-        return provider.getLaunchDirectory().resolve("config").resolve("mca.json").toFile();
+        return new File("./config/mca.json");
     }
 
     public void save() {
