@@ -1,11 +1,18 @@
 package mca;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
+import net.fabricmc.loader.game.MinecraftGameProvider;
 
 public final class Config implements Serializable {
     private static final long serialVersionUID = 956221997003825933L;
 
-    private static Config INSTANCE = new Config();
+    private static final Config INSTANCE = loadOrCreate();
 
     public static Config getInstance() {
         return INSTANCE;
@@ -46,4 +53,32 @@ public final class Config implements Serializable {
     public int bountyHunterThreshold = -5;
     public float traitChance = 0.01f;
     public float traitInheritChance = 0.5f;
+
+    public static File getConfigFile() {
+        MinecraftGameProvider provider = new MinecraftGameProvider();
+        return provider.getLaunchDirectory().resolve("config").resolve("mca.json").toFile();
+    }
+
+    public void save() {
+        try (FileWriter writer = new FileWriter(getConfigFile())) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(this, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Config loadOrCreate() {
+        try (FileReader reader = new FileReader(getConfigFile())) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Config config = gson.fromJson(reader, Config.class);
+            config.save();
+            return config;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Config config = new Config();
+        config.save();
+        return config;
+    }
 }
