@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import mca.MCA;
-import mca.entity.ai.ProfessionsMCA;
 import mca.resources.Resources.BrokenResourceException;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.village.VillagerProfession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +18,6 @@ import java.util.Random;
 public class API {
     static final Random rng = new Random();
     static Data instance = new Data();
-
-    public static HairList getHairPool() {
-        return instance.hair;
-    }
 
     public static VillageComponents getVillagePool() {
         return instance.villageComponents;
@@ -64,8 +58,6 @@ public class API {
     }
 
     static class Data {
-        final HairList hair = new HairList();
-
         final VillageComponents villageComponents = new VillageComponents(rng);
 
         private final List<String> supporters = new ArrayList<>();
@@ -74,7 +66,6 @@ public class API {
 
         void init(ResourceManager manager) {
             try {
-                hair.load(manager);
                 villageComponents.load(manager);
 
                 supporters.addAll(Arrays.asList(Resources.read("api/names/supporters.json", String[].class)));

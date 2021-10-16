@@ -15,6 +15,7 @@ import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.entity.interaction.EntityCommandHandler;
 import mca.resources.API;
 import mca.resources.ClothingList;
+import mca.resources.HairList;
 import mca.resources.data.Hair;
 import mca.util.network.datasync.*;
 import net.minecraft.client.MinecraftClient;
@@ -172,7 +173,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     default void initializeSkin() {
         setClothes(ClothingList.getInstance().getPool(this).pickOne());
-        setHair(API.getHairPool().pickOne(this));
+        setHair(HairList.getInstance().pickOne(this));
     }
 
     @SuppressWarnings("unchecked")

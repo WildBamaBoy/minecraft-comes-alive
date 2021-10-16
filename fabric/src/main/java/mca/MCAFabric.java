@@ -12,6 +12,7 @@ import mca.resources.ApiIdentifiableReloadListener;
 import mca.resources.FabricClothingList;
 import mca.resources.FabricDialogues;
 import mca.resources.FabricGiftLoader;
+import mca.resources.FabricHairList;
 import mca.resources.FabricTasks;
 import mca.server.ServerInteractionManager;
 import mca.server.command.AdminCommand;
@@ -44,6 +45,7 @@ public final class MCAFabric implements ModInitializer {
 
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ApiIdentifiableReloadListener());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricClothingList());
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricHairList());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricGiftLoader());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricDialogues());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricTasks());

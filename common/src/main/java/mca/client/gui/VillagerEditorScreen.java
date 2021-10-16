@@ -22,6 +22,7 @@ import mca.network.VillagerEditorSyncRequest;
 import mca.network.GetVillagerRequest;
 import mca.resources.API;
 import mca.resources.ClothingList;
+import mca.resources.HairList;
 import mca.resources.data.Hair;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -217,12 +218,12 @@ public class VillagerEditorScreen extends Screen {
 
                 //hair
                 addButton(new ButtonWidget(width / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.prevHair"), b -> {
-                    villager.setHair(API.getHairPool().pickNext(villager, villager.getHair(), -1));
+                    villager.setHair(HairList.getInstance().pickNext(villager, villager.getHair(), -1));
                     field.setText(villager.getHair().texture());
                     field2.setText(villager.getHair().overlay());
                 }));
                 addButton(new ButtonWidget(width / 2 + DATA_WIDTH / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.nextHair"), b -> {
-                    villager.setHair(API.getHairPool().pickNext(villager, villager.getHair(), 1));
+                    villager.setHair(HairList.getInstance().pickNext(villager, villager.getHair(), 1));
                     field.setText(villager.getHair().texture());
                     field2.setText(villager.getHair().overlay());
                 }));

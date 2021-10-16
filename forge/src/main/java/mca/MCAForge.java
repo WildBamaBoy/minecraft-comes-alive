@@ -11,6 +11,7 @@ import mca.network.MessagesMCA;
 import mca.resources.ApiReloadListener;
 import mca.resources.ClothingList;
 import mca.resources.Dialogues;
+import mca.resources.HairList;
 import mca.resources.Tasks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -39,6 +40,7 @@ public final class MCAForge {
     private void onAddReloadListener(AddReloadListenerEvent event) {
         event.addListener(new ApiReloadListener());
         event.addListener(new ClothingList());
+        event.addListener(new HairList());
         event.addListener(new GiftLoader());
         event.addListener(new Dialogues());
         event.addListener(new Tasks());

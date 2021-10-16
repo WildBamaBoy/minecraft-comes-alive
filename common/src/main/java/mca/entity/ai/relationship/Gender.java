@@ -64,7 +64,7 @@ public enum Gender {
      * Checks whether this gender is attracted to another.
      */
     public boolean isAttractedTo(Gender other) {
-        return other == UNASSIGNED && (other != this || this == NEUTRAL);
+        return other == UNASSIGNED || this == NEUTRAL || other != this;
     }
 
     /**

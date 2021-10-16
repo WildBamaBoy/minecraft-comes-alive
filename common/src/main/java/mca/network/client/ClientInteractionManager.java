@@ -3,7 +3,7 @@ package mca.network.client;
 import net.minecraft.entity.player.PlayerEntity;
 
 public interface ClientInteractionManager {
-    void handleGuiRequest(OpenGuiRequest message, PlayerEntity e);
+    void handleGuiRequest(OpenGuiRequest message);
 
     void handleFamilyTreeResponse(GetFamilyTreeResponse message);
 

@@ -19,7 +19,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 
 public class ClothingList extends JsonDataLoader {
-    protected static final Identifier ID = new Identifier("mca", "villager/clothing");
+    protected static final Identifier ID = new Identifier("mca", "skins/clothing");
 
     private final Map<Gender, ProfessionedPool> clothing = new EnumMap<>(Gender.class);
 
@@ -30,7 +30,7 @@ public class ClothingList extends JsonDataLoader {
     }
 
     public ClothingList() {
-        super(Resources.GSON, "villager/clothing");
+        super(Resources.GSON, "skins/clothing");
         INSTANCE = this;
     }
 

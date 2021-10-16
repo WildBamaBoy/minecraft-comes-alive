@@ -27,7 +27,7 @@ public class OpenGuiRequest implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        ClientProxy.getNetworkHandler().handleGuiRequest(this, e);
+        ClientProxy.getNetworkHandler().handleGuiRequest(this);
     }
 
     public enum Type {
