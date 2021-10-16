@@ -179,7 +179,11 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         //age or profession
-        renderTooltip(transform, villager.asEntity().isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + profession), 10, 30 + h);
+        String prof = profession.toString();
+        if (prof.equals("none")) {
+            prof = "mca.none";
+        }
+        renderTooltip(transform, villager.asEntity().isBaby() ? villager.getAgeState().getName() : new TranslatableText("entity.minecraft.villager." + prof), 10, 30 + h);
 
         VillagerBrain<?> brain = villager.getVillagerBrain();
 
@@ -259,12 +263,12 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         //happiness
-        if (hoveringOverIcon("neutralEmerald")) {
+/*        if (hoveringOverIcon("neutralEmerald")) {
             List<Text> lines = new LinkedList<>();
             lines.add(new TranslatableText("gui.interact.label.happiness", "0/10"));
 
             drawHoveringIconText(transform, lines, "neutralEmerald");
-        }
+        }*/
 
         //dialogue
         if (dialogQuestion != null) {

@@ -1,7 +1,7 @@
 {
   "itemGroup.mca.mca_tab": "Minecraft Comes Alive",
 
-  "entity.minecraft.villager.none": "Jobless",
+  "entity.minecraft.villager.mca.none": "Jobless",
 
   "entity.minecraft.villager.mca.marauder": "Marauder",
   "entity.minecraft.villager.mca.outlaw": "Outlaw",

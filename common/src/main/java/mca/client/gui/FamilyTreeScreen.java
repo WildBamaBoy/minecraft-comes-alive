@@ -247,14 +247,14 @@ public class FamilyTreeScreen extends Screen {
                         children.add(new TreeNode(e, parsed, parsed.add(child)));
                     }
                 });
-            }
+                
+                FamilyTreeNode spouse = family.get(node.spouse());
 
-            FamilyTreeNode spouse = family.get(node.spouse());
-
-            if (spouse != null) {
-                this.spouse = new TreeNode(spouse, parsed, false);
-            } else if (!children.isEmpty()) {
-                this.spouse = new TreeNode();
+                if (spouse != null) {
+                    this.spouse = new TreeNode(spouse, parsed, false);
+                } else if (!children.isEmpty()) {
+                    this.spouse = new TreeNode();
+                }
             }
         }
 
