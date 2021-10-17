@@ -59,7 +59,6 @@ public class GrimReaperEntityModel<T extends GrimReaperEntity> extends BipedEnti
             .with("scythe_handle", 0, 10, 0, 90, -20, 90, KEEP, KEEP)
             .build());
 
-    private final ModelPartCompat idleCowl;
     private final ModelPartCompat scythe;
 
     public ReaperAttackState reaperState = ReaperAttackState.IDLE;
@@ -68,7 +67,6 @@ public class GrimReaperEntityModel<T extends GrimReaperEntity> extends BipedEnti
 
     public GrimReaperEntityModel(ModelPartCompat tree) {
         super(0, 0, 64, 64);
-        idleCowl = tree.getChild("idle_cowl");
         scythe = tree.getChild(LEFT_ARM).getChild("scythe_handle");
         scytheTransform = scythe.getTransform();
 
@@ -85,10 +83,6 @@ public class GrimReaperEntityModel<T extends GrimReaperEntity> extends BipedEnti
                                          .uv(0, 32).cuboid(0.5F, -26, 0.5F, 16, 16, 0, dilation),
                                          ModelTransformSet.Builder.createTransform(0, 10, 0, 90, -20, 90)
             );
-        data.addChild("idle_cowl",
-                ModelPartBuilder.create().uv(16, 16).cuboid(-4, -8, -4, 8, 8, 8, dilation.add(0.5F)),
-                ModelTransform.NONE
-        );
 
         return modelData;
     }
@@ -120,16 +114,11 @@ public class GrimReaperEntityModel<T extends GrimReaperEntity> extends BipedEnti
             set.get("scythe_handle").applyTo(scythe);
         }
 
-        getHat().copyTransform(head);
+        hat.copyTransform(head);
     }
-
-    private ModelPart getHat() {
-        return reaperState == ReaperAttackState.IDLE ? idleCowl : hat;
-    }
-
     @Override
     protected Iterable<ModelPart> getHeadParts() {
-        return ImmutableList.of(head, getHat());
+        return ImmutableList.of(head, hat);
     }
 
     @Override
