@@ -47,6 +47,7 @@ public final class Config implements Serializable {
     public int bountyHunterThreshold = -5;
     public float traitChance = 0.01f;
     public float traitInheritChance = 0.5f;
+    public float villagerHeight = 0.93f;
 
     public static File getConfigFile() {
         return new File("./config/mca.json");

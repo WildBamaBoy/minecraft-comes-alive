@@ -862,7 +862,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (genetics == null) {
             return 1.0f;
         } else {
-            return genetics.getVerticalScaleFactor() * traits.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
+            return genetics.getVerticalScaleFactor() * traits.getVerticalScaleFactor() * getVillagerDimensions().getHeight() * Config.getInstance().villagerHeight;
         }
     }
 
