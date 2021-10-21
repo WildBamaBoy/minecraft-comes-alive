@@ -48,7 +48,7 @@ public final class Config implements Serializable {
     public float traitChance = 0.01f;
     public float traitInheritChance = 0.5f;
     public float villagerHeight = 0.93f;
-    public boolean canHurtBabies = false;
+    public boolean canHurtBabies = true;
 
     public static File getConfigFile() {
         return new File("./config/mca.json");

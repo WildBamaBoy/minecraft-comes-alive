@@ -465,7 +465,7 @@ public class BlueprintScreen extends Screen {
 
         //taxes
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.taxes"), width / 2, height / 2 + positionTaxes, 0xffffffff);
-        if (rank.isAtLeast(Rank.MERCHANT)) {
+        if (!rank.isAtLeast(Rank.MERCHANT)) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionTaxes + 15, 0xffffffff);
             toggleButtons(buttonTaxes, false);
         } else {
@@ -474,7 +474,7 @@ public class BlueprintScreen extends Screen {
 
         //births
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.birth"), width / 2, height / 2 + positionBirth, 0xffffffff);
-        if (rank.isAtLeast(Rank.NOBLE)) {
+        if (!rank.isAtLeast(Rank.NOBLE)) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionBirth + 15, 0xffffffff);
             toggleButtons(buttonBirths, false);
         } else {
@@ -483,7 +483,7 @@ public class BlueprintScreen extends Screen {
 
         //marriages
         drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.marriage"), width / 2, height / 2 + positionMarriage, 0xffffffff);
-        if (rank.isAtLeast(Rank.MAYOR)) {
+        if (!rank.isAtLeast(Rank.MAYOR)) {
             drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.rankTooLow"), width / 2, height / 2 + positionMarriage + 15, 0xffffffff);
             toggleButtons(buttonMarriage, false);
         } else {
