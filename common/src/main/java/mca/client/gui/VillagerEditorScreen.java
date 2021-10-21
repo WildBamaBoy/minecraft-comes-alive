@@ -264,14 +264,10 @@ public class VillagerEditorScreen extends Screen {
                 break;
             case "traits":
                 //traits
-                row = 0;
+                //todo pages
                 for (Traits.Trait t : Traits.Trait.values()) {
-                    if (row == 3) {
-                        row = 0;
-                        y += 20;
-                    }
                     MutableText name = t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY);
-                    addButton(new ButtonWidget(width / 2 + DATA_WIDTH / 3 * row, y, DATA_WIDTH / 3, 20, name, b -> {
+                    addButton(new ButtonWidget(width / 2, y, DATA_WIDTH, 20, name, b -> {
                         if (villager.getTraits().hasTrait(t)) {
                             villager.getTraits().removeTrait(t);
                         } else {
@@ -279,7 +275,7 @@ public class VillagerEditorScreen extends Screen {
                         }
                         b.setMessage(t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY));
                     }));
-                    row++;
+                    y += 20;
                 }
                 y += 22;
                 break;

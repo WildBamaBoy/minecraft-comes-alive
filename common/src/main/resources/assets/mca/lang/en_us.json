@@ -151,11 +151,15 @@
   "trait.diabetes": "Diabetes",
   "trait.sirben": "Sirben",
   "trait.dwarfism": "Dwarfism",
+  "trait.heterochromia": "Heterochromia",
+  "trait.color_blind": "Color Blind",
   "traitDescription.lactose_intolerance": "Intolerant to lactose.",
   "traitDescription.coeliac_disease": "Gets massive diarrhea on gluten.",
   "traitDescription.diabetes": "Sugar bad.",
   "traitDescription.sirben": "Was unfortunately born as a Sirben. Nothing one can do about this.",
   "traitDescription.dwarfism": "Smaller than usual.",
+  "traitDescription.heterochromia": "Two different eye colors.",
+  "traitDescription.color_blind": "The world is black and white.",
 
   "sirben": "*random Sirben noises*",
 
