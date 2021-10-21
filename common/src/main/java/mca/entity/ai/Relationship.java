@@ -47,6 +47,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
     public static final Predicate IS_RELATIVE = (villager, player) -> villager.getRelationships().getFamilyEntry().isRelative(player);
     public static final Predicate IS_FAMILY = IS_MARRIED.or(IS_RELATIVE);
     public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyEntry().isParent(player);
+    public static final Predicate IS_ORPHAN = (villager, player) -> villager.getRelationships().getFamilyEntry().getParents().allMatch(FamilyTreeNode::isDeceased);
 
     private static final CDataParameter<String> SPOUSE_NAME = CParameter.create("spouseName", "");
     private static final CDataParameter<Optional<UUID>> SPOUSE_UUID = CParameter.create("spouseUUID", Optional.empty());

@@ -189,6 +189,8 @@
   "spouse.interaction.procreate.fail.lowhearts1": "Spend more time with me! I'm not ready for a child.",
   "spouse.interaction.procreate.fail.lowhearts2": "Hmm...not just yet. I think we need to spend more time together first.",
 
+  "interaction.adopt.success": "That's my happiest day of my life!",
+
   "adult.welcome1": "Welcome back, %1$s!",
   "child.welcome1": "Hi %1$s!",
   "childp.welcome1": "Hi %1$s!",
@@ -366,6 +368,7 @@
   "dialogue.main.flirt": "flirt",
   "dialogue.main.kiss": "kiss",
   "dialogue.main.procreate": "procreate",
+  "dialogue.main.adopt": "adopt",
   "dialogue.main.divorceInitiate": "divorce",
   "dialogue.main.divorcePapers": "divorce papers",
 
@@ -635,6 +638,10 @@
   "dialogue.procreate": "Do you really want a child?",
   "dialogue.procreate.confirm": "confirm",
   "dialogue.procreate.cancel": "cancel",
+
+  "dialogue.adopt": "Do you really want to be my parent?",
+  "dialogue.adopt.confirm": "confirm",
+  "dialogue.adopt.cancel": "cancel",
 
   "dialogue.divorcePapers": "Here you go, bring these papers to your spouse to confirm the divorce."
 }

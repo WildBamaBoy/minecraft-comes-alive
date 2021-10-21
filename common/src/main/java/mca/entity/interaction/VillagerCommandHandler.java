@@ -7,6 +7,8 @@ import mca.entity.ai.Memories;
 import mca.entity.ai.MoveState;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.MarriageState;
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.item.ItemsMCA;
 import mca.server.world.data.BabyTracker;
 import mca.server.world.data.PlayerSaveData;
@@ -103,6 +105,12 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
             case "gift":
                 entity.getRelationships().giveGift(player, memory);
                 return true;
+            case "adopt":
+                //todo this overwrites the biological father, if it ever existed
+                entity.sendChatMessage(player, "interaction.adopt.success");
+                FamilyTreeNode parentNode = FamilyTree.get((ServerWorld)player.world).getOrCreate(player);
+                entity.getRelationships().getFamilyEntry().assignParent(parentNode);
+                break;
             case "procreate":
                 BabyTracker tracker = BabyTracker.get((ServerWorld) entity.world);
 

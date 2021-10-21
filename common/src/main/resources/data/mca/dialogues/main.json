@@ -89,6 +89,15 @@
             "id": "divorce"
           }
         ]
+      },
+      {
+        "name": "adopt",
+        "constraints": "orphan,child",
+        "actions": [
+          {
+            "id": "adopt"
+          }
+        ]
       }
     ]
   }
