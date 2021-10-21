@@ -17,7 +17,7 @@ public class ClothingLayer<T extends MobEntity & VillagerLike<T>> extends Villag
 
     @Override
     protected Identifier getSkin(T villager) {
-        return cached(villager.getClothes(), clothes -> {
+        return cached(villager.getClothes() + variant, clothes -> {
             Identifier id = new Identifier(villager.getClothes());
 
             String path = id.getPath();
@@ -33,7 +33,6 @@ public class ClothingLayer<T extends MobEntity & VillagerLike<T>> extends Villag
                 if (canUse(converted)) {
                     return converted;
                 }
-
             }
 
             return new Identifier(id.getNamespace(), String.format("skins/clothing/%s/%s", variant, path));

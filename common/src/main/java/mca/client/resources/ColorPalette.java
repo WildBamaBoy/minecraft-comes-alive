@@ -53,9 +53,9 @@ public class ColorPalette {
         float pecentDown = 1 - greenShift / 1.8F;
         float perfenctUp = 1 + greenShift / 2F;
 
-        color[0] *= pecentDown;
-        color[1] *= perfenctUp;
-        color[2] *= pecentDown;
+        color[0] = MathHelper.clamp(color[0] * pecentDown, 0.0f, 1.0f);
+        color[1] = MathHelper.clamp(color[1] * pecentDown, 0.0f, 1.0f);
+        color[2] = MathHelper.clamp(color[2] * pecentDown, 0.0f, 1.0f);
     }
 
     private static int clampFloor(float v, int max) {
