@@ -396,6 +396,14 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public final boolean damage(DamageSource source, float damageAmount) {
+        // you can't hit babies!
+        if (!Config.getInstance().canHurtBabies && !source.isUnblockable()) {
+            if (source.getAttacker() instanceof PlayerEntity) {
+                Messenger.sendEventMessage(world, new TranslatableText("villager.baby_hit"));
+            }
+            return super.damage(source, 0.0f);
+        }
+
         // Guards take 50% less damage
         if (getProfession() == ProfessionsMCA.GUARD) {
             damageAmount *= 0.5;
