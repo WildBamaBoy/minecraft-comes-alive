@@ -370,6 +370,7 @@
   "gui.villager_editor.female": "Female",
   "gui.villager_editor.infection": "Infection",
   "gui.villager_editor.age": "Age",
+  "gui.villager_editor.page": "Page %1$s",
 
   "marriage.married": "Married",
   "marriage.divorced": "Divorced",

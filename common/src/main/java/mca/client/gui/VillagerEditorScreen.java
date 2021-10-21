@@ -20,7 +20,6 @@ import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
 import mca.network.VillagerEditorSyncRequest;
 import mca.network.GetVillagerRequest;
-import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.HairList;
 import mca.resources.data.Hair;
@@ -50,6 +49,8 @@ public class VillagerEditorScreen extends Screen {
     private String page;
     private final VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.create(MinecraftClient.getInstance().world);
     private static final int DATA_WIDTH = 150;
+    private int traitPage = 0;
+    private static final int TRAITS_PER_PAGE = 8;
 
     public VillagerEditorScreen(UUID villagerUUID, UUID playerUUID) {
         super(new TranslatableText("gui.VillagerEditorScreen.title"));
@@ -264,18 +265,29 @@ public class VillagerEditorScreen extends Screen {
                 break;
             case "traits":
                 //traits
-                //todo pages
-                for (Traits.Trait t : Traits.Trait.values()) {
-                    MutableText name = t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY);
-                    addButton(new ButtonWidget(width / 2, y, DATA_WIDTH, 20, name, b -> {
-                        if (villager.getTraits().hasTrait(t)) {
-                            villager.getTraits().removeTrait(t);
-                        } else {
-                            villager.getTraits().addTrait(t);
-                        }
-                        b.setMessage(t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY));
-                    }));
-                    y += 20;
+                addButton(new ButtonWidget(width / 2, y, 32, 20, new LiteralText("<"), b -> setTraitPage(traitPage-1)));
+                addButton(new ButtonWidget(width / 2 + DATA_WIDTH - 32, y, 32, 20, new LiteralText(">"), b -> setTraitPage(traitPage+1)));
+                addButton(new ButtonWidget(width / 2 + 32, y, DATA_WIDTH - 32 * 2, 20, new TranslatableText("gui.villager_editor.page", traitPage), b -> traitPage++));
+
+                y += 22;
+                Traits.Trait[] traits = Traits.Trait.values();
+                for (int i = 0; i < TRAITS_PER_PAGE; i++) {
+                    int index = i + traitPage * TRAITS_PER_PAGE;
+                    if (index < traits.length) {
+                        Traits.Trait t = traits[index];
+                        MutableText name = t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY);
+                        addButton(new ButtonWidget(width / 2, y, DATA_WIDTH, 20, name, b -> {
+                            if (villager.getTraits().hasTrait(t)) {
+                                villager.getTraits().removeTrait(t);
+                            } else {
+                                villager.getTraits().addTrait(t);
+                            }
+                            b.setMessage(t.getName().copy().formatted(villager.getTraits().hasTrait(t) ? Formatting.GREEN : Formatting.GRAY));
+                        }));
+                        y += 20;
+                    } else {
+                        break;
+                    }
                 }
                 y += 22;
                 break;
@@ -323,6 +335,13 @@ public class VillagerEditorScreen extends Screen {
                 y = integerChanger(y, v -> villager.getVillagerBrain().modifyMoodValue(v), () -> new LiteralText(villager.getVillagerBrain().getMoodValue() + " mood"));
                 break;
         }
+    }
+
+    private void setTraitPage(int i) {
+        Traits.Trait[] traits = Traits.Trait.values();
+        int maxPage = (int)Math.ceil(((double)traits.length-1) / TRAITS_PER_PAGE);
+        traitPage = Math.max(0, Math.min(maxPage, i));
+        setPage("traits");
     }
 
     @Override
