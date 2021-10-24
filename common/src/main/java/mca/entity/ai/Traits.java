@@ -23,6 +23,7 @@ public class Traits {
         COELIAC_DISEASE(1.0f, 1.0f),
         DIABETES(1.0f, 1.0f),
         DWARFISM(1.0f, 1.0f),
+        ALBINISM(1.0f, 1.0f),
         SIRBEN(0.1f, 1.0f);
 
         private final float chance;

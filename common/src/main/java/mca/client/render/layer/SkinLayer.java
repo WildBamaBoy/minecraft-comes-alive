@@ -4,6 +4,7 @@ import mca.client.model.VillagerEntityModelMCA;
 import mca.client.resources.ColorPalette;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
+import mca.entity.ai.Traits;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.entity.mob.MobEntity;
@@ -23,9 +24,11 @@ public class SkinLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
 
     @Override
     protected float[] getColor(T villager) {
+        float albinism = villager.getTraits().hasTrait(Traits.Trait.ALBINISM) ? 0.1f : 1.0f;
+
         return ColorPalette.SKIN.getColor(
-                villager.getGenetics().getGene(Genetics.MELANIN),
-                villager.getGenetics().getGene(Genetics.HEMOGLOBIN),
+                villager.getGenetics().getGene(Genetics.MELANIN) * albinism,
+                villager.getGenetics().getGene(Genetics.HEMOGLOBIN) * albinism,
                 villager.getInfectionProgress()
         );
     }

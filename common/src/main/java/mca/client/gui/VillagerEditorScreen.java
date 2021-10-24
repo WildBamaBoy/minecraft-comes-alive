@@ -339,7 +339,7 @@ public class VillagerEditorScreen extends Screen {
 
     private void setTraitPage(int i) {
         Traits.Trait[] traits = Traits.Trait.values();
-        int maxPage = (int)Math.ceil(((double)traits.length-1) / TRAITS_PER_PAGE);
+        int maxPage = (int)((double)traits.length / TRAITS_PER_PAGE);
         traitPage = Math.max(0, Math.min(maxPage, i));
         setPage("traits");
     }

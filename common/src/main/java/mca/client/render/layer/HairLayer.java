@@ -4,6 +4,7 @@ import mca.client.model.VillagerEntityModelMCA;
 import mca.client.resources.ColorPalette;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
+import mca.entity.ai.Traits;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.DyeColor;
@@ -38,9 +39,11 @@ public class HairLayer<T extends MobEntity & VillagerLike<T>> extends VillagerLa
             return hairDye.get().getColorComponents();
         }
 
+        float albinism = villager.getTraits().hasTrait(Traits.Trait.ALBINISM) ? 0.1f : 1.0f;
+
         return ColorPalette.HAIR.getColor(
-                villager.getGenetics().getGene(Genetics.EUMELANIN),
-                villager.getGenetics().getGene(Genetics.PHEOMELANIN),
+                villager.getGenetics().getGene(Genetics.EUMELANIN) * albinism,
+                villager.getGenetics().getGene(Genetics.PHEOMELANIN) * albinism,
                 0
         );
     }
