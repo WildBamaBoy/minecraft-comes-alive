@@ -133,16 +133,12 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
-        if (genetics == null) {
-            return 1.0f;
-        } else {
-            return genetics.getVerticalScaleFactor() * traits.getVerticalScaleFactor() * getVillagerDimensions().getHeight();
-        }
+        return Math.min(0.999f, getRawScaleFactor());
     }
 
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions size) {
-        return getScaleFactor() * 1.6f;
+        return getScaleFactor() * 1.75f;
     }
 
     @Override

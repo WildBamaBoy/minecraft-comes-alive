@@ -3,6 +3,7 @@ package mca.entity;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import java.util.Map;
+import mca.Config;
 import mca.entity.ai.DialogueType;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Messenger;
@@ -88,6 +89,14 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
             return map.containsKey(MinecraftProfileTexture.Type.SKIN);
         } else {
             return false;
+        }
+    }
+
+    default float getRawScaleFactor() {
+        if (getGenetics() == null) {
+            return 1.0f;
+        } else {
+            return getGenetics().getVerticalScaleFactor() * getTraits().getVerticalScaleFactor() * getVillagerDimensions().getHeight() * Config.getInstance().villagerHeight;
         }
     }
 

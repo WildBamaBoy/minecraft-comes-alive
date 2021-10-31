@@ -35,9 +35,11 @@
 # 7.2
 
 * Fixed Server crash
+* Fixed crash when setting clothes or haircut when playing on a server
 * Added config flag to disable voice acting
 * Fixed scythe loosing its charge on non-tombstones
 * Fixed staff of life charges
 * You can no longer adopt adults
 * Fixed grown-up message appearing after world join
 * Fixed building detection on certain coordinates
+* Fixed tall villagers being too tall to live

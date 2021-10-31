@@ -36,7 +36,7 @@ public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>
 
     @Override
     protected void scale(T villager, MatrixStack matrices, float tickDelta) {
-        float height = villager.getScaleFactor();
+        float height = villager.getRawScaleFactor();
         float width = villager.getHorizontalScaleFactor();
         matrices.scale(width, height, width);
         if (villager.getAgeState() == AgeState.BABY && !villager.hasVehicle()) {

@@ -50,7 +50,7 @@ public final class Config implements Serializable {
     public int bountyHunterThreshold = -5;
     public float traitChance = 0.25f;
     public float traitInheritChance = 0.5f;
-    public float villagerHeight = 0.93f;
+    public float villagerHeight = 0.9f;
     public boolean canHurtBabies = true;
     public boolean useVoices = true;
 

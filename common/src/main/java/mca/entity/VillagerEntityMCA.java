@@ -879,16 +879,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @SuppressWarnings("ConstantConditions")
     @Override
     public float getScaleFactor() {
-        if (genetics == null) {
-            return 1.0f;
-        } else {
-            return genetics.getVerticalScaleFactor() * traits.getVerticalScaleFactor() * getVillagerDimensions().getHeight() * Config.getInstance().villagerHeight;
-        }
+        return Math.min(0.999f, getRawScaleFactor());
     }
 
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions size) {
-        return getScaleFactor() * 1.81f;
+        return getScaleFactor() * 1.75f;
     }
 
     @Override
