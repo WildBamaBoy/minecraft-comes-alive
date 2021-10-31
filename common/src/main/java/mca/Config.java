@@ -78,7 +78,7 @@ public final class Config implements Serializable {
             config.save();
             return config;
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         Config config = new Config();
         config.save();

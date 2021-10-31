@@ -1,6 +1,7 @@
 package mca.entity;
 
 import mca.entity.ai.Traits;
+import net.minecraft.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -149,7 +150,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if (!stack.getItem().isIn(TagsMCA.Items.ZOMBIE_EGGS)) {
+        if (!stack.getItem().isIn(TagsMCA.Items.ZOMBIE_EGGS) && stack.getItem() != Items.GOLDEN_APPLE) {
             if (player instanceof ServerPlayerEntity) {
                 NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.INTERACT, this), (ServerPlayerEntity)player);
             }
