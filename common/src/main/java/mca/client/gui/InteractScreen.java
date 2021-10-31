@@ -1,6 +1,8 @@
 package mca.client.gui;
 
-import com.ibm.icu.text.UTF16;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import mca.cobalt.network.NetworkHandler;
@@ -17,7 +19,6 @@ import mca.network.InteractionDialogueInitMessage;
 import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
-import mca.resources.Dialogues;
 import mca.resources.data.Question;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
@@ -32,10 +33,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
 public class InteractScreen extends AbstractDynamicScreen {
     public static final Identifier ICON_TEXTURES = new Identifier("mca:textures/gui.png");
 
@@ -48,10 +45,10 @@ public class InteractScreen extends AbstractDynamicScreen {
     private String father;
     private String mother;
 
-    private Question dialogQuestion;
     private List<String> dialogAnswers;
     private String dialogAnswerHover;
     private List<OrderedText> dialogQuestionText;
+    private String dialogQuestionId;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -112,8 +109,8 @@ public class InteractScreen extends AbstractDynamicScreen {
         super.mouseClicked(posX, posY, button);
 
         // Dialog
-        if (button == 0 && dialogAnswerHover != null && dialogQuestion != null) {
-            NetworkHandler.sendToServer(new InteractionDialogueMessage(villager.asEntity().getUuid(), dialogQuestion.getId(), dialogAnswerHover));
+        if (button == 0 && dialogAnswerHover != null && dialogQuestionText != null) {
+            NetworkHandler.sendToServer(new InteractionDialogueMessage(villager.asEntity().getUuid(), dialogQuestionId, dialogAnswerHover));
         }
 
         // Right mouse button
@@ -271,7 +268,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }*/
 
         //dialogue
-        if (dialogQuestion != null) {
+        if (dialogQuestionText != null) {
             //background
             fill(transform, width / 2 - 85, height / 2 - 50 - 10 * dialogQuestionText.size(), width / 2 + 85,
                     height / 2 - 30 + 10 * dialogAnswers.size(), 0x77000000);
@@ -280,7 +277,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             int i = -dialogQuestionText.size();
             for (OrderedText t : dialogQuestionText) {
                 i++;
-                textRenderer.drawWithShadow(transform, t, width / 2 - textRenderer.getWidth(t) / 2, (float)height / 2 - 50 + i * 10, 0xFFFFFFFF);
+                textRenderer.drawWithShadow(transform, t, width / 2.0f - textRenderer.getWidth(t) / 2.0f, (float)height / 2 - 50 + i * 10, 0xFFFFFFFF);
             }
             dialogAnswerHover = null;
 
@@ -291,7 +288,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             int y = height / 2 - 35;
             for (String a : dialogAnswers) {
                 boolean hover = hoveringOver(width / 2 - 100, y - 3, 200, 10);
-                drawCenteredText(transform, textRenderer, new TranslatableText(dialogQuestion.getTranslationKey(a)), width / 2, y, hover ? 0xFFD7D784 : 0xAAFFFFFF);
+                drawCenteredText(transform, textRenderer, new TranslatableText(Question.getTranslationKey(dialogQuestionId, a)), width / 2, y, hover ? 0xFFD7D784 : 0xAAFFFFFF);
                 if (hover) {
                     dialogAnswerHover = a;
                 }
@@ -315,9 +312,9 @@ public class InteractScreen extends AbstractDynamicScreen {
     }
 
     public void setDialogue(String dialogue, List<String> answers, boolean silent) {
-        dialogQuestion = Dialogues.getInstance().getQuestion(dialogue);
+        dialogQuestionId = dialogue;
         dialogAnswers = answers;
-        TranslatableText translatable = villager.getTranslatable(player, dialogQuestion.getTranslationKey());
+        TranslatableText translatable = villager.getTranslatable(player, Question.getTranslationKey(dialogQuestionId));
         dialogQuestionText = textRenderer.wrapLines(translatable, 160);
 
         if (!silent) {

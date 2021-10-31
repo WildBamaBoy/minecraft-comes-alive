@@ -47,12 +47,12 @@ public class Question {
         return null;
     }
 
-    public String getTranslationKey() {
-        return "dialogue." + getId();
+    public static String getTranslationKey(String question) {
+        return "dialogue." + question;
     }
 
-    public String getTranslationKey(String answer) {
-        return "dialogue." + getId() + "." + answer;
+    public static String getTranslationKey(String question, String answer) {
+        return "dialogue." + question + "." + answer;
     }
 
     public boolean isAuto() {

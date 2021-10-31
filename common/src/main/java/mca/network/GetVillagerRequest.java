@@ -24,17 +24,23 @@ public class GetVillagerRequest implements Message {
 
     @Override
     public void receive(PlayerEntity player) {
-        NbtCompound villagerData = new NbtCompound();
-
         Entity e = ((ServerWorld)player.world).getEntity(uuid);
-        if (e instanceof PlayerEntity) {
-            villagerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid()).getEntityData();
-        } else if (e instanceof LivingEntity) {
-            ((MobEntity)e).writeCustomDataToNbt(villagerData);
-        }
+        NbtCompound villagerData = getVillagerData(e);
 
         if (player instanceof ServerPlayerEntity) {
             NetworkHandler.sendToPlayer(new GetVillagerResponse(villagerData), (ServerPlayerEntity)player);
+        }
+    }
+
+    public static NbtCompound getVillagerData(Entity e) {
+        if (e instanceof PlayerEntity) {
+            return PlayerSaveData.get((ServerWorld)e.world, e.getUuid()).getEntityData();
+        } else if (e instanceof LivingEntity) {
+            NbtCompound villagerData = new NbtCompound();
+            ((MobEntity)e).writeCustomDataToNbt(villagerData);
+            return villagerData;
+        } else {
+            return null;
         }
     }
 }

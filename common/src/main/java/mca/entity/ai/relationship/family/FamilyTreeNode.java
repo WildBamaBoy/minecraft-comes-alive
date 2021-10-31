@@ -28,7 +28,7 @@ public final class FamilyTreeNode implements Serializable {
 
     private final boolean isPlayer;
 
-    private final Gender gender;
+    private Gender gender;
 
     private String name;
     private String profession = Registry.VILLAGER_PROFESSION.getId(VillagerProfession.NONE).toString();
@@ -252,6 +252,13 @@ public final class FamilyTreeNode implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+        if (rootNode != null) {
+            rootNode.markDirty();
+        }
     }
 
     private boolean setParent(FamilyTreeNode parent) {

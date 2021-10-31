@@ -18,10 +18,8 @@ import mca.entity.ai.Traits;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.Personality;
-import mca.network.VillagerEditorSyncRequest;
 import mca.network.GetVillagerRequest;
-import mca.resources.ClothingList;
-import mca.resources.HairList;
+import mca.network.VillagerEditorSyncRequest;
 import mca.resources.data.Hair;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -144,7 +142,6 @@ public class VillagerEditorScreen extends Screen {
                 field.setMaxLength(32);
                 field.setText(villager.getDefaultName().asString());
                 field.setChangedListener(name -> villager.setTrackedValue(VILLAGER_NAME, name));
-                //TODO update familyTree entry
                 y += 22;
 
                 //gender
@@ -175,12 +172,14 @@ public class VillagerEditorScreen extends Screen {
 
                 //clothes
                 addButton(new ButtonWidget(width / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.prevClothing"), b -> {
-                    villager.setClothes(ClothingList.getInstance().getPool(villager).pickNext(villager.getClothes(), -1));
-                    field.setText(villager.getClothes());
+                    NbtCompound compound = new NbtCompound();
+                    compound.putInt("offset", -1);
+                    sendCommand("clothing", compound);
                 }));
                 addButton(new ButtonWidget(width / 2 + DATA_WIDTH / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.nextClothing"), b -> {
-                    villager.setClothes(ClothingList.getInstance().getPool(villager).pickNext(villager.getClothes(), 1));
-                    field.setText(villager.getClothes());
+                    NbtCompound compound = new NbtCompound();
+                    compound.putInt("offset", 1);
+                    sendCommand("clothing", compound);
                 }));
                 y += 22;
 
@@ -219,14 +218,14 @@ public class VillagerEditorScreen extends Screen {
 
                 //hair
                 addButton(new ButtonWidget(width / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.prevHair"), b -> {
-                    villager.setHair(HairList.getInstance().pickNext(villager, villager.getHair(), -1));
-                    field.setText(villager.getHair().texture());
-                    field2.setText(villager.getHair().overlay());
+                    NbtCompound compound = new NbtCompound();
+                    compound.putInt("offset", -1);
+                    sendCommand("hair", compound);
                 }));
                 addButton(new ButtonWidget(width / 2 + DATA_WIDTH / 2, y, DATA_WIDTH / 2, 20, new TranslatableText("gui.villager_editor.nextHair"), b -> {
-                    villager.setHair(HairList.getInstance().pickNext(villager, villager.getHair(), 1));
-                    field.setText(villager.getHair().texture());
-                    field2.setText(villager.getHair().overlay());
+                    NbtCompound compound = new NbtCompound();
+                    compound.putInt("offset", 1);
+                    sendCommand("hair", compound);
                 }));
                 y += 22;
 
@@ -265,8 +264,8 @@ public class VillagerEditorScreen extends Screen {
                 break;
             case "traits":
                 //traits
-                addButton(new ButtonWidget(width / 2, y, 32, 20, new LiteralText("<"), b -> setTraitPage(traitPage-1)));
-                addButton(new ButtonWidget(width / 2 + DATA_WIDTH - 32, y, 32, 20, new LiteralText(">"), b -> setTraitPage(traitPage+1)));
+                addButton(new ButtonWidget(width / 2, y, 32, 20, new LiteralText("<"), b -> setTraitPage(traitPage - 1)));
+                addButton(new ButtonWidget(width / 2 + DATA_WIDTH - 32, y, 32, 20, new LiteralText(">"), b -> setTraitPage(traitPage + 1)));
                 addButton(new ButtonWidget(width / 2 + 32, y, DATA_WIDTH - 32 * 2, 20, new TranslatableText("gui.villager_editor.page", traitPage), b -> traitPage++));
 
                 y += 22;
@@ -337,6 +336,12 @@ public class VillagerEditorScreen extends Screen {
         }
     }
 
+    private void sendCommand(String command, NbtCompound nbt) {
+        syncVillagerData();
+        NetworkHandler.sendToServer(new VillagerEditorSyncRequest(command, villagerUUID, nbt));
+        requestVillagerData();
+    }
+
     private void setTraitPage(int i) {
         Traits.Trait[] traits = Traits.Trait.values();
         int maxPage = (int)((double)traits.length / TRAITS_PER_PAGE);
@@ -373,6 +378,8 @@ public class VillagerEditorScreen extends Screen {
         }
         if (page.equals("loading")) {
             setPage("general");
+        } else {
+            setPage(page);
         }
     }
 

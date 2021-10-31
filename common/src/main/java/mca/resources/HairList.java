@@ -77,6 +77,9 @@ public class HairList extends JsonDataLoader {
 
     //returns the next clothing with given offset to current
     public Hair pickNext(VillagerLike<?> villager, Hair current, int next) {
-        return hair.get(villager.getGenetics().getGender()).pickNext(current, next);
+        return pickNext(villager.getGenetics().getGender(), current, next);
+    }
+    public Hair pickNext(Gender gender, Hair current, int next) {
+        return hair.get(gender).pickNext(current, next);
     }
 }

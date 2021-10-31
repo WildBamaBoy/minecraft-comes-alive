@@ -71,7 +71,11 @@ public class ClothingList extends JsonDataLoader {
      * Gets a pool of clothing options valid for this entity's gender and profession.
      */
     public WeightedPool<String> getPool(VillagerLike<?> villager) {
-        return byGender(villager.getGenetics().getGender()).byProfession(villager.getVillagerData().getProfession());
+        return getPool(villager.getGenetics().getGender(), villager.getVillagerData().getProfession());
+    }
+
+    public WeightedPool<String> getPool(Gender gender, VillagerProfession profession) {
+        return byGender(gender).byProfession(profession);
     }
 
     public static class ProfessionedPool {

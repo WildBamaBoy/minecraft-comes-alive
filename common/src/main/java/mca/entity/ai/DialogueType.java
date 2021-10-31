@@ -4,11 +4,10 @@ import mca.entity.ai.relationship.AgeState;
 import net.minecraft.util.Language;
 
 public enum DialogueType {
-    // TODO we currently use adult as generic default rather than null, we should change that both here and in the lang file
     ADULT(null),
     UNASSIGNED(ADULT),
     BABY(UNASSIGNED),
-    CHILD(UNASSIGNED),
+    CHILD(ADULT),
     CHILDP(CHILD),
     TODDLER(CHILD),
     TODDLERP(CHILDP),
