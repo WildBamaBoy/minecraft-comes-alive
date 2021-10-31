@@ -333,7 +333,7 @@ public class Building implements Serializable, Iterable<UUID> {
             //determine type
             int bestPriority = -1;
             for (BuildingType bt : API.getVillagePool()) {
-                if (bt.priority() > bestPriority && sz >= bt.size()) {
+                if (bt.priority() > bestPriority && size >= bt.size()) {
                     //get an overview of the satisfied blocks
                     //this is necessary as each building may require tag instead of a single id to be satisfied
                     HashMap<Identifier, Integer> available = new HashMap<>();

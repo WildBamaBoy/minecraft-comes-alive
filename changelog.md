@@ -1,5 +1,6 @@
 # 7.0
 
+* Giant initial update. This list may have missing parts.
 * Added mca villager and zombie villager
 * Added genetics, personality, traits and mood
 * Added dialogue engine
@@ -33,6 +34,10 @@
 
 # 7.2
 
+* Fixed Server crash
 * Added config flag to disable voice acting
 * Fixed scythe loosing its charge on non-tombstones
 * Fixed staff of life charges
+* You can no longer adopt adults
+* Fixed grown-up message appearing after world join
+* Fixed building detection on certain coordinates

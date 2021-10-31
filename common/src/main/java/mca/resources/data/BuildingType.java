@@ -89,9 +89,7 @@ public final class BuildingType {
         for (Identifier id : blockIds().keySet()) {
             Tag<Block> tag = blocks.getTag(id);
             if (tag == null) {
-                if (Registry.BLOCK.containsId(id)) {
-                    b.add(Registry.BLOCK.get(id));
-                }
+                Registry.BLOCK.getOrEmpty(id).ifPresent(b::add);
             } else {
                 b.addAll(tag.values());
             }
