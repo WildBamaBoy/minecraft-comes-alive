@@ -1,1 +1,26 @@
-[]
+{
+	"mca.books.blueprint.author": "Karel stavitel",
+	"mca.books.death.0": "ani nevím kolikrát byla moje rodina odpálena na padrť. Jak jsou stále mezi živými se ptáte? jednoduché! já, drahý čtenáři jsem vynalezl lék na smrt samou a skrz tuto knihu se s vámi o toto vědění podělím.",
+	"mca.books.death.1": "hroby\nkdyž vesničané zemřou jejich mrtvoly jsou pohřbeny v nejbližším hrobě takže se ujistěte že necháte nějaký ten hrob prázdný.",
+	"mca.books.death.2": "Naneštěstí jediná bytost která je schopna porazit smrt je smrt sama: smrtka. pro jeho vyvolání potřebujete postavit altář skládající se z třech obsidiánových sloupů alespoň dvou bloků vysokých však mohou být i vyšší.",
+	"mca.books.death.3": "Do centra musíš položit oběť blok smaragdu.",
+	"mca.books.death.4": "po vystavění altáře vyčkej do noci a zapal všechny tři sloupce když jsi připravej bojovat podpal smaragdový blok a utíkej.\n",
+	"mca.books.death.5": "smrtka je silná užij plné diamantové zbroje, dostatku lektvarů a hodně očarování. dokáže:\n-létat\n-odrážet útoky\n-oslepit tě\n-přesouvat tvé předměty\n-teleportovat",
+	"mca.books.death.6": "pokud udeříš smrtku když blokuje, teleportuje se za tebe a zaútočí nezkoušej ani šípy či jed, je imuní!",
+	"mca.books.death.7": "když smrt ztratí mnoho zdraví teleportuje se do vzduchu a započne se léčit při čemž vyvolá své poskoky z podvětí aby s tebou bojovaly.",
+	"mca.books.death.8": "když se smrt vyléčí bude pokražovat v boji ale nebude se schopen léčit po další tři minuty a třicet sekund. pokaždé kdy se smrtka vyléčí nebude schopen získat zpět tolik co minule.",
+	"mca.books.death.9": "když udeříš smrtelný zásah vypaří se zpět do nicoty a za sebou nechá svou kosu. kosa, chladná na dotek, mocná to zbraň. vybij vesnici k nabití kosy pak přenes tyto duše na hrob.",
+	"mca.books.death.author": "Ozzie válečník",
+	"mca.books.family.0": "Děti jsou naše budoucnost! ujisti se že jich máš nejvíc co můžeš. nejenže dostanete zkušenost a radost výchovy dětí, ale až vyrostou můžeš je i poslat pracovat!",
+	"mca.books.family.1": "Když jste zadaní, jednoduše přijď ke své manželce/manželovy and nabídni ´zplodit´ po krátkém tanci, budete hrdým majitelem nového chalpce nebo dívky (nebo obou)!",
+	"mca.books.family.author": "Leanne kněz",
+	"mca.books.infection.author": "Richard zombie",
+	"mca.books.romance.5": "nebuď otravný! když s někým mluvíš moc dlouho začneš je nudit a tvoje pokusy mohou přestat fungovat. jestli se to stane, jednoduše vyčkej chvilku předním než s nimy budeš znovu mluvit.",
+	"mca.books.romance.6": "dárky jsou skvělý způsob jak si získat něčí přátelství.ale dej pozor na to komu co dáváš. Rybář má rád ryby ale prosím tě, nikdy nedávej smradlavou rybu dámě",
+	"mca.books.romance.7": "aby jsi se oženil jednoduše daruj vesničanovy snubní prsten když se budeš cítit že jsi s nimy dosáhl nejvyšší přátelské úrovně.",
+	"mca.books.romance.8": "Bohužel, někdy je nejlepší se rozvést a posunout se dál. abys toto učinil vyhledej kněze a požádej o papíry pro rozvod pak je ukaž svému snoubenci.",
+	"mca.books.romance.9": "alternativně se můžete rozvést bez papírů, ale nebudou s tím šťastní.",
+	"mca.books.romance.author": "Gerry Knihovník",
+	"mca.books.rose_gold.0": "§lUpozornění!\nTOP SECRET§r\nTato příručka je vlastnictvím William Mining Co.§rPokud nejste William Mining Co. zaměstnanec, prosím, zdržte se čtení této příručky a rychle se vraťte na William Horník.",
+	"mca.books.rose_gold.author": "William Horník"
+}

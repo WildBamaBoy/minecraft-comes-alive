@@ -1,1 +1,9 @@
-{"mca.books.family.author":"Kleryk Leanne","mca.books.death.author":"Wojownik Ozzie","mca.books.rose_gold.author":"Górnik William","mca.books.infection.author":"Zombie Richard","mca.books.romance.author":"Bibliotekarz Gerry","mca.books.blueprint.0":"§fMy osadnicy możemy uprawiać ziemię. Możemy wykuć narzędzia i zbroje. Możemy czytać, warzyć, czarować i wiele więcej. Jednak brakuje nam wiedzy na temat budownictwa!","mca.books.blueprint.author":"Budowlaniec Carl"}
+{
+	"mca.books.blueprint.0": "§fMy osadnicy możemy uprawiać ziemię. Możemy wykuć narzędzia i zbroje. Możemy czytać, warzyć, czarować i wiele więcej. Jednak brakuje nam wiedzy na temat budownictwa!",
+	"mca.books.blueprint.author": "Budowlaniec Carl",
+	"mca.books.death.author": "Wojownik Ozzie",
+	"mca.books.family.author": "Kleryk Leanne",
+	"mca.books.infection.author": "Zombie Richard",
+	"mca.books.romance.author": "Bibliotekarz Gerry",
+	"mca.books.rose_gold.author": "Górnik William"
+}

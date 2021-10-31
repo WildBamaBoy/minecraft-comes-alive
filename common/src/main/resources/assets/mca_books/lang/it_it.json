@@ -1,1 +1,6 @@
-[]
+{
+	"mca.books.blueprint.author": "Carl il costruttore",
+	"mca.books.death.author": "Svaldo il guerriero",
+	"mca.books.family.author": "Leanne la chierica",
+	"mca.books.rose_gold.author": "William il minatore"
+}
