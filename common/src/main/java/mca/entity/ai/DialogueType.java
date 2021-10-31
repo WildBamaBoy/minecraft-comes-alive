@@ -24,6 +24,7 @@ public enum DialogueType {
     private static final DialogueType[] VALUES = values();
 
     public String getTranslationKey(String phrase) {
+        //todo wont work on dedicated servers
         DialogueType t = this;
         while (t != null) {
             String s = t.name().toLowerCase() + "." + phrase;

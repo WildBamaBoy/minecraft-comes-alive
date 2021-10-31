@@ -9,10 +9,8 @@ import mca.resources.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
-import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.server.world.data.Building;
-import mca.resources.Tasks;
 import mca.server.world.data.Village;
 import mca.resources.data.tasks.Task;
 import mca.util.compat.RenderSystemCompat;
@@ -60,6 +58,9 @@ public class BlueprintScreen extends Screen {
 
     private int mouseX;
     private int mouseY;
+
+    private Map<Rank, List<Task>> tasks;
+    private Map<String, BuildingType> buildingTypes;
 
     public BlueprintScreen() {
         super(new LiteralText("Blueprint"));
@@ -171,7 +172,7 @@ public class BlueprintScreen extends Screen {
                 int x = width / 2 - 4 * size - 8;
                 int y = (int)(height / 2 - 2.0 * size);
                 catalogButtons.clear();
-                for (BuildingType bt : API.getVillagePool()) {
+                for (BuildingType bt : buildingTypes.values()) {
                     if (bt.visible()) {
                         TexturedButtonWidget widget = new TexturedButtonWidget(
                                 row * size + x - 10, col * size + y - 10, 20, 20, bt.iconU(), bt.iconV() + 20, 20, ICON_TEXTURES, 256, 256, button -> {
@@ -313,7 +314,7 @@ public class BlueprintScreen extends Screen {
         //buildings
         Building hoverBuilding = null;
         for (Building building : village.getBuildings().values()) {
-            BuildingType bt = API.getVillagePool().getBuildingType(building.getType());
+            BuildingType bt = buildingTypes.get(building.getType());
 
             if (bt.isIcon()) {
                 BlockPos c = building.getCenter();
@@ -349,7 +350,7 @@ public class BlueprintScreen extends Screen {
             List<Text> lines = new LinkedList<>();
 
             //name
-            BuildingType bt = API.getVillagePool().getBuildingType(hoverBuilding.getType());
+            BuildingType bt = buildingTypes.get(hoverBuilding.getType());
             lines.add(new TranslatableText("buildingType." + bt.name()));
             lines.add(new TranslatableText("gui.blueprint.size", String.valueOf(hoverBuilding.getSize())));
 
@@ -382,7 +383,7 @@ public class BlueprintScreen extends Screen {
         int x = width / 2 - 70;
 
         //tasks
-        for (Task task : Tasks.getTasks(rank.promote())) {
+        for (Task task : tasks.get(rank.promote())) {
             boolean completed = completedTasks.contains(task.getId());
             Text t = task.getTranslatable().formatted(completed ? Formatting.STRIKETHROUGH : Formatting.RESET);
             textRenderer.drawWithShadow(transform, t, x, y, completed ? 0xff88ff88 : 0xffff5555);
@@ -528,9 +529,11 @@ public class BlueprintScreen extends Screen {
         }
     }
 
-    public void setRank(Rank rank, int reputation, Set<String> completedTasks) {
+    public void setRank(Rank rank, int reputation, Set<String> completedTasks, Map<Rank, List<Task>> tasks, Map<String, BuildingType> buildingTypes) {
         this.rank = rank;
         this.reputation = reputation;
         this.completedTasks = completedTasks;
+        this.tasks = tasks;
+        this.buildingTypes = buildingTypes;
     }
 }

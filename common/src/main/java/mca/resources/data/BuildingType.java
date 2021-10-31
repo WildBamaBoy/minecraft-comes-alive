@@ -1,5 +1,6 @@
 package mca.resources.data;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +14,7 @@ import net.minecraft.tag.TagGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public final class BuildingType {
+public final class BuildingType implements Serializable {
 
     private final String name;
     private final int size;
@@ -21,7 +22,7 @@ public final class BuildingType {
     private final int priority;
     private final boolean visible;
     private final Map<String, Integer> blocks;
-    private Map<Identifier, Integer> blockIds;
+    private transient Map<Identifier, Integer> blockIds;
     private final boolean icon;
     private final int iconU;
     private final int iconV;

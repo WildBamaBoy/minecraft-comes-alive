@@ -69,10 +69,6 @@ public class Tasks extends JsonDataLoader {
         });
     }
 
-    public static List<Task> getTasks(Rank r) {
-        return getInstance().tasks.get(r);
-    }
-
     public static Set<String> getCompletedIds(Village village, ServerPlayerEntity player) {
         return getInstance().tasks.values().stream().flatMap(Collection::stream)
                 .filter(t -> t.isCompleted(village, player)).map(Task::getId).collect(Collectors.toSet());
