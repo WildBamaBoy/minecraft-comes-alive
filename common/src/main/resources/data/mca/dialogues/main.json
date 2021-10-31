@@ -92,7 +92,7 @@
       },
       {
         "name": "adopt",
-        "constraints": "orphan,child",
+        "constraints": "orphan,!adult",
         "actions": [
           {
             "id": "adopt"
