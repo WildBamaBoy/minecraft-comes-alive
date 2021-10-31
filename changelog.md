@@ -43,3 +43,4 @@
 * Fixed grown-up message appearing after world join
 * Fixed building detection on certain coordinates
 * Fixed tall villagers being too tall to live
+* Fixed phrases not being translated on dedicated servers

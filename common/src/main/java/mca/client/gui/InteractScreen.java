@@ -24,6 +24,7 @@ import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -314,7 +315,7 @@ public class InteractScreen extends AbstractDynamicScreen {
     public void setDialogue(String dialogue, List<String> answers, boolean silent) {
         dialogQuestionId = dialogue;
         dialogAnswers = answers;
-        TranslatableText translatable = villager.getTranslatable(player, Question.getTranslationKey(dialogQuestionId));
+        BaseText translatable = villager.getTranslatable(player, Question.getTranslationKey(dialogQuestionId));
         dialogQuestionText = textRenderer.wrapLines(translatable, 160);
 
         if (!silent) {

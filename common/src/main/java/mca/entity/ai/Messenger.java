@@ -6,14 +6,13 @@ import mca.resources.API;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
-
-import java.util.stream.Stream;
 
 public interface Messenger extends EntityWrapper {
     TargetPredicate CAN_RECEIVE = new TargetPredicate().ignoreEntityTargetRules();
@@ -35,7 +34,7 @@ public interface Messenger extends EntityWrapper {
     }
 
     default TranslatableText getTranslatable(PlayerEntity target, String phraseId, Object... params) {
-        return new TranslatableText(getDialogueType(target).getTranslationKey(phraseId), Stream.concat(Stream.of(target.getName()), Stream.of(params)).toArray());
+        return new TranslatableText(getDialogueType(target).name() + "." + phraseId, target.getName(), params);
     }
 
     default void sendChatToAllAround(String phrase, Object...params) {
