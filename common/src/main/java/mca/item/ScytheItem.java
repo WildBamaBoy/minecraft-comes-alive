@@ -93,8 +93,10 @@ public class ScytheItem extends SwordItem {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         if (hasSoul(context.getStack())) {
-            setSoul(context.getStack(), false);
             ActionResult result = use(context, false);
+            if (result == ActionResult.SUCCESS) {
+                setSoul(context.getStack(), false);
+            }
             if (result != ActionResult.PASS) {
                 return result;
             }
@@ -152,14 +154,13 @@ public class ScytheItem extends SwordItem {
         BlockPos pos = context.getBlockPos();
         BlockState state = world.getBlockState(pos);
 
-        if (!context.getWorld().isClient) {
-            CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)context.getPlayer(), cure ? "staffOfLife" : "scytheRevive");
-        }
-
         if (state.isIn(TagsMCA.Blocks.TOMBSTONES)) {
             return TombstoneBlock.Data.of(world.getBlockEntity(pos)).filter(TombstoneBlock.Data::hasEntity).map(data -> {
                 if (!world.isClient) {
                     data.startResurrecting(cure);
+                }
+                if (!context.getWorld().isClient) {
+                    CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)context.getPlayer(), cure ? "staffOfLife" : "scytheRevive");
                 }
                 return ActionResult.SUCCESS;
             }).orElse(ActionResult.FAIL);

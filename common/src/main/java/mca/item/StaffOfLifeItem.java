@@ -24,15 +24,16 @@ public class StaffOfLifeItem extends TooltippedItem {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         ActionResult result = ScytheItem.use(context, true);
-        if (result != ActionResult.PASS) {
+        if (result == ActionResult.SUCCESS) {
+            context.getStack().damage(1, context.getPlayer(), (x) -> {});
             return result;
         }
-        return super.useOnBlock(context);
+        return result;
     }
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(new TranslatableText(getTranslationKey(stack) + ".uses", stack.getMaxDamage() - stack.getDamage() + 1));
+        tooltip.add(new TranslatableText(getTranslationKey(stack) + ".uses", stack.getMaxDamage() - stack.getDamage()));
         tooltip.add(LiteralText.EMPTY);
         super.appendTooltip(stack, world, tooltip, context);
     }

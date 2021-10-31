@@ -52,7 +52,7 @@ public class InteractionDialogueMessage implements Message {
             if (ac.get().isSuccess()) {
                 villager.getVillagerBrain().rewardHearts(player, hearts);
             } else if (ac.get().isFail()) {
-                villager.getVillagerBrain().rewardHearts(player, -hearts);
+                villager.getVillagerBrain().rewardHearts(player, -hearts / 2);
             }
 
             // additional commands

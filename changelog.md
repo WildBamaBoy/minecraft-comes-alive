@@ -32,5 +32,7 @@
 * Fixed translation keys
 
 # 7.2
+
 * Added config flag to disable voice acting
-* 
+* Fixed scythe loosing its charge on non-tombstones
+* Fixed staff of life charges
