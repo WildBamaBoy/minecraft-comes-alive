@@ -14,10 +14,10 @@
     }
   ],
   "responses": {
-    "fail": "gift.flower.fail",
-    "good": "gift.flower.good",
-    "better": "gift.flower.better",
-    "best": "gift.flower.best"
+    "fail": "gift.flowers.fail",
+    "good": "gift.flowers.good",
+    "better": "gift.flowers.better",
+    "best": "gift.flowers.best"
   },
   "items": {
     "#minecraft:flowers": 2

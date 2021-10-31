@@ -41,7 +41,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
         return builder.addAll(GENDER);
     }
 
-    private Random random = new Random();
+    private Random random;
 
     private final Map<GeneType, Gene> genes = new HashMap<>();
 
@@ -49,6 +49,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
 
     public Genetics(VillagerLike<?> entity) {
         this.entity = entity;
+        random = new Random(entity.asEntity().world.random.nextLong());
     }
 
     public float getVerticalScaleFactor() {
@@ -89,7 +90,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
     }
 
     //initializes the genes with random numbers
-    public void randomize(Entity entity) {
+    public void randomize() {
         for (GeneType type : GENOMES) {
             getGenome(type).randomize();
         }
@@ -99,7 +100,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
         setGene(WIDTH, centeredRandom());
 
         // temperature
-        float temp = entity.world.getBiome(entity.getBlockPos()).getTemperature();
+        float temp = entity.asEntity().world.getBiome(entity.asEntity().getBlockPos()).getTemperature();
 
         // immigrants
         if (random.nextInt(100) < Config.getInstance().immigrantChance) {

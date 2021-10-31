@@ -165,7 +165,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
         if (spawnReason != SpawnReason.CONVERSION) {
             if (spawnReason != SpawnReason.BREEDING) {
-                genetics.randomize(this);
+                genetics.randomize();
 
                 if (spawnReason != SpawnReason.SPAWN_EGG && spawnReason != SpawnReason.DISPENSER) {
                     genetics.setGender(Gender.getRandom());

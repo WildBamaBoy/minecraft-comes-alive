@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,12 +48,13 @@ public class Traits {
         return builder.addAll(TRAITS);
     }
 
-    private Random random = new Random();
+    private Random random;
 
     private final VillagerLike<?> entity;
 
     public Traits(VillagerLike<?> entity) {
         this.entity = entity;
+        random = new Random(entity.asEntity().world.random.nextLong());
     }
 
     public Set<Trait> getTraits() {
@@ -68,18 +70,24 @@ public class Traits {
     }
 
     public void addTrait(Trait trait) {
-        entity.getTrackedValue(TRAITS).putBoolean(trait.name(), true);
+        NbtCompound traits = entity.getTrackedValue(TRAITS).copy();
+        traits.putBoolean(trait.name(), true);
+        entity.setTrackedValue(TRAITS, traits);
     }
 
     public void removeTrait(Trait trait) {
-        entity.getTrackedValue(TRAITS).remove(trait.name());
+        NbtCompound traits = entity.getTrackedValue(TRAITS).copy();
+        traits.remove(trait.name());
+        entity.setTrackedValue(TRAITS, traits);
     }
 
     //initializes the genes with random numbers
-    public void randomize(VillagerLike<?> entity) {
+    public void randomize() {
         for (Trait t : Trait.values()) {
-            if (random.nextFloat() * t.chance < Config.getInstance().traitChance) {
-                entity.getTraits().addTrait(t);
+            float total = (float)Arrays.stream(Trait.values()).mapToDouble(tr -> tr.chance).sum();
+            float chance = Config.getInstance().traitChance / total * t.chance;
+            if (random.nextFloat() < chance) {
+                addTrait(t);
             }
         }
     }

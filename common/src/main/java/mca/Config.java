@@ -17,6 +17,9 @@ public final class Config implements Serializable {
         return INSTANCE;
     }
 
+    public static final int VERSION = 1;
+
+    public int version = 0;
     public boolean overwriteOriginalVillagers = true;
     public boolean overwriteOriginalZombieVillagers = true;
     public boolean enableInfection = true;
@@ -45,7 +48,7 @@ public final class Config implements Serializable {
     public double giftSatisfactionFactor = 0.25;
     public int bountyHunterInterval = 24000;
     public int bountyHunterThreshold = -5;
-    public float traitChance = 0.01f;
+    public float traitChance = 0.25f;
     public float traitInheritChance = 0.5f;
     public float villagerHeight = 0.93f;
     public boolean canHurtBabies = true;
@@ -56,6 +59,7 @@ public final class Config implements Serializable {
 
     public void save() {
         try (FileWriter writer = new FileWriter(getConfigFile())) {
+            version = VERSION;
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(this, writer);
         } catch (IOException e) {
@@ -67,6 +71,9 @@ public final class Config implements Serializable {
         try (FileReader reader = new FileReader(getConfigFile())) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Config config = gson.fromJson(reader, Config.class);
+            if (config.version != VERSION) {
+                config = new Config();
+            }
             config.save();
             return config;
         } catch (IOException e) {

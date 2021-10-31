@@ -83,8 +83,8 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.create(world);
         assert villager != null;
         villager.initializeSkin();
-        villager.getGenetics().randomize(villager);
-        villager.getTraits().randomize(villager);
+        villager.getGenetics().randomize();
+        villager.getTraits().randomize();
         villager.getVillagerBrain().randomize();
         ((MobEntity)villager).writeCustomDataToNbt(entityData);
     }

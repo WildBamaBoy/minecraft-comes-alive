@@ -212,8 +212,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         if (spawnReason != SpawnReason.CONVERSION) {
             if (spawnReason != SpawnReason.BREEDING) {
-                genetics.randomize(this);
-                traits.randomize(this);
+                genetics.randomize();
+                traits.randomize();
 
                 if (spawnReason != SpawnReason.SPAWN_EGG && spawnReason != SpawnReason.DISPENSER) {
                     genetics.setGender(Gender.getRandom());
