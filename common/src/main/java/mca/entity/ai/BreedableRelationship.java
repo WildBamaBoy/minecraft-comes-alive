@@ -1,14 +1,16 @@
 package mca.entity.ai;
 
 import mca.Config;
-import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
+import mca.cobalt.network.NetworkHandler;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.gifts.GiftType;
 import mca.entity.interaction.gifts.Response;
 import mca.item.SpecialCaseGift;
+import mca.network.client.AnalysisResults;
+import mca.resources.data.IntAnalysis;
 import mca.server.world.data.BabyTracker;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
@@ -142,37 +144,43 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
             return;
         }
 
-        int satisfaction = gift.getSatisfactionFor(entity, stack);
+        IntAnalysis analysis = gift.getSatisfactionFor(entity, stack);
+        int satisfaction = analysis.getTotal();
         Response response = gift.getResponse(satisfaction);
 
-        satisfaction *= Config.getInstance().giftSatisfactionFactor;
+        // desaturation
+        int occurrences = getGiftSaturation().get(stack);
+        int penalty = (int)(occurrences * Config.getInstance().giftDesaturationFactor * Math.pow(Math.max(satisfaction, 0.0), Config.getInstance().giftDesaturationExponent));
+        if (penalty != 0) {
+            analysis.add("desaturation", -penalty);
+        }
+        int desaturatedSatisfaction = analysis.getTotal();
+        Response desaturatedResponse = gift.getResponse(desaturatedSatisfaction);
 
-        // the gift has been rejected
+        // adjust reward
+        desaturatedSatisfaction *= Config.getInstance().giftSatisfactionFactor;
+
+        NetworkHandler.sendToPlayer(new AnalysisResults(analysis), (ServerPlayerEntity)player);
+
         if (response == Response.FAIL) {
             rejectGift(player, gift.getDialogueFor(response));
+        } else if (desaturatedResponse == Response.FAIL) {
+            rejectGift(player, "gift.saturated");
         } else {
-            long occurrences = getGiftSaturation().get(stack);
-
-            //check if desaturation fail happen
-            if (entity.getRandom().nextInt(100) < occurrences * Config.getInstance().giftDesaturationPenalty) {
-                satisfaction = -satisfaction / 2;
-                rejectGift(player, "gift.saturated");
-            } else {
-                entity.sendChatMessage(player, gift.getDialogueFor(response));
-                if (response == Response.BEST) {
-                    entity.playSurprisedSound();
-                }
-
-                //take the gift
-                getGiftSaturation().add(stack, 1);
-                entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
-                entity.getInventory().addStack(stack.split(1));
+            entity.sendChatMessage(player, gift.getDialogueFor(response));
+            if (response == Response.BEST) {
+                entity.playSurprisedSound();
             }
+
+            //take the gift
+            getGiftSaturation().add(stack);
+            entity.world.sendEntityStatus(entity, Status.MCA_VILLAGER_POS_INTERACTION);
+            entity.getInventory().addStack(stack.split(1));
         }
 
         //modify mood and hearts
-        entity.getVillagerBrain().modifyMoodValue(satisfaction / 2 + 2 * MathHelper.sign(satisfaction));
-        memory.modHearts(satisfaction);
+        entity.getVillagerBrain().modifyMoodValue(desaturatedSatisfaction / 2 + Config.getInstance().baseGiftMoodEffect * MathHelper.sign(desaturatedSatisfaction));
+        memory.modHearts(desaturatedSatisfaction);
     }
 
     private void rejectGift(PlayerEntity player, String dialogue) {

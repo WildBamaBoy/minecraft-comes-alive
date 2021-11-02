@@ -50,4 +50,7 @@
 
 * Attempting to talk to a zombie won't prevent you from performing an action
 * Fixed interaction fatigue reset
-* Added Interaction analysis
+* Added Interaction and gift analysis
+* Overhauled gift desaturation.
+  * Hearts reward will decrease, but won't drop below 0.
+  * Desaturation uses a configurable exponential curve, slightly favoring awesome stuff.

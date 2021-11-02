@@ -1,4 +1,4 @@
-package mca.util;
+package mca.resources.data;
 
 import java.io.Serializable;
 

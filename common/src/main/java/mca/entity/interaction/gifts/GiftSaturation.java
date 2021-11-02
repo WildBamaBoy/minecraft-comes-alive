@@ -1,46 +1,43 @@
 package mca.entity.interaction.gifts;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.LinkedList;
+import java.util.List;
 import mca.Config;
 import mca.util.NbtHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtLong;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class GiftSaturation {
-    private Map<Identifier, Long> values = new HashMap<>();
+    private List<Identifier> values = new LinkedList<>();
 
-
-    public void add(ItemStack stack, int saturation) {
+    public void add(ItemStack stack) {
         if (stack.isEmpty()) {
             return;
         }
 
+        // add to queue
         Identifier id = Registry.ITEM.getId(stack.getItem());
+        values.add(id);
 
-        while (!values.isEmpty() && values.size() > Config.getInstance().giftDesaturationQueueLength - 1) {
-            values.remove(values.keySet().iterator().next());
+        // clear old values if limit is reached
+        while (values.size() > Config.getInstance().giftDesaturationQueueLength) {
+            values.remove(0);
         }
-        values.compute(id, (key, old) -> {
-            long newValue = old == null ? saturation : (old + saturation);
-            return newValue < 0 ? /*remove*/ null : /*put*/ newValue;
-        });
     }
 
-    public long get(ItemStack stack) {
-        return values.getOrDefault(Registry.ITEM.getId(stack.getItem()), 0L);
+    public int get(ItemStack stack) {
+        Identifier id = Registry.ITEM.getId(stack.getItem());
+        return (int)values.stream().filter(v -> v.equals(id)).count();
     }
 
-    public void readFromNbt(NbtCompound nbt) {
-        values = NbtHelper.toMap(nbt, Identifier::new, e -> ((NbtLong)e).longValue());
+    public void readFromNbt(NbtList nbt) {
+        values = NbtHelper.toList(nbt, v -> new Identifier(v.asString()));
     }
 
-    public NbtCompound toNbt() {
-        return NbtHelper.fromMap(new NbtCompound(), values, Identifier::toString, NbtLong::of);
+    public NbtList toNbt() {
+        return NbtHelper.fromList(values, v -> NbtString.of(v.toString()));
     }
-
 }

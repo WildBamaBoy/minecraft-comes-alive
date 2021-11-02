@@ -40,12 +40,14 @@ public final class Config implements Serializable {
     public int childrenChance = 5;
     public int childrenLimit = 50;
     public int giftDesaturationQueueLength = 16;
-    public int giftDesaturationPenalty = 25;
+    public float giftDesaturationFactor = 0.5f;
+    public double giftDesaturationExponent = 0.85;
+    public double giftSatisfactionFactor = 0.25;
+    public int baseGiftMoodEffect = 2;
     public int greetHeartsThreshold = 75;
     public int greetAfterDays = 1;
     public int childInitialHearts = 100;
     public int immigrantChance = 20;
-    public double giftSatisfactionFactor = 0.25;
     public int bountyHunterInterval = 24000;
     public int bountyHunterThreshold = -5;
     public float traitChance = 0.25f;

@@ -26,6 +26,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
@@ -203,11 +204,11 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
     }
 
     public void readFromNbt(NbtCompound nbt) {
-        giftSaturation.readFromNbt(nbt.getCompound("giftSaturation"));
+        giftSaturation.readFromNbt(nbt.getList("giftSaturationQueue", 8));
     }
 
     public void writeToNbt(NbtCompound nbt) {
-        nbt.put("giftSaturation", giftSaturation.toNbt());
+        nbt.put("giftSaturationQueue", giftSaturation.toNbt());
     }
 
     public interface Predicate extends BiPredicate<CompassionateEntity<?>, Entity> {

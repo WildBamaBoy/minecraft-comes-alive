@@ -4,6 +4,7 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 import com.google.gson.JsonObject;
 
 import mca.entity.VillagerEntityMCA;
+import mca.resources.data.IntAnalysis;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.ServerTagManagerHolder;
@@ -79,15 +81,15 @@ public class GiftType {
         int max = GiftType.allMatching(stack).mapToInt(a -> a.priority).max().orElse(0);
         Optional<GiftType> worst = GiftType.allMatching(stack)
                 .filter(a -> a.priority == max)
-                .filter(a -> a.getResponse(a.getSatisfactionFor(recipient, stack)) == Response.FAIL)
-                .max(Comparator.comparingDouble(a -> a.getSatisfactionFor(recipient, stack)));
+                .filter(a -> a.getResponse(a.getSatisfactionFor(recipient, stack).getTotal()) == Response.FAIL)
+                .max(Comparator.comparingDouble(a -> a.getSatisfactionFor(recipient, stack).getTotal()));
 
         if (worst.isPresent()) {
             return worst;
         } else {
             return GiftType.allMatching(stack)
                     .filter(a -> a.priority == max)
-                    .max(Comparator.comparingDouble(a -> a.getSatisfactionFor(recipient, stack)));
+                    .max(Comparator.comparingDouble(a -> a.getSatisfactionFor(recipient, stack).getTotal()));
         }
     }
 
@@ -130,11 +132,25 @@ public class GiftType {
 
     /**
      * Gets the amount of satisfaction giving this gift to a villager would produce.
+     * @return An analysis object of all summands
      */
-    public int getSatisfactionFor(VillagerEntityMCA recipient, ItemStack stack) {
+    public IntAnalysis getSatisfactionFor(VillagerEntityMCA recipient, ItemStack stack) {
+        IntAnalysis analysis = new IntAnalysis();
+
         Optional<Integer> value = items.entrySet().stream().filter(i -> i.getKey() == stack.getItem()).findFirst().map(Map.Entry::getValue);
         int base = value.orElseGet(() -> tags.entrySet().stream().filter(i -> i.getKey().contains(stack.getItem())).findFirst().map(Map.Entry::getValue).orElse(0));
-        return base + conditions.stream().mapToInt(condition -> condition.getSatisfactionFor(recipient, stack)).sum();
+
+        analysis.add("base", base);
+
+        // condition chance
+        for (GiftPredicate c : conditions) {
+            int val = c.getSatisfactionFor(recipient, stack);
+            if (c.test(recipient, stack)) {
+                analysis.add(c.getConditionKeys().get(0), val);
+            }
+        }
+
+        return analysis;
     }
 
     /**

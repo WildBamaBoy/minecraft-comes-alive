@@ -1,5 +1,6 @@
 package mca.client.gui;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -19,9 +20,10 @@ import mca.network.InteractionDialogueInitMessage;
 import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
+import mca.resources.data.Analysis;
 import mca.resources.data.Answer;
 import mca.resources.data.Question;
-import mca.util.SerializablePair;
+import mca.resources.data.SerializablePair;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -53,7 +55,7 @@ public class InteractScreen extends AbstractDynamicScreen {
     private List<OrderedText> dialogQuestionText;
     private String dialogQuestionId;
 
-    private static List<SerializablePair<String, Float>> analysis;
+    private static Analysis<?> analysis;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -272,15 +274,18 @@ public class InteractScreen extends AbstractDynamicScreen {
         //analysis
         if (hoveringOverIcon("analysis") && analysis != null) {
             List<Text> lines = new LinkedList<>();
-            lines.add(new TranslatableText("analysis.title"));
+            lines.add(new TranslatableText("analysis.title").formatted(Formatting.GRAY));
 
-            for (SerializablePair<String, Float> d : analysis) {
-                int value = (int)(d.getRight() * 100);
-                lines.add(new TranslatableText("analysis." + d.getLeft()).append(new LiteralText(": " + (value >= 0 ? "+" : "") + value + "%")));
+            //summands
+            for (Analysis.AnalysisElement d : analysis) {
+                lines.add(new TranslatableText("analysis." + d.getKey())
+                        .append(new LiteralText(": " + (d.isPositive() ? "+" : "") + d.getValue()))
+                        .formatted(d.isPositive() ? Formatting.GREEN : Formatting.RED));
             }
 
-            int chance = (int)(Answer.getChance(analysis) * 100);
-            lines.add(new TranslatableText("analysis.total").append(": " + chance + "%"));
+            //total
+            String chance = analysis.getTotalAsString();
+            lines.add(new TranslatableText("analysis.total").append(": " + chance));
 
             drawHoveringIconText(transform, lines, "analysis");
         }
@@ -389,7 +394,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
     }
 
-    public static void setAnalysis(List<SerializablePair<String, Float>> analysis) {
+    public static void setAnalysis(Analysis<?> analysis) {
         InteractScreen.analysis = analysis;
     }
 }

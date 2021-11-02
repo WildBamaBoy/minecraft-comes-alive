@@ -85,6 +85,7 @@
 
   "analysis.title": "Last interaction analysis:",
   "analysis.base": "base",
+  "analysis.desaturation": "desaturation",
   "analysis.random": "random",
   "analysis.heartsBonus": "hearts bonus",
   "analysis.fatigue": "fatigue",

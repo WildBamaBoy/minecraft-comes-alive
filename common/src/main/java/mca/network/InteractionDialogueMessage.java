@@ -1,6 +1,5 @@
 package mca.network;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import mca.cobalt.network.Message;
@@ -11,13 +10,12 @@ import mca.network.client.InteractionDialogueResponse;
 import mca.resources.Dialogues;
 import mca.resources.data.Answer;
 import mca.resources.data.AnswerAction;
+import mca.resources.data.FloatAnalysis;
 import mca.resources.data.Question;
-import mca.util.SerializablePair;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Pair;
 
 public class InteractionDialogueMessage implements Message {
     private static final long serialVersionUID = 1462101145658166706L;
@@ -45,9 +43,9 @@ public class InteractionDialogueMessage implements Message {
         Question question = Dialogues.getInstance().getQuestion(questionId);
         Answer answer = question.getAnswer(answerId);
 
-        List<SerializablePair<String, Float>> chances = answer.getChances(villager, player);
-        NetworkHandler.sendToPlayer(new AnalysisResults(chances), player);
-        float chance = Answer.getChance(chances);
+        FloatAnalysis analysis = answer.getChances(villager, player);
+        NetworkHandler.sendToPlayer(new AnalysisResults(analysis), player);
+        float chance = analysis.getTotal();
         Optional<AnswerAction> ac = answer.getActions().stream().filter(x -> x.getThreshold() <= chance).max((x, y) -> Float.compare(x.getThreshold(), y.getThreshold()));
         if (ac.isPresent()) {
             String id = ac.get().getId();
