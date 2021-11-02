@@ -482,6 +482,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             // Brain and pregnancy depend on the above states, so we tick them last
             // Every 1 second
             mcaBrain.think();
+
+            // pop a item from the desaturation queue
+            if (age % Config.getInstance().giftDesaturationReset != 0) {
+                getRelationships().getGiftSaturation().pop();
+            }
         }
     }
 

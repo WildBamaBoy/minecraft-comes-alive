@@ -44,6 +44,7 @@ public final class Config implements Serializable {
     public double giftDesaturationExponent = 0.85;
     public double giftSatisfactionFactor = 0.25;
     public int baseGiftMoodEffect = 2;
+    public int giftDesaturationReset = 24000;
     public int greetHeartsThreshold = 75;
     public int greetAfterDays = 1;
     public int childInitialHearts = 100;

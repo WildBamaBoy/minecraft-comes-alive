@@ -54,4 +54,5 @@
 * Overhauled gift desaturation.
     * Hearts reward will decrease, but won't drop below 0.
     * Desaturation uses a configurable exponential curve, slightly favoring awesome stuff.
+    * Once a day by default, the villager forgets about the latest gift in the queue
 * Fixed "datapack" crash

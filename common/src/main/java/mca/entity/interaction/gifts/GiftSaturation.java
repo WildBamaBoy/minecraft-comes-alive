@@ -24,7 +24,7 @@ public class GiftSaturation {
 
         // clear old values if limit is reached
         while (values.size() > Config.getInstance().giftDesaturationQueueLength) {
-            values.remove(0);
+            pop();
         }
     }
 
@@ -39,5 +39,11 @@ public class GiftSaturation {
 
     public NbtList toNbt() {
         return NbtHelper.fromList(values, v -> NbtString.of(v.toString()));
+    }
+
+    public void pop() {
+        if (!values.isEmpty()) {
+            values.remove(0);
+        }
     }
 }
