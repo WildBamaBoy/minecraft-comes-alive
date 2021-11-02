@@ -52,5 +52,6 @@
 * Fixed interaction fatigue reset
 * Added Interaction and gift analysis
 * Overhauled gift desaturation.
-  * Hearts reward will decrease, but won't drop below 0.
-  * Desaturation uses a configurable exponential curve, slightly favoring awesome stuff.
+    * Hearts reward will decrease, but won't drop below 0.
+    * Desaturation uses a configurable exponential curve, slightly favoring awesome stuff.
+* Fixed "datapack" crash
