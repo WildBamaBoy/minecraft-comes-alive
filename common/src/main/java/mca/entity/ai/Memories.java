@@ -12,13 +12,13 @@ public class Memories {
 
     private int hearts;
 
-    private UUID playerUUID;
+    private final UUID playerUUID;
 
     private int interactionFatigue;
 
     private DialogueType dialogueType;
 
-    private VillagerBrain<?> brain;
+    private final VillagerBrain<?> brain;
 
     private long lastSeen;
 

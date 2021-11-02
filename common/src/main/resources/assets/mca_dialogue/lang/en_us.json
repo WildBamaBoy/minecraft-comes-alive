@@ -159,7 +159,7 @@
   "interaction.sethome.fail2": "Is there another place nearby?",
   "interaction.sethome.fail3": "That is no building!",
   "interaction.sethome.bedfail1": "Nice home, but all beds seem to be reserved.",
-  "interaction.sethome.bedfail2": "There are no empty beds!.",
+  "interaction.sethome.bedfail2": "There are no empty beds!",
   "adult.interaction.setworkplace.success1": "Sure thing, %1$s.",
   "spouse.interaction.setworkplace.success1": "I really like this place.",
   "child.interaction.setworkplace.success1": "Okay fine!",

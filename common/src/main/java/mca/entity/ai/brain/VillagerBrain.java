@@ -1,5 +1,6 @@
 package mca.entity.ai.brain;
 
+import mca.Config;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
 import mca.entity.VillagerLike;
@@ -60,6 +61,20 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
 
         if (entity.age % 20 != 0) {
             updateMoveState();
+        }
+
+        // decrease interaction fatigue
+        if (entity.age % Config.getInstance().interactionFatigueCooldown == 0) {
+            NbtCompound nbt = entity.getTrackedValue(MEMORIES);
+            if (nbt != null) {
+                for (String uuid : nbt.getKeys()) {
+                    Memories memories = Memories.fromCNBT(entity, nbt.getCompound(uuid));
+                    int fatigue = memories.getInteractionFatigue();
+                    if (fatigue > 0) {
+                        memories.setInteractionFatigue(fatigue - 1);
+                    }
+                }
+            }
         }
     }
 

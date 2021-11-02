@@ -53,6 +53,8 @@ public final class Config implements Serializable {
     public float villagerHeight = 0.9f;
     public boolean canHurtBabies = true;
     public boolean useVoices = true;
+    public float interactionFatigue = 0.05f;
+    public int interactionFatigueCooldown = 4800;
 
     public static File getConfigFile() {
         return new File("./config/mca.json");
