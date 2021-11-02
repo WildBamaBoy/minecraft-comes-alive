@@ -87,7 +87,7 @@ public class Answer {
         if (heartsBonus != 0) {
             analysis.add("heartsBonus", heartsBonus);
         }
-        analysis.add("random", villager.getRandom().nextFloat() * chanceRandom);
+        analysis.add("luck", villager.getRandom().nextFloat() * chanceRandom);
         analysis.add("fatigue", -memory.getInteractionFatigue() * Config.getInstance().interactionFatigue);
 
         // condition chance
