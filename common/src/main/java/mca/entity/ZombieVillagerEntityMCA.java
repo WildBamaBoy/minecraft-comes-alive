@@ -148,9 +148,9 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
         if (!stack.getItem().isIn(TagsMCA.Items.ZOMBIE_EGGS) && stack.getItem() != Items.GOLDEN_APPLE) {
             if (player instanceof ServerPlayerEntity) {
-                NetworkHandler.sendToPlayer(new OpenGuiRequest(OpenGuiRequest.Type.INTERACT, this), (ServerPlayerEntity)player);
+                String t = new String(new char[getRandom().nextInt(8) + 2]).replace("\0", ". ");
+                sendChatMessage(new LiteralText(t), player);
             }
-            return ActionResult.SUCCESS;
         }
         return super.interactAt(player, pos, hand);
     }

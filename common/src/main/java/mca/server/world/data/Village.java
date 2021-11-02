@@ -198,13 +198,6 @@ public class Village implements Iterable<Building> {
         return id;
     }
 
-    public int getReputation(PlayerEntity player) {
-        int hearts = reputation.getOrDefault(player.getUuid(), Collections.emptyMap()).values().stream().mapToInt(i -> i).sum()
-                + unspentHearts.getOrDefault(player.getUuid(), 0);
-        int residents = getPopulation() + 5; //we slightly favor bigger villages
-        return hearts / residents;
-    }
-
     public int getPopulation() {
         int residents = 0;
         for (Building b : this) {
@@ -481,6 +474,13 @@ public class Village implements Iterable<Building> {
     public void setReputation(PlayerEntity player, VillagerEntityMCA villager, int rep) {
         reputation.computeIfAbsent(player.getUuid(), i -> new HashMap<>()).put(villager.getUuid(), rep);
         markDirty((ServerWorld)player.world);
+    }
+
+    public int getReputation(PlayerEntity player) {
+        int hearts = reputation.getOrDefault(player.getUuid(), Collections.emptyMap()).values().stream().mapToInt(i -> i).sum()
+                + unspentHearts.getOrDefault(player.getUuid(), 0);
+        int residents = getPopulation() + 5; //we slightly favor bigger villages
+        return hearts / residents;
     }
 
     public void pushHearts(PlayerEntity player, int rep) {

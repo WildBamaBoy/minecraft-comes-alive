@@ -1,6 +1,8 @@
 package mca.entity.interaction.gifts;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -63,7 +65,7 @@ public class GiftPredicate {
         register("min_infection_progress", JsonHelper::asFloat, progress -> {
             return (villager, stack) -> villager.getInfectionProgress() > progress;
         });
-        register("mood", (json, name) -> JsonHelper.asString(json, name).toUpperCase(), mood -> {
+        register("mood", (json, name) -> JsonHelper.asString(json, name).toLowerCase(), mood -> {
             return (villager, stack) -> villager.getVillagerBrain().getMood().getName().equals(mood);
         });
         register("mood_group", (json, name) -> MoodGroup.valueOf(JsonHelper.asString(json, name).toUpperCase()), moodGroup -> {
@@ -115,12 +117,14 @@ public class GiftPredicate {
         int satisfaction = 0;
         @Nullable
         Condition condition = null;
+        List<String> conditionKeys = new LinkedList<>();
 
         for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
             if ("satisfaction_boost".equals(entry.getKey())) {
                 satisfaction = JsonHelper.asInt(entry.getValue(), entry.getKey());
             } else if (CONDITION_TYPES.containsKey(entry.getKey())) {
                 Condition parsed = CONDITION_TYPES.get(entry.getKey()).parse(entry.getValue());
+                conditionKeys.add(entry.getKey());
                 if (condition == null) {
                     condition = parsed;
                 } else {
@@ -129,17 +133,19 @@ public class GiftPredicate {
             }
         }
 
-        return new GiftPredicate(satisfaction, condition);
+        return new GiftPredicate(satisfaction, condition, conditionKeys);
     }
 
     private final int satisfactionBoost;
 
     @Nullable
     private final Condition condition;
+    List<String> conditionKeys;
 
-    public GiftPredicate(int satisfactionBoost, @Nullable Condition condition) {
+    public GiftPredicate(int satisfactionBoost, @Nullable Condition condition, List<String> conditionKeys) {
         this.satisfactionBoost = satisfactionBoost;
         this.condition = condition;
+        this.conditionKeys = conditionKeys;
     }
 
     public boolean test(VillagerEntityMCA recipient, ItemStack stack) {
@@ -163,5 +169,9 @@ public class GiftPredicate {
                 return a.test(villager, stack) && b.test(villager, stack);
             };
         }
+    }
+
+    public List<String> getConditionKeys() {
+        return conditionKeys;
     }
 }

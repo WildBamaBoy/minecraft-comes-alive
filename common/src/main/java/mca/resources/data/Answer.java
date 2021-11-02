@@ -1,12 +1,15 @@
 package mca.resources.data;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import mca.Config;
 import mca.client.gui.Constraint;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Memories;
 import mca.entity.interaction.InteractionPredicate;
+import mca.util.SerializablePair;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -75,23 +78,32 @@ public class Answer {
         }
     }
 
-    public float getChance(VillagerEntityMCA villager, PlayerEntity player) {
+    public List<SerializablePair<String, Float>> getChances(VillagerEntityMCA villager, PlayerEntity player) {
+        List<SerializablePair<String, Float>> chances = new LinkedList<>();
         Memories memory = villager.getVillagerBrain().getMemoriesForPlayer(player);
 
+        float heartsBonus = getChanceBasedOnHearts(memory.getHearts());
+
         // base chance
-        float chance = this.chance
-                + getChanceBasedOnHearts(memory.getHearts())
-                + villager.getRandom().nextFloat() * chanceRandom
-                - memory.getInteractionFatigue() * 0.05f;
+        chances.add(new SerializablePair<>("base", chance));
+        if (heartsBonus != 0) {
+            chances.add(new SerializablePair<>("heartsBonus", heartsBonus));
+        }
+        chances.add(new SerializablePair<>("random", villager.getRandom().nextFloat() * chanceRandom));
+        chances.add(new SerializablePair<>("fatigue", -memory.getInteractionFatigue() * Config.getInstance().interactionFatigue));
 
         // condition chance
         for (InteractionPredicate c : getConditions()) {
             if (c.test(villager)) {
-                chance += c.getChance();
+                chances.add(new SerializablePair<>(String.join(",", c.getConditionKeys()), c.getChance()));
             }
         }
 
-        return Math.max(0.0f, chance);
+        return chances;
+    }
+
+    public static float getChance(List<SerializablePair<String, Float>> chances) {
+        return (float)Math.max(0.0, chances.stream().mapToDouble(SerializablePair::getRight).sum());
     }
 
     public int getHearts(VillagerEntityMCA villager) {

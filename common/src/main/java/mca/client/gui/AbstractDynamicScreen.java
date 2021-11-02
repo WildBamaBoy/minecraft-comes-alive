@@ -72,10 +72,10 @@ public abstract class AbstractDynamicScreen extends Screen {
             if (b instanceof ClickableWidget) {
                 if (b instanceof ButtonEx) {
                     if (!((ButtonEx) b).getApiButton().identifier().equals("gui.button.backarrow")) {
-                        ((ClickableWidget)b).active = true;
+                        ((ClickableWidget)b).active = false;
                     }
                 } else {
-                    ((ClickableWidget)b).active = true;
+                    ((ClickableWidget)b).active = false;
                 }
             }
         });

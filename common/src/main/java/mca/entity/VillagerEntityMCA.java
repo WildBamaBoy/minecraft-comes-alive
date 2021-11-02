@@ -504,6 +504,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public void tick() {
         super.tick();
 
+        // update visual age
         int age = getTrackedValue(GROWTH_AMOUNT);
         if (age != prevGrowthAmount || recalcDimensionsBlocked) {
             prevGrowthAmount = age;
@@ -511,10 +512,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         }
 
         if (world.isClient) {
+            // procreate anim
             if (relations.isProcreating()) {
                 headYaw += 50;
             }
 
+            // mood particles
             Mood mood = mcaBrain.getMood();
             if (mood.getParticle() != null && this.age % mood.getParticleInterval() == 0) {
                 if (world.random.nextBoolean()) {
@@ -523,6 +526,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
         }
 
+        // infection
         float infection = getInfectionProgress();
         if (infection > 0) {
             if (this.age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
@@ -539,10 +543,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
         }
 
+        // panic screams
         if (!world.isClient && this.age % 90 == 0 && mcaBrain.isPanicking()) {
             sendChatToAllAround("villager.scream");
         }
 
+        // sirben noises
         if (!world.isClient && this.age % 60 == 0 && random.nextInt(50) == 0 && traits.hasTrait(Traits.Trait.SIRBEN)) {
             sendChatToAllAround("sirben");
         }

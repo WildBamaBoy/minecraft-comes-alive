@@ -19,7 +19,9 @@ import mca.network.InteractionDialogueInitMessage;
 import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
+import mca.resources.data.Answer;
 import mca.resources.data.Question;
+import mca.util.SerializablePair;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -50,6 +52,8 @@ public class InteractScreen extends AbstractDynamicScreen {
     private String dialogAnswerHover;
     private List<OrderedText> dialogQuestionText;
     private String dialogQuestionId;
+
+    private static List<SerializablePair<String, Float>> analysis;
 
     public InteractScreen(VillagerLike<?> villager) {
         super(new LiteralText("Interact"));
@@ -161,6 +165,11 @@ public class InteractScreen extends AbstractDynamicScreen {
         if (canDrawGiftIcon()) {
             drawIcon(transform, "gift");
         }
+
+        if (analysis != null) {
+            drawIcon(transform, "analysis");
+        }
+
         transform.pop();
     }
 
@@ -260,13 +269,21 @@ public class InteractScreen extends AbstractDynamicScreen {
             drawHoveringIconText(transform, lines, "genes");
         }
 
-        //happiness
-/*        if (hoveringOverIcon("neutralEmerald")) {
+        //analysis
+        if (hoveringOverIcon("analysis") && analysis != null) {
             List<Text> lines = new LinkedList<>();
-            lines.add(new TranslatableText("gui.interact.label.happiness", "0/10"));
+            lines.add(new TranslatableText("analysis.title"));
 
-            drawHoveringIconText(transform, lines, "neutralEmerald");
-        }*/
+            for (SerializablePair<String, Float> d : analysis) {
+                int value = (int)(d.getRight() * 100);
+                lines.add(new TranslatableText("analysis." + d.getLeft()).append(new LiteralText(": " + (value >= 0 ? "+" : "") + value + "%")));
+            }
+
+            int chance = (int)(Answer.getChance(analysis) * 100);
+            lines.add(new TranslatableText("analysis.total").append(": " + chance + "%"));
+
+            drawHoveringIconText(transform, lines, "analysis");
+        }
 
         //dialogue
         if (dialogQuestionText != null) {
@@ -370,5 +387,9 @@ public class InteractScreen extends AbstractDynamicScreen {
             this.inGiftMode = true;
             disableAllButtons();
         }
+    }
+
+    public static void setAnalysis(List<SerializablePair<String, Float>> analysis) {
+        InteractScreen.analysis = analysis;
     }
 }

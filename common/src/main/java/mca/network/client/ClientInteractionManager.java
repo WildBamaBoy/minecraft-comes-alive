@@ -20,4 +20,6 @@ public interface ClientInteractionManager {
     void handleDialogueResponse(InteractionDialogueResponse message);
 
     void handleChildData(GetChildDataResponse message);
+
+    void handleAnalysisResults(AnalysisResults results);
 }

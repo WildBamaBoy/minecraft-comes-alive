@@ -1,4 +1,4 @@
-# 7.0
+# 7.0.0
 
 * Giant initial update. This list may have missing parts.
 * Added mca villager and zombie villager
@@ -27,12 +27,12 @@
 * Added voice acting
 * Added initial translations
 
-# 7.1
+# 7.0.1
 
 * Fixed traits syncing issues and chance math
 * Fixed translation keys
 
-# 7.2
+# 7.0.2
 
 * Fixed Server crash
 * Fixed crash when setting clothes or haircut when playing on a server
@@ -45,3 +45,9 @@
 * Fixed tall villagers being too tall to live
 * Fixed phrases not being translated on dedicated servers
 * Synced Translations
+
+# 7.0.3
+
+* Attempting to talk to a zombie won't prevent you from performing an action
+* Fixed interaction fatigue reset
+* Added Interaction analysis

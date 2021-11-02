@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import mca.client.gui.*;
 import mca.client.gui.BlueprintScreen;
+import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ZombieVillagerEntityMCA;
 import mca.item.BabyItem;
@@ -43,12 +44,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                 break;
             case INTERACT:
                 VillagerLike<?> villager = (VillagerLike<?>)client.world.getEntityById(message.villager);
-                if (villager instanceof ZombieVillagerEntityMCA) {
-                    String t = new String(new char[((ZombieVillagerEntityMCA)villager).getRandom().nextInt(8) + 2]).replace("\0", ". ");
-                    villager.sendChatMessage(new LiteralText(t), client.player);
-                } else {
-                    client.openScreen(new InteractScreen(villager));
-                }
+                client.openScreen(new InteractScreen(villager));
                 break;
             case VILLAGER_EDITOR:
                 Entity entity = client.world.getEntityById(message.villager);
@@ -136,5 +132,10 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     @Override
     public void handleChildData(GetChildDataResponse message) {
         BabyItem.CLIENT_STATE_CACHE.put(message.id, Optional.ofNullable(message.getData()).map(BabyTracker.ChildSaveState::new));
+    }
+
+    @Override
+    public void handleAnalysisResults(AnalysisResults message) {
+        InteractScreen.setAnalysis(message.analysis);
     }
 }
