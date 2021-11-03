@@ -1,13 +1,11 @@
 package mca.client.gui;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import mca.cobalt.network.NetworkHandler;
-import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Memories;
@@ -16,14 +14,13 @@ import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.MarriageState;
 import mca.network.GetInteractDataRequest;
+import mca.network.InteractionCloseRequest;
 import mca.network.InteractionDialogueInitMessage;
 import mca.network.InteractionDialogueMessage;
 import mca.network.InteractionServerMessage;
 import mca.network.InteractionVillagerMessage;
 import mca.resources.data.Analysis;
-import mca.resources.data.Answer;
 import mca.resources.data.Question;
-import mca.resources.data.SerializablePair;
 import mca.util.compat.RenderSystemCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -75,9 +72,7 @@ public class InteractScreen extends AbstractDynamicScreen {
     @Override
     public void onClose() {
         Objects.requireNonNull(this.client).openScreen(null);
-        if (villager instanceof VillagerEntityMCA) {
-            ((VillagerEntityMCA)villager).getInteractions().stopInteracting();
-        }
+        NetworkHandler.sendToServer(new InteractionCloseRequest(villager.asEntity().getUuid()));
     }
 
     @Override

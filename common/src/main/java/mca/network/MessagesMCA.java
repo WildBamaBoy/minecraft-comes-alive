@@ -39,5 +39,6 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(GetVillagerRequest.class);
         NetworkHandler.registerMessage(VillagerEditorSyncRequest.class);
         NetworkHandler.registerMessage(AnalysisResults.class);
+        NetworkHandler.registerMessage(InteractionCloseRequest.class);
     }
 }
