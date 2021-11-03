@@ -15,6 +15,7 @@ import mca.entity.ai.brain.tasks.BowTask;
 import mca.entity.ai.brain.tasks.EnterFavoredBuildingTask;
 import mca.entity.ai.brain.tasks.EquipmentTask;
 import mca.entity.ai.brain.tasks.ExtendedMeleeAttackTask;
+import mca.entity.ai.brain.tasks.ExtendedSleepTask;
 import mca.entity.ai.brain.tasks.FollowTask;
 import mca.entity.ai.brain.tasks.GreetPlayerTask;
 import mca.entity.ai.brain.tasks.InteractTask;
@@ -168,7 +169,6 @@ public class VillagerTasksMCA {
                 Pair.of(6, new FindPointOfInterestTask(profession.getWorkStation(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())),
                 Pair.of(7, new WalkTowardJobSiteTask(speedModifier)),
                 Pair.of(8, new TakeJobSiteTask(speedModifier)),
-                Pair.of(10, new FindPointOfInterestTask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))),
                 Pair.of(10, new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14))),
                 Pair.of(10, new GoToWorkTask()),
                 Pair.of(10, new LoseUnimportantJobTask())
@@ -328,10 +328,8 @@ public class VillagerTasksMCA {
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntityMCA>>> getRestPackage(VillagerProfession profession, float speedModifier) {
         return ImmutableList.of(
-                Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.HOME, speedModifier, 1, 150, 1200)),
-                Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.HOME, MemoryModuleType.HOME)), // stops from trying to reach a bed when it stops being available.
-                Pair.of(3, new SleepTask()),
-                Pair.of(5, new RandomTask<>(
+                Pair.of(3, new ExtendedSleepTask(speedModifier)),
+                Pair.of(5, new RandomTask<>( //behavior when they are homeless
                         ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_ABSENT),
                         ImmutableList.of(
                                 Pair.of(new WalkHomeTask(speedModifier), 1),

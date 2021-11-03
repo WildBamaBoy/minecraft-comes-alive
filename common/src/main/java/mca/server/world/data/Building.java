@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.ServerTagManagerHolder;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
@@ -134,22 +135,22 @@ public class Building implements Serializable, Iterable<UUID> {
         return getBeds() > getResidents().size();
     }
 
-    public Stream<BlockPos> findOpenBeds(ServerWorld world) {
+    public Stream<BlockPos> findEmptyBed(ServerWorld world) {
         return world.getPointOfInterestStorage().getInSquare(
                         PointOfInterestType.HOME.getCompletionCondition(),
                         getCenter(),
                         getPos0().getManhattanDistance(getPos1()),
-                        PointOfInterestStorage.OccupationStatus.HAS_SPACE)
+                        PointOfInterestStorage.OccupationStatus.ANY)
+                .filter(p -> {
+                    BlockState blockState = world.getBlockState(p.getPos());
+                    return blockState.getBlock().isIn(BlockTags.BEDS) && !(Boolean)blockState.get(BedBlock.OCCUPIED);
+                })
                 .map(PointOfInterest::getPos)
                 .filter(this::containsPos);
     }
 
-    public Optional<BlockPos> findOpenBed(ServerWorld world) {
-        return findOpenBeds(world).findAny();
-    }
-
-    public Optional<BlockPos> findClosestOpenBed(ServerWorld world, BlockPos pos) {
-        return findOpenBeds(world).min(Comparator.comparingInt(a -> a.getManhattanDistance(pos)));
+    public Optional<BlockPos> findClosestEmptyBed(ServerWorld world, BlockPos pos) {
+        return findEmptyBed(world).min(Comparator.comparingInt(a -> a.getManhattanDistance(pos)));
     }
 
     public void addResident(Entity e) {

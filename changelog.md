@@ -56,3 +56,5 @@
     * Desaturation uses a configurable exponential curve, slightly favoring awesome stuff.
     * Once a day by default, the villager forgets about the latest gift in the queue
 * Fixed "datapack" crash
+* Building tasks are now required to advance in ranks
+* Removed bed reserving, beds are searched on demand
