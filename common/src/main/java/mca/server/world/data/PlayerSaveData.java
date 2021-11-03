@@ -147,6 +147,10 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         return lastSeenVillage.flatMap(manager::getOrEmpty);
     }
 
+    public Optional<Integer> getLastSeenVillageId() {
+        return lastSeenVillage;
+    }
+
     protected void onLeave(PlayerEntity self, Village village) {
         self.sendMessage(new TranslatableText("gui.village.left", village.getName()).formatted(Formatting.GOLD), true);
     }

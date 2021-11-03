@@ -59,3 +59,4 @@
 * Building tasks are now required to advance in ranks
 * Removed bed reserving, beds are searched on demand
 * Fixed villager-keep-following-you problem
+* Fixed greeting AI
