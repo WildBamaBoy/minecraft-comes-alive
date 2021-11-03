@@ -38,7 +38,7 @@ import net.minecraft.village.VillagerProfession;
 
 public class Village implements Iterable<Building> {
 
-    private static final int MOVE_IN_COOLDOWN = 6000;
+    private static final int MOVE_IN_COOLDOWN = 1200;
     private static final int MIN_SIZE = 32;
     private static final int MAX_STORAGE_SIZE = 1024;
 

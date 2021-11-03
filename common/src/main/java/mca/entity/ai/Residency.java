@@ -112,9 +112,19 @@ public class Residency {
         //check if his village and building still exists
         if (entity.age % 1200 == 0) {
             OptionalCompat.ifPresentOrElse(getHomeVillage(), village -> {
-                if (!village.getBuilding(entity.getTrackedValue(BUILDING)).filter(building -> building.hasResident(entity.getUuid())).isPresent()) {
-                    setHomeLess();
+                Optional<Building> building = village.getBuilding(entity.getTrackedValue(BUILDING));
+                if (!building.filter(b -> b.hasResident(entity.getUuid()) && !b.isCrowded()).isPresent()) {
+                    if (building.isPresent()) {
+                        setHomeLess();
+                    }
                 } else {
+                    //has a home location outside the building?
+                    GlobalPos globalPos = entity.getMCABrain().getOptionalMemory(MemoryModuleType.HOME).get();
+                    if (!building.get().containsPos(globalPos.getPos())) {
+                        setHomeLess();
+                        return;
+                    }
+
                     //fetch mood from the village storage
                     int mood = village.popMood((ServerWorld)entity.world);
                     if (mood != 0) {
@@ -144,6 +154,8 @@ public class Residency {
     }
 
     private void setHomeLess() {
+        Optional<Village> village = getHomeVillage();
+        village.ifPresent(buildings -> buildings.removeResident(this.entity));
         setBuildingId(-1);
         entity.getMCABrain().forget(MemoryModuleType.HOME);
     }

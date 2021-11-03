@@ -60,3 +60,6 @@
 * Removed bed reserving, beds are searched on demand
 * Fixed villager-keep-following-you problem
 * Fixed greeting AI
+* Increase percentage of adult villagers
+* Fixed changing clothes of unemployed villagers
+* Increased frequency of marriage, births and guard spawns 

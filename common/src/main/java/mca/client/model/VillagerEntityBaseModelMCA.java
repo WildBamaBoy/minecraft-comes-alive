@@ -140,7 +140,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
             if (breastSize > 0) {
                 matrices.push();
                 matrices.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + breastSize * 0.1, -0.075D - breastSize * 0.05);
-                matrices.scale(cloth ? 1.166666f : 1.0f, 1.0f, 0.75f + breastSize * 0.5f);
+                matrices.scale(cloth ? 1.166666f : 1.0f, 0.8f + breastSize * 0.3f, 0.75f + breastSize * 0.45f);
                 matrices.scale(breastSize * 0.275f + 0.85f, breastSize * 0.7f + 0.75f, breastSize * 0.7f + 0.75f);
                 for (ModelPart part : breastsParts()) {
                     part.pitch = (float)Math.PI * 0.3f;//TODO this matrix order will cause minor distortion

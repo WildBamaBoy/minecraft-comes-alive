@@ -60,7 +60,7 @@ public class Pregnancy {
 
         setBabyAge(getBabyAge() + 1);
 
-        // grow up time is in minutes and we measure age in seconds
+        // grow up time is in minutes, and we measure age in seconds
         if (getBabyAge() < Config.getInstance().babyGrowUpTime * 60) {
             return;
         }
@@ -118,7 +118,6 @@ public class Pregnancy {
     private Optional<VillagerEntityMCA> getFather() {
         return mother.getRelationships().getSpouse()
                 .filter(father -> father instanceof VillagerEntityMCA)
-                .map(VillagerEntityMCA.class::cast)
-                .filter(father -> father.getGenetics().getGender() == Gender.MALE);
+                .map(VillagerEntityMCA.class::cast);
     }
 }

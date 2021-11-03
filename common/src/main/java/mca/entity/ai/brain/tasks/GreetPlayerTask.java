@@ -68,7 +68,7 @@ public class GreetPlayerTask extends Task<VillagerEntityMCA> {
                 int day = (int)(villager.world.getTimeOfDay() / 24000L);
                 memories.setLastSeen(day);
 
-                String phrase = memories.getHearts() <= Config.getInstance().greetHeartsThreshold ? "welcomeFoe" : "welcome";
+                String phrase = memories.getHearts() < 0 ? "welcomeFoe" : "welcome";
                 villager.sendChatMessage(player, phrase, player.getName());
                 talked = true;
 

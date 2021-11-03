@@ -135,6 +135,10 @@ public class Building implements Serializable, Iterable<UUID> {
         return getBeds() > getResidents().size();
     }
 
+    public boolean isCrowded() {
+        return getBeds() < getResidents().size();
+    }
+
     public Stream<BlockPos> findEmptyBed(ServerWorld world) {
         return world.getPointOfInterestStorage().getInSquare(
                         PointOfInterestType.HOME.getCompletionCondition(),
@@ -371,7 +375,6 @@ public class Building implements Serializable, Iterable<UUID> {
     public Map<UUID, String> getResidents() {
         return residents;
     }
-
 
     @Override
     public Iterator<UUID> iterator() {
