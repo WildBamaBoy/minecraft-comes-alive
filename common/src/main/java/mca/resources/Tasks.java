@@ -7,12 +7,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import mca.resources.data.tasks.BlockingTask;
 import mca.resources.data.tasks.BuildingTask;
 import mca.resources.data.tasks.PopulationTask;
