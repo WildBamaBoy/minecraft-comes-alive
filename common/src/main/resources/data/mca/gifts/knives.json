@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "farmersdelight:flint_knife": 3,
+    "farmersdelight:iron_knife": 6,
+    "farmersdelight:gold_knife": 5,
+    "farmersdelight:diamond_knife": 7,
+    "farmersdelight:netherite_knife": 10
+  }
+}

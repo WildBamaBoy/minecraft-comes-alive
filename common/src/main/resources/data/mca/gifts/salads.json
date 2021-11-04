@@ -6,7 +6,8 @@
     }
   ],
   "items": {
-    "minecraft:baked_potato": 5,
-    "farmersdelight:stuffed_potato": 10
+    "farmersdelight:fruit_salad": 10,
+    "farmersdelight:mixed_salad": 10,
+    "farmersdelight:nether_salad": 15
   }
 }

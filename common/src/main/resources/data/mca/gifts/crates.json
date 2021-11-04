@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "farmersdelight:carrot_crate": 10,
+    "farmersdelight:potato_crate": 10,
+    "farmersdelight:beetroot_crate": 10,
+    "farmersdelight:onion_crate": 10,
+    "farmersdelight:cabbage_crate": 10,
+    "farmersdelight:tomato_crate": 10
+  }
+}

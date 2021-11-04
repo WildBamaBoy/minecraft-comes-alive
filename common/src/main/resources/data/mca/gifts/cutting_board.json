@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 5
+    }
+  ],
+  "items": {
+    "farmersdelight:cutting_board": 10
+  }
+}
