@@ -75,3 +75,4 @@
 * Integrated community re-shaded dna icon
 * Added Vegetarian trait
 * Fixed missing meat gift phrase
+* Replaced names by accurate database of babies born in the US in 2010

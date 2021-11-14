@@ -13,14 +13,8 @@ public class WeightedPool<T> {
         this.defaultValue = defaultValue;
     }
 
-    /**
-     * Returns a random skin based on the profession and gender provided.
-     *
-     * @param villager The villager who will be assigned the random skin.
-     * @return String location of the random skin
-     */
     public T pickOne() {
-        double totalChance = entries.stream().mapToDouble(a -> a.weight).sum() * API.getRng().nextFloat();
+        double totalChance = entries.stream().mapToDouble(a -> a.weight).sum() * API.getRng().nextDouble();
 
         for (WeightedPool.Entry<T> e : entries) {
             totalChance -= e.weight;
@@ -31,9 +25,6 @@ public class WeightedPool<T> {
         return defaultValue;
     }
 
-    /**
-     * returns the next clothing with given offset to current
-     */
     public T pickNext(T current, int next) {
         //look for the current one
         for (int i = 0; i < entries.size(); i++) {

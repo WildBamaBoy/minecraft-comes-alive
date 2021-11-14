@@ -66,7 +66,7 @@ public class API {
 
         void init(ResourceManager manager) {
             try {
-                villageComponents.load(manager);
+                villageComponents.load();
 
                 supporters.addAll(Arrays.asList(Resources.read("api/names/supporters.json", String[].class)));
 
