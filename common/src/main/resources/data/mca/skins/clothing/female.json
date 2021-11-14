@@ -1,7 +1,7 @@
 {
   "minecraft:none": { "count": 1 },
   "minecraft:armorer": { "count": 5 },
-  "minecraft:butcher": { "count": 5 },
+  "minecraft:butcher": { "count": 6 },
   "minecraft:cartographer": { "count": 5 },
   "minecraft:cleric": { "count": 5 },
   "minecraft:farmer": { "count": 5 },
