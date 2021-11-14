@@ -44,12 +44,18 @@ public class GiftType {
                 if (tag != null) {
                     tags.put(tag, satisfaction);
                 } else {
-                    System.out.println("Unknown item tag '" + identifier + "'");
+                    if (identifier.getNamespace().equals("mca")) {
+                        throw new JsonSyntaxException("Unknown item tag '" + identifier + "'");
+                    }
                 }
             } else {
                 Identifier identifier = new Identifier(string);
-                Item item = Registry.ITEM.getOrEmpty(identifier).orElseThrow(() -> new JsonSyntaxException("Unknown item '" + identifier + "'"));
-                items.put(item, satisfaction);
+                Optional<Item> item = Registry.ITEM.getOrEmpty(identifier);
+                if (item.isPresent()) {
+                    items.put(item.get(), satisfaction);
+                } else if (identifier.getNamespace().equals("mca")) {
+                    throw new JsonSyntaxException("Unknown item '" + identifier + "'");
+                }
             }
         });
 
@@ -132,6 +138,7 @@ public class GiftType {
 
     /**
      * Gets the amount of satisfaction giving this gift to a villager would produce.
+     *
      * @return An analysis object of all summands
      */
     public IntAnalysis getSatisfactionFor(VillagerEntityMCA recipient, ItemStack stack) {
