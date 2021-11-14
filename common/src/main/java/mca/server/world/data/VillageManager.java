@@ -35,7 +35,7 @@ import net.minecraft.world.SpawnHelper;
 
 public class VillageManager extends PersistentStateCompat implements Iterable<Village> {
 
-    private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
+    private final Map<Integer, Village> villages = new HashMap<>();
 
     public final Set<BlockPos> cache = ConcurrentHashMap.newKeySet();
 
@@ -292,9 +292,10 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                 markDirty();
             } else if (building.validateBuilding(world)) {
                 //the building is valid, but might overlap with an existing one
+                List<Integer> toRemove = new LinkedList<>();
                 for (Building b : village.getBuildings().values()) {
                     if (b.overlaps(building)) {
-                        //a overlap is usually an outdated building so let's check first
+                        //an overlap is usually an outdated building so let's check first
                         if (b.validateBuilding(world)) {
                             //it's not, check if the boundaries are the same
                             if (b.isIdentical(building)) {
@@ -303,9 +304,12 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
                                 break;
                             }
                         } else {
-                            village.removeBuilding(b.getId());
+                            toRemove.add(b.getId());
                         }
                     }
+                }
+                for (int id : toRemove) {
+                    village.removeBuilding(id);
                 }
             } else {
                 //not valid

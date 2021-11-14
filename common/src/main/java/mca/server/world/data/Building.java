@@ -1,12 +1,27 @@
 package mca.server.world.data;
 
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
-import net.minecraft.block.*;
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
@@ -25,11 +40,6 @@ import net.minecraft.world.poi.PointOfInterest;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import net.minecraft.world.poi.PointOfInterestType;
 
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import static net.minecraft.tag.BlockTags.LEAVES;
 
 public class Building implements Serializable, Iterable<UUID> {
@@ -38,15 +48,16 @@ public class Building implements Serializable, Iterable<UUID> {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
     };
 
-    private final Map<UUID, String> residents = new ConcurrentHashMap<>();
-    private final Map<Identifier, Integer> blocks = new ConcurrentHashMap<>();
-    private final Queue<BlockPos> pois = new ConcurrentLinkedQueue<>();
+    private final Map<UUID, String> residents = new HashMap<>();
+    private final Map<Identifier, Integer> blocks = new HashMap<>();
+    private final Queue<BlockPos> pois = new LinkedList<>();
 
     private String type = "building";
 
     private int size;
     private int pos0X, pos0Y, pos0Z;
     private int pos1X, pos1Y, pos1Z;
+    private int posX, posY, posZ;
     private int id;
 
     public Building() {
@@ -62,6 +73,10 @@ public class Building implements Serializable, Iterable<UUID> {
         pos1X = pos0X;
         pos1Y = pos0Y;
         pos1Z = pos0Z;
+
+        posX = pos0X;
+        posY = pos0Y;
+        posZ = pos0Z;
     }
 
     public Building(NbtCompound v) {
@@ -73,6 +88,16 @@ public class Building implements Serializable, Iterable<UUID> {
         pos1X = v.getInt("pos1X");
         pos1Y = v.getInt("pos1Y");
         pos1Z = v.getInt("pos1Z");
+        if (v.contains("posX")) {
+            posX = v.getInt("posX");
+            posY = v.getInt("posY");
+            posZ = v.getInt("posZ");
+        } else {
+            BlockPos center = getCenter();
+            posX = center.getX();
+            posY = center.getY();
+            posZ = center.getZ();
+        }
         type = v.getString("type");
 
         NbtList res = v.getList("residents", NbtElementCompat.COMPOUND_TYPE);
@@ -104,6 +129,9 @@ public class Building implements Serializable, Iterable<UUID> {
         v.putInt("pos1X", pos1X);
         v.putInt("pos1Y", pos1Y);
         v.putInt("pos1Z", pos1Z);
+        v.putInt("posX", posX);
+        v.putInt("posY", posY);
+        v.putInt("posZ", posZ);
         v.putString("type", type);
 
         v.put("residents", NbtHelper.fromList(residents.entrySet(), resident -> {
@@ -179,6 +207,10 @@ public class Building implements Serializable, Iterable<UUID> {
         );
     }
 
+    public BlockPos getSourceBlock() {
+        return new BlockPos(posX, posY, posZ);
+    }
+
     public void validatePois(World world) {
         //remove all invalid pois
         List<BlockPos> mask = pois.stream()
@@ -218,7 +250,7 @@ public class Building implements Serializable, Iterable<UUID> {
         LinkedList<BlockPos> queue = new LinkedList<>();
 
         //start point
-        BlockPos center = getCenter();
+        BlockPos center = getSourceBlock();
         queue.add(center);
         done.add(center);
 

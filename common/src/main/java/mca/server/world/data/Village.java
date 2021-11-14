@@ -1,5 +1,15 @@
 package mca.server.world.data;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import mca.Config;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
@@ -30,10 +40,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import net.minecraft.village.VillagerProfession;
 
 public class Village implements Iterable<Building> {
@@ -59,7 +65,7 @@ public class Village implements Iterable<Building> {
     private int centerX, centerY, centerZ;
     private int size = MIN_SIZE;
 
-    private int taxes = 50;
+    private int taxes = 0;
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
 

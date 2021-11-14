@@ -62,4 +62,16 @@
 * Fixed greeting AI
 * Increase percentage of adult villagers
 * Fixed changing clothes of unemployed villagers
-* Increased frequency of marriage, births and guard spawns 
+* Increased frequency of marriage, births and guard spawns
+
+# 7.0.4
+
+* Fixed widow icon
+* Player and villager marriage symbol now swapped
+* Taxes are initially set to 0%
+* Whistle recipe now requires gold instead of rose gold
+* Rings are no longer usable as gold ingots
+* Fixed a crash related to building detection
+* Integrated community re-shaded dna icon
+* Added Vegetarian trait
+* Fixed missing meat gift phrase
