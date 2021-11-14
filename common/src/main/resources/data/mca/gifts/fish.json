@@ -11,6 +11,10 @@
     {
       "gender": "female",
       "satisfaction_boost": -5
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": -5
     }
   ],
   "responses": {

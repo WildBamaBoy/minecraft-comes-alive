@@ -25,6 +25,7 @@ public class Traits {
         DIABETES(1.0f, 1.0f),
         DWARFISM(1.0f, 1.0f),
         ALBINISM(1.0f, 1.0f),
+        VEGETARIAN(1.0f, 0.0f),
         SIRBEN(0.1f, 1.0f);
 
         private final float chance;

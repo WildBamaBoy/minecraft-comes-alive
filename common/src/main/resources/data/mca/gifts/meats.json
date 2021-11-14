@@ -2,14 +2,15 @@
   "conditions": [
     {
       "profession": "minecraft:butcher",
-      "satisfaction_boost": 5
+      "satisfaction_boost": 6
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": -5
     }
   ],
   "responses": {
-    "fail": "gift.meats.fail",
-    "good": "gift.meats.good",
-    "better": "gift.meats.better",
-    "best": "gift.meats.best"
+    "fail": "gift.meats.fail"
   },
   "items": {
     "minecraft:cooked_beef": 5,

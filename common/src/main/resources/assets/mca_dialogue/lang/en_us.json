@@ -218,6 +218,9 @@
 
   "gift.gluten.fail": "There is gluten in it! Do you want me to have diarrhea for the rest of the year?",
 
+  "gift.meats.fail1": "That poor animal!",
+  "gift.meats.fail2": "You know that I hate meat!",
+
   "gift.lactose.fail": "Sorry, but I am lactose intolerant.",
 
   "gift.flowers.fail": "I'm allergic. Sorry.",
@@ -231,7 +234,7 @@
   "gift.fish.fail2": "This is strange even for you.",
   "gift.fish.fail3": "A fish. You gave me. A fish. Why?",
   "gift.fish.good1": "This will save me some time. Thank you.",
-  "gift.fish.good2": "ooh. I like fish.",
+  "gift.fish.good2": "Ooh. I like fish.",
   "gift.fish.better": "Wow. You spent all that time just for me?",
   "gift.fish.best1": "Wow!",
   "gift.fish.best2": "This is just what I needed!",
