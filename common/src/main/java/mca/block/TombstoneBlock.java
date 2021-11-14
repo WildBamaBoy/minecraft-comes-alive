@@ -337,6 +337,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                             LivingEntity l = (LivingEntity) entity;
                             l.setHealth(l.getMaxHealth());
                             l.clearStatusEffects();
+                            l.fallDistance = 0.0f;
                             l.removed = false;
                             l.deathTime = 0;
                         }
@@ -498,7 +499,7 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
             public EntityData(NbtCompound nbt, Text name, Gender gender) {
                 this.nbt = nbt;
-                this.name = name;
+                this.name = name == null ? LiteralText.EMPTY : new LiteralText(name.asString());
                 this.gender = gender;
             }
 

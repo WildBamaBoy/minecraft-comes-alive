@@ -76,3 +76,5 @@
 * Added Vegetarian trait
 * Fixed missing meat gift phrase
 * Replaced names by accurate database of babies born in the US in 2010
+* Fixed graves text for formatted names
+* Fixed reviving for villager died by height or void
