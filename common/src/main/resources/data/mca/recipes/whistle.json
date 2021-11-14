@@ -9,7 +9,7 @@
       { "item": "minecraft:iron_ingot" }
     ],
     "B": [
-      { "item": "mca:rose_gold_block" }
+      { "item": "mca:gold_block" }
     ]
   },
   "result": {

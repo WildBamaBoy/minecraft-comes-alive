@@ -62,7 +62,7 @@
   "item.mca.grim_reaper_spawn_egg": "Grim Reaper Spawn Egg",
   
   "item.mca.divorce_papers": "Divorce Papers",
-  "item.mca.divorce_papers.tooltip": "Give to a Cleric to end any (un)happy marriage",
+  "item.mca.divorce_papers.tooltip": "Give this to your spouse to end any (un)happy marriage",
   "item.mca.rose_gold_ingot": "Rose Gold Ingot",
   "item.mca.new_outfit": "New Outfit",
   "item.mca.rose_gold_dust": "Rose Gold Dust",
@@ -179,6 +179,7 @@
   "trait.albinism": "Albinism",
   "trait.heterochromia": "Heterochromia",
   "trait.color_blind": "Color Blind",
+  "trait.vegetarian": "Vegetarian",
   "traitDescription.lactose_intolerance": "Intolerant to lactose.",
   "traitDescription.coeliac_disease": "Gets massive diarrhea on gluten.",
   "traitDescription.diabetes": "Sugar bad.",
@@ -187,6 +188,7 @@
   "traitDescription.albinism": "Lacks pigmentation.",
   "traitDescription.heterochromia": "Two different eye colors.",
   "traitDescription.color_blind": "The world is black and white.",
+  "traitDescription.vegetarian": "Dislikes eating meat.",
 
   "sirben": "*random Sirben noises*",
 
@@ -373,6 +375,7 @@
   "gui.interact.label.married": "Married to %1$s",
   "gui.interact.label.engaged": "Engaged to %1$s",
   "gui.interact.label.notmarried": "Not married",
+  "gui.interact.label.widow": "Widow",
   "gui.interact.label.parents": "Parents: %1$s and %2$s",
   "gui.interact.label.parentUnknown": "unknown",
   "gui.interact.label.gift": "Gift available. Click to claim.",
