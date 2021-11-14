@@ -35,7 +35,7 @@ public enum Rank {
         return PEASANT;
     }
 
-    public boolean isAtLeast(Rank peasant) {
-        return ordinal() >= peasant.ordinal();
+    public boolean isAtLeast(Rank r) {
+        return ordinal() >= r.ordinal();
     }
 }

@@ -18,6 +18,8 @@ import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
 import mca.resources.PoolUtil;
+import mca.resources.Rank;
+import mca.resources.Tasks;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import net.minecraft.block.Block;
@@ -33,6 +35,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -273,7 +276,10 @@ public class Village implements Iterable<Building> {
                 taxes = 0;
             }
 
-            Messenger.sendEventMessage(world, msg);
+            //send all player with rank merchant a notification
+            world.getPlayers().stream()
+                    .filter(v -> Tasks.getRank(this, v).isAtLeast(Rank.MERCHANT))
+                    .forEach(player -> player.sendMessage(msg, true));
 
             if (hasBuilding("library")) {
                 taxes *= 1.5;

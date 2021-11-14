@@ -83,3 +83,4 @@
 * Fixed incorrect amount of bounty hunters
 * Added two more headstones
 * Fixed crash caused by zombie villagers on dedicated servers
+* Only player with merchant rank or higher will receive tax notifications
