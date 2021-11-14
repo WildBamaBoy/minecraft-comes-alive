@@ -173,7 +173,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         //trigger advancement
         CriterionMCA.GENERIC_EVENT_CRITERION.trigger(player, "bounty_hunter");
 
-        int count = sender.getReputation(player) / 5 + 3;
+        int count = -sender.getReputation(player) / 5 + 3;
 
         //spawn the bois
         for (int c = 0; c < count; c++) {

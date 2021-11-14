@@ -79,3 +79,5 @@
 * Fixed graves text for formatted names
 * Fixed reviving for villager died by height or void
 * When adopting, your spouse also becomes your children's mother
+* Decreased villager knockback
+* Fixed incorrect amount of bounty hunters

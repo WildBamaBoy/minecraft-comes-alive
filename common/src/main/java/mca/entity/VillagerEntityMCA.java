@@ -304,7 +304,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         //we don't use attributes
         // why not?
         float damage = getProfession() == ProfessionsMCA.GUARD ? 9 : 3;
-        float knockback = 3;
+        float knockback = 1;
 
         //personality bonus
         damage *= mcaBrain.getPersonality().getDamageModifier();
