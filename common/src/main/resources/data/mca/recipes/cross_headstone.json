@@ -2,11 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " # ",
-    "###",
+    "#I#",
     " # "
   ],
   "key": {
-    "#": { "item": "minecraft:cobblestone" }
+    "#": { "item": "minecraft:cobblestone" },
+    "I": { "item": "minecraft:bone" }
   },
   "result": {
     "item": "mca:cross_headstone"

@@ -47,9 +47,7 @@ public class TombstoneBlockEntityRenderer extends BlockEntityRenderer<TombstoneB
 
         TombstoneBlock block = (TombstoneBlock)state.getBlock();
 
-        if (state.getBlock() != BlocksMCA.UPRIGHT_HEADSTONE) {
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-45));
-        }
+        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(block.getRotation()));
 
         Vec3d offset = block.getNameplateOffset();
         matrices.translate(offset.getX(), offset.getY(), offset.getZ());

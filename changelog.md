@@ -81,3 +81,5 @@
 * When adopting, your spouse also becomes your children's mother
 * Decreased villager knockback
 * Fixed incorrect amount of bounty hunters
+* Added two more headstones
+* Fixed crash caused by zombie villagers on dedicated servers

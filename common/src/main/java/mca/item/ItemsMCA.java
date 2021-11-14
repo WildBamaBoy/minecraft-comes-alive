@@ -78,9 +78,11 @@ public interface ItemsMCA {
 
     Item JEWELER_WORKBENCH = register("jeweler_workbench", new BlockItem(BlocksMCA.JEWELER_WORKBENCH, baseProps()));
 
+    Item GRAVELLING_HEADSTONE = register("gravelling_headstone", new BlockItem(BlocksMCA.GRAVELLING_HEADSTONE, baseProps()));
     Item UPRIGHT_HEADSTONE = register("upright_headstone", new BlockItem(BlocksMCA.UPRIGHT_HEADSTONE, baseProps()));
     Item SLANTED_HEADSTONE = register("slanted_headstone", new BlockItem(BlocksMCA.SLANTED_HEADSTONE, baseProps()));
     Item CROSS_HEADSTONE = register("cross_headstone", new BlockItem(BlocksMCA.CROSS_HEADSTONE, baseProps()));
+    Item WALL_HEADSTONE = register("wall_headstone", new BlockItem(BlocksMCA.WALL_HEADSTONE, baseProps()));
 
     Item SCYTHE = register("scythe", new ScytheItem(baseProps()));
 

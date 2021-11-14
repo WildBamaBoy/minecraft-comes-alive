@@ -533,7 +533,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         // infection
         float infection = getInfectionProgress();
-        if (infection > 0) {
+        if (!world.isClient && infection > 0) {
             if (this.age % 120 == 0 && infection > FEVER_THRESHOLD && world.random.nextInt(200) > 150) {
                 sendChatToAllAround("villager.sickness");
             }

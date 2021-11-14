@@ -11,9 +11,10 @@ import net.minecraft.util.registry.Registry;
 
 public interface BlockEntityTypesMCA {
 
-    BlockEntityType<TombstoneBlock.Data> TOMBSTONE = register("tombstone", BlockEntityType.Builder.create(TombstoneBlock.Data.constructor, BlocksMCA.UPRIGHT_HEADSTONE, BlocksMCA.SLANTED_HEADSTONE, BlocksMCA.CROSS_HEADSTONE));
+    BlockEntityType<TombstoneBlock.Data> TOMBSTONE = register("tombstone", BlockEntityType.Builder.create(TombstoneBlock.Data.constructor, BlocksMCA.GRAVELLING_HEADSTONE, BlocksMCA.UPRIGHT_HEADSTONE, BlocksMCA.SLANTED_HEADSTONE, BlocksMCA.CROSS_HEADSTONE, BlocksMCA.WALL_HEADSTONE));
 
-    static void bootstrap() { }
+    static void bootstrap() {
+    }
 
     static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType.Builder<T> builder) {
         Identifier id = new Identifier(MCA.MOD_ID, name);

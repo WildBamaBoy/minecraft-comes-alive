@@ -17,9 +17,11 @@ public interface BlocksMCA {
 
     Block JEWELER_WORKBENCH = register("jeweler_workbench", new JewelerWorkbench(Block.Settings.copy(Blocks.OAK_WOOD).nonOpaque()));
 
-    Block UPRIGHT_HEADSTONE = register("upright_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 90, 50, new Vec3d(0, -55, 23), TombstoneBlock.UPRIGHT_SHAPE));
-    Block SLANTED_HEADSTONE = register("slanted_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 100, 15, new Vec3d(0, -30, 10), TombstoneBlock.SLANTED_SHAPE));
-    Block CROSS_HEADSTONE = register("cross_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 80, 15, new Vec3d(0, -13, 15), TombstoneBlock.CROSS_SHAPE));
+    Block GRAVELLING_HEADSTONE = register("gravelling_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 100, 50, new Vec3d(0, -25, 40), -90.0f,true, TombstoneBlock.GRAVELLING_SHAPE));
+    Block UPRIGHT_HEADSTONE = register("upright_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 90, 50, new Vec3d(0, -55, 23),0.0f, true, TombstoneBlock.UPRIGHT_SHAPE));
+    Block SLANTED_HEADSTONE = register("slanted_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 100, 15, new Vec3d(0, -25, 10), -45.0f,true, TombstoneBlock.SLANTED_SHAPE));
+    Block CROSS_HEADSTONE = register("cross_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 80, 15, new Vec3d(0, -13, 15),-45.0f, true, TombstoneBlock.CROSS_SHAPE));
+    Block WALL_HEADSTONE = register("wall_headstone", new TombstoneBlock(Block.Settings.copy(Blocks.STONE).nonOpaque(), 100, 15, new Vec3d(0, -25, 40),0.0f, false, TombstoneBlock.WALL_SHAPE));
 
     static void bootstrap() {
         TagsMCA.Blocks.bootstrap();

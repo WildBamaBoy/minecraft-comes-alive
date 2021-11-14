@@ -72,20 +72,25 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
             Block.createCuboidShape(-1, 18, 2, 17, 21, 4)
     );
     public static final VoxelShape SLANTED_SHAPE = Block.createCuboidShape(0, 0, 1, 16, 10, 10);
+    public static final VoxelShape WALL_SHAPE = Block.createCuboidShape(1, 1, 0, 15, 15, 1);
 
     private final Map<Direction, VoxelShape> shapes;
 
     private final int lineWidth;
     private final int maxNameHeight;
     private final Vec3d nameplateOffset;
+    private final boolean requiresSolid;
+    private final float rotation;
 
-    public TombstoneBlock(Settings properties, int lineWidth, int maxNameHeight, Vec3d nameplateOffset, VoxelShape baseShape) {
+    public TombstoneBlock(Settings properties, int lineWidth, int maxNameHeight, Vec3d nameplateOffset, float rotation, boolean requiresSolid, VoxelShape baseShape) {
         super(properties);
         setDefaultState(getDefaultState().with(Properties.WATERLOGGED, false));
 
         this.lineWidth = lineWidth;
         this.maxNameHeight = maxNameHeight;
         this.nameplateOffset = nameplateOffset;
+        this.rotation = rotation;
+        this.requiresSolid = requiresSolid;
         shapes = Arrays.stream(Direction.values())
                 .filter(d -> d.getAxis() != Axis.Y)
                 .collect(Collectors.toMap(
@@ -104,6 +109,10 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
     public Vec3d getNameplateOffset() {
         return nameplateOffset;
+    }
+
+    public float getRotation() {
+        return rotation;
     }
 
     @Override
@@ -187,8 +196,12 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        pos = pos.down();
-        return world.getBlockState(pos).isSideSolid(world, pos, Direction.UP, SideShapeType.FULL);
+        if (requiresSolid) {
+            pos = pos.down();
+            return world.getBlockState(pos).isSideSolid(world, pos, Direction.UP, SideShapeType.FULL);
+        } else {
+            return true;
+        }
     }
 
     @Override

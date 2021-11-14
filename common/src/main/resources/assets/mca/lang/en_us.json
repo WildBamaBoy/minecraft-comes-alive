@@ -121,6 +121,8 @@
   "block.mca.upright_headstone": "Upright Headstone",
   "block.mca.slanted_headstone": "Slanted Headstone",
   "block.mca.cross_headstone": "Cross Headstone",
+  "block.mca.wall_headstone": "Wall Headstone",
+  "block.mca.gravelling_headstone": "Gravelling Headstone",
   "block.mca.tombstone.header": "Here Lies",
   "block.mca.tombstone.footer.male": "May he rest in peace",
   "block.mca.tombstone.footer.female": "May she rest in peace",
