@@ -78,3 +78,4 @@
 * Replaced names by accurate database of babies born in the US in 2010
 * Fixed graves text for formatted names
 * Fixed reviving for villager died by height or void
+* When adopting, your spouse also becomes your children's mother

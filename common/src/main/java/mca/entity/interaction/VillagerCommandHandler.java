@@ -1,5 +1,6 @@
 package mca.entity.interaction;
 
+import java.util.Optional;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Chore;
@@ -74,7 +75,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                     entity.stopRiding();
                 } else {
                     OptionalCompat.ifPresentOrElse(entity.world.getOtherEntities(player, player.getBoundingBox()
-                            .expand(10), e -> e instanceof Saddleable && ((Saddleable) e).isSaddled())
+                                    .expand(10), e -> e instanceof Saddleable && ((Saddleable)e).isSaddled())
                             .stream()
                             .filter(horse -> !horse.hasPassengers())
                             .min(Comparator.comparingDouble(a -> a.squaredDistanceTo(entity))), horse -> {
@@ -106,13 +107,16 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 entity.getRelationships().giveGift(player, memory);
                 return true;
             case "adopt":
-                //todo this overwrites the biological father, if it ever existed
                 entity.sendChatMessage(player, "interaction.adopt.success");
+
                 FamilyTreeNode parentNode = FamilyTree.get((ServerWorld)player.world).getOrCreate(player);
                 entity.getRelationships().getFamilyEntry().assignParent(parentNode);
+
+                Optional<FamilyTreeNode> parentSpouse = FamilyTree.get((ServerWorld)player.world).getOrEmpty(parentNode.spouse());
+                parentSpouse.ifPresent(p -> entity.getRelationships().getFamilyEntry().assignParent(p));
                 break;
             case "procreate":
-                BabyTracker tracker = BabyTracker.get((ServerWorld) entity.world);
+                BabyTracker tracker = BabyTracker.get((ServerWorld)entity.world);
 
                 if (tracker.hasActiveBaby(player.getUuid(), entity.getUuid())) {
                     BabyTracker.Pairing pairing = tracker.getPairing(player.getUuid(), entity.getUuid());
@@ -147,7 +151,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 entity.getVillagerBrain().modifyMoodValue(-5);
                 entity.getRelationships().endMarriage(MarriageState.SINGLE);
 
-                PlayerSaveData playerData = PlayerSaveData.get((ServerWorld) player.world, player.getUuid());
+                PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
                 playerData.endMarriage(MarriageState.SINGLE);
 
                 return true;
@@ -185,7 +189,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
 
                 for (TradeOffer merchantOffer : entity.getOffers()) {
                     double d0 = 0.3D + 0.0625D * k;
-                    int j = (int) Math.floor(d0 * merchantOffer.getOriginalFirstBuyItem().getCount());
+                    int j = (int)Math.floor(d0 * merchantOffer.getOriginalFirstBuyItem().getCount());
                     merchantOffer.increaseSpecialPrice(-Math.max(j, 1));
                 }
             }
