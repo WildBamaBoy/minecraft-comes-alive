@@ -1,3 +1,21 @@
 {
-
+	"entity.mca.female_villager": "Perempuan Desa",
+	"entity.mca.female_zombie_villager": "Zombi Perempuan Desa",
+	"entity.mca.grim_reaper": "Malaikat Maut",
+	"entity.mca.male_villager": "Lelaki Desa",
+	"entity.mca.male_zombie_villager": "Zombi Lelaki Desa",
+	"entity.minecraft.villager.mca.archer": "Pemanah",
+	"entity.minecraft.villager.mca.baker": "Tukang Roti",
+	"entity.minecraft.villager.mca.child": "Anak",
+	"entity.minecraft.villager.mca.guard": "Penjaga",
+	"entity.minecraft.villager.mca.hero": "Pahlawan",
+	"entity.minecraft.villager.mca.jeweler": "Jauhari",
+	"entity.minecraft.villager.mca.marauder": "Perampok",
+	"entity.minecraft.villager.mca.miner": "Penambang",
+	"entity.minecraft.villager.mca.outlaw": "Penjahat",
+	"entity.minecraft.villager.mca.pillager": "Penjarah",
+	"entity.minecraft.villager.mca.warrior": "Pejuang",
+	"entity.minecraft.villager.none": "Tidak Ada Pekerjaan",
+	"item.mca.scythe": "Sabit Besar",
+	"item.mca.scythe.tooltip": "Bunuh seorang penduduk desa dan ambil jiwanya, lalu klik-kanan batu nisan untuk hidupkannya kembali. Tapi hati-hati, penduduk desa yang sudah mati akan bangkit sebagai mayat hidup."
 }

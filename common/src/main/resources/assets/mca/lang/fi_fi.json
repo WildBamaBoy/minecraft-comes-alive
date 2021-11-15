@@ -82,7 +82,7 @@
 	"mood.unhappy": "Onneton",
 	"mood.uninterested": "Ei kiinnostunut",
 	"notify.child.grownup": "%v1% has grown into an adult!",
-	"notify.spouseendedmarriage": "%Name% on lopettanut avioliittonsa kanssasi.",
+	"notify.spouseendedmarriage": "%1$s on lopettanut avioliittonsa kanssasi.",
 	"personality.athletic": "Atleettinen",
 	"personality.confident": "Itsevarma",
 	"personality.curious": "Utelias",

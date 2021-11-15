@@ -332,7 +332,7 @@
 	"mood.uninterested": "Незаинтересованный",
 	"notify.child.grownup": "%v1% has grown into an adult!",
 	"notify.revival.disabled": "Возрождения были отключены администратором сервера.",
-	"notify.spouseendedmarriage": "%Name% расторг брак с вами.",
+	"notify.spouseendedmarriage": "%1$s расторг брак с вами.",
 	"notify.trading.disabled": "Торговля отключена администратором сервера.",
 	"personality.athletic": "Атлетичный",
 	"personality.confident": "Уверенный",

@@ -163,7 +163,7 @@
 	"mood.uninterested": "غير مهتم",
 	"notify.child.grownup": "لقد نما %1$s إلى شخص بالغ!",
 	"notify.revival.disabled": "تم تعطيل الإحياء من قبل مسؤول السيرفر.",
-	"notify.spouseendedmarriage": "أنهى %Name% زواجهم معك.",
+	"notify.spouseendedmarriage": "أنهى %1$s زواجهم معك.",
 	"notify.trading.disabled": "التداول معطل من قبل مسؤول السيرفر.",
 	"personality.athletic": "رياضي",
 	"personality.confident": "واثق",

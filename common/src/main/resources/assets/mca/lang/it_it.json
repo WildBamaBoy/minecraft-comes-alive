@@ -83,7 +83,7 @@
 	"mood.unhappy": "Infelice",
 	"mood.uninterested": "Non interessato",
 	"notify.child.grownup": "%v1% has grown into an adult!",
-	"notify.spouseendedmarriage": "Tu e %Name% avete divorziato.",
+	"notify.spouseendedmarriage": "Tu e %1$s avete divorziato.",
 	"personality.athletic": "Atletico",
 	"personality.confident": "Confidente",
 	"personality.curious": "Curioso",

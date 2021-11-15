@@ -184,7 +184,7 @@
 	"marriage.married": "Żonaty/Zamężna",
 	"notify.child.grownup": "%1$s rośnie w dorośli!",
 	"notify.revival.disabled": "Przebudzenia zostały wyłączone przez administratora serwera.",
-	"notify.spouseendedmarriage": "%Name% zakończył(a) z tobą małżeństwo.",
+	"notify.spouseendedmarriage": "%1$s zakończył(a) z tobą małżeństwo.",
 	"notify.trading.disabled": "Handel został wyłączony przez administratora serwera.",
 	"personality.athletic": "Atetyczny",
 	"personality.friendly": "Przyjazny",

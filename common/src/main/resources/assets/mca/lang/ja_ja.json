@@ -84,7 +84,7 @@
 	"mood.unhappy": "不幸",
 	"mood.uninterested": "興味がない",
 	"notify.child.grownup": "%v1% has grown into an adult!",
-	"notify.spouseendedmarriage": "%Name%はあなたとの結婚を終えました。",
+	"notify.spouseendedmarriage": "%1$sはあなたとの結婚を終えました。",
 	"personality.athletic": "活発",
 	"personality.confident": "自信がある",
 	"personality.curious": "好奇心が強い",
