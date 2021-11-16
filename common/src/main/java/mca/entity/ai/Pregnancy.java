@@ -68,7 +68,7 @@ public class Pregnancy {
         setPregnant(false);
         setBabyAge(0);
 
-        VillagerEntityMCA child = createChild(getGender(), getFather().orElse(null));
+        VillagerEntityMCA child = createChild(getGender(), getFather().orElse(mother));
 
         child.setPosition(mother.getX(), mother.getY(), mother.getZ());
         WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
