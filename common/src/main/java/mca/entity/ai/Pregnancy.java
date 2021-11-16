@@ -65,13 +65,17 @@ public class Pregnancy {
             return;
         }
 
-        setPregnant(false);
         setBabyAge(0);
+        getFather().ifPresent(father -> {
+            setPregnant(false);
 
-        VillagerEntityMCA child = createChild(getGender(), getFather().orElse(mother));
+            VillagerEntityMCA child = createChild(getGender(), father);
 
-        child.setPosition(mother.getX(), mother.getY(), mother.getZ());
-        WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
+            child.setPosition(mother.getX(), mother.getY(), mother.getZ());
+            WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
+        });
+
+
     }
 
     public boolean tryStartGestation() {
