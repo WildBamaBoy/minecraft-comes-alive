@@ -169,6 +169,11 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 return true;
             case "armor":
                 entity.getVillagerBrain().setArmorWear(!entity.getVillagerBrain().getArmorWear());
+                if (entity.getVillagerBrain().getArmorWear()) {
+                    entity.sendChatMessage(player, "armor.enabled");
+                } else {
+                    entity.sendChatMessage(player, "armor.disabled");
+                }
         }
 
         return super.handle(player, command);

@@ -197,6 +197,9 @@
   "spouse.welcome1": "Welcome home Darling!",
   "welcomeFoe1": "Not you again!",
 
+  "armor.enabled": "Okay, I will always wear my armor. If I have any.",
+  "armor.disabled": "Fine, I will only wear my armor in case we are under attack.",
+
   "adult.gift.cake.success1": "What's this? A cake? Oh...oh my. I...need to find my spouse.",
   "adult.gift.cake.success2": "A cake! How thoughtful! I...wait, what's this odd feeling?",
   "adult.gift.cake.success3": "Finally, something that will help my marriage...",

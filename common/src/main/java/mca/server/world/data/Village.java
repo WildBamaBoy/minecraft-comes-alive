@@ -586,7 +586,12 @@ public class Village implements Iterable<Building> {
         unspentMood = v.getInt("unspentMood");
         populationThreshold = v.getInt("populationThreshold");
         marriageThreshold = v.getInt("marriageThreshold");
-        autoScan = v.getBoolean("autoScan");
+
+        if (v.contains("autoScan")) {
+            autoScan = v.getBoolean("autoScan");
+        } else {
+            autoScan = true;
+        }
 
         NbtList b = v.getList("buildings", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < b.size(); i++) {

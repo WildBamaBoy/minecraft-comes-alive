@@ -96,3 +96,5 @@
 * Setting the workplace makes them jobless for now, effectively causing them to look for a new job
 * You use both matchmaker rings now
 * Gifting cake works on every adult married villager
+* Buildings can now be marked as restricted, preventing villagers from moving in
+* Voice acting is now disabled by default

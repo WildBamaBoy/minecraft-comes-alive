@@ -1,5 +1,6 @@
 package mca.network;
 
+import java.util.Optional;
 import mca.cobalt.network.Message;
 import mca.server.world.data.Building;
 import mca.server.world.data.Village;
@@ -30,20 +31,23 @@ public class ReportBuildingMessage implements Message {
                 villages.findNearestVillage(e).ifPresent(Village::toggleAutoScan);
                 break;
             case RESTRICT:
-                villages.findNearestVillage(e).flatMap(village -> village.getBuildings().values().stream().filter((b) ->
-                        b.containsPos(e.getBlockPos())).findAny()).ifPresent(b -> {
-                    if (b.getType().equals("blocked")) {
-                        b.determineType();
-                    } else {
-                        b.setType("blocked");
-                    }
-                });
-                break;
             case REMOVE:
-                villages.findNearestVillage(e).ifPresent(village ->
-                        village.getBuildings().values().stream().filter((b) ->
-                                b.containsPos(e.getBlockPos())).findAny().ifPresent(b -> village.removeBuilding(b.getId()))
-                );
+                Optional<Village> village = villages.findNearestVillage(e);
+                Optional<Building> building = village.flatMap(v -> v.getBuildings().values().stream().filter((b) ->
+                        b.containsPos(e.getBlockPos())).findAny());
+                if (building.isPresent()) {
+                    if (action == Action.RESTRICT) {
+                        if (building.get().getType().equals("blocked")) {
+                            building.get().determineType();
+                        } else {
+                            building.get().setType("blocked");
+                        }
+                    } else {
+                        village.get().removeBuilding(building.get().getId());
+                    }
+                } else {
+                    e.sendMessage(new TranslatableText("blueprint.noBuilding"), true);
+                }
                 break;
         }
     }

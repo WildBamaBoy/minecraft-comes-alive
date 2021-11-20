@@ -286,6 +286,8 @@
   "gui.blueprint.advanced": "Advanced",
   "gui.blueprint.restrictAccess": "Restrict Access",
 
+  "blueprint.noBuilding": "You need to stand within a building",
+
   "blueprint.scan.overlap": "Building overlaps with existing one!",
   "blueprint.scan.block_limit": "Building has too large volume!",
   "blueprint.scan.size_limit": "Building is too large!",
