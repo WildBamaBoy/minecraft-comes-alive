@@ -134,28 +134,22 @@ public class Village implements Iterable<Building> {
         int ey = Integer.MIN_VALUE;
         int ez = Integer.MIN_VALUE;
 
-        //sum up positions
         for (Building building : buildings.values()) {
-            ex = Math.max(building.getCenter().getX(), ex);
-            sx = Math.min(building.getCenter().getX(), sx);
+            ex = Math.max(building.getPos1().getX(), ex);
+            sx = Math.min(building.getPos0().getX(), sx);
 
-            ey = Math.max(building.getCenter().getY(), ey);
-            sy = Math.min(building.getCenter().getY(), sy);
+            ey = Math.max(building.getPos1().getY(), ey);
+            sy = Math.min(building.getPos0().getY(), sy);
 
-            ez = Math.max(building.getCenter().getZ(), ez);
-            sz = Math.min(building.getCenter().getZ(), sz);
+            ez = Math.max(building.getPos1().getZ(), ez);
+            sz = Math.min(building.getPos0().getZ(), sz);
         }
 
-        //and average it
         centerX = (ex + sx) / 2;
         centerY = (ey + sy) / 2;
         centerZ = (ez + sz) / 2;
 
-        //calculate size
-        size = MIN_SIZE;
-        for (Building building : buildings.values()) {
-            size = Math.max(building.getCenter().getManhattanDistance(new BlockPos(centerX, centerY, centerZ)), size);
-        }
+        size = Math.max(ez - sz, Math.max(ex - sx, ey - sy));
     }
 
     public BlockPos getCenter() {

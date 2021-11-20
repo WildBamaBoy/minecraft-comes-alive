@@ -158,7 +158,6 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
             });
         }
 
-
         long time = world.getTime();
 
         for (Village v : this) {
@@ -315,7 +314,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         }
 
         //add a new building, if no overlap has been found or the player enforced a full add
-        if (!found) {
+        if (!found && !blocked.contains(pos)) {
             //create new village
             if (!village.isPresent()) {
                 village = Optional.of(new Village(lastVillageId++));

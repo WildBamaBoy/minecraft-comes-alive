@@ -163,6 +163,12 @@ public class BlueprintScreen extends Screen {
                     setPage(page);
                 }));
                 by += 22;
+
+                //restrict access
+                addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.restrictAccess"), (b) -> {
+                    NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.RESTRICT));
+                    NetworkHandler.sendToServer(new GetVillageRequest());
+                }));
                 by += 22;
 
                 //add room
@@ -332,7 +338,7 @@ public class BlueprintScreen extends Screen {
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
         //center and scale the map
-        float sc = (float)mapSize / (village.getSize() + 2);
+        float sc = (float)mapSize / (village.getSize() + 3) * 2;
         int mouseLocalX = (int)((mouseX - width / 2.0) / sc + village.getCenter().getX());
         int mouseLocalY = (int)((mouseY - y) / sc + village.getCenter().getZ());
         transform.translate(width / 2.0, y, 0);

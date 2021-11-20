@@ -409,25 +409,31 @@ public class Building implements Serializable, Iterable<UUID> {
             size = interiorSize;
 
             //determine type
-            int bestPriority = -1;
-            for (BuildingType bt : API.getVillagePool()) {
-                if (bt.priority() > bestPriority && size >= bt.size()) {
-                    //get an overview of the satisfied blocks
-                    //this is necessary as each building may require tag instead of a single id to be satisfied
-                    HashMap<Identifier, Integer> available = new HashMap<>();
-                    for (Map.Entry<Identifier, Integer> entry : blocks.entrySet()) {
-                        bt.getGroup(entry.getKey()).ifPresent(v -> available.put(v, available.getOrDefault(v, 0) + entry.getValue()));
-                    }
-
-                    boolean valid = bt.blockIds().entrySet().stream().noneMatch(e -> available.getOrDefault(e.getKey(), 0) < e.getValue());
-                    if (valid) {
-                        bestPriority = bt.priority();
-                        type = bt.name();
-                    }
-                }
+            if (type.equals("blocked")) {
+                determineType();
             }
 
             return validationResult.SUCCESS;
+        }
+    }
+
+    public void determineType() {
+        int bestPriority = -1;
+        for (BuildingType bt : API.getVillagePool()) {
+            if (bt.priority() > bestPriority && size >= bt.size()) {
+                //get an overview of the satisfied blocks
+                //this is necessary as each building may require tag instead of a single id to be satisfied
+                HashMap<Identifier, Integer> available = new HashMap<>();
+                for (Map.Entry<Identifier, Integer> entry : blocks.entrySet()) {
+                    bt.getGroup(entry.getKey()).ifPresent(v -> available.put(v, available.getOrDefault(v, 0) + entry.getValue()));
+                }
+
+                boolean valid = bt.blockIds().entrySet().stream().noneMatch(e -> available.getOrDefault(e.getKey(), 0) < e.getValue());
+                if (valid) {
+                    bestPriority = bt.priority();
+                    type = bt.name();
+                }
+            }
         }
     }
 

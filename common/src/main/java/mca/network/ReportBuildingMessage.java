@@ -6,7 +6,6 @@ import mca.server.world.data.Village;
 import mca.server.world.data.VillageManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
 public class ReportBuildingMessage implements Message {
@@ -29,6 +28,17 @@ public class ReportBuildingMessage implements Message {
                 break;
             case AUTO_SCAN:
                 villages.findNearestVillage(e).ifPresent(Village::toggleAutoScan);
+                break;
+            case RESTRICT:
+                villages.findNearestVillage(e).flatMap(village -> village.getBuildings().values().stream().filter((b) ->
+                        b.containsPos(e.getBlockPos())).findAny()).ifPresent(b -> {
+                    if (b.getType().equals("blocked")) {
+                        b.determineType();
+                    } else {
+                        b.setType("blocked");
+                    }
+                });
+                break;
             case REMOVE:
                 villages.findNearestVillage(e).ifPresent(village ->
                         village.getBuildings().values().stream().filter((b) ->
@@ -39,6 +49,7 @@ public class ReportBuildingMessage implements Message {
     }
 
     public enum Action {
+        RESTRICT,
         AUTO_SCAN,
         ADD_ROOM,
         ADD,

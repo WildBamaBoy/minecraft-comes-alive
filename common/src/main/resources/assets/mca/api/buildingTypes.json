@@ -2,12 +2,13 @@
   {
     "name": "blocked",
     "size": 0,
-    "color": "00000000",
+    "color": "22AAAAAA",
     "visible": false,
     "priority": 0,
     "blocks": {
       "blocked": 1
-    }
+    },
+    "noBeds": true
   },
   {
     "name": "building",
