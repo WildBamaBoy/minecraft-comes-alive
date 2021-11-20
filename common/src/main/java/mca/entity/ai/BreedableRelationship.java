@@ -198,9 +198,10 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
             return true;
         }
 
-        if (item == Items.CAKE && isMarriedTo(player.getUuid()) && !entity.isBaby()) {
+        if (item == Items.CAKE && !entity.isBaby()) {
             if (pregnancy.tryStartGestation()) {
                 player.world.sendEntityStatus(entity, Status.VILLAGER_HEARTS);
+                player.getMainHandStack().decrement(1);
                 entity.sendChatMessage(player, "gift.cake.success");
             } else {
                 entity.sendChatMessage(player, "gift.cake.fail");

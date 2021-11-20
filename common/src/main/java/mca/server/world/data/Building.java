@@ -43,6 +43,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 import static net.minecraft.tag.BlockTags.LEAVES;
 
 public class Building implements Serializable, Iterable<UUID> {
+    public static final long SCAN_COOLDOWN = 4800;
     private static final long serialVersionUID = -1106627083469687307L;
     private static final Direction[] directions = {
             Direction.UP, Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
@@ -59,11 +60,17 @@ public class Building implements Serializable, Iterable<UUID> {
     private int pos1X, pos1Y, pos1Z;
     private int posX, posY, posZ;
     private int id;
+    private boolean strictScan;
+    private long lastScan;
 
     public Building() {
     }
 
     public Building(BlockPos pos) {
+        this(pos, false);
+    }
+
+    public Building(BlockPos pos, boolean strictScan) {
         this();
 
         pos0X = pos.getX();
@@ -77,6 +84,8 @@ public class Building implements Serializable, Iterable<UUID> {
         posX = pos0X;
         posY = pos0Y;
         posZ = pos0Z;
+
+        this.strictScan = strictScan;
     }
 
     public Building(NbtCompound v) {
@@ -99,6 +108,8 @@ public class Building implements Serializable, Iterable<UUID> {
             posZ = center.getZ();
         }
         type = v.getString("type");
+
+        strictScan = v.getBoolean("strictScan");
 
         NbtList res = v.getList("residents", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < res.size(); i++) {
@@ -133,6 +144,7 @@ public class Building implements Serializable, Iterable<UUID> {
         v.putInt("posY", posY);
         v.putInt("posZ", posZ);
         v.putString("type", type);
+        v.putBoolean("strictScan", strictScan);
 
         v.put("residents", NbtHelper.fromList(residents.entrySet(), resident -> {
             NbtCompound entry = new NbtCompound();
@@ -212,6 +224,8 @@ public class Building implements Serializable, Iterable<UUID> {
     }
 
     public void validatePois(World world) {
+        setLastScan(world.getTime());
+
         //remove all invalid pois
         List<BlockPos> mask = pois.stream()
                 .filter(p -> !getBuildingType().getGroup(world.getBlockState(p).getBlock()).isPresent())
@@ -239,11 +253,23 @@ public class Building implements Serializable, Iterable<UUID> {
         }
     }
 
-    public boolean validateBuilding(World world) {
+    public enum validationResult {
+        OVERLAP,
+        BLOCK_LIMIT,
+        SIZE_LIMIT,
+        NO_DOOR,
+        TOO_SMALL,
+        IDENTICAL,
+        SUCCESS;
+    }
+
+    public validationResult validateBuilding(World world, Set<BlockPos> blocked) {
         //clear old building
         blocks.clear();
         pois.clear();
         size = 0;
+
+        setLastScan(world.getTime());
 
         //temp data for flood fill
         Set<BlockPos> done = new HashSet<>();
@@ -256,7 +282,7 @@ public class Building implements Serializable, Iterable<UUID> {
 
         //const
         final int maxSize = 1024 * 8;
-        final int maxRadius = 16;
+        final int maxRadius = 320;
 
         //fill the building
         int scanSize = 0;
@@ -265,6 +291,11 @@ public class Building implements Serializable, Iterable<UUID> {
         Map<BlockPos, Boolean> roofCache = new HashMap<>();
         while (!queue.isEmpty() && scanSize < maxSize) {
             BlockPos p = queue.removeLast();
+
+            //this block is marked as blocked, indicating an overlap
+            if (blocked.contains(p) && scanSize > 0) {
+                return validationResult.OVERLAP;
+            }
 
             //as long the max radius is not reached
             if (p.getManhattanDistance(center) < maxRadius) {
@@ -307,18 +338,28 @@ public class Building implements Serializable, Iterable<UUID> {
                             }
                         } else if (state.getBlock() instanceof DoorBlock) {
                             //skip door and start a new room
-                            queue.add(n.offset(d));
+                            if (!strictScan) {
+                                queue.add(n);
+                            }
                             hasDoor = true;
                         }
                     }
                 }
+            } else {
+                return validationResult.SIZE_LIMIT;
             }
 
             scanSize++;
         }
 
         // min size is 32, which equals an 8 block big cube with 6 times 4 sides
-        if (hasDoor && queue.isEmpty() && done.size() > 32) {
+        if (!hasDoor) {
+            return validationResult.NO_DOOR;
+        } else if (!queue.isEmpty()) {
+            return validationResult.BLOCK_LIMIT;
+        } else if (done.size() <= 32) {
+            return validationResult.TOO_SMALL;
+        } else {
             //fetch all interesting block types
             Set<Block> blockTypes = new HashSet<>();
             for (BuildingType bt : API.getVillagePool()) {
@@ -386,9 +427,7 @@ public class Building implements Serializable, Iterable<UUID> {
                 }
             }
 
-            return true;
-        } else {
-            return false;
+            return validationResult.SUCCESS;
         }
     }
 
@@ -464,5 +503,13 @@ public class Building implements Serializable, Iterable<UUID> {
 
     public Queue<BlockPos> getPois() {
         return pois;
+    }
+
+    public long getLastScan() {
+        return lastScan;
+    }
+
+    public void setLastScan(long lastScan) {
+        this.lastScan = lastScan;
     }
 }

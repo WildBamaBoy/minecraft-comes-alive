@@ -52,7 +52,7 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
 
         // remove the rings for survival mode
         if (!player.isCreative()) {
-            player.getMainHandStack().decrement(1);
+            player.getMainHandStack().decrement(2);
         }
 
         return true;

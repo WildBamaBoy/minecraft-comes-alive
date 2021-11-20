@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 import mca.Config;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.ai.Messenger;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
@@ -35,7 +34,6 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -71,6 +69,8 @@ public class Village implements Iterable<Building> {
     private int taxes = 0;
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
+
+    private boolean autoScan = true;
 
     public Village() {
     }
@@ -152,11 +152,10 @@ public class Village implements Iterable<Building> {
         centerZ = (ez + sz) / 2;
 
         //calculate size
-        size = MIN_SIZE * MIN_SIZE;
+        size = MIN_SIZE;
         for (Building building : buildings.values()) {
-            size = (int)Math.max(building.getCenter().getSquaredDistance(centerX, centerY, centerZ, true), size);
+            size = Math.max(building.getCenter().getManhattanDistance(new BlockPos(centerX, centerY, centerZ)), size);
         }
-        size = (int)(Math.sqrt(size));
     }
 
     public BlockPos getCenter() {
@@ -245,7 +244,6 @@ public class Village implements Iterable<Building> {
         boolean isTaxSeason = time % 24000 == 0;
         boolean isVillageUpdateTime = time % MOVE_IN_COOLDOWN == 0;
 
-        // todo taxes are independent from rank? Start taxes at 0 to require at least one user to increase taxes once?
         if (isTaxSeason && hasBuilding("storage")) {
             int emeraldValue = 100;
             int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
@@ -546,6 +544,18 @@ public class Village implements Iterable<Building> {
         }
     }
 
+    public boolean isAutoScan() {
+        return autoScan;
+    }
+
+    public void setAutoScan(boolean autoScan) {
+        this.autoScan = autoScan;
+    }
+
+    public void toggleAutoScan() {
+        setAutoScan(!isAutoScan());
+    }
+
     public NbtCompound save() {
         NbtCompound v = new NbtCompound();
         v.putInt("id", id);
@@ -563,6 +573,7 @@ public class Village implements Iterable<Building> {
         v.putInt("populationThreshold", populationThreshold);
         v.putInt("marriageThreshold", marriageThreshold);
         v.put("buildings", NbtHelper.fromList(buildings.values(), Building::save));
+        v.putBoolean("autoScan", autoScan);
         return v;
     }
 
@@ -581,6 +592,7 @@ public class Village implements Iterable<Building> {
         unspentMood = v.getInt("unspentMood");
         populationThreshold = v.getInt("populationThreshold");
         marriageThreshold = v.getInt("marriageThreshold");
+        autoScan = v.getBoolean("autoScan");
 
         NbtList b = v.getList("buildings", NbtElementCompat.COMPOUND_TYPE);
         for (int i = 0; i < b.size(); i++) {

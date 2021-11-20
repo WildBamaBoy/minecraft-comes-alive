@@ -43,6 +43,7 @@ public class AdminCommand {
                 .then(register("listVillages", AdminCommand::listVillages))
                 .then(register("removeVillage").then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillage)))
                 .then(register("buildingProcessingRate").then(CommandManager.argument("cooldown", IntegerArgumentType.integer()).executes(AdminCommand::buildingProcessingRate)))
+                .requires((serverCommandSource) -> serverCommandSource.hasPermissionLevel(2))
         );
     }
 

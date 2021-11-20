@@ -146,6 +146,31 @@ public class BlueprintScreen extends Screen {
         }
 
         switch (page) {
+            case "advanced":
+                //add building
+                bx = width / 2 + 180 - 64 - 16;
+                by = height / 2 - 56;
+                TranslatableText text = new TranslatableText("gui.blueprint.autoScan");
+                if (village.isAutoScan()) {
+                    text.formatted(Formatting.GREEN);
+                } else {
+                    text.formatted(Formatting.GRAY).formatted(Formatting.STRIKETHROUGH);
+                }
+                addButton(new ButtonWidget(bx, by, 96, 20, text, (b) -> {
+                    NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.AUTO_SCAN));
+                    NetworkHandler.sendToServer(new GetVillageRequest());
+                    village.toggleAutoScan();
+                    setPage(page);
+                }));
+                by += 22;
+                by += 22;
+
+                //add room
+                addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.addRoom"), (b) -> {
+                    NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.ADD_ROOM));
+                    NetworkHandler.sendToServer(new GetVillageRequest());
+                }));
+                by += 22;
             case "map":
                 //add building
                 bx = width / 2 + 180 - 64 - 16;
@@ -161,7 +186,15 @@ public class BlueprintScreen extends Screen {
                     NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.REMOVE));
                     NetworkHandler.sendToServer(new GetVillageRequest());
                 }));
-                break;
+                by += 22;
+
+                //advanced
+                if (page != "advanced") {
+                    addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.advanced"), (b) -> {
+                        setPage("advanced");
+                    }));
+                    break;
+                }
             case "rank":
                 break;
             case "catalog":
@@ -244,9 +277,10 @@ public class BlueprintScreen extends Screen {
                 drawCenteredText(transform, textRenderer, new TranslatableText("gui.blueprint.empty"), width / 2, height / 2, 0xffaaaaaa);
                 break;
             case "map":
+                renderStats(transform);
+            case "advanced":
                 renderName(transform);
                 renderMap(transform);
-                renderStats(transform);
                 break;
             case "rank":
                 renderTasks(transform);
@@ -298,7 +332,7 @@ public class BlueprintScreen extends Screen {
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
         //center and scale the map
-        float sc = (float)mapSize / village.getSize();
+        float sc = (float)mapSize / (village.getSize() + 2);
         int mouseLocalX = (int)((mouseX - width / 2.0) / sc + village.getCenter().getX());
         int mouseLocalY = (int)((mouseY - y) / sc + village.getCenter().getZ());
         transform.translate(width / 2.0, y, 0);
@@ -352,7 +386,11 @@ public class BlueprintScreen extends Screen {
             //name
             BuildingType bt = buildingTypes.get(hoverBuilding.getType());
             lines.add(new TranslatableText("buildingType." + bt.name()));
-            lines.add(new TranslatableText("gui.blueprint.size", String.valueOf(hoverBuilding.getSize())));
+
+            //size
+            if (!bt.grouped()) {
+                lines.add(new TranslatableText("gui.blueprint.size", String.valueOf(hoverBuilding.getSize())));
+            }
 
             //residents
             for (String name : hoverBuilding.getResidents().values()) {

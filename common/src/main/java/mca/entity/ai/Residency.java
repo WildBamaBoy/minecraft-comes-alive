@@ -50,7 +50,9 @@ public class Residency {
 
     public void setWorkplace(PlayerEntity player) {
         entity.sendChatMessage(player, "interaction.setworkplace.success");
-        entity.getBrain().remember(MemoryModuleType.JOB_SITE, GlobalPos.create(player.world.getRegistryKey(), player.getBlockPos()));
+        entity.getBrain().forget(MemoryModuleType.JOB_SITE);
+        entity.getBrain().forget(MemoryModuleType.POTENTIAL_JOB_SITE);
+        //todo
     }
 
     public BlockPos getHangout() {
@@ -75,7 +77,11 @@ public class Residency {
     }
 
     public Optional<Building> getHomeBuilding() {
-        return getHomeVillage().flatMap(v -> v.getBuilding(entity.getTrackedValue(BUILDING)));
+        Optional<Building> building = getHomeVillage().flatMap(v -> v.getBuilding(entity.getTrackedValue(BUILDING)));
+        if (!building.isPresent()) {
+            setHomeLess();
+        }
+        return building;
     }
 
     public void leaveHome() {
@@ -91,12 +97,14 @@ public class Residency {
     }
 
     public Optional<GlobalPos> getHome() {
-        return getHomeBuilding().map(buildings -> GlobalPos.create(entity.world.getRegistryKey(), buildings.getCenter()));
+        return getHomeBuilding().map(building -> GlobalPos.create(entity.world.getRegistryKey(), building.getCenter()));
     }
 
     public void tick() {
         if (entity.age % 600 == 0) {
-            reportBuildings();
+            if (!getHomeVillage().filter(v -> !v.isAutoScan()).isPresent()) {
+                reportBuildings();
+            }
 
             //poor villager has no village
             if (entity.getTrackedValue(VILLAGE) == -1) {
@@ -146,10 +154,7 @@ public class Residency {
                         village.setReputation(player, entity, hearts);
                     });
                 }
-            }, () -> {
-                setVillageId(-1);
-                setHomeLess();
-            });
+            }, this::setHomeLess);
         }
     }
 
@@ -157,6 +162,7 @@ public class Residency {
         Optional<Village> village = getHomeVillage();
         village.ifPresent(buildings -> buildings.removeResident(this.entity));
         setBuildingId(-1);
+        setVillageId(-1);
         entity.getMCABrain().forget(MemoryModuleType.HOME);
     }
 
@@ -214,7 +220,7 @@ public class Residency {
     public void setHome(PlayerEntity player) {
         // make sure the building is up-to-date
         VillageManager manager = VillageManager.get((ServerWorld)player.world);
-        manager.processBuilding(player.getBlockPos());
+        manager.processBuilding(player.getBlockPos(), true, false);
 
         //check if a bed can be found
         Optional<Village> village = manager.findNearestVillage(player);
@@ -226,6 +232,7 @@ public class Residency {
 
                     //add to residents
                     setBuilding(building.get(), player.getBlockPos());
+                    setVillageId(village.get().getId());
                     village.get().addResident(entity, building.get().getId());
                 } else {
                     entity.sendChatMessage(player, "interaction.sethome.bedfail");

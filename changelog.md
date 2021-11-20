@@ -84,3 +84,15 @@
 * Added two more headstones
 * Fixed crash caused by zombie villagers on dedicated servers
 * Only player with merchant rank or higher will receive tax notifications
+* mca-admin commands no require op permission
+* Fixed smaller issues with building recognition
+* Automatic building scanning can now be disabled
+* Next to Buildings, you can now add more restrictive "rooms" instead in case your build is not recognized otherwise
+* Buildings can no longer intersect
+* If adding a building fails, a proper error message is now shown
+* Updating existing, intersected buildings work now
+* Fixed some villagers being confused on where they live
+* Fixed outdated translation variables
+* Setting the workplace makes them jobless for now, effectively causing them to look for a new job
+* You use both matchmaker rings now
+* Gifting cake works on every adult married villager
