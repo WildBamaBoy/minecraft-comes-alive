@@ -3,6 +3,7 @@ package mca.entity.ai.brain.tasks;
 import com.google.common.collect.ImmutableMap;
 import java.util.Optional;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.MemoryModuleTypeMCA;
 import mca.server.world.data.Village;
 import net.minecraft.entity.ai.TargetFinder;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -18,9 +19,19 @@ public class PatrolVillageTask extends Task<VillagerEntityMCA> {
     private final float speed;
 
     public PatrolVillageTask(int completionRange, float speed) {
-        super(ImmutableMap.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED));
+        super(ImmutableMap.of(
+                MemoryModuleTypeMCA.PLAYER_FOLLOWING, MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.INTERACTION_TARGET, MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED));
         this.completionRange = completionRange;
         this.speed = speed;
+    }
+
+    @Override
+    protected boolean shouldRun(ServerWorld world, VillagerEntityMCA entity) {
+        return !InteractTask.shouldRun(entity);
     }
 
     protected void run(ServerWorld serverWorld, VillagerEntityMCA villager, long l) {

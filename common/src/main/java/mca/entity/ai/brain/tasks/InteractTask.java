@@ -15,16 +15,20 @@ import net.minecraft.server.world.ServerWorld;
 public class InteractTask extends Task<VillagerEntityMCA> {
     private final float speedModifier;
 
-    public InteractTask(float speedModifie) {
+    public InteractTask(float speedModifier) {
         super(ImmutableMap.of(
                 MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED,
                 MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED
         ), Integer.MAX_VALUE);
-        this.speedModifier = speedModifie;
+        this.speedModifier = speedModifier;
     }
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA villager) {
+        return shouldRun(villager);
+    }
+
+    public static boolean shouldRun(VillagerEntityMCA villager) {
         return villager.isAlive()
                 && villager.getInteractions().getInteractingPlayer().filter(player -> villager.squaredDistanceTo(player) <= 16).isPresent()
                 && !villager.isTouchingWater()

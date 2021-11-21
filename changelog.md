@@ -98,3 +98,4 @@
 * Gifting cake works on every adult married villager
 * Buildings can now be marked as restricted, preventing villagers from moving in
 * Voice acting is now disabled by default
+* Fixed guards on duty randomly looking into the sky when talking to
