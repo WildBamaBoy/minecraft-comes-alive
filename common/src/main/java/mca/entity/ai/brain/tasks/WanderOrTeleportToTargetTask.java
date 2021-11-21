@@ -1,7 +1,9 @@
 package mca.entity.ai.brain.tasks;
 
+import mca.entity.ai.MemoryModuleTypeMCA;
 import mca.util.compat.FuzzyPositionsCompat;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.brain.task.WanderAroundTask;
@@ -18,6 +20,13 @@ public class WanderOrTeleportToTargetTask extends WanderAroundTask {
 
     public WanderOrTeleportToTargetTask(int minRunTime, int maxRunTime) {
        super(minRunTime, maxRunTime);
+    }
+
+    @Override
+    protected boolean shouldRun(ServerWorld serverWorld, MobEntity mobEntity) {
+        return super.shouldRun(serverWorld, mobEntity)
+                && mobEntity.getBrain().isMemoryInState(MemoryModuleTypeMCA.PLAYER_FOLLOWING, MemoryModuleState.VALUE_ABSENT)
+                && mobEntity.getBrain().isMemoryInState(MemoryModuleTypeMCA.STAYING, MemoryModuleState.VALUE_ABSENT);
     }
 
     @Override

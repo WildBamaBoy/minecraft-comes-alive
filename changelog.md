@@ -99,3 +99,4 @@
 * Buildings can now be marked as restricted, preventing villagers from moving in
 * Voice acting is now disabled by default
 * Fixed guards on duty randomly looking into the sky when talking to
+* Fixed at least one teleporting-away-while-following bug

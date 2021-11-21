@@ -22,7 +22,10 @@ public class ExtendedSleepTask extends Task<VillagerEntityMCA> {
     private BlockPos bed;
 
     public ExtendedSleepTask(float speed) {
-        super(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.LAST_WOKEN, MemoryModuleState.REGISTERED, MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED));
+        super(ImmutableMap.of(
+                MemoryModuleType.HOME, MemoryModuleState.VALUE_PRESENT,
+                MemoryModuleType.LAST_WOKEN, MemoryModuleState.REGISTERED,
+                MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED));
         this.speed = speed;
     }
 
