@@ -409,7 +409,7 @@ public class Building implements Serializable, Iterable<UUID> {
             size = interiorSize;
 
             //determine type
-            if (type.equals("blocked")) {
+            if (!type.equals("blocked")) {
                 determineType();
             }
 
