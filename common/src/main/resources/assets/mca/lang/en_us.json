@@ -267,6 +267,7 @@
   "gui.blueprint.currentRank": "Rank: %1$s",
   "gui.blueprint.reputation": "Reputation: %1$s",
   "gui.blueprint.size": "size: %1$s blocks",
+  "gui.blueprint.pois": "%1$s entries",
   "gui.blueprint.anySize": "size: any",
   "gui.blueprint.buildings": "Buildings: %1$s",
   "gui.blueprint.population": "Population: %1$s of %2$s",

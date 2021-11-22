@@ -554,10 +554,6 @@ public class Village implements Iterable<Building> {
         NbtCompound v = new NbtCompound();
         v.putInt("id", id);
         v.putString("name", name);
-        v.putInt("centerX", centerX);
-        v.putInt("centerY", centerY);
-        v.putInt("centerZ", centerZ);
-        v.putInt("size", size);
         v.putInt("taxes", taxes);
         v.put("unspentHearts", NbtHelper.fromMap(new NbtCompound(), unspentHearts, UUID::toString, NbtInt::of));
         v.put("reputation", NbtHelper.fromMap(new NbtCompound(), reputation, UUID::toString, i -> {
@@ -574,10 +570,6 @@ public class Village implements Iterable<Building> {
     public void load(NbtCompound v) {
         id = v.getInt("id");
         name = v.getString("name");
-        centerX = v.getInt("centerX");
-        centerY = v.getInt("centerY");
-        centerZ = v.getInt("centerZ");
-        size = v.getInt("size");
         taxes = v.getInt("taxes");
         unspentHearts = NbtHelper.toMap(v.getCompound("unspentHearts"), UUID::fromString, i -> ((NbtInt)i).intValue());
         reputation = NbtHelper.toMap(v.getCompound("reputation"), UUID::fromString, i -> {
@@ -598,5 +590,7 @@ public class Village implements Iterable<Building> {
             Building building = new Building(b.getCompound(i));
             buildings.put(building.getId(), building);
         }
+
+        calculateDimensions();
     }
 }

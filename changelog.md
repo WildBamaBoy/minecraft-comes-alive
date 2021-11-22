@@ -100,3 +100,6 @@
 * Voice acting is now disabled by default
 * Fixed guards on duty randomly looking into the sky when talking to
 * Fixed at least one teleporting-away-while-following bug
+
+# 7.0.5
+* Fixed issue with natural breeding

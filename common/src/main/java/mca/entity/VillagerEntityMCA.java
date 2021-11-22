@@ -369,7 +369,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public VillagerEntityMCA createChild(ServerWorld world, PassiveEntity partner) {
-
         VillagerEntityMCA child = partner instanceof VillagerEntityMCA
                 ? relations.getPregnancy().createChild(Gender.getRandom(), (VillagerEntityMCA)partner)
                 : relations.getPregnancy().createChild(Gender.getRandom());

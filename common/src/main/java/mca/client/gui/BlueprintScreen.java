@@ -405,7 +405,7 @@ public class BlueprintScreen extends Screen {
 
             //pois
             if (hoverBuilding.getPois().size() > 0) {
-                lines.add(new LiteralText(hoverBuilding.getPois().size() + " pois").formatted(Formatting.GRAY));
+                lines.add(new TranslatableText("gui.blueprint.pois", hoverBuilding.getPois().size()).formatted(Formatting.GRAY));
             }
 
             //present blocks

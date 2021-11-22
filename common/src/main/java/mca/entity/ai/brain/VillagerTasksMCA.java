@@ -370,7 +370,7 @@ public class VillagerTasksMCA {
                 Pair.of(1, new EnterFavoredBuildingTask(0.5f)),
                 Pair.of(2, new RandomTask<>(ImmutableList.of(
                         Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
-                        Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
+                        //Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
                         Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
                         Pair.of(new FindWalkTargetTask(speedModifier), 1),
                         Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),
@@ -387,12 +387,14 @@ public class VillagerTasksMCA {
                         ImmutableList.of(
                                 Pair.of(new GatherItemsVillagerTask(), 1))
                 )),
+                /*
                 Pair.of(3, new CompositeTask<>(ImmutableMap.of(),
                         ImmutableSet.of(MemoryModuleType.BREED_TARGET),
                         CompositeTask.Order.ORDERED,
                         CompositeTask.RunMode.RUN_ONE,
                         ImmutableList.of(Pair.of(new VillagerBreedTask(), 1))
                 )),
+                */
                 getFullLookBehavior(),
                 Pair.of(99, new ScheduleActivityTask())
         );
