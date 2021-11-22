@@ -49,6 +49,7 @@ public class VillagerEditorScreen extends Screen {
     private static final int DATA_WIDTH = 150;
     private int traitPage = 0;
     private static final int TRAITS_PER_PAGE = 8;
+    private long initialTime;
 
     public VillagerEditorScreen(UUID villagerUUID, UUID playerUUID) {
         super(new TranslatableText("gui.VillagerEditorScreen.title"));
@@ -364,6 +365,10 @@ public class VillagerEditorScreen extends Screen {
             return;
         }
 
+        long time = MinecraftClient.getInstance().world.getTime();
+        villager.age += time - initialTime;
+        initialTime = time;
+
         InventoryScreen.drawEntity(width / 2 - DATA_WIDTH / 2, height / 2 + 70, 60, 0, 0, villager);
 
         super.render(matrices, mouseX, mouseY, delta);
@@ -375,6 +380,7 @@ public class VillagerEditorScreen extends Screen {
             villagerBreedingAge = villagerData.getInt("Age");
             villager.setBreedingAge(villagerBreedingAge);
             villager.calculateDimensions();
+            initialTime = MinecraftClient.getInstance().world.getTime();
         }
         if (page.equals("loading")) {
             setPage("general");
