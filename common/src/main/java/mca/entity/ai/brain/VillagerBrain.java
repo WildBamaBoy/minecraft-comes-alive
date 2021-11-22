@@ -63,19 +63,19 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
             updateMoveState();
         }
 
-        // decrease interaction fatique
+        // decrease interaction fatigue
         if (entity.age % Config.getInstance().interactionFatigueCooldown == 0) {
             NbtCompound nbt = entity.getTrackedValue(MEMORIES);
             if (nbt != null) {
                 for (String uuid : nbt.getKeys()) {
-                Memories memories = Memories.fromCNBT(entity, nbt.getCompound(uuid));
+                    Memories memories = Memories.fromCNBT(entity, nbt.getCompound(uuid));
                     int fatigue = memories.getInteractionFatigue();
                     if (fatigue > 0) {
                         memories.setInteractionFatigue(fatigue - 1);
                     }
                 }
             }
-            }
+        }
     }
 
     public Chore getCurrentJob() {

@@ -156,13 +156,15 @@ public class ScytheItem extends SwordItem {
 
         if (state.isIn(TagsMCA.Blocks.TOMBSTONES)) {
             return TombstoneBlock.Data.of(world.getBlockEntity(pos)).filter(TombstoneBlock.Data::hasEntity).map(data -> {
-                if (!world.isClient) {
-                    data.startResurrecting(cure);
-                }
                 if (!context.getWorld().isClient) {
                     CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)context.getPlayer(), cure ? "staffOfLife" : "scytheRevive");
                 }
-                return ActionResult.SUCCESS;
+                if (!world.isClient && !data.isResurrecting()) {
+                    data.startResurrecting(cure);
+                    return ActionResult.SUCCESS;
+                } else {
+                    return ActionResult.PASS;
+                }
             }).orElse(ActionResult.FAIL);
         }
         return ActionResult.PASS;

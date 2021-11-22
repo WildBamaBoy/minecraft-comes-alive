@@ -106,3 +106,4 @@
 * Fixed issue with natural breeding
 * Blueprint will now better display vertically stacked buildings
 * Villager preview in the editor is now animated
+* Fixed wasting charges on already reviving villagers
