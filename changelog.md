@@ -102,4 +102,6 @@
 * Fixed at least one teleporting-away-while-following bug
 
 # 7.0.5
+
 * Fixed issue with natural breeding
+* Blueprint will now better display vertically stacked buildings

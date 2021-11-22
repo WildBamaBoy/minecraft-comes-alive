@@ -1,22 +1,25 @@
 package mca.client.gui;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
-import mca.resources.Rank;
 import mca.network.GetVillageRequest;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
+import mca.resources.Rank;
 import mca.resources.data.BuildingType;
+import mca.resources.data.tasks.Task;
 import mca.server.world.data.Building;
 import mca.server.world.data.Village;
-import mca.resources.data.tasks.Task;
 import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -28,14 +31,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 import net.minecraft.util.registry.Registry;
 
-public class BlueprintScreen extends Screen {
+public class BlueprintScreen extends ExtendedScreen {
     //gui element Y positions
     private final int positionTaxes = -60;
     private final int positionBirth = -10;
@@ -352,7 +350,7 @@ public class BlueprintScreen extends Screen {
         }
 
         //buildings
-        Building hoverBuilding = null;
+        List<Building> hoverBuildings = new LinkedList<Building>();
         for (Building building : village.getBuildings().values()) {
             BuildingType bt = buildingTypes.get(building.getType());
 
@@ -363,7 +361,7 @@ public class BlueprintScreen extends Screen {
                 //tooltip
                 int margin = 6;
                 if (c.getSquaredDistance(new Vec3i(mouseLocalX, c.getY(), mouseLocalY)) < margin * margin) {
-                    hoverBuilding = building;
+                    hoverBuildings.add(building);
                 }
             } else {
                 BlockPos p0 = building.getPos0();
@@ -377,45 +375,66 @@ public class BlueprintScreen extends Screen {
                 }
 
                 //tooltip
-                int margin = 2;
+                int margin = 1;
                 if (mouseLocalX >= p0.getX() - margin && mouseLocalX <= p1.getX() + margin && mouseLocalY >= p0.getZ() - margin && mouseLocalY <= p1.getZ() + margin) {
-                    hoverBuilding = building;
+                    hoverBuildings.add(building);
                 }
             }
         }
 
         transform.pop();
 
-        if (hoverBuilding != null) {
-            List<Text> lines = new LinkedList<>();
+        //sort vertically
+        hoverBuildings.sort((a, b) -> b.getCenter().getY() - a.getCenter().getY());
 
-            //name
-            BuildingType bt = buildingTypes.get(hoverBuilding.getType());
-            lines.add(new TranslatableText("buildingType." + bt.name()));
-
-            //size
-            if (!bt.grouped()) {
-                lines.add(new TranslatableText("gui.blueprint.size", String.valueOf(hoverBuilding.getSize())));
-            }
-
-            //residents
-            for (String name : hoverBuilding.getResidents().values()) {
-                lines.add(new LiteralText(name));
-            }
-
-            //pois
-            if (hoverBuilding.getPois().size() > 0) {
-                lines.add(new TranslatableText("gui.blueprint.pois", hoverBuilding.getPois().size()).formatted(Formatting.GRAY));
-            }
-
-            //present blocks
-            for (Map.Entry<Identifier, Integer> block : hoverBuilding.getBlocks().entrySet()) {
-                lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())).formatted(Formatting.GRAY));
-            }
-
-            //render
-            renderTooltip(transform, lines, mouseX, mouseY);
+        //get tooltips
+        List<List<Text>> tooltips = new LinkedList<>();
+        for (Building b : hoverBuildings) {
+            tooltips.add(getBuildingBlueprint(b));
         }
+
+        //get height
+        int h = 0;
+        for (List<Text> b : tooltips) {
+            h += getTooltipHeight(b) + 9;
+        }
+
+        //render
+        int py = mouseY - h / 2 + 12;
+        for (List<Text> b : tooltips) {
+            renderTooltip(transform, b, mouseX, py);
+            py += getTooltipHeight(b) + 9;
+        }
+    }
+
+    private List<Text> getBuildingBlueprint(Building hoverBuilding) {
+        List<Text> lines = new LinkedList<>();
+
+        //name
+        BuildingType bt = buildingTypes.get(hoverBuilding.getType());
+        lines.add(new TranslatableText("buildingType." + bt.name()));
+
+        //size
+        if (!bt.grouped()) {
+            lines.add(new TranslatableText("gui.blueprint.size", String.valueOf(hoverBuilding.getSize())));
+        }
+
+        //residents
+        for (String name : hoverBuilding.getResidents().values()) {
+            lines.add(new LiteralText(name));
+        }
+
+        //pois
+        if (hoverBuilding.getPois().size() > 0) {
+            lines.add(new TranslatableText("gui.blueprint.pois", hoverBuilding.getPois().size()).formatted(Formatting.GRAY));
+        }
+
+        //present blocks
+        for (Map.Entry<Identifier, Integer> block : hoverBuilding.getBlocks().entrySet()) {
+            lines.add(new LiteralText(block.getValue() + " x ").append(getBlockName(block.getKey())).formatted(Formatting.GRAY));
+        }
+
+        return lines;
     }
 
     private void renderTasks(MatrixStack transform) {
