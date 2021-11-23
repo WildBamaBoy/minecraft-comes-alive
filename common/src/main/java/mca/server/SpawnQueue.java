@@ -5,14 +5,10 @@ import java.util.List;
 
 import mca.Config;
 import mca.ducks.IVillagerEntity;
-import mca.entity.EntitiesMCA;
-import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
 import mca.entity.ZombieVillagerFactory;
 import mca.entity.ai.relationship.Gender;
-import mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;

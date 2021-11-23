@@ -90,8 +90,10 @@ public class ZombieVillagerFactory {
     }
 
     public ZombieVillagerEntityMCA build() {
-        ZombieVillagerEntityMCA zombie = gender.orElseGet(Gender::getRandom).getZombieType().create(world);
-        zombie.setName(name.orElseGet(() -> API.getVillagePool().pickCitizenName(zombie.getGenetics().getGender())));
+        Gender gender = this.gender.orElseGet(Gender::getRandom);
+        ZombieVillagerEntityMCA zombie = gender.getZombieType().create(world);
+        zombie.getGenetics().setGender(gender);
+        zombie.setName(name.orElseGet(() -> API.getVillagePool().pickCitizenName(gender)));
         position.ifPresent(pos -> zombie.updatePosition(pos.getX(), pos.getY(), pos.getZ()));
         VillagerData data = zombie.getVillagerData();
         zombie.setVillagerData(new VillagerData(

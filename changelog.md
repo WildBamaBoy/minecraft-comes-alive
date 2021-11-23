@@ -108,3 +108,4 @@
 * Villager preview in the editor is now animated
 * Fixed wasting charges on already reviving villagers
 * Fixed a crash
+* Fixed opposite gender bug
