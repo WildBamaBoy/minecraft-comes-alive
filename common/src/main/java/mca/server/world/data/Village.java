@@ -240,7 +240,7 @@ public class Village implements Iterable<Building> {
 
         if (isTaxSeason && hasBuilding("storage")) {
             int emeraldValue = 100;
-            int taxes = getPopulation() * getTaxes() + world.random.nextInt(emeraldValue);
+            int taxes = (int)(Config.getInstance().taxesFactor * getPopulation() * getTaxes() + world.random.nextInt(emeraldValue));
             int moodImpact = 0;
 
             //response
@@ -433,6 +433,7 @@ public class Village implements Iterable<Building> {
             // Find a potential mate
             PoolUtil.pop(availableVillagers.stream()
                     .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
+                    .filter(i -> !suitor.getRelationships().getFamilyEntry().isRelative(i.getUuid()))
                     .collect(Collectors.toList()), world.random).ifPresent(mate -> {
                 // smash their bodies together like nobody's business!
                 suitor.getRelationships().marry(mate);

@@ -58,6 +58,7 @@ public final class Config implements Serializable {
     public boolean useVoices = false;
     public float interactionFatigue = 0.05f;
     public int interactionFatigueCooldown = 4800;
+    public float taxesFactor = 0.5f;
 
     public static File getConfigFile() {
         return new File("./config/mca.json");

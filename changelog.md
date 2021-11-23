@@ -109,3 +109,4 @@
 * Fixed wasting charges on already reviving villagers
 * Fixed a crash
 * Fixed opposite gender bug
+* Fixed villager marrying relatives
