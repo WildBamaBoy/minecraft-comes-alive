@@ -127,8 +127,8 @@ public class Residency {
                     }
                 } else {
                     //has a home location outside the building?
-                    GlobalPos globalPos = entity.getMCABrain().getOptionalMemory(MemoryModuleType.HOME).get();
-                    if (!building.get().containsPos(globalPos.getPos())) {
+                    Optional<GlobalPos> globalPos = entity.getMCABrain().getOptionalMemory(MemoryModuleType.HOME);
+                    if (globalPos.isPresent() && !building.get().containsPos(globalPos.get().getPos())) {
                         setHomeLess();
                         return;
                     }
