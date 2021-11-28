@@ -4,11 +4,15 @@ import com.google.common.collect.ImmutableMap;
 
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.MemoryModuleTypeMCA;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
 
 public class FollowTask extends Task<VillagerEntityMCA> {
 
@@ -44,25 +48,30 @@ public class FollowTask extends Task<VillagerEntityMCA> {
         } else if (distance > 100.0D) {
             //teleportation when flying can kill the villager so we just let them walk on the surface.
 
-            if (villager.hasVehicle()) {
-                villager.getVehicle().requestTeleport(
-                        playerToFollow.prevX,
-                        world.getTopY(
-                                Heightmap.Type.WORLD_SURFACE,
-                                (int) playerToFollow.prevX,
-                                (int) playerToFollow.prevZ),
-                        playerToFollow.prevZ);
-            } else {
-                villager.requestTeleport(
-                    playerToFollow.prevX,
-                    world.getTopY(
-                            Heightmap.Type.WORLD_SURFACE,
-                            (int) playerToFollow.prevX,
-                            (int) playerToFollow.prevZ),
-                    playerToFollow.prevZ);
-            }
+            Vec3d teleportPos = Vec3d.ofBottomCenter(getGroundLevel(world, villager, playerToFollow.getBlockPos()).up());
+            Entity teleportedEntity = getTeleportedEntity(villager);
+            teleportedEntity.fallDistance = 0;
+            villager.fallDistance = 0;
+            teleportedEntity.requestTeleport(teleportPos.getX(), teleportPos.getY(), teleportPos.getZ());
         } else {
             villager.getNavigation().stop();
         }
+    }
+
+    private static Entity getTeleportedEntity(Entity entity) {
+        return entity.hasVehicle() ? entity.getVehicle() : entity;
+    }
+
+    private static BlockPos getGroundLevel(ServerWorld world, Entity entity, BlockPos pos) {
+        BlockPos original = pos;
+        while ((world.isAir(pos) || !world.isTopSolid(pos, entity)) && !world.getFluidState(pos).isEmpty()) {
+            pos = pos.down();
+
+            if (World.isOutOfBuildLimitVertically(pos)) {
+                return original;
+            }
+        }
+
+        return pos;
     }
 }
