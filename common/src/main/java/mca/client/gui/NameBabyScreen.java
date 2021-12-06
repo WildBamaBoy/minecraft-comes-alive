@@ -2,6 +2,7 @@ package mca.client.gui;
 
 import mca.cobalt.network.NetworkHandler;
 import mca.item.BabyItem;
+import mca.network.BabyNameRequest;
 import mca.network.BabyNamingVillagerMessage;
 import mca.resources.API;
 import net.minecraft.client.gui.screen.Screen;
@@ -38,7 +39,9 @@ public class NameBabyScreen extends Screen {
             NetworkHandler.sendToServer(new BabyNamingVillagerMessage(player.inventory.selectedSlot, babyNameTextField.getText().trim()));
             Objects.requireNonNull(this.client).openScreen(null);
         }));
-        addButton(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, new TranslatableText("gui.button.random"), (b) -> babyNameTextField.setText(API.getVillagePool().pickCitizenName(((BabyItem) baby.getItem()).getGender()))));
+        addButton(new ButtonWidget(width / 2 + 105, height / 2 - 60, 60, 20, new TranslatableText("gui.button.random"), (b) -> {
+            NetworkHandler.sendToServer(new BabyNameRequest(((BabyItem)baby.getItem()).getGender()));
+        }));
 
         babyNameTextField = new TextFieldWidget(this.textRenderer, width / 2 - 100, height / 2 - 60, 200, 20, new TranslatableText("structure_block.structure_name"));
         babyNameTextField.setMaxLength(32);
@@ -62,5 +65,9 @@ public class NameBabyScreen extends Screen {
         babyNameTextField.render(transform, width / 2 - 100, height / 2 - 70, scale);
 
         super.render(transform, w, h, scale);
+    }
+
+    public void setBabyName(String name) {
+        babyNameTextField.setText(name);
     }
 }

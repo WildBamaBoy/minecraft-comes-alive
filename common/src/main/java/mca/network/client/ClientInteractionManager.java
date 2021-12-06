@@ -1,7 +1,5 @@
 package mca.network.client;
 
-import net.minecraft.entity.player.PlayerEntity;
-
 public interface ClientInteractionManager {
     void handleGuiRequest(OpenGuiRequest message);
 
@@ -22,4 +20,6 @@ public interface ClientInteractionManager {
     void handleChildData(GetChildDataResponse message);
 
     void handleAnalysisResults(AnalysisResults results);
+
+    void handleBabyNameResponse(BabyNameResponse results);
 }
