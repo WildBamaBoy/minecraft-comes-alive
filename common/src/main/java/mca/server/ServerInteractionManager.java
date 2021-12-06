@@ -2,15 +2,21 @@ package mca.server;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 import mca.Config;
+import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.relationship.EntityRelationship;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.MarriageState;
 import mca.item.BabyItem;
 import mca.item.ItemsMCA;
+import mca.network.InteractionCloseRequest;
+import mca.network.client.ShowToastRequest;
 import mca.server.world.data.BabyTracker;
 import mca.server.world.data.PlayerSaveData;
 import mca.util.InventoryUtils;
 import mca.util.compat.OptionalCompat;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.toast.SystemToast;
+import net.minecraft.client.toast.ToastManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -54,7 +60,11 @@ public class ServerInteractionManager {
     public void onPlayerJoin(ServerPlayerEntity player) {
         PlayerSaveData playerData = PlayerSaveData.get((ServerWorld)player.world, player.getUuid());
         if (!playerData.isEntityDataSet()) {
-            infoMessage(player, new TranslatableText("server.playerNotCustomized"));
+            NetworkHandler.sendToPlayer(new ShowToastRequest(
+                    SystemToast.Type.TUTORIAL_HINT,
+                    "server.playerNotCustomized.title",
+                    "server.playerNotCustomized.description"
+            ), player);
         }
     }
 

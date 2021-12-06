@@ -447,7 +447,8 @@
   "server.endMarriageNotMarried": "You are not married.",
   "server.endMarriage": "Your marriage to %1$s has ended.",
   "server.marriageEnded": "%1$s has ended their marriage with you.",
-  "server.playerNotCustomized": "Customize your player by typing /mca editor!",
+  "server.playerNotCustomized.title": "Customize your player!",
+  "server.playerNotCustomized.description": "Type '/mca editor'",
 
   "gene.size": "Size",
   "gene.width": "Width",

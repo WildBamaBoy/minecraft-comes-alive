@@ -11,6 +11,7 @@ import mca.network.client.GetVillagerResponse;
 import mca.network.client.InteractionDialogueResponse;
 import mca.network.client.OpenGuiRequest;
 import mca.network.client.GetFamilyResponse;
+import mca.network.client.ShowToastRequest;
 
 public interface MessagesMCA {
     static void bootstrap() {
@@ -40,5 +41,6 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(VillagerEditorSyncRequest.class);
         NetworkHandler.registerMessage(AnalysisResults.class);
         NetworkHandler.registerMessage(InteractionCloseRequest.class);
+        NetworkHandler.registerMessage(ShowToastRequest.class);
     }
 }
