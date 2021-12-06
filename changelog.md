@@ -114,4 +114,5 @@
 * No more sliding baby zombie villagers
 * Slightly enhanced village boundary determination
 * Fixed uninitialized zombie villager babies
-* Fixed flower pots with flows not being recognized
+* Fixed flower pots with flowers not being recognized
+* Lost babies can now be retrieved by the spouse

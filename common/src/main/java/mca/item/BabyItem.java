@@ -1,6 +1,18 @@
 package mca.item;
 
-import java.util.Random;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import mca.ClientProxy;
 import mca.Config;
 import mca.advancement.criterion.CriterionMCA;
@@ -35,22 +47,13 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ChatUtil;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BabyItem extends Item {
     public static final LoadingCache<UUID, Optional<BabyTracker.ChildSaveState>> CLIENT_STATE_CACHE = CacheBuilder.newBuilder()
@@ -87,11 +90,30 @@ public class BabyItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-
         if (world.isClient || !(entity instanceof PlayerEntity)) {
             return;
         }
 
+        // remove duplicates
+        if (entity instanceof ServerPlayerEntity) {
+            if (world.getTime() % 20 == 0) {
+                Set<UUID> found = new HashSet<>();
+                ServerPlayerEntity player = (ServerPlayerEntity)entity;
+                for (int i = player.inventory.size() - 1; i >= 0; i--) {
+                    ItemStack s = player.inventory.getStack(i);
+                    Optional<UUID> id = BabyTracker.getStateId(s);
+                    if (id.isPresent()) {
+                        if (found.contains(id.get())) {
+                            player.inventory.removeStack(i);
+                        } else {
+                            found.add(id.get());
+                        }
+                    }
+                }
+            }
+        }
+
+        // update
         if (BabyTracker.hasState(stack)) {
             Optional<MutableChildSaveState> state = BabyTracker.getState(stack, (ServerWorld)world);
             if (state.isPresent()) {
@@ -125,7 +147,7 @@ public class BabyItem extends Item {
 
     @Override
     public Text getName(ItemStack stack) {
-        return getClientCheckedState(stack).flatMap(state -> state.getName()).map(s -> {
+        return getClientCheckedState(stack).flatMap(ChildSaveState::getName).map(s -> {
             return (Text)new TranslatableText(getTranslationKey(stack) + ".named", s);
         }).orElseGet(() -> super.getName(stack));
     }
@@ -280,6 +302,7 @@ public class BabyItem extends Item {
         return BabyTracker.getState(stack).map(state -> {
             Optional<ChildSaveState> loaded = CLIENT_STATE_CACHE.getIfPresent(state.getId());
 
+            //noinspection OptionalAssignedToNull
             if (loaded == null) {
                 return state;
             }

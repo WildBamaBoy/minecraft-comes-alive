@@ -433,6 +433,7 @@
   "server.procreationRequest": "%1$s has requested procreation. To accept, type /mca procreate within 10 seconds.",
   "server.marriedToVillager": "You cannot use this command when married to a villager.",
   "server.babyPresent": "You already have a baby with this partner.",
+  "server.babyLost": "Stop loosing the baby! Here, I retrieved it for you.",
   "server.notMarried": "You cannot procreate if you are not married.",
   "server.alreadyMarried": "You cannot send a proposal since you are already married.",
   "server.proposedToYourself": "You cannot propose to yourself.",

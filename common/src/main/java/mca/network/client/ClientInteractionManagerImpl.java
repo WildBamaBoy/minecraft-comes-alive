@@ -4,9 +4,7 @@ import java.util.Optional;
 
 import mca.client.gui.*;
 import mca.client.gui.BlueprintScreen;
-import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
-import mca.entity.ZombieVillagerEntityMCA;
 import mca.item.BabyItem;
 import mca.item.ExtendedWrittenBookItem;
 import mca.server.world.data.BabyTracker;
@@ -14,9 +12,7 @@ import mca.server.world.data.Village;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Hand;
 
 public class ClientInteractionManagerImpl implements ClientInteractionManager {

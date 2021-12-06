@@ -184,8 +184,11 @@
   "childp.interaction.ridehorse.fail.notnearby": "Where is my horse? I hope I didn't lose it again...",
   "adult.interaction.ridehorse.fail.notnearby": "I don't see any rideable horses nearby.",
   "spouse.interaction.ridehorse.fail.notnearby": "Where is my horse, dear? I can't find it.",
-  "spouse.interaction.procreate.fail.hasbaby1": "We already have a baby...you didn't lose it did you?!",
-  "spouse.interaction.procreate.fail.hasbaby2": "...you lost baby Joby didn't you? Wait...was his name Joby?",
+  "spouse.interaction.procreate.fail.hasbaby1": "We already have a baby... you didn't lose it did you?!",
+  "spouse.interaction.procreate.fail.hasbaby2": "...you lost baby Joby didn't you? Wait... was his name Joby?",
+  "spouse.interaction.procreate.fail.lostbaby1": "Did you loose our baby?!? Oh, he is right here, silly.",
+  "spouse.interaction.procreate.fail.lostbaby2": "Our neighbours found our baby. Please be more careful.",
+  "spouse.interaction.procreate.fail.lostbaby3": "That is the last time I search for our baby!",
   "spouse.interaction.procreate.fail.lowhearts1": "Spend more time with me! I'm not ready for a child.",
   "spouse.interaction.procreate.fail.lowhearts2": "Hmm...not just yet. I think we need to spend more time together first.",
 
