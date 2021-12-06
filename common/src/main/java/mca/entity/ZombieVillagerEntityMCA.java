@@ -1,5 +1,6 @@
 package mca.entity;
 
+import com.google.common.base.Strings;
 import mca.entity.ai.Traits;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -163,14 +164,16 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
         if (spawnReason != SpawnReason.CONVERSION) {
             if (spawnReason != SpawnReason.BREEDING) {
                 genetics.randomize();
-
-                if (spawnReason != SpawnReason.SPAWN_EGG && spawnReason != SpawnReason.DISPENSER) {
-                    genetics.setGender(Gender.getRandom());
-                }
+                traits.randomize();
             }
 
-            setAgeState(AgeState.random());
-            setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            if (genetics.getGender() == Gender.UNASSIGNED) {
+                genetics.setGender(Gender.getRandom());
+            }
+
+            if (Strings.isNullOrEmpty(getTrackedValue(VILLAGER_NAME))) {
+                setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            }
 
             initializeSkin();
 
@@ -190,6 +193,11 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
             // Natural regeneration every 10 seconds
             if (getAgeState() == AgeState.UNASSIGNED) {
                 setAgeState(isBaby() ? AgeState.BABY : AgeState.random());
+
+                // todo baby zombie villager just cause weird bugs so we skip that stage
+                if (getAgeState() == AgeState.BABY) {
+                    setAgeState(AgeState.TODDLER);
+                }
             }
         }
     }

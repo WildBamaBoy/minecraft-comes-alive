@@ -2,7 +2,6 @@ package mca.server;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import mca.Config;
 import mca.ducks.IVillagerEntity;
 import mca.entity.VillagerFactory;
@@ -31,11 +30,11 @@ public class SpawnQueue {
             if (e.world.canSetBlock(e.getBlockPos())) {
                 e.remove();
                 VillagerFactory.newVillager(e.world)
-                    .withGender(Gender.getRandom())
-                    .withPosition(e)
-                    .withType(e.getVillagerData().getType())
-                    .withProfession(e.getVillagerData().getProfession(), e.getVillagerData().getLevel())
-                    .spawn(((IVillagerEntity)e).getSpawnReason());
+                        .withGender(Gender.getRandom())
+                        .withPosition(e)
+                        .withType(e.getVillagerData().getType())
+                        .withProfession(e.getVillagerData().getProfession(), e.getVillagerData().getLevel())
+                        .spawn(((IVillagerEntity)e).getSpawnReason());
             } else {
                 villagerSpawnQueue.add(e);
             }
@@ -59,6 +58,7 @@ public class SpawnQueue {
     }
 
     public boolean addVillager(Entity entity) {
+        //todo this does not work on least on zombie villagers spawned by right clicking another zombie villager with an spawn egg, since initialize() is not called yet
         if (entity instanceof IVillagerEntity && !handlesSpawnReason(((IVillagerEntity)entity).getSpawnReason())) {
             return false;
         }

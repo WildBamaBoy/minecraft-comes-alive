@@ -19,6 +19,7 @@ import mca.resources.API;
 import mca.resources.PoolUtil;
 import mca.resources.Rank;
 import mca.resources.Tasks;
+import mca.util.BlockBoxExtended;
 import mca.util.NbtElementCompat;
 import mca.util.NbtHelper;
 import net.minecraft.block.Block;
@@ -46,11 +47,10 @@ import net.minecraft.village.VillagerProfession;
 public class Village implements Iterable<Building> {
 
     private static final int MOVE_IN_COOLDOWN = 1200;
-    private static final int MIN_SIZE = 32;
     private static final int MAX_STORAGE_SIZE = 1024;
 
-    public final static double BORDER_MARGIN = 32.0;
-    public final static double MERGE_MARGIN = 128.0;
+    public final static int BORDER_MARGIN = 32;
+    public final static int MERGE_MARGIN = 128;
 
     private String name = API.getVillagePool().pickVillageName("village");
 
@@ -63,14 +63,13 @@ public class Village implements Iterable<Building> {
     public long lastMoveIn;
     private int id;
 
-    private int centerX, centerY, centerZ;
-    private int size = MIN_SIZE;
-
     private int taxes = 0;
     private int populationThreshold = 50;
     private int marriageThreshold = 50;
 
     private boolean autoScan = true;
+
+    private BlockBoxExtended box;
 
     public Village() {
     }
@@ -91,8 +90,8 @@ public class Village implements Iterable<Building> {
         return isWithinBorder(pos, BORDER_MARGIN);
     }
 
-    public boolean isWithinBorder(BlockPos pos, double margin) {
-        return getCenter().getSquaredDistance(pos) < Math.pow(getSize() + margin, 2.0);
+    public boolean isWithinBorder(BlockPos pos, int margin) {
+        return box.expand(margin).contains(pos);
     }
 
     @Override
@@ -145,19 +144,15 @@ public class Village implements Iterable<Building> {
             sz = Math.min(building.getPos0().getZ(), sz);
         }
 
-        centerX = (ex + sx) / 2;
-        centerY = (ey + sy) / 2;
-        centerZ = (ez + sz) / 2;
-
-        size = Math.max(ez - sz, Math.max(ex - sx, ey - sy));
+        box = new BlockBoxExtended(sx, sy, sz, ex, ey, ez);
     }
 
-    public BlockPos getCenter() {
-        return new BlockPos(centerX, centerY, centerZ);
+    public Vec3i getCenter() {
+        return box.getCenter();
     }
 
-    public int getSize() {
-        return size;
+    public BlockBoxExtended getBox() {
+        return box;
     }
 
     public int getTaxes() {

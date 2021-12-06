@@ -3,10 +3,13 @@ package mca.server.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import mca.Config;
 import mca.entity.VillagerEntityMCA;
@@ -41,7 +44,8 @@ public class AdminCommand {
                 .then(register("resetPlayerData", AdminCommand::resetPlayerData))
                 .then(register("resetMarriage", AdminCommand::resetMarriage))
                 .then(register("listVillages", AdminCommand::listVillages))
-                .then(register("removeVillage").then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillage)))
+                .then(register("removeVillageWithId").then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillageWithId)))
+                .then(register("removeVillage").then(CommandManager.argument("name", StringArgumentType.string()).executes(AdminCommand::removeVillage)))
                 .then(register("buildingProcessingRate").then(CommandManager.argument("cooldown", IntegerArgumentType.integer()).executes(AdminCommand::buildingProcessingRate)))
                 .requires((serverCommandSource) -> serverCommandSource.hasPermissionLevel(2))
         );
@@ -60,12 +64,28 @@ public class AdminCommand {
         return 0;
     }
 
-    private static int removeVillage(CommandContext<ServerCommandSource> ctx) {
+    private static int removeVillageWithId(CommandContext<ServerCommandSource> ctx) {
         int id = IntegerArgumentType.getInteger(ctx, "id");
         if (VillageManager.get(ctx.getSource().getWorld()).removeVillage(id)) {
             success("Village deleted.", ctx);
         } else {
             fail("Village with this ID does not exist.", ctx);
+        }
+        return 0;
+    }
+
+    private static int removeVillage(CommandContext<ServerCommandSource> ctx) {
+        String name = StringArgumentType.getString(ctx, "name").toLowerCase();
+        List<Village> collect = VillageManager.get(ctx.getSource().getWorld()).findVillages(v -> v.getName().toLowerCase().equals(name)).collect(Collectors.toList());
+        if (collect.isEmpty()) {
+            fail("No village with this name exists.", ctx);
+        } else if (collect.size() > 1) {
+            success("Village deleted.", ctx);
+            fail("No village with this name exists.", ctx);
+        } else if (VillageManager.get(ctx.getSource().getWorld()).removeVillage(collect.get(0).getId())) {
+            success("Village deleted.", ctx);
+        } else {
+            fail("Unknown error.", ctx);
         }
         return 0;
     }

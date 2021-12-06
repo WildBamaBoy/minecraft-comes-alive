@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import mca.entity.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.MemoryModuleTypeMCA;
 import net.minecraft.entity.EntityType;
@@ -30,6 +31,8 @@ public class GuardEnemiesSensor extends Sensor<LivingEntity> {
             .put(EntityType.SPIDER, 0)
             .put(EntityType.SKELETON, 0)
             .put(EntityType.SLIME, 0)
+            .put(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, 3)
+            .put(EntitiesMCA.MALE_ZOMBIE_VILLAGER, 3)
             .build();
 
     public Set<MemoryModuleType<?>> getOutputMemoryModules() {

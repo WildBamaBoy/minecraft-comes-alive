@@ -1,13 +1,13 @@
 {
   "conditions": [],
   "items": {
-    "minecraft:netherite_block": 50,
-    "minecraft:diamond_block": 30,
-    "minecraft:emerald_block": 20,
-    "minecraft:gold_block": 20,
-    "minecraft:iron_block": 10,
-    "minecraft:lapis_block": 10,
+    "minecraft:netherite_block": 100,
+    "minecraft:diamond_block": 80,
+    "minecraft:emerald_block": 60,
+    "minecraft:gold_block": 60,
+    "minecraft:iron_block": 40,
+    "minecraft:lapis_block": 40,
     "minecraft:coal_block": 10,
-    "mca:rose_gold_block": 25
+    "mca:rose_gold_block": 50
   }
 }

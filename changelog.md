@@ -110,3 +110,6 @@
 * Fixed a crash
 * Fixed opposite gender bug
 * Fixed villager marrying relatives
+* Guards now attack mca zombie villagers
+* No more sliding baby zombie villagers
+* Slightly enhanced village boundary determination

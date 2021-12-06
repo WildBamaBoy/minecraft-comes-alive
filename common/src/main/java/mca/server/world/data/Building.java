@@ -353,12 +353,12 @@ public class Building implements Serializable, Iterable<UUID> {
         }
 
         // min size is 32, which equals an 8 block big cube with 6 times 4 sides
-        if (!hasDoor) {
-            return validationResult.NO_DOOR;
-        } else if (!queue.isEmpty()) {
+        if (!queue.isEmpty()) {
             return validationResult.BLOCK_LIMIT;
         } else if (done.size() <= 32) {
             return validationResult.TOO_SMALL;
+        } else if (!hasDoor) {
+            return validationResult.NO_DOOR;
         } else {
             //fetch all interesting block types
             Set<Block> blockTypes = new HashSet<>();

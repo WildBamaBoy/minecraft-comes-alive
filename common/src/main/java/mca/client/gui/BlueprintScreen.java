@@ -336,7 +336,7 @@ public class BlueprintScreen extends ExtendedScreen {
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
         //center and scale the map
-        float sc = (float)mapSize / (village.getSize() + 3) * 2;
+        float sc = Math.min((float)mapSize / (village.getBox().getMaxBlockCount() + 3) * 2, 2.0f);
         int mouseLocalX = (int)((mouseX - width / 2.0) / sc + village.getCenter().getX());
         int mouseLocalY = (int)((mouseY - y) / sc + village.getCenter().getZ());
         transform.translate(width / 2.0, y, 0);

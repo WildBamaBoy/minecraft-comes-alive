@@ -118,11 +118,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         return findVillages(v -> v.isWithinBorder(entity)).min((a, b) -> (int)(a.getCenter().getSquaredDistance(p) - b.getCenter().getSquaredDistance(p)));
     }
 
-    public Optional<Village> findNearestVillage(BlockPos pos) {
-        return findVillages(v -> v.isWithinBorder(pos)).findFirst();
-    }
-
-    public Optional<Village> findNearestVillage(BlockPos p, double margin) {
+    public Optional<Village> findNearestVillage(BlockPos p, int margin) {
         return findVillages(v -> v.isWithinBorder(p, margin)).min((a, b) -> (int)(a.getCenter().getSquaredDistance(p) - b.getCenter().getSquaredDistance(p)));
     }
 

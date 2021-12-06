@@ -5,6 +5,7 @@ import java.util.Optional;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.MemoryModuleTypeMCA;
 import mca.server.world.data.Village;
+import mca.util.BlockBoxExtended;
 import net.minecraft.entity.ai.TargetFinder;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -12,6 +13,7 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class PatrolVillageTask extends Task<VillagerEntityMCA> {
@@ -42,11 +44,10 @@ public class PatrolVillageTask extends Task<VillagerEntityMCA> {
     private Optional<BlockPos> getNextPosition(VillagerEntityMCA villager) {
         Optional<Village> village = villager.getResidency().getHomeVillage();
         if (village.isPresent()) {
-            BlockPos center = village.get().getCenter();
-            int size = village.get().getSize();
-            int x = center.getX() + villager.getRandom().nextInt(size * 2) - size;
-            int z = center.getZ() + villager.getRandom().nextInt(size * 2) - size;
-            Vec3d targetPos = new Vec3d(x, center.getY(), z);
+            BlockBoxExtended box = village.get().getBox();
+            int x = box.minX + villager.getRandom().nextInt(box.getBlockCountX());
+            int z = box.minZ + villager.getRandom().nextInt(box.getBlockCountZ());
+            Vec3d targetPos = new Vec3d(x, box.getCenter().getY(), z);
             Vec3d towards = TargetFinder.findGroundTargetTowards(villager, 32, 16, 0, targetPos, Math.PI * 0.5);
             return towards == null ? Optional.empty() : Optional.of(new BlockPos(towards));
         } else {
