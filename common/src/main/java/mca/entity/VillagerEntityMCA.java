@@ -210,26 +210,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         EntityData data = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
-        if (spawnReason != SpawnReason.CONVERSION) {
-            if (spawnReason != SpawnReason.BREEDING) {
-                genetics.randomize();
-                traits.randomize();
-            }
-
-            if (genetics.getGender() == Gender.UNASSIGNED) {
-                genetics.setGender(Gender.getRandom());
-            }
-
-            if (Strings.isNullOrEmpty(getTrackedValue(VILLAGER_NAME))) {
-                setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
-            }
-
-            initializeSkin();
-
-            mcaBrain.randomize();
-        }
-
-        calculateDimensions();
+        initialize(spawnReason);
 
         setAgeState(AgeState.byCurrentAge(getBreedingAge()));
 

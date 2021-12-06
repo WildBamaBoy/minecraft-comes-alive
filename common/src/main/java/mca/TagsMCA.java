@@ -7,7 +7,7 @@ import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 
 public interface TagsMCA {
-    public interface Blocks {
+    interface Blocks {
         Tag<Block> TOMBSTONES = register("tombstones");
 
         static void bootstrap() {}
@@ -17,7 +17,7 @@ public interface TagsMCA {
         }
     }
 
-    public interface Items {
+    interface Items {
         Tag<Item> VILLAGER_EGGS = register("villager_eggs");
         Tag<Item> ZOMBIE_EGGS = register("zombie_eggs");
 

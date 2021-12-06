@@ -113,3 +113,5 @@
 * Guards now attack mca zombie villagers
 * No more sliding baby zombie villagers
 * Slightly enhanced village boundary determination
+* Fixed uninitialized zombie villager babies
+* Fixed flower pots with flows not being recognized

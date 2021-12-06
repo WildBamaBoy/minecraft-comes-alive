@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import mca.TagsMCA;
-import mca.cobalt.network.NetworkHandler;
 import mca.entity.ai.Genetics;
 import mca.entity.ai.Relationship;
 import mca.entity.ai.brain.VillagerBrain;
@@ -15,7 +14,6 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.ZombieCommandHandler;
-import mca.network.client.OpenGuiRequest;
 import mca.resources.API;
 import mca.util.network.datasync.CDataManager;
 import net.minecraft.entity.EntityData;
@@ -161,26 +159,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         EntityData data = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
-        if (spawnReason != SpawnReason.CONVERSION) {
-            if (spawnReason != SpawnReason.BREEDING) {
-                genetics.randomize();
-                traits.randomize();
-            }
-
-            if (genetics.getGender() == Gender.UNASSIGNED) {
-                genetics.setGender(Gender.getRandom());
-            }
-
-            if (Strings.isNullOrEmpty(getTrackedValue(VILLAGER_NAME))) {
-                setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
-            }
-
-            initializeSkin();
-
-            mcaBrain.randomize();
-        }
-
-        calculateDimensions();
+        initialize(spawnReason);
 
         return data;
     }
@@ -193,11 +172,16 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
             // Natural regeneration every 10 seconds
             if (getAgeState() == AgeState.UNASSIGNED) {
                 setAgeState(isBaby() ? AgeState.BABY : AgeState.random());
-
+            } else if (getAgeState() == AgeState.BABY) {
                 // todo baby zombie villager just cause weird bugs so we skip that stage
-                if (getAgeState() == AgeState.BABY) {
-                    setAgeState(AgeState.TODDLER);
-                }
+                setAgeState(AgeState.TODDLER);
+            }
+
+            //an unassigned gender can happen if initialize() has been skipped
+            //due the way how SpawnEggs on villagers work, initialize() would never be called
+            //and since we have no proper isInitialized() I just check for missing clothes
+            if (getClothes().isEmpty() && getHair().texture().isEmpty()) {
+                initialize(SpawnReason.TRIGGERED);
             }
         }
     }

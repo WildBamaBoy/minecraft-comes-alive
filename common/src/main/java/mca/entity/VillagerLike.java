@@ -1,5 +1,6 @@
 package mca.entity;
 
+import com.google.common.base.Strings;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import java.util.Map;
@@ -11,9 +12,11 @@ import mca.entity.ai.Traits;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.EntityRelationship;
+import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.entity.interaction.EntityCommandHandler;
+import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.HairList;
 import mca.resources.data.Hair;
@@ -22,6 +25,7 @@ import mca.util.network.datasync.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
@@ -54,6 +58,29 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     VillagerBrain<?> getVillagerBrain();
 
     EntityCommandHandler<?> getInteractions();
+
+    default void initialize(SpawnReason spawnReason) {
+        if (spawnReason != SpawnReason.CONVERSION) {
+            if (spawnReason != SpawnReason.BREEDING) {
+                getGenetics().randomize();
+                getTraits().randomize();
+            }
+
+            if (getGenetics().getGender() == Gender.UNASSIGNED) {
+                getGenetics().setGender(Gender.getRandom());
+            }
+
+            if (Strings.isNullOrEmpty(getTrackedValue(VILLAGER_NAME))) {
+                setName(API.getVillagePool().pickCitizenName(getGenetics().getGender()));
+            }
+
+            initializeSkin();
+
+            getVillagerBrain().randomize();
+        }
+
+        asEntity().calculateDimensions();
+    }
 
     @Override
     default boolean isSpeechImpaired() {
