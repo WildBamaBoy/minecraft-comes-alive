@@ -7,13 +7,11 @@
   "reaction.ranaway6": "Why are you running? Get back here so I can hit you!",
   "reaction.ranaway7": "I'm going to hit you if I see you again!",
   "reaction.ranaway8": "I'll get my friends and beat you up!",
-  "reaction.drawnweapon1": "No! Please don't hurt me!",
-  "reaction.drawnweapon2": "Stop! No!",
-  "reaction.drawnweapon3": "Someone help me!",
-  "reaction.drawnweapon4": "They're going to kill me! Someone help!",
-  "reaction.drawnweapon5": "You can take whatever you want, just please don't hurt me!",
-  "reaction.drawnweapon6": "I don't want to die! Stay away!",
-  "reaction.drawnweapon7": "Mother Notch, please help me!",
+
+  "villager.warning1": "I'm warning you, don't attack our people!",
+  "villager.warning2": "Last warning!",
+  "villager.warning3": "That's enough!",
+  "villager.warning4": "You have been warned!",
 
   "villager.baby_hit0": "You can't hit a baby!",
 
@@ -24,6 +22,14 @@
   "villager.hurt5": "Agh! That really hurt!",
   "villager.hurt6": "Hey! What do you think you're doing?!",
   "villager.hurt7": "*Oof*! That better have been an accident!",
+
+  "villager.badly_hurt1": "No! Please don't hurt me!",
+  "villager.badly_hurt2": "Stop! No!",
+  "villager.badly_hurt3": "Someone help me!",
+  "villager.badly_hurt4": "They're going to kill me! Someone help!",
+  "villager.badly_hurt5": "You can take whatever you want, just please don't hurt me!",
+  "villager.badly_hurt6": "I don't want to die! Stay away!",
+  "villager.badly_hurt7": "Mother Notch, please help me!",
 
   "villager.sickness1": "I don't feel so well, doc...",
   "villager.sickness2": "*cough cough*",

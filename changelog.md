@@ -116,3 +116,7 @@
 * Fixed uninitialized zombie villager babies
 * Fixed flower pots with flowers not being recognized
 * Lost babies can now be retrieved by the spouse
+* Fixed crash on dedicated server when using randomized baby name
+* Village will now interact with each other
+* Iron golems will now slap the villager when hit accidentally and then chill
+* Guards will now support their citizen and have a custom dialogue when the player is the attacker

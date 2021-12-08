@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import java.util.Optional;
+import mca.entity.EntitiesMCA;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.ActivityMCA;
@@ -40,7 +41,6 @@ import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.village.VillagerProfession;
@@ -82,7 +82,8 @@ public class VillagerTasksMCA {
             MemoryModuleTypeMCA.PLAYER_FOLLOWING,
             MemoryModuleTypeMCA.STAYING,
             MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY,
-            MemoryModuleTypeMCA.WEARS_ARMOR
+            MemoryModuleTypeMCA.WEARS_ARMOR,
+            MemoryModuleTypeMCA.SMALL_BOUNTY
     );
 
     public static final ImmutableList<SensorType<? extends Sensor<? super VillagerEntity>>> SENSOR_TYPES = ImmutableList.of(
@@ -92,9 +93,9 @@ public class VillagerTasksMCA {
             SensorType.NEAREST_BED,
             SensorType.HURT_BY,
             SensorType.VILLAGER_HOSTILES,
-            SensorType.VILLAGER_BABIES,
             SensorType.SECONDARY_POIS,
             SensorType.GOLEM_DETECTED,
+            ActivityMCA.VILLAGER_BABIES,
             ActivityMCA.EXPLODING_CREEPER,
             ActivityMCA.GUARD_ENEMIES
     );
@@ -239,7 +240,7 @@ public class VillagerTasksMCA {
             return Optional.empty();
         } else {
             Optional<LivingEntity> primary = villager.getBrain().getOptionalMemory(MemoryModuleTypeMCA.NEAREST_GUARD_ENEMY);
-            if (primary.isPresent() && (getActivity(villager) != Activity.REST || primary.get().distanceTo(villager) < 6.0)) {
+            if (primary.isPresent() && (getActivity(villager) != Activity.REST || primary.get().distanceTo(villager) < 8.0)) {
                 return primary;
             } else {
                 return villager.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
@@ -369,8 +370,8 @@ public class VillagerTasksMCA {
         return ImmutableList.of(
                 Pair.of(1, new EnterFavoredBuildingTask(0.5f)),
                 Pair.of(2, new RandomTask<>(ImmutableList.of(
-                        Pair.of(FindEntityTask.create(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
-                        //Pair.of(new FindEntityTask<>(EntityType.VILLAGER, 8, PassiveEntity::isReadyToBreed, PassiveEntity::isReadyToBreed, MemoryModuleType.BREED_TARGET, speedModifier, 2), 1),
+                        Pair.of(FindEntityTask.create(EntitiesMCA.FEMALE_VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
+                        Pair.of(FindEntityTask.create(EntitiesMCA.MALE_VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 2),
                         Pair.of(FindEntityTask.create(EntityType.CAT, 8, MemoryModuleType.INTERACTION_TARGET, speedModifier, 2), 1),
                         Pair.of(new FindWalkTargetTask(speedModifier), 1),
                         Pair.of(new GoTowardsLookTarget(speedModifier, 2), 1),

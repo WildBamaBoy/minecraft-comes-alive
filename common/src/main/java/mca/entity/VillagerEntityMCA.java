@@ -42,7 +42,9 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
+import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -87,6 +89,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -282,6 +285,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             return false;
         }
 
+        //player just get a beating
+        attackedEntity(target);
+
         //we don't use attributes
         // why not?
         float damage = getProfession() == ProfessionsMCA.GUARD ? 9 : 3;
@@ -320,6 +326,18 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         }
 
         return damageDealt;
+    }
+
+    private void attackedEntity(Entity target) {
+        if (target instanceof PlayerEntity) {
+            int bounty = getSmallBounty();
+            if (bounty <= 1) {
+                getBrain().forget(MemoryModuleType.ATTACK_TARGET);
+                getBrain().forget(MemoryModuleTypeMCA.SMALL_BOUNTY);
+            } else {
+                getBrain().remember(MemoryModuleTypeMCA.SMALL_BOUNTY, bounty - 1);
+            }
+        }
     }
 
     @Override
@@ -394,7 +412,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         if (!world.isClient) {
             //scream and loose hearts
             if (source.getAttacker() instanceof PlayerEntity) {
-                sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
+                if (!isGuard() || getSmallBounty() == 0) {
+                    if (getHealth() < getMaxHealth() / 2) {
+                        sendChatMessage((PlayerEntity)source.getAttacker(), "villager.badly_hurt");
+                    } else {
+                        sendChatMessage((PlayerEntity)source.getAttacker(), "villager.hurt");
+                    }
+                }
 
                 //loose hearts, the weaker the villager, the more it is scared. The first hit might be an accident.
                 int trustIssues = (int)((1.0 - getHealth() / getMaxHealth() * 0.75) * (3.0 + 2.0 * damageAmount));
@@ -417,16 +441,44 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         Entity attacker = source != null ? source.getAttacker() : null;
 
         // Notify the surrounding guards when a villager is attacked. Yoinks!
-        if (attacker instanceof LivingEntity && !isHostile()) {
+        if (attacker instanceof LivingEntity && !isHostile() && !isFriend(attacker.getType())) {
             Vec3d pos = getPos();
-            world.getNonSpectatingEntities(VillagerEntityMCA.class, new Box(pos, pos).expand(16)).forEach(v -> {
-                if (v.squaredDistanceTo(v) <= 100 && v.getProfession() == ProfessionsMCA.GUARD) {
-                    v.setTarget((LivingEntity)attacker);
+            world.getNonSpectatingEntities(VillagerEntityMCA.class, new Box(pos, pos).expand(32)).forEach(v -> {
+                if (this.squaredDistanceTo(v) <= (v.getTarget() == null ? 1024 : 64) && (v.isGuard())) {
+                    if (source.getAttacker() instanceof PlayerEntity) {
+                        int bounty = v.getSmallBounty();
+                        if (bounty > 0) {
+                            // ok, that was enough
+                            v.getBrain().remember(MemoryModuleType.ATTACK_TARGET, (LivingEntity)attacker);
+                        } else {
+                            // just a warning
+                            v.sendChatMessage((PlayerEntity)source.getAttacker(), "villager.warning");
+                        }
+                        v.getBrain().remember(MemoryModuleTypeMCA.SMALL_BOUNTY, bounty + 1);
+                    } else {
+                        // non players get attacked straight away
+                        v.getBrain().remember(MemoryModuleType.ATTACK_TARGET, (LivingEntity)attacker);
+                    }
                 }
             });
         }
 
+        // Iron Golem got his revenge, now chill
+        if (attacker instanceof IronGolemEntity) {
+            ((IronGolemEntity)attacker).setAngryAt(null);
+            ((IronGolemEntity)attacker).setTarget(null);
+            damageAmount *= 0.0;
+        }
+
         return super.damage(source, damageAmount);
+    }
+
+    private boolean isGuard() {
+        return getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.ARCHER;
+    }
+
+    private int getSmallBounty() {
+        return getBrain().getOptionalMemory(MemoryModuleTypeMCA.SMALL_BOUNTY).orElse(0);
     }
 
     @Override
@@ -986,6 +1038,11 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         return getProfession() == ProfessionsMCA.OUTLAW;
     }
 
+    //friends will not get slapped in revenge
+    public boolean isFriend(EntityType<?> type) {
+        return type == EntityType.IRON_GOLEM || type == EntitiesMCA.FEMALE_VILLAGER || type == EntitiesMCA.MALE_VILLAGER;
+    }
+
     @Override
     public boolean canUseRangedWeapon(RangedWeaponItem weapon) {
         return true;
@@ -1021,6 +1078,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void attack(LivingEntity target, float pullProgress) {
         setTarget(target);
+        attackedEntity(target);
 
         if (isHolding(Items.CROSSBOW)) {
             this.shoot(this, 1.75F);

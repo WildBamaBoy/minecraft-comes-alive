@@ -6,9 +6,11 @@ import mca.MCA;
 import mca.cobalt.registration.Registration;
 import mca.entity.ai.brain.sensor.ExplodingCreeperSensor;
 import mca.entity.ai.brain.sensor.GuardEnemiesSensor;
+import mca.entity.ai.brain.sensor.VillagerMCABabiesSensor;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.sensor.VillagerBabiesSensor;
 import net.minecraft.util.Identifier;
 
 public interface ActivityMCA {
@@ -17,6 +19,7 @@ public interface ActivityMCA {
 
     SensorType<ExplodingCreeperSensor> EXPLODING_CREEPER = sensor("exploding_creeper", ExplodingCreeperSensor::new);
     SensorType<GuardEnemiesSensor> GUARD_ENEMIES = sensor("guard_enemies", GuardEnemiesSensor::new);
+    SensorType<VillagerMCABabiesSensor> VILLAGER_BABIES = sensor("villager_babies_mca", VillagerMCABabiesSensor::new);
 
     static void bootstrap() {
     }
