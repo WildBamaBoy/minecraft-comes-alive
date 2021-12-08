@@ -120,3 +120,5 @@
 * Village will now interact with each other
 * Iron golems will now slap the villager when hit accidentally and then chill
 * Guards will now support their citizen and have a custom dialogue when the player is the attacker
+* Improved archer AI
+* Fixed villager getting stuck in doors

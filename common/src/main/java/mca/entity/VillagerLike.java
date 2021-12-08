@@ -179,7 +179,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
         if (getGenetics() == null) {
             return 1.0f;
         } else {
-            return getGenetics().getHorizontalScaleFactor() * getTraits().getHorizontalScaleFactor() * getVillagerDimensions().getWidth();
+            return Math.min(0.999f, getGenetics().getHorizontalScaleFactor() * getTraits().getHorizontalScaleFactor() * getVillagerDimensions().getWidth());
         }
     }
 

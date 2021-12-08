@@ -203,7 +203,7 @@ public class VillagerTasksMCA {
                         .map(vil -> vil.getGuardEquipment(v.getProfession())).orElse(EquipmentSet.GUARD_0))),
                 Pair.of(2, new UpdateAttackTargetTask<>(t -> true, VillagerTasksMCA::getPreferredTarget)),
                 Pair.of(3, new ForgetAttackTargetTask<>(livingEntity -> !VillagerTasksMCA.isPreferredTarget(villager, livingEntity))),
-                Pair.of(4, new BowTask<>(20)),
+                Pair.of(4, new BowTask<>(20, 12)),
                 Pair.of(5, new ConditionalTask<>(v -> v.isHolding(Items.CROSSBOW),
                         new AttackTask<>(5, 0.75F)
                 )),
