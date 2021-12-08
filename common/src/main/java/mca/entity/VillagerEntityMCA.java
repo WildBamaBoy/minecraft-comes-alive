@@ -1,14 +1,25 @@
 package mca.entity;
 
 import com.mojang.authlib.GameProfile;
-import com.google.common.base.Strings;
 import com.mojang.serialization.Dynamic;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.function.Predicate;
 import mca.Config;
 import mca.ParticleTypesMCA;
 import mca.SoundsMCA;
 import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
-import mca.entity.ai.*;
+import mca.entity.ai.BreedableRelationship;
+import mca.entity.ai.Genetics;
+import mca.entity.ai.MemoryModuleTypeMCA;
+import mca.entity.ai.Messenger;
+import mca.entity.ai.Mood;
+import mca.entity.ai.MoveState;
+import mca.entity.ai.ProfessionsMCA;
+import mca.entity.ai.Residency;
+import mca.entity.ai.Traits;
+import mca.entity.ai.VillagerNavigation;
 import mca.entity.ai.brain.VillagerBrain;
 import mca.entity.ai.brain.VillagerTasksMCA;
 import mca.entity.ai.relationship.AgeState;
@@ -18,7 +29,6 @@ import mca.entity.ai.relationship.Personality;
 import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.interaction.VillagerCommandHandler;
 import mca.item.ItemsMCA;
-import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.CDataManager;
@@ -26,13 +36,22 @@ import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
+import net.minecraft.entity.CrossbowUser;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.WalkTarget;
 import net.minecraft.entity.ai.control.JumpControl;
 import net.minecraft.entity.ai.control.MoveControl;
+import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.ai.goal.TrackTargetGoal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -42,7 +61,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
-import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -85,11 +103,6 @@ import net.minecraft.village.VillagerType;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.function.Predicate;
-
-import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -465,8 +478,20 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         // Iron Golem got his revenge, now chill
         if (attacker instanceof IronGolemEntity) {
-            ((IronGolemEntity)attacker).setAngryAt(null);
-            ((IronGolemEntity)attacker).setTarget(null);
+            ((IronGolemEntity)attacker).stopAnger();
+
+            //kill the damn tracker goals
+            try {
+                Field targetSelector = MobEntity.class.getDeclaredField("targetSelector");
+                ((GoalSelector)targetSelector.get(attacker)).getRunningGoals().forEach(g -> {
+                    if (g.getGoal() instanceof TrackTargetGoal) {
+                        g.getGoal().stop();
+                    }
+                });
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                //e.printStackTrace();
+            }
+
             damageAmount *= 0.0;
         }
 
