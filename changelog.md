@@ -122,3 +122,4 @@
 * Guards will now support their citizen and have a custom dialogue when the player is the attacker
 * Improved archer AI
 * Fixed villager getting stuck in doors
+* Guards no longer panic when a raid happens

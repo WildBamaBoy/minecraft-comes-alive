@@ -498,7 +498,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         return super.damage(source, damageAmount);
     }
 
-    private boolean isGuard() {
+    public boolean isGuard() {
         return getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.ARCHER;
     }
 

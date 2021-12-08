@@ -116,11 +116,12 @@ public class VillagerTasksMCA {
             brain.setSchedule(Schedule.VILLAGER_BABY);
             brain.setTaskList(Activity.PLAY, VillagerTasksMCA.getPlayPackage(0.5F));
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getSelfDefencePackage(profession, 0.5f));
-        } else if (profession == ProfessionsMCA.GUARD || profession == ProfessionsMCA.ARCHER) {
+        } else if (villager.isGuard()) {
             brain.setSchedule(villager.getRandom().nextBoolean() ? SchedulesMCA.GUARD : SchedulesMCA.GUARD_NIGHT);
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getGuardCorePackage(villager));
             brain.setTaskList(Activity.WORK, VillagerTasksMCA.getGuardWorkPackage(villager));
             brain.setTaskList(Activity.PANIC, VillagerTasksMCA.getGuardPanicPackage(0.5f));
+            brain.setTaskList(Activity.RAID, VillagerTasksMCA.getGuardWorkPackage(villager));
         } else if (profession == ProfessionsMCA.OUTLAW) {
             brain.setSchedule(SchedulesMCA.DEFAULT);
             // todo how do villager behave when they are on death row?
@@ -128,6 +129,7 @@ public class VillagerTasksMCA {
             brain.setSchedule(SchedulesMCA.DEFAULT);
             brain.setTaskList(Activity.WORK, VillagerTasksMCA.getWorkPackage(profession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleState.VALUE_PRESENT)));
             brain.setTaskList(Activity.CORE, VillagerTasksMCA.getSelfDefencePackage(profession, 0.5f));
+            brain.setTaskList(Activity.RAID, VillagerTasksMCA.getRaidPackage(profession, 0.5F));
         }
 
         brain.setTaskList(Activity.CORE, VillagerTasksMCA.getCorePackage(profession, 0.5F));
@@ -136,7 +138,6 @@ public class VillagerTasksMCA {
         brain.setTaskList(Activity.IDLE, VillagerTasksMCA.getIdlePackage(profession, 0.5F));
         brain.setTaskList(Activity.PANIC, VillagerTasksMCA.getPanicPackage(profession, 0.5F));
         brain.setTaskList(Activity.PRE_RAID, VillagerTasksMCA.getPreRaidPackage(profession, 0.5F));
-        brain.setTaskList(Activity.RAID, VillagerTasksMCA.getRaidPackage(profession, 0.5F));
         brain.setTaskList(Activity.HIDE, VillagerTasksMCA.getHidePackage(profession, 0.5F));
         brain.setTaskList(ActivityMCA.CHORE, VillagerTasksMCA.getChorePackage(profession, 0.5F));
         brain.setTaskList(ActivityMCA.GRIEVE, VillagerTasksMCA.getGrievingPackage());
