@@ -93,6 +93,8 @@ public class Residency {
                 building.get().getResidents().remove(entity.getUuid());
                 villages.markDirty();
             }
+            village.get().cleanReputation();
+            village.get().markDirty((ServerWorld)entity.world);
         }
     }
 

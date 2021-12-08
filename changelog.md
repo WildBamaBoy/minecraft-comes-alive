@@ -123,3 +123,4 @@
 * Improved archer AI
 * Fixed villager getting stuck in doors
 * Guards no longer panic when a raid happens
+* A wiped-out village will only send a last, bigger bountyhunter wave

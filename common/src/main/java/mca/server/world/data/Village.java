@@ -7,10 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import mca.Config;
+import mca.MCA;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.ProfessionsMCA;
@@ -179,6 +181,18 @@ public class Village implements Iterable<Building> {
         this.marriageThreshold = marriageThreshold;
     }
 
+    public boolean isAutoScan() {
+        return autoScan;
+    }
+
+    public void setAutoScan(boolean autoScan) {
+        this.autoScan = autoScan;
+    }
+
+    public void toggleAutoScan() {
+        setAutoScan(!isAutoScan());
+    }
+
     public String getName() {
         return name;
     }
@@ -203,10 +217,14 @@ public class Village implements Iterable<Building> {
         return residents;
     }
 
-    public List<VillagerEntityMCA> getResidents(ServerWorld world) {
+    public Stream<UUID> getResidentsUUIDs() {
         return getBuildings().values()
                 .stream()
-                .flatMap(building -> building.getResidents().keySet().stream())
+                .flatMap(building -> building.getResidents().keySet().stream());
+    }
+
+    public List<VillagerEntityMCA> getResidents(ServerWorld world) {
+        return getResidentsUUIDs()
                 .map(world::getEntity)
                 .filter(v -> v instanceof VillagerEntityMCA)
                 .map(VillagerEntityMCA.class::cast)
@@ -283,6 +301,10 @@ public class Village implements Iterable<Building> {
             }
 
             deliverTaxes(world);
+        }
+
+        if (time % 24000 == 0) {
+            cleanReputation();
         }
 
         if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time) {
@@ -440,7 +462,7 @@ public class Village implements Iterable<Building> {
         });
     }
 
-    private void markDirty(ServerWorld world) {
+    public void markDirty(ServerWorld world) {
         VillageManager.get(world).markDirty();
     }
 
@@ -471,6 +493,17 @@ public class Village implements Iterable<Building> {
         }
     }
 
+    // removes all villagers no longer living here
+    public void cleanReputation() {
+        Set<UUID> residents = getResidentsUUIDs().collect(Collectors.toSet());
+        for (Map<UUID, Integer> map : reputation.values()) {
+            Set<UUID> toRemove = map.keySet().stream().filter(v -> !residents.contains(v)).collect(Collectors.toSet());
+            for (UUID uuid : toRemove) {
+                map.remove(uuid);
+            }
+        }
+    }
+
     public void setReputation(PlayerEntity player, VillagerEntityMCA villager, int rep) {
         reputation.computeIfAbsent(player.getUuid(), i -> new HashMap<>()).put(villager.getUuid(), rep);
         markDirty((ServerWorld)player.world);
@@ -483,9 +516,18 @@ public class Village implements Iterable<Building> {
         return hearts / residents;
     }
 
-    public void pushHearts(PlayerEntity player, int rep) {
-        unspentHearts.put(player.getUuid(), unspentHearts.getOrDefault(player.getUuid(), 0) + rep);
+    public void resetHearts(PlayerEntity player) {
+        unspentHearts.remove(player.getUuid());
         markDirty((ServerWorld)player.world);
+    }
+
+    public void pushHearts(PlayerEntity player, int rep) {
+        pushHearts(player.getUuid(), rep);
+        markDirty((ServerWorld)player.world);
+    }
+
+    public void pushHearts(UUID player, int rep) {
+        unspentHearts.put(player, unspentHearts.getOrDefault(player, 0) + rep);
     }
 
     public int popHearts(PlayerEntity player) {
@@ -532,18 +574,6 @@ public class Village implements Iterable<Building> {
         } else {
             return 0;
         }
-    }
-
-    public boolean isAutoScan() {
-        return autoScan;
-    }
-
-    public void setAutoScan(boolean autoScan) {
-        this.autoScan = autoScan;
-    }
-
-    public void toggleAutoScan() {
-        setAutoScan(!isAutoScan());
     }
 
     public NbtCompound save() {

@@ -1,5 +1,7 @@
 package mca.entity.ai.brain;
 
+import java.util.HashMap;
+import java.util.Map;
 import mca.Config;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.Status;
@@ -121,6 +123,15 @@ public class VillagerBrain<E extends MobEntity & VillagerLike<E>> {
         nbt = nbt == null ? new NbtCompound() : nbt.copy();
         nbt.put(memories.getPlayerUUID().toString(), memories.toCNBT());
         entity.setTrackedValue(MEMORIES, nbt);
+    }
+
+    public Map<UUID, Memories> getMemories() {
+        NbtCompound nbt = entity.getTrackedValue(MEMORIES);
+        Map<UUID, Memories> memories = new HashMap<>();
+        for (String uuid : nbt.getKeys()) {
+            memories.put(UUID.fromString(uuid), Memories.fromCNBT(entity, nbt.getCompound(uuid)));
+        }
+        return memories;
     }
 
     public Memories getMemoriesForPlayer(PlayerEntity player) {

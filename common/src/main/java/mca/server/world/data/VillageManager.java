@@ -170,13 +170,21 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
     }
 
     private void startBountyHunterWave(ServerPlayerEntity player, Village sender) {
-        //slightly increase your reputation
-        sender.pushHearts(player, sender.getPopulation());
+        int count = -sender.getReputation(player) / 5 + 3;
+
+        if (sender.getPopulation() == 0) {
+            //the village has been wiped out, lets send one last wave
+            sender.cleanReputation();
+            sender.resetHearts(player);
+
+            count *= 2;
+        } else {
+            //slightly increase your reputation
+            sender.pushHearts(player, sender.getPopulation() * 5);
+        }
 
         //trigger advancement
         CriterionMCA.GENERIC_EVENT_CRITERION.trigger(player, "bounty_hunter");
-
-        int count = -sender.getReputation(player) / 5 + 3;
 
         //spawn the bois
         for (int c = 0; c < count; c++) {
@@ -188,7 +196,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         }
 
         //warn the player
-        player.sendMessage(new TranslatableText("events.bountyHunters", sender.getName()).formatted(Formatting.RED), false);
+        player.sendMessage(new TranslatableText(sender.getPopulation() == 0 ? "events.bountyHuntersFinal" : "events.bountyHunters", sender.getName()).formatted(Formatting.RED), false);
     }
 
     private <T extends IllagerEntity> void spawnBountyHunter(EntityType<T> t, ServerPlayerEntity player) {

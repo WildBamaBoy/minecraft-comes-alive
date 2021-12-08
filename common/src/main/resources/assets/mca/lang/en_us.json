@@ -465,6 +465,7 @@
   "events.marry": "%1$s and %2$s are now married!",
   "events.baby": "%1$s and %2$s have born a baby!",
   "events.bountyHunters": "%1$s sent bounty hunters after you!",
+  "events.bountyHuntersFinal": "%1$s has been wiped out, a large group of bounty hunters try to avenge it!",
 
   "advancement.mca.baby": "Next Generation",
   "advancement.mca.baby.description": "Have your first baby",

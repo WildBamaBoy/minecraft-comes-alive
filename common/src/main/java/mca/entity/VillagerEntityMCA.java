@@ -4,6 +4,9 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Dynamic;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 import mca.Config;
 import mca.ParticleTypesMCA;
@@ -12,6 +15,7 @@ import mca.TagsMCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.ai.BreedableRelationship;
 import mca.entity.ai.Genetics;
+import mca.entity.ai.Memories;
 import mca.entity.ai.MemoryModuleTypeMCA;
 import mca.entity.ai.Messenger;
 import mca.entity.ai.Mood;
@@ -30,6 +34,7 @@ import mca.entity.ai.relationship.VillagerDimensions;
 import mca.entity.interaction.VillagerCommandHandler;
 import mca.item.ItemsMCA;
 import mca.resources.ClothingList;
+import mca.server.world.data.Village;
 import mca.util.InventoryUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
@@ -753,6 +758,17 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         if (!relations.onDeath(cause)) {
             relations.onTragedy(cause, null);
+        }
+
+        //distribute the hearts across the other villagers
+        //this prevents rapid drops in village reputation as well as bounty hunters to know what you did
+        Optional<Village> village = residency.getHomeVillage();
+        if (village.isPresent()) {
+            Map<UUID, Memories> memories = mcaBrain.getMemories();
+            for (Map.Entry<UUID, Memories> entry : memories.entrySet()) {
+                village.get().pushHearts(entry.getKey(), entry.getValue().getHearts());
+                village.get().markDirty((ServerWorld)world);
+            }
         }
 
         residency.leaveHome();
