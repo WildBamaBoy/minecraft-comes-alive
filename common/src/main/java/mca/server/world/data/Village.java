@@ -125,6 +125,7 @@ public class Village implements Iterable<Building> {
 
     private void calculateDimensions() {
         if (buildings.size() == 0) {
+            box = new BlockBoxExtended(0, 0, 0, 0, 0, 0);
             return;
         }
 
