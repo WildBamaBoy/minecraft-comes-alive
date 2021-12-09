@@ -1,5 +1,6 @@
 package mca.entity.ai.relationship.family;
 
+import java.util.stream.Stream;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.util.NbtHelper;
@@ -43,6 +44,10 @@ public class FamilyTree extends PersistentStateCompat {
 
     public Optional<FamilyTreeNode> getOrEmpty(@Nullable UUID id) {
         return id == null ? Optional.empty() : Optional.ofNullable(entries.get(id));
+    }
+
+    public Stream<FamilyTreeNode> getAllWithName(String name) {
+        return entries.values().stream().filter(n -> n.getName().equals(name));
     }
 
     @NotNull

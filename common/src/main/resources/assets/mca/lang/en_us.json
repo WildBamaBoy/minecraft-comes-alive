@@ -420,6 +420,12 @@
   "gui.villager_editor.infection": "Infection",
   "gui.villager_editor.age": "Age",
   "gui.villager_editor.page": "Page %1$s",
+  "gui.villager_editor.uuid_unknown": "UUID '%1$s' is unknown.",
+  "gui.villager_editor.name_unknown": "Name '%1$s' is unknown.",
+  "gui.villager_editor.name_not_unique": "Name '%1$s' is not unique, consider using the UUID instead.",
+  "gui.villager_editor.relation.father": "Father",
+  "gui.villager_editor.relation.mother": "Mother",
+  "gui.villager_editor.relation.spouse": "Spouse",
 
   "marriage.married": "Married",
   "marriage.divorced": "Divorced",

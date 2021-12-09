@@ -127,3 +127,4 @@
 * Added all items to recipe book
 * Reworked female villager model
 * Fixed a bunch of marriage issues caused on death
+* Spouse and parents can now be modified in the villager editor
