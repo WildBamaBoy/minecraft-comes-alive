@@ -389,18 +389,23 @@ public class Village implements Iterable<Building> {
 
         // Count up the guards
         int guards = 0;
+        int citizen = 0;
         List<VillagerEntityMCA> villagers = getResidents(world);
         List<VillagerEntityMCA> nonGuards = new LinkedList<>();
         for (VillagerEntityMCA villager : villagers) {
-            if (villager.getProfession() == ProfessionsMCA.GUARD || villager.getProfession() == ProfessionsMCA.ARCHER) {
+            if (villager.isGuard()) {
                 guards++;
-            } else if (!villager.isBaby() && !villager.isProfessionImportant()) {
-                nonGuards.add(villager);
+            } else {
+                if (!villager.isBaby() && !villager.isProfessionImportant()) {
+                    nonGuards.add(villager);
+                }
+                citizen++;
             }
         }
 
-        // todo if not all villagers are loaded undefined behavior can happen
-        // todo what happen about people who are missing in action?
+        // Count all unloaded villagers against the guard limit
+        // This is statistical and may not be accurate, but it's better than nothing
+        guards += Math.ceil((getPopulation() - guards - citizen) / (float)Config.getInstance().guardSpawnRate);
 
         // Spawn a new guard if we don't have enough
         if (nonGuards.size() > 0 && guards < guardCapacity) {
