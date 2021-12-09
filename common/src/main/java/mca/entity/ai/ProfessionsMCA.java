@@ -14,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ProfessionsMCA {
     VillagerProfession OUTLAW = register("outlaw", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
-    VillagerProfession CHILD = register("child", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
     VillagerProfession GUARD = register("guard", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
     VillagerProfession ARCHER = register("archer", PointOfInterestType.UNEMPLOYED, SoundEvents.ENTITY_VILLAGER_WORK_FLETCHER);
     // VillagerProfession JEWELER = register("jeweler", PointOfInterestTypeMCA.JEWELER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
@@ -27,7 +26,6 @@ public interface ProfessionsMCA {
         canNotTrade.add(VillagerProfession.NONE);
         canNotTrade.add(VillagerProfession.NITWIT);
         canNotTrade.add(OUTLAW);
-        canNotTrade.add(CHILD);
         canNotTrade.add(GUARD);
     }
 

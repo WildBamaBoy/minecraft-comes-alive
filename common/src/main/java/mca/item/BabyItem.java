@@ -207,7 +207,6 @@ public class BabyItem extends Item {
                 .withName(state.getName().orElse("Unnamed"))
                 .withPosition(player.getPos())
                 .withGender(gender)
-                .withProfession(ProfessionsMCA.CHILD)
                 .withAge(-AgeState.getMaxAge())
                 .build();
 

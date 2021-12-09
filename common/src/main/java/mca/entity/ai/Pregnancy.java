@@ -104,7 +104,6 @@ public class Pregnancy {
         child.getTraits().inherit(mother.getTraits());
         child.setBaby(true);
         child.setAgeState(AgeState.TODDLER);
-        child.setProfession(ProfessionsMCA.CHILD);
         child.getRelationships().getFamilyEntry().assignParents(mother.getRelationships(), partner.getRelationships());
 
         // advancement

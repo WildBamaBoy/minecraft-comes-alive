@@ -235,10 +235,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
         setAgeState(AgeState.byCurrentAge(getBreedingAge()));
 
-        if (getAgeState() != AgeState.ADULT) {
-            setProfession(ProfessionsMCA.CHILD);
-        }
-
         return data;
     }
 
@@ -252,7 +248,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public boolean isProfessionImportant() {
-        return getProfession() == ProfessionsMCA.ARCHER || getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW || getProfession() == ProfessionsMCA.CHILD;
+        return getProfession() == ProfessionsMCA.ARCHER || getProfession() == ProfessionsMCA.GUARD || getProfession() == ProfessionsMCA.OUTLAW;
     }
 
     @Override
@@ -533,11 +529,6 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
 
             residency.tick();
-
-            // Grow up
-            if (getProfession() == ProfessionsMCA.CHILD && getAgeState() == AgeState.ADULT) {
-                setProfession(VillagerProfession.NONE);
-            }
 
             relations.tick(age);
 
