@@ -13,15 +13,15 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 
 public class VillagerEntityMCARenderer extends VillagerLikeEntityMCARenderer<VillagerEntityMCA> {
     public VillagerEntityMCARenderer(EntityRenderDispatcher ctx) {
-        super(ctx, createModel(VillagerEntityModelMCA.bodyData(Dilation.NONE), false).hideWears());
+        super(ctx, createModel(VillagerEntityModelMCA.bodyData(Dilation.NONE)).hideWears());
 
         addFeature(new SkinLayer<>(this, model));
-        addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F)), false).hideWears(), "normal"));
-        addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.clothingData(new Dilation(0.0625F)), true), "normal"));
-        addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)), true)));
+        addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F))).hideWears(), "normal"));
+        addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.0625F))), "normal"));
+        addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)))));
     }
 
-    private static VillagerEntityModelMCA<VillagerEntityMCA> createModel(ModelData data, boolean cloth) {
-        return new VillagerEntityModelMCA<>(TexturedModelData.of(data, 64, 64).createModel(), cloth);
+    private static VillagerEntityModelMCA<VillagerEntityMCA> createModel(ModelData data) {
+        return new VillagerEntityModelMCA<>(TexturedModelData.of(data, 64, 64).createModel());
     }
 }

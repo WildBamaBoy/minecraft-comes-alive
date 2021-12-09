@@ -28,10 +28,7 @@ public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>
     }
 
     private VillagerEntityBaseModelMCA<T> createArmorModel(float modelSize) {
-        return new VillagerEntityBaseModelMCA<>(
-                TexturedModelData.of(
-                                VillagerEntityBaseModelMCA.getModelData(new Dilation(modelSize), true), 64, 32)
-                        .createModel(), true);
+        return new VillagerEntityBaseModelMCA<>(TexturedModelData.of(VillagerEntityBaseModelMCA.getModelData(new Dilation(modelSize)), 64, 32).createModel());
     }
 
     @Override

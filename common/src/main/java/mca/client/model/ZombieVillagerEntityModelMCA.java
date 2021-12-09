@@ -7,8 +7,8 @@ import net.minecraft.entity.mob.MobEntity;
 
 public class ZombieVillagerEntityModelMCA<T extends MobEntity & VillagerLike<T>> extends VillagerEntityModelMCA<T> {
 
-    public ZombieVillagerEntityModelMCA(ModelPartCompat tree, boolean clothing) {
-        super(tree, clothing);
+    public ZombieVillagerEntityModelMCA(ModelPartCompat tree) {
+        super(tree);
     }
 
     @Override

@@ -22,39 +22,28 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
 
     protected static final String BREASTS = "breasts";
 
-    private final boolean cloth;
-
     protected final ModelPart breasts;
 
     private float breastSize;
     private VillagerDimensions dimensions;
 
-    public VillagerEntityBaseModelMCA(ModelPartCompat root, boolean clothing) {
+    public VillagerEntityBaseModelMCA(ModelPartCompat root) {
         super(root.getOriginalDilation(), 0, root.getTextureWidth(), root.getTextureHeight());
-        this.cloth = clothing;
         this.breasts = root.getChild(BREASTS);
     }
 
-    public static ModelData getModelData(Dilation dilation, boolean clothing) {
+    public static ModelData getModelData(Dilation dilation) {
         ModelData modelData = BipedEntityModelCompat.getModelData(dilation, 0);
         ModelPartData data = modelData.getRoot();
 
-        data.addChild(BREASTS, newBreasts(dilation, clothing, 0), ModelTransform.NONE);
+        data.addChild(BREASTS, newBreasts(dilation, 0), ModelTransform.NONE);
 
         return modelData;
     }
 
-    protected static ModelPartBuilder newBreasts(Dilation dilation, boolean clothing, int oy) {
+    protected static ModelPartBuilder newBreasts(Dilation dilation, int oy) {
         ModelPartBuilder builder = ModelPartBuilder.create();
-
-        if (clothing) {
-            builder.uv(18, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 6, 3, 3, dilation);
-        } else {
-            builder
-                    .uv(17, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 3, 3, 3, dilation)
-                    .uv(22, 21 + oy).cuboid(0.25F, -1.25F, -1.5F, 3, 3, 3, dilation);
-        }
-
+        builder.uv(18, 21 + oy).cuboid(-3.25F, -1.25F, -1.5F, 6, 3, 3, dilation);
         return builder;
     }
 
@@ -139,9 +128,9 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
 
             if (breastSize > 0) {
                 matrices.push();
-                matrices.translate(cloth ? 0.0625 * 0.25 : 0.0, 0.175D + breastSize * 0.1, -0.075D - breastSize * 0.05);
-                matrices.scale(cloth ? 1.166666f : 1.0f, 0.8f + breastSize * 0.3f, 0.75f + breastSize * 0.45f);
-                matrices.scale(breastSize * 0.275f + 0.85f, breastSize * 0.7f + 0.75f, breastSize * 0.7f + 0.75f);
+                matrices.translate(0.0625 * 0.25, 0.175D + breastSize * 0.1, -0.075D - breastSize * 0.05);
+                matrices.scale(1.166666f, 0.8f + breastSize * 0.3f, 0.75f + breastSize * 0.45f);
+                matrices.scale(breastSize * 0.275f + 0.85f, breastSize * 0.65f + 0.75f, breastSize * 0.65f + 0.75f);
                 for (ModelPart part : breastsParts()) {
                     part.pitch = (float)Math.PI * 0.3f;//TODO this matrix order will cause minor distortion
                     part.render(matrices, vertices, light, overlay, red, green, blue, alpha);
