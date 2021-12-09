@@ -32,3 +32,4 @@ forge*changelog.txt
 
 # Files from architectury
 .architectury-transformer
+/logs

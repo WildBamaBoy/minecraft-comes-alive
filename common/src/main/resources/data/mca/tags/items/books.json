@@ -5,6 +5,7 @@
     "mca:book_death",
     "mca:book_romance",
     "mca:book_family",
-    "mca:book_infection"
+    "mca:book_infection",
+    "mca:book_blueprint"
   ]
 }
