@@ -368,6 +368,10 @@
   "gui.button.call": "Call",
   "gui.button.familyTree": "Family Tree",
   "gui.button.armor": "Armor",
+  "gui.button.professions": "Professions",
+  "gui.button.profession.none": "Villager",
+  "gui.button.profession.guard": "Guard",
+  "gui.button.profession.archer": "Archer",
 
   "gui.title.namebaby.male": "It's a boy!",
   "gui.title.namebaby.female": "It's a girl!",

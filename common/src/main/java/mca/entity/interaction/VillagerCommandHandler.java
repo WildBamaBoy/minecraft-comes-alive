@@ -30,7 +30,7 @@ import net.minecraft.village.VillagerProfession;
 
 import java.util.Comparator;
 
-public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityMCA> {
+@SuppressWarnings("DuplicateBranchesInSwitch") public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityMCA> {
 
     public VillagerCommandHandler(VillagerEntityMCA entity) {
         super(entity);
@@ -164,7 +164,7 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 return true;
             case "infected":
                 entity.setInfected(!entity.isInfected());
-                return false;
+                return true;
             case "stopworking":
                 entity.getVillagerBrain().abandonJob();
                 return true;
@@ -175,6 +175,16 @@ public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityM
                 } else {
                     entity.sendChatMessage(player, "armor.disabled");
                 }
+                return true;
+            case "profession.none":
+                entity.setProfession(VillagerProfession.NONE);
+                return true;
+            case "profession.guard":
+                entity.setProfession(ProfessionsMCA.GUARD);
+                return true;
+            case "profession.archer":
+                entity.setProfession(ProfessionsMCA.ARCHER);
+                return true;
         }
 
         return super.handle(player, command);

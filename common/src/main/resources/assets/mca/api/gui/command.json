@@ -60,6 +60,17 @@
     "constraints": ""
   },
   {
+    "identifier": "gui.button.armor",
+    "x": 140,
+    "y": -10,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "",
+    "hideOnFail": false
+  },
+  {
     "identifier": "gui.button.execute",
     "x": 140,
     "y": 11,
@@ -82,14 +93,14 @@
     "hideOnFail": true
   },
   {
-    "identifier": "gui.button.armor",
+    "identifier": "gui.button.professions",
     "x": 140,
-    "y": -10,
+    "y": 32,
     "width": 65,
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "",
-    "hideOnFail": false
+    "constraints": "adult",
+    "hideOnFail": true
   }
 ]

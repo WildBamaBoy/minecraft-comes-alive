@@ -128,3 +128,5 @@
 * Reworked female villager model
 * Fixed a bunch of marriage issues caused on death
 * Spouse and parents can now be modified in the villager editor
+* Fixed guard spam
+* Rank Mayor can now make villagers guards or archers manually
