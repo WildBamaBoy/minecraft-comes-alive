@@ -424,6 +424,7 @@
   "marriage.married": "Married",
   "marriage.divorced": "Divorced",
   "marriage.engaged": "Engaged",
+  "marriage.widow": "Widow",
 
   "server.noProposals": "You have no active proposals.",
   "server.proposals": "You have active proposals from:",

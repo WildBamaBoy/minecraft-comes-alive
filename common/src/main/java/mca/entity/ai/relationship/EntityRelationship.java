@@ -42,10 +42,7 @@ public interface EntityRelationship {
             return; // effects don't propagate from strangers
         }
 
-        if (type == RelationshipType.SPOUSE) {
-            endMarriage(MarriageState.WIDOW);
-        }
-
+        // notify family
         if (type == RelationshipType.SELF) {
             getParents().forEach(parent -> {
                 EntityRelationship.of(parent).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.CHILD));
@@ -56,6 +53,11 @@ public interface EntityRelationship {
             getSpouse().ifPresent(spouse -> {
                 EntityRelationship.of(spouse).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SPOUSE));
             });
+        }
+
+        // end the marriage for both the deceased one and the spouse
+        if (type == RelationshipType.SPOUSE || type == RelationshipType.SELF) {
+            endMarriage(MarriageState.WIDOW);
         }
     }
 

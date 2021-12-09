@@ -148,7 +148,7 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     public void updateMarriage(Entity spouse, MarriageState state) {
-        this.spouse = spouse == null ? null : spouse.getUuid();
+        this.spouse = spouse == null ? Util.NIL_UUID : spouse.getUuid();
         this.marriageState = spouse == null ? MarriageState.SINGLE : state;
         if (rootNode != null) {
             if (spouse != null) {

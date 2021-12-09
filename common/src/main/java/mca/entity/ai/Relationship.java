@@ -117,18 +117,20 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     public boolean onDeath(DamageSource cause) {
         getFamilyEntry().setDeceased(true);
-        return GraveyardManager.get((ServerWorld)entity.world).findNearest(entity.getBlockPos(), TombstoneState.EMPTY, 7).filter(pos -> {
-            if (entity.world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
-                BlockEntity be = entity.world.getBlockEntity(pos);
-                if (be instanceof TombstoneBlock.Data) {
-                    ((TombstoneBlock.Data)be).setEntity(entity);
 
-                    onTragedy(cause, pos);
-                    return true;
-                }
-            }
-            return false;
-        }).isPresent();
+        return GraveyardManager.get((ServerWorld)entity.world)
+                .findNearest(entity.getBlockPos(), TombstoneState.EMPTY, 10)
+                .filter(pos -> {
+                    if (entity.world.getBlockState(pos).isIn(TagsMCA.Blocks.TOMBSTONES)) {
+                        BlockEntity be = entity.world.getBlockEntity(pos);
+                        if (be instanceof TombstoneBlock.Data) {
+                            onTragedy(cause, pos);
+                            ((TombstoneBlock.Data)be).setEntity(entity);
+                            return true;
+                        }
+                    }
+                    return false;
+                }).isPresent();
     }
 
     public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite) {
@@ -162,6 +164,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
             entity.getBrain().remember(MemoryModuleType.WALK_TARGET, new WalkTarget(burialSite, 1, 1));
             entity.getBrain().remember(MemoryModuleType.LOOK_TARGET, new BlockPosLookTarget(burialSite));
         }
+
         EntityRelationship.super.onTragedy(cause, burialSite, type);
     }
 
@@ -196,6 +199,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
         entity.setTrackedValue(SPOUSE_NAME, "");
         entity.setTrackedValue(MARRIAGE_STATE, newState);
         getFamilyEntry().setMarriageState(newState);
+        getFamilyEntry().updateMarriage(null, null);
     }
 
     public GiftSaturation getGiftSaturation() {

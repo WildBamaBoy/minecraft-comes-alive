@@ -50,9 +50,9 @@ public class MatchmakersRingItem extends Item implements SpecialCaseGift {
         // show a reaction
         player.world.sendEntityStatus(villager, Status.VILLAGER_HEARTS);
 
-        // remove the rings for survival mode
+        // remove the rings for survival mode (only one because the other one is gifted)
         if (!player.isCreative()) {
-            player.getMainHandStack().decrement(2);
+            player.getMainHandStack().decrement(1);
         }
 
         return true;

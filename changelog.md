@@ -125,3 +125,5 @@
 * Guards no longer panic when a raid happens
 * A wiped-out village will only send a last, bigger bountyhunter wave
 * Added all items to recipe book
+* Reworked female villager model
+* Fixed a bunch of marriage issues caused on death
