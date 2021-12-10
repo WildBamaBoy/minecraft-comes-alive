@@ -6,7 +6,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
-import mca.entity.ai.Messenger;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.family.FamilyTree;
 import mca.entity.ai.relationship.family.FamilyTreeNode;
@@ -19,8 +18,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
@@ -100,37 +99,65 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
         return Gender.byId(villagerData.getInt("gender"));
     }
 
+    private Optional<FamilyTreeNode> getUuid(PlayerEntity e, FamilyTree tree, String name, Gender gender) {
+        try {
+            UUID uuid = UUID.fromString(name);
+            Optional<FamilyTreeNode> node = tree.getOrEmpty(uuid);
+            if (node.isPresent()) {
+                e.sendMessage(new TranslatableText("gui.villager_editor.uuid_known", name, node.get().getName()), true);
+                return node;
+            } else {
+                e.sendMessage(new TranslatableText("gui.villager_editor.uuid_unknown", name).formatted(Formatting.RED), true);
+                return Optional.empty();
+            }
+        } catch (IllegalArgumentException exception) {
+            List<FamilyTreeNode> nodes = tree.getAllWithName(name).collect(Collectors.toList());
+            if (nodes.isEmpty()) {
+                //create a new entry
+                e.sendMessage(new TranslatableText("gui.villager_editor.name_created", name).formatted(Formatting.YELLOW), true);
+                return Optional.of(tree.getOrCreate(UUID.randomUUID(), name, gender));
+            } else {
+                if (nodes.size() > 1) {
+                    e.sendMessage(new TranslatableText("gui.villager_editor.name_not_unique", name).formatted(Formatting.RED), true);
+                } else {
+                    e.sendMessage(new TranslatableText("gui.villager_editor.name_unique", name), true);
+                }
+
+                return Optional.ofNullable(nodes.get(0));
+            }
+        }
+    }
+
     private void syncFamilyTree(PlayerEntity e, Entity entity, NbtCompound villagerData) {
         FamilyTree tree = FamilyTree.get((ServerWorld)entity.world);
         FamilyTreeNode entry = tree.getOrCreate(entity);
         entry.setGender(getGender(getData()));
         entry.setName(getData().getString("villagerName"));
 
-        //todo convert that to getUUID and make a simple UUID setter for parents (since they are enforced anyways)
-        for (String who : new String[] {"father", "mother"}) {
-            String name = villagerData.getString("tree_" + who + "_new");
-            if (villagerData.contains("tree_" + who + "_new")) {
-                try {
-                    UUID uuid = UUID.fromString(name);
-                    Optional<FamilyTreeNode> father = tree.getOrEmpty(uuid);
-                    if (father.isPresent()) {
-                        entry.assignParent(father.get());
-                    } else {
-                        e.sendMessage(new TranslatableText("gui.villager_editor.uuid_unknown", name), false);
-                    }
-                } catch (IllegalArgumentException exception) {
-                    List<FamilyTreeNode> nodes = tree.getAllWithName(name).collect(Collectors.toList());
-                    if (nodes.isEmpty()) {
-                        //todo create a new entry
-                        e.sendMessage(new TranslatableText("gui.villager_editor.name_unknown", name), false);
-                    } else {
-                        entry.assignParent(nodes.get(0));
+        if (villagerData.contains("tree_father_new")) {
+            String name = villagerData.getString("tree_father_new");
+            if (name.isEmpty()) {
+                entry.removeFather();
+            } else {
+                getUuid(e, tree, name, Gender.MALE).ifPresent(entry::setFather);
+            }
+        }
 
-                        if (nodes.size() > 1) {
-                            e.sendMessage(new TranslatableText("gui.villager_editor.name_not_unique", name), false);
-                        }
-                    }
-                }
+        if (villagerData.contains("tree_mother_new")) {
+            String name = villagerData.getString("tree_mother_new");
+            if (name.isEmpty()) {
+                entry.removeMother();
+            } else {
+                getUuid(e, tree, name, Gender.FEMALE).ifPresent(entry::setMother);
+            }
+        }
+
+        if (villagerData.contains("tree_spouse_new")) {
+            String name = villagerData.getString("tree_spouse_new");
+            if (name.isEmpty()) {
+                entry.updateMarriage(null, null);
+            } else {
+                getUuid(e, tree, name, entry.gender().opposite()).ifPresent(entry::updateMarriage);
             }
         }
     }

@@ -60,6 +60,10 @@ public enum Gender {
         return this == FEMALE ? FEMALE : MALE;
     }
 
+    public Gender opposite() {
+        return this == FEMALE ? MALE : FEMALE;
+    }
+
     /**
      * Checks whether this gender is attracted to another.
      */

@@ -52,9 +52,24 @@ public class FamilyTree extends PersistentStateCompat {
 
     @NotNull
     public FamilyTreeNode getOrCreate(Entity entity) {
-        return entries.computeIfAbsent(entity.getUuid(), uuid -> {
-            return createEntry(entity, Util.NIL_UUID, Util.NIL_UUID);
-        });
+        return entries.computeIfAbsent(entity.getUuid(), uuid -> createEntry(entity, Util.NIL_UUID, Util.NIL_UUID));
+    }
+
+    @NotNull
+    public FamilyTreeNode getOrCreate(UUID id, String name, Gender gender) {
+        return entries.computeIfAbsent(id, uuid -> createEntry(uuid, name, gender));
+    }
+
+    private FamilyTreeNode createEntry(UUID uuid, String name, Gender gender) {
+        markDirty();
+        return new FamilyTreeNode(this,
+                uuid,
+                name,
+                false,
+                gender,
+                Util.NIL_UUID,
+                Util.NIL_UUID
+        );
     }
 
     private FamilyTreeNode createEntry(Entity entity, UUID father, UUID mother) {

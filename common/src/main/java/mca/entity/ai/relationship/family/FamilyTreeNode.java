@@ -80,22 +80,24 @@ public final class FamilyTreeNode implements Serializable {
         return id;
     }
 
+    private void markDirty() {
+        if (rootNode != null) {
+            rootNode.markDirty();
+        }
+    }
+
     public boolean isDeceased() {
         return deceased;
     }
 
     public void setDeceased(boolean deceased) {
         this.deceased = deceased;
-        if (rootNode != null) {
-            rootNode.markDirty();
-        }
+        markDirty();
     }
 
     public void setName(String name) {
         this.name = name;
-        if (rootNode != null) {
-            rootNode.markDirty();
-        }
+        markDirty();
     }
 
     public String getName() {
@@ -104,9 +106,7 @@ public final class FamilyTreeNode implements Serializable {
 
     public void setProfession(VillagerProfession profession) {
         this.profession = Registry.VILLAGER_PROFESSION.getId(profession).toString();
-        if (rootNode != null) {
-            rootNode.markDirty();
-        }
+        markDirty();
     }
 
     public VillagerProfession getProfession() {
@@ -142,12 +142,10 @@ public final class FamilyTreeNode implements Serializable {
 
     public void setMarriageState(MarriageState state) {
         this.marriageState = state;
-        if (rootNode != null) {
-            rootNode.markDirty();
-        }
+        markDirty();
     }
 
-    public void updateMarriage(Entity spouse, MarriageState state) {
+    public void updateMarriage(@Nullable Entity spouse, @Nullable MarriageState state) {
         this.spouse = spouse == null ? Util.NIL_UUID : spouse.getUuid();
         this.marriageState = spouse == null ? MarriageState.SINGLE : state;
         if (rootNode != null) {
@@ -157,6 +155,12 @@ public final class FamilyTreeNode implements Serializable {
             }
             rootNode.markDirty();
         }
+    }
+
+    public void updateMarriage(FamilyTreeNode spouse) {
+        this.spouse = spouse.id();
+        this.marriageState = spouse.isPlayer ? MarriageState.MARRIED_TO_PLAYER : MarriageState.MARRIED_TO_VILLAGER;
+        markDirty();
     }
 
     public Set<UUID> children() {
@@ -247,62 +251,52 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     public boolean assignParent(FamilyTreeNode parent) {
-        if (setParent(parent)) {
-            parent.children().add(id);
-            return true;
+        if (parent.gender() == Gender.MALE) {
+            return setFather(parent);
+        } else {
+            return setMother(parent);
         }
-        return false;
+    }
+
+    public boolean setFather(FamilyTreeNode parent) {
+        father = parent.id();
+        parent.children().add(id);
+        markDirty();
+        return true;
+    }
+
+    public boolean setMother(FamilyTreeNode parent) {
+        mother = parent.id();
+        parent.children().add(id);
+        markDirty();
+        return true;
+    }
+
+    public boolean removeFather() {
+        if (isValid(father)) {
+            rootNode.getOrEmpty(father).ifPresent(e -> e.children.remove(this.id));
+            father = Util.NIL_UUID;
+            markDirty();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean removeMother() {
+        if (isValid(mother)) {
+            rootNode.getOrEmpty(mother).ifPresent(e -> e.children.remove(this.id));
+            mother = Util.NIL_UUID;
+            markDirty();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setGender(Gender gender) {
         this.gender = gender;
-        if (rootNode != null) {
-            rootNode.markDirty();
-        }
-    }
-
-    private boolean setParent(FamilyTreeNode parent) {
-        Gender gender = parent.gender();
-
-        if (gender == Gender.MALE || gender == Gender.NEUTRAL) {
-            if (isValid(father)) {
-                return false;
-            }
-            this.father = parent.id();
-            if (rootNode != null) {
-                rootNode.markDirty();
-            }
-            return true;
-        }
-        if (gender == Gender.FEMALE || gender == Gender.NEUTRAL) {
-            if (isValid(mother)) {
-                return false;
-            }
-            this.mother = parent.id();
-            if (rootNode != null) {
-                rootNode.markDirty();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public NbtCompound save() {
-        NbtCompound nbt = new NbtCompound();
-        nbt.putString("name", name);
-        nbt.putBoolean("isPlayer", isPlayer);
-        nbt.putBoolean("isDeceased", deceased);
-        nbt.putInt("gender", gender.getId());
-        nbt.putUuid("father", father);
-        nbt.putUuid("mother", mother);
-        nbt.putUuid("spouse", spouse);
-        nbt.putInt("marriageState", marriageState.ordinal());
-        nbt.put("children", NbtHelper.fromList(children, child -> {
-            NbtCompound n = new NbtCompound();
-            n.putUuid("uuid", child);
-            return n;
-        }));
-        return nbt;
+        markDirty();
     }
 
     private static boolean isValid(@Nullable UUID uuid) {
@@ -327,5 +321,23 @@ public final class FamilyTreeNode implements Serializable {
             }
             entry.getRoot().getOrEmpty(id).ifPresent(e -> gather(e, output, depth - 1, walker));
         });
+    }
+
+    public NbtCompound save() {
+        NbtCompound nbt = new NbtCompound();
+        nbt.putString("name", name);
+        nbt.putBoolean("isPlayer", isPlayer);
+        nbt.putBoolean("isDeceased", deceased);
+        nbt.putInt("gender", gender.getId());
+        nbt.putUuid("father", father);
+        nbt.putUuid("mother", mother);
+        nbt.putUuid("spouse", spouse);
+        nbt.putInt("marriageState", marriageState.ordinal());
+        nbt.put("children", NbtHelper.fromList(children, child -> {
+            NbtCompound n = new NbtCompound();
+            n.putUuid("uuid", child);
+            return n;
+        }));
+        return nbt;
     }
 }
