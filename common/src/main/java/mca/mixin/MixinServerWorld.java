@@ -35,7 +35,10 @@ abstract class MixinServerWorld extends World implements StructureWorldAccess {
     )
     public void onOnBlockChanged(BlockPos pos, BlockState oldBlock, BlockState newBlock, CallbackInfo info) {
         if (oldBlock.getBlock() != newBlock.getBlock()) {
-            VillageManager.get((ServerWorld)(Object)this).getReaperSpawner().trySpawnReaper(this, newBlock, pos);
+            final ServerWorld self = (ServerWorld)(Object)this;
+            self.getServer().execute(() -> {
+                VillageManager.get(self).getReaperSpawner().trySpawnReaper(self, newBlock, pos);
+            });
         }
     }
 }

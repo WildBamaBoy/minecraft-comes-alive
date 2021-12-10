@@ -3,6 +3,7 @@ package mca.server;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import mca.MCA;
 import mca.SoundsMCA;
@@ -22,9 +23,13 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class ReaperSpawner {
+    private static final Direction[] HORIZONTALS = new Direction[] {
+        Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
+    };
 
     private final Object lock = new Object();
 
@@ -49,28 +54,31 @@ public class ReaperSpawner {
                 .ifPresent(p -> p.sendMessage(new TranslatableText(phrase).formatted(Formatting.RED), true));
     }
 
-    public void trySpawnReaper(World world, BlockState state, BlockPos pos) {
-        if (world.isClient) {
-            return;
-        }
+    public void trySpawnReaper(ServerWorld world, BlockState state, BlockPos pos) {
 
         if (!(state.isIn(BlockTags.FIRE) && world.getBlockState(pos.down()).getBlock() == Blocks.EMERALD_BLOCK)) {
             return;
         }
+
+        MCA.LOGGER.info("Attempting to spawn reaper at {} in {}", pos, world.getRegistryKey().getValue());
 
         if (!isNightTime(world)) {
             warn(world, pos, "reaper.day");
             return;
         }
 
-        if (countTotems(world, pos) < 3) {
+        long totems = countTotems(world, pos);
+
+        MCA.LOGGER.info("It is night time, found {} totems", totems);
+
+        if (totems < 3) {
             warn(world, pos, "reaper.totems");
             return;
         }
 
-        start(pos.add(1, 10, 1));
+        start(pos.up(10));
 
-        EntityType.LIGHTNING_BOLT.spawn((ServerWorld)world, null, null, null, pos, SpawnReason.TRIGGERED, false, false);
+        EntityType.LIGHTNING_BOLT.spawn(world, null, null, null, pos, SpawnReason.TRIGGERED, false, false);
 
         world.setBlockState(pos.down(), Blocks.SOUL_SOIL.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
         world.setBlockState(pos, Blocks.SOUL_FIRE.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
@@ -102,38 +110,16 @@ public class ReaperSpawner {
 
     private boolean isNightTime(World world) {
         long time = world.getTimeOfDay();
-        return time > 13000 && time < 23000;
+        MCA.LOGGER.info("Current time is {}", time);
+        return time >= 13000 && time <= 23000;
     }
 
-    private int countTotems(World world, BlockPos pos) {
-        int totemsFound = 0;
-
-        // Check on +/- X and Z for at least 3 totems on fire.
-        for (int i = 0; i < 4; i++) {
-            int dX = 0;
-            int dZ = 0;
-
-            if (i == 0) dX = -3;
-            else if (i == 1) dX = 3;
-            else if (i == 2) dZ = -3;
-            else dZ = 3;
-
-            // Scan upwards to ensure it's obsidian, and on fire.
-            for (int j = -1; j < 2; j++) {
-                BlockState state = world.getBlockState(pos.add(dX, j, dZ));
-
-                if (!(state.isOf(Blocks.OBSIDIAN) || state.isIn(BlockTags.FIRE))) {
-                    break;
-                }
-
-                // If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
-                if (j == 1 && state.isIn(BlockTags.FIRE)) {
-                    totemsFound++;
-                }
-            }
-        }
-
-        return totemsFound;
+    private long countTotems(World world, BlockPos pos) {
+        return Stream.of(HORIZONTALS).map(d -> pos.offset(d, 3)).filter(pillarCenter -> {
+            return world.getBlockState(pillarCenter).isOf(Blocks.OBSIDIAN)
+                && world.getBlockState(pillarCenter.down()).isOf(Blocks.OBSIDIAN)
+                && world.getBlockState(pillarCenter.up()).isIn(BlockTags.FIRE);
+        }).count();
     }
 
     public NbtCompound writeNbt() {
