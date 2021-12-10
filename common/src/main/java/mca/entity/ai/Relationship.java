@@ -14,9 +14,6 @@ import mca.server.world.data.GraveyardManager;
 import mca.server.world.data.GraveyardManager.TombstoneState;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CDataManager;
-import mca.util.network.datasync.CDataParameter;
-import mca.util.network.datasync.CEnumParameter;
-import mca.util.network.datasync.CParameter;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.BlockPosLookTarget;
@@ -30,6 +27,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,12 +47,8 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
     public static final Predicate IS_PARENT = (villager, player) -> villager.getRelationships().getFamilyEntry().isParent(player);
     public static final Predicate IS_ORPHAN = (villager, player) -> villager.getRelationships().getFamilyEntry().getParents().allMatch(FamilyTreeNode::isDeceased);
 
-    private static final CDataParameter<String> SPOUSE_NAME = CParameter.create("spouseName", "");
-    private static final CDataParameter<Optional<UUID>> SPOUSE_UUID = CParameter.create("spouseUUID", Optional.empty());
-    private static final CEnumParameter<MarriageState> MARRIAGE_STATE = CParameter.create("marriageState", MarriageState.SINGLE);
-
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
-        return builder.addAll(SPOUSE_NAME, SPOUSE_UUID, MARRIAGE_STATE);
+        return builder.addAll();
     }
 
     protected final T entity;
@@ -72,12 +66,12 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     @Override
     public Optional<Text> getSpouseName() {
-        return isMarried() ? Optional.ofNullable(entity.getTrackedValue(SPOUSE_NAME)).map(LiteralText::new) : Optional.empty();
+        return getFamilyTree().getOrEmpty(getFamilyEntry().spouse()).map(FamilyTreeNode::getName).map(LiteralText::new);
     }
 
     @Override
     public Optional<Entity> getSpouse() {
-        return entity.getTrackedValue(SPOUSE_UUID).map(id -> ((ServerWorld)entity.world).getEntity(id));
+        return Optional.ofNullable(((ServerWorld)entity.world).getEntity(getFamilyEntry().spouse()));
     }
 
     @Override
@@ -170,34 +164,32 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     @Override
     public MarriageState getMarriageState() {
-        return entity.getTrackedValue(MARRIAGE_STATE);
+        return getFamilyEntry().getMarriageState();
     }
 
     @Override
     public Optional<UUID> getSpouseUuid() {
-        return entity.getTrackedValue(SPOUSE_UUID);
+        UUID spouse = getFamilyEntry().spouse();
+        if (spouse.equals(Util.NIL_UUID)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(spouse);
+        }
     }
 
     @Override
     public void marry(Entity spouse) {
-        entity.setTrackedValue(SPOUSE_UUID, Optional.of(spouse.getUuid()));
-        entity.setTrackedValue(SPOUSE_NAME, spouse.getName().getString());
-
         MarriageState state = spouse instanceof PlayerEntity ? MarriageState.MARRIED_TO_PLAYER : MarriageState.MARRIED_TO_VILLAGER;
 
         if (spouse instanceof ServerPlayerEntity) {
             CriterionMCA.GENERIC_EVENT_CRITERION.trigger((ServerPlayerEntity)spouse, "marriage");
         }
 
-        entity.setTrackedValue(MARRIAGE_STATE, state);
         getFamilyEntry().updateMarriage(spouse, state);
     }
 
     @Override
     public void endMarriage(MarriageState newState) {
-        entity.setTrackedValue(SPOUSE_UUID, Optional.empty());
-        entity.setTrackedValue(SPOUSE_NAME, "");
-        entity.setTrackedValue(MARRIAGE_STATE, newState);
         getFamilyEntry().setMarriageState(newState);
         getFamilyEntry().updateMarriage(null, null);
     }

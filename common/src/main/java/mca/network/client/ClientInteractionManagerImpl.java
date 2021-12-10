@@ -73,6 +73,7 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             InteractScreen gui = (InteractScreen)screen;
             gui.setConstraints(message.constraints);
             gui.setParents(message.father, message.mother);
+            gui.setSpouse(message.marriageState, message.spouse);
         }
     }
 

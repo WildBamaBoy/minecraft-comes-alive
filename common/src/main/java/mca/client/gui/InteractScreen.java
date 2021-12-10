@@ -47,6 +47,9 @@ public class InteractScreen extends AbstractDynamicScreen {
     private String father;
     private String mother;
 
+    private MarriageState marriageState;
+    private Text spouse;
+
     private List<String> dialogAnswers;
     private String dialogAnswerHover;
     private List<OrderedText> dialogQuestionText;
@@ -62,6 +65,11 @@ public class InteractScreen extends AbstractDynamicScreen {
     public void setParents(String father, String mother) {
         this.father = father;
         this.mother = mother;
+    }
+
+    public void setSpouse(MarriageState marriageState, String spouse) {
+        this.marriageState = marriageState;
+        this.spouse = spouse == null ? new TranslatableText("gui.interact.label.parentUnknown") : new LiteralText(spouse);
     }
 
     @Override
@@ -147,8 +155,7 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         RenderSystemCompat.setShaderTexture(0, ICON_TEXTURES);
 
-        if (villager instanceof CompassionateEntity<?>) {
-            MarriageState marriageState = ((CompassionateEntity<?>)villager).getRelationships().getMarriageState();
+        if (marriageState != null) {
             drawIcon(transform, marriageState.getIcon());
         }
 
@@ -233,10 +240,8 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //marriage status
         if (hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
-            String marriageState = ((CompassionateEntity<?>)villager).getRelationships().getMarriageState().base().getIcon().toLowerCase();
-            Text spouseName = ((CompassionateEntity<?>)villager).getRelationships().getSpouseName().orElseGet(() -> new TranslatableText("gui.interact.label.parentUnknown"));
-
-            drawHoveringIconText(transform, new TranslatableText("gui.interact.label." + marriageState, spouseName), "married");
+            String ms = marriageState.base().getIcon().toLowerCase();
+            drawHoveringIconText(transform, new TranslatableText("gui.interact.label." + ms, spouse), "married");
         }
 
         //parents
