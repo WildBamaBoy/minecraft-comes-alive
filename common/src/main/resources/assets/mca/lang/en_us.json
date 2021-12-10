@@ -431,6 +431,9 @@
   "gui.villager_editor.relation.mother": "Mother",
   "gui.villager_editor.relation.spouse": "Spouse",
 
+  "reaper.day": "The reaper fears the sunlight.",
+  "reaper.totems": "Three obsidian pillars, lit with fire, are required.",
+
   "marriage.married": "Married",
   "marriage.divorced": "Divorced",
   "marriage.engaged": "Engaged",

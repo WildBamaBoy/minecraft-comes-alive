@@ -1,5 +1,6 @@
 package mca.server;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -40,12 +43,14 @@ public class ReaperSpawner {
         });
     }
 
+    private void warn(World world, BlockPos pos, String phrase) {
+        world.getPlayers().stream()
+                .min(Comparator.comparingInt(a -> a.getBlockPos().getManhattanDistance(pos)))
+                .ifPresent(p -> p.sendMessage(new TranslatableText(phrase).formatted(Formatting.RED), true));
+    }
+
     public void trySpawnReaper(World world, BlockState state, BlockPos pos) {
         if (world.isClient) {
-            return;
-        }
-
-        if (!isNightTime(world)) {
             return;
         }
 
@@ -53,7 +58,13 @@ public class ReaperSpawner {
             return;
         }
 
+        if (!isNightTime(world)) {
+            warn(world, pos, "reaper.day");
+            return;
+        }
+
         if (countTotems(world, pos) < 3) {
+            warn(world, pos, "reaper.totems");
             return;
         }
 
