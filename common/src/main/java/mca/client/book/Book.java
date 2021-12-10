@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import mca.client.book.pages.Page;
 import mca.client.book.pages.TextPage;
-import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 

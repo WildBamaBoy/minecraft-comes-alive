@@ -1,6 +1,8 @@
 package mca.resources.data;
 
 public class FloatAnalysis extends Analysis<Float> {
+    private static final long serialVersionUID = -3009100555809907786L;
+
     @Override
     public boolean isPositive(Float v) {
         return v >= 0;

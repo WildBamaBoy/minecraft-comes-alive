@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 import mca.MCA;
-import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
 import mca.util.WorldUtils;

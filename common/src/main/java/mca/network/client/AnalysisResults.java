@@ -6,6 +6,8 @@ import mca.resources.data.Analysis;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class AnalysisResults implements Message {
+    private static final long serialVersionUID = 2451914344295985363L;
+
     public final Analysis<?> analysis;
 
     public AnalysisResults(Analysis<?> analysis) {

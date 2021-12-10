@@ -15,6 +15,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public final class BuildingType implements Serializable {
+    private static final long serialVersionUID = 2215455350801127280L;
 
     private final String name;
     private final int size;

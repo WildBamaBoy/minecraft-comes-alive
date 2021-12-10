@@ -25,6 +25,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 
 public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
+    private static final long serialVersionUID = -5581564927127176555L;
+
     private final String command;
     private final UUID uuid;
 

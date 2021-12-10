@@ -13,7 +13,6 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class PatrolVillageTask extends Task<VillagerEntityMCA> {
@@ -36,6 +35,7 @@ public class PatrolVillageTask extends Task<VillagerEntityMCA> {
         return !InteractTask.shouldRun(entity);
     }
 
+    @Override
     protected void run(ServerWorld serverWorld, VillagerEntityMCA villager, long l) {
         Optional<BlockPos> blockPos = getNextPosition(villager);
         blockPos.ifPresent(pos -> LookTargetUtil.walkTowards(villager, pos, this.speed, this.completionRange));

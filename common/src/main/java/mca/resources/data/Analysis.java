@@ -7,7 +7,9 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Analysis<T extends Serializable> implements Serializable, Iterable<Analysis.AnalysisElement> {
-    List<SerializablePair<String, T>> summands = new LinkedList<>();
+    private static final long serialVersionUID = 2255112660663961645L;
+
+    private List<SerializablePair<String, T>> summands = new LinkedList<>();
 
     public void add(String key, T value) {
         summands.add(new SerializablePair<>(key, value));
@@ -49,7 +51,6 @@ public abstract class Analysis<T extends Serializable> implements Serializable, 
     @Override
     public Iterator<AnalysisElement> iterator() {
         return new Iterator<AnalysisElement>() {
-
             private int i = 0;
 
             @Override

@@ -7,7 +7,6 @@ import mca.entity.ai.Chore;
 import mca.entity.ai.Memories;
 import mca.entity.ai.MoveState;
 import mca.entity.ai.ProfessionsMCA;
-import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.family.FamilyTree;
 import mca.entity.ai.relationship.family.FamilyTreeNode;
@@ -20,7 +19,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -30,7 +28,7 @@ import net.minecraft.village.VillagerProfession;
 
 import java.util.Comparator;
 
-@SuppressWarnings("DuplicateBranchesInSwitch") public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityMCA> {
+public class VillagerCommandHandler extends EntityCommandHandler<VillagerEntityMCA> {
 
     public VillagerCommandHandler(VillagerEntityMCA entity) {
         super(entity);

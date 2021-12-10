@@ -1,6 +1,5 @@
 package mca.entity;
 
-import com.google.common.base.Strings;
 import mca.entity.ai.Traits;
 import net.minecraft.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +13,6 @@ import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.CompassionateEntity;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.ZombieCommandHandler;
-import mca.resources.API;
 import mca.util.network.datasync.CDataManager;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;

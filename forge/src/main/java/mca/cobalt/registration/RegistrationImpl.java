@@ -142,6 +142,7 @@ public class RegistrationImpl extends Registration.Impl {
         };
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public ProfessionFactory<VillagerProfession> profession() {
         return (id, poi, sound, items, sites) -> register(Registry.VILLAGER_PROFESSION, id, new VillagerProfession(id.toString().replace(':', '.'), poi, ImmutableSet.copyOf(items),  ImmutableSet.copyOf(sites), sound));

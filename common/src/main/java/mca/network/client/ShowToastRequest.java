@@ -8,6 +8,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.TranslatableText;
 
 public class ShowToastRequest implements Message {
+    private static final long serialVersionUID = 1055734972572313374L;
+
     private final SystemToast.Type type;
     private final String title;
     private final String description;

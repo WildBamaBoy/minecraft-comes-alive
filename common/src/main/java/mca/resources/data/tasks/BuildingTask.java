@@ -7,6 +7,8 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.JsonHelper;
 
 public class BuildingTask extends Task {
+    private static final long serialVersionUID = -6660910729161211245L;
+
     private final String type;
 
     public BuildingTask(String type) {

@@ -2,7 +2,6 @@ package mca.client.render;
 
 import java.util.List;
 
-import mca.block.BlocksMCA;
 import mca.block.TombstoneBlock;
 import mca.block.TombstoneBlock.Data;
 import mca.util.compat.TextRendererCompat;

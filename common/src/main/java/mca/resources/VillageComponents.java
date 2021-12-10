@@ -36,7 +36,7 @@ public class VillageComponents implements Iterable<BuildingType> {
     }
 
     WeightedPool<String> loadResidentNames(String gender) throws BrokenResourceException {
-        HashMap<String, Double> names = Resources.read("api/names/villager/" + gender + ".json", HashMap.class);
+        HashMap<String, Double> names = Resources.<HashMap<String, Double>>read("api/names/villager/" + gender + ".json", HashMap.class);
         WeightedPool.Mutable<String> pool = new WeightedPool.Mutable<>("?");
         for (Map.Entry<String, Double> e : names.entrySet()) {
             pool.add(e.getKey(), e.getValue().floatValue());

@@ -15,7 +15,6 @@ import mca.util.WorldUtils;
 import mca.util.compat.OptionalCompat;
 import mca.util.compat.PersistentStateCompat;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;

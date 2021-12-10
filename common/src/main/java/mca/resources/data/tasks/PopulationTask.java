@@ -7,6 +7,8 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.JsonHelper;
 
 public class PopulationTask extends Task {
+    private static final long serialVersionUID = 5252203744206810361L;
+
     private final int population;
 
     public PopulationTask(int population) {

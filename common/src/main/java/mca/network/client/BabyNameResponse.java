@@ -5,6 +5,8 @@ import mca.cobalt.network.Message;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class BabyNameResponse implements Message {
+    private static final long serialVersionUID = -2800883604573859252L;
+
     private final String name;
 
     public BabyNameResponse(String name) {

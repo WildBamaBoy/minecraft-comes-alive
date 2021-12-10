@@ -3,7 +3,6 @@ package mca.entity.interaction;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.VillagerLike;
 import mca.network.client.OpenGuiRequest;
-import mca.resources.API;
 import mca.resources.ClothingList;
 import mca.resources.HairList;
 import net.minecraft.entity.Entity;

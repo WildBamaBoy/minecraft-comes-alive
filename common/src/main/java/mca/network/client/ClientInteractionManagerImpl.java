@@ -54,6 +54,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
 

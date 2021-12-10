@@ -22,7 +22,6 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerFactory;
 import mca.entity.VillagerLike;
 import mca.entity.ai.Memories;
-import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import mca.entity.ai.relationship.family.FamilyTreeNode;

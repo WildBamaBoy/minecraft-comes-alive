@@ -8,6 +8,8 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.JsonHelper;
 
 public abstract class Task implements Serializable {
+    private static final long serialVersionUID = 6029812512760976500L;
+
     private final String id;
 
     public Task(JsonObject json) {
