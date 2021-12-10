@@ -1,6 +1,7 @@
 package mca;
 
 import mca.block.BlockEntityTypesMCA;
+import mca.block.BlocksMCA;
 import mca.client.gui.MCAScreens;
 import mca.client.particle.InteractionParticle;
 import mca.client.render.GrimReaperRenderer;
@@ -14,6 +15,8 @@ import mca.item.BabyItem;
 import mca.item.ItemsMCA;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
@@ -54,6 +57,8 @@ public final class MCAClient {
         ModelPredicateProviderRegistry.register(ItemsMCA.BABY_GIRL, new Identifier("invalidated"), (stack, world, entity) -> {
             return BabyItem.hasBeenInvalidated(stack) ? 1 : 0;
         });
+
+        RenderLayers.setRenderLayer(BlocksMCA.INFERNAL_FLAME, RenderLayer.getCutout());
     }
 
     @SubscribeEvent

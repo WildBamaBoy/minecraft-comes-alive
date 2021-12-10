@@ -2,11 +2,15 @@ package mca.server;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import mca.MCA;
 import mca.SoundsMCA;
+import mca.block.BlocksMCA;
 import mca.entity.EntitiesMCA;
 import mca.entity.GrimReaperEntity;
 import mca.server.world.data.VillageManager;
@@ -44,7 +48,7 @@ public class ReaperSpawner {
     public ReaperSpawner(VillageManager manager, NbtCompound nbt) {
         this.manager = manager;
         mca.util.NbtHelper.toList(nbt.getList("summons", NbtElementCompat.COMPOUND_TYPE), n -> new ActiveSummon((NbtCompound)n)).forEach(summon -> {
-            activeSummons.put(summon.position.asLong(), summon);
+            activeSummons.put(summon.position.spawnPosition.asLong(), summon);
         });
     }
 
@@ -67,26 +71,29 @@ public class ReaperSpawner {
             return;
         }
 
-        long totems = countTotems(world, pos);
+        Set<BlockPos> totems = getTotems(world, pos);
 
-        MCA.LOGGER.info("It is night time, found {} totems", totems);
+        MCA.LOGGER.info("It is night time, found {} totems", totems.size());
 
-        if (totems < 3) {
+        if (totems.size() < 3) {
             warn(world, pos, "reaper.totems");
             return;
         }
 
-        start(pos.up(10));
+        start(new SummonPosition(pos, totems));
 
         EntityType.LIGHTNING_BOLT.spawn(world, null, null, null, pos, SpawnReason.TRIGGERED, false, false);
 
         world.setBlockState(pos.down(), Blocks.SOUL_SOIL.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
-        world.setBlockState(pos, Blocks.SOUL_FIRE.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
+        world.setBlockState(pos, BlocksMCA.INFERNAL_FLAME.getDefaultState(), BlockCompat.NOTIFY_NEIGHBORS | BlockCompat.NOTIFY_LISTENERS);
+        totems.forEach(totem -> {
+            world.setBlockState(totem, BlocksMCA.INFERNAL_FLAME.getDefaultState(), BlockCompat.NOTIFY_LISTENERS | BlockCompat.FORCE_STATE);
+        });
     }
 
-    private void start(BlockPos pos) {
+    private void start(SummonPosition pos) {
         synchronized (lock) {
-            activeSummons.computeIfAbsent(pos.asLong(), ActiveSummon::new).start(pos);
+            activeSummons.computeIfAbsent(pos.spawnPosition.asLong(), ActiveSummon::new).start(pos);
             manager.markDirty();
         }
     }
@@ -114,12 +121,12 @@ public class ReaperSpawner {
         return time >= 13000 && time <= 23000;
     }
 
-    private long countTotems(World world, BlockPos pos) {
+    private Set<BlockPos> getTotems(World world, BlockPos pos) {
         return Stream.of(HORIZONTALS).map(d -> pos.offset(d, 3)).filter(pillarCenter -> {
             return world.getBlockState(pillarCenter).isOf(Blocks.OBSIDIAN)
                 && world.getBlockState(pillarCenter.down()).isOf(Blocks.OBSIDIAN)
                 && world.getBlockState(pillarCenter.up()).isIn(BlockTags.FIRE);
-        }).count();
+        }).map(BlockPos::up).collect(Collectors.toSet());
     }
 
     public NbtCompound writeNbt() {
@@ -130,18 +137,58 @@ public class ReaperSpawner {
         }
     }
 
+    static class SummonPosition {
+        public final BlockPos spawnPosition;
+        public final BlockPos fire;
+        public final Set<BlockPos> totems;
+
+        public SummonPosition(NbtCompound tag) {
+            if (tag.contains("fire") || tag.contains("totems") || tag.contains("spawnPosition")) {
+                fire = NbtHelper.toBlockPos(tag.getCompound("fire"));
+                totems = new HashSet<>(mca.util.NbtHelper.toList(tag.getCompound("totems"), v -> NbtHelper.toBlockPos((NbtCompound)v)));
+                spawnPosition = NbtHelper.toBlockPos(tag.getCompound("spawnPosition"));
+            } else {
+                totems = new HashSet<>();
+                spawnPosition = NbtHelper.toBlockPos(tag);
+                fire = spawnPosition.down(10);
+            }
+        }
+
+        public SummonPosition(BlockPos fire, Set<BlockPos> totems) {
+            this.fire = fire;
+            this.spawnPosition = fire.up(10);
+            this.totems = totems;
+        }
+
+        public boolean isCancelled(World world) {
+            return !check(fire, world);
+        }
+
+        private boolean check(BlockPos pos, World world) {
+            return world.getBlockState(pos).isOf(BlocksMCA.INFERNAL_FLAME);
+        }
+
+        public NbtCompound toNbt() {
+            NbtCompound tag = new NbtCompound();
+            tag.put("fire", NbtHelper.fromBlockPos(fire));
+            tag.put("totems", mca.util.NbtHelper.fromList(totems, NbtHelper::fromBlockPos));
+            tag.put("spawnPosition", NbtHelper.fromBlockPos(spawnPosition));
+            return tag;
+        }
+    }
+
     static class ActiveSummon {
         private int ticks;
-        private BlockPos position;
+        private SummonPosition position;
 
         ActiveSummon(long l) {}
 
         ActiveSummon(NbtCompound nbt) {
             ticks = nbt.getInt("ticks");
-            position = NbtHelper.toBlockPos(nbt.getCompound("position"));
+            position = new SummonPosition(nbt.getCompound("position"));
         }
 
-        public void start(BlockPos pos) {
+        public void start(SummonPosition pos) {
             if (ticks <= 0) {
                 position = pos;
                 ticks = 100;
@@ -156,12 +203,23 @@ public class ReaperSpawner {
                 return true;
             }
 
+            if (position.isCancelled(world)) {
+                position.totems.forEach(totem -> {
+                    if (position.check(totem, world)) {
+                        world.setBlockState(totem, Blocks.FIRE.getDefaultState());
+                    }
+                });
+                position = null;
+                ticks = 0;
+                return true;
+            }
+
             if (--ticks % 20 == 0) {
-                EntityType.LIGHTNING_BOLT.spawn(world, null, null, null, position, SpawnReason.TRIGGERED, false, false);
+                EntityType.LIGHTNING_BOLT.spawn(world, null, null, null, position.spawnPosition, SpawnReason.TRIGGERED, false, false);
             }
 
             if (ticks == 0) {
-                GrimReaperEntity reaper = EntitiesMCA.GRIM_REAPER.spawn(world, null, null, null, position, SpawnReason.TRIGGERED, false, false);
+                GrimReaperEntity reaper = EntitiesMCA.GRIM_REAPER.spawn(world, null, null, null, position.spawnPosition, SpawnReason.TRIGGERED, false, false);
                 if (reaper != null) {
                     reaper.playSound(SoundsMCA.reaper_summon, 1.0F, 1.0F);
                 }
@@ -175,7 +233,7 @@ public class ReaperSpawner {
         public NbtCompound write() {
             NbtCompound nbt = new NbtCompound();
             nbt.putInt("ticks", ticks);
-            nbt.put("position", NbtHelper.fromBlockPos(position));
+            nbt.put("position", position.toNbt());
             return nbt;
         }
     }
