@@ -804,7 +804,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         } else if (Config.getInstance().useVanillaVoices) {
             return super.getDeathSound();
         } else {
-            return;
+            return null;
         }
     }
 
