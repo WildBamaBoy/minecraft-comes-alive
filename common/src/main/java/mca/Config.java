@@ -56,6 +56,7 @@ public final class Config implements Serializable {
     public float villagerHeight = 0.9f;
     public boolean canHurtBabies = true;
     public boolean useVoices = false;
+    public boolean useVanillaVoices = false;
     public float interactionFatigue = 0.05f;
     public int interactionFatigueCooldown = 4800;
     public float taxesFactor = 0.5f;

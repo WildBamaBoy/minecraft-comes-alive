@@ -801,8 +801,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public SoundEvent getDeathSound() {
         if (Config.getInstance().useVoices) {
             return getGenetics().getGender() == Gender.MALE ? SoundsMCA.VILLAGER_MALE_SCREAM : SoundsMCA.VILLAGER_FEMALE_SCREAM;
-        } else {
+        } else if (Config.getInstance().useVanillaVoices) {
             return super.getDeathSound();
+        } else {
+            return;
         }
     }
 
@@ -840,8 +842,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             }
 
             return null;
-        } else {
+        } else if (Config.getInstance().useVanillaVoices) {
             return super.getAmbientSound();
+        } else {
+            return null;
         }
     }
 
@@ -861,7 +865,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     public final void playSurprisedSound() {
-        playSound(getSurprisedSound(), getSoundVolume(), getSoundPitch());
+        if (Config.getInstance().useVoices) {
+            playSound(getSurprisedSound(), getSoundVolume(), getSoundPitch());
+        }
     }
 
     @Override
