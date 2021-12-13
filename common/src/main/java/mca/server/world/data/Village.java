@@ -197,6 +197,10 @@ public class Village implements Iterable<Building> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Map<Integer, Building> getBuildings() {
         return buildings;
     }

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import mca.client.gui.widget.RectangleWidget;
 import mca.cobalt.network.NetworkHandler;
 import mca.network.GetVillageRequest;
+import mca.network.RenameVillageMessage;
 import mca.network.ReportBuildingMessage;
 import mca.network.SaveVillageMessage;
 import mca.resources.Rank;
@@ -21,6 +22,7 @@ import mca.util.compat.RenderSystemCompat;
 import mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
@@ -132,14 +134,16 @@ public class BlueprintScreen extends ExtendedScreen {
         //page selection
         int bx = width / 2 - 180;
         int by = height / 2 - 56;
-        if (!page.equals("empty") && !page.equals("waiting")) {
-            for (String p : new String[] {"map", "rank", "catalog", "villagers", "rules", "close"}) {
-                ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
-                addButton(widget);
-                if (page.equals(p)) {
-                    widget.active = false;
+        if (!page.equals("rename")) {
+            if (!page.equals("empty") && !page.equals("waiting")) {
+                for (String p : new String[] {"map", "rank", "catalog", "villagers", "rules", "close"}) {
+                    ButtonWidget widget = new ButtonWidget(bx, by, 64, 20, new TranslatableText("gui.blueprint." + p), (b) -> setPage(p));
+                    addButton(widget);
+                    if (page.equals(p)) {
+                        widget.active = false;
+                    }
+                    by += 22;
                 }
-                by += 22;
             }
         }
 
@@ -174,6 +178,12 @@ public class BlueprintScreen extends ExtendedScreen {
                     NetworkHandler.sendToServer(new ReportBuildingMessage(ReportBuildingMessage.Action.ADD_ROOM));
                     NetworkHandler.sendToServer(new GetVillageRequest());
                 }));
+                by += 22 * 3;
+
+                //rename village
+                addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.renameVillage"), (b) -> {
+                    setPage("rename");
+                }));
                 by += 22;
             case "map":
                 //add building
@@ -193,12 +203,13 @@ public class BlueprintScreen extends ExtendedScreen {
                 by += 22;
 
                 //advanced
-                if (page != "advanced") {
+                if (!page.equals("advanced")) {
                     addButton(new ButtonWidget(bx, by, 96, 20, new TranslatableText("gui.blueprint.advanced"), (b) -> {
                         setPage("advanced");
                     }));
-                    break;
                 }
+
+                break;
             case "rank":
                 break;
             case "catalog":
@@ -253,6 +264,20 @@ public class BlueprintScreen extends ExtendedScreen {
                 //marriage threshold
                 buttonMarriage = createValueChanger(width / 2, height / 2 + positionMarriage + 10, 80, 20, (b) -> changeMarriageThreshold(b ? 10 : -10));
                 toggleButtons(buttonMarriage, false);
+                break;
+            case "rename":
+                TextFieldWidget field = addButton(new TextFieldWidget(textRenderer, width / 2 - 65, height / 2 - 16, 130, 20, new TranslatableText("gui.blueprint.renameVillage")));
+                field.setMaxLength(32);
+                field.setText(village.getName());
+
+                addButton(new ButtonWidget(width / 2 - 66, height / 2 + 8, 64, 20, new TranslatableText("gui.blueprint.cancel"), (b) -> {
+                    setPage("map");
+                }));
+                addButton(new ButtonWidget(width / 2 + 2, height / 2 + 8, 64, 20, new TranslatableText("gui.blueprint.rename"), (b) -> {
+                    NetworkHandler.sendToServer(new RenameVillageMessage(village.getId(), field.getText()));
+                    village.setName(field.getText());
+                    setPage("map");
+                }));
                 break;
         }
     }

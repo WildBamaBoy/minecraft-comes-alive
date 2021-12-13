@@ -45,5 +45,6 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(ShowToastRequest.class);
         NetworkHandler.registerMessage(BabyNameRequest.class);
         NetworkHandler.registerMessage(BabyNameResponse.class);
+        NetworkHandler.registerMessage(RenameVillageMessage.class);
     }
 }

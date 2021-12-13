@@ -288,6 +288,9 @@
   "gui.blueprint.addRoom": "Add Room",
   "gui.blueprint.advanced": "Advanced",
   "gui.blueprint.restrictAccess": "Restrict Access",
+  "gui.blueprint.renameVillage": "Rename Village",
+  "gui.blueprint.rename": "rename",
+  "gui.blueprint.cancel": "cancel",
 
   "blueprint.noBuilding": "You need to stand within a building",
 
