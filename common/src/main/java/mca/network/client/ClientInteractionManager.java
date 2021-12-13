@@ -19,7 +19,9 @@ public interface ClientInteractionManager {
 
     void handleChildData(GetChildDataResponse message);
 
-    void handleAnalysisResults(AnalysisResults results);
+    void handleAnalysisResults(AnalysisResults message);
 
-    void handleBabyNameResponse(BabyNameResponse results);
+    void handleBabyNameResponse(BabyNameResponse message);
+
+    void handleToastMessage(ShowToastRequest message);
 }

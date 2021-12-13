@@ -11,6 +11,7 @@ import mca.server.world.data.BabyTracker;
 import mca.server.world.data.Village;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -145,5 +146,10 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             NameBabyScreen gui = (NameBabyScreen)screen;
             gui.setBabyName(message.getName());
         }
+    }
+
+    @Override
+    public void handleToastMessage(ShowToastRequest message) {
+        SystemToast.add(client.getToastManager(), SystemToast.Type.TUTORIAL_HINT, message.getTitle(), message.getMessage());
     }
 }
