@@ -133,3 +133,4 @@
 * If the Grim Reaper summoning fails, feedback on why is given
 * Villager are now silent by default, configurable
 * Villages can now be renamed
+* Unlocked King rank

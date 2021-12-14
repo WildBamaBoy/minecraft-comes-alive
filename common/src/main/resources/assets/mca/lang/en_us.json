@@ -257,9 +257,10 @@
 
   "task.reputation": "Reach %1$s average hearts",
   "task.population": "Reach a population of %1$s",
-  "task.build": "Build one %1$s",
+  "task.build": "Build a %1$s",
   "task.grimReaper": "Kill the Grim Reaper",
   "task.bePatient": "Work in progress - be patient!",
+  "task.advancement_mca:adventure/kill_grim_reaper": "Kill the Grim Reaper!",
 
   "gui.blueprint.taxes": "Taxes",
   "gui.blueprint.birth": "Birth limit",

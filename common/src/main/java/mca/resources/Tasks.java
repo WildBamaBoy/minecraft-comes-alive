@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import mca.resources.data.tasks.AdvancementTask;
 import mca.resources.data.tasks.BlockingTask;
 import mca.resources.data.tasks.BuildingTask;
 import mca.resources.data.tasks.PopulationTask;
@@ -47,6 +48,7 @@ public class Tasks extends JsonDataLoader {
         TASK_TYPES.put("building", BuildingTask::new);
         TASK_TYPES.put("population", PopulationTask::new);
         TASK_TYPES.put("reputation", ReputationTask::new);
+        TASK_TYPES.put("advancement", AdvancementTask::new);
     }
 
     @Override

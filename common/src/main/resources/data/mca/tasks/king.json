@@ -16,11 +16,7 @@
     "building": "blacksmith"
   },
   {
-    "type": "blocking",
-    "id": "grimReaper"
-  },
-  {
-    "type": "blocking",
-    "id": "bePatient"
+    "type": "advancement",
+    "id": "mca:adventure/kill_grim_reaper"
   }
 ]
