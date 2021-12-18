@@ -65,7 +65,7 @@ public class GuardEnemiesSensor extends Sensor<LivingEntity> {
         if (entity instanceof VillagerEntityMCA) {
             VillagerEntityMCA villager = (VillagerEntityMCA)entity;
             return villager.isHostile() ? 10 : -1;
-        } else if (entity instanceof MobEntity && (((MobEntity)entity).getTarget() == guard)) {
+        } else if (guard != null && entity instanceof MobEntity && (((MobEntity)entity).getTarget() == guard)) {
             //priority is irrelevant if this entity is currently an active threat
             return 9;
         } else {

@@ -253,11 +253,12 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public void setVillagerData(VillagerData data) {
-        if (!world.isClient && getProfession() != data.getProfession() && data.getProfession() != ProfessionsMCA.OUTLAW) {
+        boolean hasChanged = !world.isClient && getProfession() != data.getProfession() && data.getProfession() != ProfessionsMCA.OUTLAW;
+        super.setVillagerData(data);
+        if (hasChanged) {
             randomizeClothes();
             getRelationships().getFamilyEntry().setProfession(data.getProfession());
         }
-        super.setVillagerData(data);
     }
 
     @Override

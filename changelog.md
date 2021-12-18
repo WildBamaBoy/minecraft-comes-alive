@@ -134,3 +134,8 @@
 * Villager are now silent by default, configurable
 * Villages can now be renamed
 * Unlocked King rank
+
+# 7.0.6
+
+* Fixed guards aggression towards mobs
+* Fixed profession change not always switching clothes
