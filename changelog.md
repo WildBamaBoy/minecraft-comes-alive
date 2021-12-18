@@ -140,3 +140,5 @@
 * Fixed guards aggression towards mobs
 * Fixed profession change not always switching clothes
 * Added Family Tree item to search
+* Fixed crash
+* Fixed reaper summoning on some server

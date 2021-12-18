@@ -116,7 +116,7 @@ public class ReaperSpawner {
     }
 
     private boolean isNightTime(World world) {
-        long time = world.getTimeOfDay();
+        long time = world.getTimeOfDay() % 24000;
         MCA.LOGGER.info("Current time is {}", time);
         return time >= 13000 && time <= 23000;
     }
