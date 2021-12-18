@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 
 import mca.MCA;
 import mca.entity.VillagerLike;
+import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
@@ -71,7 +72,17 @@ public class ClothingList extends JsonDataLoader {
      * Gets a pool of clothing options valid for this entity's gender and profession.
      */
     public WeightedPool<String> getPool(VillagerLike<?> villager) {
-        return getPool(villager.getGenetics().getGender(), villager.getVillagerData().getProfession());
+        switch (villager.getAgeState()) {
+            case BABY:
+            case TODDLER:
+            case CHILD:
+            case TEEN:
+                return ClothingList.getInstance()
+                        .byGender(villager.getGenetics().getGender())
+                        .byIdentifier(new Identifier("mca:child"));
+            default:
+                return getPool(villager.getGenetics().getGender(), villager.getVillagerData().getProfession());
+        }
     }
 
     public WeightedPool<String> getPool(Gender gender, VillagerProfession profession) {
@@ -98,7 +109,11 @@ public class ClothingList extends JsonDataLoader {
         }
 
         private Optional<WeightedPool<String>> getOptions(VillagerProfession profession) {
-            return Optional.ofNullable(entries.get(Objects.requireNonNull(Registry.VILLAGER_PROFESSION.getId(profession))));
+            return getOptions(Registry.VILLAGER_PROFESSION.getId(profession));
+        }
+
+        private Optional<WeightedPool<String>> getOptions(Identifier id) {
+            return Optional.ofNullable(entries.get(Objects.requireNonNull(id)));
         }
 
         /**
@@ -108,6 +123,15 @@ public class ClothingList extends JsonDataLoader {
          */
         public WeightedPool<String> byProfession(VillagerProfession profession) {
             return getOptions(profession).orElseGet(() -> getOptions(VillagerProfession.NONE).orElse(EMPTY));
+        }
+
+        /**
+         * Gets a pool of clothing options based on a specific identifier.
+         * <p>
+         * Falls back to the NONE pool if a profession has no assigned textures, and an empty pool as a last resort.
+         */
+        public WeightedPool<String> byIdentifier(Identifier id) {
+            return getOptions(id).orElseGet(() -> getOptions(VillagerProfession.NONE).orElse(EMPTY));
         }
     }
 }
