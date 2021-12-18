@@ -66,11 +66,6 @@ public class BlueprintScreen extends ExtendedScreen {
         super(new LiteralText("Blueprint"));
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
     private void saveVillage() {
         NetworkHandler.sendToServer(new SaveVillageMessage(village));
     }

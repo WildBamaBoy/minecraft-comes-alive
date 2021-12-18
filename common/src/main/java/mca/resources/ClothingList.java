@@ -9,7 +9,6 @@ import com.google.gson.JsonElement;
 
 import mca.MCA;
 import mca.entity.VillagerLike;
-import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;

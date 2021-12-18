@@ -127,11 +127,6 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
         }
     }
 
-    @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-    }
-
     public ReaperAttackState getAttackState() {
         return getTrackedValue(ATTACK_STAGE);
     }

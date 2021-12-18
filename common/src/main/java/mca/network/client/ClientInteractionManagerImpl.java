@@ -3,7 +3,6 @@ package mca.network.client;
 import java.util.Optional;
 
 import mca.client.gui.*;
-import mca.client.gui.BlueprintScreen;
 import mca.entity.VillagerLike;
 import mca.item.BabyItem;
 import mca.item.ExtendedWrittenBookItem;

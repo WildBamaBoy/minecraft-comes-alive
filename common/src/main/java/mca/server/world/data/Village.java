@@ -70,7 +70,7 @@ public class Village implements Iterable<Building> {
 
     private boolean autoScan = true;
 
-    private BlockBoxExtended box;
+    private BlockBoxExtended box = new BlockBoxExtended(0, 0, 0, 0, 0, 0);
 
     public Village() {
     }
@@ -114,20 +114,11 @@ public class Village implements Iterable<Building> {
         return getBuildings().values().stream().filter(b -> b.getType().equals(type));
     }
 
-    public Optional<Building> getNearestBuildingOfType(String type, Vec3i pos) {
-        return getBuildingsOfType(type).min((a, b) -> (int)(a.getCenter().getSquaredDistance(pos) - b.getCenter().getSquaredDistance(pos)));
-    }
-
     public Optional<Building> getBuildingAt(Vec3i pos) {
         return getBuildings().values().stream().filter(b -> b.containsPos(pos)).findAny();
     }
 
     private void calculateDimensions() {
-        if (buildings.size() == 0) {
-            box = new BlockBoxExtended(0, 0, 0, 0, 0, 0);
-            return;
-        }
-
         int sx = Integer.MAX_VALUE;
         int sy = Integer.MAX_VALUE;
         int sz = Integer.MAX_VALUE;
