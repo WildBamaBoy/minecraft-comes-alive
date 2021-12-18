@@ -3,6 +3,7 @@ package mca.network;
 import mca.cobalt.network.NetworkHandler;
 import mca.network.client.AnalysisResults;
 import mca.network.client.BabyNameResponse;
+import mca.network.client.FamilyTreeUUIDResponse;
 import mca.network.client.GetChildDataResponse;
 import mca.network.client.GetFamilyTreeResponse;
 import mca.network.client.GetInteractDataResponse;
@@ -46,5 +47,7 @@ public interface MessagesMCA {
         NetworkHandler.registerMessage(BabyNameRequest.class);
         NetworkHandler.registerMessage(BabyNameResponse.class);
         NetworkHandler.registerMessage(RenameVillageMessage.class);
+        NetworkHandler.registerMessage(FamilyTreeUUIDLookup.class);
+        NetworkHandler.registerMessage(FamilyTreeUUIDResponse.class);
     }
 }

@@ -37,6 +37,7 @@ public class OpenGuiRequest implements Message {
         INTERACT,
         VILLAGER_EDITOR,
         BOOK,
+        FAMILY_TREE,
         CLOSE
     }
 }

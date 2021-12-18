@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:book" },
+    { "item": "minecraft:oak_sapling" }
+  ],
+  "result": {
+    "item": "mca:family_tree",
+    "count": 1
+  }
+}

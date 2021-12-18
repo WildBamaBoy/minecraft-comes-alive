@@ -38,6 +38,7 @@ public interface ItemsMCA {
     Item STAFF_OF_LIFE = register("staff_of_life", new StaffOfLifeItem(baseProps().maxDamage(5)));
     Item WHISTLE = register("whistle", new WhistleItem(baseProps()));
     Item BLUEPRINT = register("blueprint", new BlueprintItem(baseProps()));
+    Item FAMILY_TREE = register("family_tree", new FamilyTreeItem(baseProps()));
 
     Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), new Book("death")
             .setBackground(new Identifier("mca:textures/gui/books/death.png"))

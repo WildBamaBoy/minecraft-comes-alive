@@ -24,4 +24,6 @@ public interface ClientInteractionManager {
     void handleBabyNameResponse(BabyNameResponse message);
 
     void handleToastMessage(ShowToastRequest message);
+
+    void handleFamilyTreeUUIDResponse(FamilyTreeUUIDResponse response);
 }

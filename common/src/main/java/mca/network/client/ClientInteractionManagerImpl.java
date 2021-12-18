@@ -55,6 +55,9 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                     }
                 }
                 break;
+            case FAMILY_TREE:
+                client.openScreen(new FamilyTreeSearchScreen());
+                break;
             default:
                 break;
         }
@@ -151,5 +154,14 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     @Override
     public void handleToastMessage(ShowToastRequest message) {
         SystemToast.add(client.getToastManager(), SystemToast.Type.TUTORIAL_HINT, message.getTitle(), message.getMessage());
+    }
+
+    @Override
+    public void handleFamilyTreeUUIDResponse(FamilyTreeUUIDResponse response) {
+        Screen screen = client.currentScreen;
+        if (screen instanceof FamilyTreeSearchScreen) {
+            FamilyTreeSearchScreen gui = (FamilyTreeSearchScreen)screen;
+            gui.setList(response.getList());
+        }
     }
 }

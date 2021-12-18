@@ -72,6 +72,9 @@
   "item.mca.whistle": "Whistle",
   "item.mca.whistle.tooltip": "Right-click call your family to your current location",
 
+  "item.mca.family_tree": "Family Tree",
+  "item.mca.family_tree.tooltip": "This extremely thick book contains the family tree of every villager ever alive.",
+
   "item.mca.staff_of_life": "Staff of Life",
   "item.mca.staff_of_life.uses": "Uses left: %s",
   "item.mca.staff_of_life.tooltip": "Right-click a tombstone to revive a dead villager",
@@ -385,6 +388,7 @@
   "gui.title.editor": "Villager Editor",
   "gui.title.whistle": "Call Family Member",
   "gui.title.staffoflife": "Select a Villager to Revive",
+  "gui.title.family_tree": "Search the Family Tree",
 
   "gui.label": "Name:",
   "gui.label.male": "Male",
@@ -416,6 +420,9 @@
   "gui.family_tree.title": "Family Tree",
   "gui.family_tree.label.deceased": "Deceased",
   "gui.family_tree.label.orphan": "Orphan",
+  "gui.family_tree.child_of_2": "Child of %1$s and %2$s",
+  "gui.family_tree.child_of_1": "Child of %1$s",
+  "gui.family_tree.child_of_0": "Orphan",
 
   "gui.villager_editor.randClothing": "Random Clothes",
   "gui.villager_editor.prevClothing": "Prev",
