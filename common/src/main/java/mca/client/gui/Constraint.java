@@ -30,6 +30,9 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
     BABY("baby", (villager, player) -> villager.getAgeState() == AgeState.BABY),
     NOT_BABY("!baby", (villager, player) -> villager.getAgeState() != AgeState.BABY),
 
+    TEEN("teen", (villager, player) -> villager.getAgeState() == AgeState.TEEN),
+    NOT_TEEN("!teen", (villager, player) -> villager.getAgeState() != AgeState.TEEN),
+
     ADULT("adult", (villager, player) -> villager.getAgeState() == AgeState.ADULT),
     NOT_ADULT("!adult", (villager, player) -> villager.getAgeState() != AgeState.ADULT),
 

@@ -27,7 +27,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "!adult",
+    "constraints": "!adult,!teen",
     "isInteraction": true
   },
   {

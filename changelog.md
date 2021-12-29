@@ -148,3 +148,4 @@
 * Experienced villagers no longer become guards#
 * The king can assign archers and guards at will
 * Fixed king rank
+* Can no longer pickup teens
