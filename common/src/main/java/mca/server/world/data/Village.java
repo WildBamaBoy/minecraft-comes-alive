@@ -390,7 +390,7 @@ public class Village implements Iterable<Building> {
             if (villager.isGuard()) {
                 guards++;
             } else {
-                if (!villager.isBaby() && !villager.isProfessionImportant()) {
+                if (!villager.isBaby() && !villager.isProfessionImportant() && villager.getExperience() == 0 && villager.getVillagerData().getLevel() <= 1) {
                     nonGuards.add(villager);
                 }
                 citizen++;
