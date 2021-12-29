@@ -41,7 +41,7 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
 
     public static final CDataManager<GrimReaperEntity> DATA = new CDataManager.Builder<>(GrimReaperEntity.class).addAll(ATTACK_STAGE).build();
 
-    private final ServerBossBar bossInfo = (ServerBossBar) new ServerBossBar(getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS).setDarkenSky(true);
+    private final ServerBossBar bossInfo = (ServerBossBar)new ServerBossBar(getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS).setDarkenSky(true);
 
     public GrimReaperEntity(EntityType<? extends GrimReaperEntity> type, World world) {
         super(type, world);
@@ -80,16 +80,15 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
 
     @Override
     protected void initGoals() {
-        //TODO seems to be ignored
-        this.goalSelector.add(5, new GrimReaperIdleGoal(this, 1));
+        this.targetSelector.add(1, new GrimReaperTargetGoal(this));
 
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-        this.goalSelector.add(7, new LookAroundGoal(this));
+        this.goalSelector.add(1, new GrimReaperRestGoal(this));
+        this.goalSelector.add(2, new GrimReaperMeleeGoal(this));
+        this.goalSelector.add(3, new GrimReaperIdleGoal(this, 1));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8));
+        this.goalSelector.add(5, new LookAroundGoal(this));
 
-        this.goalSelector.add(2, new GrimReaperRestGoal(this));
-        this.goalSelector.add(4, new GrimReaperMeleeGoal(this));
 
-        this.targetSelector.add(2, new GrimReaperTargetGoal(this));
     }
 
     @Override
@@ -106,16 +105,16 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
 
     @Override
     protected EntityNavigation createNavigation(World world) {
-        BirdNavigation flyingpathnavigator = new BirdNavigation(this, world) {
+        BirdNavigation navigator = new BirdNavigation(this, world) {
             @Override
             public boolean isValidPosition(BlockPos p_188555_1_) {
                 return true;
             }
         };
-        flyingpathnavigator.setCanPathThroughDoors(false);
-        flyingpathnavigator.setCanSwim(false);
-        flyingpathnavigator.setCanEnterOpenDoors(true);
-        return flyingpathnavigator;
+        navigator.setCanPathThroughDoors(false);
+        navigator.setCanSwim(false);
+        navigator.setCanEnterOpenDoors(true);
+        return navigator;
     }
 
     @Override
@@ -185,7 +184,7 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
 
         // Teleport behind the player who fired an arrow and ignore its damage.
         if (source.getSource() instanceof ArrowEntity) {
-            ArrowEntity arrow = (ArrowEntity) attacker;
+            ArrowEntity arrow = (ArrowEntity)attacker;
 
             if (arrow != null && getAttackState() != ReaperAttackState.REST) {
                 Entity owner = arrow.getOwner();
@@ -241,7 +240,7 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
             return;
         }
 
-        // look at the player. Aways.
+        // look at the player. Always.
         PlayerEntity player = world.getClosestPlayer(this, 10.D);
         if (player != null) {
             getLookControl().lookAt(player.getX(), player.getEyeY(), player.getZ());
