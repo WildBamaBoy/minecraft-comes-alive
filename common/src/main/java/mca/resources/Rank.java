@@ -14,7 +14,7 @@ public enum Rank {
         if (ordinal() + 1 < VALUES.length) {
             return VALUES[ordinal() + 1];
         } else {
-            return null;
+            return Rank.KING;
         }
     }
 

@@ -100,7 +100,7 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "adult",
+    "constraints": "adult,king",
     "hideOnFail": true
   }
 ]

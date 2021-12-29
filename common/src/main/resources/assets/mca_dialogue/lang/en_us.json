@@ -209,6 +209,10 @@
   "armor.enabled": "Okay, I will always wear my armor. If I have any.",
   "armor.disabled": "Fine, I will only wear my armor in case we are under attack.",
 
+  "profession.set.none": "Alright, I will find myself a job soon.",
+  "profession.set.guard": "I am honored to serve as a guard protecting this village.",
+  "profession.set.archer": "I will join the defense of the village as an archer.",
+
   "adult.gift.cake.success1": "What's this? A cake? Oh...oh my. I...need to find my spouse.",
   "adult.gift.cake.success2": "A cake! How thoughtful! I...wait, what's this odd feeling?",
   "adult.gift.cake.success3": "Finally, something that will help my marriage...",

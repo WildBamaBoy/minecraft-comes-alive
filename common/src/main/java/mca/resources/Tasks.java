@@ -2,7 +2,6 @@ package mca.resources;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -75,9 +74,12 @@ public class Tasks extends JsonDataLoader {
     }
 
     public static Rank getRank(Village village, ServerPlayerEntity player) {
-        return Arrays.stream(Rank.values())
-                .filter(rank -> getInstance().tasks.get(rank).stream()
-                        .anyMatch(t -> t.isRequired() && !t.isCompleted(village, player)))
-                .findFirst().map(Rank::degrade).orElse(Rank.OUTLAW);
+        Rank[] ranks = Rank.values();
+        for (int i = ranks.length - 1; i >= 0; i--) {
+            if (getInstance().tasks.get(ranks[i]).stream().allMatch(t -> !t.isRequired() || t.isCompleted(village, player))) {
+                return ranks[i];
+            }
+        }
+        return Rank.OUTLAW;
     }
 }

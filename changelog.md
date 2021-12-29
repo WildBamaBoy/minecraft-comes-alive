@@ -142,3 +142,9 @@
 * Added Family Tree item to search
 * Fixed crash
 * Fixed reaper summoning on some server
+
+# 7.0.7
+
+* Experienced villagers no longer become guards#
+* The king can assign archers and guards at will
+* Fixed king rank

@@ -57,6 +57,9 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
     MAYOR("mayor", (villager, player) -> isRankAtLeast(villager, player, Rank.MAYOR)),
     NOT_MAYOR("!mayor", (villager, player) -> !isRankAtLeast(villager, player, Rank.MAYOR)),
 
+    KING("king", (villager, player) -> isRankAtLeast(villager, player, Rank.KING)),
+    NOT_KING("!king", (villager, player) -> !isRankAtLeast(villager, player, Rank.KING)),
+
     ORPHAN("orphan", Relationship.IS_ORPHAN.asConstraint()),
     NOT_ORPHAN("!orphan", Relationship.IS_ORPHAN.negate().asConstraint());
 
