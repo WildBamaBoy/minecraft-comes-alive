@@ -26,7 +26,7 @@ public interface Infectable {
         setInfectionProgress(infected ? Math.max(getInfectionProgress(), INITIAL_INFECTION_AMOUNT) : MIN_INFECTION);
     }
 
-    default boolean canBeTargettedBy(Entity mob) {
+    default boolean canBeTargetedBy(Entity mob) {
         return this instanceof HostileEntity
             || !(mob instanceof HostileEntity)
             || getInfectionProgress() < POINT_OF_NO_RETURN;

@@ -207,6 +207,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
         if (!removed && type == EntityType.VILLAGER) {
             VillagerEntityMCA mob = super.method_29243(getGenetics().getGender().getVillagerType(), keepInventory);
             mob.copyVillagerAttributesFrom(this);
+            mob.setInfected(false);
             return (T)mob;
         }
 

@@ -14,7 +14,7 @@ import net.minecraft.entity.ai.TargetPredicate;
 abstract class MixinTargetPredicate {
     @Inject(method = "test", at = @At("HEAD"), cancellable = true)
     public void onTest(@Nullable LivingEntity baseEntity, LivingEntity targetEntity, CallbackInfoReturnable<Boolean> info) {
-        if (targetEntity instanceof Infectable && !((Infectable)targetEntity).canBeTargettedBy(baseEntity)) {
+        if (targetEntity instanceof Infectable && !((Infectable)targetEntity).canBeTargetedBy(baseEntity)) {
             info.setReturnValue(false);
         }
     }
