@@ -23,14 +23,6 @@ public class API {
         return instance.villageComponents;
     }
 
-    public static String getRandomSupporter() {
-        return instance.pickSupporter();
-    }
-
-    public static List<String> getSupporterGroup(String group) {
-        return instance.supporterGroups.getOrDefault(group, new LinkedList<>());
-    }
-
     public static String getRandomWord(String from) {
         return instance.pickWord(from);
     }
@@ -64,30 +56,17 @@ public class API {
     static class Data {
         final VillageComponents villageComponents = new VillageComponents(rng);
 
-        private final List<String> supporters = new ArrayList<>();
-        private final Map<String, List<String>> supporterGroups = new HashMap<>();
-
         private final Map<String, List<String>> words = new HashMap<>();
 
         void init(ResourceManager manager) {
             try {
                 villageComponents.load();
 
-                Map<String, List<String>> strings = Resources.read("api/names/supporters.json", Map.class);
-                for (Map.Entry<String, List<String>> pair : strings.entrySet()) {
-                    supporters.addAll(pair.getValue());
-                    supporterGroups.computeIfAbsent(pair.getKey(), x -> new LinkedList<>()).addAll(pair.getValue());
-                }
-
                 words.put("zombie", Arrays.asList(Resources.read("api/names/zombie_words.json", String[].class)));
                 words.put("baby", Arrays.asList(Resources.read("api/names/baby_words.json", String[].class)));
             } catch (BrokenResourceException e) {
                 MCA.LOGGER.error("Could not load MCA resources", e);
             }
-        }
-
-        public String pickSupporter() {
-            return PoolUtil.pickOne(supporters, "nobody", rng);
         }
 
         public String pickWord(String from) {

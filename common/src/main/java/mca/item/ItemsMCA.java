@@ -15,6 +15,7 @@ import mca.crafting.recipe.RecipesMCA;
 import mca.entity.EntitiesMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
+import mca.resources.Supporters;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
@@ -87,13 +88,13 @@ public interface ItemsMCA {
             .setBackground(new Identifier("mca:textures/gui/books/supporters.png"))
             .addPage(new TitlePage("supporters"))
             .addPage(new DynamicListPage("mca.books.supporters.patrons",
-                    page -> API.getSupporterGroup("patreon").stream().map(s -> new LiteralText(s).formatted(Formatting.RED)).collect(Collectors.toList())))
+                    page -> Supporters.getSupporterGroup("mca:patrons").stream().map(s -> new LiteralText(s).formatted(Formatting.RED)).collect(Collectors.toList())))
             .addPage(new DynamicListPage("mca.books.supporters.contributors",
-                    page -> API.getSupporterGroup("contributors").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_GREEN)).collect(Collectors.toList())))
+                    page -> Supporters.getSupporterGroup("mca:contributors").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_GREEN)).collect(Collectors.toList())))
             .addPage(new DynamicListPage("mca.books.supporters.translators",
-                    page -> API.getSupporterGroup("translators").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_BLUE)).collect(Collectors.toList())))
+                    page -> Supporters.getSupporterGroup("mca:translators").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_BLUE)).collect(Collectors.toList())))
             .addPage(new DynamicListPage("mca.books.supporters.old",
-                    page -> API.getSupporterGroup("old").stream().map(s -> new LiteralText(s).formatted(Formatting.BLACK)).collect(Collectors.toList())))
+                    page -> Supporters.getSupporterGroup("mca:old").stream().map(s -> new LiteralText(s).formatted(Formatting.BLACK)).collect(Collectors.toList())))
             .addPage(new TitlePage("mca.books.supporters.thanks", ""))));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));

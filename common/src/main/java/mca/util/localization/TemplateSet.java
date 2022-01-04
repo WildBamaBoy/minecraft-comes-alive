@@ -7,9 +7,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mca.resources.API;
+import mca.resources.Supporters;
 
 class TemplateSet {
-    static final TemplateSet INSTANCE = new TemplateSet().with("supporter", API::getRandomSupporter);
+    static final TemplateSet INSTANCE = new TemplateSet().with("supporter", Supporters::getRandomSupporter);
 
     private final Map<String, Supplier<String>> variables = new HashMap<>();
 

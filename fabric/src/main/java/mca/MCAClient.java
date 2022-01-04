@@ -12,6 +12,7 @@ import mca.entity.EntitiesMCA;
 import mca.item.BabyItem;
 import mca.item.ItemsMCA;
 import mca.resources.FabricColorPaletteLoader;
+import mca.resources.FabricSupportersLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -43,6 +44,7 @@ public final class MCAClient extends ClientProxyAbstractImpl implements ClientMo
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricMCAScreens());
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricColorPaletteLoader());
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricSupportersLoader());
 
         FabricModelPredicateProviderRegistry.register(ItemsMCA.BABY_BOY, new Identifier("invalidated"), (stack, world, entity) -> {
             return BabyItem.hasBeenInvalidated(stack) ? 1 : 0;

@@ -13,6 +13,7 @@ import mca.cobalt.registration.RegistrationImpl;
 import mca.entity.EntitiesMCA;
 import mca.item.BabyItem;
 import mca.item.ItemsMCA;
+import mca.resources.Supporters;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
@@ -36,6 +37,7 @@ public final class MCAClient {
         new ClientProxyImpl();
         ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new MCAScreens());
         ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new ColorPaletteLoader());
+        ((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerReloader(new Supporters());
     }
 
     @SubscribeEvent
