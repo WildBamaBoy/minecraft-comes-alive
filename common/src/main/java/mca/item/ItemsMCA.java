@@ -89,6 +89,8 @@ public interface ItemsMCA {
             .addPage(new TitlePage("supporters"))
             .addPage(new DynamicListPage("mca.books.supporters.patrons",
                     page -> Supporters.getSupporterGroup("mca:patrons").stream().map(s -> new LiteralText(s).formatted(Formatting.RED)).collect(Collectors.toList())))
+            .addPage(new DynamicListPage("mca.books.supporters.wiki",
+                    page -> Supporters.getSupporterGroup("mca:wiki").stream().map(s -> new LiteralText(s).formatted(Formatting.GOLD)).collect(Collectors.toList())))
             .addPage(new DynamicListPage("mca.books.supporters.contributors",
                     page -> Supporters.getSupporterGroup("mca:contributors").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_GREEN)).collect(Collectors.toList())))
             .addPage(new DynamicListPage("mca.books.supporters.translators",
