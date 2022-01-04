@@ -11,7 +11,10 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.*;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -24,11 +27,14 @@ public class ExtendedBookScreen extends Screen {
     public ExtendedBookScreen(Book book) {
         super(NarratorManager.EMPTY);
         this.book = book;
+        book.open();
+        book.setPage(0, false);
     }
 
     public boolean setPage(int index) {
         int i = MathHelper.clamp(index, 0, this.book.getPageCount() - 1);
         if (i != this.pageIndex) {
+            book.setPage(i, false);
             this.pageIndex = i;
             this.updatePageButtons();
             return true;
@@ -59,17 +65,23 @@ public class ExtendedBookScreen extends Screen {
     }
 
     protected void goToPreviousPage() {
-        if (this.pageIndex > 0) {
-            --this.pageIndex;
+        if (book.getPage(this.pageIndex).previousPage()) {
+            if (this.pageIndex > 0) {
+                --this.pageIndex;
+                book.setPage(this.pageIndex, true);
+            }
+            this.updatePageButtons();
         }
-        this.updatePageButtons();
     }
 
     protected void goToNextPage() {
-        if (this.pageIndex < book.getPageCount() - 1) {
-            ++this.pageIndex;
+        if (book.getPage(this.pageIndex).nextPage()) {
+            if (this.pageIndex < book.getPageCount() - 1) {
+                ++this.pageIndex;
+                book.setPage(this.pageIndex, false);
+            }
+            this.updatePageButtons();
         }
-        this.updatePageButtons();
     }
 
     private void updatePageButtons() {
@@ -128,10 +140,6 @@ public class ExtendedBookScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0) {
-
-        }
-
         return super.mouseClicked(mouseX, mouseY, button);
     }
 

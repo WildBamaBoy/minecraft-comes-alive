@@ -57,5 +57,12 @@
   "mca.books.blueprint.2" : "§f§lBlueprint§r§f\nThat's why I'm wandering across the planet, helping villages across the plane. And you could too! Craft yourself a blueprint using blue dye and paper and check out the catalog of buildings every village needs but can't build on their own.",
   "mca.books.blueprint.3" : "§f§lRequirements§r§f\nA buildings usually requires a minimum size. You can't just plug everything into a shed. Then you have to make sure that all the block requirements are fulfilled.",
   "mca.books.blueprint.4" : "§f§lFinish§r§f\nOnce done, hit 'Add Building' and watch how villagers integrate it into the village.",
-  "mca.books.blueprint.5" : "§f§lRanks§r§f\nBut you don't need to be selfless! The more advanced your village is, the higher your rank gets. Every dreamed to live a life of a noble? A mayor? Or even a King?"
+  "mca.books.blueprint.5" : "§f§lRanks§r§f\nBut you don't need to be selfless! The more advanced your village is, the higher your rank gets. Every dreamed to live a life of a noble? A mayor? Or even a King?",
+
+  "mca.books.supporters.author" : "The Community",
+  "mca.books.supporters.patrons" : "Patrons",
+  "mca.books.supporters.contributors" : "Contributors",
+  "mca.books.supporters.translators" : "Translators",
+  "mca.books.supporters.old" : "Before MCA 7.0.0",
+  "mca.books.supporters.thanks" : "Thank you!"
 }

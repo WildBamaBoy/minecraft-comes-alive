@@ -77,4 +77,12 @@ public class Book {
     public Page getPage(int index) {
         return pages.get(index);
     }
+
+    public void open() {
+
+    }
+
+    public void setPage(int i, boolean back) {
+        getPage(i).open(back);
+    }
 }

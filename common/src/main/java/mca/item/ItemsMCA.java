@@ -1,17 +1,26 @@
 package mca.item;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import mca.MCA;
 import mca.TagsMCA;
 import mca.block.BlocksMCA;
 import mca.client.book.Book;
+import mca.client.book.pages.DynamicListPage;
+import mca.client.book.pages.ListPage;
 import mca.client.book.pages.ScribbleTextPage;
+import mca.client.book.pages.TitlePage;
 import mca.cobalt.registration.Registration;
 import mca.crafting.recipe.RecipesMCA;
 import mca.entity.EntitiesMCA;
 import mca.entity.ai.relationship.Gender;
+import mca.resources.API;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -42,7 +51,8 @@ public interface ItemsMCA {
 
     Item BOOK_DEATH = register("book_death", new ExtendedWrittenBookItem(baseProps(), new Book("death")
             .setBackground(new Identifier("mca:textures/gui/books/death.png"))
-            .setTextFormatting(Formatting.GRAY)
+            .setTextFormatting(Formatting.WHITE)
+            .addPage(new TitlePage("death", Formatting.GRAY))
             .addSimplePages(3)
             .addPage(new ScribbleTextPage(new Identifier("mca:textures/gui/scribbles/test.png")))
             .addSimplePages(9)
@@ -50,23 +60,41 @@ public interface ItemsMCA {
 
     Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), new Book("romance")
             .setBackground(new Identifier("mca:textures/gui/books/romance.png"))
+            .addPage(new TitlePage("romance"))
             .addSimplePages(10)));
 
     Item BOOK_FAMILY = register("book_family", new ExtendedWrittenBookItem(baseProps(), new Book("family")
+            .addPage(new TitlePage("family"))
             .addSimplePages(8)));
 
     Item BOOK_ROSE_GOLD = register("book_rose_gold", new ExtendedWrittenBookItem(baseProps(), new Book("rose_gold")
             .setBackground(new Identifier("mca:textures/gui/books/rose_gold.png"))
+            .addPage(new TitlePage("rose_gold"))
             .addSimplePages(5)));
 
     Item BOOK_INFECTION = register("book_infection", new ExtendedWrittenBookItem(baseProps(), new Book("infection")
             .setBackground(new Identifier("mca:textures/gui/books/infection.png"))
+            .addPage(new TitlePage("infection"))
             .addSimplePages(6)));
 
     Item BOOK_BLUEPRINT = register("book_blueprint", new ExtendedWrittenBookItem(baseProps(), new Book("blueprint")
             .setBackground(new Identifier("mca:textures/gui/books/blueprint.png"))
             .setTextFormatting(Formatting.WHITE)
+            .addPage(new TitlePage("blueprint", Formatting.WHITE))
             .addSimplePages(6)));
+
+    Item BOOK_SUPPORTERS = register("book_supporters", new ExtendedWrittenBookItem(baseProps(), new Book("supporters")
+            .setBackground(new Identifier("mca:textures/gui/books/supporters.png"))
+            .addPage(new TitlePage("supporters"))
+            .addPage(new DynamicListPage("mca.books.supporters.patrons",
+                    page -> API.getSupporterGroup("patreon").stream().map(s -> new LiteralText(s).formatted(Formatting.RED)).collect(Collectors.toList())))
+            .addPage(new DynamicListPage("mca.books.supporters.contributors",
+                    page -> API.getSupporterGroup("contributors").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_GREEN)).collect(Collectors.toList())))
+            .addPage(new DynamicListPage("mca.books.supporters.translators",
+                    page -> API.getSupporterGroup("translators").stream().map(s -> new LiteralText(s).formatted(Formatting.DARK_BLUE)).collect(Collectors.toList())))
+            .addPage(new DynamicListPage("mca.books.supporters.old",
+                    page -> API.getSupporterGroup("old").stream().map(s -> new LiteralText(s).formatted(Formatting.BLACK)).collect(Collectors.toList())))
+            .addPage(new TitlePage("mca.books.supporters.thanks", ""))));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));

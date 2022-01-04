@@ -151,3 +151,4 @@
 * Can no longer pickup teens
 * Fixed curing zombie villagers
 * Added missing translations
+* Added book of supporter

@@ -27,6 +27,10 @@ public class API {
         return instance.pickSupporter();
     }
 
+    public static List<String> getSupporterGroup(String group) {
+        return instance.supporterGroups.getOrDefault(group, new LinkedList<>());
+    }
+
     public static String getRandomWord(String from) {
         return instance.pickWord(from);
     }
@@ -61,6 +65,7 @@ public class API {
         final VillageComponents villageComponents = new VillageComponents(rng);
 
         private final List<String> supporters = new ArrayList<>();
+        private final Map<String, List<String>> supporterGroups = new HashMap<>();
 
         private final Map<String, List<String>> words = new HashMap<>();
 
@@ -68,7 +73,11 @@ public class API {
             try {
                 villageComponents.load();
 
-                supporters.addAll(Arrays.asList(Resources.read("api/names/supporters.json", String[].class)));
+                Map<String, List<String>> strings = Resources.read("api/names/supporters.json", Map.class);
+                for (Map.Entry<String, List<String>> pair : strings.entrySet()) {
+                    supporters.addAll(pair.getValue());
+                    supporterGroups.computeIfAbsent(pair.getKey(), x -> new LinkedList<>()).addAll(pair.getValue());
+                }
 
                 words.put("zombie", Arrays.asList(Resources.read("api/names/zombie_words.json", String[].class)));
                 words.put("baby", Arrays.asList(Resources.read("api/names/baby_words.json", String[].class)));

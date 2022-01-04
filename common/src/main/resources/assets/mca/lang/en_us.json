@@ -84,7 +84,8 @@
   "item.mca.book_family": "Managing Your Family Vol. XI",
   "item.mca.book_rose_gold": "On Rose Gold",
   "item.mca.book_infection": "Beware the Infection!",
-  "item.mca.book_blueprint": "Construction work.",
+  "item.mca.book_blueprint": "Construction work",
+  "item.mca.book_supporters": "Book of Supporters",
 
   "analysis.title": "Last interaction analysis:",
   "analysis.base": "base",
