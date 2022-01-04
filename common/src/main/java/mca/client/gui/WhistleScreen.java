@@ -32,7 +32,7 @@ public class WhistleScreen extends Screen {
     private int selectedIndex;
 
     public WhistleScreen() {
-        super(new LiteralText("Whistle"));
+        super(new TranslatableText("gui.whistle.title"));
     }
 
     @Override
@@ -68,7 +68,8 @@ public class WhistleScreen extends Screen {
             }
             setVillagerData(selectedIndex);
         }));
-        villagerNameButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {}));
+        villagerNameButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 65, 200, 20, new LiteralText(""), b -> {
+        }));
 
         callButton = addButton(new ButtonWidget(width / 2 - 100, height / 2 + 90, 60, 20, new TranslatableText("gui.button.call"), (b) -> {
             NetworkHandler.sendToServer(new CallToPlayerMessage(UUID.fromString(keys.get(selectedIndex))));
@@ -89,14 +90,14 @@ public class WhistleScreen extends Screen {
     public void render(MatrixStack transform, int sizeX, int sizeY, float offset) {
         renderBackground(transform);
 
-        drawCenteredText(transform, textRenderer, new TranslatableText("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+        drawCenteredText(transform, textRenderer, new TranslatableText("gui.whistle.title"), width / 2, height / 2 - 100, 0xffffff);
 
         if (loadingAnimationTicks != -1) {
-            String loadingMsg = "Loading" + new String(new char[(loadingAnimationTicks / 5) % 4]).replace("\0", ".");
-            drawStringWithShadow(transform, textRenderer, loadingMsg, width / 2 - 20, height / 2 - 10, 0xffffff);
+            String loadingMsg = new String(new char[(loadingAnimationTicks / 5) % 4]).replace("\0", ".");
+            drawTextWithShadow(transform, textRenderer, new TranslatableText("gui.loading").append(new LiteralText(loadingMsg)), width / 2 - 20, height / 2 - 10, 0xffffff);
         } else {
             if (keys.size() == 0) {
-                drawCenteredText(transform, textRenderer, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);
+                drawCenteredText(transform, textRenderer, new TranslatableText("gui.whistle.noFamily"), width / 2, height / 2 + 50, 0xffffff);
             } else {
                 drawCenteredText(transform, textRenderer, (selectedIndex + 1) + " / " + keys.size(), width / 2, height / 2 + 50, 0xffffff);
             }

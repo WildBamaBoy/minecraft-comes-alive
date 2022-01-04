@@ -265,6 +265,8 @@
   "task.bePatient": "Work in progress - be patient!",
   "task.advancement_mca:adventure/kill_grim_reaper": "Kill the Grim Reaper!",
 
+  "gui.loading": "Loading",
+
   "gui.blueprint.taxes": "Taxes",
   "gui.blueprint.birth": "Birth limit",
   "gui.blueprint.marriage": "Marriage limit",
@@ -295,16 +297,13 @@
   "gui.blueprint.renameVillage": "Rename Village",
   "gui.blueprint.rename": "rename",
   "gui.blueprint.cancel": "cancel",
+  "gui.blueprint.catalogFull": "Building Catalog",
+  "gui.blueprint.catalogHint": "Build special buildings by fulfilling those conditions!",
 
-  "blueprint.noBuilding": "You need to stand within a building",
+  "gui.nameBaby.title": "Name Baby",
 
-  "blueprint.scan.overlap": "Building overlaps with existing one!",
-  "blueprint.scan.block_limit": "Building has too large volume!",
-  "blueprint.scan.size_limit": "Building is too large!",
-  "blueprint.scan.no_door": "Building requires at least one door!",
-  "blueprint.scan.too_small": "Building too small!",
-  "blueprint.scan.identical": "Existing building updated!",
-  "blueprint.scan.success": "Building added!",
+  "gui.whistle.title": "Whistle",
+  "gui.whistle.noFamily": "No family members could be found in the area.",
 
   "gui.village.left": "Now leaving %s",
   "gui.village.welcome": "Welcome to %s!",
@@ -383,8 +382,8 @@
 
   "gui.title.namebaby.male": "It's a boy!",
   "gui.title.namebaby.female": "It's a girl!",
-  "gui.title.namebaby": "Name your baby\\:",
-  "gui.title.tombstone": "Enter tombstone text\\:",
+  "gui.title.namebaby": "Name your baby:",
+  "gui.title.tombstone": "Enter tombstone text:",
   "gui.title.editor": "Villager Editor",
   "gui.title.whistle": "Call Family Member",
   "gui.title.staffoflife": "Select a Villager to Revive",
@@ -444,6 +443,22 @@
   "gui.villager_editor.relation.father": "Father",
   "gui.villager_editor.relation.mother": "Mother",
   "gui.villager_editor.relation.spouse": "Spouse",
+  "gui.villager_editor.page.general": "General",
+  "gui.villager_editor.page.body": "Body",
+  "gui.villager_editor.page.head": "Head",
+  "gui.villager_editor.page.personality": "Personality",
+  "gui.villager_editor.page.traits": "Traits",
+  "gui.villager_editor.page.debug": "Debug",
+
+  "blueprint.noBuilding": "You need to stand within a building",
+
+  "blueprint.scan.overlap": "Building overlaps with existing one!",
+  "blueprint.scan.block_limit": "Building has too large volume!",
+  "blueprint.scan.size_limit": "Building is too large!",
+  "blueprint.scan.no_door": "Building requires at least one door!",
+  "blueprint.scan.too_small": "Building too small!",
+  "blueprint.scan.identical": "Existing building updated!",
+  "blueprint.scan.success": "Building added!",
 
   "reaper.day": "The reaper fears the sunlight.",
   "reaper.totems": "Three obsidian pillars, lit with fire, are required.",

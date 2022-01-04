@@ -149,3 +149,5 @@
 * The king can assign archers and guards at will
 * Fixed king rank
 * Can no longer pickup teens
+* Fixed curing zombie villagers
+* Added missing translations
