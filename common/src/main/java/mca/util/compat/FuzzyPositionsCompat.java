@@ -38,4 +38,20 @@ public class FuzzyPositionsCompat {
          return blockPos;
       }
    }
+
+   /**
+    * @since MC 1.17
+    */
+   @VisibleForTesting
+   public static BlockPos downWhile(BlockPos pos, int minY, Predicate<BlockPos> condition) {
+      if (!condition.test(pos)) {
+         return pos;
+      } else {
+         BlockPos blockPos;
+         for(blockPos = pos.down(); blockPos.getY() > minY && condition.test(blockPos); blockPos = blockPos.down()) {
+         }
+
+         return blockPos;
+      }
+   }
 }

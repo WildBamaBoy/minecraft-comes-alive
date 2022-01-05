@@ -145,7 +145,7 @@
 
 # 7.0.7
 
-* Experienced villagers no longer become guards#
+* Experienced villagers no longer become guards
 * The king can assign archers and guards at will
 * Fixed king rank
 * Can no longer pickup teens
@@ -153,3 +153,4 @@
 * Added missing translations
 * Added book of supporter
 * Fixed gift desaturation not working
+* Improved teleportation, especially when following the player
