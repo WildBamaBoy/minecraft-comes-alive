@@ -537,7 +537,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             mcaBrain.think();
 
             // pop a item from the desaturation queue
-            if (age % Config.getInstance().giftDesaturationReset != 0) {
+            if (age % Config.getInstance().giftDesaturationReset == 0) {
                 getRelationships().getGiftSaturation().pop();
             }
         }
