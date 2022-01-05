@@ -255,9 +255,9 @@ public class Village implements Iterable<Building> {
             Text msg;
             float r = MathHelper.lerp(0.5f, getTaxes() / 100.0f, world.random.nextFloat());
             if (getTaxes() == 0.0f) {
-                r = 0.0f;
-            }
-            if (r < 0.1) {
+                msg = new TranslatableText("gui.village.taxes.no", getName()).formatted(Formatting.GREEN);
+                moodImpact = 5;
+            } else if (r < 0.1) {
                 msg = new TranslatableText("gui.village.taxes.more", getName()).formatted(Formatting.GREEN);
                 taxes += getPopulation() * 0.25;
             } else if (r < 0.3) {
