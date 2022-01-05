@@ -154,3 +154,4 @@
 * Added book of supporter
 * Fixed gift desaturation not working
 * Improved teleportation, especially when following the player
+* Fixed the pixel gap of headstones

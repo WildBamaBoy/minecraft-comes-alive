@@ -19,7 +19,7 @@
 		},
 		{
 			"name": "vertical_beam_lower",
-			"from": [6, 1, 12],
+			"from": [6, 0, 12],
 			"to": [10, 18, 14],
 			"faces": {
 				"north": {"uv": [0, 0, 3, 16], "texture": "#trim"},

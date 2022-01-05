@@ -20,7 +20,7 @@
 		},
 		{
 			"name": "headstone",
-			"from": [2, 1, 12],
+			"from": [2, 0, 12],
 			"to": [14, 19, 14],
 			"faces": {
 				"north": {"uv": [0, 0, 12, 16], "texture": "#headstone"},
