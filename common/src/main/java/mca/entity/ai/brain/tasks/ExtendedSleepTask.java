@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 public class ExtendedSleepTask extends Task<VillagerEntityMCA> {
     private long startTime;
     private long cooldown;
-    private float speed;
+    private final float speed;
     private BlockPos bed;
 
     public ExtendedSleepTask(float speed) {
@@ -29,6 +29,7 @@ public class ExtendedSleepTask extends Task<VillagerEntityMCA> {
         this.speed = speed;
     }
 
+    @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntityMCA entity) {
         if (entity.hasVehicle() && world.getTime() - cooldown > 40L) {
             return false;
@@ -68,15 +69,16 @@ public class ExtendedSleepTask extends Task<VillagerEntityMCA> {
         return false;
     }
 
+    @Override
     protected boolean shouldKeepRunning(ServerWorld world, VillagerEntityMCA entity, long time) {
         if (bed != null) {
-            boolean distance = bed.isWithinDistance(entity.getPos(), 1.14D);
-            return entity.getBrain().hasActivity(Activity.REST) && distance;
+            return entity.getBrain().hasActivity(Activity.REST) && entity.getY() > (double)bed.getY() + 0.4D && bed.isWithinDistance(entity.getPos(), 1.14D);
         } else {
             return false;
         }
     }
 
+    @Override
     protected void run(ServerWorld world, VillagerEntityMCA entity, long time) {
         if (time > this.startTime) {
             OpenDoorsTask.method_30760(world, entity, null, null);
@@ -84,10 +86,12 @@ public class ExtendedSleepTask extends Task<VillagerEntityMCA> {
         }
     }
 
+    @Override
     protected boolean isTimeLimitExceeded(long time) {
         return false;
     }
 
+    @Override
     protected void finishRunning(ServerWorld world, VillagerEntityMCA entity, long time) {
         if (entity.isSleeping()) {
             entity.wakeUp();
