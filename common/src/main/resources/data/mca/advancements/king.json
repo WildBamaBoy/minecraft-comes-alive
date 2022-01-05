@@ -22,5 +22,10 @@
         "rank": "king"
       }
     }
+  },
+  "rewards": {
+    "loot": [
+      "mca:books/supporters"
+    ]
   }
 }
