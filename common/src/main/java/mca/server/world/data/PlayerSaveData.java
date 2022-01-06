@@ -51,7 +51,7 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     private NbtCompound entityData;
 
     public static PlayerSaveData get(ServerWorld world, UUID uuid) {
-        return WorldUtils.loadData(world, nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_player_" + uuid.toString());
+        return WorldUtils.loadData(world.getServer().getOverworld(), nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_player_" + uuid.toString());
     }
 
     PlayerSaveData(ServerWorld world, UUID playerId) {

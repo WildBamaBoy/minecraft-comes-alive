@@ -15,7 +15,7 @@ public class SavedVillagers extends PersistentStateCompat {
     private final NbtCompound villagerData;
 
     public static SavedVillagers get(ServerWorld world) {
-        return WorldUtils.loadData(world, SavedVillagers::new, SavedVillagers::new, DATA_ID);
+        return WorldUtils.loadData(world.getServer().getOverworld(), SavedVillagers::new, SavedVillagers::new, DATA_ID);
     }
 
     SavedVillagers(ServerWorld world) {

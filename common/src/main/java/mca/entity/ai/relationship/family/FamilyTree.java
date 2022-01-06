@@ -26,7 +26,7 @@ public class FamilyTree extends PersistentStateCompat {
     private final Map<UUID, FamilyTreeNode> entries;
 
     public static FamilyTree get(ServerWorld world) {
-        return WorldUtils.loadData(world, FamilyTree::new, FamilyTree::new, DATA_ID);
+        return WorldUtils.loadData(world.getServer().getOverworld(), FamilyTree::new, FamilyTree::new, DATA_ID);
     }
 
     FamilyTree(ServerWorld world) {

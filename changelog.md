@@ -156,3 +156,5 @@
 * Improved teleportation, especially when following the player
 * Fixed the pixel gap of headstones
 * Fixed sleeping villagers not waking up when moved around
+* Added letter of condolence
+* Fixed dimension issues with player and villager data

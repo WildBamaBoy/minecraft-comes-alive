@@ -31,7 +31,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class BabyTracker extends PersistentStateCompat {
     public static BabyTracker get(ServerWorld world) {
-        return WorldUtils.loadData(world, nbt -> new BabyTracker(world, nbt), BabyTracker::new, "mca_baby_tracker");
+        return WorldUtils.loadData(world.getServer().getOverworld(), nbt -> new BabyTracker(world, nbt), BabyTracker::new, "mca_baby_tracker");
     }
 
     private final Map<Key, Pairing> pairings = new HashMap<>();
