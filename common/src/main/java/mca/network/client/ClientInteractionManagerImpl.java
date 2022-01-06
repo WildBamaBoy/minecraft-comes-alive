@@ -2,6 +2,7 @@ package mca.network.client;
 
 import java.util.Optional;
 
+import mca.client.book.Book;
 import mca.client.gui.*;
 import mca.entity.VillagerLike;
 import mca.item.BabyItem;
@@ -29,9 +30,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
                 if (client.player != null) {
                     ItemStack item = client.player.getStackInHand(Hand.MAIN_HAND);
                     if (item.getItem() instanceof ExtendedWrittenBookItem) {
-                        ExtendedWrittenBookItem bookItem = (ExtendedWrittenBookItem)item.getItem();
-                        ExtendedBookScreen book = new ExtendedBookScreen(bookItem.getBook());
-                        client.openScreen(book);
+                        Book book = ((ExtendedWrittenBookItem)item.getItem()).getBook(item);
+                        client.openScreen(new ExtendedBookScreen(book));
                     }
                 }
                 break;

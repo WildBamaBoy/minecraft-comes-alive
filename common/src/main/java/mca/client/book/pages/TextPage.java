@@ -8,9 +8,14 @@ import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 
 public class TextPage extends Page {
+    protected String content;
     private List<OrderedText> cachedPage;
 
-    public void setContent(String content) {
+    public TextPage(String name, int page) {
+        content = String.format("{ \"translate\": \"mca.books.%s.%d\" }", name, page);
+    }
+
+    public TextPage(String content) {
         this.content = content;
     }
 

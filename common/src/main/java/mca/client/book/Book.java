@@ -33,19 +33,25 @@ public class Book {
         return this;
     }
 
-    private String getContentString() {
-        return String.format(" { \"translate\": \"mca.books.%s.%d\" }", getBookName(), pages.size());
-    }
-
     public Book addPage(Page page) {
-        page.setContent(getContentString());
         pages.add(page);
         return this;
     }
 
+    private Book addPages(List<Page> pages) {
+        for (Page p : pages) {
+            addPage(p);
+        }
+        return this;
+    }
+
     public Book addSimplePages(int n) {
+        return addSimplePages(n, 0);
+    }
+
+    public Book addSimplePages(int n, int start) {
         for (int i = 0; i < n; i++) {
-            addPage(new TextPage());
+            addPage(new TextPage(getBookName(), start + i));
         }
         return this;
     }
@@ -84,5 +90,13 @@ public class Book {
 
     public void setPage(int i, boolean back) {
         getPage(i).open(back);
+    }
+
+    public Book copy() {
+        return new Book(getBookName())
+                .setBackground(getBackground())
+                .setTextFormatting(getTextFormatting())
+                .setPageTurnSound(hasPageTurnSound())
+                .addPages(pages);
     }
 }

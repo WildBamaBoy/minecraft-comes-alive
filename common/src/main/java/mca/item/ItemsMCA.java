@@ -9,6 +9,7 @@ import mca.client.book.Book;
 import mca.client.book.pages.DynamicListPage;
 import mca.client.book.pages.ListPage;
 import mca.client.book.pages.ScribbleTextPage;
+import mca.client.book.pages.TextPage;
 import mca.client.book.pages.TitlePage;
 import mca.cobalt.registration.Registration;
 import mca.crafting.recipe.RecipesMCA;
@@ -54,9 +55,9 @@ public interface ItemsMCA {
             .setBackground(new Identifier("mca:textures/gui/books/death.png"))
             .setTextFormatting(Formatting.WHITE)
             .addPage(new TitlePage("death", Formatting.GRAY))
-            .addSimplePages(3)
-            .addPage(new ScribbleTextPage(new Identifier("mca:textures/gui/scribbles/test.png")))
-            .addSimplePages(9)
+            .addSimplePages(3, 0)
+            .addPage(new ScribbleTextPage(new Identifier("mca:textures/gui/scribbles/test.png"), "death", 3))
+            .addSimplePages(9, 4)
     ));
 
     Item BOOK_ROMANCE = register("book_romance", new ExtendedWrittenBookItem(baseProps(), new Book("romance")
@@ -98,6 +99,10 @@ public interface ItemsMCA {
             .addPage(new DynamicListPage("mca.books.supporters.old",
                     page -> Supporters.getSupporterGroup("mca:old").stream().map(s -> new LiteralText(s).formatted(Formatting.BLACK)).collect(Collectors.toList())))
             .addPage(new TitlePage("mca.books.supporters.thanks", ""))));
+
+    Item CONDOLENCE_LETTER = register("condolence_letter", new ExtendedWrittenBookItem(baseProps(), new Book("condolence_letter")
+            .setBackground(new Identifier("mca:textures/gui/books/paper.png"))
+            .addPage(new TextPage("Test"))));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));
     Item ROSE_GOLD_DUST = register("rose_gold_dust", new Item(baseProps()));

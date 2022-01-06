@@ -9,8 +9,13 @@ import net.minecraft.util.Identifier;
 public class ScribbleTextPage extends TextPage {
     Identifier scribble;
 
-    public ScribbleTextPage(Identifier scribble) {
-        super();
+    public ScribbleTextPage(Identifier scribble, String name, int page) {
+        super(name, page);
+        this.scribble = scribble;
+    }
+
+    public ScribbleTextPage(Identifier scribble, String text) {
+        super(text);
         this.scribble = scribble;
     }
 
