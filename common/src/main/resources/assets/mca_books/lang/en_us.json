@@ -59,6 +59,8 @@
   "mca.books.blueprint.4" : "§f§lFinish§r§f\nOnce done, hit 'Add Building' and watch how villagers integrate it into the village.",
   "mca.books.blueprint.5" : "§f§lRanks§r§f\nBut you don't need to be selfless! The more advanced your village is, the higher your rank gets. Every dreamed to live a life of a noble? A mayor? Or even a King?",
 
+  "mca.letter.condolence" : "%s,\n\nIt is with great regret that we have to inform you of %s's death.\n\nYours sincerely,\nthe mayor of %s",
+
   "mca.books.supporters.author" : "The Community",
   "mca.books.supporters.patrons" : "Patrons",
   "mca.books.supporters.contributors" : "Contributors",

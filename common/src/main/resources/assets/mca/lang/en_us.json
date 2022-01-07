@@ -87,6 +87,8 @@
   "item.mca.book_blueprint": "Construction work",
   "item.mca.book_supporters": "Book of Supporters",
 
+  "item.mca.letter": "Letter",
+
   "analysis.title": "Last interaction analysis:",
   "analysis.base": "base",
   "analysis.desaturation": "desaturation",
@@ -494,6 +496,8 @@
   "server.marriageEnded": "%1$s has ended their marriage with you.",
   "server.playerNotCustomized.title": "Customize your player!",
   "server.playerNotCustomized.description": "Type '/mca editor'",
+  "server.mail.title": "You have mail!",
+  "server.mail.description": "Type '/mca mail' to receive",
 
   "gene.size": "Size",
   "gene.width": "Width",

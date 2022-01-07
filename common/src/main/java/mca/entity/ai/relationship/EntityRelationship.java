@@ -37,7 +37,7 @@ public interface EntityRelationship {
 
     Optional<Entity> getSpouse();
 
-    default void onTragedy(DamageSource cause, @Nullable BlockPos burialSite, RelationshipType type) {
+    default void onTragedy(DamageSource cause, @Nullable BlockPos burialSite, RelationshipType type, Entity victim) {
         if (type == RelationshipType.STRANGER) {
             return; // effects don't propagate from strangers
         }
@@ -45,13 +45,13 @@ public interface EntityRelationship {
         // notify family
         if (type == RelationshipType.SELF) {
             getParents().forEach(parent -> {
-                EntityRelationship.of(parent).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.CHILD));
+                EntityRelationship.of(parent).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.CHILD, victim));
             });
             getSiblings().forEach(sibling -> {
-                EntityRelationship.of(sibling).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SIBLING));
+                EntityRelationship.of(sibling).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SIBLING, victim));
             });
             getSpouse().ifPresent(spouse -> {
-                EntityRelationship.of(spouse).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SPOUSE));
+                EntityRelationship.of(spouse).ifPresent(r -> r.onTragedy(cause, burialSite, RelationshipType.SPOUSE, victim));
             });
         }
 

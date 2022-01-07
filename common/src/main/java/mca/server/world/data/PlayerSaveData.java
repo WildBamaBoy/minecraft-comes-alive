@@ -1,6 +1,13 @@
 package mca.server.world.data;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 import mca.advancement.criterion.CriterionMCA;
+import mca.cobalt.network.NetworkHandler;
 import mca.entity.EntitiesMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.EntityRelationship;
@@ -8,9 +15,13 @@ import mca.entity.ai.relationship.MarriageState;
 import mca.entity.ai.relationship.RelationshipType;
 import mca.entity.ai.relationship.family.FamilyTree;
 import mca.entity.ai.relationship.family.FamilyTreeNode;
+import mca.item.ItemsMCA;
+import mca.network.client.ShowToastRequest;
+import mca.resources.API;
 import mca.resources.Rank;
 import mca.resources.Tasks;
 import mca.util.NbtElementCompat;
+import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import mca.util.compat.OptionalCompat;
 import mca.util.compat.PersistentStateCompat;
@@ -18,7 +29,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
@@ -26,13 +40,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
-
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Stream;
 
 public class PlayerSaveData extends PersistentStateCompat implements EntityRelationship {
     private final UUID playerId;
@@ -49,6 +57,8 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
 
     private boolean entityDataSet;
     private NbtCompound entityData;
+
+    private List<NbtCompound> inbox = new LinkedList<>();
 
     public static PlayerSaveData get(ServerWorld world, UUID uuid) {
         return WorldUtils.loadData(world.getServer().getOverworld(), nbt -> new PlayerSaveData(world, nbt), w -> new PlayerSaveData(w, uuid), "mca_player_" + uuid.toString());
@@ -73,6 +83,14 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
             entityData = nbt.getCompound("entityData");
         } else {
             resetEntityData();
+        }
+
+        NbtList inbox = nbt.getList("inbox", NbtElementCompat.COMPOUND_TYPE);
+        if (inbox != null) {
+            this.inbox.clear();
+            for (int i = 0; i < inbox.size(); i++) {
+                this.inbox.add(inbox.getCompound(i));
+            }
         }
     }
 
@@ -105,12 +123,20 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
     }
 
     @Override
-    public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite, RelationshipType type) {
+    public void onTragedy(DamageSource cause, @Nullable BlockPos burialSite, RelationshipType type, Entity victim) {
         if (playerId == null) {
             return; // legacy: old saves will not have this
         }
 
-        EntityRelationship.super.onTragedy(cause, burialSite, type);
+        EntityRelationship.super.onTragedy(cause, burialSite, type, victim);
+
+        // send letter of condolence
+        if (victim instanceof VillagerEntityMCA) {
+            VillagerEntityMCA victimVillager = (VillagerEntityMCA)victim;
+            sendLetterOfCondolence((ServerPlayerEntity)world.getEntity(playerId),
+                    victimVillager.getName().getString(),
+                    victimVillager.getResidency().getHomeVillage().map(Village::getName).orElse(API.getVillagePool().pickVillageName("village")));
+        }
     }
 
     public void updateLastSeenVillage(VillageManager manager, ServerPlayerEntity self) {
@@ -245,6 +271,44 @@ public class PlayerSaveData extends PersistentStateCompat implements EntityRelat
         spouseName.ifPresent(n -> nbt.putString("spouseName", n.getString()));
         nbt.put("entityData", entityData);
         nbt.putBoolean("entityDataSet", entityDataSet);
+        nbt.put("inbox", NbtHelper.fromList(inbox, v -> v));
         return nbt;
+    }
+
+    public void sendMail(NbtCompound nbt) {
+        inbox.add(nbt);
+        markDirty();
+    }
+
+    public boolean hasMail() {
+        return inbox.size() > 0;
+    }
+
+    public ItemStack getMail() {
+        if (hasMail()) {
+            NbtCompound nbt = inbox.remove(0);
+            ItemStack stack = new ItemStack(ItemsMCA.LETTER, 1);
+            stack.setTag(nbt);
+            return stack;
+        } else {
+            return null;
+        }
+    }
+
+    public void sendLetterOfCondolence(ServerPlayerEntity player, String name, String village) {
+        NbtList l = new NbtList();
+        l.add(0, NbtString.of(String.format("{ \"translate\": \"mca.letter.condolence\", \"with\": [\"%s\", \"%s\", \"%s\"] }",
+                getFamilyEntry().getName(), name, village)));
+        NbtCompound nbt = new NbtCompound();
+        nbt.put("pages", l);
+        inbox.add(nbt);
+        showMailNotification(player);
+    }
+
+    public void showMailNotification(ServerPlayerEntity player) {
+        NetworkHandler.sendToPlayer(new ShowToastRequest(
+                "server.mail.title",
+                "server.mail.description"
+        ), player);
     }
 }

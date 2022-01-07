@@ -58,6 +58,10 @@ public class ServerInteractionManager {
                     "server.playerNotCustomized.description"
             ), player);
         }
+
+        if (playerData.hasMail()) {
+            playerData.showMailNotification(player);
+        }
     }
 
     /**

@@ -158,3 +158,4 @@
 * Fixed sleeping villagers not waking up when moved around
 * Added letter of condolence
 * Fixed dimension issues with player and villager data
+* Added mail system, used to notify the player about the death of family members

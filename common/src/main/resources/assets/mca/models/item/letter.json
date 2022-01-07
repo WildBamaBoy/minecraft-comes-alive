@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "mca:item/condolence_letter"
+    "layer0": "mca:item/letter"
   }
 }

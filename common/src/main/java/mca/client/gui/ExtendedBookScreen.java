@@ -127,9 +127,11 @@ public class ExtendedBookScreen extends Screen {
         this.drawTexture(matrices, i, 2, 0, 0, 192, 192);
 
         // page number
-        Text pageIndexText = new TranslatableText("book.pageIndicator", this.pageIndex + 1, Math.max(book.getPageCount(), 1)).formatted(book.getTextFormatting());
-        int k = textRenderer.getWidth(pageIndexText);
-        textRenderer.draw(matrices, pageIndexText, i - k + 192 - 44, 18.0f, 0);
+        if (book.getPageCount() > 1) {
+            Text pageIndexText = new TranslatableText("book.pageIndicator", this.pageIndex + 1, Math.max(book.getPageCount(), 1)).formatted(book.getTextFormatting());
+            int k = textRenderer.getWidth(pageIndexText);
+            textRenderer.draw(matrices, pageIndexText, i - k + 192 - 44, 18.0f, 0);
+        }
 
         Page page = book.getPage(pageIndex);
         if (page != null) {
