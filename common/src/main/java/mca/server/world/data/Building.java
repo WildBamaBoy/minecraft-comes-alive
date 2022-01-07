@@ -310,11 +310,10 @@ public class Building implements Serializable, Iterable<UUID> {
                         done.add(n);
 
                         //if not solid, continue
-                        if (state.isAir() && !world.isSkyVisible(n)) {
-                            //special conditions
+                        if (state.isAir()) {
                             if (!roofCache.containsKey(n)) {
                                 BlockPos n2 = n;
-                                int maxScanHeight = 12;
+                                int maxScanHeight = 16;
                                 for (int i = 0; i < maxScanHeight; i++) {
                                     roofCache.put(n2, false);
                                     n2 = n2.up();

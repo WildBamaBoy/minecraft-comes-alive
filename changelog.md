@@ -159,3 +159,4 @@
 * Added letter of condolence
 * Fixed dimension issues with player and villager data
 * Added mail system, used to notify the player about the death of family members
+* Glass roofs are now supported
