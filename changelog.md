@@ -164,3 +164,5 @@
 * Updated translations and fixed wrong variable syntax
 * Added some admin commands
 * Temporary disabled baby tracker
+* You can now trade with family
+* Fixed inventory duplication bug

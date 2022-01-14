@@ -27,13 +27,13 @@
     "height": 20,
     "notifyServer": true,
     "targetServer": false,
-    "constraints": "!family,trader,adult",
+    "constraints": "trader,adult",
     "hideOnFail": true
   },
   {
     "identifier": "gui.button.inventory",
     "x": 140,
-    "y": -73,
+    "y": -52,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -44,7 +44,7 @@
   {
     "identifier": "gui.button.command",
     "x": 140,
-    "y": -52,
+    "y": -31,
     "width": 65,
     "height": 20,
     "notifyServer": false,
@@ -54,7 +54,7 @@
   {
     "identifier": "gui.button.work",
     "x": 140,
-    "y": -31,
+    "y": -10,
     "width": 65,
     "height": 20,
     "notifyServer": false,
@@ -65,7 +65,7 @@
   {
     "identifier": "gui.button.familyTree",
     "x": 140,
-    "y": -10,
+    "y": 11,
     "width": 65,
     "height": 20,
     "notifyServer": false,
