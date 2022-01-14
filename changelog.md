@@ -166,3 +166,4 @@
 * Temporary disabled baby tracker
 * You can now trade with family
 * Fixed inventory duplication bug
+* Fixed deadlock in relation with reaper spawner

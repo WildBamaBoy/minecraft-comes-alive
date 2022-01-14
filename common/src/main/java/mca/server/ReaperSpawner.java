@@ -22,6 +22,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.text.TranslatableText;
@@ -32,7 +33,7 @@ import net.minecraft.world.World;
 
 public class ReaperSpawner {
     private static final Direction[] HORIZONTALS = new Direction[] {
-        Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
+            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
     };
 
     private final Object lock = new Object();
@@ -59,8 +60,22 @@ public class ReaperSpawner {
     }
 
     public void trySpawnReaper(ServerWorld world, BlockState state, BlockPos pos) {
+        if (!state.isIn(BlockTags.FIRE)) {
+            return;
+        }
 
-        if (!(state.isIn(BlockTags.FIRE) && world.getBlockState(pos.down()).getBlock() == Blocks.EMERALD_BLOCK)) {
+        //make sure the chunks are loaded
+        //should fix deadlock issues we were facing
+        ServerChunkManager manager = world.getChunkManager();
+        int range = 4;
+        if (!(manager.isChunkLoaded((pos.getX() - range) >> 4, (pos.getZ() - range) >> 4) &&
+                manager.isChunkLoaded((pos.getX() + range) >> 4, (pos.getZ() - range) >> 4) &&
+                manager.isChunkLoaded((pos.getX() - range) >> 4, (pos.getZ() + range) >> 4) &&
+                manager.isChunkLoaded((pos.getX() + range) >> 4, (pos.getZ() + range) >> 4))) {
+            return;
+        }
+
+        if (world.getBlockState(pos.down()).getBlock() != Blocks.EMERALD_BLOCK) {
             return;
         }
 
@@ -124,8 +139,8 @@ public class ReaperSpawner {
     private Set<BlockPos> getTotems(World world, BlockPos pos) {
         return Stream.of(HORIZONTALS).map(d -> pos.offset(d, 3)).filter(pillarCenter -> {
             return world.getBlockState(pillarCenter).isOf(Blocks.OBSIDIAN)
-                && world.getBlockState(pillarCenter.down()).isOf(Blocks.OBSIDIAN)
-                && world.getBlockState(pillarCenter.up()).isIn(BlockTags.FIRE);
+                    && world.getBlockState(pillarCenter.down()).isOf(Blocks.OBSIDIAN)
+                    && world.getBlockState(pillarCenter.up()).isIn(BlockTags.FIRE);
         }).map(BlockPos::up).collect(Collectors.toSet());
     }
 
@@ -181,7 +196,8 @@ public class ReaperSpawner {
         private int ticks;
         private SummonPosition position;
 
-        ActiveSummon(long l) {}
+        ActiveSummon(long l) {
+        }
 
         ActiveSummon(NbtCompound nbt) {
             ticks = nbt.getInt("ticks");
