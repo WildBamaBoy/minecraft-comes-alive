@@ -167,3 +167,4 @@
 * You can now trade with family
 * Fixed inventory duplication bug
 * Fixed deadlock in relation with reaper spawner
+* Villager marriages now respect player hearts
