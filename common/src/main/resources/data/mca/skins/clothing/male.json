@@ -1,5 +1,5 @@
 {
-  "minecraft:none": { "count": 9, "chance": 0.85 },
+  "minecraft:none": { "count": 10, "chance": 0.85 },
   "minecraft:armorer": { "count": 5 },
   "minecraft:butcher": { "count": 5 },
   "minecraft:cartographer": { "count": 5 },
