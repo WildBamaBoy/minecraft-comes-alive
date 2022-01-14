@@ -147,7 +147,7 @@ public final class FamilyTreeNode implements Serializable {
 
     public void updateMarriage(@Nullable Entity spouse, @Nullable MarriageState state) {
         this.spouse = spouse == null ? Util.NIL_UUID : spouse.getUuid();
-        this.marriageState = spouse == null ? MarriageState.SINGLE : state;
+        this.marriageState = state == null && spouse == null ? MarriageState.SINGLE : state;
         if (rootNode != null) {
             if (spouse != null) {
                 // ensure the family tree has an entry

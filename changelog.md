@@ -160,3 +160,6 @@
 * Fixed dimension issues with player and villager data
 * Added mail system, used to notify the player about the death of family members
 * Glass roofs are now supported
+* Added more jobless skins
+* Updated translations and fixed wrong variable syntax
+* Added some admin commands

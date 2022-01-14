@@ -444,6 +444,7 @@
   "gui.villager_editor.name_created": "Name '%1$s' is unknown, an entry has been created.",
   "gui.villager_editor.name_unique": "Name '%1$s' is unique and has been assigned.",
   "gui.villager_editor.name_not_unique": "Name '%1$s' is not unique, consider using the UUID instead.",
+  "gui.villager_editor.list_of_ids": "Available UUIDs are %s$s.",
   "gui.villager_editor.relation.father": "Father",
   "gui.villager_editor.relation.mother": "Mother",
   "gui.villager_editor.relation.spouse": "Spouse",

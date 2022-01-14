@@ -121,6 +121,9 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
             } else {
                 if (nodes.size() > 1) {
                     e.sendMessage(new TranslatableText("gui.villager_editor.name_not_unique", name).formatted(Formatting.RED), true);
+
+                    String uuids = nodes.stream().map(FamilyTreeNode::id).map(UUID::toString).collect(Collectors.joining(", "));
+                    e.sendMessage(new TranslatableText("gui.villager_editor.list_of_ids", uuids), false);
                 } else {
                     e.sendMessage(new TranslatableText("gui.villager_editor.name_unique", name), true);
                 }

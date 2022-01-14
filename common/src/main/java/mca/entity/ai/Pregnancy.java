@@ -1,19 +1,24 @@
 package mca.entity.ai;
 
+import java.util.Random;
 import mca.Config;
 import mca.advancement.criterion.CriterionMCA;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.AgeState;
 import mca.entity.ai.relationship.Gender;
+import mca.server.world.data.BabyTracker;
 import mca.util.WorldUtils;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Optional;
+import net.minecraft.server.world.ServerWorld;
 
 /**
  * The progenator. Preg-genator? Preg-genator.
@@ -74,8 +79,6 @@ public class Pregnancy {
             child.setPosition(mother.getX(), mother.getY(), mother.getZ());
             WorldUtils.spawnEntity(mother.world, child, SpawnReason.BREEDING);
         });
-
-
     }
 
     public boolean tryStartGestation() {
@@ -122,5 +125,31 @@ public class Pregnancy {
         return mother.getRelationships().getSpouse()
                 .filter(father -> father instanceof VillagerEntityMCA)
                 .map(VillagerEntityMCA.class::cast);
+    }
+
+    public void procreate(Entity spouse) {
+        Random random = mother.getRandom();
+
+        //make sure this villager is registered in the family tree
+        boolean areTwins = random.nextInt(100) < Config.getInstance().chanceToHaveTwins;
+        int count = areTwins ? 2 : 1;
+
+        // advancement
+        if (spouse instanceof ServerPlayerEntity) {
+            CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity)spouse, count);
+        }
+
+        long seed = random.nextLong();
+        for (int i = 0; i < count; i++) {
+            BabyTracker.get((ServerWorld)mother.world).getPairing(mother.getUuid(), spouse.getUuid()).addChild(state -> {
+                state.setGender(Gender.getRandom());
+                state.setOwner(mother);
+                state.setSeed(seed);
+                ItemStack stack = state.createItem();
+                if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
+                    mother.getInventory().addStack(stack);
+                }
+            });
+        }
     }
 }

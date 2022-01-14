@@ -9,20 +9,26 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import mca.Config;
 import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.relationship.MarriageState;
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.item.BabyItem;
 import mca.server.world.data.PlayerSaveData;
 import mca.server.world.data.Village;
 import mca.server.world.data.VillageManager;
+import net.minecraft.command.argument.UuidArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Util;
 
@@ -44,6 +50,8 @@ public class AdminCommand {
                 .then(register("resetPlayerData", AdminCommand::resetPlayerData))
                 .then(register("resetMarriage", AdminCommand::resetMarriage))
                 .then(register("listVillages", AdminCommand::listVillages))
+                .then(register("assumeNameDead").then(CommandManager.argument("name", StringArgumentType.string()).executes(AdminCommand::assumeNameDead)))
+                .then(register("assumeUuidDead").then(CommandManager.argument("uuid", UuidArgumentType.uuid()).executes(AdminCommand::assumeUuidDead)))
                 .then(register("removeVillageWithId").then(CommandManager.argument("id", IntegerArgumentType.integer()).executes(AdminCommand::removeVillageWithId)))
                 .then(register("removeVillage").then(CommandManager.argument("name", StringArgumentType.string()).executes(AdminCommand::removeVillage)))
                 .then(register("buildingProcessingRate").then(CommandManager.argument("cooldown", IntegerArgumentType.integer()).executes(AdminCommand::buildingProcessingRate)))
@@ -62,6 +70,58 @@ public class AdminCommand {
             ), ctx);
         }
         return 0;
+    }
+
+    private static int assumeNameDead(CommandContext<ServerCommandSource> ctx) {
+        String name = StringArgumentType.getString(ctx, "name");
+        FamilyTree tree = FamilyTree.get(ctx.getSource().getWorld());
+        List<FamilyTreeNode> collect = tree.getAllWithName(name).filter(n -> !n.isDeceased()).collect(Collectors.toList());
+        if (collect.isEmpty()) {
+            fail("Villager does not exist.", ctx);
+        } else if (collect.size() == 1) {
+            collect.get(0).setDeceased(true);
+            assumeDead(ctx, collect.get(0).id());
+            success("Villager has been marked as deceased", ctx);
+        } else {
+            fail("Villager not unique, use uuid!", ctx);
+        }
+        return 0;
+    }
+
+    private static int assumeUuidDead(CommandContext<ServerCommandSource> ctx) {
+        UUID uuid = UuidArgumentType.getUuid(ctx, "uuid");
+        FamilyTree tree = FamilyTree.get(ctx.getSource().getWorld());
+        Optional<FamilyTreeNode> node = tree.getOrEmpty(uuid);
+        if (node.isPresent()) {
+            node.get().setDeceased(true);
+            assumeDead(ctx, uuid);
+            success("Villager has been marked as deceased", ctx);
+        } else {
+            fail("Villager does not exist.", ctx);
+        }
+        return 0;
+    }
+
+    private static void assumeDead(CommandContext<ServerCommandSource> ctx, UUID uuid) {
+        //remove from villages
+        for (Village village : VillageManager.get(ctx.getSource().getWorld())) {
+            village.removeResident(uuid);
+        }
+
+        //remove spouse too
+        FamilyTree tree = FamilyTree.get(ctx.getSource().getWorld());
+        Optional<FamilyTreeNode> node = tree.getOrEmpty(uuid);
+        node.filter(n -> n.spouse() != null).ifPresent(n -> {
+            n.updateMarriage(null, MarriageState.WIDOW);
+        });
+
+        //remove from player spouse
+        ctx.getSource().getWorld().getPlayers().forEach(player -> {
+            PlayerSaveData playerData = PlayerSaveData.get(ctx.getSource().getWorld(), player.getUuid());
+            if (playerData.getSpouseUuid().orElse(Util.NIL_UUID).equals(uuid)) {
+                playerData.endMarriage(MarriageState.SINGLE);
+            }
+        });
     }
 
     private static int removeVillageWithId(CommandContext<ServerCommandSource> ctx) {

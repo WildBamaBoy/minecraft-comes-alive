@@ -474,7 +474,11 @@ public class Village implements Iterable<Building> {
     }
 
     public void removeResident(VillagerEntityMCA villager) {
-        buildings.values().forEach(b -> b.getResidents().remove(villager.getUuid()));
+        removeResident(villager.getUuid());
+    }
+
+    public void removeResident(UUID uuid) {
+        buildings.values().forEach(b -> b.getResidents().remove(uuid));
     }
 
     public EquipmentSet getGuardEquipment(VillagerProfession profession) {

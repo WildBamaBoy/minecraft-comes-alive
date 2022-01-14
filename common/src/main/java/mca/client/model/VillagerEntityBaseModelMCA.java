@@ -132,7 +132,7 @@ public class VillagerEntityBaseModelMCA<T extends MobEntity & VillagerLike<T>> e
                 matrices.scale(1.166666f, 0.8f + breastSize * 0.3f, 0.75f + breastSize * 0.45f);
                 matrices.scale(breastSize * 0.275f + 0.85f, breastSize * 0.65f + 0.75f, breastSize * 0.65f + 0.75f);
                 for (ModelPart part : breastsParts()) {
-                    part.pitch = (float)Math.PI * 0.3f;//TODO this matrix order will cause minor distortion
+                    part.pitch = (float)Math.PI * 0.3f;
                     part.render(matrices, vertices, light, overlay, red, green, blue, alpha);
                 }
                 matrices.pop();

@@ -190,8 +190,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     @Override
     public void endMarriage(MarriageState newState) {
-        getFamilyEntry().setMarriageState(newState);
-        getFamilyEntry().updateMarriage(null, null);
+        getFamilyEntry().updateMarriage(null, newState);
     }
 
     public GiftSaturation getGiftSaturation() {

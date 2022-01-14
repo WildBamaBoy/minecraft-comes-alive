@@ -1,17 +1,14 @@
 package mca.entity.ai;
 
 import mca.Config;
-import mca.advancement.criterion.CriterionMCA;
 import mca.cobalt.network.NetworkHandler;
 import mca.entity.Status;
 import mca.entity.VillagerEntityMCA;
-import mca.entity.ai.relationship.Gender;
 import mca.entity.interaction.gifts.GiftType;
 import mca.entity.interaction.gifts.Response;
 import mca.item.SpecialCaseGift;
 import mca.network.client.AnalysisResults;
 import mca.resources.data.IntAnalysis;
-import mca.server.world.data.BabyTracker;
 import mca.util.network.datasync.CDataManager;
 import mca.util.network.datasync.CDataParameter;
 import mca.util.network.datasync.CParameter;
@@ -19,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
@@ -68,39 +64,17 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
             return;
         }
 
-        Random random = entity.getRandom();
         if (procreateTick > 0) {
             procreateTick--;
             entity.getNavigation().stop();
             entity.world.sendEntityStatus(entity, Status.VILLAGER_HEARTS);
         } else {
-            // TODO: Move this to the Pregnancy
-            //make sure this villager is registered in the family tree
             getFamilyTree().getOrCreate(entity);
             getSpouse().ifPresent(spouse -> {
-                boolean areTwins = random.nextInt(100) < Config.getInstance().chanceToHaveTwins;
-                int count = areTwins ? 2 : 1;
+                pregnancy.procreate(spouse);
 
-                // advancement
-                if (spouse instanceof ServerPlayerEntity) {
-                    CriterionMCA.BABY_CRITERION.trigger((ServerPlayerEntity)spouse, count);
-                }
-
-                long seed = random.nextLong();
-                for (int i = 0; i < count; i++) {
-                    BabyTracker.get((ServerWorld)entity.world).getPairing(entity.getUuid(), spouse.getUuid()).addChild(state -> {
-                        state.setGender(Gender.getRandom());
-                        state.setOwner(entity);
-                        state.setSeed(seed);
-                        ItemStack stack = state.createItem();
-                        if (!(spouse instanceof PlayerEntity && ((PlayerEntity)spouse).giveItemStack(stack))) {
-                            entity.getInventory().addStack(stack);
-                        }
-                    });
-                }
+                entity.setTrackedValue(IS_PROCREATING, false);
             });
-
-            entity.setTrackedValue(IS_PROCREATING, false);
         }
     }
 
