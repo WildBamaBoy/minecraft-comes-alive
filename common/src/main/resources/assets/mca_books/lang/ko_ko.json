@@ -1,3 +1,8 @@
 {
-
+	"mca.books.blueprint.author": "'카를' 건축가",
+	"mca.books.death.author": "'오지' 기사",
+	"mca.books.family.author": "'린네' 성직자",
+	"mca.books.infection.author": "'리차드' 좀비",
+	"mca.books.romance.author": "'제리' 사서",
+	"mca.books.rose_gold.author": "'윌리엄' 광부"
 }

@@ -52,5 +52,12 @@
 	"mca.books.rose_gold.2": "§lStaub herstellen§r\nRosengold kann nach dem Schmelzen in einen feinen Staub zerkleinert werden. Schau genau auf den Rosengold Staub im hellen Licht und du wirst glänzende Flecken aus reinem Gold sehen! §r",
 	"mca.books.rose_gold.3": "§lStaub waschen§r\nMit ein wenig Arbeit können wir das Gold aus dem Staub extrahieren und reine Goldbarren erstellen. Mischen Sie den Staub einfach mit einem Eimer Wasser. Die leichteren Silber- und Kupferkomponenten werden wegwaschen, sodass Sie etwa 6 kleinere Goldstaubstapeln haben.",
 	"mca.books.rose_gold.4": "§lGold extrahieren§r\nArrangiere 9 Staubhaufen auf deinem Handwerkstisch, und wenn du Glück hast, wirst du einen Goldnugget in einem davon finden! rUnd natürlich, wenn du 9 Goldnuggets hast, kannst du sie zu einem festen Goldbarren herstellen.",
-	"mca.books.rose_gold.author": "William der Bergarbeiter"
+	"mca.books.rose_gold.author": "William der Bergarbeiter",
+	"mca.books.supporters.author": "Die Gemeinschaft",
+	"mca.books.supporters.contributors": "Mitwirkende",
+	"mca.books.supporters.old": "Vor MCA 7.0.0",
+	"mca.books.supporters.patrons": "Unterstützer",
+	"mca.books.supporters.thanks": "Vielen Dank!",
+	"mca.books.supporters.translators": "Übersetzer",
+	"mca.letter.condolence": "%s,\n\nMit großem Bedauern müssen wir dich über den Tod von %s informieren.\n\nMit aufrichtiger Trauer,\nder Bürgermeister von %s"
 }

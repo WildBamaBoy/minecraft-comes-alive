@@ -1,5 +1,5 @@
 {
-	"adult.chore.mining.orenotify": "Found something! There's some %v2% nearby.",
+	"adult.chore.mining.orenotify": "Found something! There's some %2$s nearby.",
 	"adult.dialogue.chat.fail4": "Puppant.",
 	"adult.dialogue.chat.fail5": "You should be thrown in a dungeon! ",
 	"adult.dialogue.flirt.fail3": "Lanqas f'miljun sena.",
@@ -65,7 +65,7 @@
 	"adult.interaction.sethome.success2": "Fhimt, nibda norqod hawn bil-lejl.",
 	"adult.interaction.sethome.success3": "Mela le, %1$s.",
 	"adult.interaction.setworkplace.success1": "Mela le, %PlayerName%.",
-	"child.chore.mining.orenotify": "I think there's some %v2% nearby...",
+	"child.chore.mining.orenotify": "I think there's some %2$s nearby...",
 	"child.dialogue.chat.fail1": "Jekk ma' ttinix il-gallettini inżomm in-nifs.",
 	"child.dialogue.chat.fail2": "Il-ġenituri tiegħi qaluli biex ma' nkellmikx, li int ħażin.",
 	"child.dialogue.chat.fail3": "*Daħk* Tidher tinten!",
@@ -108,10 +108,9 @@
 	"child.gift.good1": "Dan.. dan kollu tiegħi?",
 	"child.gift.good2": "Dan tassew għalija?",
 	"child.gift.good3": "Tal-ġenn!",
-	"childp.chore.mining.orenotify": "I think there's some %v2% nearby...",
+	"childp.chore.mining.orenotify": "I think there's some %2$s nearby...",
 	"childp.dialogue.chat.fail2": "I don't think %1$s would like that very much.",
 	"childp.dialogue.chat.fail3": "Is that why %1$s talked about this thing called \"divorce?\"",
-	"childp.dialogue.chat.fail4": "Nixtieq papà ġdid.",
 	"childp.dialogue.chat.success1": "Eh, kond sejjer nesplora aktar tard.",
 	"childp.dialogue.chat.success2": "Nistgħu immorru nikkampjaw? U ejja?!",
 	"childp.dialogue.chat.success3": "Bonġu, tista' tagħmel kejk?",
@@ -154,7 +153,7 @@
 	"gift.confectionary.best3": "Grazzi!",
 	"gift.plant.best3": "Grazzi!",
 	"gift.plant.better": "Le grazzi.",
-	"spouse.chore.mining.orenotify": "There's some %v2% nearby...",
+	"spouse.chore.mining.orenotify": "There's some %2$s nearby...",
 	"spouse.dialogue.chat.fail1": "Naf li m'aħniex l-aktar familja fqira, iżda...",
 	"spouse.dialogue.chat.fail2": "Nieħu pjażir fil-kumpanija tiegħek imma nixtieq ftit ħin għalija.",
 	"spouse.dialogue.chat.fail3": "Xi kultant nixtieq li kelli l-\"għar\" personali tiegħi biex naħrab minnek u minn kullħadd.",
@@ -195,5 +194,5 @@
 	"spouse.interaction.marry.success2": "Fl-aħħar miżżewġin! Issa x'imiss?",
 	"spouse.interaction.marry.success3": "Tassew ferħana li miżżewġa lilek, %1$s.",
 	"spouse.interaction.marry.success4": "Għandi ġenn biex nibdew ħajjitna flimkien!",
-	"spouse.interaction.sethome.success1": "I really like this place, good job %v1%!"
+	"spouse.interaction.sethome.success1": "I really like this place, good job %1$s!"
 }

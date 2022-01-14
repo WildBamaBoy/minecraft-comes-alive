@@ -52,5 +52,11 @@
 	"mca.books.rose_gold.2": "§lCreando Polvo§r\nOro rosado, una vez fundido, puede ser triturado en un fino polvo. ¡Mira de cerca el polvo de oro rosado con una luz, y verás brillantes destellos de oro puro!§r",
 	"mca.books.rose_gold.3": "§lSeparando el Polvo§r\nCon un poco de trabajo, podemos extraer el oro del polvo de oro rosado y crear lingotes de oro puro. Simplemente mezcle el polvo con un cubo de agua. Los componentes de plata y cobre más ligeros se desvanecerán, dejándote con unas 6 pilas más pequeñas de polvo de oro.",
 	"mca.books.rose_gold.4": "§lExtracción de Oro§r\nOrdena 9 pilas de polvo en tu mesa de crafted, y si tienes suerte, ¡encontrarás una pepita de oro en uno de ellos! y por supuesto, una vez que tengas 9 pepitas de oro, podrás fabricarlos en un lingote de oro sólido.",
-	"mca.books.rose_gold.author": "William el Minero"
+	"mca.books.rose_gold.author": "William el Minero",
+	"mca.books.supporters.author": "La Comunidad",
+	"mca.books.supporters.contributors": "Contribuyentes",
+	"mca.books.supporters.old": "Antes de MCA 7.0.0",
+	"mca.books.supporters.thanks": "Gracias!",
+	"mca.books.supporters.translators": "Traductores",
+	"mca.letter.condolence": "%s,\n\nLamentamos mucho que tengamos que informarte de la muerte de %s.\n\nAtentamente,\nel alcalde de %s"
 }
