@@ -1,6 +1,7 @@
 package mca.server.world.data;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 import mca.Config;
 import mca.entity.EquipmentSet;
 import mca.entity.VillagerEntityMCA;
+import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.Gender;
 import mca.resources.API;
@@ -302,7 +304,7 @@ public class Village implements Iterable<Building> {
             cleanReputation();
         }
 
-        if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time) {
+        if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time || true) {
             spawnGuards(world);
             procreate(world);
             marry(world);
@@ -441,25 +443,28 @@ public class Village implements Iterable<Building> {
                 .filter(v -> !v.getRelationships().isMarried() && !v.isBaby())
                 .collect(Collectors.toList());
 
-        if (availableVillagers.size() < allVillagers.size() * Config.getInstance().marriageLimit / 100f) {
+        if (availableVillagers.size() <= 1 || availableVillagers.size() < allVillagers.size() * Config.getInstance().marriageLimit / 100f) {
             return; // The village is too small.
         }
 
-        // pick a random villager
-        PoolUtil.pop(availableVillagers, world.random).ifPresent(suitor -> {
-            // Find a potential mate
-            PoolUtil.pop(availableVillagers.stream()
-                    .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
-                    .filter(i -> !suitor.getRelationships().getFamilyEntry().isRelative(i.getUuid()))
-                    .collect(Collectors.toList()), world.random).ifPresent(mate -> {
-                // smash their bodies together like nobody's business!
-                suitor.getRelationships().marry(mate);
-                mate.getRelationships().marry(suitor);
+        //use the one with the least max hearts
+        //this feels random yet respects relationships
+        availableVillagers.sort(Comparator.comparingInt(a -> a.getVillagerBrain().getMemories().values().stream().map(Memories::getHearts).max(Integer::compare).orElse(0)));
 
-                // tell everyone about it
-                suitor.sendEventMessage(new TranslatableText("events.marry", suitor.getName(), mate.getName()));
-            });
-        });
+        VillagerEntityMCA suitor = availableVillagers.remove(0);
+
+        // Find a potential mate
+        availableVillagers.stream()
+                .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
+                .filter(i -> !suitor.getRelationships().getFamilyEntry().isRelative(i.getUuid()))
+                .findFirst().ifPresent(mate -> {
+                    // smash their bodies together like nobody's business!
+                    suitor.getRelationships().marry(mate);
+                    mate.getRelationships().marry(suitor);
+
+                    // tell everyone about it
+                    suitor.sendEventMessage(new TranslatableText("events.marry", suitor.getName(), mate.getName()));
+                });
     }
 
     public void markDirty(ServerWorld world) {
