@@ -163,3 +163,4 @@
 * Added more jobless skins
 * Updated translations and fixed wrong variable syntax
 * Added some admin commands
+* Temporary disabled baby tracker

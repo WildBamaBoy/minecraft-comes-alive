@@ -53,8 +53,10 @@ public class BabyTracker extends PersistentStateCompat {
     }
 
     public boolean hasActiveBaby(UUID mother, UUID father) {
-        Key key = new Key(mother, father);
-        return pairings.containsKey(key) && getPairing(key).getChildCount() > 0;
+        //todo temporary disabled
+        return false;
+        //Key key = new Key(mother, father);
+        //return pairings.containsKey(key) && getPairing(key).getChildCount() > 0;
     }
 
     public Pairing getPairing(UUID mother, UUID father) {

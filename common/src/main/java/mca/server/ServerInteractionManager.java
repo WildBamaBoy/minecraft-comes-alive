@@ -260,8 +260,9 @@ public class ServerInteractionManager {
         }
 
         // Ensure we don't already have a baby
-        BabyTracker.Pairing pairing = BabyTracker.get(sender.getServerWorld()).getPairing(sender.getUuid(), senderData.getSpouseUuid().orElse(null));
-        if (pairing.getChildCount() > 0) {
+        BabyTracker tracker = BabyTracker.get(sender.getServerWorld());
+        BabyTracker.Pairing pairing = tracker.getPairing(sender.getUuid(), senderData.getSpouseUuid().orElse(null));
+        if (tracker.hasActiveBaby(sender.getUuid(), senderData.getSpouseUuid().orElse(null))) {
             if (pairing.locateBaby(sender).getRight().wasFound()) {
                 failMessage(sender, new TranslatableText("server.babyPresent"));
             } else {
