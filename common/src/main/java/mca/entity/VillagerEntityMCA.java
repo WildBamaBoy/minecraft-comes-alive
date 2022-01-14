@@ -1063,6 +1063,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
         speed *= genetics.getGene(Genetics.SIZE);
 
         setMovementSpeed(speed);
+
+        inventory.clear();
         InventoryUtils.readFromNBT(inventory, nbt);
     }
 
