@@ -194,6 +194,10 @@ public final class FamilyTreeNode implements Serializable {
         return getRelatives(depth, depth);
     }
 
+    public Stream<UUID> getChildren() {
+        return getRelatives(0, 1);
+    }
+
     public Stream<UUID> getRelatives(int parentDepth, int childrenDepth) {
         Set<UUID> family = new HashSet<>();
 

@@ -18,6 +18,7 @@ import mca.entity.VillagerEntityMCA;
 import mca.entity.ai.Memories;
 import mca.entity.ai.ProfessionsMCA;
 import mca.entity.ai.relationship.Gender;
+import mca.entity.ai.relationship.family.FamilyTree;
 import mca.resources.API;
 import mca.resources.PoolUtil;
 import mca.resources.Rank;
@@ -304,7 +305,7 @@ public class Village implements Iterable<Building> {
             cleanReputation();
         }
 
-        if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time || true) {
+        if (isVillageUpdateTime && lastMoveIn + MOVE_IN_COOLDOWN < time) {
             spawnGuards(world);
             procreate(world);
             marry(world);
@@ -425,6 +426,7 @@ public class Village implements Iterable<Building> {
         // look for married women without baby
         PoolUtil.pick(getResidents(world), world.random)
                 .filter(villager -> villager.getGenetics().getGender() == Gender.FEMALE)
+                .filter(villager -> world.random.nextFloat () < 1.0 / (FamilyTree.get(world).getOrCreate(villager).getChildren().count() + 0.1))
                 .filter(villager -> villager.getRelationships().getPregnancy().tryStartGestation())
                 .ifPresent(villager -> {
                     villager.getRelationships().getSpouse().ifPresent(spouse -> villager.sendEventMessage(new TranslatableText("events.baby", villager.getName(), spouse.getName())));
