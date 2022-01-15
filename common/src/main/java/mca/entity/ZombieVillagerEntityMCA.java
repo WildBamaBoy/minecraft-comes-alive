@@ -100,8 +100,10 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
     }
 
     @Override
-    public final Text getDefaultName() {
-        return new LiteralText(getTrackedValue(VILLAGER_NAME)).formatted(Formatting.RED);
+    @Nullable
+    public final Text getCustomName() {
+        String value = getTrackedValue(VILLAGER_NAME);
+        return value.isEmpty() ? null : new LiteralText(value).formatted(Formatting.RED);
     }
 
     @Override

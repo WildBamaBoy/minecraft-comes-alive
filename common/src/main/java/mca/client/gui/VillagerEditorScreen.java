@@ -144,7 +144,7 @@ public class VillagerEditorScreen extends Screen {
                 //name
                 field = addButton(new TextFieldWidget(this.textRenderer, width / 2, y, DATA_WIDTH, 18, new TranslatableText("structure_block.structure_name")));
                 field.setMaxLength(32);
-                field.setText(villager.getDefaultName().asString());
+                field.setText(villager.getName().asString());
                 field.setChangedListener(name -> villager.setTrackedValue(VILLAGER_NAME, name));
                 y += 20;
 

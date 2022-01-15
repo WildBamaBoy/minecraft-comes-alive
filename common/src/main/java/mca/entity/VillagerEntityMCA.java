@@ -888,8 +888,10 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     }
 
     @Override
-    public final Text getDefaultName() {
-        return new LiteralText(getTrackedValue(VILLAGER_NAME));
+    @Nullable
+    public final Text getCustomName() {
+        String value = getTrackedValue(VILLAGER_NAME);
+        return value.isEmpty() ? null : new LiteralText(value);
     }
 
     @Override
