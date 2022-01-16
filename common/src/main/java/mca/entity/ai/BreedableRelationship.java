@@ -85,6 +85,7 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
             if (stack.getItem() == Items.GOLDEN_APPLE) {
                 entity.setInfected(false);
                 entity.eatFood(entity.world, stack);
+                stack.decrement(1);
             } else if (stack.getItem() instanceof DyeItem) {
                 entity.setHairDye(((DyeItem)stack.getItem()).getColor());
                 stack.decrement(1);
