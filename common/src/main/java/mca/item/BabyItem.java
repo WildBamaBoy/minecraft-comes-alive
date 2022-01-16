@@ -89,7 +89,7 @@ public class BabyItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (world.isClient || !(entity instanceof PlayerEntity)) {
+        if (world.isClient) {
             return;
         }
 

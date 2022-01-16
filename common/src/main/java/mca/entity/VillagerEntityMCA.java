@@ -3,6 +3,7 @@ package mca.entity;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Dynamic;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -97,6 +98,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -131,7 +133,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     private final BreedableRelationship relations = new BreedableRelationship(this);
 
     private final VillagerCommandHandler interactions = new VillagerCommandHandler(this);
-    private final SimpleInventory inventory = new SimpleInventory(27);
+    private final UpdatableInventory inventory = new UpdatableInventory(27);
 
     private final VillagerDimensions.Mutable dimensions = new VillagerDimensions.Mutable(AgeState.UNASSIGNED);
 
@@ -531,6 +533,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
             residency.tick();
 
             relations.tick(age);
+
+            inventory.update(this);
 
             // Brain and pregnancy depend on the above states, so we tick them last
             // Every 1 second
