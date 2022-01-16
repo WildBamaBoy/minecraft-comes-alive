@@ -239,7 +239,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         //marriage status
-        if (hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
+        if (marriageState != null && hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
             String ms = marriageState.base().getIcon().toLowerCase();
             drawHoveringIconText(transform, new TranslatableText("gui.interact.label." + ms, spouse), "married");
         }

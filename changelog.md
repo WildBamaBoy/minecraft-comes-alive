@@ -168,3 +168,5 @@
 * Fixed inventory duplication bug
 * Fixed deadlock in relation with reaper spawner
 * Villager marriages now respect player hearts
+* Fixed gifting golden apple not reducing by 1
+* Fixed crash when hovering over unmarried villagers marriage-symbol
