@@ -36,9 +36,7 @@ public final class Config implements Serializable {
     public int roseGoldSpawnWeight = 6;
     public boolean allowRoseGoldGeneration = true;
     public int marriageChance = 5;
-    public int marriageLimit = 50;
     public int childrenChance = 5;
-    public int childrenLimit = 50;
     public int giftDesaturationQueueLength = 16;
     public float giftDesaturationFactor = 0.5f;
     public double giftDesaturationExponent = 0.85;

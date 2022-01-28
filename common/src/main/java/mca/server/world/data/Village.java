@@ -68,7 +68,7 @@ public class Village implements Iterable<Building> {
     private int id;
 
     private int taxes = 0;
-    private int populationThreshold = 50;
+    private int populationThreshold = 75;
     private int marriageThreshold = 50;
 
     private boolean autoScan = true;
@@ -419,7 +419,7 @@ public class Village implements Iterable<Building> {
 
         int population = getPopulation();
         int maxPopulation = getMaxPopulation();
-        if (population >= maxPopulation * Config.getInstance().childrenLimit / 100F) {
+        if (population >= maxPopulation * getPopulationThreshold() / 100F) {
             return;
         }
 
@@ -445,7 +445,7 @@ public class Village implements Iterable<Building> {
                 .filter(v -> !v.getRelationships().isMarried() && !v.isBaby())
                 .collect(Collectors.toList());
 
-        if (availableVillagers.size() <= 1 || availableVillagers.size() < allVillagers.size() * Config.getInstance().marriageLimit / 100f) {
+        if (availableVillagers.size() <= 1 || availableVillagers.size() < allVillagers.size() * getMarriageThreshold() / 100f) {
             return; // The village is too small.
         }
 
