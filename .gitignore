@@ -33,3 +33,4 @@ forge*changelog.txt
 # Files from architectury
 .architectury-transformer
 /logs
+/common/src/main/resources/assets/mca/textures/*.psd

@@ -1,5 +1,7 @@
 package mca.entity.interaction.gifts;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,7 +31,7 @@ public class GiftType {
 
     public static GiftType fromJson(Identifier id, JsonObject json) {
         List<GiftPredicate> conditions = new ArrayList<>();
-        JsonHelper.getArray(json, "conditions").forEach(element -> {
+        JsonHelper.getArray(json, "conditions", new JsonArray()).forEach(element -> {
             conditions.add(GiftPredicate.fromJson(JsonHelper.asObject(element, "condition")));
         });
 
@@ -100,16 +102,16 @@ public class GiftType {
     }
 
     private final Identifier id;
-    private final int priority;
+    private int priority;
 
     private final List<GiftPredicate> conditions;
 
     private final Map<Item, Integer> items;
     private final Map<Tag<Item>, Integer> tags;
 
-    private final int fail;
-    private final int good;
-    private final int better;
+    private int fail;
+    private int good;
+    private int better;
 
     private final Map<Response, String> responses;
 
@@ -127,6 +129,14 @@ public class GiftType {
 
     public Identifier getId() {
         return id;
+    }
+
+    public List<GiftPredicate> getConditions() {
+        return conditions;
+    }
+
+    public Map<Response, String> getResponses() {
+        return responses;
     }
 
     /**
@@ -175,5 +185,15 @@ public class GiftType {
      */
     public String getDialogueFor(Response response) {
         return responses.get(response);
+    }
+
+    public void extendFrom(GiftType extendingType) {
+        conditions.addAll(extendingType.getConditions());
+        responses.clear();
+        responses.putAll(extendingType.getResponses());
+        priority = extendingType.priority;
+        fail = extendingType.fail;
+        good = extendingType.good;
+        better = extendingType.better;
     }
 }
