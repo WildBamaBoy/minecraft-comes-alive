@@ -6,7 +6,6 @@
     }
   ],
   "items": {
-    "minecraft:baked_potato": 5,
-    "farmersdelight:stuffed_potato": 10
+    "minecraft:baked_potato": 5
   }
 }

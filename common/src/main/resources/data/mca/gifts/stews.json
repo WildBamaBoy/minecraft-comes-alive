@@ -8,13 +8,6 @@
   "items": {
     "minecraft:beetroot_soup": 5,
     "minecraft:mushroom_stew": 5,
-    "minecraft:rabbit_stew": 15,
-    "farmersdelight:beef_stew": 20,
-    "farmersdelight:chicken_soup": 20,
-    "farmersdelight:vegetable_soup": 15,
-    "farmersdelight:fish_stew": 15,
-    "farmersdelight:pumpkin_soup": 20,
-    "farmersdelight:baked_cod_stew": 25,
-    "farmersdelight:noodle_soup": 20
+    "minecraft:rabbit_stew": 15
   }
 }
