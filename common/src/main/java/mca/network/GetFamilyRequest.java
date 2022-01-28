@@ -25,7 +25,7 @@ public class GetFamilyRequest implements Message {
         //de-loaded members are excluded as they can't teleport anyways
 
         Stream.concat(
-                        playerData.getFamilyEntry().getRelatives(),
+                        playerData.getFamilyEntry().getAllRelatives(5),
                         playerData.getSpouseUuid().map(Stream::of).orElseGet(Stream::empty)
                 ).distinct()
                 .map(((ServerWorld)player.world)::getEntity)

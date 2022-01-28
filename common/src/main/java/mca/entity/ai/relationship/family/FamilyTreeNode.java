@@ -59,13 +59,13 @@ public final class FamilyTreeNode implements Serializable {
 
     public FamilyTreeNode(FamilyTree rootNode, UUID id, NbtCompound nbt) {
         this(
-            rootNode,
-            id,
-            nbt.getString("name"),
-            nbt.getBoolean("isPlayer"),
-            Gender.byId(nbt.getInt("gender")),
-            nbt.getUuid("father"),
-            nbt.getUuid("mother")
+                rootNode,
+                id,
+                nbt.getString("name"),
+                nbt.getBoolean("isPlayer"),
+                Gender.byId(nbt.getInt("gender")),
+                nbt.getUuid("father"),
+                nbt.getUuid("mother")
         );
         children.addAll(NbtHelper.toList(nbt.getList("children", NbtElementCompat.COMPOUND_TYPE), c -> ((NbtCompound)c).getUuid("uuid")));
         profession = nbt.getString("profession");
@@ -171,7 +171,7 @@ public final class FamilyTreeNode implements Serializable {
         return children.stream().filter(FamilyTreeNode::isValid);
     }
 
-    public Stream<UUID> parents() {
+    public Stream<UUID> streamParents() {
         return Stream.of(father(), mother()).filter(FamilyTreeNode::isValid);
     }
 
@@ -181,23 +181,46 @@ public final class FamilyTreeNode implements Serializable {
     public Set<UUID> siblings() {
         Set<UUID> siblings = new HashSet<>();
 
-        parents().forEach(parent -> getRoot().getOrEmpty(parent).ifPresent(p -> gatherChildren(p, siblings, 1)));
+        streamParents().forEach(parent -> getRoot().getOrEmpty(parent).ifPresent(p -> gatherChildren(p, siblings, 1)));
 
         return siblings;
-    }
-
-    public Stream<UUID> getRelatives() {
-        return getRelatives(3);
-    }
-
-    public Stream<UUID> getRelatives(int depth) {
-        return getRelatives(depth, depth);
     }
 
     public Stream<UUID> getChildren() {
         return getRelatives(0, 1);
     }
 
+    // returns indirect relatives like siblings and their respective family
+    // potential slow for large families, getRelatives() is preferred if indirect family members are not relevant
+    public Stream<UUID> getAllRelatives(int depth) {
+        Set<UUID> family = new HashSet<>();
+
+        //recursive family fetching
+        Set<UUID> todo = new HashSet<>();
+        todo.add(id);
+        for (int d = 0; d < depth; d++) {
+            Set<UUID> nextTodo = new HashSet<>();
+            for (UUID uuid : todo) {
+                if (!family.contains(uuid)) {
+                    rootNode.getOrEmpty(uuid).ifPresent(node -> {
+                        family.add(uuid);
+
+                        //add parents and children
+                        node.streamParents().forEach(nextTodo::add);
+                        node.streamChildren().forEach(nextTodo::add);
+                    });
+                }
+            }
+            todo = nextTodo;
+        }
+
+        //the caller is not meant
+        family.remove(id);
+
+        return family.stream();
+    }
+
+    // returns all direct relatives (parents, grandparents, children, grandchildren)
     public Stream<UUID> getRelatives(int parentDepth, int childrenDepth) {
         Set<UUID> family = new HashSet<>();
 
@@ -212,11 +235,11 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     public boolean isRelative(UUID with) {
-        return getRelatives().anyMatch(with::equals);
+        return getAllRelatives(9).anyMatch(with::equals);
     }
 
     public Stream<FamilyTreeNode> getParents() {
-        return lookup(parents());
+        return lookup(streamParents());
     }
 
     /**
@@ -231,7 +254,7 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     public boolean isParent(UUID id) {
-        return parents().anyMatch(parent -> parent.equals(id));
+        return streamParents().anyMatch(parent -> parent.equals(id));
     }
 
     public boolean isGrandParent(UUID id) {
@@ -317,7 +340,7 @@ public final class FamilyTreeNode implements Serializable {
     }
 
     private static void gatherParents(FamilyTreeNode current, Set<UUID> family, int depth) {
-        gather(current, family, depth, FamilyTreeNode::parents);
+        gather(current, family, depth, FamilyTreeNode::streamParents);
     }
 
     private static void gatherChildren(FamilyTreeNode current, Set<UUID> family, int depth) {
@@ -332,7 +355,9 @@ public final class FamilyTreeNode implements Serializable {
             if (!Util.NIL_UUID.equals(id)) {
                 output.add(id); //zero UUIDs are no real members
             }
-            entry.getRoot().getOrEmpty(id).ifPresent(e -> gather(e, output, depth - 1, walker));
+            if (depth > 1) {
+                entry.getRoot().getOrEmpty(id).ifPresent(e -> gather(e, output, depth - 1, walker));
+            }
         });
     }
 

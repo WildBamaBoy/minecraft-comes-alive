@@ -96,7 +96,7 @@ public class Relationship<T extends MobEntity & VillagerLike<T>> implements Enti
 
     @Override
     public Stream<Entity> getParents() {
-        return getFamilyEntry().parents().map(((ServerWorld)entity.world)::getEntity).filter(Objects::nonNull);
+        return getFamilyEntry().streamParents().map(((ServerWorld)entity.world)::getEntity).filter(Objects::nonNull);
     }
 
     @Override

@@ -460,7 +460,6 @@ public class Village implements Iterable<Building> {
                 .filter(i -> suitor.getGenetics().getGender().isMutuallyAttracted(i.getGenetics().getGender()))
                 .filter(i -> !suitor.getRelationships().getFamilyEntry().isRelative(i.getUuid()))
                 .findFirst().ifPresent(mate -> {
-                    // smash their bodies together like nobody's business!
                     suitor.getRelationships().marry(mate);
                     mate.getRelationships().marry(suitor);
 
