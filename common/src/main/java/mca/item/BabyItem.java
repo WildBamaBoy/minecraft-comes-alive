@@ -248,7 +248,7 @@ public class BabyItem extends Item {
                     CriterionMCA.FAMILY.trigger((ServerPlayerEntity)ply);
 
                     // set proper dialogue type
-                    Memories memories = child.getVillagerBrain().getMemoriesForPlayer(player);
+                    Memories memories = child.getVillagerBrain().getMemoriesForPlayer((PlayerEntity) ply);
                     memories.setHearts(Config.getInstance().childInitialHearts);
                 });
 
