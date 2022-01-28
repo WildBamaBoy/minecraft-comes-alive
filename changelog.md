@@ -172,3 +172,4 @@
 * Fixed crash when hovering over unmarried villagers marriage-symbol
 * Villagers will also update baby time
 * Fixed datapack crash on some system locales
+* Hopefully fixed stuck-at-sleeping issues after loading world
