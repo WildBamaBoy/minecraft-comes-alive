@@ -1,6 +1,7 @@
 package mca.mixin;
 
 import java.util.List;
+import java.util.Locale;
 import mca.entity.ai.DialogueType;
 import net.minecraft.text.StringVisitable;
 import net.minecraft.text.TranslatableText;
@@ -40,7 +41,7 @@ public abstract class MixinTranslatableText {
             } else {
                 String phrase = key.substring(split + 1);
                 while (t != null) {
-                    String s = t.name().toLowerCase() + "." + phrase;
+                    String s = t.name().toLowerCase(Locale.ENGLISH) + "." + phrase;
                     if (Language.getInstance().hasTranslation(s)) {
                         return s;
                     } else {

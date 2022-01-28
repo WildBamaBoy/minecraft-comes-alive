@@ -1,5 +1,7 @@
 package mca.resources;
 
+import java.util.Locale;
+
 public enum Rank {
     OUTLAW,
     PEASANT,
@@ -28,7 +30,7 @@ public enum Rank {
 
     public static Rank fromName(String name) {
         for (Rank r : VALUES) {
-            if (r.name().equals(name.toUpperCase())) {
+            if (r.name().equals(name.toUpperCase(Locale.ENGLISH))) {
                 return r;
             }
         }

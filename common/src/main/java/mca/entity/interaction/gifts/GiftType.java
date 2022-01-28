@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -68,7 +69,7 @@ public class GiftType {
         JsonObject responsesJson = JsonHelper.getObject(json, "responses", new JsonObject());
         Map<Response, String> responses = Stream.of(Response.values()).collect(Collectors.toMap(
                 Function.identity(),
-                response -> JsonHelper.getString(responsesJson, response.name().toLowerCase(), response.getDefaultDialogue())
+                response -> JsonHelper.getString(responsesJson, response.name().toLowerCase(Locale.ENGLISH), response.getDefaultDialogue())
         ));
 
         return new GiftType(id, priority, conditions, items, tags, fail, good, better, responses);

@@ -95,10 +95,10 @@ public enum Personality {
     }
 
     public Text getName() {
-        return new TranslatableText("personality." + name().toLowerCase());
+        return new TranslatableText("personality." + name().toLowerCase(Locale.ENGLISH));
     }
 
     public Text getDescription() {
-        return new TranslatableText("personalityDescription." + name().toLowerCase());
+        return new TranslatableText("personalityDescription." + name().toLowerCase(Locale.ENGLISH));
     }
 }

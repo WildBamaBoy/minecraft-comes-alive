@@ -1,5 +1,6 @@
 package mca.entity.ai.relationship;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
@@ -45,7 +46,7 @@ public enum Gender {
     }
 
     public String getStrName() {
-        return name().toLowerCase();
+        return name().toLowerCase(Locale.ENGLISH);
     }
 
     public boolean isNonBinary() {
@@ -90,7 +91,7 @@ public enum Gender {
     }
 
     public static Gender byName(String name) {
-        return REGISTRY.getOrDefault(name.toUpperCase(), UNASSIGNED);
+        return REGISTRY.getOrDefault(name.toUpperCase(Locale.ENGLISH), UNASSIGNED);
     }
 }
 

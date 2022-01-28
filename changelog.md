@@ -170,3 +170,5 @@
 * Villager marriages now respect player hearts
 * Fixed gifting golden apple not reducing by 1
 * Fixed crash when hovering over unmarried villagers marriage-symbol
+* Villagers will also update baby time
+* Fixed datapack crash on some system locales

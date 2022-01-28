@@ -3,6 +3,7 @@ package mca.entity.interaction.gifts;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -34,10 +35,10 @@ public class GiftPredicate {
         register("profession", (json, name) -> new Identifier(JsonHelper.asString(json, name)), profession -> {
             return (villager, stack) -> Registry.VILLAGER_PROFESSION.getId(villager.getProfession()).equals(profession);
         });
-        register("age_group", (json, name) -> AgeState.valueOf(JsonHelper.asString(json, name).toUpperCase()), group -> {
+        register("age_group", (json, name) -> AgeState.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), group -> {
             return (villager, stack) -> villager.getAgeState() == group;
         });
-        register("gender", (json, name) -> Gender.valueOf(JsonHelper.asString(json, name).toUpperCase()), gender -> {
+        register("gender", (json, name) -> Gender.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), gender -> {
             return (villager, stack) -> villager.getGenetics().getGender() == gender;
         });
         register("has_item", (json, name) -> Ingredient.fromJson(json), item -> {
@@ -65,13 +66,13 @@ public class GiftPredicate {
         register("min_infection_progress", JsonHelper::asFloat, progress -> {
             return (villager, stack) -> villager.getInfectionProgress() > progress;
         });
-        register("mood", (json, name) -> JsonHelper.asString(json, name).toLowerCase(), mood -> {
+        register("mood", (json, name) -> JsonHelper.asString(json, name).toLowerCase(Locale.ENGLISH), mood -> {
             return (villager, stack) -> villager.getVillagerBrain().getMood().getName().equals(mood);
         });
-        register("mood_group", (json, name) -> MoodGroup.valueOf(JsonHelper.asString(json, name).toUpperCase()), moodGroup -> {
+        register("mood_group", (json, name) -> MoodGroup.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), moodGroup -> {
             return (villager, stack) -> villager.getVillagerBrain().getPersonality().getMoodGroup() == moodGroup;
         });
-        register("personality", (json, name) -> Personality.valueOf(JsonHelper.asString(json, name).toUpperCase()), personality -> {
+        register("personality", (json, name) -> Personality.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), personality -> {
             return (villager, stack) -> villager.getVillagerBrain().getPersonality() == personality;
         });
         register("is_pregnant", JsonHelper::asBoolean, pregnant -> {
@@ -80,10 +81,10 @@ public class GiftPredicate {
         register("min_pregnancy_progress", JsonHelper::asInt, progress -> {
             return (villager, stack) -> villager.getRelationships().getPregnancy().getBabyAge() > progress;
         });
-        register("pregnancy_child_gender", (json, name) -> Gender.valueOf(JsonHelper.asString(json, name).toUpperCase()), gender -> {
+        register("pregnancy_child_gender", (json, name) -> Gender.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), gender -> {
             return (villager, stack) -> villager.getRelationships().getPregnancy().getGender() == gender;
         });
-        register("current_chore", (json, name) -> Chore.valueOf(JsonHelper.asString(json, name).toUpperCase()), chore -> {
+        register("current_chore", (json, name) -> Chore.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), chore -> {
             return (villager, stack) -> villager.getVillagerBrain().getCurrentJob() == chore;
         });
         register("item", (json, name) -> {
@@ -104,7 +105,7 @@ public class GiftPredicate {
         }, (Ingredient ingredient) -> {
             return (villager, stack) -> ingredient.test(stack);
         });
-        register("trait", (json, name) -> Traits.Trait.valueOf(JsonHelper.asString(json, name).toUpperCase()), trait -> {
+        register("trait", (json, name) -> Traits.Trait.valueOf(JsonHelper.asString(json, name).toUpperCase(Locale.ENGLISH)), trait -> {
             return (villager, stack) -> villager.getTraits().hasTrait(trait);
         });
     }

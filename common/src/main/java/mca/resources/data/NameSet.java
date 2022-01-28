@@ -1,5 +1,6 @@
 package mca.resources.data;
 
+import java.util.Locale;
 import java.util.Random;
 
 import com.google.common.base.Strings;
@@ -44,6 +45,6 @@ public final class NameSet {
     }
 
     static String toTitleCase(String s) {
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
+        return s.substring(0, 1).toUpperCase(Locale.ENGLISH) + s.substring(1);
     }
 }

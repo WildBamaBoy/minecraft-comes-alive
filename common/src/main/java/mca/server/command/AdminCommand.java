@@ -135,8 +135,8 @@ public class AdminCommand {
     }
 
     private static int removeVillage(CommandContext<ServerCommandSource> ctx) {
-        String name = StringArgumentType.getString(ctx, "name").toLowerCase();
-        List<Village> collect = VillageManager.get(ctx.getSource().getWorld()).findVillages(v -> v.getName().toLowerCase().equals(name)).collect(Collectors.toList());
+        String name = StringArgumentType.getString(ctx, "name");
+        List<Village> collect = VillageManager.get(ctx.getSource().getWorld()).findVillages(v -> v.getName().equals(name)).collect(Collectors.toList());
         if (collect.isEmpty()) {
             fail("No village with this name exists.", ctx);
         } else if (collect.size() > 1) {

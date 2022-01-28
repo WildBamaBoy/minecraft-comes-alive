@@ -2,6 +2,7 @@ package mca.client.gui;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -240,7 +241,7 @@ public class InteractScreen extends AbstractDynamicScreen {
 
         //marriage status
         if (marriageState != null && hoveringOverIcon("married") && villager instanceof CompassionateEntity<?>) {
-            String ms = marriageState.base().getIcon().toLowerCase();
+            String ms = marriageState.base().getIcon().toLowerCase(Locale.ENGLISH);
             drawHoveringIconText(transform, new TranslatableText("gui.interact.label." + ms, spouse), "married");
         }
 
@@ -359,7 +360,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             setLayout("interact");
         } else if (id.equals("gui.button.command")) {
             setLayout("command");
-            disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase());
+            disableButton("gui.button." + villager.getVillagerBrain().getMoveState().name().toLowerCase(Locale.ENGLISH));
         } else if (id.equals("gui.button.clothing")) {
             setLayout("clothing");
         } else if (id.equals("gui.button.familyTree")) {
@@ -370,7 +371,7 @@ public class InteractScreen extends AbstractDynamicScreen {
             NetworkHandler.sendToServer(new InteractionDialogueInitMessage(villager.asEntity().getUuid()));
         } else if (id.equals("gui.button.work")) {
             setLayout("work");
-            disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase());
+            disableButton("gui.button." + villager.getVillagerBrain().getCurrentJob().name().toLowerCase(Locale.ENGLISH));
         } else if (id.equals("gui.button.professions")) {
             setLayout("professions");
         } else if (id.equals("gui.button.backarrow")) {

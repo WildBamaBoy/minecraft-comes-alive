@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import java.util.Locale;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -46,7 +47,7 @@ public enum Chore {
     }
 
     public static Optional<Chore> byCommand(String action) {
-        return Optional.ofNullable(REGISTRY.get(action.toLowerCase()));
+        return Optional.ofNullable(REGISTRY.get(action.toLowerCase(Locale.ENGLISH)));
     }
 
     public static Chore byId(int id) {

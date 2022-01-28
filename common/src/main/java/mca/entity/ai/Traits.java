@@ -1,6 +1,7 @@
 package mca.entity.ai;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,11 +38,11 @@ public class Traits {
         }
 
         public Text getName() {
-            return new TranslatableText("trait." + name().toLowerCase());
+            return new TranslatableText("trait." + name().toLowerCase(Locale.ENGLISH));
         }
 
         public Text getDescription() {
-            return new TranslatableText("traitDescription." + name().toLowerCase());
+            return new TranslatableText("traitDescription." + name().toLowerCase(Locale.ENGLISH));
         }
     }
 

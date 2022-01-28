@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ public enum MoveState {
     }
 
     public static Optional<MoveState> byCommand(String action) {
-        return Optional.ofNullable(REGISTRY.get(action.toUpperCase()));
+        return Optional.ofNullable(REGISTRY.get(action.toUpperCase(Locale.ENGLISH)));
     }
 
     public static MoveState byId(int id) {

@@ -1,5 +1,6 @@
 package mca.entity.ai;
 
+import java.util.Locale;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -29,7 +30,7 @@ public class Mood {
     }
 
     public Text getText() {
-        return new TranslatableText("mood." + name.toLowerCase());
+        return new TranslatableText("mood." + name.toLowerCase(Locale.ENGLISH));
     }
 
     public String getName() {

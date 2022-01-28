@@ -1,5 +1,6 @@
 package mca.network;
 
+import java.util.Locale;
 import java.util.Optional;
 import mca.cobalt.network.Message;
 import mca.server.world.data.Building;
@@ -25,7 +26,7 @@ public class ReportBuildingMessage implements Message {
             case ADD:
             case ADD_ROOM:
                 Building.validationResult result = villages.processBuilding(e.getBlockPos(), true, action == Action.ADD_ROOM);
-                e.sendMessage(new TranslatableText("blueprint.scan." + result.name().toLowerCase()), true);
+                e.sendMessage(new TranslatableText("blueprint.scan." + result.name().toLowerCase(Locale.ENGLISH)), true);
                 break;
             case AUTO_SCAN:
                 villages.findNearestVillage(e).ifPresent(Village::toggleAutoScan);
