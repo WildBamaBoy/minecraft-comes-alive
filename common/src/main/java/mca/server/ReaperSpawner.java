@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import mca.Config;
 import mca.MCA;
 import mca.SoundsMCA;
 import mca.block.BlocksMCA;
@@ -61,6 +62,9 @@ public class ReaperSpawner {
 
     public void trySpawnReaper(ServerWorld world, BlockState state, BlockPos pos) {
         if (!state.isIn(BlockTags.FIRE)) {
+            return;
+        }
+        if (!Config.getInstance().allowGrimReaper) {
             return;
         }
 
