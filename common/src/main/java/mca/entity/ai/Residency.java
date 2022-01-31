@@ -193,11 +193,7 @@ public class Residency {
         stream.forEach(manager::reportBuilding);
 
         // also add tombstones
-        GraveyardManager.get((ServerWorld)entity.world)
-                .findAll(entity.getBoundingBox().expand(24D), true, true)
-                .stream()
-                .filter(p -> !manager.cache.contains(p))
-                .forEach(manager::reportBuilding);
+        GraveyardManager.get((ServerWorld)entity.world).reportToVillageManager(entity);
     }
 
     private boolean seekNewHome(Village village) {

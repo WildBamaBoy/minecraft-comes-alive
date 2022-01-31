@@ -16,6 +16,7 @@ import mca.util.NbtHelper;
 import mca.util.WorldUtils;
 import mca.util.compat.OptionalCompat;
 import mca.util.compat.PersistentStateCompat;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.AbstractNbtNumber;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -48,7 +49,7 @@ public class GraveyardManager extends PersistentStateCompat {
             NbtCompound vv = (NbtCompound)v;
             Long2ObjectMap<ChunkBase> map = new Long2ObjectOpenHashMap<>();
             vv.getKeys().forEach(key -> {
-                map.put((long)Long.valueOf(key), new Chunk((NbtList)vv.get(key)));
+                map.put(Long.parseLong(key), new Chunk((NbtList)vv.get(key)));
             });
             return map;
         }));
@@ -160,6 +161,15 @@ public class GraveyardManager extends PersistentStateCompat {
         }
 
         return chunk;
+    }
+
+    public void reportToVillageManager(Entity entity) {
+        VillageManager manager = VillageManager.get((ServerWorld)entity.world);
+        GraveyardManager.get((ServerWorld)entity.world)
+                .findAll(entity.getBoundingBox().expand(24D), true, true)
+                .stream()
+                .filter(p -> !manager.cache.contains(p))
+                .forEach(manager::processBuilding);
     }
 
     private static class ChunkBase {
