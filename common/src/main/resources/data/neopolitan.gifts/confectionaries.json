@@ -1,0 +1,73 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 15
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": -5
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": 5
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "responses": {
+    "fail": "gift.confectionary.fail",
+    "good": "gift.confectionary.good",
+    "better": "gift.confectionary.better",
+    "best": "gift.confectionary.best"
+  },
+  "items": {
+
+    "neopolitan:chocolate_bar": 6,
+    "neopolitan:chocolate_ice_cream": 15,
+    "neopolitan:chocolate_cake": 25,
+    "neopolitan:chocolate_milkshake": 15,
+
+    "neopolitan:strawberries": 5,
+    "neopolitan:white_strawberries": 6,
+    "neopolitan:strawberry_ice_cream": 15,
+    "neopolitan:strawberry_cake": 25,
+    "neopolitan:strawberry_milkshake": 15,
+    "neopolitan:strawberry_scones": 13,
+
+    "neopolitan:dried_vanilla_pods": 7,
+    "neopolitan:vanilla_fudge": 10,
+    "neopolitan:vanilla_ice_cream": 15,
+    "neopolitan:vanilla_cake": 25,
+    "neopolitan:vanilla_pudding": 13,
+    "neopolitan:vanilla_milkshake": 15,
+
+    "neopolitan:banana": 5,
+    "neopolitan:banana_ice_cream": 15,
+    "neopolitan:banana_cake": 25,
+    "neopolitan:dried_banana": 6,
+    "neopolitan:banana_milkshake": 15,
+    "neopolitan:banana_bread": 13,
+
+    "neopolitan:mint_leaves": 5,
+    "neopolitan:mint_candies": 6,
+    "neopolitan:mint_ice_cream": 15,
+    "neopolitan:mint_cake": 25,
+    "neopolitan:mint_milkshake": 15,
+
+    "neopolitan:roasted_adzuki_beans": 5,
+    "neopolitan:adzuki_bun": 7,
+    "neopolitan:adzuki_ice_cream": 15,
+    "neopolitan:adzuki_cake": 25,
+    "neopolitan:adzuki_milkshake": 15,
+
+    "neopolitan:chocolate_strawberries": 10,
+    "neopolitan:vanilla_chocolate_fingers": 13,
+    "neopolitan:mint_chocolate": 10,
+    "neopolitan:strawberry_banana_smoothie": 18,
+    "neopolitan:strawberry_bean_bonbons": 10,
+    "neopolitan:neopolitan_icecream": 30
+  }
+}

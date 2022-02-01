@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 8
+    },
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 6
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": -5
+    }
+  ],
+  "responses": {
+    "fail": "gift.meats.fail",
+    "good": "gift.meats.good",
+    "better": "gift.meats.better",
+    "best": "gift.meats.best"
+  },
+  "items": {
+    "environmental:cooked_duck": 5,
+    "environmental:cooked_venison": 5
+  }
+}

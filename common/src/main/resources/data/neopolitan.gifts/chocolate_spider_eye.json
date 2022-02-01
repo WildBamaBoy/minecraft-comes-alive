@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 5
+    },
+    {
+      "personality": "odd",
+      "satisfaction_boost": 20
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": -40
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "items": {
+    "neopolitan:chocolate_spider_eye": 10
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 8
+    },
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 6
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": -5
+    }
+  ],
+  "responses": {
+    "fail": "gift.meats.fail",
+    "good": "gift.meats.good",
+    "better": "gift.meats.better",
+    "best": "gift.meats.best"
+  },
+  "items": {
+    "berry_good:sweet_berry_mince": 4,
+    "berry_good:sweet_berry_meatballs": 8
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:fisherman",
+      "satisfaction_boost": 15
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": 10
+    }
+    ],
+  "items": {
+    "upgrade_aquatic:boiled_blue_pickerelweed": 2,
+    "upgrade_aquatic:boiled_purple_pickerelweed": 2
+  }
+}
