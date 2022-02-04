@@ -177,3 +177,4 @@
 
 # 7.0.8
 * Readded blacksmith functionality
+* Fixed scaling-flickering with iguana tweaks

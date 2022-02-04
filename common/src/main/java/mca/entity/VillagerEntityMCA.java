@@ -275,16 +275,20 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void setBreedingAge(int age) {
         super.setBreedingAge(age);
-        setTrackedValue(GROWTH_AMOUNT, age);
-        setAgeState(AgeState.byCurrentAge(age));
 
-        AgeState current = getAgeState();
+        // high quality iguana tweaks reborn LivestockSlowdownFeature fix
+        if (age != -2) {
+            setTrackedValue(GROWTH_AMOUNT, age);
+            setAgeState(AgeState.byCurrentAge(age));
 
-        AgeState next = current.getNext();
-        if (current != next) {
-            dimensions.interpolate(current, getAgeState(), AgeState.getDelta(age));
-        } else {
-            dimensions.set(current);
+            AgeState current = getAgeState();
+
+            AgeState next = current.getNext();
+            if (current != next) {
+                dimensions.interpolate(current, getAgeState(), AgeState.getDelta(age));
+            } else {
+                dimensions.set(current);
+            }
         }
     }
 
