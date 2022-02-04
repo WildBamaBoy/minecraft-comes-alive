@@ -58,6 +58,7 @@ public final class Config implements Serializable {
     public float interactionFatigue = 0.05f;
     public int interactionFatigueCooldown = 4800;
     public float taxesFactor = 0.5f;
+    public boolean enterVillageNotification = true;
 
     public static File getConfigFile() {
         return new File("./config/mca.json");
