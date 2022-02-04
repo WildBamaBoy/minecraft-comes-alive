@@ -3,7 +3,6 @@ package mca.entity;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Dynamic;
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

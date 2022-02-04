@@ -410,7 +410,7 @@ public class BlueprintScreen extends ExtendedScreen {
         //get tooltips
         List<List<Text>> tooltips = new LinkedList<>();
         for (Building b : hoverBuildings) {
-            tooltips.add(getBuildingBlueprint(b));
+            tooltips.add(getBuildingTooltip(b));
         }
 
         //get height
@@ -427,7 +427,7 @@ public class BlueprintScreen extends ExtendedScreen {
         }
     }
 
-    private List<Text> getBuildingBlueprint(Building hoverBuilding) {
+    private List<Text> getBuildingTooltip(Building hoverBuilding) {
         List<Text> lines = new LinkedList<>();
 
         //name

@@ -297,7 +297,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         village.ifPresent(buildings -> buildings.getBuildings().values().stream()
                 .filter(b -> enforce || world.getTime() - b.getLastScan() > Building.SCAN_COOLDOWN)
                 .filter(b -> b.getBuildingType().grouped())
-                .filter(b -> b.getCenter().getSquaredDistance(pos) < 64.0)
+                .filter(b -> b.getCenter().getSquaredDistance(pos) < 1024.0)
                 .forEach(b -> {
                     b.validatePois(world);
                     if (b.getPois().size() == 0) {
