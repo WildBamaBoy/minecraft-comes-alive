@@ -490,13 +490,21 @@ public class Village implements Iterable<Building> {
     public EquipmentSet getGuardEquipment(VillagerProfession profession) {
         if (profession == ProfessionsMCA.ARCHER) {
             if (hasBuilding("armory")) {
-                return EquipmentSet.ARCHER_1;
+                if (hasBuilding("blacksmith")) {
+                    return EquipmentSet.ARCHER_2;
+                } else {
+                    return EquipmentSet.ARCHER_1;
+                }
             } else {
                 return EquipmentSet.ARCHER_0;
             }
         } else {
             if (hasBuilding("armory")) {
-                return EquipmentSet.GUARD_1;
+                if (hasBuilding("blacksmith")) {
+                    return EquipmentSet.GUARD_2;
+                } else {
+                    return EquipmentSet.GUARD_1;
+                }
             } else {
                 return EquipmentSet.GUARD_0;
             }

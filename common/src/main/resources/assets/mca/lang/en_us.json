@@ -242,7 +242,7 @@
   "buildingType.bigHouse": "Big House",
   "buildingType.bigHouse.description": "Families love to live in the same house, but that requires a few extra beds.",
   "buildingType.blacksmith": "Blacksmith",
-  "buildingType.blacksmith.description": "Currently removed",
+  "buildingType.blacksmith.description": "A place to produce highest quality equipment for the guards and archers.",
   "buildingType.storage": "Storage",
   "buildingType.storage.description": "A place to store taxes.",
   "buildingType.graveyard": "Graveyard",

@@ -174,3 +174,6 @@
 * Fixed datapack crash on some system locales
 * Hopefully fixed stuck-at-sleeping issues after loading world
 * Adding a building will also look for graveyards to decrease player confusion
+
+# 7.0.8
+* Readded blacksmith functionality
