@@ -1,9 +1,9 @@
 [
   {
     "identifier": "gui.button.backarrow",
-    "x": 140,
+    "x": 115,
     "y": -115,
-    "width": 15,
+    "width": 20,
     "height": 20,
     "notifyServer": false,
     "targetServer": false,
@@ -12,7 +12,7 @@
   {
     "identifier": "gui.button.fishing",
     "x": 140,
-    "y": -93,
+    "y": -115,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -22,7 +22,7 @@
   {
     "identifier": "gui.button.harvesting",
     "x": 140,
-    "y": -71,
+    "y": -94,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -32,7 +32,7 @@
   {
     "identifier": "gui.button.hunting",
     "x": 140,
-    "y": -49,
+    "y": -73,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -42,7 +42,7 @@
   {
     "identifier": "gui.button.chopping",
     "x": 140,
-    "y": -5,
+    "y": -52,
     "width": 65,
     "height": 20,
     "notifyServer": true,
@@ -52,7 +52,7 @@
   {
     "identifier": "gui.button.stopworking",
     "x": 140,
-    "y": 17,
+    "y": -31,
     "width": 65,
     "height": 20,
     "notifyServer": true,

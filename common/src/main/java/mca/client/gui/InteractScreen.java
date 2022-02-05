@@ -139,7 +139,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         if (keyChar == GLFW.GLFW_KEY_ESCAPE) {
             if (inGiftMode) {
                 inGiftMode = false;
-                enableAllButtons();
+                setLayout("interact");
             } else {
                 onClose();
             }
@@ -377,7 +377,9 @@ public class InteractScreen extends AbstractDynamicScreen {
         } else if (id.equals("gui.button.backarrow")) {
             if (inGiftMode) {
                 inGiftMode = false;
-                enableAllButtons();
+                setLayout("interact");
+            } else if (getActiveScreen().equals("locations")) {
+                setLayout("interact");
             } else {
                 setLayout("main");
             }

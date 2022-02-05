@@ -179,3 +179,4 @@
 * Readded blacksmith functionality
 * Fixed scaling-flickering with iguana tweaks
 * Added text when trying to assign to invalid buildings
+* Improved interaction layout

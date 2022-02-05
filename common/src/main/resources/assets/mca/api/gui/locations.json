@@ -38,5 +38,15 @@
     "notifyServer": true,
     "targetServer": false,
     "constraints": ""
+  },
+  {
+    "identifier": "gui.button.gohome",
+    "x": 140,
+    "y": -42,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
   }
 ]

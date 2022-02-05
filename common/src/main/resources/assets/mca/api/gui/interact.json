@@ -39,5 +39,104 @@
     "notifyServer": false,
     "targetServer": false,
     "constraints": ""
+  },
+
+  {
+    "identifier": "gui.button.follow",
+    "x": 140,
+    "y": -52,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!following",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.stay",
+    "x": 140,
+    "y": -31,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!staying",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.move",
+    "x": 140,
+    "y": -52,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "following",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.move",
+    "x": 140,
+    "y": -32,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "staying",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.ridehorse",
+    "x": 140,
+    "y": -11,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.armor",
+    "x": 140,
+    "y": 10,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "",
+    "hideOnFail": false
+  },
+  {
+    "identifier": "gui.button.execute",
+    "x": 140,
+    "y": 31,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "!outlawed,mayor",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.pardon",
+    "x": 140,
+    "y": 31,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "outlawed,mayor",
+    "hideOnFail": true
+  },
+  {
+    "identifier": "gui.button.professions",
+    "x": 140,
+    "y": 52,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": "adult,king",
+    "hideOnFail": true
   }
 ]

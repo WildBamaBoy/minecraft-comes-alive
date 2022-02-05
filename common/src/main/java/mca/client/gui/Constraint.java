@@ -2,6 +2,7 @@ package mca.client.gui;
 
 import mca.entity.VillagerEntityMCA;
 import mca.entity.VillagerLike;
+import mca.entity.ai.MoveState;
 import mca.entity.ai.ProfessionsMCA;
 import mca.resources.Rank;
 import mca.entity.ai.Relationship;
@@ -64,7 +65,13 @@ public enum Constraint implements BiPredicate<VillagerLike<?>, Entity> {
     NOT_KING("!king", (villager, player) -> !isRankAtLeast(villager, player, Rank.KING)),
 
     ORPHAN("orphan", Relationship.IS_ORPHAN.asConstraint()),
-    NOT_ORPHAN("!orphan", Relationship.IS_ORPHAN.negate().asConstraint());
+    NOT_ORPHAN("!orphan", Relationship.IS_ORPHAN.negate().asConstraint()),
+
+    FOLLOWING("following", (villager, player) -> villager.getVillagerBrain().getMoveState() == MoveState.FOLLOW),
+    NOT_FOLLOWING("!following", (villager, player) -> villager.getVillagerBrain().getMoveState() != MoveState.FOLLOW),
+
+    STAYING("staying", (villager, player) -> villager.getVillagerBrain().getMoveState() == MoveState.STAY),
+    NOT_STAYING("!staying", (villager, player) -> villager.getVillagerBrain().getMoveState() != MoveState.STAY);
 
     private static boolean isRankAtLeast(VillagerLike<?> villager, Entity player, Rank rank) {
         return player instanceof PlayerEntity && villager instanceof VillagerEntityMCA && ((VillagerEntityMCA)villager).getResidency().getHomeVillage()
