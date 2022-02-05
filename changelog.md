@@ -180,3 +180,4 @@
 * Fixed scaling-flickering with iguana tweaks
 * Added text when trying to assign to invalid buildings
 * Improved interaction layout
+* Staff of Life can no longer be enchanted

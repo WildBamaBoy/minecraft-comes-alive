@@ -47,4 +47,9 @@ public class StaffOfLifeItem extends TooltippedItem {
     public Rarity getRarity(ItemStack stack) {
         return Rarity.RARE;
     }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return false;
+    }
 }
