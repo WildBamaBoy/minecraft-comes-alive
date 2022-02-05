@@ -232,6 +232,8 @@ public class Residency {
                     setBuilding(building.get(), player.getBlockPos());
                     setVillageId(village.get().getId());
                     village.get().addResident(entity, building.get().getId());
+                } else if (building.get().getBuildingType().noBeds()) {
+                    entity.sendChatMessage(player, "interaction.sethome.bedfail." + building.get().getBuildingType().name());
                 } else {
                     entity.sendChatMessage(player, "interaction.sethome.bedfail");
                 }

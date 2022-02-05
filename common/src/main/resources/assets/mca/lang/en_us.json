@@ -259,7 +259,7 @@
   "buildingType.armory": "Armory",
   "buildingType.armory.description": "Upgrades the guards default armor.",
   "buildingType.infirmary": "Infirmary",
-  "buildingType.infirmary.description": "Reduces the chance of infection by 50%!",
+  "buildingType.infirmary.description": "Reduces the chance of infection by 50%! Sick villagers tend to gather here.",
 
   "task.reputation": "Reach %1$s average hearts",
   "task.population": "Reach a population of %1$s",
