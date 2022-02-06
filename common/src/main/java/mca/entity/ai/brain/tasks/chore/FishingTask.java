@@ -50,7 +50,7 @@ public class FishingTask extends AbstractChoreTask {
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof FishingRodItem);
             if (i == -1) {
-                abandonJobWithMessage("chore.chopping.norod");
+                abandonJobWithMessage("chore.fishing.norod");
             } else {
                 villager.setStackInHand(Hand.MAIN_HAND, villager.getInventory().getStack(i));
             }
@@ -66,7 +66,7 @@ public class FishingTask extends AbstractChoreTask {
         super.keepRunning(world, villager, time);
 
         if (!InventoryUtils.contains(villager.getInventory(), FishingRodItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
-            abandonJobWithMessage("chore.chopping.norod");
+            abandonJobWithMessage("chore.fishing.norod");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof FishingRodItem);
             ItemStack stack = villager.getInventory().getStack(i);

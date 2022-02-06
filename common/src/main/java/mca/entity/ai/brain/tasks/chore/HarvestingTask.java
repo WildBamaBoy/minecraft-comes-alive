@@ -63,7 +63,7 @@ public class HarvestingTask extends AbstractChoreTask {
         if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             if (i == -1) {
-                abandonJobWithMessage("chore.chopping.nohoe");
+                abandonJobWithMessage("chore.harvesting.nohoe");
             } else {
                 ItemStack stack = villager.getInventory().getStack(i);
                 villager.setStackInHand(Hand.MAIN_HAND, stack);
@@ -117,7 +117,7 @@ public class HarvestingTask extends AbstractChoreTask {
         if (this.villager == null) this.villager = villager;
 
         if (!InventoryUtils.contains(villager.getInventory(), HoeItem.class) && !villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
-            abandonJobWithMessage("chore.chopping.norod");
+            abandonJobWithMessage("chore.harvesting.nohoe");
         } else if (!villager.hasStackEquipped(EquipmentSlot.MAINHAND)) {
             int i = InventoryUtils.getFirstSlotContainingItem(villager.getInventory(), stack -> stack.getItem() instanceof HoeItem);
             ItemStack stack = villager.getInventory().getStack(i);
