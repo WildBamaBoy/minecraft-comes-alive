@@ -361,10 +361,8 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-
         ItemStack stack = player.getStackInHand(hand);
-
-        if (!stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS) && stack.getItem() != ItemsMCA.VILLAGER_EDITOR) {
+        if (hand.equals(Hand.MAIN_HAND) && !stack.getItem().isIn(TagsMCA.Items.VILLAGER_EGGS) && stack.getItem() != ItemsMCA.VILLAGER_EDITOR) {
             playWelcomeSound();
 
             //make sure dialogueType is synced in case the client needs it

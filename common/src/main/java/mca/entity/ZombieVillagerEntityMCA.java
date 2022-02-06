@@ -142,10 +142,8 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
 
     @Override
     public final ActionResult interactAt(PlayerEntity player, Vec3d pos, @NotNull Hand hand) {
-
         ItemStack stack = player.getStackInHand(hand);
-
-        if (!stack.getItem().isIn(TagsMCA.Items.ZOMBIE_EGGS) && stack.getItem() != Items.GOLDEN_APPLE) {
+        if (hand.equals(Hand.MAIN_HAND) && !stack.getItem().isIn(TagsMCA.Items.ZOMBIE_EGGS) && stack.getItem() != Items.GOLDEN_APPLE) {
             if (player instanceof ServerPlayerEntity) {
                 String t = new String(new char[getRandom().nextInt(8) + 2]).replace("\0", ". ");
                 sendChatMessage(new LiteralText(t), player);
@@ -173,7 +171,7 @@ public class ZombieVillagerEntityMCA extends ZombieVillagerEntity implements Vil
             if (getAgeState() == AgeState.UNASSIGNED) {
                 setAgeState(isBaby() ? AgeState.BABY : AgeState.random());
             } else if (getAgeState() == AgeState.BABY) {
-                // todo baby zombie villager just cause weird bugs so we skip that stage
+                // baby zombie villager just cause weird bugs, so we skip that stage
                 setAgeState(AgeState.TODDLER);
             }
 

@@ -19,6 +19,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -353,6 +354,12 @@ public class TombstoneBlock extends BlockWithEntity implements Waterloggable {
                             l.fallDistance = 0.0f;
                             l.removed = false;
                             l.deathTime = 0;
+                        }
+
+                        //enforcing a dimension update
+                        if (entity instanceof PassiveEntity) {
+                            PassiveEntity mob = (PassiveEntity) entity;
+                            mob.setBreedingAge(mob.getBreedingAge());
                         }
 
                         if (cure && (entity instanceof ZombieVillagerEntity)) {
