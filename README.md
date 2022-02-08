@@ -12,7 +12,7 @@ MCA Reborn is a rewrite of MCA for Minecraft 1.16.5 and upwards, featuring exten
 
 ## CurseForge
 Build versions will be uploaded here:
-https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-testing
+https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-reborn
 
 ## Dependencies
 MCA has no external dependencies other than Minecraft Forge or Fabric.
