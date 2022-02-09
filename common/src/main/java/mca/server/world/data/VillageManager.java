@@ -170,7 +170,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
     }
 
     private void startBountyHunterWave(ServerPlayerEntity player, Village sender) {
-        int count = -sender.getReputation(player) / 5 + 3;
+        int count = Math.min(30, -sender.getReputation(player) / 5 + 3);
 
         if (sender.getPopulation() == 0) {
             //the village has been wiped out, lets send one last wave
