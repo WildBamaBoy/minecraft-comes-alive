@@ -299,13 +299,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
 
     @Override
     public boolean tryAttack(Entity target) {
+        //player just get a beating
+        attackedEntity(target);
+
         //villager is peaceful and won't hurt as long as not necessary
         if (mcaBrain.getPersonality() == Personality.PEACEFUL && getHealth() == getMaxHealth()) {
             return false;
         }
-
-        //player just get a beating
-        attackedEntity(target);
 
         //we don't use attributes
         // why not?

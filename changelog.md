@@ -183,3 +183,4 @@
 * Improved interaction layout
 * Staff of Life can no longer be enchanted
 * Fixed chores phrase names
+* Command kill no longer counts as murder
