@@ -2,6 +2,7 @@ package mca.client.render;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import java.util.Map;
+import mca.Config;
 import mca.client.model.VillagerEntityBaseModelMCA;
 import mca.client.model.VillagerEntityModelMCA;
 import mca.entity.Infectable;
@@ -59,7 +60,8 @@ public class VillagerLikeEntityMCARenderer<T extends MobEntity & VillagerLike<T>
     @Override
     protected boolean hasLabel(T villager) {
         return MinecraftClient.getInstance().player != null
-                && MinecraftClient.getInstance().player.squaredDistanceTo(villager) < 25;
+                && MinecraftClient.getInstance().player.squaredDistanceTo(villager) < 25
+                && Config.getInstance().showNameTags;
     }
 
     @Override
