@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import mca.Config;
+import mca.MCA;
 import mca.advancement.criterion.CriterionMCA;
 import mca.resources.API;
 import mca.resources.data.BuildingType;
@@ -80,7 +81,14 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
         for (int i = 0; i < v.size(); i++) {
             Village village = new Village();
             village.load(v.getCompound(i));
-            villages.put(village.getId(), village);
+            if (village.getBuildings().isEmpty()) {
+                MCA.LOGGER.warn("Empty village detected (" + village.getName() + "), removing...");
+                if (!isDirty()) {
+                    markDirty();
+                }
+            } else {
+                villages.put(village.getId(), village);
+            }
         }
     }
 
@@ -314,7 +322,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
             }
 
             //village is empty
-            if (village.getBuildings().size() == 0) {
+            if (village.getBuildings().isEmpty()) {
                 villages.remove(village.getId());
                 optionalVillage = Optional.empty();
                 markDirty();
