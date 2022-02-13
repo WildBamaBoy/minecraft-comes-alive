@@ -101,7 +101,7 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
         return Gender.byId(villagerData.getInt("gender"));
     }
 
-    private Optional<FamilyTreeNode> getUuid(PlayerEntity e, FamilyTree tree, String name, Gender gender) {
+    private Optional<FamilyTreeNode> getFamilyNode(PlayerEntity e, FamilyTree tree, String name, Gender gender) {
         try {
             UUID uuid = UUID.fromString(name);
             Optional<FamilyTreeNode> node = tree.getOrEmpty(uuid);
@@ -144,7 +144,7 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
             if (name.isEmpty()) {
                 entry.removeFather();
             } else {
-                getUuid(e, tree, name, Gender.MALE).ifPresent(entry::setFather);
+                getFamilyNode(e, tree, name, Gender.MALE).ifPresent(entry::setFather);
             }
         }
 
@@ -153,16 +153,20 @@ public class VillagerEditorSyncRequest extends S2CNbtDataMessage {
             if (name.isEmpty()) {
                 entry.removeMother();
             } else {
-                getUuid(e, tree, name, Gender.FEMALE).ifPresent(entry::setMother);
+                getFamilyNode(e, tree, name, Gender.FEMALE).ifPresent(entry::setMother);
             }
         }
 
         if (villagerData.contains("tree_spouse_new")) {
             String name = villagerData.getString("tree_spouse_new");
             if (name.isEmpty()) {
+                Optional.of(entry.spouse()).flatMap(tree::getOrEmpty).ifPresent(node -> node.updateMarriage(null, null));
                 entry.updateMarriage(null, null);
             } else {
-                getUuid(e, tree, name, entry.gender().opposite()).ifPresent(entry::updateMarriage);
+                getFamilyNode(e, tree, name, entry.gender().opposite()).ifPresent(node -> {
+                    entry.updateMarriage(node);
+                    node.updateMarriage(entry);
+                });
             }
         }
     }

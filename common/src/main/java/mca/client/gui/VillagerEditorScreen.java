@@ -167,11 +167,17 @@ public class VillagerEditorScreen extends Screen {
                 for (String who : new String[] {"father", "mother", "spouse"}) {
                     field = addButton(new NamedTextFieldWidget(this.textRenderer, width / 2, y, DATA_WIDTH, 18,
                             new TranslatableText("gui.villager_editor.relation." + who)));
-                    field.setMaxLength(32);
+                    field.setMaxLength(64);
                     field.setText(villagerData.getString("tree_" + who + "_name"));
                     field.setChangedListener(name -> villagerData.putString("tree_" + who + "_new", name));
                     y += 20;
                 }
+
+                //UUID
+                y += 4;
+                field = addButton(new TextFieldWidget(this.textRenderer, width / 2, y, DATA_WIDTH, 18, new LiteralText("UUID")));
+                field.setMaxLength(64);
+                field.setText(villagerUUID.toString());
                 break;
             case "body":
                 //genes
