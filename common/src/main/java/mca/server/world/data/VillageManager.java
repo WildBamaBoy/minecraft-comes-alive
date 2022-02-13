@@ -83,9 +83,7 @@ public class VillageManager extends PersistentStateCompat implements Iterable<Vi
             village.load(v.getCompound(i));
             if (village.getBuildings().isEmpty()) {
                 MCA.LOGGER.warn("Empty village detected (" + village.getName() + "), removing...");
-                if (!isDirty()) {
-                    markDirty();
-                }
+                markDirty();
             } else {
                 villages.put(village.getId(), village);
             }
