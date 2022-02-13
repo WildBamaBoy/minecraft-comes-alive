@@ -2,10 +2,13 @@ package mca.entity.ai;
 
 import mca.Config;
 import mca.entity.EntityWrapper;
+import mca.entity.ai.relationship.family.FamilyTree;
+import mca.entity.ai.relationship.family.FamilyTreeNode;
 import mca.resources.API;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -33,10 +36,21 @@ public interface Messenger extends EntityWrapper {
     }
 
     default TranslatableText getTranslatable(PlayerEntity target, String phraseId, Object... params) {
-        return new TranslatableText(getDialogueType(target).name() + "." + phraseId, target.getName(), params);
+        String targetName;
+        if (target.world instanceof ServerWorld) {
+            //todo won't work on the few client side use cases
+            targetName = FamilyTree.get((ServerWorld)target.world)
+                    .getOrEmpty(target.getUuid())
+                    .map(FamilyTreeNode::getName)
+                    .filter(n -> !n.isEmpty())
+                    .orElse(target.getName().getString());
+        } else {
+            targetName = target.getName().getString();
+        }
+        return new TranslatableText(getDialogueType(target).name() + "." + phraseId, targetName, params);
     }
 
-    default void sendChatToAllAround(String phrase, Object...params) {
+    default void sendChatToAllAround(String phrase, Object... params) {
         for (PlayerEntity player : asEntity().world.getPlayers(CAN_RECEIVE, asEntity(), asEntity().getBoundingBox().expand(20))) {
             float dist = player.distanceTo(asEntity());
             sendChatMessage(getTranslatable(player, phrase, params).formatted(dist < 10 ? Formatting.WHITE : Formatting.GRAY), player);
@@ -68,7 +82,7 @@ public interface Messenger extends EntityWrapper {
         if (!(this instanceof Entity)) {
             return; // Can't tell all
         }
-        sendEventMessage(((Entity) this).world, message);
+        sendEventMessage(((Entity)this).world, message);
     }
 
     static void sendEventMessage(World world, Text message) {
