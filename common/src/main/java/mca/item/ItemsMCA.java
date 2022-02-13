@@ -100,7 +100,7 @@ public interface ItemsMCA {
                     page -> Supporters.getSupporterGroup("mca:old").stream().map(s -> new LiteralText(s).formatted(Formatting.BLACK)).collect(Collectors.toList())))
             .addPage(new TitlePage("mca.books.supporters.thanks", ""))));
 
-    Item LETTER = register("letter", new ExtendedWrittenBookItem(baseProps().maxCount(1), new Book("letter")
+    Item LETTER = register("letter", new ExtendedWrittenBookItem(baseProps().maxCount(1), new Book("letter", null)
             .setBackground(new Identifier("mca:textures/gui/books/paper.png"))));
 
     Item GOLD_DUST = register("gold_dust", new Item(baseProps()));

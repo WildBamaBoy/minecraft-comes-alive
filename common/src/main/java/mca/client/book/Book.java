@@ -2,20 +2,30 @@ package mca.client.book;
 
 import java.util.LinkedList;
 import java.util.List;
+import mca.client.book.pages.EmptyPage;
 import mca.client.book.pages.Page;
 import mca.client.book.pages.TextPage;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 public class Book {
     private final String bookName;
+    private final Text bookAuthor;
     private final List<Page> pages = new LinkedList<>();
     private Identifier background = new Identifier("textures/gui/book.png");
     private Formatting textFormatting = Formatting.BLACK;
     private boolean pageTurnSound = true;
 
-    public Book(String name) {
-        bookName = name;
+    public Book(String bookName) {
+        this(bookName, new TranslatableText(String.format("mca.books.%s.author", bookName)).formatted(Formatting.GRAY));
+    }
+
+    public Book(String bookName, Text bookAuthor) {
+        this.bookName = bookName;
+        this.bookAuthor = bookAuthor;
     }
 
     public Book setBackground(Identifier background) {
@@ -64,6 +74,11 @@ public class Book {
         return bookName;
     }
 
+    @Nullable
+    public Text getBookAuthor() {
+        return bookAuthor;
+    }
+
     public List<Page> getPages() {
         return pages;
     }
@@ -81,7 +96,7 @@ public class Book {
     }
 
     public Page getPage(int index) {
-        return pages.get(index);
+        return index < pages.size() ? pages.get(index) : new EmptyPage();
     }
 
     public void open() {
