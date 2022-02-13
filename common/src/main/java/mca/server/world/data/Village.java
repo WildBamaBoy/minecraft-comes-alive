@@ -110,7 +110,9 @@ public class Village implements Iterable<Building> {
 
     public void removeBuilding(int id) {
         buildings.remove(id);
-        calculateDimensions();
+        if (!buildings.isEmpty()) {
+            calculateDimensions();
+        }
     }
 
     public Stream<Building> getBuildingsOfType(String type) {
@@ -635,6 +637,8 @@ public class Village implements Iterable<Building> {
             buildings.put(building.getId(), building);
         }
 
-        calculateDimensions();
+        if (!buildings.isEmpty()) {
+            calculateDimensions();
+        }
     }
 }
