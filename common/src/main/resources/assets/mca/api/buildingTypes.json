@@ -26,7 +26,7 @@
     "visible": false,
     "priority": 1,
     "blocks": {
-      "minecraft:beds": 1
+      "#minecraft:beds": 1
     }
   },
   {
@@ -154,7 +154,7 @@
     "visible": true,
     "priority": 3,
     "blocks": {
-      "minecraft:beds": 4
+      "#minecraft:beds": 4
     },
     "iconU": 4,
     "iconV": 1
@@ -168,7 +168,7 @@
     "blocks": {
       "minecraft:grindstone": 1,
       "minecraft:blast_furnace": 2,
-      "minecraft:anvil": 1
+      "#minecraft:anvil": 1
     },
     "iconU": 0,
     "iconV": 1
@@ -180,7 +180,7 @@
     "visible": true,
     "priority": 4,
     "blocks": {
-      "minecraft:beds": 4,
+      "#minecraft:beds": 4,
       "minecraft:jukebox": 1,
       "minecraft:smoker": 1
     },
@@ -196,7 +196,7 @@
     "blocks": {
       "minecraft:iron_bars": 8,
       "minecraft:iron_door": 1,
-      "minecraft:beds": 1
+      "#minecraft:beds": 1
     },
     "iconU": 6,
     "iconV": 1
@@ -209,7 +209,7 @@
     "priority": 4,
     "blocks": {
       "minecraft:lectern": 1,
-      "minecraft:chest": 4
+      "#mca:chests": 4
     },
     "iconU": 3,
     "iconV": 1
@@ -223,7 +223,7 @@
     "blocks": {
       "minecraft:smithing_table": 1,
       "minecraft:grindstone": 1,
-      "minecraft:anvil": 1
+      "#minecraft:anvil": 1
     },
     "iconU": 3,
     "iconV": 0
@@ -237,7 +237,7 @@
     "blocks": {
       "minecraft:jukebox": 1,
       "minecraft:note_block": 1,
-      "minecraft:chest": 1
+      "#mca:chests": 1
     },
     "iconU": 1,
     "iconV": 1
@@ -264,8 +264,8 @@
     "blocks": {
       "minecraft:brewing_stand": 1,
       "minecraft:cauldron": 1,
-      "minecraft:beds": 1,
-      "minecraft:flower_pots": 1
+      "#minecraft:beds": 1,
+      "#minecraft:flower_pots": 1
     },
     "noBeds": true,
     "iconU": 7,
@@ -278,7 +278,7 @@
     "visible": true,
     "priority": 0,
     "blocks": {
-      "mca:tombstones": 1
+      "#mca:tombstones": 1
     },
     "icon": true,
     "iconU": 0,
@@ -293,7 +293,7 @@
     "visible": false,
     "priority": 0,
     "blocks": {
-      "mca:town_center": 1
+      "#mca:town_center": 1
     },
     "icon": true,
     "iconU": 1,

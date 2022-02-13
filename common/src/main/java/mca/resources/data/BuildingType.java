@@ -79,7 +79,7 @@ public final class BuildingType implements Serializable {
         if (blockIds == null) {
             blockIds = new HashMap<>();
             for (Map.Entry<String, Integer> id : blocks.entrySet()) {
-                blockIds.put(new Identifier(id.getKey()), id.getValue());
+                blockIds.put(new Identifier(id.getKey().replace("#", "")), id.getValue());
             }
         }
         return blockIds;
