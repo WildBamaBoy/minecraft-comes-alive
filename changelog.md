@@ -185,3 +185,4 @@
 * Fixed chores phrase names
 * Command kill no longer counts as murder
 * Added config flag to disable name tags
+* Fixed log spam regarding invalid bounding boxes
