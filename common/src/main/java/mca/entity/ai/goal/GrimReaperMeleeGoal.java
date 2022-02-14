@@ -4,6 +4,7 @@ import mca.entity.GrimReaperEntity;
 import mca.entity.ReaperAttackState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,7 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
 public class GrimReaperMeleeGoal extends Goal {
-    private final static int COOLDOWN = 200;
+    private final static int COOLDOWN = 150;
     private final GrimReaperEntity reaper;
     private int blockDuration;
     private int attackDuration;
@@ -59,7 +60,7 @@ public class GrimReaperMeleeGoal extends Goal {
     private void curse() {
         LivingEntity entityToAttack = reaper.getTarget();
         if (entityToAttack instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entityToAttack;
+            PlayerEntity player = (PlayerEntity)entityToAttack;
 
             // Check to see if the player's blocking, then teleport behind them.
             // Also randomly swap their selected item with something else in the hotbar and apply blindness.
@@ -86,6 +87,11 @@ public class GrimReaperMeleeGoal extends Goal {
 
     @Override
     public void tick() {
+        //shouldn't be required, yet melee is triggered while resting
+        if (reaper.getAttackState() == ReaperAttackState.REST) {
+            return;
+        }
+
         LivingEntity entityToAttack = reaper.getTarget();
         if (entityToAttack == null) {
             retreatDuration = 0;
@@ -126,8 +132,7 @@ public class GrimReaperMeleeGoal extends Goal {
                 reaper.swingHand(Hand.MAIN_HAND);
                 attackDuration = 0;
 
-                float damage = reaper.world.getDifficulty().getId() * 5.0F;
-                entityToAttack.damage(DamageSource.mob(reaper), damage);
+                entityToAttack.damage(DamageSource.mob(reaper), (float)reaper.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 
                 //apply wither effect
                 entityToAttack.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 200));

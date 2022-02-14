@@ -26,7 +26,7 @@ public class GrimReaperTargetGoal extends Goal {
             this.nextScanTick = 20;
             List<PlayerEntity> list = mob.world.getPlayers(this.attackTargeting, mob, mob.getBoundingBox().expand(48.0D, 64.0D, 48.0D));
             if (!list.isEmpty()) {
-                list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
+                list.sort(Comparator.comparing(Entity::getY).reversed());
 
                 for (PlayerEntity playerentity : list) {
                     if (mob.isTarget(playerentity, TargetPredicate.DEFAULT)) {
@@ -35,7 +35,6 @@ public class GrimReaperTargetGoal extends Goal {
                     }
                 }
             }
-
         }
         return false;
     }

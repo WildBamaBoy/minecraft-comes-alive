@@ -13,6 +13,8 @@ import mca.util.network.datasync.CEnumParameter;
 import mca.util.network.datasync.CParameter;
 import mca.util.network.datasync.CTrackedEntity;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.control.FlightMoveControl;
+import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
@@ -48,6 +50,8 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
 
         this.experiencePoints = 100;
 
+        this.moveControl = new FlightMoveControl(this, 10, false);
+
         getTypeDataManager().register(this);
     }
 
@@ -58,8 +62,10 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
 
     public static DefaultAttributeContainer.Builder createAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 225.0F)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0D)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 300.0F)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30F)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.30F)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D);
     }
 
@@ -87,8 +93,11 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
         this.goalSelector.add(3, new GrimReaperIdleGoal(this, 1));
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8));
         this.goalSelector.add(5, new LookAroundGoal(this));
+    }
 
-
+    @Override
+    public MoveControl getMoveControl() {
+        return moveControl;
     }
 
     @Override
@@ -109,6 +118,11 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
             @Override
             public boolean isValidPosition(BlockPos p_188555_1_) {
                 return true;
+            }
+
+            @Override
+            public void tick() {
+                super.tick();
             }
         };
         navigator.setCanPathThroughDoors(false);
@@ -148,7 +162,6 @@ public class GrimReaperEntity extends PathAwareEntity implements CTrackedEntity<
             default:
         }
     }
-
 
     @Override
     public boolean damage(DamageSource source, float damage) {

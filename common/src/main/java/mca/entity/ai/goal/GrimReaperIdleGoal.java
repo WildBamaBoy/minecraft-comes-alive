@@ -30,7 +30,6 @@ public class GrimReaperIdleGoal extends Goal {
 
     @Override
     public boolean canStart() {
-
         if (this.reaper.getRandom().nextInt(this.interval) != 0) {
             return false;
         }
