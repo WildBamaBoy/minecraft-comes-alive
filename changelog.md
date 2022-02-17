@@ -191,3 +191,4 @@
 * Villagers will now use your editor name
 * Fixed letter author and creative mode usage
 * Strengthened Grim Reaper
+* Added mod support for atmospheric, autumity, berry good, buzzier bees, environmental, neopolitan, and upgrade aquatic  
