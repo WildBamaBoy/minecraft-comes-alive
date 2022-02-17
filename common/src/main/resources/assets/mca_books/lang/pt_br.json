@@ -52,5 +52,7 @@
 	"mca.books.rose_gold.2": "§lCriando Poeira§r\nOuro rosa, uma vez fundido, pode ser esmagado em um pó fino. Olhe atentamente para a poeira de ouro de rosa em luz brilhante, e você verá manchas brilhantes de ouro puro!§r",
 	"mca.books.rose_gold.3": "§lLavando Poeira§r\nCom um pouco de trabalho, podemos extrair o ouro da poeira e criar barras de ouro puro. Simplesmente misture a poeira com um balde d'água. Os componentes de prata e cobre mais leves serão levados, deixando com cerca de 6 pilhas menores de ouro em pó.",
 	"mca.books.rose_gold.4": "§lExtraindo Ouro§r\nOrganize 9 pilhas de poeira na sua mesa de trabalho, e se tiver sorte, você encontrará uma pepita de ouro em uma delas!§rE claro, depois de ter 9 pepitas de ouro, você será capaz de transformá-las em uma barra de ouro sólida.",
-	"mca.books.rose_gold.author": "William o Mineiro"
+	"mca.books.rose_gold.author": "William o Mineiro",
+	"mca.books.supporters.author": "A comunidade",
+	"mca.letter.condolence": "%s,\n\nÉ com grande pesar que informamos a morte de %s.\n\nCom seus melhores comprimentos,\nprefeito de %s"
 }

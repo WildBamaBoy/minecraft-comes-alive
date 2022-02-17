@@ -19,8 +19,8 @@
 	"mca.books.death.7": "§f§lCombattre la Faucheuse 3§r§f\nQuand la Faucheuse perd trop de santé, elle se téléportera en l'air et commencera à guérir. En guérissant, elle invoquera ses serviteurs du monde souterrain pour vous combattre.",
 	"mca.books.death.8": "§f§lCombattre la Faucheuse 4§r§f\nQuand la Faucheuse est guérie, elle continuera à vous attaquer, mais ne sera pas en mesure de guérir à nouveau pendant 3 minutes et 30 secondes. Chaque fois qu'elle se guérit, elle ne sera pas en mesure de restaurer autant de santé qu'elle ne l'a fait auparavant.",
 	"mca.books.death.9": "§f§lLa Faux§r§f\nUne fois que vous aurez porté le coup fatal, elle retournera dans le néant et laissera sa Faux derrière elle. La Faux, froide comme de la glace, est un puissant outil. Frappez un(e) villageois(e) pour charger la faux, puis transférez l'âme stockée vers la pierre tombale.",
-	"mca.books.death.author": "Ozzie le guerrier",
-	"mca.books.family.0": "Les enfants sont notre avenir! Assurez-vous d'en avoir autant que vous le pouvez.$rNon seulement vous apprenez à faire l'expérience de la joie d'élever un enfant, mais une fois qu'ils ont passé le stade de bébé, mettez-les au travail!",
+	"mca.books.death.author": "Ozzie le Guerrier",
+	"mca.books.family.0": "Les enfants sont notre avenir! Assurez-vous d'en avoir autant que vous le pouvez.§rNon seulement vous apprenez à faire l'expérience de la joie d'élever un enfant, mais une fois qu'ils ont passé le stade de bébé, mettez-les au travail!",
 	"mca.books.family.1": "§lBébés§r\nLorsque vous êtes marié, il suffit d'approcher votre conjoint et de lui proposer de 'Faire un enfant'. Après une courte danse, vous serez le fier propriétaire d'un petit garçon ou d'une petite fille (ou peut-être même les deux)!",
 	"mca.books.family.2": "§lCroissance§r\nLes bébés prennent du temps pour grandir, assurez-vous de vous en occuper jusqu'à ce qu'ils soient prêts, ou donnez-les à votre conjoint(e) pour qu'il(elle) prenne soin de lui. Une fois qu'un bébé est prêt à grandir, vous pouvez le placer sur le sol et il deviendra un enfant!",
 	"mca.books.family.3": "§lAdolescence§r\nLes enfants vont grandir lentement. Cependant, les propriétés magiques des Pommes Dorées auraient pour effet d'accélérer la croissance de n'importe quel enfant. Je n'ai pas encore essayé moi même.",
@@ -52,5 +52,11 @@
 	"mca.books.rose_gold.2": "§lCréation de poudre§r\nL'or rose, une fois fondu, peut être écrasé en poudre fine. Regardez de près la poudre d'or rose à la lumière, et vous verrez des flocons brillants d'or pur!§r",
 	"mca.books.rose_gold.3": "§lLaver la poudre§r\nAvec un peu de travail, nous pouvons extraire l'or de la poudre et créer des lingots d'or purs. Il suffit de mélanger la poudre avec un seau d'eau. Les composants plus légers en argent et en cuivre se sépareront, vous laissant avec environ 6 petits tas de poudre d’or.",
 	"mca.books.rose_gold.4": "§lExtraction d'or§r\nDisposez 9 piles de poudre dans votre établi, et si vous avez de la chance, vous trouverez une pépite d'or dans l'un d'eux!§rEt bien sûr, une fois que vous aurez 9 pépites d'or, vous pourrez les transformer en lingot d'or.",
-	"mca.books.rose_gold.author": "William le Mineur"
+	"mca.books.rose_gold.author": "William le Mineur",
+	"mca.books.supporters.author": "La Communauté",
+	"mca.books.supporters.contributors": "Contributeurs",
+	"mca.books.supporters.old": "Avant MCA 7.0.0",
+	"mca.books.supporters.thanks": "Merci!",
+	"mca.books.supporters.translators": "Traducteurs",
+	"mca.letter.condolence": "%s,\n\nC'est avec grand regret que nous devons vous informer de la mort de %s.\n\nSincèrement vôtre,\nLe maire de %s"
 }
