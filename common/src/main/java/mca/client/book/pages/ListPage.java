@@ -44,7 +44,7 @@ public class ListPage extends Page {
 
     @Override
     public void open(boolean back) {
-        page = back ? text.size() / entriesPerPage : 0;
+        page = back ? (text.size() - 1) / entriesPerPage : 0;
     }
 
     @Override
