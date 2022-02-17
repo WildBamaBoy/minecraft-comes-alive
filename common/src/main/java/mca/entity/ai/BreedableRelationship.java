@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
@@ -104,12 +105,53 @@ public class BreedableRelationship extends Relationship<VillagerEntityMCA> {
 
                 // gift is unknown
                 if (gift.isPresent()) {
-                    acceptGift(stack,gift.get(), player, memory);
+                    acceptGift(stack, gift.get(), player, memory);
                 } else {
-                    rejectGift(player, "gift.fail");
+                    gift = handleDynamicGift(stack);
+                    if (gift.isPresent()) {
+                        acceptGift(stack, gift.get(), player, memory);
+                    } else {
+                        rejectGift(player, "gift.fail");
+                    }
                 }
             }
         }
+    }
+
+    //returns estimated values for common item types, which the villager could use
+    private Optional<GiftType> handleDynamicGift(ItemStack stack) {
+        if (stack.getItem() instanceof SwordItem) {
+            //swords
+            float satisfaction = ((SwordItem)stack.getItem()).getAttackDamage();
+            satisfaction = (float)(Math.pow(satisfaction, 1.25) * 2);
+            return Optional.of(new GiftType(stack.getItem(), (int)satisfaction, new Identifier("mca:swords")));
+        } else if (stack.getItem() instanceof RangedWeaponItem) {
+            //ranged weapons
+            return Optional.of(new GiftType(stack.getItem(), 15, new Identifier("mca:archery")));
+        } else if (stack.getItem() instanceof ToolItem) {
+            //tools
+            float satisfaction = ((ToolItem)stack.getItem()).getMaterial().getMiningSpeedMultiplier();
+            satisfaction = (float)(Math.pow(satisfaction, 1.25) * 2);
+            return Optional.of(new GiftType(stack.getItem(), (int)satisfaction, new Identifier(
+                    stack.getItem() instanceof AxeItem ? "mca:swords" :
+                            stack.getItem() instanceof HoeItem ? "mca:hoes" :
+                                    stack.getItem() instanceof ShovelItem ? "mca:shovels" :
+                                            "mca:pickaxes"
+            )));
+        } else if (stack.getItem() instanceof ArmorItem) {
+            //armor
+            ArmorItem armor = (ArmorItem)stack.getItem();
+            int satisfaction = (int)(Math.pow(armor.getProtection(), 1.25) * 1.5 + armor.getMaterial().getToughness() * 5);
+            return Optional.of(new GiftType(stack.getItem(), satisfaction, new Identifier("mca:armor")));
+        } else if (stack.getItem().isFood()) {
+            //food
+            FoodComponent component = stack.getItem().getFoodComponent();
+            if (component != null) {
+                int satisfaction = (int)(component.getHunger() + component.getSaturationModifier() * 3);
+                return Optional.of(new GiftType(stack.getItem(), satisfaction, new Identifier("mca:food")));
+            }
+        }
+        return Optional.empty();
     }
 
     private void acceptGift(ItemStack stack, GiftType gift, PlayerEntity player, Memories memory) {

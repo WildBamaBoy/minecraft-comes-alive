@@ -29,7 +29,6 @@
     "minecraft:iron_sword": 20,
     "minecraft:golden_sword": 10,
     "minecraft:stone_sword": 5,
-    "minecraft:wooden_sword": 0,
-    "#fabric:swords": 15
+    "minecraft:wooden_sword": 0
   }
 }

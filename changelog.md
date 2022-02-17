@@ -191,4 +191,5 @@
 * Villagers will now use your editor name
 * Fixed letter author and creative mode usage
 * Strengthened Grim Reaper
-* Added mod support for atmospheric, autumity, berry good, buzzier bees, environmental, neopolitan, and upgrade aquatic  
+* Added mod support for atmospheric, autumity, berry good, buzzier bees, environmental, neopolitan, and upgrade aquatic
+* Villager now recognize and estimate the value of every (modded) armor, tool, sword, bow and food as a gift (accuracy not guaranteed)

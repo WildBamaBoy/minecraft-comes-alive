@@ -4,8 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -101,6 +104,10 @@ public class GiftType {
         }
     }
 
+    public static Optional<GiftType> getGiftType(Identifier id) {
+        return REGISTRY.stream().filter(p -> p.id.equals(id)).findFirst();
+    }
+
     private final Identifier id;
     private int priority;
 
@@ -114,6 +121,32 @@ public class GiftType {
     private int better;
 
     private final Map<Response, String> responses;
+
+    private static Map<Response, String> getDefaultDialogues() {
+        return Arrays.stream(Response.values()).collect(Collectors.toMap(r -> r, Response::getDefaultDialogue));
+    }
+
+    public GiftType(Item item, int satisfaction) {
+        this(item, satisfaction, getDefaultDialogues());
+    }
+
+    public GiftType(Item item, int satisfaction, Identifier extendFrom) {
+        this(item, satisfaction, getDefaultDialogues());
+        Optional<GiftType> type = getGiftType(extendFrom);
+        type.ifPresent(this::extendFrom);
+    }
+
+    public GiftType(Item item, int satisfaction, Map<Response, String> responses) {
+        this(
+                Registry.ITEM.getId(item),
+                0,
+                new LinkedList<>(),
+                Collections.singletonMap(item, satisfaction),
+                Collections.emptyMap(),
+                0, 10, 20,
+                responses
+        );
+    }
 
     public GiftType(Identifier id, int priority, List<GiftPredicate> conditions, Map<Item, Integer> items, Map<Tag<Item>, Integer> tags, int fail, int good, int better, Map<Response, String> responses) {
         this.id = id;

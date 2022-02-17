@@ -40,7 +40,7 @@ public final class Config implements Serializable {
     public int giftDesaturationQueueLength = 16;
     public float giftDesaturationFactor = 0.5f;
     public double giftDesaturationExponent = 0.85;
-    public double giftSatisfactionFactor = 0.25;
+    public double giftSatisfactionFactor = 0.33;
     public int baseGiftMoodEffect = 2;
     public int giftDesaturationReset = 24000;
     public int greetHeartsThreshold = 75;
