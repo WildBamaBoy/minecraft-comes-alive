@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+  	"#minecraft:saplings",
+  	"#minecraft:leaves",
+  	"minecraft:grass",
+  	"minecraft:lily_pad",
+  	"minecraft:wheat_seeds",
+  	"minecraft:pumpkin_seeds",
+  	"minecraft:melon_seeds",
+  	"minecraft:beetroot_seeds"
+  ]
+}

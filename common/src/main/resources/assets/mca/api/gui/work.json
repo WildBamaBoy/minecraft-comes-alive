@@ -1,0 +1,62 @@
+[
+  {
+    "identifier": "gui.button.backarrow",
+    "x": 115,
+    "y": -115,
+    "width": 20,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.fishing",
+    "x": 140,
+    "y": -115,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.harvesting",
+    "x": 140,
+    "y": -94,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.hunting",
+    "x": 140,
+    "y": -73,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.chopping",
+    "x": 140,
+    "y": -52,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.stopworking",
+    "x": 140,
+    "y": -31,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  }
+]

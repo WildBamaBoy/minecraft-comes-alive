@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "minecraft:blaze_powder": 10
+  }
+}

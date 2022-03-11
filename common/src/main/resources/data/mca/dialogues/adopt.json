@@ -1,0 +1,24 @@
+[
+  {
+    "id": "adopt",
+    "silent": true,
+    "answers": [
+      {
+        "name": "confirm",
+        "actions": [
+          {
+            "command": "adopt"
+          }
+        ]
+      },
+      {
+        "name": "cancel",
+        "actions": [
+          {
+            "id": "main"
+          }
+        ]
+      }
+    ]
+  }
+]

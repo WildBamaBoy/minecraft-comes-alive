@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:archer",
+      "satisfaction_boost": 20
+    },
+    {
+      "personality": "peaceful",
+      "satisfaction_boost": -30
+    },
+    {
+      "personality": "fragile",
+      "satisfaction_boost": -15
+    },
+    {
+      "personality": "weak",
+      "satisfaction_boost": -15
+    }
+  ],
+  "responses": {
+    "fail": "gift.weapons.fail",
+    "good": "gift.weapons.success",
+    "better": "gift.weapons.success",
+    "best": "gift.weapons.success"
+  },
+  "items": {
+    "minecraft:bow": 15,
+    "minecraft:crossbow": 20,
+    "#minecraft:arrows": 3
+  }
+}

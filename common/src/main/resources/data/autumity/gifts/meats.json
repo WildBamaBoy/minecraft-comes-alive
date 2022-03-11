@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 10
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": -10
+    }
+  ],
+  "responses": {
+    "fail": "gift.meats.fail",
+    "good": "gift.meats.good",
+    "better": "gift.meats.better",
+    "best": "gift.meats.best"
+  },
+  "items": {
+    "autumity:cooked_turkey": 20,
+    "autumity:cooked_turkey_piece": 5
+  }
+}

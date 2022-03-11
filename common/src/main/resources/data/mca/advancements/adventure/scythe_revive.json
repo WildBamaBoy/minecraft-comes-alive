@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.scythe_revive"
+    },
+    "description": {
+      "translate": "advancement.mca.scythe_revive.description"
+    },
+    "icon": {
+      "item": "mca:upright_headstone"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:adventure/scythe_kill",
+  "criteria": {
+    "iron": {
+      "trigger": "mca:generic_event",
+      "conditions": {
+        "event": "scytheRevive"
+      }
+    }
+  }
+}

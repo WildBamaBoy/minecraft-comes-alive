@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+  	"mca:rose_gold_block",
+  	"mca:rose_gold_ore",
+    "#mca:tombstones"
+  ]
+}

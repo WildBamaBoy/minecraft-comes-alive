@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=east": { "y": 90, "model": "mca:block/monument_cross" },
+		"facing=north": { "model": "mca:block/monument_cross" },
+		"facing=south": { "y": 180, "model": "mca:block/monument_cross" },
+		"facing=west": { "y": 270, "model": "mca:block/monument_cross" }
+	}
+}

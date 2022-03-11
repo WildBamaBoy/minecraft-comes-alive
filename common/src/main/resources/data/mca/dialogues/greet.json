@@ -1,0 +1,138 @@
+[
+  {
+    "id": "greet.greet_0",
+    "group": "greet",
+    "answers": [
+      {
+        "name": "short",
+        "chance": 0.4,
+        "chanceRandom": 1.0,
+        "hearts": 2,
+        "conditions": [
+          {
+            "chance": -0.6,
+            "hearts": 2,
+            "mood": "depressed"
+          },
+          {
+            "chance": -0.4,
+            "hearts": 1,
+            "mood": "sad"
+          },
+          {
+            "chance": -0.2,
+            "hearts": 0,
+            "mood": "unhappy"
+          },
+          {
+            "chance": 0.5,
+            "hearts": 0,
+            "personality": "odd"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": -0.25,
+            "hearts": 0,
+            "personality": "flirty"
+          },
+          {
+            "chance": -0.25,
+            "hearts": 1,
+            "mood": "talkative"
+          }
+        ],
+        "actions": [
+          {
+            "id": "greet.fail",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "greet.chitchat",
+            "threshold": 0.5
+          },
+          {
+            "id": "chat",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      },
+      {
+        "name": "kind",
+        "chance": 0.6,
+        "chanceRandom": 1.0,
+        "hearts": 2,
+        "conditions": [
+          {
+            "chance": 0.6,
+            "hearts": 2,
+            "mood": "depressed"
+          },
+          {
+            "chance": 0.4,
+            "hearts": 1,
+            "mood": "sad"
+          },
+          {
+            "chance": 0.2,
+            "hearts": 0,
+            "mood": "unhappy"
+          },
+          {
+            "chance": -0.3,
+            "hearts": 0,
+            "personality": "odd"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 0,
+            "personality": "flirty"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 1,
+            "mood": "talkative"
+          }
+        ],
+        "actions": [
+          {
+            "id": "greet.fail",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "greet.chitchat",
+            "threshold": 0.5
+          },
+          {
+            "id": "chat",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      },
+      {
+        "name": "sad",
+        "chance": 1.0,
+        "conditions": [
+        ],
+        "actions": [
+          {
+            "id": "greet.getBetter",
+            "threshold": 0.0
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 15
+    }
+  ],
+  "items": {
+    "minecraft:ender_pearl": 15,
+    "minecraft:ender_eye": 20
+  }
+}

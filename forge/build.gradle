@@ -1,0 +1,64 @@
+plugins {
+  id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+configurations {
+  shadowCommon
+}
+
+architectury {
+  platformSetupLoomIde()
+  forge()
+}
+
+loom {
+  useFabricMixin = true
+}
+
+dependencies {
+  forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+
+  implementation(project(path: ":common")) {
+    transitive = false
+  }
+  developmentForge(project(path: ":common")) {
+    transitive = false
+  }
+  shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
+    transitive = false
+  }
+}
+
+processResources {
+  inputs.property "version", project.version.toString()
+
+  filesMatching("META-INF/mods.toml") {
+    expand "version": project.version.toString()
+  }
+}
+
+shadowJar {
+  exclude "fabric.mod.json"
+  configurations = [project.configurations.shadowCommon]
+  classifier "dev-shadow"
+}
+
+remapJar {
+  input.set shadowJar.archiveFile
+  dependsOn shadowJar
+  classifier "forge"
+}
+
+jar {
+  classifier "dev"
+}
+
+java {
+  withSourcesJar()
+}
+
+sourcesJar {
+  def commonSources = project(":common").sourcesJar
+  dependsOn commonSources
+  from commonSources.archiveFile.map { zipTree(it) }
+}

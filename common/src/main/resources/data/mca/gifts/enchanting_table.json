@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:librarian",
+      "satisfaction_boost": 25
+    },
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 30
+    }
+  ],
+  "items": {
+    "minecraft:enchanting_table": 40
+  }
+}

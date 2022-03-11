@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:book" },
+    { "item": "mca:blueprint" }
+  ],
+  "result": {
+    "item": "mca:book_blueprint",
+    "count": 1
+  }
+}

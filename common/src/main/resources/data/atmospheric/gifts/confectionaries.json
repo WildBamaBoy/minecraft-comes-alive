@@ -1,0 +1,37 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 15
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": -5
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": 5
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "responses": {
+    "fail": "gift.confectionary.fail",
+    "good": "gift.confectionary.good",
+    "better": "gift.confectionary.better",
+    "best": "gift.confectionary.best"
+  },
+  "items": {
+    "atmospheric:passionfruit": 5,
+    "atmospheric:shimmering_passionfruit": 10,
+    "atmospheric:passionfruit_tart": 12,
+    "atmospheric:passionfruit_sorbet": 16,
+    "atmospheric:yucca_fruit": 4,
+    "atmospheric:roasted_yucca_fruit": 8,
+    "atmospheric:yucca_gateau": 15,
+    "atmospheric:aloe_leaves": 6,
+    "atmospheric:aloe_gel_bottle": 12
+  }
+}

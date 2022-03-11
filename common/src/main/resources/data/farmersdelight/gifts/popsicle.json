@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "age_group": "child",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "farmersdelight:melon_popsicle": 20
+  }
+}

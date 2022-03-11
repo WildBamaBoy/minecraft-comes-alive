@@ -1,0 +1,42 @@
+[
+  {
+    "identifier": "gui.button.backarrow",
+    "x": 115,
+    "y": -115,
+    "width": 20,
+    "height": 20,
+    "notifyServer": false,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.profession.none",
+    "x": 140,
+    "y": -115,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.profession.guard",
+    "x": 140,
+    "y": -94,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  },
+  {
+    "identifier": "gui.button.profession.archer",
+    "x": 140,
+    "y": -73,
+    "width": 65,
+    "height": 20,
+    "notifyServer": true,
+    "targetServer": false,
+    "constraints": ""
+  }
+]

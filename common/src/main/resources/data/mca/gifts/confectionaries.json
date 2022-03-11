@@ -1,0 +1,36 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": -5
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": 10
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "responses": {
+    "fail": "gift.confectionary.fail",
+    "good": "gift.confectionary.good",
+    "better": "gift.confectionary.better",
+    "best": "gift.confectionary.best"
+  },
+  "items": {
+    "minecraft:cake": 20,
+    "minecraft:pumpkin_pie": 15,
+    "minecraft:cookie": 10,
+    "minecraft:honey_bottle": 12,
+    "minecraft:melon_slice": 8,
+    "minecraft:apple": 5,
+    "minecraft:sweet_berries": 5,
+    "#mca:confectionaries": 5
+  }
+}

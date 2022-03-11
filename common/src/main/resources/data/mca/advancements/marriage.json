@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.marriage"
+    },
+    "description": {
+      "translate": "advancement.mca.marriage.description"
+    },
+    "icon": {
+      "item": "mca:wedding_ring"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:friend",
+  "criteria": {
+    "iron": {
+      "trigger": "mca:generic_event",
+      "conditions": {
+        "event": "marriage"
+      }
+    }
+  }
+}

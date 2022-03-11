@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "mca.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinActivity",
+    "MixinCriteria",
+    "MixinHorseBaseEntity",
+    "MixinMemoryModuleType",
+    "MixinPlayerEntity",
+    "MixinProtoChunk",
+    "MixinSensorType",
+    "MixinServerWorld",
+    "MixinTargetPredicate",
+    "MixinVillagerEntity",
+    "MixinZombieVillagerEntity",
+    "MixinTranslatableText"
+  ],
+  "client": [
+    "MixinClientPlayNetworkHandler",
+    "client.MixinClientPlayerEntity",
+    "client.MixinTextRenderer",
+    "client.MixinTranslationStorage"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

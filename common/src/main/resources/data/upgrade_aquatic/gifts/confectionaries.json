@@ -1,0 +1,32 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 15
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": -5
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": 5
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "responses": {
+    "fail": "gift.confectionary.fail",
+    "good": "gift.confectionary.good",
+    "better": "gift.confectionary.better",
+    "best": "gift.confectionary.best"
+  },
+  "items": {
+    "upgrade_aquatic:mulberry": 4,
+    "upgrade_aquatic:mulberry_jam_bottle": 15,
+    "upgrade_aquatic:mulberry_bread": 16,
+    "upgrade_aquatic:mulberry_pie": 20
+  }
+}

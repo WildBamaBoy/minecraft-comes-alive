@@ -1,0 +1,11 @@
+{
+  "conditions": [],
+  "items": {
+    "minecraft:netherite_shovel": 2,
+    "minecraft:diamond_shovel": 2,
+    "minecraft:iron_shovel": 1,
+    "minecraft:golden_shovel": 1,
+    "minecraft:stone_shovel": 1,
+    "minecraft:wooden_shovel": 5
+  }
+}

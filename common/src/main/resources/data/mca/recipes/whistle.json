@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IB ",
+    "III"
+  ],
+  "key": {
+    "I": [
+      { "item": "minecraft:iron_ingot" }
+    ],
+    "B": [
+      { "item": "minecraft:gold_block" }
+    ]
+  },
+  "result": {
+    "item": "mca:whistle"
+  }
+}

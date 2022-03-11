@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "*  ",
+    " I ",
+    "  o"
+  ],
+  "key": {
+    "*": { "item": "minecraft:nether_star" },
+    "I": { "item": "minecraft:end_rod" },
+    "o": { "item": "mca:scythe" }
+  },
+  "result": {
+    "item": "mca:staff_of_life"
+  }
+}

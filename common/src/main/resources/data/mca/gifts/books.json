@@ -1,0 +1,17 @@
+{
+  "conditions": [
+    {
+      "age_group": "child",
+      "satisfaction_boost": -20
+    },
+    {
+      "profession": "minecraft:librarian",
+      "satisfaction_boost": 25
+    }
+  ],
+  "items": {
+    "minecraft:writable_book": 25,
+    "minecraft:book": 15,
+    "minecraft:bookshelf": 20
+  }
+}

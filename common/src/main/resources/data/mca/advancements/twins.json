@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.twins"
+    },
+    "description": {
+      "translate": "advancement.mca.twins.description"
+    },
+    "icon": {
+      "item": "mca:baby_girl"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:baby",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:baby",
+      "conditions": {
+        "count": 2
+      }
+    }
+  }
+}

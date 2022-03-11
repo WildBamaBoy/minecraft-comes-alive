@@ -1,0 +1,29 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.excellent_gift"
+    },
+    "description": {
+      "translate": "advancement.mca.excellent_gift.description"
+    },
+    "icon": {
+      "item": "minecraft:golden_chestplate"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:friend",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:hearts",
+      "conditions": {
+        "increase": {
+          "min": 30
+        },
+        "source": "gift"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 20
+    },
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 15
+    },
+    {
+      "trait": "vegetarian",
+      "satisfaction_boost": 15
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "items": {
+    "neopolitan:adzuki_curry": 10
+  }
+}

@@ -1,0 +1,79 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:alternatives",
+					"children": [
+						{
+							"type": "minecraft:item",
+							"name": "mca:upright_headstone",
+							"conditions": [
+								{
+									"condition": "minecraft:match_tool",
+									"predicate": {
+										"enchantments": [
+											{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }
+										]
+									}
+								}
+							]
+						},
+						{
+							"type": "minecraft:item",
+							"name": "minecraft:cobblestone",
+							"conditions": [
+								{ "condition": "minecraft:survives_explosion" }
+							],
+							"functions": [
+								{ "function": "minecraft:set_count", "count": 5 }
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:skeleton_skull",
+					"conditions": [
+						{
+							"condition": "minecraft:table_bonus",
+							"enchantment": "minecraft:fortune",
+							"chances": [ 0.2, 0.4, 0.5, 0.7, 1 ]
+						},
+						{ "condition": "minecraft:survives_explosion" }
+					],
+					"functions": [
+						{ "function": "minecraft:set_count", "count": { "min": 3, "max": 8 } }
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:bone",
+					"conditions": [
+						{ "condition": "minecraft:survives_explosion" }
+					]
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:inverted",
+					"term": {
+						"condition": "minecraft:match_tool",
+						"predicate": {
+							"enchantments": [
+								{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}

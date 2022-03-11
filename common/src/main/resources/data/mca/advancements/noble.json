@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.noble"
+    },
+    "description": {
+      "translate": "advancement.mca.noble.description"
+    },
+    "icon": {
+      "item": "minecraft:iron_helmet"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:merchant",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:rank",
+      "conditions": {
+        "rank": "noble"
+      }
+    }
+  }
+}

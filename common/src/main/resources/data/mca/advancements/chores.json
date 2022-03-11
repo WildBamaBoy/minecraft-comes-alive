@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.chores"
+    },
+    "description": {
+      "translate": "advancement.mca.chores.description"
+    },
+    "icon": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:baby",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:generic_event",
+      "conditions": {
+        "event": "chores"
+      }
+    }
+  }
+}

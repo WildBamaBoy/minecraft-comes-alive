@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:mason",
+      "satisfaction_boost": 10
+    },
+    {
+      "gender": "female",
+      "satisfaction_boost": 5
+    }
+  ],
+  "items": {
+    "minecraft:flower_pot": 5
+  }
+}

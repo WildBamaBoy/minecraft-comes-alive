@@ -1,0 +1,42 @@
+[
+  {
+    "id": "hug",
+    "group": "hug",
+    "auto": true,
+    "answers": [
+      {
+        "name": "",
+        "chance": 0.4,
+        "chanceRandom": 1.0,
+        "bonusChance": 0.5,
+        "bonusChanceMinHearts": 40,
+        "bonusChanceMaxHearts": 150,
+        "hearts": 9,
+        "conditions": [
+          {
+            "chance": -0.15,
+            "hearts": 3,
+            "personality": "odd"
+          },
+          {
+            "chance": 0.05,
+            "hearts": 1,
+            "personality": "friendly"
+          }
+        ],
+        "actions": [
+          {
+            "id": "hug.fail",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "hug.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      }
+    ]
+  }
+]

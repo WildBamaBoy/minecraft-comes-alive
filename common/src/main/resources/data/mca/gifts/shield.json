@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:shield": 25
+  }
+}

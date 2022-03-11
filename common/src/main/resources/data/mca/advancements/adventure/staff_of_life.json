@@ -1,0 +1,26 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.staff_of_life"
+    },
+    "description": {
+      "translate": "advancement.mca.staff_of_life.description"
+    },
+    "icon": {
+      "item": "mca:staff_of_life"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:adventure/kill_grim_reaper",
+  "criteria": {
+    "iron": {
+      "trigger": "mca:generic_event",
+      "conditions": {
+        "event": "staffOfLife"
+      }
+    }
+  }
+}

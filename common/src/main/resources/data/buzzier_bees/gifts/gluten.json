@@ -1,0 +1,14 @@
+{
+  "conditions": [
+    {
+      "trait": "coeliac_disease",
+      "satisfaction_boost": -30
+    }
+  ],
+  "responses": {
+    "fail": "gift.gluten.fail"
+  },
+  "items": {
+    "buzzier_bees:honey_bread": 1
+  }
+}

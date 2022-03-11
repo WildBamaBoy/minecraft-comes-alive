@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 5
+    }
+  ],
+  "items": {
+    "farmersdelight:tomato_sauce": 5
+  }
+}

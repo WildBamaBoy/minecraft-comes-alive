@@ -1,0 +1,11 @@
+{
+  "items": {
+    "farmersdelight:beef_stew": 20,
+    "farmersdelight:chicken_soup": 20,
+    "farmersdelight:vegetable_soup": 15,
+    "farmersdelight:fish_stew": 15,
+    "farmersdelight:pumpkin_soup": 20,
+    "farmersdelight:baked_cod_stew": 25,
+    "farmersdelight:noodle_soup": 20
+  }
+}

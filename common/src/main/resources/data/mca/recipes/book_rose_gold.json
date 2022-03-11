@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:book" },
+    { "item": "mca:rose_gold_ingot" }
+  ],
+  "result": {
+    "item": "mca:book_rose_gold",
+    "count": 1
+  }
+}

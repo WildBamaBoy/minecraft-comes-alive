@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:butcher",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:rabbit_foot": 10
+  }
+}

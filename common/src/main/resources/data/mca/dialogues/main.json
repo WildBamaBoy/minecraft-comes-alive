@@ -1,0 +1,104 @@
+[
+  {
+    "id": "main",
+    "answers": [
+      {
+        "name": "greet",
+        "constraints": "!baby",
+        "actions": [
+          {
+            "id": "greet"
+          }
+        ]
+      },
+      {
+        "name": "chat",
+        "actions": [
+          {
+            "id": "chat"
+          }
+        ]
+      },
+      {
+        "name": "joke",
+        "actions": [
+          {
+            "id": "joke"
+          }
+        ]
+      },
+      {
+        "name": "story",
+        "actions": [
+          {
+            "id": "story"
+          }
+        ]
+      },
+      {
+        "name": "hug",
+        "constraints": "adult",
+        "actions": [
+          {
+            "id": "hug"
+          }
+        ]
+      },
+      {
+        "name": "flirt",
+        "constraints": "!kids,adult",
+        "actions": [
+          {
+            "id": "flirt"
+          }
+        ]
+      },
+      {
+        "name": "kiss",
+        "constraints": "!kids,adult",
+        "actions": [
+          {
+            "id": "kiss"
+          }
+        ]
+      },
+      {
+        "name": "procreate",
+        "constraints": "spouse",
+        "actions": [
+          {
+            "id": "procreate"
+          }
+        ]
+      },
+      {
+        "name": "divorcePapers",
+        "constraints": "cleric,!spouse",
+        "actions": [
+          {
+            "id": "divorcePapers",
+            "command": "divorcePapers"
+          }
+        ]
+      },
+      {
+        "name": "divorceInitiate",
+        "constraints": "spouse",
+        "actions": [
+          {
+            "id": "divorce"
+          }
+        ]
+      },
+      {
+        "name": "adopt",
+        "constraints": "orphan,!adult",
+        "actions": [
+          {
+            "id": "adopt"
+          }
+        ]
+      }
+    ]
+  }
+]

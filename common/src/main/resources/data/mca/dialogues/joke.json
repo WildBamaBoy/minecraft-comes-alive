@@ -1,0 +1,189 @@
+[
+  {
+    "id": "joke.joke",
+    "group": "joke",
+    "silent": true,
+    "answers": [
+      {
+        "name": "skeleton",
+        "chance": 0.4,
+        "chanceRandom": 1.0,
+        "hearts": 8,
+        "conditions": [
+          {
+            "chance": 0.3,
+            "hearts": 3,
+            "personality": "witty"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 2,
+            "mood": "depressed"
+          },
+          {
+            "chance": 0.15,
+            "hearts": 1,
+            "mood": "sad"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 1,
+            "mood": "giggly"
+          }
+        ],
+        "actions": [
+          {
+            "id": "joke.skeleton.failed",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "joke.skeleton.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      },
+      {
+        "name": "sheep",
+        "chance": 0.5,
+        "chanceRandom": 1.0,
+        "hearts": 7,
+        "conditions": [
+          {
+            "chance": 0.3,
+            "hearts": 3,
+            "personality": "witty"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 2,
+            "mood": "depressed"
+          },
+          {
+            "chance": 0.15,
+            "hearts": 1,
+            "mood": "sad"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 1,
+            "mood": "giggly"
+          }
+        ],
+        "actions": [
+          {
+            "id": "joke.sheep.failed",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "joke.sheep.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      },
+      {
+        "name": "pig",
+        "chance": 0.6,
+        "chanceRandom": 1.0,
+        "hearts": 6,
+        "conditions": [
+          {
+            "chance": 0.3,
+            "hearts": 3,
+            "personality": "witty"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 2,
+            "mood": "depressed"
+          },
+          {
+            "chance": 0.15,
+            "hearts": 1,
+            "mood": "sad"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 1,
+            "mood": "giggly"
+          }
+        ],
+        "actions": [
+          {
+            "id": "joke.pig.failed",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "joke.pig.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      },
+      {
+        "name": "creative",
+        "chance": 0.7,
+        "chanceRandom": 1.0,
+        "hearts": 5,
+        "conditions": [
+          {
+            "chance": 0.3,
+            "hearts": 3,
+            "personality": "witty"
+          },
+          {
+            "chance": 0,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 2,
+            "mood": "depressed"
+          },
+          {
+            "chance": 0.15,
+            "hearts": 1,
+            "mood": "sad"
+          },
+          {
+            "chance": 0.25,
+            "hearts": 1,
+            "mood": "giggly"
+          }
+        ],
+        "actions": [
+          {
+            "id": "joke.creative.failed",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "joke.creative.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      }
+    ]
+  }
+]

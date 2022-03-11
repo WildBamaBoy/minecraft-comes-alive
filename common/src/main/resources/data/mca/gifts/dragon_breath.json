@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 30
+    }
+  ],
+  "items": {
+    "minecraft:dragon_breath": 35
+  }
+}

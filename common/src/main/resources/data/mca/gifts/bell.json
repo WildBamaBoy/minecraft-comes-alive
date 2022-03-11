@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "age_group": "child",
+      "satisfaction_boost": 20
+    },
+    {
+      "profession": "minecraft:toolsmith",
+      "satisfaction_boost": 25
+    }
+  ],
+  "items": {
+    "minecraft:bell": 35
+  }
+}

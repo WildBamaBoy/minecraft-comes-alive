@@ -1,0 +1,304 @@
+[
+  {
+    "name": "blocked",
+    "size": 0,
+    "color": "22AAAAAA",
+    "visible": false,
+    "priority": 0,
+    "blocks": {
+      "blocked": 1
+    },
+    "noBeds": true
+  },
+  {
+    "name": "building",
+    "size": 0,
+    "color": "ffdddddd",
+    "visible": false,
+    "priority": 0,
+    "blocks": {
+    }
+  },
+  {
+    "name": "house",
+    "size": 0,
+    "color": "ffffffff",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "#minecraft:beds": 1
+    }
+  },
+  {
+    "name": "bakery",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:cake": 1,
+      "minecraft:smoker": 1
+    }
+  },
+  {
+    "name": "armorer",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:blast_furnace": 1
+    }
+  },
+  {
+    "name": "butcher",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:smoker": 1
+    }
+  },
+  {
+    "name": "cartographer",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:cartography_table": 1
+    }
+  },
+  {
+    "name": "cleric",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:blast_furnace": 1
+    }
+  },
+  {
+    "name": "fishermansHut",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:barrel": 1
+    }
+  },
+  {
+    "name": "fletcher",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:fletching_table": 1
+    }
+  },
+  {
+    "name": "leatherworker",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:cauldron": 1
+    }
+  },
+  {
+    "name": "bookkeeper",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:lectern": 1
+    }
+  },
+  {
+    "name": "mason",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:stonecutter": 1
+    }
+  },
+  {
+    "name": "weavingMill",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:loom": 1
+    }
+  },
+  {
+    "name": "toolsmith",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:smithing_table": 1
+    }
+  },
+  {
+    "name": "weaponsmith",
+    "color": "ffaaaaaa",
+    "visible": false,
+    "priority": 1,
+    "blocks": {
+      "minecraft:grindstone": 1
+    }
+  },
+  {
+    "name": "bigHouse",
+    "size": 8,
+    "color": "ff03fca1",
+    "visible": true,
+    "priority": 3,
+    "blocks": {
+      "#minecraft:beds": 4
+    },
+    "iconU": 4,
+    "iconV": 1
+  },
+  {
+    "name": "blacksmith",
+    "size": 24,
+    "color": "ffff0000",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:grindstone": 1,
+      "minecraft:blast_furnace": 2,
+      "#minecraft:anvil": 1
+    },
+    "iconU": 0,
+    "iconV": 1
+  },
+  {
+    "name": "inn",
+    "size": 64,
+    "color": "ffffff00",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "#minecraft:beds": 4,
+      "minecraft:jukebox": 1,
+      "minecraft:smoker": 1
+    },
+    "iconU": 5,
+    "iconV": 1
+  },
+  {
+    "name": "prison",
+    "size": 64,
+    "color": "ff888888",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:iron_bars": 8,
+      "minecraft:iron_door": 1,
+      "#minecraft:beds": 1
+    },
+    "iconU": 6,
+    "iconV": 1
+  },
+  {
+    "name": "storage",
+    "size": 16,
+    "color": "ff0000ff",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:lectern": 1,
+      "#mca:chests": 4
+    },
+    "iconU": 3,
+    "iconV": 1
+  },
+  {
+    "name": "armory",
+    "size": 16,
+    "color": "ffcccccc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:smithing_table": 1,
+      "minecraft:grindstone": 1,
+      "#minecraft:anvil": 1
+    },
+    "iconU": 3,
+    "iconV": 0
+  },
+  {
+    "name": "musicStore",
+    "size": 16,
+    "color": "ffff00cc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:jukebox": 1,
+      "minecraft:note_block": 1,
+      "#mca:chests": 1
+    },
+    "iconU": 1,
+    "iconV": 1
+  },
+  {
+    "name": "library",
+    "size": 32,
+    "color": "ffff00cc",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:bookshelf": 32,
+      "minecraft:lectern": 1
+    },
+    "iconU": 7,
+    "iconV": 0
+  },
+  {
+    "name": "infirmary",
+    "size": 32,
+    "color": "ffff00ff",
+    "visible": true,
+    "priority": 4,
+    "blocks": {
+      "minecraft:brewing_stand": 1,
+      "minecraft:cauldron": 1,
+      "#minecraft:beds": 1,
+      "#minecraft:flower_pots": 1
+    },
+    "noBeds": true,
+    "iconU": 7,
+    "iconV": 1
+  },
+  {
+    "name": "graveyard",
+    "size": 0,
+    "color": "ffff00ff",
+    "visible": true,
+    "priority": 0,
+    "blocks": {
+      "#mca:tombstones": 1
+    },
+    "icon": true,
+    "iconU": 0,
+    "iconV": 0,
+    "grouped": true,
+    "mergeRange": 32
+  },
+  {
+    "name": "townCenter",
+    "size": 0,
+    "color": "ffff00ff",
+    "visible": false,
+    "priority": 0,
+    "blocks": {
+      "#mca:town_center": 1
+    },
+    "icon": true,
+    "iconU": 1,
+    "iconV": 0,
+    "grouped": true,
+    "mergeRange": 32
+  }
+]

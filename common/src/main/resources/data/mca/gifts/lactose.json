@@ -1,0 +1,14 @@
+{
+  "conditions": [
+    {
+      "trait": "lactose_intolerance",
+      "satisfaction_boost": -30
+    }
+  ],
+  "responses": {
+    "fail": "gift.lactose.fail"
+  },
+  "items": {
+    "#mca:gluten": 1
+  }
+}

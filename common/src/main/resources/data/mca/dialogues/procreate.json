@@ -1,0 +1,24 @@
+[
+  {
+    "id": "procreate",
+    "silent": true,
+    "answers": [
+      {
+        "name": "confirm",
+        "actions": [
+          {
+            "command": "procreate"
+          }
+        ]
+      },
+      {
+        "name": "cancel",
+        "actions": [
+          {
+            "id": "main"
+          }
+        ]
+      }
+    ]
+  }
+]

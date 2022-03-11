@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:cleric",
+      "satisfaction_boost": 5
+    },
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 15
+    }
+  ],
+  "items": {
+    "minecraft:golden_carrot": 5
+  }
+}

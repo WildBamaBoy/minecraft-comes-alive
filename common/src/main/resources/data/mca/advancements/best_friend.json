@@ -1,0 +1,33 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancement.mca.best_friend"
+    },
+    "description": {
+      "translate": "advancement.mca.best_friend.description"
+    },
+    "icon": {
+      "item": "minecraft:emerald_block"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "mca:friend",
+  "criteria": {
+    "baby": {
+      "trigger": "mca:hearts",
+      "conditions": {
+        "hearts": {
+          "min": 200
+        }
+      }
+    }
+  },
+  "rewards": {
+    "loot": [
+      "mca:books/blueprint"
+    ]
+  }
+}

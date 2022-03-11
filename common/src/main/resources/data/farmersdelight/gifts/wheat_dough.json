@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 5
+    }
+  ],
+  "items": {
+    "farmersdelight:wheat_dough": 5
+  }
+}

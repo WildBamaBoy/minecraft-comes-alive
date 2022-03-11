@@ -1,0 +1,13 @@
+{
+  "conditions": [],
+  "items": {
+    "minecraft:netherite_ingot": 30,
+    "minecraft:diamond": 25,
+    "minecraft:emerald": 20,
+    "minecraft:gold_ingot": 20,
+    "minecraft:iron_ingot": 15,
+    "minecraft:lapis_lazuli": 10,
+    "minecraft:coal": 10,
+    "mca:rose_gold_ingot": 25
+  }
+}

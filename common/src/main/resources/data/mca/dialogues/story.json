@@ -1,0 +1,54 @@
+[
+  {
+    "id": "story",
+    "group": "story",
+    "auto": true,
+    "answers": [
+      {
+        "name": "",
+        "chance": 0.65,
+        "chanceRandom": 1.0,
+        "hearts": 7,
+        "conditions": [
+          {
+            "chance": 0.4,
+            "hearts": 0,
+            "personality": "curious"
+          },
+          {
+            "chance": 0.2,
+            "hearts": 0,
+            "personality": "stubborn"
+          },
+          {
+            "chance": 0.1,
+            "hearts": 1,
+            "personality": "friendly"
+          },
+          {
+            "chance": 0.3,
+            "hearts": 1,
+            "mood": "interested"
+          },
+          {
+            "chance": 0.2,
+            "hearts": 1,
+            "mood": "talkative"
+          }
+        ],
+        "actions": [
+          {
+            "id": "story.fail",
+            "threshold": 0.0,
+            "fail": true
+          },
+          {
+            "id": "story.success",
+            "threshold": 1.0,
+            "success": true
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:baker",
+      "satisfaction_boost": 15
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": -5
+    },
+    {
+      "age_group": "child",
+      "satisfaction_boost": 5
+    },
+    {
+      "trait": "diabetes",
+      "satisfaction_boost": -15
+    }
+  ],
+  "responses": {
+    "fail": "gift.confectionary.fail",
+    "good": "gift.confectionary.good",
+    "better": "gift.confectionary.better",
+    "best": "gift.confectionary.best"
+  },
+  "items": {
+    "environmental:cherries": 4,
+    "environmental:cherry_pie": 8,
+    "environmental:apple_pie": 8
+  }
+}

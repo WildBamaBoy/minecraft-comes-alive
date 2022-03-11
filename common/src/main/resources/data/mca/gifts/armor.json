@@ -1,0 +1,47 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:warrior",
+      "satisfaction_boost": 20
+    },
+    {
+      "profession": "mca:guard",
+      "satisfaction_boost": 20
+    },
+    {
+      "profession": "mca:archer",
+      "satisfaction_boost": 10
+    },
+    {
+      "profession": "minecraft:weaponsmith",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "minecraft:netherite_boots": 30,
+    "minecraft:netherite_leggings": 40,
+    "minecraft:netherite_chestplate": 50,
+    "minecraft:netherite_helmet": 40,
+    "minecraft:turtle_helmet": 5,
+    "minecraft:golden_boots": 15,
+    "minecraft:golden_leggings": 20,
+    "minecraft:golden_chestplate": 25,
+    "minecraft:golden_helmet": 20,
+    "minecraft:diamond_boots": 20,
+    "minecraft:diamond_leggings": 30,
+    "minecraft:diamond_chestplate": 40,
+    "minecraft:diamond_helmet": 30,
+    "minecraft:iron_boots": 15,
+    "minecraft:iron_leggings": 20,
+    "minecraft:iron_chestplate": 25,
+    "minecraft:iron_helmet": 20,
+    "minecraft:chainmail_boots": 15,
+    "minecraft:chainmail_leggings": 20,
+    "minecraft:chainmail_chestplate": 30,
+    "minecraft:chainmail_helmet": 20,
+    "minecraft:leather_boots": 4,
+    "minecraft:leather_leggings": 5,
+    "minecraft:leather_chestplate": 8,
+    "minecraft:leather_helmet": 5
+  }
+}

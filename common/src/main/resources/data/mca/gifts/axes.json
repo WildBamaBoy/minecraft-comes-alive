@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:warrior",
+      "satisfaction_boost": 20
+    },
+    {
+      "profession": "mca:lumberjack",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:netherite_axe": 30,
+    "minecraft:diamond_axe": 25,
+    "minecraft:iron_axe": 20,
+    "minecraft:golden_axe": 15,
+    "minecraft:stone_axe": 10,
+    "minecraft:wooden_axe": 5
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "profession": "mca:engineer",
+      "satisfaction_boost": 20
+    }
+  ],
+  "items": {
+    "minecraft:clock": 30
+  }
+}

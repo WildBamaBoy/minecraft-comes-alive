@@ -1,0 +1,15 @@
+{
+  "conditions": [
+    {
+      "profession": "minecraft:farmer",
+      "satisfaction_boost": 10
+	},
+    {
+      "profession": "mca:miner",
+      "satisfaction_boost": 10
+    }
+  ],
+  "items": {
+    "farmersdelight:rope": 5
+  }
+}

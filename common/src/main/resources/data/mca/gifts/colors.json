@@ -1,0 +1,30 @@
+{
+  "conditions": [
+    {
+      "trait": "color_blind",
+      "satisfaction_boost": -20
+    }
+  ],
+  "responses": {
+    "fail": "gift.colors.fail",
+    "good": "gift.colors.success",
+    "better": "gift.colors.success",
+    "best": "gift.colors.success"
+  },
+  "items": {
+    "minecraft:orange_dye": 5,
+    "minecraft:magenta_dye": 5,
+    "minecraft:light_blue_dye": 5,
+    "minecraft:yellow_dye": 5,
+    "minecraft:lime_dye": 5,
+    "minecraft:pink_dye": 5,
+    "minecraft:gray_dye": 5,
+    "minecraft:light_gray_dye": 5,
+    "minecraft:cyan_dye": 5,
+    "minecraft:purple_dye": 5,
+    "minecraft:blue_dye": 5,
+    "minecraft:brown_dye": 5,
+    "minecraft:green_dye": 5,
+    "minecraft:red_dye": 5
+  }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "divorce",
+    "silent": true,
+    "answers": [
+      {
+        "name": "confirm",
+        "actions": [
+          {
+            "command": "divorceConfirm"
+          }
+        ]
+      },
+      {
+        "name": "cancel",
+        "actions": [
+          {
+            "id": "main"
+          }
+        ]
+      }
+    ]
+  }
+]
